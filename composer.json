@@ -1,0 +1,39 @@
+{
+    "name": "mozex/iminify-wordpress",
+    "description": "Compress, convert and resize the images in the WordPress media library with Iminify.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.iminify.com",
+    "require": {
+        "php": ">=7.4",
+        "woocommerce/action-scheduler": "^4.2"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require-dev": {
+        "brain/monkey": "^2.7",
+        "phpcompatibility/phpcompatibility-wp": "^2.1.8",
+        "phpstan/phpstan": "^2.3.5",
+        "phpunit/phpunit": "^9.6.38",
+        "szepeviktor/phpstan-wordpress": "^2.0.4",
+        "wp-coding-standards/wpcs": "^3.4.1",
+        "yoast/phpunit-polyfills": "^4.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Iminify\\WordPress\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "phpcs",
+        "types": "phpstan analyse --memory-limit=1G",
+        "test": "phpunit"
+    }
+}

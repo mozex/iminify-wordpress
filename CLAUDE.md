@@ -1,0 +1,41 @@
+# Iminify Image Optimizer
+
+The WordPress plugin for Iminify (https://www.iminify.com), an image optimization service. Its wordpress.org slug, main file and text domain are `iminify-image-optimizer`.
+
+## The plugin is thin on purpose
+
+The service decides everything it can: a site's settings, which outputs are worth keeping, every limit and count, the bulk estimate, the status and upgrade messages. The plugin does only what has to run inside WordPress: catch uploads, edits and deletions, send an attachment's image, write back what the service returns, keep and restore backups, print `<picture>` markup for copies that exist, keep its own per-attachment state, and show what the service says. A rule that could run on the service goes there, because code in a public plugin can be read and changed by anyone who installs it. Every number the plugin shows comes from the service's answers, never typed into its copy.
+
+## Rules, each with its reason
+
+- **PHP 7.4 syntax.** WordPress runs on PHP 7.4 and later, and about one site in seven is still on 7.4. So no union types, `match`, enums, `readonly`, constructor promotion, named arguments, the nullsafe operator, `mixed` or a `static` return type. PHPCompatibilityWP (in `composer lint`) holds the code to it. WordPress 5.9 and later polyfill `str_contains()`, `str_starts_with()` and `str_ends_with()`.
+- **WordPress 6.9 and later**, the floor of the bundled Action Scheduler, which follows WordPress's latest release minus two.
+- **WordPress's coding standards** (WPCS 3, `WordPress-Extra`): the directory's reviewers and its automated release scan read code against them. Run `composer lint`; `vendor/bin/phpcbf` fixes what it can.
+- **Prefixes everywhere:** `iminify_` for functions, options, hooks, transients and post meta, `IMINIFY_` for constants, the namespace `Iminify\WordPress`, and the literal text domain `iminify-image-optimizer` in every translation call. A WordPress site shares one global scope with every other plugin.
+- **Files:** classes live in `includes/` under WordPress's file names (`Key_Store` in `includes/class-key-store.php`, `Api\Client` in `includes/api/class-client.php`), which `includes/class-autoloader.php` maps. Every PHP file starts with the `ABSPATH` guard.
+- **No runtime libraries but Action Scheduler.** Two plugins that bundle different versions of one library break each other on the same site. Action Scheduler is the exception by design: it is loaded from the main file before `plugins_loaded`, never prefixed, and the newest copy on a site runs.
+- **Every call to the service goes through `Api\Client`** on WordPress's HTTP functions, with TLS verified and no redirect followed. The site key is stored sealed (`Key_Store`), and is never printed, never sent to a browser, never put in a REST answer or a script.
+- **Nothing reaches the service before the site is connected** (directory guideline 7): no call on activation, no telemetry, no remote assets.
+- **Nothing that runs locally is locked by plan** (directory guideline 5): restore, serving WebP and AVIF copies that exist, the bulk screens, WP-CLI and backups keep working on any plan, with the day's images spent, or disconnected. Only the service refuses work.
+- **Notices only on the plugin's own screens**, plus at most one dismissible notice elsewhere; no admin bar item and nothing on the front end by default (guidelines 10 and 11).
+- **Files the plugin writes go under the uploads folder**, never into its own folder, which every update replaces.
+
+## Tests and checks
+
+- `composer lint`: PHPCS with WPCS and PHPCompatibilityWP.
+- `composer types`: PHPStan at level 8 with the WordPress extension. The integration tests stay outside it, since nothing describes WordPress's test library to it.
+- `composer test`: the unit tests in `tests/Unit`, PHPUnit 9 with Brain Monkey and no WordPress loaded.
+- `npm run test:integration`: the integration tests in `tests/Integration`, on WordPress's own test library inside the test environment (start it first with `npm run env:test start`). WordPress's test library runs on PHPUnit 9 with Yoast's polyfills, so the suite does too.
+- Tests never reach the real service or use a real key: `tests/Support/Api_Stub.php` answers the API's calls through `pre_http_request`, from the answers in `tests/fixtures`, and a call nothing set up answers 404.
+- `php bin/build.php` copies what ships into `build/iminify-image-optimizer`: the tracked files `.distignore` doesn't exclude, and Action Scheduler. Plugin Check runs on that copy.
+- CI (`.github/workflows/ci.yml`) runs all of these, and Plugin Check on the build.
+
+## The development WordPress
+
+wp-env runs WordPress in Docker: `.wp-env.json` is the development site on port 8888, `.wp-env.test.json` the test site on 8889. Stop both when you are done (`npm run env stop`, `npm run env:test stop`).
+
+To reach a development copy of the service, a gitignored `.wp-env.override.json` maps `dev/mu-plugins` into `wp-content/mu-plugins` and sets the constants that plugin reads (`IMINIFY_API_BASE`, `IMINIFY_DEV_RESOLVE`, `IMINIFY_DEV_CA`; its header says what each is), with a certificate file kept in the gitignored `dev/local/`. `IMINIFY_API_KEY` there connects the development site with a key. Anything about one machine stays in those two ignored places, never in a tracked file.
+
+## Commits
+
+A commit message says what changed and why, in plain words.

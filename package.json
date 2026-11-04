@@ -1,0 +1,17 @@
+{
+  "name": "iminify-image-optimizer",
+  "private": true,
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "env": "wp-env",
+    "env:test": "wp-env --config=.wp-env.test.json",
+    "test:unit": "phpunit",
+    "test:integration": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/plugins/iminify-image-optimizer vendor/bin/phpunit -c phpunit.integration.xml.dist"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^12.1.0"
+  }
+}

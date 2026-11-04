@@ -1,0 +1,7 @@
+/vendor/
+/node_modules/
+/build/
+/.wp-env.override.json
+/dev/local/
+/.phpunit.result.cache
+/.phpcs-cache

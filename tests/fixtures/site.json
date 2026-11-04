@@ -1,0 +1,41 @@
+{
+    "data": {
+        "id": "9f2c4f7e-3b1a-4c8d-9e2f-1a2b3c4d5e6f",
+        "url": "http://example.org",
+        "name": "Test Blog",
+        "connected_at": "2026-11-04T09:00:00+00:00",
+        "settings": {
+            "optimize_on_upload": true,
+            "level": "smart",
+            "webp": true,
+            "avif": false,
+            "max_width": null,
+            "size_limit": null,
+            "keep_metadata": false,
+            "sizes": null
+        },
+        "plan": "free",
+        "plan_ends_at": null,
+        "usage": {
+            "images": {
+                "used": 3,
+                "remaining": 37,
+                "resets_at": "2026-11-05T09:12:00+00:00"
+            },
+            "files": {
+                "used": 24,
+                "remaining": 1476,
+                "resets_at": "2026-11-05T09:12:00+00:00"
+            },
+            "alt_texts": {
+                "used": 0,
+                "remaining": 40,
+                "resets_at": null
+            }
+        },
+        "next_batch_at": null,
+        "estimate": null,
+        "minimum_version": "1.0.0",
+        "message": null
+    }
+}
