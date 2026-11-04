@@ -79,6 +79,14 @@ jobs:
           WP_ENV_PHP_VERSION: ${{ matrix.php }}
           WP_ENV_CORE: WordPress/WordPress#${{ matrix.wordpress }}-branch
 
+      - name: Check the versions under test
+        run: |
+          php=$(npm run --silent env:test -- run cli php -r 'echo "php=" . PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "\n";' 2>/dev/null | grep -o 'php=[0-9.]*')
+          wordpress=$(npm run --silent env:test -- run cli wp eval 'echo "wordpress=" . get_bloginfo( "version" ) . "\n";' 2>/dev/null | grep -o 'wordpress=[0-9.]*')
+          echo "$php $wordpress"
+          [ "$php" = "php=${{ matrix.php }}" ]
+          case "$wordpress" in "wordpress=${{ matrix.wordpress }}"|"wordpress=${{ matrix.wordpress }}."*) ;; *) exit 1 ;; esac
+
       - run: npm run test:integration
 
   plugin-check:
@@ -98,3 +106,4 @@ jobs:
       - uses: WordPress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
         with:
           build-dir: build/iminify-image-optimizer
+          strict: true

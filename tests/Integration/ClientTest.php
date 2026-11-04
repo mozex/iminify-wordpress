@@ -126,14 +126,14 @@ class ClientTest extends WP_UnitTestCase {
 		$this->assertNull( $error->get_error_data()['retry_after'] );
 	}
 
-	public function test_a_redirect_is_never_followed(): void {
+	public function test_a_redirect_reads_as_an_error_and_is_never_followed(): void {
 		$this->api->on( 'GET', 'site', 301, '', array( 'Location' => 'https://elsewhere.example/api/v1/site' ) );
 
 		$error = ( new Client( '7|site-key' ) )->site();
 
 		$this->assertInstanceOf( WP_Error::class, $error );
 		$this->assertSame( 'http_301', $error->get_error_code() );
-		$this->assertCount( 1, $this->api->requests );
+		$this->assertSame( 0, $this->api->last()['args']['redirection'] );
 	}
 
 	public function test_a_lost_connection_reads_as_unreachable(): void {

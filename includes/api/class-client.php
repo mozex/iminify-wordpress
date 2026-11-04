@@ -45,12 +45,14 @@ class Client {
 	}
 
 	/**
-	 * The API's address: Iminify's own, unless wp-config.php points the plugin at another copy of the service.
+	 * The API's address: Iminify's own, unless wp-config.php points the plugin at another
+	 * copy of the service over https. An address without https is ignored, since every call
+	 * carries the site key.
 	 */
 	public static function base(): string {
-		$base = defined( 'IMINIFY_API_BASE' ) ? constant( 'IMINIFY_API_BASE' ) : self::BASE;
+		$base = defined( 'IMINIFY_API_BASE' ) ? constant( 'IMINIFY_API_BASE' ) : null;
 
-		return untrailingslashit( is_string( $base ) && '' !== $base ? $base : self::BASE );
+		return untrailingslashit( is_string( $base ) && 0 === stripos( $base, 'https://' ) ? $base : self::BASE );
 	}
 
 	/**

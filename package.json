@@ -5,7 +5,6 @@
   "scripts": {
     "env": "wp-env",
     "env:test": "wp-env --config=.wp-env.test.json",
-    "test:unit": "phpunit",
     "test:integration": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/plugins/iminify-image-optimizer vendor/bin/phpunit -c phpunit.integration.xml.dist"
   },
   "engines": {

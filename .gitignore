@@ -2,6 +2,7 @@
 /node_modules/
 /build/
 /.wp-env.override.json
+/.wp-env.test.override.json
 /dev/local/
 /.phpunit.result.cache
 /.phpcs-cache

@@ -90,7 +90,7 @@ class KeyStoreTest extends WP_UnitTestCase {
 		$store = new Key_Store();
 		$store->save( self::KEY );
 
-		define( 'IMINIFY_API_KEY', '13|from-wp-config' );
+		define( 'IMINIFY_API_KEY', ' 13|from-wp-config ' );
 
 		$this->assertTrue( $store->from_constant() );
 		$this->assertSame( '13|from-wp-config', $store->get() );

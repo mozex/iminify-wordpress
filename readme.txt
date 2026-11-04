@@ -11,7 +11,7 @@ Compress, convert and resize the images in your media library with Iminify, and 
 
 == Description ==
 
-Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. Every size WordPress keeps of an upload counts as one image.
+Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. An upload counts as one image, however many sizes WordPress keeps of it.
 
 == External services ==
 

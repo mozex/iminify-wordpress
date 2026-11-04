@@ -14,9 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The site key opens this site's calls on Iminify, so it is never shown, never
  * sent to the browser and never autoloaded. It is stored sealed with a key
- * derived from the site's salts: a database copied without wp-config.php can't
- * read it, and a site whose salts changed reads as disconnected, which a new
- * Connect mends.
+ * derived from the site's auth salt: where wp-config.php holds the salts, as
+ * WordPress's installer writes them, a copy of the database alone can't read
+ * it. A site whose salts changed reads as disconnected, which a new Connect
+ * mends.
  */
 class Key_Store {
 
@@ -32,7 +33,7 @@ class Key_Store {
 	 */
 	public function get(): ?string {
 		if ( $this->from_constant() ) {
-			return (string) constant( self::CONSTANT );
+			return trim( (string) constant( self::CONSTANT ) );
 		}
 
 		$sealed = get_option( self::OPTION );

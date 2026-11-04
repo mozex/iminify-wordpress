@@ -45,7 +45,7 @@ add_action(
 		}
 
 		$port = wp_parse_url( $url, PHP_URL_PORT );
-		$port = $port ? $port : ( 'http' === wp_parse_url( $url, PHP_URL_SCHEME ) ? 80 : 443 );
+		$port = $port ? $port : 443;
 
 		curl_setopt( $handle, CURLOPT_RESOLVE, array( iminify_dev_api_host() . ':' . $port . ':' . gethostbyname( (string) constant( 'IMINIFY_DEV_RESOLVE' ) ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt -- only the HTTP API's own handle is adjusted.
 	},
