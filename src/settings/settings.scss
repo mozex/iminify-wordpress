@@ -1,0 +1,72 @@
+.iminify-settings {
+	max-width: 760px;
+
+	.components-notice {
+		margin: 16px 0;
+	}
+
+	.iminify-card {
+		margin-bottom: 16px;
+
+		h2 {
+			margin: 0;
+			font-size: 1.1em;
+		}
+
+		.components-base-control,
+		.components-toggle-control {
+			margin-bottom: 20px;
+		}
+	}
+
+	.description {
+		margin: 0 0 16px;
+	}
+
+	.iminify-waiting {
+		display: flex;
+		gap: 8px;
+		align-items: flex-start;
+
+		.components-spinner {
+			flex: none;
+			margin: 0;
+		}
+	}
+
+	.iminify-account {
+		border-collapse: collapse;
+		margin-bottom: 12px;
+
+		th {
+			padding: 4px 24px 4px 0;
+			font-weight: 600;
+			text-align: start;
+			vertical-align: top;
+		}
+
+		td {
+			padding: 4px 0;
+		}
+	}
+
+	.iminify-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	.iminify-sizes {
+		margin: 0 0 20px;
+
+		legend {
+			margin-bottom: 8px;
+			font-weight: 600;
+		}
+	}
+
+	.iminify-field-error {
+		display: block;
+		color: #cc1818;
+	}
+}

@@ -1,7 +1,8 @@
 <?php
 /**
  * Copies what ships into build/iminify-image-optimizer: the tracked files
- * .distignore doesn't exclude, and Action Scheduler's runtime files.
+ * .distignore doesn't exclude, the admin scripts `npm run build` made from
+ * `src/` (which ships beside them), and Action Scheduler's runtime files.
  *
  * Usage: php bin/build.php
  *
@@ -79,6 +80,21 @@ foreach ( $iminify_files as $iminify_file ) {
 	}
 
 	iminify_build_copy( $iminify_root . '/' . $iminify_file, $iminify_target . '/' . $iminify_file );
+}
+
+$iminify_assets = 'assets/build';
+
+if ( ! is_file( $iminify_root . '/' . $iminify_assets . '/settings.asset.php' ) ) {
+	fwrite( STDERR, "The admin scripts aren't built: run npm run build first.\n" );
+	exit( 1 );
+}
+
+foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $iminify_root . '/' . $iminify_assets, FilesystemIterator::SKIP_DOTS ) ) as $iminify_entry ) {
+	$iminify_relative = substr( str_replace( '\\', '/', $iminify_entry->getPathname() ), strlen( str_replace( '\\', '/', $iminify_root ) ) + 1 );
+
+	if ( '.map' !== substr( $iminify_relative, -4 ) ) {
+		iminify_build_copy( $iminify_entry->getPathname(), $iminify_target . '/' . $iminify_relative );
+	}
 }
 
 $iminify_scheduler = 'vendor/woocommerce/action-scheduler';

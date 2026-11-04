@@ -19,20 +19,25 @@ The service decides everything it can: a site's settings, which outputs are wort
 - **Nothing that runs locally is locked by plan** (directory guideline 5): restore, serving WebP and AVIF copies that exist, the bulk screens, WP-CLI and backups keep working on any plan, with the day's images spent, or disconnected. Only the service refuses work.
 - **Notices only on the plugin's own screens**, plus at most one dismissible notice elsewhere; no admin bar item and nothing on the front end by default (guidelines 10 and 11).
 - **Files the plugin writes go under the uploads folder**, never into its own folder, which every update replaces.
+- **Admin screens draw state the server builds.** The settings page's script (`src/settings`) only draws what `Admin\State` answers through the plugin's REST routes (`iminify/v1`, `manage_options` only), and every call to the service happens behind them: the logic stays testable in PHP, and no answer ever carries the site key or a pairing's secret.
+- **Admin scripts are built with `@wordpress/scripts`** from `src/` into the gitignored `assets/build/` (`npm run build`). `src/` and `package.json` ship with the plugin so anyone can rebuild what it runs (directory guideline 4). WordPress's own packages (`@wordpress/components`, `element`, `i18n`, `api-fetch`) load as core's copies and are never installed here, which `eslint.config.cjs` tells the linter, so use only what the oldest supported WordPress has. The build minifies only when `NODE_ENV` is unset or `production`.
 
 ## Tests and checks
 
 - `composer lint`: PHPCS with WPCS and PHPCompatibilityWP.
 - `composer types`: PHPStan at level 8 with the WordPress extension. The integration tests stay outside it, since nothing describes WordPress's test library to it.
 - `composer test`: the unit tests in `tests/Unit`, PHPUnit 9 with Brain Monkey and no WordPress loaded.
+- `npm run lint:js`: wp-scripts' ESLint and Prettier on `src/`; `npx wp-scripts lint-js src --fix` fixes the formatting.
 - `npm run test:integration`: the integration tests in `tests/Integration`, on WordPress's own test library inside the test environment (start it first with `npm run env:test start`). WordPress's test library runs on PHPUnit 9 with Yoast's polyfills, so the suite does too.
 - Tests never reach the real service or use a real key: `tests/Support/Api_Stub.php` answers the API's calls through `pre_http_request`, from the answers in `tests/fixtures`, and a call nothing set up answers 404.
-- `php bin/build.php` copies what ships into `build/iminify-image-optimizer`: the tracked files `.distignore` doesn't exclude, and Action Scheduler. Plugin Check runs on that copy.
+- `php bin/build.php` copies what ships into `build/iminify-image-optimizer`: the tracked files `.distignore` doesn't exclude, the built admin scripts (it stops when `npm run build` hasn't run), and Action Scheduler. Plugin Check runs on that copy.
 - CI (`.github/workflows/ci.yml`) runs all of these, and Plugin Check on the build.
 
 ## The development WordPress
 
 wp-env runs WordPress in Docker: `.wp-env.json` is the development site on port 8888, `.wp-env.test.json` the test site on 8889. Stop both when you are done (`npm run env stop`, `npm run env:test stop`).
+
+Run `npm run build` once before opening the plugin's settings page there, or `npm run start` to rebuild as you edit.
 
 To reach a development copy of the service, a gitignored `.wp-env.override.json` maps `dev/mu-plugins` into `wp-content/mu-plugins` and sets the constants that plugin reads (`IMINIFY_API_BASE`, `IMINIFY_DEV_RESOLVE`, `IMINIFY_DEV_CA`; its header says what each is), with a certificate file kept in the gitignored `dev/local/`. `IMINIFY_API_KEY` there connects the development site with a key. Anything about one machine stays in those two ignored places, never in a tracked file.
 

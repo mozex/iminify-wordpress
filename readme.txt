@@ -15,12 +15,14 @@ Iminify Image Optimizer sends the images you upload to Iminify, which compresses
 
 == External services ==
 
-This plugin relies on Iminify (https://www.iminify.com), an image optimization service, to compress, convert and resize your images. Nothing is sent to Iminify until you connect the plugin to an Iminify account.
+This plugin relies on Iminify (https://www.iminify.com), an image optimization service, to compress, convert and resize your images. Nothing is sent to Iminify until you press Connect on the plugin's settings page, or give it a site key there or in wp-config.php.
+
+When you press Connect, your site's server sends Iminify your site's home address and name, and the plugin opens a page on www.iminify.com in a new tab, where you sign in or create an account and approve the site. Your site's server then collects the site's key from Iminify. A key you paste is checked with Iminify before it is kept.
 
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes, with the sizes WordPress keeps of it, to be compressed and sent back;
-* your site's home address and name, and the plugin's version, with every call;
+* your site's home address and the plugin's version, with every call;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site.
 
 Iminify Terms of Service: https://www.iminify.com/terms-of-service

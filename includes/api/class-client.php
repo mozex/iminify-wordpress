@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * address, which Iminify checks against the address the key was issued for,
  * and the plugin's version, which Iminify reads to tell an old copy to update.
  * An answer outside 2xx comes back as a WP_Error whose code is the API's own
- * (`rate_limited`, `site_moved`, ...), with the HTTP status and any
- * Retry-After in its data.
+ * (`rate_limited`, `site_moved`, ...), with the HTTP status, any
+ * Retry-After and a refused field's message in its data.
  */
 class Client {
 
@@ -53,6 +53,28 @@ class Client {
 		$base = defined( 'IMINIFY_API_BASE' ) ? constant( 'IMINIFY_API_BASE' ) : null;
 
 		return untrailingslashit( is_string( $base ) && 0 === stripos( $base, 'https://' ) ? $base : self::BASE );
+	}
+
+	/**
+	 * An address on the website the API belongs to, such as its pricing page, with
+	 * the query the plugin's links carry so Iminify can tell where a visit came from.
+	 *
+	 * @param string                $path  The path on the website.
+	 * @param array<string, string> $query Extra query parameters.
+	 */
+	public static function website( string $path, array $query = array() ): string {
+		$site = (string) preg_replace( '#/api/v\d+$#', '', self::base() );
+
+		return add_query_arg(
+			array_merge(
+				array(
+					'utm_source' => 'wordpress',
+					'utm_medium' => 'plugin',
+				),
+				$query
+			),
+			$site . '/' . ltrim( $path, '/' )
+		);
 	}
 
 	/**
@@ -234,6 +256,7 @@ class Client {
 			array(
 				'status'      => $status,
 				'retry_after' => self::retry_after( wp_remote_retrieve_header( $response, 'retry-after' ) ),
+				'errors'      => self::field_errors( $body['errors'] ?? null ),
 			)
 		);
 	}
@@ -256,6 +279,31 @@ class Client {
 			__( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ),
 			array( 'status' => $response['status'] )
 		);
+	}
+
+	/**
+	 * A `validation_failed` answer's messages by field, each field's first one: the service's
+	 * own words for a value it refused, so the plugin never restates its bounds.
+	 *
+	 * @param mixed $errors The answer's `errors`.
+	 * @return array<string, string>
+	 */
+	protected static function field_errors( $errors ): array {
+		if ( ! is_array( $errors ) ) {
+			return array();
+		}
+
+		$fields = array();
+
+		foreach ( $errors as $field => $messages ) {
+			$first = is_array( $messages ) ? reset( $messages ) : $messages;
+
+			if ( is_string( $field ) && is_string( $first ) && '' !== $first ) {
+				$fields[ $field ] = $first;
+			}
+		}
+
+		return $fields;
 	}
 
 	/**

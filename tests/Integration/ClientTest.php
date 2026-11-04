@@ -110,8 +110,45 @@ class ClientTest extends WP_UnitTestCase {
 			array(
 				'status'      => 429,
 				'retry_after' => 30,
+				'errors'      => array(),
 			),
 			$error->get_error_data()
+		);
+	}
+
+	public function test_a_refused_value_keeps_the_services_message_for_each_field(): void {
+		$this->api->on(
+			'PATCH',
+			'site',
+			422,
+			array(
+				'message' => 'The max width field must be at least 640. (and 1 more error)',
+				'code'    => 'validation_failed',
+				'errors'  => array(
+					'max_width' => array( 'The max width field must be at least 640.', 'A second message.' ),
+					'level'     => array( 'The selected level is invalid.' ),
+					'7'         => 'not a field',
+				),
+			)
+		);
+
+		$error = ( new Client( '7|site-key' ) )->update_site( array( 'max_width' => 10 ) );
+
+		$this->assertInstanceOf( WP_Error::class, $error );
+		$this->assertSame( 'validation_failed', $error->get_error_code() );
+		$this->assertSame(
+			array(
+				'max_width' => 'The max width field must be at least 640.',
+				'level'     => 'The selected level is invalid.',
+			),
+			$error->get_error_data()['errors']
+		);
+	}
+
+	public function test_a_link_to_the_website_carries_where_it_came_from(): void {
+		$this->assertSame(
+			'https://www.iminify.com/pricing?utm_source=wordpress&utm_medium=plugin&utm_campaign=settings',
+			Client::website( 'pricing', array( 'utm_campaign' => 'settings' ) )
 		);
 	}
 

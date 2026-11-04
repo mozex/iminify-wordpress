@@ -6,3 +6,4 @@
 /dev/local/
 /.phpunit.result.cache
 /.phpcs-cache
+/assets/build/
