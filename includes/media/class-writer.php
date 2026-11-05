@@ -59,6 +59,7 @@ class Writer {
 
 		foreach ( $declared as $output ) {
 			$path = Paths::absolute( (string) $output['file'] );
+			clearstatcache( true, $path );
 
 			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) $output['size'] ) {
 				return new WP_Error( 'changed', __( 'The image changed while Iminify was optimizing it, so it\'s sent again.', 'iminify-image-optimizer' ) );

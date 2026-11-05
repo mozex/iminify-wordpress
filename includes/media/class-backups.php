@@ -82,6 +82,9 @@ class Backups {
 	 * @param string $two Another.
 	 */
 	protected static function same( string $one, string $two ): bool {
+		clearstatcache( true, $one );
+		clearstatcache( true, $two );
+
 		return filesize( $one ) === filesize( $two ) && hash_file( 'sha256', $one ) === hash_file( 'sha256', $two );
 	}
 

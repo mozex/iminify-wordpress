@@ -112,7 +112,14 @@ class Records {
 		$relative = Paths::relative( $path );
 		$written  = self::get( $attachment )['written'];
 
-		if ( null === $relative || ! isset( $written[ $relative ] ) || ! is_file( $path ) ) {
+		if ( null === $relative || ! isset( $written[ $relative ] ) ) {
+			return false;
+		}
+
+		/* PHP 7.4 keeps a file's size from before a write in the same run. */
+		clearstatcache( true, $path );
+
+		if ( ! is_file( $path ) ) {
 			return false;
 		}
 
