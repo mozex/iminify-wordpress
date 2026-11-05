@@ -13,6 +13,8 @@ Compress, convert and resize the images in your media library with Iminify, and 
 
 Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. An upload counts as one image, however many sizes WordPress keeps of it.
 
+Images already in your library go through Media, Bulk Optimization. It shows how many are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page restores every optimized image at once, on any plan and without a connection.
+
 The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
@@ -27,6 +29,7 @@ Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * your site's home address and the plugin's version, with every call;
+* how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;
 * a request that stops the site's key, when you press Disconnect or delete the plugin (not for a key set in wp-config.php).
 

@@ -62,6 +62,16 @@ class Optimizer {
 	const MANUAL = 'manual';
 
 	/**
+	 * Sent by the bulk run (Bulk), which runs whatever that setting says and always takes the slower lane.
+	 */
+	const BULK = 'bulk';
+
+	/**
+	 * Every trigger, each a run's argument of its own.
+	 */
+	const TRIGGERS = array( self::AUTOMATIC, self::MANUAL, self::BULK );
+
+	/**
 	 * Action Scheduler's priorities: lower runs first, so a new upload goes before older work.
 	 */
 	const PRIORITY_UPLOAD = 5;
@@ -92,17 +102,23 @@ class Optimizer {
 	 * Queues an attachment, once: a run already waiting for it covers this one.
 	 *
 	 * @param int    $attachment The attachment's id.
-	 * @param string $trigger    What asked for it: AUTOMATIC or MANUAL.
+	 * @param string $trigger    What asked for it: AUTOMATIC, MANUAL or BULK.
 	 * @param int    $delay      Seconds before it runs.
 	 */
 	public static function queue( int $attachment, string $trigger = self::AUTOMATIC, int $delay = 10 ): void {
-		$args = array( $attachment, $trigger );
+		$trigger = self::trigger( $trigger );
+		$args    = array( $attachment, $trigger );
+
+		/* The bulk run never takes the place of a run already waiting for the image, whatever asked for it. */
+		if ( self::BULK === $trigger && self::has_run( $attachment ) ) {
+			return;
+		}
 
 		/* Decided once, so an upload that waited for a batch doesn't come back behind older work for having waited. */
 		$kept     = Records::get( $attachment )['priority'];
 		$posted   = get_post_time( 'U', true, $attachment );
 		$recent   = is_int( $posted ) && time() - $posted <= Declaration::RECENT_SECONDS;
-		$priority = self::MANUAL === $trigger ? self::PRIORITY_UPLOAD : ( $kept ?? ( $recent ? self::PRIORITY_UPLOAD : self::PRIORITY_LATER ) );
+		$priority = self::MANUAL === $trigger ? self::PRIORITY_UPLOAD : ( self::BULK === $trigger ? self::PRIORITY_LATER : ( $kept ?? ( $recent ? self::PRIORITY_UPLOAD : self::PRIORITY_LATER ) ) );
 
 		if ( self::pending( self::OPTIMIZE_HOOK, $args ) ) {
 			/* An upload's second event (the sizes a browser made) clears its place while its first run still waits. */
@@ -210,8 +226,10 @@ class Optimizer {
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function cancel( int $attachment ): void {
-		as_unschedule_all_actions( self::OPTIMIZE_HOOK, array( $attachment, self::AUTOMATIC ), self::GROUP );
-		as_unschedule_all_actions( self::OPTIMIZE_HOOK, array( $attachment, self::MANUAL ), self::GROUP );
+		foreach ( self::TRIGGERS as $trigger ) {
+			as_unschedule_all_actions( self::OPTIMIZE_HOOK, array( $attachment, $trigger ), self::GROUP );
+		}
+
 		as_unschedule_all_actions( self::CHECK_HOOK, array( $attachment ), self::GROUP );
 
 		$group = Records::get( $attachment )['group'];
@@ -229,7 +247,7 @@ class Optimizer {
 	 */
 	public static function optimize( $attachment, $trigger = self::AUTOMATIC ): void {
 		$attachment = (int) $attachment;
-		$trigger    = self::MANUAL === $trigger ? self::MANUAL : self::AUTOMATIC;
+		$trigger    = self::trigger( $trigger );
 
 		if ( ! self::is_optimizable( $attachment ) ) {
 			return;
@@ -320,7 +338,7 @@ class Optimizer {
 			return;
 		}
 
-		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) );
+		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ) );
 
 		if ( is_wp_error( $declaration ) ) {
 			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
@@ -621,7 +639,14 @@ class Optimizer {
 		}
 
 		if ( 429 === $status ) {
-			self::later( $attachment, $hook, $args, isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : MINUTE_IN_SECONDS, false, $error );
+			$wait = isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : MINUTE_IN_SECONDS;
+
+			/* A bulk group the service turned away for the work already waiting there holds the bulk run back too. */
+			if ( 'rate_limited' === $code && self::OPTIMIZE_HOOK === $hook && self::BULK === Records::get( $attachment )['trigger'] ) {
+				Bulk::throttled( $wait );
+			}
+
+			self::later( $attachment, $hook, $args, $wait, false, $error );
 
 			return;
 		}
@@ -729,7 +754,7 @@ class Optimizer {
 		}
 
 		Records::update( $attachment, array( 'reopens' => $reopens ) );
-		self::queue( $attachment, self::MANUAL === $record['trigger'] ? self::MANUAL : self::AUTOMATIC, 0 );
+		self::queue( $attachment, self::trigger( $record['trigger'] ), 0 );
 	}
 
 	/**
@@ -807,6 +832,30 @@ class Optimizer {
 		}
 
 		return false;
+	}
+
+	/**
+	 * A trigger as one of TRIGGERS, an unknown one read as an upload's.
+	 *
+	 * @param mixed $trigger What a run or a record says asked for it.
+	 */
+	public static function trigger( $trigger ): string {
+		return in_array( $trigger, self::TRIGGERS, true ) ? (string) $trigger : self::AUTOMATIC;
+	}
+
+	/**
+	 * Whether the attachment has a run waiting, whatever asked for it.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function has_run( int $attachment ): bool {
+		foreach ( self::TRIGGERS as $trigger ) {
+			if ( self::pending( self::OPTIMIZE_HOOK, array( $attachment, $trigger ) ) ) {
+				return true;
+			}
+		}
+
+		return self::pending( self::CHECK_HOOK, array( $attachment ) );
 	}
 
 	/**

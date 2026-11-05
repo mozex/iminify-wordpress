@@ -36,6 +36,12 @@ class Declaration {
 	);
 
 	/**
+	 * The MIME types an image attachment the plugin handles may have, with the one
+	 * WordPress keeps on an iPhone upload it turned into a JPEG.
+	 */
+	const MIME_TYPES = array( 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic' );
+
+	/**
 	 * The names the service takes for an output: they name its files.
 	 */
 	const OUTPUT_NAME = '/^[A-Za-z0-9_][A-Za-z0-9._-]{0,63}$/D';

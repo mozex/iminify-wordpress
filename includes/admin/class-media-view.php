@@ -46,10 +46,7 @@ class Media_View {
 
 	const FILTER_MISSING = 'missing_formats';
 
-	/**
-	 * The MIME types a group's source may be, with the one WordPress keeps on an iPhone upload it turned into a JPEG.
-	 */
-	const IMAGE_TYPES = array( 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic' );
+	const IMAGE_TYPES = Declaration::MIME_TYPES;
 
 	/**
 	 * Hooks the view into WordPress's admin.
@@ -250,7 +247,7 @@ class Media_View {
 							'key'     => Records::STATUS_META,
 							'compare' => 'NOT EXISTS',
 						),
-						self::status_clause( array( Records::NOT_OPTIMIZED, Records::PAUSED, Records::PARKED, Records::QUEUED, Records::WAITING ) ),
+						self::status_clause( array( Records::NOT_OPTIMIZED, Records::RESTORED, Records::PAUSED, Records::PARKED, Records::QUEUED, Records::WAITING ) ),
 					),
 				);
 			default:

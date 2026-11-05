@@ -1,0 +1,63 @@
+.iminify-bulk {
+	max-width: 760px;
+
+	.components-notice {
+		margin: 16px 0;
+	}
+
+	.iminify-card {
+		margin-bottom: 16px;
+
+		h2 {
+			margin: 0;
+			font-size: 1.1em;
+		}
+
+		.components-base-control {
+			margin-bottom: 16px;
+		}
+	}
+
+	.iminify-counts {
+		border-collapse: collapse;
+		margin-bottom: 12px;
+
+		th {
+			padding: 4px 24px 4px 0;
+			font-weight: 600;
+			text-align: start;
+		}
+
+		td {
+			padding: 4px 0;
+			font-variant-numeric: tabular-nums;
+		}
+	}
+
+	.iminify-progress {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+
+		.components-spinner {
+			flex: none;
+			margin: 0;
+		}
+	}
+
+	.iminify-faster {
+		margin: 0 0 16px;
+		padding-inline-start: 20px;
+		list-style: disc;
+	}
+
+	.iminify-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	code {
+		overflow-wrap: anywhere;
+	}
+}

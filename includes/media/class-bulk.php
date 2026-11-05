@@ -1,0 +1,952 @@
+<?php
+/**
+ * The bulk run: the library's images optimized or restored in the background, or while its page is open.
+ *
+ * @package Iminify\WordPress
+ */
+
+namespace Iminify\WordPress\Media;
+
+use ActionScheduler;
+use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Site_Record;
+use WP_Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * One run at a time, kept in an option: what it does (optimize the images not
+ * optimized yet, send the failed ones again, or restore every optimized one),
+ * how it runs, and how far it got, by attachment id, so it ends however each
+ * image fares.
+ *
+ * Optimizing never queues the whole library at once. A feeder hands a window of
+ * images to `Optimizer` at a time, each as the BULK trigger, which takes the slower
+ * lane, and queues more as they leave the queue. The window is counted in the files
+ * the service makes (each size in each format), since that is what fills its queue
+ * for the account: it grows while groups are taken, and halves with a hold on the
+ * feeder whenever the service turns a bulk group away for the work already waiting
+ * there (`rate_limited`), so new uploads always find room. The service's own number
+ * is never written here. While the day is spent (Pause), the site is disconnected
+ * or the disk is low, the feeder sends nothing.
+ *
+ * In the background the feeder is an Action Scheduler action of its own. A host
+ * whose cron or loopback requests don't run gets the other mode: the bulk page
+ * calls `step()` while it is open, which feeds and then runs the plugin's due
+ * actions itself, claimed from Action Scheduler so a run never goes twice.
+ */
+class Bulk {
+
+	const OPTION = 'iminify_bulk';
+
+	const FEED_HOOK = 'iminify_bulk_feed';
+
+	/**
+	 * What a run does: optimize the images never optimized, send the failed ones again, or restore the optimized ones.
+	 */
+	const OPTIMIZE = 'optimize';
+
+	const RETRY = 'retry';
+
+	const RESTORE = 'restore';
+
+	/**
+	 * How it runs: on Action Scheduler, or driven by the bulk page while it is open.
+	 */
+	const BACKGROUND = 'background';
+
+	const PAGE = 'page';
+
+	const RUNNING = 'running';
+
+	const PAUSED = 'paused';
+
+	const STOPPED = 'stopped';
+
+	const DONE = 'done';
+
+	/**
+	 * Seconds between the feeder's looks while it runs in the background.
+	 */
+	const TICK = 15;
+
+	/**
+	 * The window a run starts with, and the most it grows to, in files the service makes.
+	 */
+	const START_FILES = 60;
+
+	const MAX_FILES = 150;
+
+	/**
+	 * Images one look restores: WordPress makes every size again for each, which is heavy.
+	 */
+	const RESTORE_BATCH = 5;
+
+	/**
+	 * Seconds of work one request from the bulk page does.
+	 */
+	const PAGE_BUDGET = 15;
+
+	/**
+	 * How late the plugin's due actions may run before a background run reads as stalled.
+	 */
+	const STALL_SECONDS = 10 * MINUTE_IN_SECONDS;
+
+	/**
+	 * Images looked at per query for the next candidates.
+	 */
+	const PAGE_SIZE = 50;
+
+	/**
+	 * Images whose originals the disk estimate measures.
+	 */
+	const SAMPLE = 200;
+
+	/**
+	 * Held while a look runs, so two requests (two open tabs, the page and the
+	 * background feeder) never send or restore the same images at once.
+	 */
+	const LOCK_OPTION = 'iminify_bulk_lock';
+
+	const LOCK_SECONDS = 60;
+
+	/**
+	 * The actions the bulk page runs itself, claimed by hook: an image's steps and
+	 * the queue's own, never another plugin's.
+	 */
+	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK );
+
+	/**
+	 * The run, or null when there has been none.
+	 *
+	 * @return array{action: string, mode: string, status: string, reason: string|null, cursor: int, total: int, sent: int, failed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 */
+	public static function run(): ?array {
+		$run = get_option( self::OPTION );
+
+		if ( ! is_array( $run ) || ! isset( $run['action'] ) ) {
+			return null;
+		}
+
+		return array(
+			'action'  => in_array( $run['action'], array( self::OPTIMIZE, self::RETRY, self::RESTORE ), true ) ? (string) $run['action'] : self::OPTIMIZE,
+			'mode'    => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
+			'status'  => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
+			'reason'  => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
+			'cursor'  => (int) ( $run['cursor'] ?? 0 ),
+			'total'   => (int) ( $run['total'] ?? 0 ),
+			'sent'    => (int) ( $run['sent'] ?? 0 ),
+			'failed'  => (int) ( $run['failed'] ?? 0 ),
+			'window'  => max( 1, (int) ( $run['window'] ?? self::START_FILES ) ),
+			'hold'    => (int) ( $run['hold'] ?? 0 ),
+			'grown'   => (int) ( $run['grown'] ?? 0 ),
+			'started' => (int) ( $run['started'] ?? 0 ),
+			'updated' => (int) ( $run['updated'] ?? 0 ),
+		);
+	}
+
+	/**
+	 * Starts a run, with a first look right away.
+	 *
+	 * @param string $action OPTIMIZE, RETRY or RESTORE.
+	 * @param string $mode   BACKGROUND or PAGE.
+	 * @return array<string, mixed>|WP_Error The run.
+	 */
+	public static function start( string $action, string $mode ) {
+		$current = self::run();
+
+		if ( null !== $current && in_array( $current['status'], array( self::RUNNING, self::PAUSED ), true ) ) {
+			return new WP_Error( 'run_active', __( 'A bulk run is already going. Stop it first.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( self::RESTORE !== $action ) {
+			if ( null === Plugin::keys()->get() ) {
+				return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			}
+
+			if ( ! Disk::has_room_for( 0 ) ) {
+				return new WP_Error( 'disk_full', __( 'The server is low on disk space. Free some up, then start again.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			}
+		}
+
+		$total = self::count_candidates( $action );
+
+		if ( 0 === $total ) {
+			return new WP_Error( 'nothing_to_do', self::RESTORE === $action ? __( 'No optimized image is left to restore.', 'iminify-image-optimizer' ) : __( 'Every image is already optimized or on its way.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+
+		update_option(
+			self::OPTION,
+			array(
+				'action'  => $action,
+				'mode'    => self::PAGE === $mode ? self::PAGE : self::BACKGROUND,
+				'status'  => self::RUNNING,
+				'reason'  => null,
+				'cursor'  => 0,
+				'total'   => $total,
+				'sent'    => 0,
+				'failed'  => 0,
+				'window'  => self::START_FILES,
+				'hold'    => 0,
+				'grown'   => 0,
+				'started' => time(),
+				'updated' => time(),
+			),
+			false
+		);
+
+		self::kick();
+
+		return (array) self::run();
+	}
+
+	/**
+	 * Holds the run: nothing more is sent, and what is on its way finishes.
+	 *
+	 * @param string|null $reason Why, when it isn't the person's press: `disk_full` or `deactivated`.
+	 */
+	public static function pause( ?string $reason = null ): void {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] ) {
+			return;
+		}
+
+		self::change(
+			array(
+				'status' => self::PAUSED,
+				'reason' => $reason,
+			)
+		);
+		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+	}
+
+	/**
+	 * Goes on with a held run.
+	 */
+	public static function resume(): void {
+		$run = self::run();
+
+		if ( null === $run || self::PAUSED !== $run['status'] ) {
+			return;
+		}
+
+		self::change(
+			array(
+				'status' => self::RUNNING,
+				'reason' => null,
+			)
+		);
+		self::kick();
+	}
+
+	/**
+	 * Ends the run. The images it queued that have no group open yet go back to
+	 * "not optimized" with nothing counted; a group already open goes on, since
+	 * its image is counted.
+	 */
+	public static function stop(): void {
+		$run = self::run();
+
+		if ( null === $run || ! in_array( $run['status'], array( self::RUNNING, self::PAUSED ), true ) ) {
+			return;
+		}
+
+		self::change(
+			array(
+				'status' => self::STOPPED,
+				'reason' => null,
+			)
+		);
+		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+
+		/* A look under way finishes queueing first, so the sweep takes back what it sent too. */
+		$tries = 0;
+
+		while ( ! self::lock() && $tries < 8 ) {
+			usleep( 250000 );
+			++$tries;
+		}
+
+		$after = 0;
+
+		do {
+			$ids = Records::with_status( array( Records::QUEUED, Records::PAUSED, Records::PARKED ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after  = $id;
+				$record = Records::get( $id );
+
+				if ( Optimizer::BULK !== $record['trigger'] || null !== $record['group'] ) {
+					continue;
+				}
+
+				as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK, array( $id, Optimizer::BULK ), Optimizer::GROUP );
+				Records::fail( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
+			}
+		} while ( array() !== $ids );
+
+		self::unlock();
+	}
+
+	/**
+	 * Changes how a run goes on: in the background, or while the bulk page is open.
+	 *
+	 * @param string $mode BACKGROUND or PAGE.
+	 */
+	public static function switch_mode( string $mode ): void {
+		$run = self::run();
+
+		if ( null === $run ) {
+			return;
+		}
+
+		self::change( array( 'mode' => self::PAGE === $mode ? self::PAGE : self::BACKGROUND ) );
+
+		if ( self::PAGE === $mode ) {
+			as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+
+			return;
+		}
+
+		self::kick();
+	}
+
+	/**
+	 * Gets a run going after a press: a first look at the images to send right
+	 * away, so the page shows them on their way, while a restore, which makes every
+	 * size again, runs in the background or from the page's next request.
+	 */
+	protected static function kick(): void {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] ) {
+			return;
+		}
+
+		if ( self::RESTORE !== $run['action'] ) {
+			self::feed();
+
+			return;
+		}
+
+		if ( self::BACKGROUND === $run['mode'] && ! Optimizer::pending( self::FEED_HOOK, array() ) ) {
+			as_schedule_single_action( time(), self::FEED_HOOK, array(), Optimizer::GROUP );
+		}
+	}
+
+	/**
+	 * One look of the run: sends or restores the next images, and in the
+	 * background schedules the next look. Action Scheduler's run for FEED_HOOK.
+	 */
+	public static function feed(): void {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] ) {
+			return;
+		}
+
+		$next = self::TICK;
+
+		if ( self::lock() ) {
+			try {
+				$next = self::RESTORE === $run['action'] ? self::restore_some( microtime( true ) + self::PAGE_BUDGET ) : self::send_some();
+			} finally {
+				self::unlock();
+			}
+		}
+
+		$run = self::run();
+
+		if ( null === $next || null === $run || self::RUNNING !== $run['status'] || self::BACKGROUND !== $run['mode'] ) {
+			return;
+		}
+
+		if ( ! Optimizer::pending( self::FEED_HOOK, array() ) ) {
+			as_schedule_single_action( time() + $next, self::FEED_HOOK, array(), Optimizer::GROUP );
+		}
+	}
+
+	/**
+	 * A request from the bulk page for a run in its mode: a look while the run goes
+	 * on, then the plugin's due actions run here for as long as the request's budget
+	 * lasts. A run paused, stopped or done still has its images on their way
+	 * finished here, since nothing else runs them on a host whose cron doesn't.
+	 *
+	 * @return int The seconds until a request has something to do: the next look, or the next action due.
+	 */
+	public static function step(): int {
+		$run = self::run();
+
+		if ( null === $run || self::PAGE !== $run['mode'] ) {
+			return 60;
+		}
+
+		$deadline = microtime( true ) + self::PAGE_BUDGET;
+		$next     = null;
+
+		if ( self::RUNNING === $run['status'] && self::lock() ) {
+			try {
+				$next = self::RESTORE === $run['action'] ? self::restore_some( $deadline ) : self::send_some();
+			} finally {
+				self::unlock();
+			}
+		}
+
+		if ( self::RESTORE !== $run['action'] ) {
+			self::run_due( $deadline );
+		}
+
+		return self::until_due( $next );
+	}
+
+	/**
+	 * The service turned a bulk group away for the work already waiting there: the
+	 * feeder holds for the wait it asked, with its window halved. Refusals of one
+	 * burst halve it once.
+	 *
+	 * @param int $seconds The wait the service asked for.
+	 */
+	public static function throttled( int $seconds ): void {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] || $run['hold'] > time() ) {
+			return;
+		}
+
+		self::change(
+			array(
+				'hold'   => time() + $seconds,
+				'window' => max( self::files_per_image(), intdiv( $run['window'], 2 ) ),
+			)
+		);
+	}
+
+	/**
+	 * Whether a background run's actions have been due for long with nothing
+	 * running them: the host's cron or its loopback requests don't work.
+	 */
+	public static function stalled(): bool {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] || self::BACKGROUND !== $run['mode'] ) {
+			return false;
+		}
+
+		$late = as_get_scheduled_actions(
+			array(
+				'group'        => Optimizer::GROUP,
+				'status'       => 'pending',
+				'date'         => time() - self::STALL_SECONDS,
+				'date_compare' => '<=',
+				'per_page'     => 1,
+			),
+			'ids'
+		);
+
+		return array() !== $late;
+	}
+
+	/**
+	 * The images the bulk page counts.
+	 *
+	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int}
+	 */
+	public static function counts(): array {
+		return array(
+			'images'        => self::count_images( false ),
+			'optimized'     => Records::count_with_status( array( Records::OPTIMIZED ) ),
+			'not_optimized' => self::count_candidates( self::OPTIMIZE ),
+			'waiting'       => Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) ),
+			'failed'        => Records::count_with_status( array( Records::ERROR ) ),
+			'skipped'       => Records::count_with_status( array( Records::SKIPPED ) ),
+			'restored'      => Records::count_with_status( array( Records::RESTORED ) ),
+		);
+	}
+
+	/**
+	 * How many images a run of this kind would look at.
+	 *
+	 * @param string $action OPTIMIZE, RETRY or RESTORE.
+	 */
+	public static function count_candidates( string $action ): int {
+		if ( self::RETRY === $action ) {
+			return Records::count_with_status( array( Records::ERROR ) );
+		}
+
+		if ( self::RESTORE === $action ) {
+			return Records::count_with_status( array( Records::OPTIMIZED ) );
+		}
+
+		return self::count_images( true );
+	}
+
+	/**
+	 * The next images a run of this kind would send or restore, in the order of
+	 * their ids. An image the service can't take is passed over, and the cursor
+	 * still moves past it, so a run never looks at it twice.
+	 *
+	 * The images to optimize are the ones with no record, or "not optimized" for any
+	 * reason but a restore someone chose (W161), never one optimized, failed,
+	 * skipped or on its way.
+	 *
+	 * @param string $action OPTIMIZE, RETRY or RESTORE.
+	 * @param int    $limit  How many at most.
+	 * @param int    $after  The id to start after.
+	 * @return array{ids: list<int>, passed: list<int>, cursor: int, exhausted: bool} The images to send, and those passed over as ones the service can't take.
+	 */
+	public static function candidates( string $action, int $limit, int $after ): array {
+		$found  = array();
+		$passed = array();
+		$cursor = $after;
+
+		do {
+			if ( self::RETRY === $action ) {
+				$ids = Records::with_status( array( Records::ERROR ), self::PAGE_SIZE, $cursor );
+			} elseif ( self::RESTORE === $action ) {
+				$ids = Records::with_status( array( Records::OPTIMIZED ), self::PAGE_SIZE, $cursor );
+			} else {
+				$ids = self::not_optimized( self::PAGE_SIZE, $cursor );
+			}
+
+			$full = self::PAGE_SIZE === count( $ids );
+
+			foreach ( $ids as $id ) {
+				$cursor = $id;
+
+				if ( self::RESTORE === $action || Optimizer::is_optimizable( $id ) ) {
+					$found[] = $id;
+				} else {
+					$passed[] = $id;
+				}
+
+				if ( count( $found ) >= $limit ) {
+					return array(
+						'ids'       => $found,
+						'passed'    => $passed,
+						'cursor'    => $cursor,
+						'exhausted' => false,
+					);
+				}
+			}
+		} while ( $full );
+
+		return array(
+			'ids'       => $found,
+			'passed'    => $passed,
+			'cursor'    => $cursor,
+			'exhausted' => true,
+		);
+	}
+
+	/**
+	 * The files the service makes for one image on the site's settings: the main
+	 * file and each size it sends, in the image's format and each copy's.
+	 */
+	public static function files_per_image(): int {
+		$site       = Site_Record::cached();
+		$settings   = is_array( $site ) && isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array( 'webp' => true );
+		$registered = array_keys( wp_get_registered_image_subsizes() );
+		$sizes      = isset( $settings['sizes'] ) && is_array( $settings['sizes'] ) ? count( array_intersect( $registered, $settings['sizes'] ) ) : count( $registered );
+		$formats    = 1 + ( empty( $settings['webp'] ) ? 0 : 1 ) + ( empty( $settings['avif'] ) ? 0 : 1 );
+
+		return max( 1, ( 1 + $sizes ) * $formats );
+	}
+
+	/**
+	 * The bytes the backups of the images not optimized yet would take: each
+	 * original the plugin would keep (WordPress's unscaled original where it kept
+	 * one, else the attached file), measured on up to SAMPLE images and scaled to
+	 * the rest. One already backed up costs nothing.
+	 */
+	public static function backup_bytes(): int {
+		$count = self::count_images( true );
+		$ids   = 0 === $count ? array() : self::not_optimized( self::SAMPLE, 0 );
+
+		if ( array() === $ids ) {
+			return 0;
+		}
+
+		$bytes = 0;
+
+		foreach ( $ids as $id ) {
+			$metadata = wp_get_attachment_metadata( $id, true );
+			$source   = Originals::find( $id, is_array( $metadata ) ? $metadata : array(), null );
+
+			if ( null !== $source && Originals::BACKUP !== $source['kind'] ) {
+				$bytes += (int) filesize( $source['path'] );
+			}
+		}
+
+		return (int) round( $bytes / count( $ids ) * $count );
+	}
+
+	/**
+	 * Sends the next images within the window. Answers the seconds until the
+	 * next look, or null when the run ended or waits for the person.
+	 */
+	protected static function send_some(): ?int {
+		$run = self::run();
+
+		if ( null === $run ) {
+			return null;
+		}
+
+		/* The images it sent wait for the connection on their own, and go on with it. */
+		if ( null === Plugin::keys()->get() ) {
+			return 5 * MINUTE_IN_SECONDS;
+		}
+
+		$until = Pause::until();
+
+		if ( null !== $until ) {
+			return max( self::TICK, $until - time() + 5 );
+		}
+
+		if ( ! Disk::has_room_for( 0 ) ) {
+			self::pause( 'disk_full' );
+
+			return null;
+		}
+
+		if ( $run['hold'] > time() ) {
+			return $run['hold'] - time() + 1;
+		}
+
+		/* An image waiting for the connection means the service refuses this key (a copy at another address, a key it stopped): one window waits, never the library. */
+		if ( Records::count_with_status( array( Records::PARKED ) ) > 0 ) {
+			return 5 * MINUTE_IN_SECONDS;
+		}
+
+		$per     = self::files_per_image();
+		$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) );
+		$room    = max( 1, intdiv( $run['window'], $per ) ) - $working;
+
+		/* The window holds the run back and the service took all of it, so it can hold one image more, once a look. */
+		if ( $room <= 0 ) {
+			if ( 0 === Records::count_with_status( array( Records::QUEUED ) ) && time() - $run['grown'] >= self::TICK ) {
+				self::change(
+					array(
+						'window' => min( max( self::MAX_FILES, $per ), $run['window'] + $per ),
+						'grown'  => time(),
+					)
+				);
+			}
+
+			return self::TICK;
+		}
+
+		$next = self::candidates( $run['action'], $room, $run['cursor'] );
+
+		/* An image the service can't take (a format it doesn't read, a file gone from the disk) is set aside, so the counts and the estimate leave it out. */
+		foreach ( $next['passed'] as $id ) {
+			Records::fail( $id, Records::SKIPPED, 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+		}
+
+		foreach ( $next['ids'] as $id ) {
+			/* A failed image sent again starts with its tries counted from nothing. */
+			if ( self::RETRY === $run['action'] ) {
+				Records::update(
+					$id,
+					array(
+						'attempts' => 0,
+						'reopens'  => 0,
+					)
+				);
+			}
+
+			Optimizer::queue( $id, Optimizer::BULK, 0 );
+		}
+
+		$changes = array(
+			'cursor' => $next['cursor'],
+			'sent'   => $run['sent'] + count( $next['ids'] ),
+		);
+
+		/* Done once nothing is left to send and nothing it sent is still on its way, a wait for the connection included. */
+		if ( $next['exhausted'] && array() === $next['ids'] ) {
+			if ( 0 === Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) ) ) {
+				$changes['status'] = self::DONE;
+			} else {
+				self::heal();
+			}
+		}
+
+		self::change( $changes );
+
+		return self::DONE === ( $changes['status'] ?? null ) ? null : self::TICK;
+	}
+
+	/**
+	 * Queues again an image left queued or waiting with no run for a long while:
+	 * its run died with its request (a fatal error, a time limit), and the run
+	 * would wait for it forever. One whose record moved lately may have a run
+	 * under way, which isn't pending, so it is left.
+	 */
+	protected static function heal(): void {
+		foreach ( Records::with_status( array( Records::QUEUED, Records::WAITING ), self::PAGE_SIZE ) as $id ) {
+			$record = Records::get( $id );
+
+			if ( $record['updated'] > time() - self::STALL_SECONDS || Optimizer::has_run( $id ) ) {
+				continue;
+			}
+
+			Optimizer::queue( $id, Optimizer::trigger( $record['trigger'] ), 0 );
+		}
+	}
+
+	/**
+	 * Restores the next images, until the deadline. Answers 0 while more are left,
+	 * or null once the run is done. It needs no connection and no day left.
+	 *
+	 * @param float $deadline When to stop, as microtime.
+	 */
+	protected static function restore_some( float $deadline ): ?int {
+		do {
+			$run = self::run();
+
+			if ( null === $run || self::RUNNING !== $run['status'] ) {
+				return null;
+			}
+
+			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'] );
+
+			if ( array() === $next['ids'] ) {
+				self::change(
+					array(
+						'status' => self::DONE,
+						'cursor' => $next['cursor'],
+					)
+				);
+
+				return null;
+			}
+
+			$sent   = $run['sent'];
+			$failed = $run['failed'];
+
+			foreach ( $next['ids'] as $id ) {
+				if ( self::restore_one( $id ) ) {
+					++$sent;
+				} else {
+					++$failed;
+				}
+
+				/* Each image moves the cursor itself, so a request cut short goes on from the next. */
+				self::change(
+					array(
+						'cursor' => $id,
+						'sent'   => $sent,
+						'failed' => $failed,
+					)
+				);
+
+				if ( microtime( true ) >= $deadline ) {
+					return 0;
+				}
+			}
+		} while ( microtime( true ) < $deadline );
+
+		return 0;
+	}
+
+	/**
+	 * Restores one image. One the service made nothing smaller for (every file it
+	 * kept is the original, and no copy was written) is already as it was uploaded,
+	 * so it only reads as restored.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function restore_one( int $attachment ): bool {
+		$availability = Restorer::availability( $attachment );
+
+		if ( Restorer::AVAILABLE === $availability ) {
+			return true === Restorer::restore( $attachment );
+		}
+
+		if ( Restorer::NOTHING !== $availability ) {
+			return false;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'status' => Records::NOT_OPTIMIZED,
+				'result' => null,
+				'error'  => array(
+					'code'    => Records::RESTORED,
+					'message' => __( 'Restored: the original is back.', 'iminify-image-optimizer' ),
+				),
+			)
+		);
+
+		return true;
+	}
+
+	/**
+	 * The seconds until the bulk page's next request has something to do: the next
+	 * look, or the plugin's next action due, between one second and a minute.
+	 *
+	 * @param int|null $next The seconds until the next look, or null for none.
+	 */
+	protected static function until_due( ?int $next ): int {
+		global $wpdb;
+
+		$waits = null === $next ? array() : array( $next );
+		$in    = implode( ', ', array_fill( 0, count( self::PAGE_HOOKS ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Action Scheduler's own table, for when the plugin's next action is due; one placeholder per hook, built above.
+		$due = $wpdb->get_var( $wpdb->prepare( "SELECT MIN(scheduled_date_gmt) FROM {$wpdb->prefix}actionscheduler_actions WHERE status = %s AND hook IN ({$in})", array_merge( array( 'pending' ), self::PAGE_HOOKS ) ) );
+		$at  = is_string( $due ) ? strtotime( $due . ' UTC' ) : false;
+
+		if ( false !== $at ) {
+			$waits[] = $at - time();
+		}
+
+		return array() === $waits ? 60 : max( 1, min( 60, min( $waits ) ) );
+	}
+
+	/**
+	 * Runs the plugin's own due actions here, until the deadline, each claimed
+	 * from Action Scheduler first, so one its own runner holds, or already ran,
+	 * never runs twice. They are claimed by their hooks rather than their group:
+	 * Action Scheduler refuses a claim by a group whose id it hasn't cached.
+	 *
+	 * @param float $deadline When to stop, as microtime.
+	 * @return int How many ran.
+	 */
+	protected static function run_due( float $deadline ): int {
+		if ( ! class_exists( 'ActionScheduler' ) ) {
+			return 0;
+		}
+
+		$store  = ActionScheduler::store();
+		$runner = ActionScheduler::runner();
+		$ran    = 0;
+
+		try {
+			while ( microtime( true ) < $deadline ) {
+				$claim   = $store->stake_claim( 5, null, self::PAGE_HOOKS );
+				$actions = $claim->get_actions();
+
+				if ( array() === $actions ) {
+					$store->release_claim( $claim );
+					break;
+				}
+
+				foreach ( $actions as $action ) {
+					if ( (int) $claim->get_id() !== (int) $store->get_claim_id( $action ) ) {
+						break;
+					}
+
+					$runner->process_action( $action, 'Iminify bulk page' );
+					++$ran;
+
+					if ( microtime( true ) >= $deadline ) {
+						break;
+					}
+				}
+
+				$store->release_claim( $claim );
+			}
+		} finally {
+			/*
+			 * The hooks stay the store's claim filter for the rest of the request, where
+			 * its own runner would read them. A store still moving older actions over
+			 * (the hybrid one) keeps the filter out of reach; no runner of its own runs
+			 * in the page's request, so it is harmless there.
+			 */
+			$reset = array( $store, 'set_claim_filter' );
+
+			if ( is_callable( $reset ) ) {
+				call_user_func( $reset, 'hooks', '' );
+			}
+		}
+
+		return $ran;
+	}
+
+	/**
+	 * The image attachments, or only those no run has optimized yet (`candidates()`'s meaning).
+	 *
+	 * @param bool $not_optimized Whether to count only those.
+	 */
+	protected static function count_images( bool $not_optimized ): int {
+		global $wpdb;
+
+		$types = Declaration::MIME_TYPES;
+		$in    = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+		if ( ! $not_optimized ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a count on the plugin's own page; one placeholder per type, built above.
+			return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_status <> 'trash' AND post_mime_type IN ({$in})", $types ) );
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a count on the plugin's own page; one placeholder per type, built above.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} m ON m.post_id = p.ID AND m.meta_key = %s WHERE p.post_type = 'attachment' AND p.post_status <> 'trash' AND p.post_mime_type IN ({$in}) AND ( m.meta_id IS NULL OR m.meta_value = %s )", array_merge( array( Records::STATUS_META ), $types, array( Records::NOT_OPTIMIZED ) ) ) );
+	}
+
+	/**
+	 * A page of the image attachments with no record or "not optimized", in the order of their ids.
+	 *
+	 * @param int $limit How many at most.
+	 * @param int $after The id to start after.
+	 * @return list<int>
+	 */
+	protected static function not_optimized( int $limit, int $after ): array {
+		global $wpdb;
+
+		$types = Declaration::MIME_TYPES;
+		$in    = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a background read by the primary key; one placeholder per type, built above.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} m ON m.post_id = p.ID AND m.meta_key = %s WHERE p.post_type = 'attachment' AND p.post_status <> 'trash' AND p.post_mime_type IN ({$in}) AND p.ID > %d AND ( m.meta_id IS NULL OR m.meta_value = %s ) ORDER BY p.ID ASC LIMIT %d", array_merge( array( Records::STATUS_META ), $types, array( $after, Records::NOT_OPTIMIZED, $limit ) ) ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * Takes the lock a look holds: added only when no other request holds it, and
+	 * taken over once it is older than LOCK_SECONDS, from a request that died.
+	 */
+	protected static function lock(): bool {
+		if ( add_option( self::LOCK_OPTION, time() + self::LOCK_SECONDS, '', false ) ) {
+			return true;
+		}
+
+		if ( (int) get_option( self::LOCK_OPTION ) >= time() ) {
+			return false;
+		}
+
+		delete_option( self::LOCK_OPTION );
+
+		return add_option( self::LOCK_OPTION, time() + self::LOCK_SECONDS, '', false );
+	}
+
+	/**
+	 * Lets the next look run.
+	 */
+	protected static function unlock(): void {
+		delete_option( self::LOCK_OPTION );
+	}
+
+	/**
+	 * Changes some of the run, read fresh, since an image's own run can change
+	 * the window while a look is under way.
+	 *
+	 * @param array<string, mixed> $changes The keys to change.
+	 */
+	protected static function change( array $changes ): void {
+		$run = get_option( self::OPTION );
+
+		if ( ! is_array( $run ) ) {
+			return;
+		}
+
+		update_option( self::OPTION, array_merge( $run, $changes, array( 'updated' => time() ) ), false );
+	}
+}

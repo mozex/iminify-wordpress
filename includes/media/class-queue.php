@@ -71,9 +71,7 @@ class Queue {
 		$ids      = Records::with_status( $statuses, self::PAGE, (int) $after );
 
 		foreach ( $ids as $id ) {
-			$trigger = Records::get( $id )['trigger'];
-
-			Optimizer::queue( $id, Optimizer::MANUAL === $trigger ? Optimizer::MANUAL : Optimizer::AUTOMATIC, 0 );
+			Optimizer::queue( $id, Optimizer::trigger( Records::get( $id )['trigger'] ), 0 );
 		}
 
 		if ( self::PAGE === count( $ids ) ) {

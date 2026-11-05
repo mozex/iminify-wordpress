@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress;
 
+use Iminify\WordPress\Admin\Bulk_Controller;
+use Iminify\WordPress\Admin\Bulk_Page;
 use Iminify\WordPress\Admin\Media_Controller;
 use Iminify\WordPress\Admin\Media_View;
 use Iminify\WordPress\Admin\Notice;
@@ -41,7 +43,9 @@ class Plugin {
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( Privacy::class, 'register' ) );
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
+			add_action( 'admin_menu', array( Bulk_Page::class, 'register' ) );
 			add_action( 'admin_enqueue_scripts', array( Settings_Page::class, 'enqueue' ) );
+			add_action( 'admin_enqueue_scripts', array( Bulk_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );
 			add_action( 'admin_notices', array( Notice::class, 'render' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'action_links' ) );
@@ -55,6 +59,7 @@ class Plugin {
 	public static function register_routes(): void {
 		( new Rest_Controller() )->register_routes();
 		( new Media_Controller() )->register_routes();
+		( new Bulk_Controller() )->register_routes();
 	}
 
 	/**

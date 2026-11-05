@@ -11,12 +11,14 @@
  *   optimized  adds an image the plugin optimized, with WebP copies, and a post showing it; prints their ids and the post's address
  *   paused     marks the image given in the JSON (`{"id": N}`) as waiting for the next batch, with the pause a refusal starts
  *   record     prints the record of the image given in the JSON
+ *   fresh      adds images the plugin hasn't handled (`{"count": N}`, 2 by default); prints their ids
  *
  * @package Iminify\WordPress
  */
 
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Backups;
+use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Pause;
@@ -43,6 +45,7 @@ switch ( $command ) {
 		delete_option( 'iminify_e2e_calls' );
 		delete_option( 'iminify_pairing' );
 		delete_option( 'iminify_revoked' );
+		delete_option( Bulk::OPTION );
 
 		foreach ( get_posts(
 			array(
@@ -82,6 +85,44 @@ switch ( $command ) {
 		Records::wait( (int) $given['id'], Records::PAUSED, 'daily_limit_reached', 'Waiting for the next batch.' );
 		Pause::begin( time() + HOUR_IN_SECONDS, Pause::FROM_REFUSAL, 'free' );
 		echo "paused\n";
+		break;
+
+	case 'fresh':
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+
+		$fresh = array();
+
+		for ( $made = 0; $made < (int) ( $given['count'] ?? 2 ); $made++ ) {
+			$canvas = imagecreatetruecolor( 800, 500 );
+			imagefill( $canvas, 0, 0, (int) imagecolorallocate( $canvas, 40 * $made % 255, 140, 200 ) );
+			$source = get_temp_dir() . 'iminify-e2e-fresh-' . $made . '.jpg';
+			imagejpeg( $canvas, $source, 90 );
+
+			$made_id = media_handle_sideload(
+				array(
+					'name'     => 'iminify-e2e-fresh-' . $made . '.jpg',
+					'tmp_name' => $source,
+				)
+			);
+
+			if ( is_wp_error( $made_id ) ) {
+				echo 'error: ' . esc_html( $made_id->get_error_message() ) . "\n";
+				break 2;
+			}
+
+			/* The upload queued itself on a connected site; these wait for the bulk run instead. */
+			Optimizer::cancel( $made_id );
+
+			foreach ( Records::ALL_META as $key ) {
+				delete_post_meta( $made_id, $key );
+			}
+
+			$fresh[] = $made_id;
+		}
+
+		echo wp_json_encode( $fresh ) . "\n";
 		break;
 
 	case 'optimized':

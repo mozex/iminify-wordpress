@@ -7,9 +7,11 @@
 
 namespace Iminify\WordPress;
 
+use Iminify\WordPress\Admin\Bulk_State;
 use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Media\Backups;
+use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Pause;
@@ -54,6 +56,8 @@ class Lifecycle {
 		Site_Record::FORMATS_OPTION,
 		Local_Settings::OPTION,
 		Pause::OPTION,
+		Bulk::OPTION,
+		Bulk::LOCK_OPTION,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -66,13 +70,14 @@ class Lifecycle {
 		Optimizer::DELETE_GROUP_HOOK,
 		Queue::OPENS_HOOK,
 		Queue::RESUME_HOOK,
+		Bulk::FEED_HOOK,
 		Connection::CLAIM_HOOK,
 	);
 
 	/**
 	 * The post meta of an attachment's record.
 	 */
-	const RECORD_META = array( Records::META, Records::STATUS_META, Records::FORMATS_META );
+	const RECORD_META = Records::ALL_META;
 
 	/**
 	 * How long the deletion waits for Iminify to stop the key.
@@ -112,7 +117,7 @@ class Lifecycle {
 			foreach ( $ids as $id ) {
 				$after = $id;
 
-				if ( ! self::has_run( $id ) ) {
+				if ( ! Optimizer::has_run( $id ) ) {
 					self::park( $id );
 				}
 			}
@@ -125,14 +130,24 @@ class Lifecycle {
 		}
 
 		Queue::connection_back();
+
+		$run = Bulk::run();
+
+		if ( null !== $run && Bulk::PAUSED === $run['status'] && 'deactivated' === $run['reason'] ) {
+			Bulk::resume();
+		}
 	}
 
 	/**
-	 * The deactivation hook: a waiting pairing is dropped, every image on its
-	 * way is parked, and nothing of the plugin's stays scheduled.
+	 * The deactivation hook: a waiting pairing is dropped, a bulk run is held,
+	 * every image on its way is parked, and nothing of the plugin's stays scheduled.
 	 */
 	public static function deactivate(): void {
 		( new Connection( Plugin::keys() ) )->cancel();
+
+		if ( function_exists( 'as_unschedule_all_actions' ) ) {
+			Bulk::pause( 'deactivated' );
+		}
 
 		$after = 0;
 
@@ -160,17 +175,6 @@ class Lifecycle {
 	}
 
 	/**
-	 * Whether an image has a run waiting for it.
-	 *
-	 * @param int $attachment The attachment's id.
-	 */
-	protected static function has_run( int $attachment ): bool {
-		return Optimizer::pending( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::AUTOMATIC ) )
-			|| Optimizer::pending( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::MANUAL ) )
-			|| Optimizer::pending( Optimizer::CHECK_HOOK, array( $attachment ) );
-	}
-
-	/**
 	 * Run by `uninstall.php`, with the plugin's main file not loaded.
 	 */
 	public static function uninstall(): void {
@@ -190,6 +194,7 @@ class Lifecycle {
 		}
 
 		delete_transient( Site_Record::TRANSIENT );
+		delete_transient( Bulk_State::LOOPBACK_TRANSIENT );
 		delete_metadata( 'user', 0, Notice::META, '', true );
 
 		self::delete_runs();

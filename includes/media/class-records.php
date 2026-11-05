@@ -22,7 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * The record is one serialized value, which no query can read, so its status
  * and the formats its group was asked for also go in post meta of their own, for
- * the media library's filters and the queue.
+ * the media library's filters, the queue and the bulk run, as do the bytes its
+ * files had before and after, for the bulk page's savings.
  */
 class Records {
 
@@ -31,6 +32,18 @@ class Records {
 	const STATUS_META = '_iminify_status';
 
 	const FORMATS_META = '_iminify_formats';
+
+	/**
+	 * The bytes of the files the plugin optimized, before and after, while the record holds a result.
+	 */
+	const BEFORE_META = '_iminify_before';
+
+	const AFTER_META = '_iminify_after';
+
+	/**
+	 * Every post meta key of a record.
+	 */
+	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::BEFORE_META, self::AFTER_META );
 
 	const ORIGIN = 'iminify';
 
@@ -55,6 +68,13 @@ class Records {
 	const SKIPPED = 'skipped';
 
 	const ERROR = 'error';
+
+	/**
+	 * The status meta of an image someone restored: its record reads NOT_OPTIMIZED
+	 * with the code `restored`, which the bulk run leaves out, so the image stays as
+	 * the person chose (the media library's "Not optimized" filter still lists it).
+	 */
+	const RESTORED = 'restored';
 
 	/**
 	 * An attachment's record, every key present.
@@ -98,7 +118,19 @@ class Records {
 		update_post_meta( $attachment, self::META, $record );
 
 		if ( is_string( $record['status'] ) ) {
-			update_post_meta( $attachment, self::STATUS_META, $record['status'] );
+			$restored = self::NOT_OPTIMIZED === $record['status'] && is_array( $record['error'] ) && self::RESTORED === ( $record['error']['code'] ?? null );
+
+			update_post_meta( $attachment, self::STATUS_META, $restored ? self::RESTORED : $record['status'] );
+		}
+
+		$outputs = isset( $record['result']['outputs'] ) && is_array( $record['result']['outputs'] ) ? $record['result']['outputs'] : array();
+
+		if ( array() !== $outputs ) {
+			update_post_meta( $attachment, self::BEFORE_META, (int) array_sum( array_map( 'intval', array_column( $outputs, 'before' ) ) ) );
+			update_post_meta( $attachment, self::AFTER_META, (int) array_sum( array_map( 'intval', array_column( $outputs, 'after' ) ) ) );
+		} else {
+			delete_post_meta( $attachment, self::BEFORE_META );
+			delete_post_meta( $attachment, self::AFTER_META );
 		}
 
 		if ( isset( $record['result']['formats'] ) && is_array( $record['result']['formats'] ) ) {
@@ -211,6 +243,23 @@ class Records {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a count by the meta_key index, on the plugin's own page; the placeholders are built above, one per status.
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN ({$in})", array_merge( array( self::STATUS_META ), $statuses ) ) );
+	}
+
+	/**
+	 * The bytes before and after across every image the plugin optimized.
+	 *
+	 * @return array{before: int, after: int}
+	 */
+	public static function saved(): array {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a sum by the meta_key index, on the plugin's own page.
+		$sums = $wpdb->get_row( $wpdb->prepare( "SELECT SUM(CASE WHEN meta_key = %s THEN CAST(meta_value AS UNSIGNED) ELSE 0 END) AS before_bytes, SUM(CASE WHEN meta_key = %s THEN CAST(meta_value AS UNSIGNED) ELSE 0 END) AS after_bytes FROM {$wpdb->postmeta} WHERE meta_key IN (%s, %s)", self::BEFORE_META, self::AFTER_META, self::BEFORE_META, self::AFTER_META ), ARRAY_A );
+
+		return array(
+			'before' => is_array( $sums ) ? (int) $sums['before_bytes'] : 0,
+			'after'  => is_array( $sums ) ? (int) $sums['after_bytes'] : 0,
+		);
 	}
 
 	/**

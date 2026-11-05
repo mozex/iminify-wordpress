@@ -40,6 +40,7 @@ class Hooks {
 		add_action( Optimizer::DELETE_GROUP_HOOK, array( Optimizer::class, 'delete_group' ), 10, 2 );
 		add_action( Queue::OPENS_HOOK, array( Queue::class, 'batch_opens' ) );
 		add_action( Queue::RESUME_HOOK, array( Queue::class, 'resume' ) );
+		add_action( Bulk::FEED_HOOK, array( Bulk::class, 'feed' ) );
 	}
 
 	/**

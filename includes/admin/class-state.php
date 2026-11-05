@@ -144,7 +144,21 @@ class State {
 	 * @return array{code: string, label: string, ends_at: string|null}
 	 */
 	protected static function plan( array $site ): array {
-		$code   = isset( $site['plan'] ) && is_string( $site['plan'] ) ? $site['plan'] : '';
+		$code = isset( $site['plan'] ) && is_string( $site['plan'] ) ? $site['plan'] : '';
+
+		return array(
+			'code'    => $code,
+			'label'   => self::plan_label( $code ),
+			'ends_at' => self::date( $site['plan_ends_at'] ?? null ),
+		);
+	}
+
+	/**
+	 * A plan's name, from its code.
+	 *
+	 * @param string $code The plan's code.
+	 */
+	public static function plan_label( string $code ): string {
 		$labels = array(
 			'guest' => __( 'Guest', 'iminify-image-optimizer' ),
 			'free'  => __( 'Free', 'iminify-image-optimizer' ),
@@ -153,11 +167,7 @@ class State {
 			'max'   => __( 'Max', 'iminify-image-optimizer' ),
 		);
 
-		return array(
-			'code'    => $code,
-			'label'   => $labels[ $code ] ?? ucfirst( $code ),
-			'ends_at' => self::date( $site['plan_ends_at'] ?? null ),
-		);
+		return $labels[ $code ] ?? ucfirst( $code );
 	}
 
 	/**
