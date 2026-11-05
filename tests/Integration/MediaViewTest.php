@@ -51,7 +51,9 @@ class MediaViewTest extends WP_UnitTestCase {
 		Pause::lift();
 		Plugin::keys()->forget();
 		Site_Record::forget();
-		$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		if ( is_dir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER ) ) {
+			$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		}
 		parent::tear_down();
 	}
 
@@ -380,7 +382,9 @@ class MediaViewTest extends WP_UnitTestCase {
 		$this->assertSame( Records::OPTIMIZED, Records::get( $id )['status'] );
 
 		/* No original, with backups off: optimizing would compress its own output. */
-		$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		if ( is_dir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER ) ) {
+			$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		}
 
 		$answer = rest_do_request( new WP_REST_Request( 'POST', "/iminify/v1/media/{$id}/optimize" ) );
 

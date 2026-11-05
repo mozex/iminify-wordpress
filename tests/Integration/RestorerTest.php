@@ -47,7 +47,9 @@ class RestorerTest extends WP_UnitTestCase {
 		Local_Settings::update( array( 'backups' => true ) );
 		Pause::lift();
 		remove_filter( 'big_image_size_threshold', array( $this, 'scale_at_500' ) );
-		$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		if ( is_dir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER ) ) {
+			$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		}
 		parent::tear_down();
 	}
 

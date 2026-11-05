@@ -52,7 +52,9 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->api->stop();
 		Plugin::keys()->forget();
 		Site_Record::forget();
-		$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		if ( is_dir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER ) ) {
+			$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		}
 		parent::tear_down();
 	}
 

@@ -63,7 +63,9 @@ class QueueTest extends WP_UnitTestCase {
 		Plugin::keys()->forget();
 		Site_Record::forget();
 		remove_all_filters( 'iminify_disk_free_space' );
-		$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		if ( is_dir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER ) ) {
+			$this->rmdir( Paths::uploads() . '/' . Paths::BACKUP_FOLDER );
+		}
 		parent::tear_down();
 	}
 
