@@ -113,6 +113,7 @@ class RestControllerTest extends WP_UnitTestCase {
 				'label'     => 'Images today',
 				'used'      => '3',
 				'remaining' => '37',
+				'share'     => 0.075,
 			),
 			$state['site']['usage'][0]
 		);
@@ -138,6 +139,7 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertNotNull( $state['site']['plan']['ends_at'] );
 		$this->assertNull( $state['site']['usage'][0]['remaining'] );
 		$this->assertNull( $state['site']['usage'][1]['remaining'] );
+		$this->assertNull( $state['site']['usage'][0]['share'] );
 	}
 
 	public function test_a_spent_day_shows_the_message_and_when_the_next_batch_opens_in_the_sites_timezone(): void {

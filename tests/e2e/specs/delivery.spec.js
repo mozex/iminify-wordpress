@@ -24,7 +24,7 @@ test( 'A post serves its image through picture tags until delivery is turned off
 	await page.goto( settingsPage );
 	await page.getByLabel( 'WebP and AVIF on your pages' ).selectOption( 'off' );
 	await page.getByRole( 'button', { name: 'Save changes' } ).click();
-	await expect( page.locator( '.components-notice__content', { hasText: 'Settings saved.' } ) ).toBeVisible();
+	await expect( page.locator( '.iminify-toast', { hasText: 'Settings saved.' } ) ).toBeVisible();
 
 	await page.goto( post );
 	await expect( page.locator( 'picture' ) ).toHaveCount( 0 );

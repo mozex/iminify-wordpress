@@ -1,0 +1,436 @@
+/**
+ * The parts every screen is built from: buttons, status chips, labels, icons,
+ * callouts, the inline confirm, the shell command with its Copy button, the
+ * spinner, and the motion. Every class and animation carries the plugin's
+ * prefix, and the parts read the tokens of the root they sit in.
+ *
+ * Direction is written with logical properties alone; the right-to-left copy
+ * the build makes leaves them as they are.
+ */
+
+@keyframes iminify-enter {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes iminify-pulse {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent);
+	}
+
+	60% {
+		box-shadow: 0 0 0 5px transparent;
+	}
+}
+
+@keyframes iminify-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes iminify-shimmer {
+	from {
+		background-position: 100% 0;
+	}
+
+	to {
+		background-position: 0 0;
+	}
+}
+
+.iminify-icon {
+	width: 16px;
+	height: 16px;
+	flex: none;
+	stroke: currentColor;
+	fill: none;
+	stroke-width: 1.9;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vertical-align: middle;
+}
+
+.iminify-num {
+	font-variant-numeric: tabular-nums;
+}
+
+.iminify-label {
+	font-size: 11px;
+	font-weight: 650;
+	line-height: 1.4;
+	text-transform: uppercase;
+	letter-spacing: var(--iminify-track-wide, 0.07em);
+	color: var(--iminify-z500);
+}
+
+.iminify-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	min-height: 40px;
+	margin: 0;
+	padding: 0 16px;
+	border: 0;
+	border-radius: var(--iminify-radius-control);
+	font: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.25;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background-color var(--iminify-fast),
+		box-shadow var(--iminify-fast),
+		color var(--iminify-fast),
+		transform 0.08s;
+
+	&:active:not(:disabled) {
+		transform: translateY(1px);
+	}
+
+	&:focus {
+		outline: 2px solid transparent;
+	}
+
+	&:focus-visible {
+		box-shadow: var(--iminify-ring-focus);
+	}
+
+	&:disabled {
+		background: var(--iminify-z100);
+		color: var(--iminify-z400);
+		box-shadow: none;
+		cursor: default;
+	}
+}
+
+.iminify-btn--primary {
+	background: var(--iminify-s700);
+	color: #fff;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 14%),
+		0 1px 2px rgb(3 105 161 / 35%),
+		0 4px 10px -4px rgb(3 105 161 / 45%);
+
+	&:hover:not(:disabled),
+	&:focus:not(:disabled) {
+		background: var(--iminify-s800);
+		color: #fff;
+	}
+}
+
+.iminify-btn--secondary {
+	background: #fff;
+	color: var(--iminify-z800);
+	box-shadow:
+		inset 0 0 0 1px var(--iminify-z300),
+		0 1px 2px rgb(16 24 40 / 5%);
+
+	&:hover:not(:disabled) {
+		background: var(--iminify-z50);
+		color: var(--iminify-z900);
+	}
+}
+
+.iminify-btn--ghost {
+	background: transparent;
+	color: var(--iminify-z600);
+	padding: 0 12px;
+
+	&:hover:not(:disabled) {
+		background: var(--iminify-z100);
+		color: var(--iminify-z900);
+	}
+}
+
+.iminify-btn--danger {
+	color: var(--iminify-danger-fg);
+
+	&:hover:not(:disabled) {
+		background: var(--iminify-danger-bg);
+		color: #9f1239;
+	}
+}
+
+.iminify-btn--big {
+	min-height: 46px;
+	padding: 0 20px;
+	font-size: 14px;
+	border-radius: var(--iminify-radius-card);
+}
+
+.iminify-btn--small {
+	min-height: 32px;
+	padding: 0 12px;
+	font-size: 12px;
+	border-radius: var(--iminify-radius-small);
+}
+
+.iminify-btn--primary,
+.iminify-btn--secondary,
+.iminify-btn--ghost {
+	&:focus-visible {
+		box-shadow: var(--iminify-ring-focus);
+	}
+}
+
+.iminify-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin-top: 18px;
+}
+
+.iminify-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding-block: 4px;
+	padding-inline: 9px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.3;
+	white-space: nowrap;
+
+	.iminify-icon {
+		width: 14px;
+		height: 14px;
+	}
+}
+
+.iminify-chip__dot {
+	width: 7px;
+	height: 7px;
+	flex: none;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.iminify-chip--moving .iminify-chip__dot {
+	animation: iminify-pulse 1.6s ease-out infinite;
+}
+
+.iminify-chip--accent {
+	background: var(--iminify-s50);
+	color: var(--iminify-s700);
+	box-shadow: inset 0 0 0 1px var(--iminify-s100);
+}
+
+.iminify-chip--info {
+	background: var(--iminify-info-bg);
+	color: var(--iminify-info-fg);
+	box-shadow: inset 0 0 0 1px var(--iminify-info-line);
+}
+
+.iminify-chip--success {
+	background: var(--iminify-success-bg);
+	color: var(--iminify-success-fg);
+	box-shadow: inset 0 0 0 1px var(--iminify-success-line);
+}
+
+.iminify-chip--warning {
+	background: var(--iminify-warning-bg);
+	color: var(--iminify-warning-fg);
+	box-shadow: inset 0 0 0 1px #fef3c7;
+}
+
+.iminify-chip--danger {
+	background: var(--iminify-danger-bg);
+	color: var(--iminify-danger-fg);
+	box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
+}
+
+.iminify-chip--neutral {
+	background: var(--iminify-z100);
+	color: var(--iminify-z700);
+	box-shadow: inset 0 0 0 1px var(--iminify-z200);
+}
+
+.iminify-callout {
+	display: flex;
+	gap: 10px;
+	padding: 12px 14px;
+	border-radius: var(--iminify-radius-control);
+	background: var(--iminify-warning-bg);
+	color: var(--iminify-warning-ink);
+	box-shadow: inset 0 0 0 1px var(--iminify-warning-line);
+	line-height: 1.5;
+
+	> .iminify-icon {
+		margin-top: 2px;
+		color: var(--iminify-warning-icon);
+	}
+
+	p {
+		margin: 0;
+		font-size: inherit;
+	}
+
+	a {
+		color: inherit;
+		font-weight: 650;
+	}
+}
+
+.iminify-callout__body {
+	display: grid;
+	flex: 1;
+	gap: 8px;
+	min-width: 0;
+}
+
+.iminify-callout--danger {
+	background: var(--iminify-danger-bg);
+	color: var(--iminify-danger-ink);
+	box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
+
+	> .iminify-icon {
+		color: var(--iminify-danger-fg);
+	}
+}
+
+.iminify-callout--info {
+	background: var(--iminify-s50);
+	color: var(--iminify-s800);
+	box-shadow: inset 0 0 0 1px var(--iminify-s100);
+
+	> .iminify-icon {
+		color: var(--iminify-s600);
+	}
+}
+
+.iminify-callout--success {
+	background: var(--iminify-success-bg);
+	color: #065f46;
+	box-shadow: inset 0 0 0 1px var(--iminify-success-line);
+
+	> .iminify-icon {
+		color: var(--iminify-success-fg);
+	}
+}
+
+.iminify-confirm {
+	display: grid;
+	gap: 10px;
+	margin-top: 14px;
+	padding: 12px 14px;
+	border-radius: var(--iminify-radius-control);
+	background: var(--iminify-danger-bg);
+	color: var(--iminify-danger-ink);
+	box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
+	animation: iminify-enter 0.2s ease-out both;
+
+	p {
+		margin: 0;
+	}
+
+	.iminify-actions {
+		margin-top: 0;
+	}
+}
+
+.iminify-code {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	padding-block: 8px;
+	padding-inline: 12px 8px;
+	border-radius: var(--iminify-radius-small);
+	background: var(--iminify-z900);
+	color: #e2e8f0;
+
+	code {
+		flex: 1;
+		min-width: 0;
+		padding: 0;
+		background: none;
+		color: inherit;
+		font-size: 12px;
+		line-height: 1.4;
+		overflow-wrap: anywhere;
+	}
+
+	button {
+		flex: none;
+		padding: 5px 8px;
+		border: 0;
+		border-radius: 6px;
+		background: rgb(255 255 255 / 10%);
+		color: #fff;
+		font: inherit;
+		font-size: 11px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color var(--iminify-fast);
+
+		&:hover {
+			background: rgb(255 255 255 / 18%);
+		}
+
+		&:focus {
+			outline: 2px solid transparent;
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 2px var(--iminify-focus);
+		}
+	}
+}
+
+.iminify-spinner {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	flex: none;
+	border: 2px solid currentColor;
+	border-inline-end-color: transparent;
+	border-radius: 50%;
+	animation: iminify-spin 0.7s linear infinite;
+}
+
+.iminify-sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.iminify-ui,
+	.iminify-media,
+	.iminify-notice,
+	.iminify-toasts {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.001ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.001ms !important;
+		}
+
+		/* A spinner says the page is working, so it turns, slowly. */
+		.iminify-spinner {
+			animation-duration: 1.6s !important;
+			animation-iteration-count: infinite !important;
+		}
+	}
+}

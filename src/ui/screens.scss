@@ -1,0 +1,6 @@
+/**
+ * Everything the plugin's own pages draw with. Each page's stylesheet uses
+ * this, then adds its own few rules.
+ */
+@use "parts";
+@use "page";

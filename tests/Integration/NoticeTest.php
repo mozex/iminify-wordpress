@@ -57,6 +57,7 @@ class NoticeTest extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'is-dismissible', $html );
 		$this->assertStringContainsString( 'data-notice="connect"', $html );
+		$this->assertStringContainsString( 'iminify-notice__mark', $html );
 		$this->assertStringContainsString( 'options-general.php?page=iminify-image-optimizer', $html );
 	}
 

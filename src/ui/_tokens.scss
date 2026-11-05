@@ -1,0 +1,88 @@
+/**
+ * The design's tokens: Iminify's cool grey scale and sky accent, the corners,
+ * shadows and motion every screen shares. Each screen's root class takes them
+ * with `@include tokens;`, so nothing leaks into WordPress's own screens.
+ *
+ * The accent stays sky on every admin colour scheme; keyboard focus follows
+ * the person's scheme through core's own `--wp-admin-theme-color`. No font is
+ * set anywhere: the screens inherit WordPress's system font stack, which has
+ * every script the plugin's languages need.
+ */
+@mixin tokens {
+	--iminify-z50: oklch(0.985 0.004 255);
+	--iminify-z100: oklch(0.965 0.008 255);
+	--iminify-z200: oklch(0.925 0.014 255);
+	--iminify-z300: oklch(0.86 0.022 255);
+	--iminify-z400: oklch(0.715 0.032 255);
+	--iminify-z500: oklch(0.553 0.036 255);
+	--iminify-z600: oklch(0.47 0.036 255);
+	--iminify-z700: oklch(0.385 0.036 255);
+	--iminify-z800: oklch(0.29 0.034 255);
+	--iminify-z900: oklch(0.225 0.03 255);
+
+	--iminify-s50: #f0f9ff;
+	--iminify-s100: #e0f2fe;
+	--iminify-s200: #bae6fd;
+	--iminify-s300: #7dd3fc;
+	--iminify-s400: #38bdf8;
+	--iminify-s500: #0ea5e9;
+	--iminify-s600: #0284c7;
+	--iminify-s700: #0369a1;
+	--iminify-s800: #075985;
+
+	--iminify-success-bg: #ecfdf5;
+	--iminify-success-fg: #047857;
+	--iminify-success-line: #d1fae5;
+	--iminify-success-dot: #10b981;
+	--iminify-info-bg: #eef2ff;
+	--iminify-info-fg: #4338ca;
+	--iminify-info-line: #e0e7ff;
+	--iminify-warning-bg: #fffbeb;
+	--iminify-warning-fg: #b45309;
+	--iminify-warning-ink: #78350f;
+	--iminify-warning-line: #fde68a;
+	--iminify-warning-icon: #d97706;
+	--iminify-danger-bg: #fff1f2;
+	--iminify-danger-fg: #be123c;
+	--iminify-danger-ink: #4c0519;
+	--iminify-danger-line: #ffe4e6;
+	--iminify-danger-dot: #e11d48;
+
+	/* `--iminify-scheme` is printed only before WordPress 7.0, which declares no scheme colour outside the editor (`Admin\Scheme`). */
+	--iminify-focus: var(--iminify-scheme, var(--wp-admin-theme-color, #2271b1));
+	--iminify-ring-focus: 0 0 0 2px #fff, 0 0 0 4px var(--iminify-focus);
+
+	--iminify-radius-panel: 14px;
+	--iminify-radius-card: 12px;
+	--iminify-radius-control: 10px;
+	--iminify-radius-small: 8px;
+	--iminify-shadow-panel: 0 1px 2px rgb(16 24 40 / 4%), 0 6px 16px -8px rgb(16 24 40 / 10%);
+	--iminify-shadow-float: 0 2px 4px rgb(16 24 40 / 6%), 0 16px 32px -12px rgb(16 24 40 / 28%);
+
+	--iminify-track-wide: 0.07em;
+	--iminify-track-tight: -0.015em;
+
+	--iminify-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--iminify-fast: 0.14s;
+	--iminify-slow: 0.7s;
+
+	/* Core's form controls inside the screens take the sky accent. */
+	--wp-components-color-accent: var(--iminify-s700);
+	--wp-components-color-accent-darker-10: var(--iminify-s800);
+	--wp-components-color-accent-darker-20: #0c4a6e;
+	--wp-components-color-accent-inverted: #fff;
+}
+
+/**
+ * A screen's root: the tokens, and no letter spacing for the languages it
+ * harms (it pulls apart the joined letters of Arabic and Persian, and crowds
+ * the scripts that have no capitals).
+ */
+@mixin root {
+	@include tokens;
+
+	&:is(:lang(ar), :lang(fa), :lang(ur), :lang(ckb), :lang(he), :lang(hi), :lang(th), :lang(ja), :lang(zh), :lang(ko)) {
+		--iminify-track-wide: 0;
+		--iminify-track-tight: 0;
+	}
+}

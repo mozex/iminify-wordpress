@@ -40,11 +40,13 @@ test( 'Connect opens its tab before the server answers, and the page collects th
 	release();
 
 	await expect.poll( () => tab.url() ).toContain( 'https://www.iminify.com/connect/wordpress/' );
-	await expect( page.getByText( 'Waiting for your approval' ) ).toBeVisible();
+	await expect( page.getByRole( 'heading', { name: 'Waiting for your approval' } ) ).toBeVisible();
+	await expect( page.locator( '#iminify-conn' ) ).toHaveText( 'Waiting for your approval' );
 
 	seed( 'state', { approved: true } );
 
-	await expect( page.getByRole( 'heading', { name: 'Connected' } ) ).toBeVisible( { timeout: 30_000 } );
+	await expect( page.getByRole( 'heading', { name: 'Your account' } ) ).toBeVisible( { timeout: 30_000 } );
+	await expect( page.locator( '#iminify-conn' ) ).toHaveText( 'Connected' );
 	await expect( page.getByText( '3 used, 37 left' ) ).toBeVisible();
 } );
 
@@ -55,7 +57,7 @@ test( 'A site setting goes to the service, and the local ones stay on the site',
 	await page.getByLabel( 'Compression level' ).selectOption( 'ultra' );
 	await page.getByLabel( 'Also delete the backups' ).check();
 	await page.getByRole( 'button', { name: 'Save changes' } ).click();
-	await expect( page.locator( '.components-notice__content', { hasText: 'Settings saved.' } ) ).toBeVisible();
+	await expect( page.locator( '.iminify-toast', { hasText: 'Settings saved.' } ) ).toBeVisible();
 
 	const patch = seedJson( 'calls' ).filter( ( call ) => 'PATCH' === call.method );
 	expect( patch ).toHaveLength( 1 );

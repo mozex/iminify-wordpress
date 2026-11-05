@@ -1,35 +1,93 @@
+/**
+ * The media library's column and attachment panel, in the design system's
+ * look: a status chip, a meter of what optimizing saved, each size's figures,
+ * the buttons and the confirm. Everything sits under `.iminify-media`, which
+ * takes the tokens, since these styles also load wherever the media modal can
+ * open, the post editor included.
+ */
+@use "../ui/tokens";
+@use "../ui/parts";
+
 .iminify-media {
+	@include tokens.root;
+
+	color: var(--iminify-z800);
+
 	p {
 		margin: 0 0 4px;
 	}
 
 	.iminify-status {
-		font-weight: 600;
-	}
-
-	.iminify-status-optimized {
-		color: #007017;
-	}
-
-	.iminify-status-error {
-		color: #b32d2e;
+		margin-bottom: 6px;
 	}
 
 	.iminify-detail {
-		color: #50575e;
+		color: var(--iminify-z600);
+		line-height: 1.5;
 	}
 
 	.iminify-refusal {
-		color: #b32d2e;
+		margin-bottom: 8px;
+		padding: 8px 10px;
+		border-radius: var(--iminify-radius-small);
+		background: var(--iminify-danger-bg);
+		color: var(--iminify-danger-ink);
+		box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
 		font-weight: 600;
 	}
 
-	.iminify-actions-label {
-		margin-top: 8px;
+	.iminify-saving {
+		display: grid;
+		gap: 4px;
+		margin: 2px 0 6px;
+
+		.iminify-detail {
+			margin: 0;
+		}
 	}
 
-	.iminify-actions .button {
-		margin: 0 4px 4px 0;
+	.iminify-saving__bar {
+		display: block;
+		max-width: 180px;
+		height: 6px;
+		overflow: hidden;
+		border-radius: 999px;
+		background: var(--iminify-z100);
+
+		i {
+			display: block;
+			height: 100%;
+			border-radius: 999px;
+			background: linear-gradient(90deg, var(--iminify-s400), var(--iminify-s600));
+		}
+	}
+
+	.iminify-actions-label {
+		margin-top: 12px;
+		font-size: 11px;
+		font-weight: 650;
+		text-transform: uppercase;
+		letter-spacing: var(--iminify-track-wide, 0.07em);
+		color: var(--iminify-z500);
+	}
+
+	.iminify-actions {
+		gap: 6px;
+		margin: 4px 0 8px;
+	}
+
+	.iminify-btn.is-busy {
+		opacity: 0.6;
+		cursor: progress;
+	}
+
+	.iminify-confirm {
+		margin: 8px 0;
+		font-size: 13px;
+
+		.iminify-actions {
+			margin: 0;
+		}
 	}
 }
 
@@ -37,7 +95,7 @@
 .iminify-media .iminify-sizes {
 	border-collapse: collapse;
 	display: table;
-	margin: 8px 0;
+	margin: 10px 0;
 	width: 100%;
 
 	thead {
@@ -54,18 +112,52 @@
 
 	th,
 	td {
-		border-bottom: 1px solid #dcdcde;
+		border-bottom: 1px solid var(--iminify-z100);
 		display: table-cell;
 		font-size: 12px;
 		font-weight: 400;
 		overflow-wrap: anywhere;
-		padding: 4px 8px 4px 0;
+		padding: 6px 8px 6px 0;
+		padding-inline: 0 8px;
 		text-align: start;
 		vertical-align: top;
+		color: var(--iminify-z700);
 	}
 
 	thead th {
+		font-size: 11px;
+		font-weight: 650;
+		text-transform: uppercase;
+		letter-spacing: var(--iminify-track-wide, 0.07em);
+		color: var(--iminify-z500);
+	}
+
+	tbody th {
+		color: var(--iminify-z900);
 		font-weight: 600;
+
+		small {
+			color: var(--iminify-z500);
+			font-weight: 400;
+		}
+	}
+
+	tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+}
+
+/* A row action's confirm and refusal, under the row's actions. */
+.iminify-row-place {
+	max-width: 32em;
+
+	&:empty {
+		display: none;
+	}
+
+	.iminify-confirm,
+	.iminify-refusal {
+		margin: 8px 0 4px;
 	}
 }
 

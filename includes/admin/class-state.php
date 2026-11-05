@@ -172,23 +172,28 @@ class State {
 
 	/**
 	 * One of the day's counts: what was used and what is left, formatted, where a
-	 * missing number left means the plan sets no daily limit.
+	 * missing number left means the plan sets no daily limit, and the share of
+	 * the day used, which the page draws as a meter.
 	 *
 	 * @param string $key   The count's name.
 	 * @param string $label What the page calls it.
 	 * @param mixed  $count The record's count.
-	 * @return array{key: string, label: string, used: string, remaining: string|null}|null
+	 * @return array{key: string, label: string, used: string, remaining: string|null, share: float|null}|null
 	 */
 	protected static function usage( string $key, string $label, $count ): ?array {
 		if ( ! is_array( $count ) || ! isset( $count['used'] ) || ! is_numeric( $count['used'] ) ) {
 			return null;
 		}
 
+		$used      = max( 0, (int) $count['used'] );
+		$remaining = isset( $count['remaining'] ) && is_numeric( $count['remaining'] ) ? max( 0, (int) $count['remaining'] ) : null;
+
 		return array(
 			'key'       => $key,
 			'label'     => $label,
-			'used'      => number_format_i18n( (int) $count['used'] ),
-			'remaining' => isset( $count['remaining'] ) && is_numeric( $count['remaining'] ) ? number_format_i18n( (int) $count['remaining'] ) : null,
+			'used'      => number_format_i18n( $used ),
+			'remaining' => null === $remaining ? null : number_format_i18n( $remaining ),
+			'share'     => null === $remaining ? null : ( 0 === $used + $remaining ? 1.0 : round( $used / ( $used + $remaining ), 3 ) ),
 		);
 	}
 

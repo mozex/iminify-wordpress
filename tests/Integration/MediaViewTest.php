@@ -112,6 +112,11 @@ class MediaViewTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Delete the WebP and AVIF copies', $panel );
 		$this->assertStringContainsString( 'data-iminify-level="ultra"', $panel );
 		$this->assertStringNotContainsString( 'data-iminify-level="none"', $panel );
+		$this->assertStringContainsString( 'iminify-chip--success', $cell );
+		$this->assertStringContainsString( 'iminify-saving__bar', $cell );
+		/* A level button on an optimized image asks first, and its confirm goes ahead as "Optimize again", not as the level's name. */
+		$this->assertMatchesRegularExpression( '/data-iminify-yes="Optimize again" data-iminify-level="ultra"/', $panel );
+		$this->assertStringContainsString( 'data-iminify-yes="Delete the copies"', $panel );
 
 		/* The service's copies came out heavier: saying "saved 0%" would read as a failure. */
 		Records::update(

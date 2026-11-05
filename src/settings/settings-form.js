@@ -1,12 +1,9 @@
 /**
  * The settings: the site's, kept and checked on iminify.com while the site
  * is connected, and the ones kept here, which work without a connection.
+ * Core's form controls, set in the design system's panels.
  */
 import {
-	Button,
-	Card,
-	CardBody,
-	CardHeader,
 	CheckboxControl,
 	SelectControl,
 	TextControl,
@@ -14,6 +11,8 @@ import {
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+
+import { Button, Panel, PanelTitle } from '../ui';
 
 /**
  * A number field's value as the service takes it: a whole number, or null when empty.
@@ -31,6 +30,50 @@ function whole( value ) {
 	return /^\d+$/.test( text ) ? Number( text ) : text;
 }
 
+/**
+ * The site's settings as the form holds them, with the number fields as text.
+ *
+ * @param {Object} settings The settings Iminify answered.
+ * @return {Object} The form's values.
+ */
+function fromSite( settings ) {
+	const text = ( value ) =>
+		null === value || undefined === value ? '' : String( value );
+
+	return {
+		...settings,
+		max_width: text( settings.max_width ),
+		size_limit: text( settings.size_limit ),
+	};
+}
+
+/**
+ * What the form sends: the local settings, and the site's while it is connected.
+ *
+ * @param {boolean} connected Whether the site is connected.
+ * @param {Object}  site      The site's settings in the form.
+ * @param {Object}  local     The local settings in the form.
+ * @return {Object} The changes.
+ */
+function changesOf( connected, site, local ) {
+	const changes = { local };
+
+	if ( connected ) {
+		changes.site = {
+			optimize_on_upload: site.optimize_on_upload,
+			level: site.level,
+			webp: site.webp,
+			avif: site.avif,
+			max_width: whole( site.max_width ),
+			size_limit: whole( site.size_limit ),
+			keep_metadata: site.keep_metadata,
+			sizes: site.sizes ?? null,
+		};
+	}
+
+	return changes;
+}
+
 function FieldError( { errors, name } ) {
 	return errors[ name ] ? (
 		<span className="iminify-field-error">{ errors[ name ] }</span>
@@ -39,89 +82,70 @@ function FieldError( { errors, name } ) {
 
 export default function SettingsForm( { state, busy, errors, onSave } ) {
 	const connected = 'connected' === state.connection;
-	const initial = state.site?.settings ?? {};
-	const [ site, setSite ] = useState( {
-		...initial,
-		max_width:
-			null === initial.max_width || undefined === initial.max_width
-				? ''
-				: String( initial.max_width ),
-		size_limit:
-			null === initial.size_limit || undefined === initial.size_limit
-				? ''
-				: String( initial.size_limit ),
-	} );
+	const [ site, setSite ] = useState( () =>
+		fromSite( state.site?.settings ?? {} )
+	);
 	const [ local, setLocal ] = useState( state.local );
 	const allSizes = state.sizes.map( ( size ) => size.name );
 	const chosen = Array.isArray( site.sizes ) ? site.sizes : allSizes;
+	/* What the server holds now: the form has changes once it differs. */
+	const changed =
+		JSON.stringify( changesOf( connected, site, local ) ) !==
+		JSON.stringify(
+			changesOf(
+				connected,
+				fromSite( state.site?.settings ?? {} ),
+				state.local
+			)
+		);
 
 	const change = ( name ) => ( value ) =>
 		setSite( ( current ) => ( { ...current, [ name ]: value } ) );
 
 	const save = ( event ) => {
 		event.preventDefault();
-
-		const changes = { local };
-
-		if ( connected ) {
-			changes.site = {
-				optimize_on_upload: site.optimize_on_upload,
-				level: site.level,
-				webp: site.webp,
-				avif: site.avif,
-				max_width: whole( site.max_width ),
-				size_limit: whole( site.size_limit ),
-				keep_metadata: site.keep_metadata,
-				sizes: site.sizes ?? null,
-			};
-		}
-
-		onSave( changes );
+		onSave( changesOf( connected, site, local ) );
 	};
 
 	return (
-		<form onSubmit={ save }>
+		<form onSubmit={ save } className="iminify-col">
 			{ connected && (
-				<Card className="iminify-card">
-					<CardHeader>
-						<h2>
-							{ __( 'Optimization', 'iminify-image-optimizer' ) }
-						</h2>
-					</CardHeader>
-					<CardBody>
-						<p className="description">
-							{ __(
-								'These settings are kept with the site on iminify.com, which applies them to every image the site sends.',
-								'iminify-image-optimizer'
-							) }
-						</p>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __(
-								'Optimize new uploads',
-								'iminify-image-optimizer'
-							) }
-							help={ __(
-								'Send each image to Iminify as it is uploaded.',
-								'iminify-image-optimizer'
-							) }
-							checked={ Boolean( site.optimize_on_upload ) }
-							onChange={ change( 'optimize_on_upload' ) }
-						/>
-						<SelectControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __(
-								'Compression level',
-								'iminify-image-optimizer'
-							) }
-							value={ site.level }
-							options={ state.levels }
-							onChange={ change( 'level' ) }
-							help={
-								<FieldError errors={ errors } name="level" />
-							}
-						/>
+				<Panel>
+					<PanelTitle icon="sliders">
+						{ __( 'Optimization', 'iminify-image-optimizer' ) }
+					</PanelTitle>
+					<p className="iminify-lead">
+						{ __(
+							'These settings are kept with the site on iminify.com, which applies them to every image the site sends.',
+							'iminify-image-optimizer'
+						) }
+					</p>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Optimize new uploads',
+							'iminify-image-optimizer'
+						) }
+						help={ __(
+							'Send each image to Iminify as it is uploaded.',
+							'iminify-image-optimizer'
+						) }
+						checked={ Boolean( site.optimize_on_upload ) }
+						onChange={ change( 'optimize_on_upload' ) }
+					/>
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __(
+							'Compression level',
+							'iminify-image-optimizer'
+						) }
+						value={ site.level }
+						options={ state.levels }
+						onChange={ change( 'level' ) }
+						help={ <FieldError errors={ errors } name="level" /> }
+					/>
+					<div className="iminify-pair">
 						<ToggleControl
 							__nextHasNoMarginBottom
 							label={ __(
@@ -148,6 +172,8 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 							checked={ Boolean( site.avif ) }
 							onChange={ change( 'avif' ) }
 						/>
+					</div>
+					<div className="iminify-pair">
 						<TextControl
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
@@ -164,7 +190,7 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 									{ __(
 										"Shrinks a wider main image to this width. Leave it empty to keep each image's width.",
 										'iminify-image-optimizer'
-									) }{ ' ' }
+									) }
 									<FieldError
 										errors={ errors }
 										name="max_width"
@@ -188,7 +214,7 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 									{ __(
 										'Fits the main image under this size. Leave it empty for no limit.',
 										'iminify-image-optimizer'
-									) }{ ' ' }
+									) }
 									<FieldError
 										errors={ errors }
 										name="size_limit"
@@ -196,42 +222,50 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 								</>
 							}
 						/>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __(
-								'Keep metadata',
-								'iminify-image-optimizer'
-							) }
-							help={ __(
-								"Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it.",
-								'iminify-image-optimizer'
-							) }
-							checked={ Boolean( site.keep_metadata ) }
-							onChange={ change( 'keep_metadata' ) }
-						/>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __(
-								'Optimize every size',
-								'iminify-image-optimizer'
-							) }
-							help={ __(
-								'Every size WordPress makes of an upload. Turn it off to pick the sizes.',
-								'iminify-image-optimizer'
-							) }
-							checked={ ! Array.isArray( site.sizes ) }
-							onChange={ ( every ) =>
-								change( 'sizes' )( every ? null : allSizes )
-							}
-						/>
-						{ Array.isArray( site.sizes ) && (
-							<fieldset className="iminify-sizes">
-								<legend>
-									{ __(
-										'Sizes to optimize',
-										'iminify-image-optimizer'
-									) }
-								</legend>
+					</div>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Keep metadata',
+							'iminify-image-optimizer'
+						) }
+						help={ __(
+							"Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it.",
+							'iminify-image-optimizer'
+						) }
+						checked={ Boolean( site.keep_metadata ) }
+						onChange={ change( 'keep_metadata' ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Optimize every size',
+							'iminify-image-optimizer'
+						) }
+						help={ __(
+							'Every size WordPress makes of an upload. Turn it off to pick the sizes.',
+							'iminify-image-optimizer'
+						) }
+						checked={ ! Array.isArray( site.sizes ) }
+						onChange={ ( every ) =>
+							change( 'sizes' )( every ? null : allSizes )
+						}
+					/>
+					{ Array.isArray( site.sizes ) && (
+						<fieldset className="iminify-fieldset iminify-box">
+							<legend className="iminify-sr">
+								{ __(
+									'Sizes to optimize',
+									'iminify-image-optimizer'
+								) }
+							</legend>
+							<span className="iminify-label" aria-hidden="true">
+								{ __(
+									'Sizes to optimize',
+									'iminify-image-optimizer'
+								) }
+							</span>
+							<div className="iminify-pair iminify-checks">
 								{ state.sizes.map( ( size ) => (
 									<CheckboxControl
 										__nextHasNoMarginBottom
@@ -251,115 +285,123 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 										}
 									/>
 								) ) }
-								<FieldError errors={ errors } name="sizes" />
-							</fieldset>
-						) }
-					</CardBody>
-				</Card>
+							</div>
+							<FieldError errors={ errors } name="sizes" />
+						</fieldset>
+					) }
+				</Panel>
 			) }
 
-			<Card className="iminify-card">
-				<CardHeader>
-					<h2>{ __( 'On this site', 'iminify-image-optimizer' ) }</h2>
-				</CardHeader>
-				<CardBody>
-					<ToggleControl
+			<Panel>
+				<PanelTitle icon="server">
+					{ __( 'On this site', 'iminify-image-optimizer' ) }
+				</PanelTitle>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ __(
+						'Keep a backup of each original',
+						'iminify-image-optimizer'
+					) }
+					help={ __(
+						'Kept in the uploads folder under iminify-backup, so any image can be restored as it was.',
+						'iminify-image-optimizer'
+					) }
+					checked={ Boolean( local.backups ) }
+					onChange={ ( backups ) =>
+						setLocal( { ...local, backups } )
+					}
+				/>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ __(
+						'WebP and AVIF on your pages',
+						'iminify-image-optimizer'
+					) }
+					value={ local.delivery }
+					options={ [
+						{
+							value: 'picture',
+							label: __(
+								'Serve them with picture tags',
+								'iminify-image-optimizer'
+							),
+						},
+						{
+							value: 'off',
+							label: __(
+								"Don't change the pages",
+								'iminify-image-optimizer'
+							),
+						},
+					].filter( ( option ) =>
+						state.deliveries.includes( option.value )
+					) }
+					onChange={ ( delivery ) =>
+						setLocal( { ...local, delivery } )
+					}
+				/>
+				<fieldset className="iminify-fieldset iminify-box">
+					<legend className="iminify-sr">
+						{ __(
+							'When you delete the plugin',
+							'iminify-image-optimizer'
+						) }
+					</legend>
+					<span className="iminify-label" aria-hidden="true">
+						{ __(
+							'When you delete the plugin',
+							'iminify-image-optimizer'
+						) }
+					</span>
+					<CheckboxControl
 						__nextHasNoMarginBottom
 						label={ __(
-							'Keep a backup of each original',
+							'Also delete the WebP and AVIF copies',
 							'iminify-image-optimizer'
 						) }
 						help={ __(
-							'Kept in the uploads folder under iminify-backup, so any image can be restored as it was.',
+							'A page your cache kept with picture tags would show a broken image until the cache is cleared.',
 							'iminify-image-optimizer'
 						) }
-						checked={ Boolean( local.backups ) }
-						onChange={ ( backups ) =>
-							setLocal( { ...local, backups } )
+						checked={ Boolean( local.uninstall_copies ) }
+						onChange={ ( on ) =>
+							setLocal( { ...local, uninstall_copies: on } )
 						}
 					/>
-					<SelectControl
-						__next40pxDefaultSize
+					<CheckboxControl
 						__nextHasNoMarginBottom
 						label={ __(
-							'WebP and AVIF on your pages',
+							'Also delete the backups',
 							'iminify-image-optimizer'
 						) }
-						value={ local.delivery }
-						options={ [
-							{
-								value: 'picture',
-								label: __(
-									'Serve them with picture tags',
-									'iminify-image-optimizer'
-								),
-							},
-							{
-								value: 'off',
-								label: __(
-									"Don't change the pages",
-									'iminify-image-optimizer'
-								),
-							},
-						].filter( ( option ) =>
-							state.deliveries.includes( option.value )
+						help={ __(
+							"They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time.",
+							'iminify-image-optimizer'
 						) }
-						onChange={ ( delivery ) =>
-							setLocal( { ...local, delivery } )
+						checked={ Boolean( local.uninstall_backups ) }
+						onChange={ ( on ) =>
+							setLocal( { ...local, uninstall_backups: on } )
 						}
 					/>
-					<fieldset className="iminify-sizes iminify-uninstall">
-						<legend>
-							{ __(
-								'When you delete the plugin',
-								'iminify-image-optimizer'
-							) }
-						</legend>
-						<CheckboxControl
-							__nextHasNoMarginBottom
-							label={ __(
-								'Also delete the WebP and AVIF copies',
-								'iminify-image-optimizer'
-							) }
-							help={ __(
-								'A page your cache kept with picture tags would show a broken image until the cache is cleared.',
-								'iminify-image-optimizer'
-							) }
-							checked={ Boolean( local.uninstall_copies ) }
-							onChange={ ( on ) =>
-								setLocal( { ...local, uninstall_copies: on } )
-							}
-						/>
-						<CheckboxControl
-							__nextHasNoMarginBottom
-							label={ __(
-								'Also delete the backups',
-								'iminify-image-optimizer'
-							) }
-							help={ __(
-								"They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time.",
-								'iminify-image-optimizer'
-							) }
-							checked={ Boolean( local.uninstall_backups ) }
-							onChange={ ( on ) =>
-								setLocal( { ...local, uninstall_backups: on } )
-							}
-						/>
-					</fieldset>
-				</CardBody>
-			</Card>
+				</fieldset>
+			</Panel>
 
-			<p>
+			<div className="iminify-savebar">
 				<Button
 					type="submit"
 					variant="primary"
-					__next40pxDefaultSize
-					isBusy={ busy }
+					busy={ busy }
 					disabled={ busy }
 				>
 					{ __( 'Save changes', 'iminify-image-optimizer' ) }
 				</Button>
-			</p>
+				{ changed && (
+					<span className="iminify-savebar__note" role="status">
+						{ __( 'Unsaved changes', 'iminify-image-optimizer' ) }
+					</span>
+				) }
+			</div>
 		</form>
 	);
 }

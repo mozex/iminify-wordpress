@@ -273,6 +273,7 @@ class Media_View {
 		if ( Settings_Page::enqueue_entry( self::HANDLE, 'media' ) && is_readable( IMINIFY_DIR . '/assets/build/media.css' ) ) {
 			wp_enqueue_style( self::HANDLE, plugins_url( 'assets/build/media.css', IMINIFY_FILE ), array(), IMINIFY_VERSION );
 			wp_style_add_data( self::HANDLE, 'rtl', 'replace' );
+			Scheme::attach( self::HANDLE );
 		}
 	}
 
@@ -370,7 +371,13 @@ class Media_View {
 	 */
 	protected static function summary( int $attachment ): string {
 		$record = Records::get( $attachment );
-		$html   = sprintf( '<p class="iminify-status iminify-status-%s">%s</p>', esc_attr( $record['status'] ?? 'none' ), esc_html( self::status_label( $record['status'] ) ) );
+		$html   = sprintf(
+			'<p class="iminify-status iminify-status-%1$s"><span class="iminify-chip iminify-chip--%2$s%3$s"><span class="iminify-chip__dot" aria-hidden="true"></span>%4$s</span></p>',
+			esc_attr( $record['status'] ?? 'none' ),
+			esc_attr( self::status_tone( $record['status'] ) ),
+			self::is_busy( $attachment ) ? ' iminify-chip--moving' : '',
+			esc_html( self::status_label( $record['status'] ) )
+		);
 		$detail = self::status_detail( $record );
 
 		if ( '' !== $detail ) {
@@ -383,17 +390,24 @@ class Media_View {
 
 		$saved = self::saved( $record['result'] );
 
-		$html .= '<p class="iminify-detail">' . esc_html(
-			$saved['before'] > $saved['after']
-				? sprintf(
-					/* translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers. */
-					_n( 'Saved %1$s (%2$s) across %3$s file.', 'Saved %1$s (%2$s) across %3$s files.', $saved['files'], 'iminify-image-optimizer' ),
-					(string) round( 100 * ( $saved['before'] - $saved['after'] ) / $saved['before'] ) . '%',
-					(string) size_format( $saved['before'] - $saved['after'], 1 ),
-					number_format_i18n( $saved['files'] )
+		if ( $saved['before'] > $saved['after'] ) {
+			$percent = (int) round( 100 * ( $saved['before'] - $saved['after'] ) / $saved['before'] );
+			$html   .= sprintf(
+				'<div class="iminify-saving"><span class="iminify-saving__bar" aria-hidden="true"><i style="width: %1$d%%"></i></span><p class="iminify-detail">%2$s</p></div>',
+				max( 2, min( 100, $percent ) ),
+				esc_html(
+					sprintf(
+						/* translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers. */
+						_n( 'Saved %1$s (%2$s) across %3$s file.', 'Saved %1$s (%2$s) across %3$s files.', $saved['files'], 'iminify-image-optimizer' ),
+						$percent . '%',
+						(string) size_format( $saved['before'] - $saved['after'], 1 ),
+						number_format_i18n( $saved['files'] )
+					)
 				)
-				: __( 'The originals were already smaller, so they were kept.', 'iminify-image-optimizer' )
-		) . '</p>';
+			);
+		} else {
+			$html .= '<p class="iminify-detail">' . esc_html__( 'The originals were already smaller, so they were kept.', 'iminify-image-optimizer' ) . '</p>';
+		}
 
 		$formats = self::copies_label( $record );
 
@@ -443,6 +457,29 @@ class Media_View {
 				return __( 'Error', 'iminify-image-optimizer' );
 			default:
 				return __( 'Not optimized', 'iminify-image-optimizer' );
+		}
+	}
+
+	/**
+	 * The colour of a status's chip.
+	 *
+	 * @param string|null $status The record's status.
+	 */
+	protected static function status_tone( ?string $status ): string {
+		switch ( $status ) {
+			case Records::OPTIMIZED:
+				return 'success';
+			case Records::QUEUED:
+			case Records::WAITING:
+				return 'accent';
+			case Records::PAUSED:
+				return 'info';
+			case Records::PARKED:
+				return 'warning';
+			case Records::ERROR:
+				return 'danger';
+			default:
+				return 'neutral';
 		}
 	}
 
@@ -577,11 +614,11 @@ class Media_View {
 		} elseif ( Restorer::NO_ORIGINAL === $available ) {
 			$html .= '<p class="iminify-detail">' . esc_html__( 'No original of this image was kept, so it can\'t be optimized again or restored.', 'iminify-image-optimizer' ) . '</p>';
 		} else {
-			$html .= '<p class="iminify-actions-label">' . esc_html( $optimized ? __( 'Optimize again at', 'iminify-image-optimizer' ) : __( 'Optimize at', 'iminify-image-optimizer' ) ) . '</p><p class="iminify-actions">';
+			$html .= '<p class="iminify-actions-label">' . esc_html( $optimized ? __( 'Optimize again at', 'iminify-image-optimizer' ) : __( 'Optimize at', 'iminify-image-optimizer' ) ) . '</p><p class="iminify-actions iminify-levels">';
 
 			foreach ( Messages::levels() as $level => $about ) {
 				if ( 'none' !== $level ) {
-					$html .= self::button( $attachment, 'optimize', $about['name'], $optimized ? self::again_warning() : '', $level );
+					$html .= self::button( $attachment, 'optimize', $about['name'], $optimized ? self::again_warning() : '', $level, $optimized ? __( 'Optimize again', 'iminify-image-optimizer' ) : '' );
 				}
 			}
 
@@ -597,27 +634,31 @@ class Media_View {
 		}
 
 		if ( array() !== Copies::own( $record['copies'] ) ) {
-			$local .= self::button( $attachment, 'copies', __( 'Delete the WebP and AVIF copies', 'iminify-image-optimizer' ), __( 'Delete this image\'s WebP and AVIF copies? Its pages go back to serving the JPEG or PNG.', 'iminify-image-optimizer' ) );
+			$local .= self::button( $attachment, 'copies', __( 'Delete the WebP and AVIF copies', 'iminify-image-optimizer' ), __( 'Delete this image\'s WebP and AVIF copies? Its pages go back to serving the JPEG or PNG.', 'iminify-image-optimizer' ), '', __( 'Delete the copies', 'iminify-image-optimizer' ), true );
 		}
 
 		return '' === $local ? $html : $html . '<p class="iminify-actions">' . $local . '</p>';
 	}
 
 	/**
-	 * A panel button.
+	 * A panel button, in the design system's look.
 	 *
 	 * @param int    $attachment The attachment's id.
 	 * @param string $action     What it asks for.
 	 * @param string $label      Its words.
 	 * @param string $confirm    What to ask first, if anything.
 	 * @param string $level      The level it asks for, if any.
+	 * @param string $yes        The words of the button that goes ahead once asked, its own words when empty.
+	 * @param bool   $danger     Whether it deletes something.
 	 */
-	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '' ): string {
+	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '', string $yes = '', bool $danger = false ): string {
 		return sprintf(
-			'<button type="button" class="button button-small" data-iminify-action="%s" data-iminify-attachment="%d" data-iminify-confirm="%s" data-iminify-level="%s">%s</button> ',
+			'<button type="button" class="iminify-btn iminify-btn--small %1$s" data-iminify-action="%2$s" data-iminify-attachment="%3$d" data-iminify-confirm="%4$s" data-iminify-yes="%5$s" data-iminify-level="%6$s">%7$s</button> ',
+			$danger ? 'iminify-btn--ghost iminify-btn--danger' : 'iminify-btn--secondary',
 			esc_attr( $action ),
 			$attachment,
 			esc_attr( $confirm ),
+			esc_attr( '' === $yes ? $label : $yes ),
 			esc_attr( $level ),
 			esc_html( $label )
 		);
@@ -633,10 +674,11 @@ class Media_View {
 	 */
 	protected static function row_action( int $attachment, string $action, string $label, string $confirm ): string {
 		return sprintf(
-			'<button type="button" class="button-link" data-iminify-action="%s" data-iminify-attachment="%d" data-iminify-confirm="%s" data-iminify-reload="1">%s</button>',
+			'<button type="button" class="button-link" data-iminify-action="%1$s" data-iminify-attachment="%2$d" data-iminify-confirm="%3$s" data-iminify-yes="%4$s" data-iminify-reload="1">%5$s</button>',
 			esc_attr( $action ),
 			$attachment,
 			esc_attr( $confirm ),
+			esc_attr( $label ),
 			esc_html( $label )
 		);
 	}

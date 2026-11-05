@@ -69,24 +69,29 @@ class Notice {
 		}
 
 		printf(
-			'<div id="iminify-notice" class="notice notice-%1$s is-dismissible" data-notice="%2$s"><p>%3$s <a href="%4$s">%5$s</a></p></div>',
+			'<div id="iminify-notice" class="notice notice-%1$s is-dismissible iminify-notice" data-notice="%2$s"><img class="iminify-notice__mark" src="%6$s" alt="" width="28" height="28"><p class="iminify-notice__text">%3$s</p><p class="iminify-notice__action"><a href="%4$s">%5$s</a></p></div>',
 			esc_attr( $notice['type'] ),
 			esc_attr( $notice['key'] ),
 			esc_html( $notice['text'] ),
 			esc_url( Settings_Page::url() ),
-			esc_html( $notice['action'] )
+			esc_html( $notice['action'] ),
+			esc_url( plugins_url( 'assets/images/mark.svg', IMINIFY_FILE ) )
 		);
 	}
 
 	/**
-	 * Loads the script that remembers a dismissal, on screens that show the notice.
+	 * Loads the script that remembers a dismissal, and the notice's styles, on screens that show it.
 	 */
 	public static function enqueue(): void {
 		if ( null === self::current() ) {
 			return;
 		}
 
-		Settings_Page::enqueue_entry( self::HANDLE, 'notice' );
+		if ( Settings_Page::enqueue_entry( self::HANDLE, 'notice' ) && is_readable( IMINIFY_DIR . '/assets/build/notice.css' ) ) {
+			wp_enqueue_style( self::HANDLE, plugins_url( 'assets/build/notice.css', IMINIFY_FILE ), array(), IMINIFY_VERSION );
+			wp_style_add_data( self::HANDLE, 'rtl', 'replace' );
+			Scheme::attach( self::HANDLE );
+		}
 	}
 
 	/**

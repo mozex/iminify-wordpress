@@ -1,0 +1,73 @@
+/**
+ * The plugin's one notice outside its own pages, in the design system's look
+ * while keeping core's notice classes, which core's script gives its dismiss
+ * button.
+ */
+@use "ui/tokens";
+
+.notice.iminify-notice {
+	@include tokens.root;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 14px;
+	padding-block: 12px;
+	border-inline-start-color: var(--iminify-s600);
+
+	&.notice-warning {
+		border-inline-start-color: #f59e0b;
+	}
+
+	&.notice-error {
+		border-inline-start-color: var(--iminify-danger-dot);
+	}
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.iminify-notice__mark {
+	display: block;
+	flex: none;
+}
+
+.iminify-notice__text {
+	flex: 1 1 260px;
+	color: var(--iminify-z800);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+/* Core's admin colour schemes colour and underline every link in a notice, so this names the notice too. */
+.notice.iminify-notice .iminify-notice__action a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 32px;
+	padding: 0 12px;
+	border-radius: var(--iminify-radius-small);
+	background: var(--iminify-s700);
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color var(--iminify-fast);
+
+	&:hover,
+	&:focus {
+		background: var(--iminify-s800);
+		color: #fff;
+	}
+
+	&:focus {
+		outline: 2px solid transparent;
+		box-shadow: var(--iminify-ring-focus);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.notice.iminify-notice .iminify-notice__action a {
+		transition: none;
+	}
+}

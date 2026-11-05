@@ -29,19 +29,42 @@ test( 'The column and the filter show an optimized image', async ( { page } ) =>
 	await expect( page.locator( `#post-${ id } .row-actions` ) ).toContainText( 'Restore original' );
 } );
 
-test( 'The panel deletes the copies, then restores the original', async ( { page } ) => {
+test( 'On a phone, a row action asks under the row, where the Iminify column is hidden, and goes ahead', async ( { page } ) => {
 	const { id } = seedJson( 'optimized' );
-	page.on( 'dialog', ( dialog ) => dialog.accept() );
+
+	await page.setViewportSize( { width: 390, height: 844 } );
+	await page.goto( '/wp-admin/upload.php?mode=list' );
+	const row = page.locator( `#post-${ id }` );
+	await expect( row.locator( 'td.column-iminify' ) ).toBeHidden();
+
+	/* Core shows a row's actions on hover, or always on a touch screen. */
+	await row.hover();
+	await row.getByRole( 'button', { name: 'Restore original' } ).click();
+	const confirm = row.locator( '.iminify-row-place .iminify-confirm' );
+	await expect( confirm ).toBeVisible();
+	await expect( confirm.getByRole( 'button', { name: 'Cancel' } ) ).toBeFocused();
+	expect( seedJson( 'record', { id } ).status ).toBe( 'optimized' );
+
+	await confirm.getByRole( 'button', { name: 'Restore original' } ).click();
+	await expect.poll( () => seedJson( 'record', { id } ).status, { timeout: 20_000 } ).toBe( 'not_optimized' );
+} );
+
+test( 'The panel deletes the copies, then restores the original, each asked in the panel first', async ( { page } ) => {
+	const { id } = seedJson( 'optimized' );
 
 	await page.goto( `/wp-admin/post.php?post=${ id }&action=edit` );
 	const panel = page.locator( '.iminify-media[data-iminify-view="panel"]' );
+	const confirm = panel.locator( '.iminify-confirm' );
 	await expect( panel ).toContainText( 'Copies: WebP' );
 
 	await panel.getByRole( 'button', { name: 'Delete the WebP and AVIF copies' } ).click();
+	await expect( confirm ).toContainText( "Delete this image's WebP and AVIF copies?" );
+	await confirm.getByRole( 'button', { name: 'Delete the copies' } ).click();
 	await expect( panel ).not.toContainText( 'Copies: WebP' );
 	expect( seedJson( 'record', { id } ).copies ).toEqual( [] );
 
 	await panel.getByRole( 'button', { name: 'Restore original' } ).click();
+	await confirm.getByRole( 'button', { name: 'Restore original' } ).click();
 	await expect( panel ).toContainText( 'Not optimized' );
 	expect( seedJson( 'record', { id } ).status ).toBe( 'not_optimized' );
 } );
@@ -52,6 +75,6 @@ test( 'Start now sends the images waiting for the next batch', async ( { page } 
 
 	await page.goto( settingsPage );
 	await page.getByRole( 'button', { name: 'Start now' } ).click();
-	await expect( page.locator( '.components-notice__content', { hasText: 'The images waiting are on their way.' } ) ).toBeVisible();
+	await expect( page.locator( '.iminify-toast', { hasText: 'The images waiting are on their way.' } ) ).toBeVisible();
 	expect( seedJson( 'record', { id } ).status ).toBe( 'queued' );
 } );

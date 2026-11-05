@@ -78,6 +78,7 @@ class Settings_Page {
 		if ( self::enqueue_entry( self::HANDLE, 'settings' ) && is_readable( IMINIFY_DIR . '/assets/build/settings.css' ) ) {
 			wp_enqueue_style( self::HANDLE, plugins_url( 'assets/build/settings.css', IMINIFY_FILE ), array( 'wp-components' ), IMINIFY_VERSION );
 			wp_style_add_data( self::HANDLE, 'rtl', 'replace' );
+			Scheme::attach( self::HANDLE );
 		}
 	}
 
@@ -105,15 +106,15 @@ class Settings_Page {
 	 * Prints the page's frame, which the script fills.
 	 */
 	public static function render(): void {
-		echo '<div class="wrap"><h1>' . esc_html__( 'Iminify Image Optimizer', 'iminify-image-optimizer' ) . '</h1>';
+		Page_Header::open( __( 'Iminify Image Optimizer', 'iminify-image-optimizer' ), __( 'Connect this site and choose how its images are optimized.', 'iminify-image-optimizer' ) );
 
 		if ( null === self::asset( 'settings' ) ) {
 			echo '<div class="notice notice-error"><p>' . esc_html__( 'The settings page\'s script is missing from the plugin\'s folder. Reinstall the plugin to bring it back.', 'iminify-image-optimizer' ) . '</p></div>';
 		} else {
-			echo '<div id="iminify-settings"></div><noscript><p>' . esc_html__( 'The settings page needs JavaScript.', 'iminify-image-optimizer' ) . '</p></noscript>';
+			echo '<div id="iminify-settings" class="iminify-app"></div><noscript><p>' . esc_html__( 'The settings page needs JavaScript.', 'iminify-image-optimizer' ) . '</p></noscript>';
 		}
 
-		echo '</div>';
+		Page_Header::close();
 	}
 
 	/**

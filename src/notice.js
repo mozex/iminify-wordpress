@@ -5,6 +5,8 @@
 import apiFetch from '@wordpress/api-fetch';
 import domReady from '@wordpress/dom-ready';
 
+import './notice.scss';
+
 domReady( () => {
 	const notice = document.getElementById( 'iminify-notice' );
 

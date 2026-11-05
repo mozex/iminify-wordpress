@@ -62,8 +62,9 @@ class Bulk_Page {
 		}
 
 		if ( Settings_Page::enqueue_entry( self::HANDLE, 'bulk' ) && is_readable( IMINIFY_DIR . '/assets/build/bulk.css' ) ) {
-			wp_enqueue_style( self::HANDLE, plugins_url( 'assets/build/bulk.css', IMINIFY_FILE ), array( 'wp-components' ), IMINIFY_VERSION );
+			wp_enqueue_style( self::HANDLE, plugins_url( 'assets/build/bulk.css', IMINIFY_FILE ), array(), IMINIFY_VERSION );
 			wp_style_add_data( self::HANDLE, 'rtl', 'replace' );
+			Scheme::attach( self::HANDLE );
 		}
 	}
 
@@ -71,14 +72,14 @@ class Bulk_Page {
 	 * Prints the page's frame, which the script fills.
 	 */
 	public static function render(): void {
-		echo '<div class="wrap"><h1>' . esc_html__( 'Bulk Optimization', 'iminify-image-optimizer' ) . '</h1>';
+		Page_Header::open( __( 'Bulk Optimization', 'iminify-image-optimizer' ), __( 'Every image already in your media library, in one run.', 'iminify-image-optimizer' ) );
 
 		if ( ! is_readable( IMINIFY_DIR . '/assets/build/bulk.asset.php' ) ) {
 			echo '<div class="notice notice-error"><p>' . esc_html__( 'The bulk page\'s script is missing from the plugin\'s folder. Reinstall the plugin to bring it back.', 'iminify-image-optimizer' ) . '</p></div>';
 		} else {
-			echo '<div id="iminify-bulk"></div><noscript><p>' . esc_html__( 'The bulk page needs JavaScript.', 'iminify-image-optimizer' ) . '</p></noscript>';
+			echo '<div id="iminify-bulk" class="iminify-app"></div><noscript><p>' . esc_html__( 'The bulk page needs JavaScript.', 'iminify-image-optimizer' ) . '</p></noscript>';
 		}
 
-		echo '</div>';
+		Page_Header::close();
 	}
 }
