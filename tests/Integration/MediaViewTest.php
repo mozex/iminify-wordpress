@@ -108,7 +108,7 @@ class MediaViewTest extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'Level: Smart', $panel );
 		$this->assertStringContainsString( 'Full size', $panel );
-		$this->assertStringContainsString( '640 × 480', $panel );
+		$this->assertStringContainsString( '<small dir="ltr">640 × 480</small>', $panel );
 		$this->assertStringContainsString( 'Delete the WebP and AVIF copies', $panel );
 		$this->assertStringContainsString( 'data-iminify-level="ultra"', $panel );
 		$this->assertStringNotContainsString( 'data-iminify-level="none"', $panel );

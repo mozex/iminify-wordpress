@@ -582,7 +582,7 @@ class Media_View {
 
 		foreach ( $outputs as $name => $output ) {
 			$html .= sprintf(
-				'<tr><th scope="row">%s<br><small>%s</small></th><td>%s</td><td>%s</td><td>%s</td></tr>',
+				'<tr><th scope="row">%s<br><small dir="ltr">%s</small></th><td>%s</td><td>%s</td><td>%s</td></tr>',
 				esc_html( Declaration::MAIN === $name ? __( 'Full size', 'iminify-image-optimizer' ) : (string) $name ),
 				esc_html( (int) $output['width'] . ' × ' . (int) $output['height'] ),
 				esc_html( (string) size_format( (int) $output['before'], 1 ) ),
