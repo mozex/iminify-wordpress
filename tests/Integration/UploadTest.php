@@ -99,7 +99,11 @@ class UploadTest extends WP_UnitTestCase {
 	public function test_where_it_cant_stream_the_largest_source_is_what_memory_holds_and_the_plans_size_still_caps_it(): void {
 		add_filter( 'iminify_stream_source', '__return_false' );
 		$max_source = new \ReflectionMethod( Optimizer::class, 'max_source' );
-		$max_source->setAccessible( true );
+
+		/* PHP 8.1 made it a no-op and 8.5 deprecates it, but PHP 7.4 still needs it to call a protected method. */
+		if ( PHP_VERSION_ID < 80100 ) {
+			$max_source->setAccessible( true );
+		}
 
 		ini_set( 'memory_limit', '-1' ); // phpcs:ignore WordPress.PHP.IniSet.memory_limit_Disallowed -- no limit, so memory caps nothing.
 		$this->assertNull( Upload::max_bytes() );
