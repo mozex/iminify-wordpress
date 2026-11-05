@@ -277,26 +277,25 @@ class Lifecycle {
 	protected static function delete_runs(): void {
 		global $wpdb;
 
-		$actions = $wpdb->prefix . 'actionscheduler_actions';
-		$logs    = $wpdb->prefix . 'actionscheduler_logs';
+		$table = $wpdb->prefix . 'actionscheduler_actions';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- whether Action Scheduler's table exists, once, while the plugin is deleted.
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $actions ) ) ) !== $actions ) {
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) !== $table ) {
 			return;
 		}
 
 		$in = implode( ', ', array_fill( 0, count( self::HOOKS ), '%s' ) );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Action Scheduler's own tables, while the plugin is deleted; one placeholder per hook, built above.
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT action_id FROM {$actions} WHERE hook IN ({$in})", self::HOOKS ) );
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT action_id FROM {$wpdb->prefix}actionscheduler_actions WHERE hook IN ({$in})", self::HOOKS ) );
 
 		foreach ( array_chunk( array_map( 'intval', $ids ), 500 ) as $chunk ) {
 			$list = implode( ', ', $chunk );
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- integers read from the table above.
-			$wpdb->query( "DELETE FROM {$logs} WHERE action_id IN ({$list})" );
+			$wpdb->query( "DELETE FROM {$wpdb->prefix}actionscheduler_logs WHERE action_id IN ({$list})" );
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- integers read from the table above.
-			$wpdb->query( "DELETE FROM {$actions} WHERE action_id IN ({$list})" );
+			$wpdb->query( "DELETE FROM {$wpdb->prefix}actionscheduler_actions WHERE action_id IN ({$list})" );
 		}
 	}
 }
