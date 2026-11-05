@@ -120,7 +120,41 @@ class LifecycleTest extends WP_UnitTestCase {
 
 		$this->assertTrue( Optimizer::pending( Queue::OPENS_HOOK, array() ) );
 		$this->assertTrue( Optimizer::pending( Queue::RESUME_HOOK, array( 0 ) ) );
-		$this->assertFalse( get_option( Lifecycle::ACTIVATED_OPTION ) );
+		$this->assertEmpty( get_option( Lifecycle::ACTIVATED_OPTION ) );
+	}
+
+	public function test_turning_it_on_again_parks_an_image_whose_run_was_lost_and_leaves_one_that_has_its_run(): void {
+		$lost    = $this->attachment();
+		$running = $this->attachment();
+
+		Plugin::keys()->save( '7|site-key' );
+		Records::update( $lost, array( 'status' => Records::QUEUED ) );
+		Records::update( $running, array( 'status' => Records::WAITING ) );
+		as_schedule_single_action( time() + 60, Optimizer::CHECK_HOOK, array( $running ), Optimizer::GROUP );
+
+		Lifecycle::activate();
+		Lifecycle::resume();
+
+		$this->assertSame( Records::PARKED, Records::get( $lost )['status'] );
+		$this->assertSame( Records::WAITING, Records::get( $running )['status'] );
+		$this->assertTrue( Optimizer::pending( Queue::RESUME_HOOK, array( 0 ) ) );
+	}
+
+	public function test_turning_it_off_ends_even_when_a_status_cant_be_written(): void {
+		$id = $this->attachment();
+		Records::update( $id, array( 'status' => Records::QUEUED ) );
+
+		$refuse = static function ( $check, $object_id, $key ) {
+			return Records::STATUS_META === $key ? false : $check;
+		};
+		add_filter( 'update_post_metadata', $refuse, 10, 3 );
+
+		Lifecycle::deactivate();
+
+		remove_filter( 'update_post_metadata', $refuse, 10 );
+
+		$this->assertSame( Records::PARKED, Records::get( $id )['status'] );
+		$this->assertSame( Records::QUEUED, get_post_meta( $id, Records::STATUS_META, true ), 'The write the filter refused.' );
 	}
 
 	public function test_deleting_it_keeps_the_copies_backups_and_records_and_removes_the_rest(): void {

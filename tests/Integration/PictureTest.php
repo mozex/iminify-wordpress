@@ -59,8 +59,8 @@ class PictureTest extends WP_UnitTestCase {
 
 		$html = $this->render( $id );
 
-		$this->assertSame( 1, substr_count( $html, '<picture>' ) );
-		$this->assertMatchesRegularExpression( '#<picture><source type="image/avif" srcset="([^"]+)" sizes="[^"]+"><source type="image/webp" srcset="([^"]+)" sizes="[^"]+"><img [^>]*data-iminify-picture[^>]*></picture>#', $html );
+		$this->assertSame( 1, substr_count( $html, '<picture' ) );
+		$this->assertMatchesRegularExpression( '#<picture style="display: contents;"><source type="image/avif" srcset="([^"]+)" sizes="[^"]+"><source type="image/webp" srcset="([^"]+)" sizes="[^"]+"><img [^>]*data-iminify-picture[^>]*></picture>#', $html );
 
 		preg_match( '#<img [^>]*srcset="([^"]+)"#', $html, $image );
 		preg_match( '#type="image/avif" srcset="([^"]+)"#', $html, $avif );
@@ -112,7 +112,7 @@ class PictureTest extends WP_UnitTestCase {
 
 		$html = $this->render( $id );
 
-		$this->assertStringNotContainsString( '<picture>', $html );
+		$this->assertStringNotContainsString( '<picture', $html );
 		$this->assertStringNotContainsString( '.webp', $html );
 	}
 
@@ -124,43 +124,43 @@ class PictureTest extends WP_UnitTestCase {
 		/* A block theme's template runs the content filter over a post the content filter already ran on. */
 		$twice = wp_filter_content_tags( $this->render( $id ), 'template' );
 
-		$this->assertSame( 1, substr_count( $twice, '<picture>' ) );
+		$this->assertSame( 1, substr_count( $twice, '<picture' ) );
 
 		$written = '<picture><source media="(max-width: 600px)" srcset="https://example.org/narrow.jpg"><img class="wp-image-' . $id . '" src="' . wp_get_attachment_url( $id ) . '" alt=""></picture>';
 		$html    = apply_filters( 'the_content', $written ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
 
-		$this->assertSame( 1, substr_count( $html, '<picture>' ) );
+		$this->assertSame( 1, substr_count( $html, '<picture' ) );
 		$this->assertStringContainsString( 'narrow.jpg', $html );
 		$this->assertStringNotContainsString( '.webp', $html );
 
 		/* A theme's own call, then the template's content filter over it. */
 		$theme = wp_get_attachment_image( $id, 'full' );
 
-		$this->assertStringStartsWith( '<picture><source type="image/webp" srcset="', $theme );
-		$this->assertSame( 1, substr_count( wp_filter_content_tags( '<div>' . $theme . '</div>', 'template' ), '<picture>' ) );
+		$this->assertStringStartsWith( '<picture style="display: contents;"><source type="image/webp" srcset="', $theme );
+		$this->assertSame( 1, substr_count( wp_filter_content_tags( '<div>' . $theme . '</div>', 'template' ), '<picture' ) );
 	}
 
 	public function test_nothing_changes_without_copies_with_delivery_off_in_wp_admin_or_in_a_feed(): void {
 		$id    = $this->attachment();
 		$files = $this->files_of( $id );
 
-		$this->assertStringNotContainsString( '<picture>', $this->render( $id ), 'No copies yet.' );
+		$this->assertStringNotContainsString( '<picture', $this->render( $id ), 'No copies yet.' );
 
 		$this->copies( $id, array( array( $files['full'], 'webp' ) ) );
-		$this->assertStringContainsString( '<picture>', $this->render( $id ) );
+		$this->assertStringContainsString( '<picture', $this->render( $id ) );
 
 		Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_OFF ) );
-		$this->assertStringNotContainsString( '<picture>', $this->render( $id ) );
-		$this->assertStringNotContainsString( '<picture>', wp_get_attachment_image( $id, 'full' ) );
+		$this->assertStringNotContainsString( '<picture', $this->render( $id ) );
+		$this->assertStringNotContainsString( '<picture', wp_get_attachment_image( $id, 'full' ) );
 
 		Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_PICTURE ) );
 		set_current_screen( 'upload' );
-		$this->assertStringNotContainsString( '<picture>', wp_get_attachment_image( $id, 'full' ) );
+		$this->assertStringNotContainsString( '<picture', wp_get_attachment_image( $id, 'full' ) );
 
 		set_current_screen( 'front' );
 		$this->go_to( get_feed_link() );
 		$this->assertTrue( is_feed() );
-		$this->assertStringNotContainsString( '<picture>', wp_get_attachment_image( $id, 'full' ) );
+		$this->assertStringNotContainsString( '<picture', wp_get_attachment_image( $id, 'full' ) );
 	}
 
 	public function test_an_address_keeps_its_query_and_a_copy_takes_the_name_the_writer_gave_it(): void {
@@ -174,6 +174,39 @@ class PictureTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'srcset="' . $url . '.webp?ver=2"', $html );
 		$this->assertStringNotContainsString( 'sizes=', $html, 'No srcset, so no sizes.' );
 		$this->assertSame( $html, apply_filters( 'wp_content_img_tag', $html, 'the_content', $id ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+	}
+
+	public function test_only_an_address_under_the_uploads_folder_is_matched_to_a_copy(): void {
+		$id    = $this->attachment();
+		$files = $this->files_of( $id );
+		$this->copies( $id, array( array( $files['full'], 'webp' ), array( $files['medium'], 'webp' ) ) );
+
+		$url    = (string) wp_get_attachment_url( $id );
+		$medium = (string) wp_get_attachment_image_url( $id, 'medium' );
+		$bucket = 'https://bucket.example.com/' . wp_basename( $medium );
+		$moved  = str_replace( '/' . wp_basename( $medium ), '/1999/01/' . wp_basename( $medium ), $medium );
+		$comma  = 'https://images.example.com/c_scale,w_768/' . wp_basename( $url );
+		$tag    = '<img src="' . $url . '" srcset="' . $bucket . ' 300w, ' . $moved . ' 301w, ' . $comma . ' 768w, ' . $url . ' 1920w" sizes="100vw" class="wp-image-' . $id . '" alt="">';
+		$html   = apply_filters( 'wp_content_img_tag', $tag, 'the_content', $id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+
+		preg_match( '#type="image/webp" srcset="([^"]+)"#', $html, $webp );
+
+		$this->assertSame( $bucket . ' 300w, ' . $moved . ' 301w, ' . $comma . ' 768w, ' . $url . '.webp 1920w', $webp[1] );
+	}
+
+	public function test_a_long_unclosed_picture_never_blanks_the_markup(): void {
+		$id      = $this->attachment();
+		$content = '<p>Before</p><picture><source srcset="https://example.org/a.webp"><img class="wp-image-' . $id . '" src="https://example.org/a.jpg" alt=""><script>' . str_repeat( 'x', 200000 ) . '</script><p>After</p>';
+		$limit   = ini_get( 'pcre.backtrack_limit' );
+
+		ini_set( 'pcre.backtrack_limit', '1000' ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- the limit a long page reaches in production, made small.
+		$marked = Picture::mark_pictures( $content );
+		ini_set( 'pcre.backtrack_limit', (string) $limit ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- puts it back.
+
+		$this->assertIsString( $marked );
+		$this->assertStringContainsString( '<p>After</p>', $marked );
+		$this->assertStringContainsString( '<img data-iminify-picture class="wp-image-' . $id . '"', $marked );
+		$this->assertSame( strlen( $content ) + strlen( ' data-iminify-picture' ), strlen( $marked ) );
 	}
 
 	/**

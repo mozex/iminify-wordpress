@@ -337,7 +337,7 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 								'iminify-image-optimizer'
 							) }
 							help={ __(
-								"They're the only originals of the images Iminify optimized, so those images can't be restored afterwards.",
+								"They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time.",
 								'iminify-image-optimizer'
 							) }
 							checked={ Boolean( local.uninstall_backups ) }

@@ -9,29 +9,13 @@ const root = path.resolve( __dirname, '../../..' );
 const wpEnv = path.join( root, 'node_modules/@wordpress/env/bin/wp-env' );
 
 /**
- * Runs one of the seed script's commands and answers its last line of output.
+ * Runs WP-CLI in the e2e site and answers its last line of output.
  *
- * @param {string} command The command.
- * @param {Object} [given] What it is given, as JSON.
+ * @param {...string} args WP-CLI's arguments.
  * @return {string} The last line it printed.
  */
-function seed( command, given ) {
-	const args = [
-		wpEnv,
-		'--config=.wp-env.e2e.json',
-		'run',
-		'cli',
-		'wp',
-		'eval-file',
-		'wp-content/plugins/iminify-image-optimizer/tests/e2e/bin/seed.php',
-		command,
-	];
-
-	if ( undefined !== given ) {
-		args.push( JSON.stringify( given ) );
-	}
-
-	const output = execFileSync( process.execPath, args, {
+function wp( ...args ) {
+	const output = execFileSync( process.execPath, [ wpEnv, '--config=.wp-env.e2e.json', 'run', 'cli', 'wp', ...args ], {
 		cwd: root,
 		encoding: 'utf8',
 		stdio: [ 'ignore', 'pipe', 'pipe' ],
@@ -43,6 +27,23 @@ function seed( command, given ) {
 		.filter( ( line ) => line && ! /^\s*[✔ℹ✖]/.test( line ) );
 
 	return lines[ lines.length - 1 ] ?? '';
+}
+
+/**
+ * Runs one of the seed script's commands and answers its last line of output.
+ *
+ * @param {string} command The command.
+ * @param {Object} [given] What it is given, as JSON.
+ * @return {string} The last line it printed.
+ */
+function seed( command, given ) {
+	const args = [ 'eval-file', 'wp-content/plugins/iminify-image-optimizer/tests/e2e/bin/seed.php', command ];
+
+	if ( undefined !== given ) {
+		args.push( JSON.stringify( given ) );
+	}
+
+	return wp( ...args );
 }
 
 /**
@@ -58,4 +59,4 @@ function seedJson( command, given ) {
 
 const settingsPage = '/wp-admin/options-general.php?page=iminify-image-optimizer';
 
-module.exports = { seed, seedJson, settingsPage };
+module.exports = { wp, seed, seedJson, settingsPage };

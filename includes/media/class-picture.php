@@ -114,25 +114,27 @@ class Picture {
 			return $html;
 		}
 
-		return (string) preg_replace_callback(
-			'#<picture\b.*?</picture>#is',
-			static function ( array $picture ): string {
-				return (string) preg_replace_callback(
-					'#<img\b[^>]*>#i',
-					static function ( array $image ): string {
-						return self::marked( $image[0] );
-					},
-					$picture[0]
-				);
-			},
-			$html
-		);
+		/* The tag processor, not a pattern: a pattern over a long unclosed `<picture` runs out of backtracking and blanks the markup. */
+		$markup = new WP_HTML_Tag_Processor( $html );
+		$depth  = 0;
+
+		while ( $markup->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
+			if ( 'PICTURE' === $markup->get_tag() ) {
+				$depth = max( 0, $depth + ( $markup->is_tag_closer() ? -1 : 1 ) );
+			} elseif ( $depth > 0 && 'IMG' === $markup->get_tag() && null === $markup->get_attribute( self::MARKER ) ) {
+				$markup->set_attribute( self::MARKER, true );
+			}
+		}
+
+		return $markup->get_updated_html();
 	}
 
 	/**
 	 * Whether this request's pages get `<picture>` markup: the delivery setting,
-	 * and never in wp-admin (the media screens print attachment images too), in a
-	 * feed or on an AMP page, which allows no `<picture>` of this kind.
+	 * and never on a wp-admin screen (the media screens print attachment images
+	 * too), in a feed or on an AMP page, which allows no `<picture>` of this kind.
+	 * An admin-ajax answer is wrapped, since a theme's front-end requests (more
+	 * posts, a search) come through it, so wp-admin's own AJAX answers are too.
 	 */
 	public static function serves(): bool {
 		if ( Local_Settings::DELIVERY_PICTURE !== Local_Settings::get()['delivery'] ) {
@@ -209,15 +211,19 @@ class Picture {
 			return $tag;
 		}
 
-		return '<picture>' . $sources . self::marked( $tag ) . '</picture>';
+		/* `display: contents`, as core's Modern Image Formats does: the `<img>` stays the box a layout sizes (a cropped gallery's flex item). */
+		return '<picture style="display: contents;">' . $sources . self::marked( $tag ) . '</picture>';
 	}
 
 	/**
 	 * A source's `srcset`: each candidate's copy in that format, or the best it
-	 * has instead, or null when no candidate has a copy in that format.
+	 * has instead, or null when no candidate has a copy in that format. Only an
+	 * address under this site's uploads folder is matched to a file: one an
+	 * offload or CDN plugin moved elsewhere keeps its own address, since the copy
+	 * may not be there.
 	 *
 	 * @param list<array{0: string, 1: string}>    $candidates The `<img>`'s candidates: each address and its descriptor.
-	 * @param array<string, array<string, string>> $copies     The copies' file names by the name of the file they stand beside, then by format.
+	 * @param array<string, array<string, string>> $copies     The copies' file names by the path of the file they stand beside, then by format.
 	 * @param string                               $format     The source's format.
 	 */
 	protected static function source_set( array $candidates, array $copies, string $format ): ?string {
@@ -228,12 +234,12 @@ class Picture {
 		foreach ( $candidates as $candidate ) {
 			list( $url, $descriptor ) = $candidate;
 
-			$name = self::file_name( $url );
+			$file = self::uploaded_file( $url );
 			$copy = null;
 
-			foreach ( $fallbacks as $fallback ) {
-				if ( isset( $copies[ $name ][ $fallback ] ) ) {
-					$copy      = $copies[ $name ][ $fallback ];
+			foreach ( null === $file ? array() : $fallbacks as $fallback ) {
+				if ( isset( $copies[ $file ][ $fallback ] ) ) {
+					$copy      = $copies[ $file ][ $fallback ];
 					$in_format = $in_format || $fallback === $format;
 					break;
 				}
@@ -282,7 +288,7 @@ class Picture {
 				continue;
 			}
 
-			$served[ wp_basename( $for ) ][ $format ] = wp_basename( (string) $copy );
+			$served[ wp_normalize_path( $for ) ][ $format ] = wp_basename( (string) $copy );
 		}
 
 		self::$served[ $attachment ] = $served;
@@ -291,36 +297,67 @@ class Picture {
 	}
 
 	/**
-	 * A `srcset`'s candidates, each its address and its descriptor.
+	 * A `srcset`'s candidates, each its address and its descriptor, read as the
+	 * HTML standard reads them: an address may hold commas (an image service's
+	 * `/c_scale,w_300/`), and a candidate ends at the comma after its descriptor.
 	 *
 	 * @param string $srcset The attribute's value.
 	 * @return list<array{0: string, 1: string}>
 	 */
 	protected static function candidates( string $srcset ): array {
 		$candidates = array();
+		$length     = strlen( $srcset );
+		$position   = 0;
 
-		foreach ( explode( ',', $srcset ) as $candidate ) {
-			$parts = preg_split( '/\s+/', trim( $candidate ), 2 );
+		while ( $position < $length ) {
+			$position += strspn( $srcset, " \t\n\r\f,", $position );
 
-			if ( ! is_array( $parts ) || '' === $parts[0] ) {
+			if ( $position >= $length ) {
+				break;
+			}
+
+			$url       = substr( $srcset, $position, strcspn( $srcset, " \t\n\r\f", $position ) );
+			$position += strlen( $url );
+
+			if ( ',' === substr( $url, -1 ) ) {
+				$candidates[] = array( rtrim( $url, ',' ), '' );
 				continue;
 			}
 
-			$candidates[] = array( $parts[0], isset( $parts[1] ) ? trim( $parts[1] ) : '' );
+			$descriptor   = substr( $srcset, $position, strcspn( $srcset, ',', $position ) );
+			$position    += strlen( $descriptor ) + 1;
+			$candidates[] = array( $url, trim( $descriptor ) );
 		}
 
 		return $candidates;
 	}
 
 	/**
-	 * The file name an address ends in, without its query or fragment.
+	 * The path, relative to the uploads folder, of the file an address names, or
+	 * null for an address outside this site's uploads folder.
 	 *
 	 * @param string $url An image's address.
 	 */
-	protected static function file_name( string $url ): string {
-		$path = wp_parse_url( $url, PHP_URL_PATH );
+	protected static function uploaded_file( string $url ): ?string {
+		$base = self::bare( (string) wp_get_upload_dir()['baseurl'] );
+		$bare = self::bare( substr( $url, 0, strcspn( $url, '?#' ) ) );
 
-		return is_string( $path ) ? rawurldecode( wp_basename( $path ) ) : '';
+		if ( '' === $base || 0 !== strpos( $bare, trailingslashit( $base ) ) ) {
+			return null;
+		}
+
+		$file = rawurldecode( substr( $bare, strlen( trailingslashit( $base ) ) ) );
+
+		return '' === $file || false !== strpos( '/' . $file . '/', '/../' ) ? null : $file;
+	}
+
+	/**
+	 * An address without its scheme, so http and https name the same file.
+	 *
+	 * @param string $url An address.
+	 */
+	protected static function bare( string $url ): string {
+		return (string) preg_replace( '#^https?:#i', '', $url );
 	}
 
 	/**

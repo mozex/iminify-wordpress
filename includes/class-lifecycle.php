@@ -70,28 +70,53 @@ class Lifecycle {
 	);
 
 	/**
+	 * The post meta of an attachment's record.
+	 */
+	const RECORD_META = array( Records::META, Records::STATUS_META, Records::FORMATS_META );
+
+	/**
 	 * How long the deletion waits for Iminify to stop the key.
 	 */
 	const REVOKE_TIMEOUT = 5;
 
 	/**
 	 * The activation hook. Action Scheduler may not be ready yet in this request,
-	 * so the queue is looked at once it is (`resume()`).
+	 * so the queue is looked at once it is (`resume()`). Both options are kept
+	 * autoloaded, since every request reads them: a missing option costs a query
+	 * on each request that asks for it.
 	 */
 	public static function activate(): void {
-		update_option( self::ACTIVATED_OPTION, time(), false );
+		update_option( self::ACTIVATED_OPTION, 1, true );
+		add_option( Local_Settings::OPTION, Local_Settings::defaults(), '', true );
 	}
 
 	/**
-	 * Once Action Scheduler is ready after the plugin was turned on: a pause that
-	 * is still on gets its timer back, and whatever was parked goes on.
+	 * Once Action Scheduler is ready after the plugin was turned on: an image
+	 * left queued or waiting with no run of its own (the plugin was switched off
+	 * without its deactivation running, as renaming its folder does, or a run
+	 * scheduled itself while it was) is parked, a pause that is still on gets its
+	 * timer back, and whatever was parked goes on.
 	 */
 	public static function resume(): void {
-		if ( false === get_option( self::ACTIVATED_OPTION ) ) {
+		if ( ! get_option( self::ACTIVATED_OPTION ) ) {
 			return;
 		}
 
-		delete_option( self::ACTIVATED_OPTION );
+		update_option( self::ACTIVATED_OPTION, 0, true );
+
+		$after = 0;
+
+		do {
+			$ids = Records::with_status( array( Records::QUEUED, Records::WAITING ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+
+				if ( ! self::has_run( $id ) ) {
+					self::park( $id );
+				}
+			}
+		} while ( array() !== $ids );
 
 		$until = Pause::until();
 
@@ -109,17 +134,40 @@ class Lifecycle {
 	public static function deactivate(): void {
 		( new Connection( Plugin::keys() ) )->cancel();
 
+		$after = 0;
+
 		do {
-			$ids = Records::with_status( array( Records::QUEUED, Records::WAITING ), 200 );
+			$ids = Records::with_status( array( Records::QUEUED, Records::WAITING ), 200, $after );
 
 			foreach ( $ids as $id ) {
-				Records::wait( $id, Records::PARKED, 'deactivated', __( 'Waiting to go on: the plugin was turned off while this image was on its way.', 'iminify-image-optimizer' ) );
+				$after = $id;
+				self::park( $id );
 			}
 		} while ( array() !== $ids );
 
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
 			as_unschedule_all_actions( '', array(), Optimizer::GROUP );
 		}
+	}
+
+	/**
+	 * Parks an image that was on its way, keeping any group it opened.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function park( int $attachment ): void {
+		Records::wait( $attachment, Records::PARKED, 'deactivated', __( 'Waiting to go on: the plugin was turned off while this image was on its way.', 'iminify-image-optimizer' ) );
+	}
+
+	/**
+	 * Whether an image has a run waiting for it.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function has_run( int $attachment ): bool {
+		return Optimizer::pending( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::AUTOMATIC ) )
+			|| Optimizer::pending( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::MANUAL ) )
+			|| Optimizer::pending( Optimizer::CHECK_HOOK, array( $attachment ) );
 	}
 
 	/**
@@ -132,7 +180,7 @@ class Lifecycle {
 		self::delete_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
 
 		if ( $settings['uninstall_copies'] && $settings['uninstall_backups'] ) {
-			foreach ( array( Records::META, Records::STATUS_META, Records::FORMATS_META ) as $key ) {
+			foreach ( self::RECORD_META as $key ) {
 				delete_post_meta_by_key( $key );
 			}
 		}
@@ -166,7 +214,8 @@ class Lifecycle {
 
 	/**
 	 * Deletes the copies and the backups the records name as the plugin's own,
-	 * as the person asked.
+	 * as the person asked. With both, each record goes with its files, so a
+	 * deletion that runs out of time carries on where it stopped when retried.
 	 *
 	 * @param bool $copies  Whether to delete the WebP and AVIF copies.
 	 * @param bool $backups Whether to delete the backups.
@@ -188,6 +237,12 @@ class Lifecycle {
 
 				if ( $backups ) {
 					Backups::forget( Records::get( $id )['backups'] );
+				}
+
+				if ( $copies && $backups ) {
+					foreach ( self::RECORD_META as $key ) {
+						delete_post_meta( $id, $key );
+					}
 				}
 
 				$after = $id;

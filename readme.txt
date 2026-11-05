@@ -13,7 +13,7 @@ Compress, convert and resize the images in your media library with Iminify, and 
 
 Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. An upload counts as one image, however many sizes WordPress keeps of it.
 
-The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. The original of each image is kept in a backup under uploads/iminify-backup, so any image can be restored.
+The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
 
