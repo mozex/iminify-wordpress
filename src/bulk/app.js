@@ -807,6 +807,17 @@ function Stalled( { run, busy, onPageMode } ) {
 						) }
 					</p>
 				) }
+				{ run.loopback && ! run.loopback.ok && (
+					<p>
+						{ __(
+							'If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:',
+							'iminify-image-optimizer'
+						) }
+					</p>
+				) }
+				{ run.loopback && ! run.loopback.ok && (
+					<CodeCopy command="define( 'IMINIFY_AUTH_USER', 'user' ); define( 'IMINIFY_AUTH_PASSWORD', 'password' );" />
+				) }
 				<p>
 					{ __(
 						'Run it while this page is open instead, or carry it on from the shell:',

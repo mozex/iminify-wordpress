@@ -25,13 +25,18 @@ The WebP and AVIF copies reach your visitors through picture tags in your pages,
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
 
+Translations WPML or Polylang make of an image share its files, so the plugin optimizes those files once, through the image they translate, and never sends a translation on its own. Regenerate Thumbnails and `wp media regenerate` send the image again from its backup, so no size is made from an already compressed file, and a file Enable Media Replace puts in place goes as a new original. A theme or plugin with more image sizes than Iminify makes for one image gets the first ones it lists, and the rest stay as WordPress made them.
+
+Where WordPress sends over cURL, as nearly every host does, originals go to Iminify straight from the disk, so a file as large as your plan takes goes through on a 128 MB memory limit. Elsewhere, an original too large for the server's memory goes as WordPress's scaled copy. On a site behind a password (HTTP basic auth), the background runs reach the site with the password the page was opened with, or with `IMINIFY_AUTH_USER` and `IMINIFY_AUTH_PASSWORD` set in wp-config.php.
+
 = For developers =
 
-The plugin has six hooks:
+The plugin has seven hooks:
 
 * `iminify_capability` (filter): the capability each part asks for.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
 * `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
+* `iminify_stream_source` (filter): return false to read an original into memory rather than stream it, for a host whose proxy breaks a streamed upload.
 * `iminify_image_optimized` (action): an image's files were written.
 * `iminify_image_restored` (action): an image's original is back.
 * `iminify_bulk_finished` (action): a bulk run came to its end.
@@ -44,7 +49,7 @@ When you press Connect, your site's server sends Iminify your site's home addres
 
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
-* each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
+* each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes or the server's memory can send), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * your site's home address and the plugin's version, with every call;
 * how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;

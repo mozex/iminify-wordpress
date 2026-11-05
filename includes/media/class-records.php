@@ -206,6 +206,44 @@ class Records {
 	}
 
 	/**
+	 * Whether an optimized attachment's files are all as its result left them: the
+	 * main file and every size the result accounts for has the bytes it had after,
+	 * so an event that changed none of them (a regeneration that skipped every size
+	 * it found) has nothing to send. A size the result doesn't name was never sent,
+	 * and what it lacks is `Missing`'s to find.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function unchanged( int $attachment ): bool {
+		$record   = self::get( $attachment );
+		$outputs  = isset( $record['result']['outputs'] ) && is_array( $record['result']['outputs'] ) ? $record['result']['outputs'] : array();
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$main     = (string) get_attached_file( $attachment, true );
+
+		if ( self::OPTIMIZED !== $record['status'] || ! isset( $outputs[ Declaration::MAIN ] ) || ! is_array( $metadata ) || '' === $main ) {
+			return false;
+		}
+
+		$files = array( Declaration::MAIN => $main );
+
+		foreach ( $metadata['sizes'] ?? array() as $name => $size ) {
+			if ( isset( $outputs[ $name ] ) ) {
+				$files[ $name ] = dirname( $main ) . '/' . wp_basename( $size['file'] );
+			}
+		}
+
+		foreach ( $files as $name => $path ) {
+			clearstatcache( true, $path );
+
+			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) ( $outputs[ $name ]['after'] ?? -1 ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Records why an attachment waits, keeping an open group: its image is already
 	 * counted, so it is finished rather than opened again once the wait is over.
 	 *

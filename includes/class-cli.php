@@ -12,6 +12,7 @@ use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Shared;
 use WP_CLI;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -478,6 +479,7 @@ class Cli {
 		global $wpdb;
 
 		$wpdb->queries = array();
+		Shared::forget();
 
 		if ( function_exists( 'wp_cache_supports' ) && wp_cache_supports( 'flush_runtime' ) ) {
 			wp_cache_flush_runtime();

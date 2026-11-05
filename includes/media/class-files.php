@@ -21,31 +21,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Files {
 
 	/**
-	 * Writes bytes to a path in one step: a temporary file beside it, checked,
-	 * then renamed over it with the old file's permissions. Nothing changes
-	 * when the check refuses.
+	 * Writes a file in one step: a temporary file beside it, filled, checked, then
+	 * renamed over it with the old file's permissions. Nothing changes when the fill
+	 * or the check refuses.
 	 *
-	 * @param string                 $path  The file to write.
-	 * @param string                 $bytes What to write.
-	 * @param callable(string): bool $check Asked of the temporary file before it is put in place.
+	 * @param string                   $path  The file to write.
+	 * @param callable(string): ?int   $fill  Writes the temporary file, and answers the bytes written or null.
+	 * @param callable(string): bool   $check Asked of the temporary file before it is put in place.
+	 * @return int|null The bytes written, or null when nothing changed.
 	 */
-	public static function replace( string $path, string $bytes, callable $check ): bool {
+	public static function replace( string $path, callable $fill, callable $check ): ?int {
 		$temporary = self::temporary_beside( $path );
 
 		if ( null === $temporary ) {
-			return false;
+			return null;
 		}
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- writes the temporary file a rename then puts in place; WP_Filesystem would delete the target first.
-		$written = file_put_contents( $temporary, $bytes );
+		$written = $fill( $temporary );
 
-		if ( strlen( $bytes ) !== $written || ! $check( $temporary ) || ! self::move( $temporary, $path ) ) {
+		if ( null === $written || ! $check( $temporary ) || ! self::move( $temporary, $path ) ) {
 			wp_delete_file( $temporary );
 
-			return false;
+			return null;
 		}
 
-		return true;
+		return $written;
 	}
 
 	/**

@@ -572,6 +572,7 @@ class Bulk {
 		do {
 			$ids  = self::next_page( $action, $cursor, $only );
 			$full = self::PAGE_SIZE === count( $ids );
+			Shared::prime( $ids );
 
 			foreach ( $ids as $id ) {
 				$cursor = $id;
@@ -633,6 +634,7 @@ class Bulk {
 			return 0;
 		}
 
+		Shared::prime( $ids );
 		$bytes = 0;
 
 		foreach ( $ids as $id ) {

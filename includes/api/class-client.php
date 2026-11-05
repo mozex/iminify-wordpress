@@ -258,7 +258,7 @@ class Client {
 	 *
 	 * @param string $method The HTTP method.
 	 * @param string $path   The path under the API's address.
-	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, file?: array{path: string, type: string}, save_to?: string, auth?: bool, timeout?: int} $options How to send it: a JSON body, or one file as a multipart body; `save_to` writes a 2xx answer's body to a file.
+	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, file?: array{path: string, type: string}, save_to?: string, auth?: bool, timeout?: int} $options How to send it: a JSON body, or one file as a multipart body, streamed where it can be (`Upload`); `save_to` writes a 2xx answer's body to a file.
 	 * @return array{status: int, body: array<string, mixed>}|WP_Error
 	 */
 	public function request( string $method, string $path, array $options = array() ) {
@@ -298,14 +298,15 @@ class Client {
 		}
 
 		if ( isset( $options['file'] ) ) {
-			$body = self::multipart( $options['file']['path'], $options['file']['type'] );
+			$upload = Upload::arguments( $options['file']['path'], $options['file']['type'] );
 
-			if ( is_wp_error( $body ) ) {
-				return $body;
+			if ( is_wp_error( $upload ) ) {
+				return $upload;
 			}
 
-			$args['headers']['Content-Type'] = 'multipart/form-data; boundary=' . $body['boundary'];
-			$args['body']                    = $body['body'];
+			$args['headers'] = array_merge( $args['headers'], $upload['headers'] ?? array() );
+			unset( $upload['headers'] );
+			$args = array_merge( $args, $upload );
 		}
 
 		if ( isset( $options['save_to'] ) ) {
@@ -329,34 +330,6 @@ class Client {
 		}
 
 		return $this->read( $response );
-	}
-
-	/**
-	 * A multipart body carrying one file as the `file` field. WordPress's HTTP functions send
-	 * a string body, so the file is read into it; a source is at most the plan's file size.
-	 *
-	 * @param string $path The file.
-	 * @param string $type Its MIME type.
-	 * @return array{boundary: string, body: string}|WP_Error
-	 */
-	protected static function multipart( string $path, string $type ) {
-		$bytes = is_readable( $path ) ? file_get_contents( $path ) : false; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a local image into the request body.
-
-		if ( false === $bytes ) {
-			return new WP_Error( 'source_unreadable', __( 'The image couldn\'t be read from the uploads folder.', 'iminify-image-optimizer' ), array( 'status' => 0 ) );
-		}
-
-		$boundary  = 'iminify-' . wp_generate_password( 24, false );
-		$extension = (string) preg_replace( '/[^a-z0-9]/', '', strtolower( (string) pathinfo( $path, PATHINFO_EXTENSION ) ) );
-
-		return array(
-			'boundary' => $boundary,
-			'body'     => '--' . $boundary . "\r\n"
-				. 'Content-Disposition: form-data; name="file"; filename="source.' . ( '' === $extension ? 'bin' : $extension ) . "\"\r\n"
-				. 'Content-Type: ' . preg_replace( '#[^a-z0-9.+/-]#i', '', $type ) . "\r\n\r\n"
-				. $bytes . "\r\n"
-				. '--' . $boundary . "--\r\n",
-		);
 	}
 
 	/**

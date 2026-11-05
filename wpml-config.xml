@@ -1,0 +1,10 @@
+<wpml-config>
+	<custom-fields>
+		<custom-field action="ignore">_iminify</custom-field>
+		<custom-field action="ignore">_iminify_status</custom-field>
+		<custom-field action="ignore">_iminify_formats</custom-field>
+		<custom-field action="ignore">_iminify_sizes</custom-field>
+		<custom-field action="ignore">_iminify_before</custom-field>
+		<custom-field action="ignore">_iminify_after</custom-field>
+	</custom-fields>
+</wpml-config>

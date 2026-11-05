@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Tests\Integration;
 
+use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Hooks;
@@ -97,8 +98,11 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertSame( array( 'start', 'start' ), $outputs['card']['crop'] );
 		$this->assertArrayNotHasKey( 'crop', $outputs['medium'] );
 		$this->assertSame( $metadata['sizes']['medium']['filesize'], $outputs['medium']['size'] );
-		$this->assertStringStartsWith( 'multipart/form-data; boundary=', $upload['headers']['Content-Type'] );
-		$this->assertStringContainsString( $original, $upload['body'] );
+		/* WordPress sends over cURL here, so the original goes as a file cURL reads from the disk, never through PHP's memory. */
+		$this->assertSame( '', $upload['body'] );
+		$this->assertArrayNotHasKey( 'Content-Type', $upload['headers'] );
+		$this->assertSame( array( 'image/jpeg', 'source.jpg' ), array( $upload[ Upload::ARGUMENT ]['type'], $upload[ Upload::ARGUMENT ]['name'] ) );
+		$this->assertSame( $original, file_get_contents( $upload[ Upload::ARGUMENT ]['path'] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file streamed.
 		$this->assertSame( $original, file_get_contents( Paths::backup( (string) Paths::relative( $attached ) ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the backup.
 		$this->assertSame( Records::WAITING, Records::get( $id )['status'] );
 

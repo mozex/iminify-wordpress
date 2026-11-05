@@ -44,7 +44,8 @@ class Originals {
 	public static function find( int $attachment, array $metadata, ?int $max_bytes ): ?array {
 		$attached = get_attached_file( $attachment, true );
 
-		if ( ! is_string( $attached ) || '' === $attached ) {
+		/* A translation's files are its holder's, whose record alone knows which of them the plugin wrote. */
+		if ( ! is_string( $attached ) || '' === $attached || Shared::holder( $attachment ) !== $attachment ) {
 			return null;
 		}
 
@@ -90,6 +91,11 @@ class Originals {
 				continue;
 			}
 
+			/* A backup of this file that another attachment's record keeps means the file is that one's output (a translation left on its holder's old file when the holder was edited), never an original. */
+			if ( self::backed_up_elsewhere( $attachment, $relative, $path ) ) {
+				continue;
+			}
+
 			if ( self::fits( $path, $max_bytes ) ) {
 				return array(
 					'path' => $path,
@@ -121,6 +127,25 @@ class Originals {
 		$own  = pathinfo( $attached, PATHINFO_FILENAME );
 
 		return in_array( $own, array( $name . '-scaled', $name . '-rotated' ), true ) ? dirname( $attached ) . '/' . $original : null;
+	}
+
+	/**
+	 * Whether a backup of this file exists that the attachment's own record doesn't
+	 * name, and that differs from the file: another attachment kept it of the file
+	 * it wrote here.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $relative   The file, relative to the uploads folder.
+	 * @param string $path       The file.
+	 */
+	protected static function backed_up_elsewhere( int $attachment, string $relative, string $path ): bool {
+		$backup = Paths::backup( $relative );
+
+		if ( ! is_file( $backup ) || in_array( Paths::relative( $backup ), Records::get( $attachment )['backups'], true ) ) {
+			return false;
+		}
+
+		return ! Backups::same( $path, $backup );
 	}
 
 	/**

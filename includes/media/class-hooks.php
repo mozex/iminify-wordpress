@@ -25,6 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   saves an edited image (or restores the original) under another file name
  *   without generating metadata.
  * - `delete_attachment` removes the copies and backups the plugin made.
+ *
+ * Attachments that share their files (a translation WPML or Polylang made) send
+ * them through one of them, `Shared::holder()`.
  */
 class Hooks {
 
@@ -35,6 +38,7 @@ class Hooks {
 		add_filter( 'wp_generate_attachment_metadata', array( self::class, 'generated' ), 50, 2 );
 		add_filter( 'wp_update_attachment_metadata', array( self::class, 'updated' ), 50, 2 );
 		add_action( 'delete_attachment', array( self::class, 'deleted' ) );
+		Shared::register();
 		add_action( Optimizer::OPTIMIZE_HOOK, array( Optimizer::class, 'optimize' ), 10, 2 );
 		add_action( Optimizer::CHECK_HOOK, array( Optimizer::class, 'check' ) );
 		add_action( Optimizer::DELETE_GROUP_HOOK, array( Optimizer::class, 'delete_group' ), 10, 2 );
@@ -99,16 +103,24 @@ class Hooks {
 	 * Deletes what the plugin made for an attachment that is being deleted: the
 	 * copies its record names as its own and its backups. Its waiting runs are
 	 * cancelled, and a group still open is deleted from Iminify in the
-	 * background.
+	 * background. Files another attachment still names (a translation's) keep
+	 * everything the plugin made of them, which the next holder's record takes
+	 * over (`Shared::leaves_files()`).
 	 *
 	 * @param mixed $attachment The attachment's id.
 	 */
 	public static function deleted( $attachment ): void {
 		$attachment = (int) $attachment;
+		$shared     = Shared::leaves_files( $attachment );
+
+		Optimizer::cancel( $attachment );
+
+		if ( $shared ) {
+			return;
+		}
 
 		Copies::delete_own( $attachment );
 		Backups::forget( Records::get( $attachment )['backups'] );
-		Optimizer::cancel( $attachment );
 	}
 
 	/**
@@ -119,7 +131,11 @@ class Hooks {
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function changed( int $attachment ): void {
-		if ( ! Optimizer::is_optimizable( $attachment ) ) {
+		/* A translation's files are the holder's to send; a translation plugin copying the holder's own save onto it changed nothing. */
+		$attachment = Shared::holder( $attachment, true );
+
+		/* A regeneration that skipped every existing size (Regenerate Thumbnails' default) left the files as they were. */
+		if ( Writer::$writing === $attachment || Records::unchanged( $attachment ) || ! Optimizer::is_optimizable( $attachment ) ) {
 			return;
 		}
 

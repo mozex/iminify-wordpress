@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Plugin;
@@ -285,11 +286,59 @@ class Optimizer {
 		$source   = Originals::find( $attachment, is_array( $metadata ) ? $metadata : array(), null );
 
 		/* An original WordPress kept can stand aside for its `-scaled` copy, but any other source is the one that has to go. */
-		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && isset( $site['max_file_size'] ) && (int) filesize( $source['path'] ) > (int) $site['max_file_size'] ) {
-			return new WP_Error( 'file_too_large', __( 'This image\'s original is larger than your plan\'s file size, so it can\'t be sent.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		$max = self::max_source( $site );
+
+		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && null !== $max && (int) filesize( $source['path'] ) > $max ) {
+			return new WP_Error( 'file_too_large', __( 'This image\'s original is too large to send: past your plan\'s file size, or more than this server\'s memory can hold.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
 		return null;
+	}
+
+	/**
+	 * The sizes WordPress made again from the plugin's own output, as a regeneration
+	 * does (Regenerate Thumbnails, `wp media regenerate`) when the main file is the
+	 * plugin's: the file WordPress makes sizes from is one the plugin wrote, and the
+	 * size's file isn't. They name no bytes, so the service's file made from the
+	 * original takes their place, rather than standing against a copy of a copy.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   Its metadata.
+	 * @return list<string>
+	 */
+	protected static function regenerated( int $attachment, array $metadata ): array {
+		$from = wp_get_original_image_path( $attachment );
+
+		if ( ! is_string( $from ) || ! Records::wrote( $attachment, $from ) ) {
+			return array();
+		}
+
+		$folder = dirname( (string) get_attached_file( $attachment, true ) );
+		$names  = array();
+
+		foreach ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array() as $name => $size ) {
+			$path = $folder . '/' . wp_basename( (string) ( $size['file'] ?? '' ) );
+
+			if ( is_file( $path ) && ! Records::wrote( $attachment, $path ) ) {
+				$names[] = (string) $name;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * The largest original this site can send: the plan's file size, and where the
+	 * site can't stream a file, what its memory holds (`Upload::max_bytes()`), so a
+	 * larger original gives way to WordPress's `-scaled` copy.
+	 *
+	 * @param array<string, mixed> $site The site's record.
+	 */
+	protected static function max_source( array $site ): ?int {
+		$plan = isset( $site['max_file_size'] ) ? (int) $site['max_file_size'] : null;
+		$here = Upload::max_bytes();
+
+		return null === $plan || null === $here ? ( $plan ?? $here ) : min( $plan, $here );
 	}
 
 	/**
@@ -326,8 +375,8 @@ class Optimizer {
 			return;
 		}
 
-		/* An image that stopped being one to send since it was queued would otherwise stay queued, and hold its run open. */
-		$why = self::why_not( $attachment );
+		/* An image that stopped being one to send since it was queued would otherwise stay queued, and hold its run open. Who shares its files is asked afresh, since this run writes them. */
+		$why = self::why_not( $attachment, true );
 
 		if ( null !== $why ) {
 			Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
@@ -412,7 +461,7 @@ class Optimizer {
 			return;
 		}
 
-		$source = Originals::find( $attachment, $metadata, isset( $site['max_file_size'] ) ? (int) $site['max_file_size'] : null );
+		$source = Originals::find( $attachment, $metadata, self::max_source( $site ) );
 
 		if ( null === $source ) {
 			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
@@ -441,6 +490,8 @@ class Optimizer {
 			$fresh    = $sizes['fresh'];
 			$metadata = wp_get_attachment_metadata( $attachment, true );
 			$metadata = is_array( $metadata ) ? $metadata : array();
+		} elseif ( null === $record['fill'] ) {
+			$fresh = self::regenerated( $attachment, $metadata );
 		}
 
 		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ), $only, $fresh );
@@ -963,10 +1014,11 @@ class Optimizer {
 	/**
 	 * Why an attachment isn't an image the plugin sends, or null when it is.
 	 *
-	 * @param int $attachment The attachment's id.
+	 * @param int  $attachment The attachment's id.
+	 * @param bool $fresh      Whether to ask afresh who shares its files, as a run that writes them must (`Shared`).
 	 * @return array{code: string, message: string}|null
 	 */
-	public static function why_not( int $attachment ): ?array {
+	public static function why_not( int $attachment, bool $fresh = false ): ?array {
 		$unsupported = array(
 			'code'    => 'unsupported_format',
 			'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
@@ -989,6 +1041,19 @@ class Optimizer {
 
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
 			return $unsupported;
+		}
+
+		$holder = Shared::holder( $attachment, $fresh );
+
+		if ( $holder !== $attachment ) {
+			return array(
+				'code'    => 'shared',
+				'message' => sprintf(
+					/* translators: %d: the id of the attachment whose files this one shares. */
+					__( 'Its files are attachment #%d\'s, as a translation\'s are, so Iminify optimizes them there.', 'iminify-image-optimizer' ),
+					$holder
+				),
+			);
 		}
 
 		/**

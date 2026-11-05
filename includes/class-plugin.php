@@ -16,6 +16,7 @@ use Iminify\WordPress\Admin\Privacy;
 use Iminify\WordPress\Admin\Rest_Controller;
 use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Picture;
 
@@ -39,6 +40,8 @@ class Plugin {
 		add_action( 'action_scheduler_init', array( Lifecycle::class, 'resume' ) );
 		Hooks::register();
 		Picture::register();
+		Upload::register();
+		Loopback::register();
 		Cli::register();
 
 		if ( is_admin() ) {

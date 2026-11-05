@@ -93,23 +93,25 @@ class Writer {
 
 		foreach ( $writes as $write ) {
 			$target = Paths::absolute( $write['file'] );
-			$data   = Zip::read( $archive, $write['entry'] );
+			$size   = Zip::size( $archive, $write['entry'] );
 
-			if ( null === $data ) {
+			if ( null === $size ) {
 				++$skipped;
 				continue;
 			}
 
 			/* A replacement holds the old file and the new one at once while it is checked. */
-			if ( ! Disk::has_room_for( strlen( $data ) ) ) {
+			if ( ! Disk::has_room_for( $size ) ) {
 				++$skipped;
 				++$no_room;
 				continue;
 			}
 
-			$ok = Files::replace(
+			$bytes = Files::replace(
 				$target,
-				$data,
+				static function ( string $temporary ) use ( $archive, $write ): ?int {
+					return Zip::extract( $archive, $write['entry'], $temporary );
+				},
 				static function ( string $temporary ) use ( $write ): bool {
 					$size = wp_getimagesize( $temporary );
 
@@ -120,14 +122,14 @@ class Writer {
 				}
 			);
 
-			if ( ! $ok ) {
+			if ( null === $bytes ) {
 				++$skipped;
 				continue;
 			}
 
 			if ( 'original' === $write['format'] ) {
-				$written[ $write['file'] ]             = strlen( $data );
-				$summary[ $write['output'] ]['after']  = strlen( $data );
+				$written[ $write['file'] ]             = $bytes;
+				$summary[ $write['output'] ]['after']  = $bytes;
 				$summary[ $write['output'] ]['width']  = $write['width'];
 				$summary[ $write['output'] ]['height'] = $write['height'];
 				continue;
@@ -136,7 +138,7 @@ class Writer {
 			$copies[ $write['file'] ]                 = array(
 				'for'    => (string) $declared[ $write['output'] ]['file'],
 				'format' => $write['format'],
-				'bytes'  => strlen( $data ),
+				'bytes'  => $bytes,
 				'origin' => Records::ORIGIN,
 			);
 			$made[]                                   = $write['file'];
