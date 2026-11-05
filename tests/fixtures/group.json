@@ -1,0 +1,91 @@
+{
+    "data": {
+        "id": "9d3c5c02-4e1f-4a6b-8d2c-3f5a7b9c1e24",
+        "name": "IMG_2041",
+        "status": "finished",
+        "upload_by": null,
+        "source": {
+            "format": "jpg",
+            "size": 2841205,
+            "width": 2560,
+            "height": 1707
+        },
+        "settings": {
+            "level": "smart",
+            "formats": [
+                "original",
+                "webp"
+            ],
+            "keep_metadata": false,
+            "ephemeral": true,
+            "priority": "interactive"
+        },
+        "files": 6,
+        "outputs": [
+            {
+                "name": "full",
+                "format": "original",
+                "status": "completed",
+                "file": "full.jpg",
+                "width": 2560,
+                "height": 1707,
+                "size": 612480,
+                "replace": true
+            },
+            {
+                "name": "full",
+                "format": "webp",
+                "status": "completed",
+                "file": "full.webp",
+                "width": 2560,
+                "height": 1707,
+                "size": 401226,
+                "replace": true
+            },
+            {
+                "name": "medium",
+                "format": "original",
+                "status": "completed",
+                "file": "medium.jpg",
+                "width": 300,
+                "height": 200,
+                "size": 14880,
+                "replace": true
+            },
+            {
+                "name": "medium",
+                "format": "webp",
+                "status": "completed",
+                "file": "medium.webp",
+                "width": 300,
+                "height": 200,
+                "size": 11402,
+                "replace": true
+            },
+            {
+                "name": "thumbnail",
+                "format": "original",
+                "status": "completed",
+                "file": "thumbnail.jpg",
+                "width": 150,
+                "height": 150,
+                "size": 6950,
+                "replace": true
+            },
+            {
+                "name": "thumbnail",
+                "format": "webp",
+                "status": "completed",
+                "file": null,
+                "width": 150,
+                "height": 150,
+                "size": 7311,
+                "replace": false
+            }
+        ],
+        "alt_text": null,
+        "download_url": "https://www.iminify.com/api/v1/groups/9d3c5c02-4e1f-4a6b-8d2c-3f5a7b9c1e24/download",
+        "created_at": "2026-11-05T09:00:00+00:00",
+        "received_at": "2026-11-05T09:00:02+00:00"
+    }
+}

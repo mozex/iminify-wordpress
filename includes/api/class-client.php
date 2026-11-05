@@ -29,6 +29,12 @@ class Client {
 	const TIMEOUT = 15;
 
 	/**
+	 * Seconds for a call that carries an image either way: a source up to the plan's file size
+	 * going up, or a group's zip coming down.
+	 */
+	const TRANSFER_TIMEOUT = 120;
+
+	/**
 	 * The site key, or null for the calls that connect a site.
 	 *
 	 * @var string|null
@@ -169,11 +175,88 @@ class Client {
 	}
 
 	/**
+	 * Opens an upload group: one image and the outputs to make from it. A site's group takes
+	 * the site's settings on Iminify, whatever the declaration says beside its outputs.
+	 *
+	 * @param array<string, mixed> $declaration The source and its outputs, as `POST /groups` takes them.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function open_group( array $declaration ) {
+		return $this->data( $this->request( 'POST', 'groups', array( 'json' => $declaration ) ) );
+	}
+
+	/**
+	 * Sends a group's source, the file it was opened for.
+	 *
+	 * @param string $group The group's id.
+	 * @param string $path  The file on this server.
+	 * @param string $type  Its MIME type.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function send_group_source( string $group, string $path, string $type ) {
+		return $this->data(
+			$this->request(
+				'POST',
+				'groups/' . rawurlencode( $group ) . '/source',
+				array(
+					'file'    => array(
+						'path' => $path,
+						'type' => $type,
+					),
+					'timeout' => self::TRANSFER_TIMEOUT,
+				)
+			)
+		);
+	}
+
+	/**
+	 * A group as it stands: its status and each output's verdict.
+	 *
+	 * @param string $group The group's id.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function group( string $group ) {
+		return $this->data( $this->request( 'GET', 'groups/' . rawurlencode( $group ) ) );
+	}
+
+	/**
+	 * Downloads a finished group's zip into a file on this server.
+	 *
+	 * @param string $group       The group's id.
+	 * @param string $destination Where to write the zip.
+	 * @return true|WP_Error
+	 */
+	public function download_group( string $group, string $destination ) {
+		$response = $this->request(
+			'GET',
+			'groups/' . rawurlencode( $group ) . '/download',
+			array(
+				'save_to' => $destination,
+				'timeout' => self::TRANSFER_TIMEOUT,
+			)
+		);
+
+		return is_wp_error( $response ) ? $response : true;
+	}
+
+	/**
+	 * Deletes a group from Iminify, once its files are written.
+	 *
+	 * @param string $group The group's id.
+	 * @return true|WP_Error
+	 */
+	public function delete_group( string $group ) {
+		$response = $this->request( 'DELETE', 'groups/' . rawurlencode( $group ) );
+
+		return is_wp_error( $response ) ? $response : true;
+	}
+
+	/**
 	 * Sends one call and reads its answer.
 	 *
 	 * @param string $method The HTTP method.
 	 * @param string $path   The path under the API's address.
-	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, auth?: bool, timeout?: int} $options How to send it.
+	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, file?: array{path: string, type: string}, save_to?: string, auth?: bool, timeout?: int} $options How to send it: a JSON body, or one file as a multipart body; `save_to` writes a 2xx answer's body to a file.
 	 * @return array{status: int, body: array<string, mixed>}|WP_Error
 	 */
 	public function request( string $method, string $path, array $options = array() ) {
@@ -212,7 +295,27 @@ class Client {
 			$args['body']                    = (string) wp_json_encode( $options['json'] );
 		}
 
+		if ( isset( $options['file'] ) ) {
+			$body = self::multipart( $options['file']['path'], $options['file']['type'] );
+
+			if ( is_wp_error( $body ) ) {
+				return $body;
+			}
+
+			$args['headers']['Content-Type'] = 'multipart/form-data; boundary=' . $body['boundary'];
+			$args['body']                    = $body['body'];
+		}
+
+		if ( isset( $options['save_to'] ) ) {
+			$args['stream']   = true;
+			$args['filename'] = $options['save_to'];
+		}
+
 		$response = wp_remote_request( $url, $args );
+
+		if ( isset( $options['save_to'] ) ) {
+			return $this->read_saved( $response, $options['save_to'] );
+		}
 
 		if ( is_wp_error( $response ) ) {
 			return new WP_Error(
@@ -222,6 +325,71 @@ class Client {
 				array( 'status' => 0 )
 			);
 		}
+
+		return $this->read( $response );
+	}
+
+	/**
+	 * A multipart body carrying one file as the `file` field. WordPress's HTTP functions send
+	 * a string body, so the file is read into it; a source is at most the plan's file size.
+	 *
+	 * @param string $path The file.
+	 * @param string $type Its MIME type.
+	 * @return array{boundary: string, body: string}|WP_Error
+	 */
+	protected static function multipart( string $path, string $type ) {
+		$bytes = is_readable( $path ) ? file_get_contents( $path ) : false; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a local image into the request body.
+
+		if ( false === $bytes ) {
+			return new WP_Error( 'source_unreadable', __( 'The image couldn\'t be read from the uploads folder.', 'iminify-image-optimizer' ), array( 'status' => 0 ) );
+		}
+
+		$boundary  = 'iminify-' . wp_generate_password( 24, false );
+		$extension = (string) preg_replace( '/[^a-z0-9]/', '', strtolower( (string) pathinfo( $path, PATHINFO_EXTENSION ) ) );
+
+		return array(
+			'boundary' => $boundary,
+			'body'     => '--' . $boundary . "\r\n"
+				. 'Content-Disposition: form-data; name="file"; filename="source.' . ( '' === $extension ? 'bin' : $extension ) . "\"\r\n"
+				. 'Content-Type: ' . preg_replace( '#[^a-z0-9.+/-]#i', '', $type ) . "\r\n\r\n"
+				. $bytes . "\r\n"
+				. '--' . $boundary . "--\r\n",
+		);
+	}
+
+	/**
+	 * Reads an answer whose body went to a file: kept on 2xx, otherwise read as the API's
+	 * error and removed.
+	 *
+	 * @param array<string, mixed>|WP_Error $response A response from wp_remote_request().
+	 * @param string                        $file     Where its body was written.
+	 * @return array{status: int, body: array<string, mixed>}|WP_Error
+	 */
+	protected function read_saved( $response, string $file ) {
+		if ( is_wp_error( $response ) ) {
+			wp_delete_file( $file );
+
+			return new WP_Error(
+				'unreachable',
+				/* translators: %s: the reason the connection failed. */
+				sprintf( __( 'Iminify couldn\'t be reached: %s', 'iminify-image-optimizer' ), $response->get_error_message() ),
+				array( 'status' => 0 )
+			);
+		}
+
+		$status = (int) wp_remote_retrieve_response_code( $response );
+
+		if ( $status >= 200 && $status < 300 ) {
+			return array(
+				'status' => $status,
+				'body'   => array(),
+			);
+		}
+
+		$body = is_readable( $file ) ? (string) file_get_contents( $file, false, null, 0, 65536 ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- the error body the stream wrote to a local file.
+		wp_delete_file( $file );
+
+		$response['body'] = $body;
 
 		return $this->read( $response );
 	}

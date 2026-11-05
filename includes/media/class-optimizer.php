@@ -1,0 +1,632 @@
+<?php
+/**
+ * Optimizes one attachment through an upload group, in the background.
+ *
+ * @package Iminify\WordPress
+ */
+
+namespace Iminify\WordPress\Media;
+
+use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Connection;
+use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Site_Record;
+use WP_Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Two Action Scheduler actions per attachment, neither of which ever waits:
+ * the first opens a group for the attachment's original and sends it, the
+ * second reads the group and, once it has finished, writes its files and
+ * deletes it from Iminify. A wait the service asks for (`Retry-After`), a
+ * group still being made or the service out of reach becomes the next run's
+ * time. An upload itself never waits on any of it.
+ *
+ * Opening a group counts an image, so a group is opened again only when the
+ * one open can no longer finish (it expired, it was lost, or the files it was
+ * made for changed), never on an answer that went missing on the way: the
+ * group is read first, and only a group still waiting for its source gets it.
+ */
+class Optimizer {
+
+	const OPTIMIZE_HOOK = 'iminify_optimize_attachment';
+
+	const CHECK_HOOK = 'iminify_check_group';
+
+	const DELETE_GROUP_HOOK = 'iminify_delete_group';
+
+	const GROUP = 'iminify';
+
+	/**
+	 * Sent by an upload, an edit or regenerated sizes, which only runs while the site optimizes uploads.
+	 */
+	const AUTOMATIC = 'auto';
+
+	/**
+	 * Asked for by a person, which runs whatever that setting says.
+	 */
+	const MANUAL = 'manual';
+
+	/**
+	 * Action Scheduler's priorities: lower runs first, so a new upload goes before older work.
+	 */
+	const PRIORITY_UPLOAD = 5;
+
+	const PRIORITY_LATER = 15;
+
+	/**
+	 * Tries for a call that failed on the way (the service out of reach, or a 5xx) before the attachment shows the error.
+	 */
+	const MAX_ATTEMPTS = 6;
+
+	/**
+	 * Groups opened again for one change of the attachment's files before it shows an error, so nothing loops on the service's count.
+	 */
+	const MAX_REOPENS = 3;
+
+	/**
+	 * Tries to delete a group the service is still making, five minutes apart; its own prune deletes what is left.
+	 */
+	const MAX_DELETE_TRIES = 12;
+
+	/**
+	 * How long a client-side upload (WordPress 7.1's browser processing) is waited on for its sizes.
+	 */
+	const CLIENT_SIDE_WAIT = 600;
+
+	/**
+	 * Queues an attachment, once: a run already waiting for it covers this one.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $trigger    What asked for it: AUTOMATIC or MANUAL.
+	 * @param int    $delay      Seconds before it runs.
+	 */
+	public static function queue( int $attachment, string $trigger = self::AUTOMATIC, int $delay = 10 ): void {
+		$args = array( $attachment, $trigger );
+
+		if ( self::pending( self::OPTIMIZE_HOOK, $args ) ) {
+			return;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'status' => Records::QUEUED,
+				'error'  => null,
+			)
+		);
+
+		as_schedule_single_action( time() + $delay, self::OPTIMIZE_HOOK, $args, self::GROUP, false, self::priority( $attachment ) );
+	}
+
+	/**
+	 * Action Scheduler's run for OPTIMIZE_HOOK: opens the attachment's group and sends its source.
+	 *
+	 * @param mixed $attachment The attachment's id.
+	 * @param mixed $trigger    What asked for it.
+	 */
+	public static function optimize( $attachment, $trigger = self::AUTOMATIC ): void {
+		$attachment = (int) $attachment;
+		$trigger    = self::MANUAL === $trigger ? self::MANUAL : self::AUTOMATIC;
+
+		if ( ! self::is_optimizable( $attachment ) ) {
+			return;
+		}
+
+		$client = Plugin::client();
+
+		if ( null === $client ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		$record = Records::get( $attachment );
+
+		if ( null !== $record['group'] ) {
+			/* A group already open for the files the attachment has now is the one to finish. */
+			if ( (int) ( $record['group']['generation'] ?? -1 ) === $record['generation'] ) {
+				self::later( $attachment, self::CHECK_HOOK, array( $attachment ), 0, false );
+
+				return;
+			}
+
+			self::drop_group( $attachment, (string) ( $record['group']['id'] ?? '' ) );
+		}
+
+		Records::update( $attachment, array( 'trigger' => $trigger ) );
+
+		$site = Site_Record::cached() ?? Site_Record::fetch();
+
+		if ( ! is_array( $site ) ) {
+			self::refused( $attachment, $site instanceof WP_Error ? $site : null, self::OPTIMIZE_HOOK, array( $attachment, $trigger ) );
+
+			return;
+		}
+
+		$settings = isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array();
+		$message  = isset( $site['message']['code'] ) ? (string) $site['message']['code'] : '';
+
+		if ( 'update_required' === $message ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'update_required', __( 'Not optimized: update the Iminify plugin first.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		if ( self::AUTOMATIC === $trigger && empty( $settings['optimize_on_upload'] ) ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'off', __( 'Not optimized: the site doesn\'t optimize uploads.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		if ( ! Zip::available() ) {
+			Records::fail( $attachment, Records::SKIPPED, 'zip_unavailable', __( 'Not sent: this server\'s PHP can\'t open zip files. Ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$metadata = is_array( $metadata ) ? $metadata : array();
+
+		if ( self::awaits_client_sizes( $attachment, $metadata ) ) {
+			as_schedule_single_action( time() + MINUTE_IN_SECONDS, self::OPTIMIZE_HOOK, array( $attachment, $trigger ), self::GROUP, false, self::priority( $attachment ) );
+
+			return;
+		}
+
+		$source = Originals::find( $attachment, $metadata, isset( $site['max_file_size'] ) ? (int) $site['max_file_size'] : null );
+
+		if ( null === $source ) {
+			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		$declaration = Declaration::build( $attachment, $metadata, $source );
+
+		if ( is_wp_error( $declaration ) ) {
+			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
+
+			return;
+		}
+
+		$backups = $record['backups'];
+
+		/* Before the group opens, so a backup that can't be trusted costs no image. */
+		if ( Originals::BACKUP !== $source['kind'] && Local_Settings::get()['backups'] ) {
+			$backups = Backups::keep( $source['path'], $source['file'], $backups );
+
+			if ( is_wp_error( $backups ) ) {
+				Records::fail( $attachment, Records::ERROR, (string) $backups->get_error_code(), $backups->get_error_message() );
+
+				return;
+			}
+
+			Records::update( $attachment, array( 'backups' => $backups ) );
+		}
+
+		$group = $client->open_group( $declaration['body'] );
+
+		if ( is_wp_error( $group ) ) {
+			self::refused( $attachment, $group, self::OPTIMIZE_HOOK, array( $attachment, $trigger ) );
+
+			return;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'status'   => Records::WAITING,
+				'attempts' => 0,
+				'error'    => null,
+				'group'    => array(
+					'id'         => (string) ( $group['id'] ?? '' ),
+					'generation' => Records::get( $attachment )['generation'],
+					'outputs'    => $declaration['outputs'],
+					'source'     => (string) Paths::relative( $source['path'] ),
+					'type'       => $declaration['type'],
+					'sent'       => false,
+					'opened'     => time(),
+				),
+			)
+		);
+
+		self::send( $attachment, $client );
+	}
+
+	/**
+	 * Action Scheduler's run for CHECK_HOOK: reads the group, sends its source
+	 * if it is still waiting for it, and writes its files once it has finished.
+	 *
+	 * @param mixed $attachment The attachment's id.
+	 */
+	public static function check( $attachment ): void {
+		$attachment = (int) $attachment;
+		$record     = Records::get( $attachment );
+		$group      = $record['group'];
+		$client     = Plugin::client();
+
+		if ( null === $group || '' === (string) ( $group['id'] ?? '' ) ) {
+			return;
+		}
+
+		if ( null === $client ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		if ( (int) $group['generation'] !== $record['generation'] ) {
+			self::drop_group( $attachment, (string) $group['id'] );
+			self::requeue( $attachment, false );
+
+			return;
+		}
+
+		$answer = $client->group( (string) $group['id'] );
+
+		if ( is_wp_error( $answer ) ) {
+			if ( in_array( $answer->get_error_code(), array( 'not_found', 'http_404' ), true ) ) {
+				Records::update( $attachment, array( 'group' => null ) );
+				self::requeue( $attachment, true );
+
+				return;
+			}
+
+			self::refused( $attachment, $answer, self::CHECK_HOOK, array( $attachment ) );
+
+			return;
+		}
+
+		$status = (string) ( $answer['status'] ?? '' );
+
+		if ( 'expired' === $status ) {
+			self::drop_group( $attachment, (string) $group['id'] );
+			self::requeue( $attachment, true );
+
+			return;
+		}
+
+		if ( 'awaiting_source' === $status ) {
+			self::send( $attachment, $client );
+
+			return;
+		}
+
+		if ( empty( $group['sent'] ) ) {
+			/* The source arrived although its answer never did. */
+			Records::update( $attachment, array( 'group' => array_merge( $group, array( 'sent' => true ) ) ) );
+		}
+
+		if ( 'finished' !== $status ) {
+			/* Every 10 s at first, easing to a minute as the group takes longer. */
+			self::later( $attachment, self::CHECK_HOOK, array( $attachment ), (int) min( MINUTE_IN_SECONDS, 10 + ( time() - (int) ( $group['opened'] ?? time() ) ) / 6 ), false );
+
+			return;
+		}
+
+		self::finish( $attachment, $client, $group, $answer );
+	}
+
+	/**
+	 * Action Scheduler's run for DELETE_GROUP_HOOK: removes a group the plugin
+	 * no longer needs from Iminify, trying again while the service is still
+	 * making it.
+	 *
+	 * @param mixed $group The group's id.
+	 * @param mixed $tries The tries made so far.
+	 */
+	public static function delete_group( $group, $tries = 0 ): void {
+		$client = Plugin::client();
+
+		if ( null === $client || ! is_string( $group ) || '' === $group ) {
+			return;
+		}
+
+		$deleted = $client->delete_group( $group );
+
+		if ( is_wp_error( $deleted ) && ! in_array( $deleted->get_error_code(), array( 'not_found', 'http_404' ), true ) && (int) $tries + 1 < self::MAX_DELETE_TRIES ) {
+			as_schedule_single_action( time() + 5 * MINUTE_IN_SECONDS, self::DELETE_GROUP_HOOK, array( $group, (int) $tries + 1 ), self::GROUP );
+		}
+	}
+
+	/**
+	 * Sends the open group's source, then checks back on it. A group that no
+	 * longer takes it is read by the check, which tells a source that arrived
+	 * from a group that expired.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param Client $client     The client.
+	 */
+	protected static function send( int $attachment, Client $client ): void {
+		$group = Records::get( $attachment )['group'];
+
+		if ( null === $group ) {
+			return;
+		}
+
+		$sent = $client->send_group_source( (string) $group['id'], Paths::absolute( (string) $group['source'] ), (string) $group['type'] );
+
+		if ( is_wp_error( $sent ) && 'group_closed' !== $sent->get_error_code() ) {
+			self::refused( $attachment, $sent, self::CHECK_HOOK, array( $attachment ) );
+
+			return;
+		}
+
+		Records::update( $attachment, array( 'group' => array_merge( $group, array( 'sent' => ! is_wp_error( $sent ) ) ) ) );
+		self::later( $attachment, self::CHECK_HOOK, array( $attachment ), is_wp_error( $sent ) ? 0 : 15, false );
+	}
+
+	/**
+	 * Downloads a finished group, writes its files, and deletes it from Iminify.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param Client               $client     The client.
+	 * @param array<string, mixed> $group      The open group as its record keeps it.
+	 * @param array<string, mixed> $answer     The group as the service answered it.
+	 */
+	protected static function finish( int $attachment, Client $client, array $group, array $answer ): void {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+
+		$zip        = wp_tempnam( 'iminify-group.zip' );
+		$downloaded = $client->download_group( (string) $group['id'], $zip );
+
+		if ( is_wp_error( $downloaded ) ) {
+			wp_delete_file( $zip );
+			self::refused( $attachment, $downloaded, self::CHECK_HOOK, array( $attachment ) );
+
+			return;
+		}
+
+		$written = Writer::write( $attachment, $group, $answer, $zip );
+		wp_delete_file( $zip );
+
+		if ( is_wp_error( $written ) ) {
+			self::drop_group( $attachment, (string) $group['id'] );
+
+			if ( 'changed' === $written->get_error_code() ) {
+				self::requeue( $attachment, true );
+
+				return;
+			}
+
+			Records::fail( $attachment, Records::ERROR, (string) $written->get_error_code(), $written->get_error_message() );
+
+			return;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'status'   => Records::OPTIMIZED,
+				'group'    => null,
+				'error'    => null,
+				'attempts' => 0,
+				'reopens'  => 0,
+				'result'   => array(
+					'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
+					'outputs' => $written['outputs'],
+					'skipped' => $written['skipped'],
+					'at'      => time(),
+				),
+			)
+		);
+
+		self::delete_group( (string) $group['id'] );
+	}
+
+	/**
+	 * What a refusal or a failure does: a wait the service asks for, or one on
+	 * the way, runs the same step again later; a key the service stopped
+	 * disconnects the site; anything else is the attachment's error to show.
+	 *
+	 * @param int           $attachment The attachment's id.
+	 * @param WP_Error|null $error      What went wrong, or null for no answer at all.
+	 * @param string        $hook       The step to run again.
+	 * @param list<mixed>   $args       Its arguments.
+	 */
+	protected static function refused( int $attachment, ?WP_Error $error, string $hook, array $args ): void {
+		$code   = null === $error ? 'unexpected_response' : (string) $error->get_error_code();
+		$data   = null === $error ? array() : $error->get_error_data();
+		$data   = is_array( $data ) ? $data : array();
+		$status = (int) ( $data['status'] ?? 0 );
+
+		if ( 'unauthenticated' === $code ) {
+			( new Connection() )->revoked_by_service();
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, $code, __( 'Not optimized: Iminify disconnected this site.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		if ( in_array( $code, array( 'not_connected', 'site_moved' ), true ) ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, $code, null === $error ? '' : $error->get_error_message() );
+
+			return;
+		}
+
+		if ( 429 === $status ) {
+			self::later( $attachment, $hook, $args, isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : MINUTE_IN_SECONDS, false, $error );
+
+			return;
+		}
+
+		if ( 'unreachable' === $code || $status >= 500 ) {
+			self::later( $attachment, $hook, $args, (int) min( HOUR_IN_SECONDS, MINUTE_IN_SECONDS * pow( 2, Records::get( $attachment )['attempts'] ) ), true, $error );
+
+			return;
+		}
+
+		self::fail( $attachment, $code, null === $error ? __( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ) : $error->get_error_message() );
+	}
+
+	/**
+	 * Runs a step again after a wait. A failure on the way counts toward the
+	 * attachment's tries, and past them the error stays for the person to see;
+	 * a wait the service asked for never runs out.
+	 *
+	 * @param int           $attachment The attachment's id.
+	 * @param string        $hook       The step.
+	 * @param list<mixed>   $args       Its arguments.
+	 * @param int           $seconds    How long to wait.
+	 * @param bool          $counts     Whether the wait counts as a failed try.
+	 * @param WP_Error|null $error      The reason, kept on the record.
+	 */
+	protected static function later( int $attachment, string $hook, array $args, int $seconds, bool $counts, ?WP_Error $error = null ): void {
+		$attempts = Records::get( $attachment )['attempts'] + ( $counts ? 1 : 0 );
+
+		if ( $counts && $attempts > self::MAX_ATTEMPTS ) {
+			self::fail( $attachment, null === $error ? 'unreachable' : (string) $error->get_error_code(), null === $error ? '' : $error->get_error_message() );
+
+			return;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'status'   => self::CHECK_HOOK === $hook ? Records::WAITING : Records::QUEUED,
+				'attempts' => $attempts,
+				'error'    => null === $error ? null : array(
+					'code'    => (string) $error->get_error_code(),
+					'message' => $error->get_error_message(),
+				),
+			)
+		);
+
+		if ( ! self::pending( $hook, $args ) ) {
+			as_schedule_single_action( time() + $seconds, $hook, $args, self::GROUP, false, self::priority( $attachment ) );
+		}
+	}
+
+	/**
+	 * Queues the attachment again with what first asked for it. A group lost
+	 * on the service's side counts toward the attachment's reopens, which end
+	 * in an error past the cap; files the attachment changed to don't.
+	 *
+	 * @param int  $attachment The attachment's id.
+	 * @param bool $counts     Whether this reopen counts toward the cap.
+	 */
+	protected static function requeue( int $attachment, bool $counts ): void {
+		$record  = Records::get( $attachment );
+		$reopens = $record['reopens'] + ( $counts ? 1 : 0 );
+
+		if ( $reopens > self::MAX_REOPENS ) {
+			self::fail( $attachment, 'reopened', __( 'Iminify couldn\'t finish this image after several tries.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		Records::update( $attachment, array( 'reopens' => $reopens ) );
+		self::queue( $attachment, self::MANUAL === $record['trigger'] ? self::MANUAL : self::AUTOMATIC, 0 );
+	}
+
+	/**
+	 * Shows an error for the attachment, deleting any group it had open from Iminify.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $code       The reason's code.
+	 * @param string $message    The reason, in words.
+	 */
+	protected static function fail( int $attachment, string $code, string $message ): void {
+		$group = Records::get( $attachment )['group'];
+
+		if ( null !== $group ) {
+			self::drop_group( $attachment, (string) ( $group['id'] ?? '' ) );
+		}
+
+		Records::fail( $attachment, Records::ERROR, $code, $message );
+	}
+
+	/**
+	 * Forgets the attachment's open group, deleting it from Iminify in the background.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $group      The group's id.
+	 */
+	protected static function drop_group( int $attachment, string $group ): void {
+		Records::update( $attachment, array( 'group' => null ) );
+		as_unschedule_all_actions( self::CHECK_HOOK, array( $attachment ), self::GROUP );
+
+		if ( '' !== $group ) {
+			as_schedule_single_action( time(), self::DELETE_GROUP_HOOK, array( $group, 0 ), self::GROUP );
+		}
+	}
+
+	/**
+	 * Whether an attachment is an image the service optimizes, read from its
+	 * file rather than its MIME type: WordPress keeps `image/heic` on an
+	 * iPhone upload it turned into a JPEG.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function is_optimizable( int $attachment ): bool {
+		if ( 'attachment' !== get_post_type( $attachment ) || ! wp_attachment_is_image( $attachment ) ) {
+			return false;
+		}
+
+		$file = (string) get_attached_file( $attachment, true );
+		$type = '' !== $file && is_file( $file ) ? wp_get_image_mime( $file ) : false;
+
+		return is_string( $type ) && isset( Declaration::FORMATS[ $type ] );
+	}
+
+	/**
+	 * Whether WordPress 7.1's browser processing is still making the sizes of
+	 * a fresh upload: its metadata has none yet while the site makes sizes
+	 * smaller than the image.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   Its metadata.
+	 */
+	protected static function awaits_client_sizes( int $attachment, array $metadata ): bool {
+		$posted = get_post_time( 'U', true, $attachment );
+
+		if ( ! empty( $metadata['sizes'] ) || ! is_int( $posted ) || time() - $posted > self::CLIENT_SIDE_WAIT ) {
+			return false;
+		}
+
+		$width  = (int) ( $metadata['width'] ?? 0 );
+		$height = (int) ( $metadata['height'] ?? 0 );
+
+		foreach ( wp_get_registered_image_subsizes() as $size ) {
+			if ( ( $size['width'] > 0 && $size['width'] < $width ) || ( $size['height'] > 0 && $size['height'] < $height ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether a run of a step is already waiting.
+	 *
+	 * @param string      $hook The step.
+	 * @param list<mixed> $args Its arguments.
+	 */
+	protected static function pending( string $hook, array $args ): bool {
+		return array() !== as_get_scheduled_actions(
+			array(
+				'hook'     => $hook,
+				'args'     => $args,
+				'group'    => self::GROUP,
+				'status'   => 'pending',
+				'per_page' => 1,
+			),
+			'ids'
+		);
+	}
+
+	/**
+	 * A fresh upload's priority, ahead of older work.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function priority( int $attachment ): int {
+		$posted = get_post_time( 'U', true, $attachment );
+
+		return is_int( $posted ) && time() - $posted <= Declaration::RECENT_SECONDS ? self::PRIORITY_UPLOAD : self::PRIORITY_LATER;
+	}
+}

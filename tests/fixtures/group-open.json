@@ -1,0 +1,30 @@
+{
+    "data": {
+        "id": "9d3c5c02-4e1f-4a6b-8d2c-3f5a7b9c1e24",
+        "name": "IMG_2041",
+        "status": "awaiting_source",
+        "upload_by": "2099-11-05T10:00:00+00:00",
+        "source": {
+            "format": "jpg",
+            "size": 2841205,
+            "width": 2560,
+            "height": 1707
+        },
+        "settings": {
+            "level": "smart",
+            "formats": [
+                "original",
+                "webp"
+            ],
+            "keep_metadata": false,
+            "ephemeral": true,
+            "priority": "interactive"
+        },
+        "files": 6,
+        "outputs": [],
+        "alt_text": null,
+        "download_url": null,
+        "created_at": "2026-11-05T09:00:00+00:00",
+        "received_at": null
+    }
+}

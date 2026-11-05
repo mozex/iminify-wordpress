@@ -21,7 +21,7 @@ When you press Connect, your site's server sends Iminify your site's home addres
 
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
-* each image it optimizes, with the sizes WordPress keeps of it, to be compressed and sent back;
+* each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * your site's home address and the plugin's version, with every call;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site.
 

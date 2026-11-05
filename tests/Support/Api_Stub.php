@@ -132,6 +132,12 @@ class Api_Stub {
 			return $answer;
 		}
 
+		/* A streamed call writes its body to the file it named, as WordPress's own transport does, and answers with no body. */
+		if ( ! empty( $args['stream'] ) && isset( $args['filename'] ) && is_string( $args['filename'] ) ) {
+			file_put_contents( $args['filename'], $answer['body'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- a test's stand-in for the HTTP transport.
+			$answer['body'] = '';
+		}
+
 		return array(
 			'headers'  => new CaseInsensitiveDictionary( array_merge( array( 'content-type' => 'application/json' ), $answer['headers'] ) ),
 			'body'     => $answer['body'],
@@ -141,6 +147,24 @@ class Api_Stub {
 			),
 			'cookies'  => array(),
 			'filename' => null,
+		);
+	}
+
+	/**
+	 * The calls the plugin made to one method and path.
+	 *
+	 * @param string $method The HTTP method.
+	 * @param string $path   The path under the API's address.
+	 * @return list<array{method: string, path: string, url: string, args: array<string, mixed>}>
+	 */
+	public function calls( string $method, string $path ): array {
+		return array_values(
+			array_filter(
+				$this->requests,
+				static function ( array $request ) use ( $method, $path ): bool {
+					return strtoupper( $method ) === $request['method'] && $path === $request['path'];
+				}
+			)
 		);
 	}
 

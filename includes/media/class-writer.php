@@ -1,0 +1,243 @@
+<?php
+/**
+ * Writes a finished group's files over the attachment's.
+ *
+ * @package Iminify\WordPress
+ */
+
+namespace Iminify\WordPress\Media;
+
+use WP_Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Writes only what the service marked `replace`: each output in the source's
+ * format over the file of the same name, each WebP or AVIF beside it as
+ * `photo.jpg.webp`, every one checked before it is put in place. A file that
+ * changed since the group was opened is never written over. The metadata is
+ * read fresh just before it is saved, and only the plugin's own keys change in
+ * it (`filesize`, and the main file's width and height when the site's maximum
+ * width or size limit made it smaller), so every key another plugin keeps
+ * there survives.
+ */
+class Writer {
+
+	/**
+	 * The attachment whose metadata the plugin is saving, so its own save never queues the attachment again.
+	 *
+	 * @var int|null
+	 */
+	public static $writing = null;
+
+	/**
+	 * The names a file in the group's answer may have.
+	 */
+	const FILE_NAME = '/^[A-Za-z0-9_][A-Za-z0-9._-]*\.(jpe?g|png|gif|webp|avif)$/D';
+
+	/**
+	 * The copies the plugin makes beside a file, by format, with their MIME types.
+	 */
+	const COPIES = array(
+		'webp' => 'image/webp',
+		'avif' => 'image/avif',
+	);
+
+	/**
+	 * Writes a finished group's files.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $group      The open group as its record keeps it.
+	 * @param array<string, mixed> $answer     The group as the service answered it.
+	 * @param string               $zip        The group's downloaded zip.
+	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int}|WP_Error
+	 */
+	public static function write( int $attachment, array $group, array $answer, string $zip ) {
+		$declared = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
+
+		foreach ( $declared as $output ) {
+			$path = Paths::absolute( (string) $output['file'] );
+
+			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) $output['size'] ) {
+				return new WP_Error( 'changed', __( 'The image changed while Iminify was optimizing it, so it\'s sent again.', 'iminify-image-optimizer' ) );
+			}
+		}
+
+		$writes  = self::writes( $declared, $answer );
+		$archive = Zip::open( $zip );
+
+		if ( is_wp_error( $archive ) ) {
+			return $archive;
+		}
+
+		$record  = Records::get( $attachment );
+		$written = $record['written'];
+		$copies  = $record['copies'];
+		$summary = array();
+		$skipped = 0;
+
+		foreach ( $declared as $name => $output ) {
+			$summary[ $name ] = array(
+				'before'  => (int) $output['size'],
+				'after'   => (int) $output['size'],
+				'width'   => (int) $output['width'],
+				'height'  => (int) $output['height'],
+				'formats' => array(),
+			);
+		}
+
+		foreach ( $writes as $write ) {
+			$target = Paths::absolute( $write['file'] );
+			$data   = Zip::read( $archive, $write['entry'] );
+
+			if ( null === $data ) {
+				++$skipped;
+				continue;
+			}
+
+			$ok = Files::replace(
+				$target,
+				$data,
+				static function ( string $temporary ) use ( $write ): bool {
+					$size = wp_getimagesize( $temporary );
+
+					return is_array( $size )
+						&& (int) $size[0] === $write['width']
+						&& (int) $size[1] === $write['height']
+						&& wp_get_image_mime( $temporary ) === $write['type'];
+				}
+			);
+
+			if ( ! $ok ) {
+				++$skipped;
+				continue;
+			}
+
+			if ( 'original' === $write['format'] ) {
+				$written[ $write['file'] ]             = strlen( $data );
+				$summary[ $write['output'] ]['after']  = strlen( $data );
+				$summary[ $write['output'] ]['width']  = $write['width'];
+				$summary[ $write['output'] ]['height'] = $write['height'];
+				continue;
+			}
+
+			$copies[ $write['file'] ]                 = array(
+				'for'    => (string) $declared[ $write['output'] ]['file'],
+				'format' => $write['format'],
+				'bytes'  => strlen( $data ),
+				'origin' => Records::ORIGIN,
+			);
+			$summary[ $write['output'] ]['formats'][] = $write['format'];
+		}
+
+		$archive->close();
+
+		Records::update(
+			$attachment,
+			array(
+				'written' => $written,
+				'copies'  => $copies,
+			)
+		);
+
+		self::save_metadata( $attachment, $declared, $summary );
+
+		return array(
+			'outputs' => $summary,
+			'skipped' => $skipped,
+		);
+	}
+
+	/**
+	 * Each file to write: an output the service marked `replace` that the
+	 * group declared, by the name its answer gives it, in a format the plugin
+	 * writes.
+	 *
+	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared.
+	 * @param array<string, mixed>                $answer   The group as the service answered it.
+	 * @return list<array{output: string, format: string, entry: string, file: string, type: string, width: int, height: int}>
+	 */
+	protected static function writes( array $declared, array $answer ): array {
+		$outputs = isset( $answer['outputs'] ) && is_array( $answer['outputs'] ) ? $answer['outputs'] : array();
+		$writes  = array();
+
+		foreach ( $outputs as $output ) {
+			if ( ! is_array( $output ) || true !== ( $output['replace'] ?? null ) ) {
+				continue;
+			}
+
+			$name   = isset( $output['name'] ) ? (string) $output['name'] : '';
+			$format = isset( $output['format'] ) ? (string) $output['format'] : '';
+			$entry  = isset( $output['file'] ) ? (string) $output['file'] : '';
+
+			if ( ! isset( $declared[ $name ] ) || ! preg_match( self::FILE_NAME, $entry ) || ( 'original' !== $format && ! isset( self::COPIES[ $format ] ) ) ) {
+				continue;
+			}
+
+			$file = (string) $declared[ $name ]['file'];
+			$path = Paths::absolute( $file );
+
+			$writes[] = array(
+				'output' => $name,
+				'format' => $format,
+				'entry'  => $entry,
+				'file'   => 'original' === $format ? $file : $file . '.' . $format,
+				'type'   => 'original' === $format ? (string) wp_get_image_mime( $path ) : self::COPIES[ $format ],
+				'width'  => (int) ( $output['width'] ?? 0 ),
+				'height' => (int) ( $output['height'] ?? 0 ),
+			);
+		}
+
+		return $writes;
+	}
+
+	/**
+	 * Saves the new file sizes, and the main file's dimensions when they
+	 * changed, into the metadata as it stands now.
+	 *
+	 * @param int                                 $attachment The attachment's id.
+	 * @param array<string, array<string, mixed>> $declared   The group's outputs as declared.
+	 * @param array<string, array<string, mixed>> $summary    What was written for each: its bytes before and after, its width and height, and the copies made.
+	 */
+	protected static function save_metadata( int $attachment, array $declared, array $summary ): void {
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+
+		if ( ! is_array( $metadata ) ) {
+			return;
+		}
+
+		$by_file = array();
+
+		foreach ( $summary as $name => $output ) {
+			if ( $output['after'] !== $output['before'] ) {
+				$by_file[ wp_basename( (string) $declared[ $name ]['file'] ) ] = $output;
+			}
+		}
+
+		if ( isset( $summary[ Declaration::MAIN ] ) && $summary[ Declaration::MAIN ]['after'] !== $summary[ Declaration::MAIN ]['before'] ) {
+			$metadata['filesize'] = $summary[ Declaration::MAIN ]['after'];
+			$metadata['width']    = $summary[ Declaration::MAIN ]['width'];
+			$metadata['height']   = $summary[ Declaration::MAIN ]['height'];
+		}
+
+		if ( isset( $metadata['sizes'] ) ) {
+			foreach ( $metadata['sizes'] as $name => $size ) {
+				$file = wp_basename( (string) $size['file'] );
+
+				if ( isset( $by_file[ $file ] ) ) {
+					$metadata['sizes'][ $name ]['filesize'] = $by_file[ $file ]['after'];
+				}
+			}
+		}
+
+		self::$writing = $attachment;
+
+		try {
+			wp_update_attachment_metadata( $attachment, $metadata );
+		} finally {
+			self::$writing = null;
+		}
+	}
+}

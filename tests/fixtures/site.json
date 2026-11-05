@@ -16,6 +16,7 @@
         },
         "plan": "free",
         "plan_ends_at": null,
+        "max_file_size": 16777216,
         "usage": {
             "images": {
                 "used": 3,

@@ -11,6 +11,7 @@ use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Admin\Rest_Controller;
 use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Media\Hooks;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -29,6 +30,7 @@ class Plugin {
 		add_action( 'init', array( Local_Settings::class, 'register' ) );
 		add_action( 'rest_api_init', array( self::class, 'register_routes' ) );
 		add_action( Connection::CLAIM_HOOK, array( self::class, 'claim_in_background' ) );
+		Hooks::register();
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
