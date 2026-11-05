@@ -685,8 +685,14 @@ class Media_View {
 
 			$html .= '</p>';
 
+			$fills = '';
+
 			foreach ( self::fills( $attachment ) as $what => $label ) {
-				$html .= '<p class="iminify-actions">' . self::button( $attachment, 'missing', $label, self::fill_warning(), '', '', false, $what ) . '</p>';
+				$fills .= self::button( $attachment, 'missing', $label, self::fill_warning(), '', '', false, $what );
+			}
+
+			if ( '' !== $fills ) {
+				$html .= '<p class="iminify-actions-label">' . esc_html__( 'Make what it lacks', 'iminify-image-optimizer' ) . '</p><p class="iminify-actions">' . $fills . '</p>';
 			}
 		}
 

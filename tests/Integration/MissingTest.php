@@ -161,7 +161,10 @@ class MissingTest extends WP_UnitTestCase {
 	}
 
 	public function test_an_image_sent_for_a_missing_format_keeps_its_files_savings_and_level_and_gains_the_copy(): void {
-		$id     = $this->optimized( array( 'webp' ) );
+		/* The copy the stand-in service makes has to be one this host's image editor can write: some PHP builds have no AVIF. */
+		$lacks  = wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) ) ? 'avif' : 'webp';
+		$has    = 'avif' === $lacks ? 'webp' : 'avif';
+		$id     = $this->optimized( array( $has ) );
 		$record = Records::get( $id );
 		$saved  = Records::saved();
 		$main   = (string) get_attached_file( $id );
@@ -198,7 +201,7 @@ class MissingTest extends WP_UnitTestCase {
 			2
 		);
 
-		$answer = $this->answer_without_replacing( $id, array( 'avif' ) );
+		$answer = $this->answer_without_replacing( $id, array( $lacks ) );
 		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
 		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( $answer ) );
 		$this->api->on( 'DELETE', 'groups/' . self::GROUP, 204, '' );
@@ -211,14 +214,14 @@ class MissingTest extends WP_UnitTestCase {
 		$this->assertNull( $after['fill'] );
 		$this->assertNull( $after['level'] );
 		$this->assertSame( $bytes, (int) filesize( $main ), 'A file the service did not better stays.' );
-		$this->assertSame( array( 'webp', 'avif' ), $after['result']['formats'] );
+		$this->assertEqualsCanonicalizing( array( 'webp', 'avif' ), $after['result']['formats'] );
 		$this->assertSame( 'ultra', $after['result']['level'] );
 		$this->assertSame( $saved, Records::saved(), 'What the image saved stands.' );
 		$this->assertSame( $heard, array( $id ) );
-		$this->assertContains( 'avif', $after['result']['outputs']['full']['formats'] );
-		$this->assertContains( 'webp', $after['result']['outputs']['full']['formats'] );
-		$this->assertFileExists( $main . '.avif' );
-		$this->assertArrayHasKey( Paths::relative( $main ) . '.avif', $after['copies'] );
+		$this->assertContains( $lacks, $after['result']['outputs']['full']['formats'] );
+		$this->assertContains( $has, $after['result']['outputs']['full']['formats'] );
+		$this->assertFileExists( $main . '.' . $lacks );
+		$this->assertArrayHasKey( Paths::relative( $main ) . '.' . $lacks, $after['copies'] );
 
 		/* Nothing is left for a second run, which spends nothing. */
 		$this->assertSame( array(), Missing::of( $id, Missing::FORMATS ) );
