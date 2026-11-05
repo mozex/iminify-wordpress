@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * and the service's message. The plugin's own pages read it fresh and keep the
  * record a few minutes; the message is kept until a later answer replaces it,
  * since the notice on other screens reads only what is kept here, so no admin
- * screen outside the plugin's calls Iminify. The formats the site asks for are
- * kept too, for the media library's filter, and every record read is how the
- * plugin hears that the account's day is spent or back, and that the connection
- * works again.
+ * screen outside the plugin's calls Iminify. The formats and sizes the site asks
+ * for are kept too, for what an image lacks (Media\Missing), and every record read
+ * is how the plugin hears that the account's day is spent or back, and that the
+ * connection works again.
  */
 class Site_Record {
 
@@ -32,6 +32,8 @@ class Site_Record {
 	const MESSAGE_OPTION = 'iminify_site_message';
 
 	const FORMATS_OPTION = 'iminify_site_formats';
+
+	const SIZES_OPTION = 'iminify_site_sizes';
 
 	const TTL = 300;
 
@@ -89,6 +91,7 @@ class Site_Record {
 		$settings = isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array();
 
 		update_option( self::FORMATS_OPTION, array_keys( array_filter( array_intersect_key( $settings, array_flip( array( 'webp', 'avif' ) ) ) ) ), false );
+		update_option( self::SIZES_OPTION, isset( $settings['sizes'] ) && is_array( $settings['sizes'] ) ? $settings['sizes'] : '', false );
 
 		$message = $site['message'] ?? null;
 
@@ -141,11 +144,23 @@ class Site_Record {
 	}
 
 	/**
+	 * The WordPress sizes the site sends in the last record read, or null for every size.
+	 *
+	 * @return list<string>|null
+	 */
+	public static function sizes(): ?array {
+		$sizes = get_option( self::SIZES_OPTION );
+
+		return is_array( $sizes ) ? array_values( array_filter( $sizes, 'is_string' ) ) : null;
+	}
+
+	/**
 	 * Drops the kept record.
 	 */
 	public static function forget(): void {
 		delete_transient( self::TRANSIENT );
 		delete_option( self::MESSAGE_OPTION );
 		delete_option( self::FORMATS_OPTION );
+		delete_option( self::SIZES_OPTION );
 	}
 }

@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -38,7 +40,7 @@ class Settings_Page {
 		$hook = add_options_page(
 			__( 'Iminify Image Optimizer', 'iminify-image-optimizer' ),
 			__( 'Iminify', 'iminify-image-optimizer' ),
-			'manage_options',
+			Capabilities::required( Capabilities::SETTINGS ),
 			self::SLUG,
 			array( self::class, 'render' )
 		);
@@ -87,16 +89,17 @@ class Settings_Page {
 	 *
 	 * @param non-empty-string $handle The script's handle.
 	 * @param string           $entry  The build's entry name.
+	 * @param list<non-empty-string> $needs  What it needs besides what the build found.
 	 * @return bool Whether the built script exists.
 	 */
-	public static function enqueue_entry( string $handle, string $entry ): bool {
+	public static function enqueue_entry( string $handle, string $entry, array $needs = array() ): bool {
 		$asset = self::asset( $entry );
 
 		if ( null === $asset ) {
 			return false;
 		}
 
-		wp_enqueue_script( $handle, plugins_url( 'assets/build/' . $entry . '.js', IMINIFY_FILE ), $asset['dependencies'], $asset['version'], true );
+		wp_enqueue_script( $handle, plugins_url( 'assets/build/' . $entry . '.js', IMINIFY_FILE ), array_merge( $asset['dependencies'], $needs ), $asset['version'], true );
 		wp_set_script_translations( $handle, 'iminify-image-optimizer' );
 
 		return true;

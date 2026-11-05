@@ -60,9 +60,11 @@ class Declaration {
 	 * @param array{path: string, kind: string, file: string} $source     The original to send (Originals::find()).
 	 * @param string|null                                    $level      The level someone asked for, when it isn't the site's.
 	 * @param bool                                           $background Whether it is older work nobody waits on, which takes the slower lane.
+	 * @param list<string>|null                              $only       The only sizes to declare beside the main file (those an image lacks), or null for all.
+	 * @param list<string>                                   $fresh      The sizes WordPress just made, possibly from the plugin's own output: they name no bytes, so the service's file made from the original always takes their place.
 	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int}>, type: string}|WP_Error The request's body, each output's file relative to the uploads folder, and the source's MIME type.
 	 */
-	public static function build( int $attachment, array $metadata, array $source, ?string $level = null, bool $background = false ) {
+	public static function build( int $attachment, array $metadata, array $source, ?string $level = null, bool $background = false, ?array $only = null, array $fresh = array() ) {
 		$type = wp_get_image_mime( $source['path'] );
 
 		if ( ! is_string( $type ) || ! isset( self::FORMATS[ $type ] ) ) {
@@ -101,6 +103,10 @@ class Declaration {
 		);
 
 		foreach ( self::sizes( $metadata, $attached, $source_size, $type ) as $name => $size ) {
+			if ( null !== $only && ! in_array( (string) $name, $only, true ) ) {
+				continue;
+			}
+
 			$outputs[ $name ] = array(
 				'file'   => $size['file'],
 				'size'   => $size['size'],
@@ -113,7 +119,7 @@ class Declaration {
 					'width'  => $size['width'],
 					'height' => $size['height'],
 					'crop'   => $size['crop'],
-					'size'   => $size['size'],
+					'size'   => in_array( (string) $name, $fresh, true ) ? null : $size['size'],
 				),
 				static function ( $value ): bool {
 					return null !== $value;

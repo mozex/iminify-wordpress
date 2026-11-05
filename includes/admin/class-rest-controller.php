@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Queue;
@@ -87,7 +88,7 @@ class Rest_Controller {
 	 * Only someone who can manage the site's options reaches these routes.
 	 */
 	public function can_manage(): bool {
-		return current_user_can( 'manage_options' );
+		return Capabilities::can( Capabilities::SETTINGS );
 	}
 
 	/**

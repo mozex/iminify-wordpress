@@ -38,9 +38,10 @@ class Bulk_State {
 	const LOOPBACK_TRANSIENT = 'iminify_loopback';
 
 	/**
-	 * Action Scheduler's own command that runs the plugin's queue from the shell.
+	 * What carries a stalled run on from the shell: the plugin's command, which takes
+	 * it from here whatever it does, and Action Scheduler's own for the plugin's queue.
 	 */
-	const COMMAND = 'wp action-scheduler run --group=iminify';
+	const COMMANDS = array( 'wp iminify run', 'wp action-scheduler run --group=iminify' );
 
 	/**
 	 * Builds the state.
@@ -49,7 +50,13 @@ class Bulk_State {
 	 * @return array<string, mixed>
 	 */
 	public static function build( bool $estimate = false ): array {
-		$keys   = Plugin::keys();
+		$keys = Plugin::keys();
+
+		/* What the optimized images lack depends on what the site asks for, which can change on iminify.com. */
+		if ( $estimate && null !== $keys->get() && null === Site_Record::cached() ) {
+			Site_Record::fetch();
+		}
+
 		$hidden = $keys->hides_account();
 		$counts = Bulk::counts();
 		$saved  = Records::saved();
@@ -90,10 +97,6 @@ class Bulk_State {
 
 		if ( ! $state['connected'] || 0 === $counts['not_optimized'] ) {
 			return $state;
-		}
-
-		if ( null === Site_Record::cached() ) {
-			Site_Record::fetch();
 		}
 
 		$site = Site_Record::fetch(
@@ -137,10 +140,11 @@ class Bulk_State {
 			'total'    => $run['total'],
 			'sent'     => $run['sent'],
 			'failed'   => $run['failed'],
+			'passed'   => $run['passed'],
 			'held'     => $run['hold'] > time() ? State::date( gmdate( 'c', $run['hold'] ) ) : null,
 			'stalled'  => $stalled,
 			'loopback' => $stalled ? self::loopback() : null,
-			'command'  => self::COMMAND,
+			'commands' => self::COMMANDS,
 		);
 	}
 

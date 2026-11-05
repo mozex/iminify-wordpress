@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Messages;
@@ -39,7 +40,7 @@ class Notice {
 	 * @return array{key: string, type: string, text: string, action: string}|null
 	 */
 	public static function current(): ?array {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! Capabilities::can( Capabilities::SETTINGS ) ) {
 			return null;
 		}
 

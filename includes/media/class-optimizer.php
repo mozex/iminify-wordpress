@@ -154,8 +154,95 @@ class Optimizer {
 	 * @return true|WP_Error
 	 */
 	public static function ask( int $attachment, ?string $level = null ) {
-		if ( ! self::is_optimizable( $attachment ) ) {
-			return new WP_Error( 'not_optimizable', __( 'Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ), array( 'status' => 422 ) );
+		$refusal = self::refusal( $attachment );
+
+		if ( null !== $refusal ) {
+			return $refusal;
+		}
+
+		if ( Restorer::AVAILABLE === Restorer::availability( $attachment ) ) {
+			$restored = Restorer::restore( $attachment );
+
+			if ( is_wp_error( $restored ) ) {
+				return $restored;
+			}
+		}
+
+		self::cancel( $attachment );
+		Records::update(
+			$attachment,
+			array(
+				'level' => $level,
+				'fill'  => null,
+			)
+		);
+		self::queue( $attachment, self::MANUAL, 0 );
+
+		return true;
+	}
+
+	/**
+	 * Someone asked for what an optimized image lacks, here and now. Unlike
+	 * optimizing it again, nothing goes back first: the image is sent from its
+	 * original at the level it has, and keeps its files unless the service betters
+	 * them. It counts as one more image.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $what       Missing::FORMATS or Missing::SIZES.
+	 * @return true|WP_Error
+	 */
+	public static function fill( int $attachment, string $what ) {
+		$refusal = self::refusal( $attachment );
+
+		if ( null !== $refusal ) {
+			return $refusal;
+		}
+
+		if ( ! Missing::can_fill( $attachment ) ) {
+			return new WP_Error( 'image_changed', __( 'This image has changed since Iminify optimized it, so optimize it again instead.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( array() === Missing::of( $attachment, $what ) ) {
+			return new WP_Error( 'nothing_missing', __( 'This image lacks nothing your site asks for now.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		self::send_for_missing( $attachment, $what, self::MANUAL );
+
+		return true;
+	}
+
+	/**
+	 * Queues an optimized image for what it lacks, at the level it has, so its
+	 * files aren't replaced for a level nobody chose.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $what       Missing::FORMATS or Missing::SIZES.
+	 * @param string $trigger    What asked for it: MANUAL or BULK.
+	 */
+	public static function send_for_missing( int $attachment, string $what, string $trigger ): void {
+		$record = Records::get( $attachment );
+
+		Records::update(
+			$attachment,
+			array(
+				'fill'  => $what,
+				'level' => isset( $record['result']['level'] ) && is_string( $record['result']['level'] ) ? $record['result']['level'] : null,
+			)
+		);
+
+		self::queue( $attachment, $trigger, 0 );
+	}
+
+	/**
+	 * Why someone can't send an image right now, or null when they can.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function refusal( int $attachment ): ?WP_Error {
+		$why = self::why_not( $attachment );
+
+		if ( null !== $why ) {
+			return new WP_Error( 'not_optimizable', $why['message'], array( 'status' => 422 ) );
 		}
 
 		$site = Site_Record::fetch();
@@ -186,9 +273,7 @@ class Optimizer {
 			);
 		}
 
-		$availability = Restorer::availability( $attachment );
-
-		if ( Restorer::NO_ORIGINAL === $availability ) {
+		if ( Restorer::NO_ORIGINAL === Restorer::availability( $attachment ) ) {
 			return new WP_Error( 'no_original', __( 'No original of this image was kept, so it can\'t be optimized again.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
@@ -204,19 +289,7 @@ class Optimizer {
 			return new WP_Error( 'file_too_large', __( 'This image\'s original is larger than your plan\'s file size, so it can\'t be sent.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
-		if ( Restorer::AVAILABLE === $availability ) {
-			$restored = Restorer::restore( $attachment );
-
-			if ( is_wp_error( $restored ) ) {
-				return $restored;
-			}
-		}
-
-		self::cancel( $attachment );
-		Records::update( $attachment, array( 'level' => $level ) );
-		self::queue( $attachment, self::MANUAL, 0 );
-
-		return true;
+		return null;
 	}
 
 	/**
@@ -249,7 +322,16 @@ class Optimizer {
 		$attachment = (int) $attachment;
 		$trigger    = self::trigger( $trigger );
 
-		if ( ! self::is_optimizable( $attachment ) ) {
+		if ( 'attachment' !== get_post_type( $attachment ) ) {
+			return;
+		}
+
+		/* An image that stopped being one to send since it was queued would otherwise stay queued, and hold its run open. */
+		$why = self::why_not( $attachment );
+
+		if ( null !== $why ) {
+			Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
+
 			return;
 		}
 
@@ -338,10 +420,41 @@ class Optimizer {
 			return;
 		}
 
-		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ) );
+		$only  = null;
+		$fresh = array();
+
+		if ( Missing::SIZES === $record['fill'] ) {
+			$sizes = Missing::make_sizes( $attachment );
+
+			if ( array() === $sizes['only'] ) {
+				if ( $sizes['lacking'] ) {
+					Records::fail( $attachment, Records::NOT_OPTIMIZED, 'sizes_failed', __( 'WordPress couldn\'t make the missing sizes of this image.', 'iminify-image-optimizer' ) );
+				} else {
+					Missing::settle( $attachment );
+					Records::end_fill( $attachment );
+				}
+
+				return;
+			}
+
+			$only     = $sizes['only'];
+			$fresh    = $sizes['fresh'];
+			$metadata = wp_get_attachment_metadata( $attachment, true );
+			$metadata = is_array( $metadata ) ? $metadata : array();
+		}
+
+		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ), $only, $fresh );
 
 		if ( is_wp_error( $declaration ) ) {
 			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
+
+			return;
+		}
+
+		/* A size no group can take (a file in another format, one another size shares) leaves nothing to send but the main file, which would count an image for nothing. */
+		if ( null !== $only && array() === array_diff( array_keys( $declaration['outputs'] ), array( Declaration::MAIN ) ) ) {
+			Missing::settle( $attachment );
+			Records::end_fill( $attachment );
 
 			return;
 		}
@@ -576,6 +689,25 @@ class Optimizer {
 			return;
 		}
 
+		$result = array(
+			'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
+			'formats' => self::asked_formats( $answer, (string) ( $group['type'] ?? '' ) ),
+			'outputs' => $written['outputs'],
+			'skipped' => $written['skipped'],
+			'at'      => time(),
+		);
+
+		if ( null !== $current['fill'] && null !== $current['result'] ) {
+			$result = Missing::merged( $current['result'], $result );
+
+			/* A group for sizes made its copies of those sizes alone, so the image's other sizes still lack what they lacked. */
+			if ( Missing::SIZES === $current['fill'] ) {
+				$result['formats'] = isset( $current['result']['formats'] ) && is_array( $current['result']['formats'] ) ? $current['result']['formats'] : array();
+			}
+		}
+
+		$result['sizes'] = Missing::accounted_for( $attachment );
+
 		Records::update(
 			$attachment,
 			array(
@@ -585,18 +717,46 @@ class Optimizer {
 				'attempts' => 0,
 				'reopens'  => 0,
 				'level'    => null,
+				'fill'     => null,
+				'made'     => array(),
 				'priority' => null,
-				'result'   => array(
-					'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
-					'formats' => array_values( array_intersect( array_keys( Writer::COPIES ), isset( $answer['settings']['formats'] ) && is_array( $answer['settings']['formats'] ) ? $answer['settings']['formats'] : array() ) ),
-					'outputs' => $written['outputs'],
-					'skipped' => $written['skipped'],
-					'at'      => time(),
-				),
+				'result'   => $result,
 			)
 		);
 
 		self::delete_group( (string) $group['id'] );
+
+		/**
+		 * An image's files were written: the plugin's output and its WebP and AVIF copies are in place.
+		 *
+		 * @param int                  $attachment The attachment's id.
+		 * @param array<string, mixed> $result     What was written: `level`, `formats`, and each size's `before` and `after` bytes in `outputs`.
+		 */
+		do_action( 'iminify_image_optimized', $attachment, $result );
+	}
+
+	/**
+	 * The copies' formats a finished group was asked for, read from its answer. The
+	 * service answers a source's own format as `original`, so a WebP source's `webp`
+	 * reads as asked too; it would otherwise read as missing on every run.
+	 *
+	 * @param array<string, mixed> $answer The group as the service answered it.
+	 * @param string               $type   The source's MIME type.
+	 * @return list<string>
+	 */
+	protected static function asked_formats( array $answer, string $type ): array {
+		$asked = array();
+		$own   = array_search( $type, Writer::COPIES, true );
+
+		foreach ( isset( $answer['settings']['formats'] ) && is_array( $answer['settings']['formats'] ) ? $answer['settings']['formats'] : array() as $format ) {
+			$format = 'original' === $format && is_string( $own ) ? $own : $format;
+
+			if ( isset( Writer::COPIES[ $format ] ) ) {
+				$asked[] = (string) $format;
+			}
+		}
+
+		return array_values( array_unique( $asked ) );
 	}
 
 	/**
@@ -797,14 +957,54 @@ class Optimizer {
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function is_optimizable( int $attachment ): bool {
+		return null === self::why_not( $attachment );
+	}
+
+	/**
+	 * Why an attachment isn't an image the plugin sends, or null when it is.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array{code: string, message: string}|null
+	 */
+	public static function why_not( int $attachment ): ?array {
+		$unsupported = array(
+			'code'    => 'unsupported_format',
+			'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
+		);
+
 		if ( 'attachment' !== get_post_type( $attachment ) || ! wp_attachment_is_image( $attachment ) ) {
-			return false;
+			return $unsupported;
 		}
 
 		$file = (string) get_attached_file( $attachment, true );
-		$type = '' !== $file && is_file( $file ) ? wp_get_image_mime( $file ) : false;
 
-		return is_string( $type ) && isset( Declaration::FORMATS[ $type ] );
+		if ( '' === $file || ! is_file( $file ) ) {
+			return array(
+				'code'    => 'file_missing',
+				'message' => __( 'Not sent: the image\'s file isn\'t in the uploads folder.', 'iminify-image-optimizer' ),
+			);
+		}
+
+		$type = wp_get_image_mime( $file );
+
+		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
+			return $unsupported;
+		}
+
+		/**
+		 * Whether the plugin sends an image at all, on upload, in bulk or at someone's press.
+		 *
+		 * @param bool $optimize   Whether to send it.
+		 * @param int  $attachment The attachment's id.
+		 */
+		if ( ! apply_filters( 'iminify_optimize_image', true, $attachment ) ) {
+			return array(
+				'code'    => 'left_out',
+				'message' => __( 'Kept as uploaded: this site leaves this image out.', 'iminify-image-optimizer' ),
+			);
+		}
+
+		return null;
 	}
 
 	/**

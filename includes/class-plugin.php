@@ -39,6 +39,7 @@ class Plugin {
 		add_action( 'action_scheduler_init', array( Lifecycle::class, 'resume' ) );
 		Hooks::register();
 		Picture::register();
+		Cli::register();
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( Privacy::class, 'register' ) );

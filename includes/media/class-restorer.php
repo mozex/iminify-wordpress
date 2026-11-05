@@ -138,6 +138,13 @@ class Restorer {
 			)
 		);
 
+		/**
+		 * An image's original is back, its sizes made again and its WebP and AVIF copies gone.
+		 *
+		 * @param int $attachment The attachment's id.
+		 */
+		do_action( 'iminify_image_restored', $attachment );
+
 		return true;
 	}
 

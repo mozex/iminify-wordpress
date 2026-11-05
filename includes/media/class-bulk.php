@@ -18,9 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * One run at a time, kept in an option: what it does (optimize the images not
- * optimized yet, send the failed ones again, or restore every optimized one),
- * how it runs, and how far it got, by attachment id, so it ends however each
- * image fares.
+ * optimized yet, send the failed ones again, restore every optimized one, or make
+ * the formats or sizes the optimized ones lack), how it runs, and how far it got,
+ * by attachment id, so it ends however each image fares. A run started from the
+ * shell can name its images (`Cli`).
  *
  * Optimizing never queues the whole library at once. A feeder hands a window of
  * images to `Optimizer` at a time, each as the BULK trigger, which takes the slower
@@ -51,6 +52,18 @@ class Bulk {
 	const RETRY = 'retry';
 
 	const RESTORE = 'restore';
+
+	/**
+	 * What the optimized images lack: an image goes for it from its original, and keeps what it has (Missing).
+	 */
+	const FORMATS = Missing::FORMATS;
+
+	const SIZES = Missing::SIZES;
+
+	/**
+	 * Every action a run can have.
+	 */
+	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES );
 
 	/**
 	 * How it runs: on Action Scheduler, or driven by the bulk page while it is open.
@@ -121,7 +134,7 @@ class Bulk {
 	/**
 	 * The run, or null when there has been none.
 	 *
-	 * @return array{action: string, mode: string, status: string, reason: string|null, cursor: int, total: int, sent: int, failed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 * @return array{action: string, mode: string, status: string, reason: string|null, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
 	 */
 	public static function run(): ?array {
 		$run = get_option( self::OPTION );
@@ -131,14 +144,16 @@ class Bulk {
 		}
 
 		return array(
-			'action'  => in_array( $run['action'], array( self::OPTIMIZE, self::RETRY, self::RESTORE ), true ) ? (string) $run['action'] : self::OPTIMIZE,
+			'action'  => in_array( $run['action'], self::ACTIONS, true ) ? (string) $run['action'] : self::OPTIMIZE,
 			'mode'    => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
 			'status'  => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
 			'reason'  => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
+			'only'    => isset( $run['only'] ) && is_array( $run['only'] ) ? array_values( array_map( 'intval', $run['only'] ) ) : null,
 			'cursor'  => (int) ( $run['cursor'] ?? 0 ),
 			'total'   => (int) ( $run['total'] ?? 0 ),
 			'sent'    => (int) ( $run['sent'] ?? 0 ),
 			'failed'  => (int) ( $run['failed'] ?? 0 ),
+			'passed'  => (int) ( $run['passed'] ?? 0 ),
 			'window'  => max( 1, (int) ( $run['window'] ?? self::START_FILES ) ),
 			'hold'    => (int) ( $run['hold'] ?? 0 ),
 			'grown'   => (int) ( $run['grown'] ?? 0 ),
@@ -150,11 +165,12 @@ class Bulk {
 	/**
 	 * Starts a run, with a first look right away.
 	 *
-	 * @param string $action OPTIMIZE, RETRY or RESTORE.
-	 * @param string $mode   BACKGROUND or PAGE.
+	 * @param string         $action One of ACTIONS.
+	 * @param string         $mode   BACKGROUND or PAGE.
+	 * @param list<int>|null $only   The images to take, or null for the whole library.
 	 * @return array<string, mixed>|WP_Error The run.
 	 */
-	public static function start( string $action, string $mode ) {
+	public static function start( string $action, string $mode, ?array $only = null ) {
 		$current = self::run();
 
 		if ( null !== $current && in_array( $current['status'], array( self::RUNNING, self::PAUSED ), true ) ) {
@@ -171,10 +187,30 @@ class Bulk {
 			}
 		}
 
-		$total = self::count_candidates( $action );
+		/* What is missing depends on what the site asks for now. */
+		if ( self::is_fill( $action ) ) {
+			$site = Site_Record::fetch();
+
+			if ( is_wp_error( $site ) ) {
+				return $site;
+			}
+		}
+
+		$only = null === $only ? null : array_values( array_unique( array_map( 'intval', $only ) ) );
+
+		if ( null !== $only ) {
+			sort( $only );
+		}
+
+		/* An image waiting for what it lacks is still optimized, so restoring takes it too. */
+		if ( self::RESTORE === $action ) {
+			self::take_back_fills( $only );
+		}
+
+		$total = self::count_candidates( $action, $only );
 
 		if ( 0 === $total ) {
-			return new WP_Error( 'nothing_to_do', self::RESTORE === $action ? __( 'No optimized image is left to restore.', 'iminify-image-optimizer' ) : __( 'Every image is already optimized or on its way.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			return new WP_Error( 'nothing_to_do', self::nothing_to_do( $action ), array( 'status' => 409 ) );
 		}
 
 		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
@@ -186,10 +222,12 @@ class Bulk {
 				'mode'    => self::PAGE === $mode ? self::PAGE : self::BACKGROUND,
 				'status'  => self::RUNNING,
 				'reason'  => null,
+				'only'    => $only,
 				'cursor'  => 0,
 				'total'   => $total,
 				'sent'    => 0,
 				'failed'  => 0,
+				'passed'  => 0,
 				'window'  => self::START_FILES,
 				'hold'    => 0,
 				'grown'   => 0,
@@ -286,6 +324,13 @@ class Bulk {
 				}
 
 				as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK, array( $id, Optimizer::BULK ), Optimizer::GROUP );
+
+				/* An image sent for what it lacks goes back to what it was: nothing happened to it. */
+				if ( null !== $record['fill'] ) {
+					Records::end_fill( $id );
+					continue;
+				}
+
 				Records::fail( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
 			}
 		} while ( array() !== $ids );
@@ -412,6 +457,8 @@ class Bulk {
 	 * @param int $seconds The wait the service asked for.
 	 */
 	public static function throttled( int $seconds ): void {
+		wp_cache_delete( self::OPTION, 'options' );
+
 		$run = self::run();
 
 		if ( null === $run || self::RUNNING !== $run['status'] || $run['hold'] > time() ) {
@@ -454,35 +501,51 @@ class Bulk {
 	/**
 	 * The images the bulk page counts.
 	 *
-	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int}
+	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, missing_formats: int, missing_sizes: int}
 	 */
 	public static function counts(): array {
 		return array(
-			'images'        => self::count_images( false ),
-			'optimized'     => Records::count_with_status( array( Records::OPTIMIZED ) ),
-			'not_optimized' => self::count_candidates( self::OPTIMIZE ),
-			'waiting'       => Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) ),
-			'failed'        => Records::count_with_status( array( Records::ERROR ) ),
-			'skipped'       => Records::count_with_status( array( Records::SKIPPED ) ),
-			'restored'      => Records::count_with_status( array( Records::RESTORED ) ),
+			'images'          => self::count_images( false ),
+			'optimized'       => Records::count_with_status( array( Records::OPTIMIZED ) ),
+			'not_optimized'   => self::count_candidates( self::OPTIMIZE ),
+			'waiting'         => Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) ),
+			'failed'          => Records::count_with_status( array( Records::ERROR ) ),
+			'skipped'         => Records::count_with_status( array( Records::SKIPPED ) ),
+			'restored'        => Records::count_with_status( array( Records::RESTORED ) ),
+			'missing_formats' => Missing::count( Missing::FORMATS ),
+			'missing_sizes'   => Missing::count( Missing::SIZES ),
 		);
 	}
 
 	/**
 	 * How many images a run of this kind would look at.
 	 *
-	 * @param string $action OPTIMIZE, RETRY or RESTORE.
+	 * @param string         $action One of ACTIONS.
+	 * @param list<int>|null $only   The images to take, or null for the whole library.
 	 */
-	public static function count_candidates( string $action ): int {
-		if ( self::RETRY === $action ) {
-			return Records::count_with_status( array( Records::ERROR ) );
+	public static function count_candidates( string $action, ?array $only = null ): int {
+		if ( null !== $only ) {
+			return count(
+				array_filter(
+					$only,
+					static function ( int $id ) use ( $action ): bool {
+						return self::takes( $action, $id );
+					}
+				)
+			);
 		}
 
-		if ( self::RESTORE === $action ) {
-			return Records::count_with_status( array( Records::OPTIMIZED ) );
+		switch ( $action ) {
+			case self::RETRY:
+				return Records::count_with_status( array( Records::ERROR ) );
+			case self::RESTORE:
+				return Records::count_with_status( array( Records::OPTIMIZED ) );
+			case self::FORMATS:
+			case self::SIZES:
+				return Missing::count( $action );
+			default:
+				return self::count_images( true );
 		}
-
-		return self::count_images( true );
 	}
 
 	/**
@@ -492,33 +555,32 @@ class Bulk {
 	 *
 	 * The images to optimize are the ones with no record, or "not optimized" for any
 	 * reason but a restore someone chose (W161), never one optimized, failed,
-	 * skipped or on its way.
+	 * skipped or on its way. An image someone names (`takes()`) goes whatever it reads
+	 * but optimized or on its way.
 	 *
-	 * @param string $action OPTIMIZE, RETRY or RESTORE.
-	 * @param int    $limit  How many at most.
-	 * @param int    $after  The id to start after.
-	 * @return array{ids: list<int>, passed: list<int>, cursor: int, exhausted: bool} The images to send, and those passed over as ones the service can't take.
+	 * @param string         $action One of ACTIONS.
+	 * @param int            $limit  How many at most.
+	 * @param int            $after  The id to start after.
+	 * @param list<int>|null $only   The images to take, or null for the whole library.
+	 * @return array{ids: list<int>, passed: list<int>, cursor: int, exhausted: bool} The images to send, and those passed over as ones the service can't take, or with nothing to make.
 	 */
-	public static function candidates( string $action, int $limit, int $after ): array {
+	public static function candidates( string $action, int $limit, int $after, ?array $only = null ): array {
 		$found  = array();
 		$passed = array();
 		$cursor = $after;
 
 		do {
-			if ( self::RETRY === $action ) {
-				$ids = Records::with_status( array( Records::ERROR ), self::PAGE_SIZE, $cursor );
-			} elseif ( self::RESTORE === $action ) {
-				$ids = Records::with_status( array( Records::OPTIMIZED ), self::PAGE_SIZE, $cursor );
-			} else {
-				$ids = self::not_optimized( self::PAGE_SIZE, $cursor );
-			}
-
+			$ids  = self::next_page( $action, $cursor, $only );
 			$full = self::PAGE_SIZE === count( $ids );
 
 			foreach ( $ids as $id ) {
 				$cursor = $id;
 
-				if ( self::RESTORE === $action || Optimizer::is_optimizable( $id ) ) {
+				if ( null !== $only && ! self::takes( $action, $id ) ) {
+					continue;
+				}
+
+				if ( self::RESTORE === $action || self::can_send( $action, $id ) ) {
 					$found[] = $id;
 				} else {
 					$passed[] = $id;
@@ -640,14 +702,39 @@ class Bulk {
 			return self::TICK;
 		}
 
-		$next = self::candidates( $run['action'], $room, $run['cursor'] );
+		$next  = self::candidates( $run['action'], $room, $run['cursor'], $run['only'] );
+		$total = $run['total'];
 
-		/* An image the service can't take (a format it doesn't read, a file gone from the disk) is set aside, so the counts and the estimate leave it out. */
 		foreach ( $next['passed'] as $id ) {
-			Records::fail( $id, Records::SKIPPED, 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+			/* An image the service can't take (a format it doesn't read, a file gone from the disk) is set aside, so the counts and the estimate leave it out. */
+			$why = Optimizer::why_not( $id );
+
+			if ( ! self::is_fill( $run['action'] ) ) {
+				$why = $why ?? array(
+					'code'    => 'unsupported_format',
+					'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
+				);
+
+				Records::fail( $id, Records::SKIPPED, $why['code'], $why['message'] );
+				continue;
+			}
+
+			--$total;
+
+			/* An image with nothing to make was only looked at, once. One with no original to make it from stays as it is, and the page says so; one this site leaves out stays out. */
+			if ( array() === Missing::of( $id, $run['action'] ) ) {
+				Missing::settle( $id );
+			} elseif ( null === $why ) {
+				++$run['passed'];
+			}
 		}
 
 		foreach ( $next['ids'] as $id ) {
+			if ( self::is_fill( $run['action'] ) ) {
+				Optimizer::send_for_missing( $id, $run['action'], Optimizer::BULK );
+				continue;
+			}
+
 			/* A failed image sent again starts with its tries counted from nothing. */
 			if ( self::RETRY === $run['action'] ) {
 				Records::update(
@@ -665,6 +752,8 @@ class Bulk {
 		$changes = array(
 			'cursor' => $next['cursor'],
 			'sent'   => $run['sent'] + count( $next['ids'] ),
+			'total'  => max( 0, $total ),
+			'passed' => $run['passed'],
 		);
 
 		/* Done once nothing is left to send and nothing it sent is still on its way, a wait for the connection included. */
@@ -678,7 +767,143 @@ class Bulk {
 
 		self::change( $changes );
 
-		return self::DONE === ( $changes['status'] ?? null ) ? null : self::TICK;
+		if ( self::DONE === ( $changes['status'] ?? null ) ) {
+			self::finished();
+
+			return null;
+		}
+
+		return self::TICK;
+	}
+
+	/**
+	 * Tells whoever listens that a run came to its end.
+	 */
+	protected static function finished(): void {
+		/**
+		 * A bulk run went through every image it had to, and nothing it sent is still on its way.
+		 *
+		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats` or `sizes`), `total`, `sent`, `failed` and `passed`.
+		 */
+		do_action( 'iminify_bulk_finished', (array) self::run() );
+	}
+
+	/**
+	 * Whether a run sends optimized images for what they lack.
+	 *
+	 * @param string $action The run's action.
+	 */
+	protected static function is_fill( string $action ): bool {
+		return in_array( $action, array( self::FORMATS, self::SIZES ), true );
+	}
+
+	/**
+	 * What a run of this kind says when it has nothing to do.
+	 *
+	 * @param string $action The run's action.
+	 */
+	protected static function nothing_to_do( string $action ): string {
+		if ( self::RESTORE === $action ) {
+			return __( 'No optimized image is left to restore.', 'iminify-image-optimizer' );
+		}
+
+		return self::is_fill( $action ) ? __( 'No optimized image lacks anything your site asks for now.', 'iminify-image-optimizer' ) : __( 'Every image is already optimized or on its way.', 'iminify-image-optimizer' );
+	}
+
+	/**
+	 * The next page of a run's images.
+	 *
+	 * @param string         $action The run's action.
+	 * @param int            $after  The id to start after.
+	 * @param list<int>|null $only   The images to take, or null for the whole library.
+	 * @return list<int>
+	 */
+	protected static function next_page( string $action, int $after, ?array $only ): array {
+		if ( null !== $only ) {
+			$later = array_filter(
+				$only,
+				static function ( int $id ) use ( $after ): bool {
+					return $id > $after;
+				}
+			);
+
+			return array_slice( array_values( $later ), 0, self::PAGE_SIZE );
+		}
+
+		switch ( $action ) {
+			case self::RETRY:
+				return Records::with_status( array( Records::ERROR ), self::PAGE_SIZE, $after );
+			case self::RESTORE:
+				return Records::with_status( array( Records::OPTIMIZED ), self::PAGE_SIZE, $after );
+			case self::FORMATS:
+			case self::SIZES:
+				return Missing::images( $action, self::PAGE_SIZE, $after );
+			default:
+				return self::not_optimized( self::PAGE_SIZE, $after );
+		}
+	}
+
+	/**
+	 * Whether a run takes an image someone named. Optimizing leaves out only what is
+	 * optimized or on its way, so a repeated command spends nothing on an image twice.
+	 *
+	 * @param string $action The run's action.
+	 * @param int    $id     The attachment's id.
+	 */
+	protected static function takes( string $action, int $id ): bool {
+		$status = Records::get( $id )['status'];
+
+		switch ( $action ) {
+			case self::RETRY:
+				return Records::ERROR === $status;
+			case self::RESTORE:
+			case self::FORMATS:
+			case self::SIZES:
+				return Records::OPTIMIZED === $status;
+			default:
+				return ! in_array( $status, array( Records::OPTIMIZED, Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ), true );
+		}
+	}
+
+	/**
+	 * Whether a run can send this image.
+	 *
+	 * @param string $action The run's action.
+	 * @param int    $id     The attachment's id.
+	 */
+	protected static function can_send( string $action, int $id ): bool {
+		if ( ! self::is_fill( $action ) ) {
+			return Optimizer::is_optimizable( $id );
+		}
+
+		return Missing::can_fill( $id ) && array() !== Missing::of( $id, $action );
+	}
+
+	/**
+	 * Takes back the images waiting for what they lack, whatever asked for them: each
+	 * is as it was, and a restore has to find it among the optimized ones.
+	 *
+	 * @param list<int>|null $only The images about to be restored, or null for the whole library.
+	 */
+	protected static function take_back_fills( ?array $only ): void {
+		$after = 0;
+
+		do {
+			$ids = Records::with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+
+				if ( null !== $only && ! in_array( $id, $only, true ) ) {
+					continue;
+				}
+
+				if ( null !== Records::get( $id )['fill'] ) {
+					Optimizer::cancel( $id );
+					Records::end_fill( $id );
+				}
+			}
+		} while ( array() !== $ids );
 	}
 
 	/**
@@ -713,7 +938,7 @@ class Bulk {
 				return null;
 			}
 
-			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'] );
+			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'], $run['only'] );
 
 			if ( array() === $next['ids'] ) {
 				self::change(
@@ -722,6 +947,7 @@ class Bulk {
 						'cursor' => $next['cursor'],
 					)
 				);
+				self::finished();
 
 				return null;
 			}
@@ -935,12 +1161,15 @@ class Bulk {
 	}
 
 	/**
-	 * Changes some of the run, read fresh, since an image's own run can change
-	 * the window while a look is under way.
+	 * Changes some of the run, read fresh from the database, since an image's own run
+	 * can change the window while a look is under way, and another request can stop it.
 	 *
 	 * @param array<string, mixed> $changes The keys to change.
 	 */
 	protected static function change( array $changes ): void {
+		/* Another request (a Stop from the page, a pause) may have written it since this one read it. */
+		wp_cache_delete( self::OPTION, 'options' );
+
 		$run = get_option( self::OPTION );
 
 		if ( ! is_array( $run ) ) {

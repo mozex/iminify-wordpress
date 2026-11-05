@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -36,7 +38,7 @@ class Bulk_Page {
 		$hook = add_media_page(
 			__( 'Bulk Optimization', 'iminify-image-optimizer' ),
 			__( 'Bulk Optimization', 'iminify-image-optimizer' ),
-			'manage_options',
+			Capabilities::required( Capabilities::BULK ),
 			self::SLUG,
 			array( self::class, 'render' )
 		);

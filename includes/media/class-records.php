@@ -34,6 +34,11 @@ class Records {
 	const FORMATS_META = '_iminify_formats';
 
 	/**
+	 * The sizes a result accounts for (Missing), which only a query can find an image lacking.
+	 */
+	const SIZES_META = '_iminify_sizes';
+
+	/**
 	 * The bytes of the files the plugin optimized, before and after, while the record holds a result.
 	 */
 	const BEFORE_META = '_iminify_before';
@@ -43,7 +48,7 @@ class Records {
 	/**
 	 * Every post meta key of a record.
 	 */
-	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::BEFORE_META, self::AFTER_META );
+	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::SIZES_META, self::BEFORE_META, self::AFTER_META );
 
 	const ORIGIN = 'iminify';
 
@@ -80,7 +85,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -90,6 +95,8 @@ class Records {
 			'status'     => isset( $record['status'] ) && is_string( $record['status'] ) ? $record['status'] : null,
 			'trigger'    => isset( $record['trigger'] ) && is_string( $record['trigger'] ) ? $record['trigger'] : null,
 			'level'      => isset( $record['level'] ) && is_string( $record['level'] ) ? $record['level'] : null,
+			'fill'       => isset( $record['fill'] ) && is_string( $record['fill'] ) ? $record['fill'] : null,
+			'made'       => isset( $record['made'] ) && is_array( $record['made'] ) ? array_values( array_map( 'strval', $record['made'] ) ) : array(),
 			'priority'   => isset( $record['priority'] ) ? (int) $record['priority'] : null,
 			'generation' => isset( $record['generation'] ) ? (int) $record['generation'] : 0,
 			'group'      => isset( $record['group'] ) && is_array( $record['group'] ) ? $record['group'] : null,
@@ -139,6 +146,12 @@ class Records {
 			delete_post_meta( $attachment, self::FORMATS_META );
 		}
 
+		if ( isset( $record['result']['sizes'] ) && is_array( $record['result']['sizes'] ) ) {
+			update_post_meta( $attachment, self::SIZES_META, '|' . implode( '|', $record['result']['sizes'] ) . '|' );
+		} else {
+			delete_post_meta( $attachment, self::SIZES_META );
+		}
+
 		return $record;
 	}
 
@@ -158,6 +171,8 @@ class Records {
 				'generation' => $generation,
 				'reopens'    => 0,
 				'level'      => null,
+				'fill'       => null,
+				'made'       => array(),
 				'priority'   => null,
 			)
 		);
@@ -246,6 +261,67 @@ class Records {
 	}
 
 	/**
+	 * The optimized images whose meta doesn't name all of these values, with no meta
+	 * at all among them, in the order of their ids.
+	 *
+	 * @param string       $meta  FORMATS_META or SIZES_META.
+	 * @param list<string> $names The values.
+	 * @param int          $limit How many at most.
+	 * @param int          $after The id to start after.
+	 * @return list<int>
+	 */
+	public static function lacking( string $meta, array $names, int $limit, int $after = 0 ): array {
+		global $wpdb;
+
+		if ( array() === $names ) {
+			return array();
+		}
+
+		$lacks = implode( ' OR ', array_fill( 0, count( $names ), 'z.meta_value NOT LIKE %s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQLPlaceholders.LikeWithoutWildcards -- a background read by the meta_key index; one placeholder per value, built above, each with its wildcards.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT s.post_id FROM {$wpdb->postmeta} s INNER JOIN {$wpdb->posts} p ON p.ID = s.post_id AND p.post_status <> 'trash' LEFT JOIN {$wpdb->postmeta} z ON z.post_id = s.post_id AND z.meta_key = %s WHERE s.meta_key = %s AND s.meta_value = %s AND s.post_id > %d AND ( z.meta_id IS NULL OR {$lacks} ) ORDER BY s.post_id ASC LIMIT %d", array_merge( array( $meta, self::STATUS_META, self::OPTIMIZED, $after ), self::likes( $names ), array( $limit ) ) ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * How many images `lacking()` finds.
+	 *
+	 * @param string       $meta  FORMATS_META or SIZES_META.
+	 * @param list<string> $names The values.
+	 */
+	public static function count_lacking( string $meta, array $names ): int {
+		global $wpdb;
+
+		if ( array() === $names ) {
+			return 0;
+		}
+
+		$lacks = implode( ' OR ', array_fill( 0, count( $names ), 'z.meta_value NOT LIKE %s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQLPlaceholders.LikeWithoutWildcards -- a count by the meta_key index, on the plugin's own page; one placeholder per value, built above, each with its wildcards.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} s INNER JOIN {$wpdb->posts} p ON p.ID = s.post_id AND p.post_status <> 'trash' LEFT JOIN {$wpdb->postmeta} z ON z.post_id = s.post_id AND z.meta_key = %s WHERE s.meta_key = %s AND s.meta_value = %s AND ( z.meta_id IS NULL OR {$lacks} )", array_merge( array( $meta, self::STATUS_META, self::OPTIMIZED ), self::likes( $names ) ) ) );
+	}
+
+	/**
+	 * The patterns that find a value in a meta written as `|a|b|`, whose underscores would otherwise match any letter.
+	 *
+	 * @param list<string> $names The values.
+	 * @return list<string>
+	 */
+	protected static function likes( array $names ): array {
+		global $wpdb;
+
+		return array_map(
+			static function ( string $name ) use ( $wpdb ): string {
+				return '%' . $wpdb->esc_like( '|' . $name . '|' ) . '%';
+			},
+			$names
+		);
+	}
+
+	/**
 	 * The bytes before and after across every image the plugin optimized.
 	 *
 	 * @return array{before: int, after: int}
@@ -263,7 +339,10 @@ class Records {
 	}
 
 	/**
-	 * Records a failure to show for the attachment.
+	 * Records a failure to show for the attachment. An image that was only sent for
+	 * what it lacked (Missing) is still optimized, whatever the failure: its files,
+	 * its copies and its savings are all as they were, so it reads optimized, and
+	 * Restore all still takes it, with the reason beside it.
 	 *
 	 * @param int    $attachment The attachment's id.
 	 * @param string $status     Where it stands now.
@@ -271,15 +350,43 @@ class Records {
 	 * @param string $message    The reason, in words.
 	 */
 	public static function fail( int $attachment, string $status, string $code, string $message ): void {
+		$filling = null !== self::get( $attachment )['fill'];
+
+		self::update(
+			$attachment,
+			array_merge(
+				array(
+					'status' => $filling ? self::OPTIMIZED : $status,
+					'group'  => null,
+					'error'  => array(
+						'code'    => $code,
+						'message' => $message,
+					),
+				),
+				$filling ? array(
+					'fill'  => null,
+					'made'  => array(),
+					'level' => null,
+				) : array()
+			)
+		);
+	}
+
+	/**
+	 * Puts an image that was sent for what it lacked back as it was, with no reason to show: a stop, or nothing left to make.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function end_fill( int $attachment ): void {
 		self::update(
 			$attachment,
 			array(
-				'status' => $status,
+				'status' => self::OPTIMIZED,
+				'fill'   => null,
+				'made'   => array(),
+				'level'  => null,
 				'group'  => null,
-				'error'  => array(
-					'code'    => $code,
-					'message' => $message,
-				),
+				'error'  => null,
 			)
 		);
 	}

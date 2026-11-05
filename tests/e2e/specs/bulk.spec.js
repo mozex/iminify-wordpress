@@ -48,6 +48,43 @@ test( 'A run sends the images not optimized, and stopping it takes back what wai
 	expect( seedJson( 'record', { id: fresh[ 0 ] } ).status ).toBe( 'not_optimized' );
 } );
 
+test( 'What the optimized images lack is asked for in the page, sent as a run, and comes back as it was on a stop', async ( { page } ) => {
+	seed( 'state', { settings: { avif: true } } );
+	const { id } = seedJson( 'optimized' );
+	const button = page.getByRole( 'button', { name: 'Make the missing formats' } );
+
+	await page.goto( bulkPage );
+	await expect( page.getByText( '1 optimized image lacks a format your site asks for now.' ) ).toBeVisible();
+
+	await button.click();
+	await expect( page.getByText( 'Each counts as one more image' ) ).toBeVisible();
+	await expect( page.getByRole( 'button', { name: 'Cancel' } ) ).toBeFocused();
+	await page.getByRole( 'button', { name: 'Cancel' } ).click();
+	await expect( button ).toBeFocused();
+	expect( seedJson( 'record', { id } ).status ).toBe( 'optimized' );
+
+	await button.click();
+	await page.locator( '.iminify-confirm' ).getByRole( 'button', { name: 'Make the missing formats' } ).click();
+	await expect( page.getByRole( 'heading', { name: 'Making the missing formats' } ) ).toBeVisible( { timeout: 15_000 } );
+	await expect( page.getByText( 'Sent 1 of 1 image to Iminify.' ) ).toBeVisible();
+
+	const sent = seedJson( 'record', { id } );
+	expect( sent.status ).toBe( 'queued' );
+	expect( sent.fill ).toBe( 'formats' );
+	expect( sent.trigger ).toBe( 'bulk' );
+
+	await page.getByRole( 'button', { name: 'Stop' } ).click();
+	await expect( page.getByText( 'Stopped.' ) ).toBeVisible( { timeout: 15_000 } );
+	await expect( count( page, 'Optimized' ) ).toHaveText( '1' );
+	await expect( button ).toBeVisible();
+
+	const back = seedJson( 'record', { id } );
+	expect( back.status ).toBe( 'optimized' );
+	expect( back.fill ).toBeNull();
+	expect( back.error ).toBeNull();
+	expect( back.result.formats ).toEqual( [ 'webp' ] );
+} );
+
 test( 'Restore all asks in the page first, then puts the optimized images back while the page is open', async ( { page } ) => {
 	const { id } = seedJson( 'optimized' );
 	const question = page.getByText( 'Put every optimized image back as it was uploaded?' );

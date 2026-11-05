@@ -54,6 +54,7 @@ class Lifecycle {
 		Connection::LOCK_OPTION,
 		Site_Record::MESSAGE_OPTION,
 		Site_Record::FORMATS_OPTION,
+		Site_Record::SIZES_OPTION,
 		Local_Settings::OPTION,
 		Pause::OPTION,
 		Bulk::OPTION,

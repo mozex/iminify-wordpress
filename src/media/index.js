@@ -151,18 +151,25 @@ function ask( button ) {
  * @return {Object} The request.
  */
 function request( button ) {
-	const { iminifyAction, iminifyAttachment, iminifyLevel } = button.dataset;
+	const { iminifyAction, iminifyAttachment, iminifyLevel, iminifyWhat } =
+		button.dataset;
 	const path = `${ BASE }/${ iminifyAttachment }/${ iminifyAction }`;
 
 	if ( 'copies' === iminifyAction ) {
 		return { path, method: 'DELETE' };
 	}
 
-	return {
-		path,
-		method: 'POST',
-		data: iminifyLevel ? { level: iminifyLevel } : {},
-	};
+	const data = {};
+
+	if ( iminifyLevel ) {
+		data.level = iminifyLevel;
+	}
+
+	if ( iminifyWhat ) {
+		data.what = iminifyWhat;
+	}
+
+	return { path, method: 'POST', data };
 }
 
 function send( button ) {

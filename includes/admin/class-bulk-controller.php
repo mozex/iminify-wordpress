@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Messages;
 use WP_Error;
@@ -47,7 +48,7 @@ class Bulk_Controller {
 			array(
 				'action' => array(
 					'type'     => 'string',
-					'enum'     => array( Bulk::OPTIMIZE, Bulk::RETRY, Bulk::RESTORE ),
+					'enum'     => Bulk::ACTIONS,
 					'required' => true,
 				),
 				'mode'   => array(
@@ -76,10 +77,10 @@ class Bulk_Controller {
 	}
 
 	/**
-	 * Only someone who can manage the site's options reaches these routes.
+	 * Only someone who may run the bulk page reaches these routes.
 	 */
 	public function can_manage(): bool {
-		return current_user_can( 'manage_options' );
+		return Capabilities::can( Capabilities::BULK );
 	}
 
 	/**

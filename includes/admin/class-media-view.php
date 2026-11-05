@@ -7,8 +7,10 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
+use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
@@ -24,10 +26,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * A column and a filter in the list view, row actions, and a panel in the
- * attachment details, which core shows in the grid's modal and on the edit
- * screen. The markup is built here and only reads what the plugin keeps, so no
- * screen calls Iminify. `src/media` only sends the buttons' presses to
+ * A column in the list view, a filter in the list view and the grid, row actions,
+ * and a panel in the attachment details, which core shows in the grid's modal and
+ * on the edit screen. The markup is built here and only reads what the plugin keeps,
+ * so no screen calls Iminify. `src/media` only sends the buttons' presses to
  * Media_Controller and puts back the markup it answers.
  */
 class Media_View {
@@ -37,6 +39,8 @@ class Media_View {
 	const QUERY = 'iminify_status';
 
 	const HANDLE = 'iminify-media';
+
+	const GRID_HANDLE = 'iminify-media-grid';
 
 	const FILTER_OPTIMIZED = 'optimized';
 
@@ -56,6 +60,7 @@ class Media_View {
 		add_action( 'manage_media_custom_column', array( self::class, 'print_column' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( self::class, 'print_filter' ) );
 		add_action( 'pre_get_posts', array( self::class, 'apply_filter' ) );
+		add_filter( 'ajax_query_attachments_args', array( self::class, 'apply_grid_filter' ) );
 		add_filter( 'media_row_actions', array( self::class, 'row_actions' ), 10, 2 );
 		add_filter( 'attachment_fields_to_edit', array( self::class, 'attachment_field' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_on_screen' ) );
@@ -133,7 +138,7 @@ class Media_View {
 	public static function row_actions( array $actions, WP_Post $post ): array {
 		$attachment = (int) $post->ID;
 
-		if ( ! self::handles( $attachment ) || ! current_user_can( 'edit_post', $attachment ) ) {
+		if ( ! self::handles( $attachment ) || ! Capabilities::can_change( $attachment ) ) {
 			return $actions;
 		}
 
@@ -155,6 +160,10 @@ class Media_View {
 			$actions['iminify_restore'] = self::row_action( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_warning() );
 		}
 
+		foreach ( self::fills( $attachment ) as $what => $label ) {
+			$actions[ 'iminify_missing_' . $what ] = self::row_action( $attachment, 'missing', $label, self::fill_warning(), $what );
+		}
+
 		return $actions;
 	}
 
@@ -168,7 +177,7 @@ class Media_View {
 	public static function attachment_field( array $fields, WP_Post $post ): array {
 		$attachment = (int) $post->ID;
 
-		if ( self::handles( $attachment ) && current_user_can( 'edit_post', $attachment ) ) {
+		if ( self::handles( $attachment ) && Capabilities::can_change( $attachment ) ) {
 			$fields['iminify'] = array(
 				'label' => __( 'Iminify', 'iminify-image-optimizer' ),
 				'input' => 'html',
@@ -227,6 +236,21 @@ class Media_View {
 	}
 
 	/**
+	 * Narrows the grid's request to the filter's choice. Core drops every query
+	 * property it doesn't know before this filter, so the choice is read from the
+	 * request itself.
+	 *
+	 * @param array<string, mixed> $query The grid's query.
+	 * @return array<string, mixed>
+	 */
+	public static function apply_grid_filter( array $query ): array {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- core's own request for the grid, which it checks; only a known choice narrows the list.
+		$asked = isset( $_REQUEST['query'] ) && is_array( $_REQUEST['query'] ) && isset( $_REQUEST['query'][ self::QUERY ] ) ? sanitize_key( wp_unslash( (string) $_REQUEST['query'][ self::QUERY ] ) ) : '';
+
+		return isset( self::filters()[ $asked ] ) ? array_merge( $query, self::query_for( $asked ) ) : $query;
+	}
+
+	/**
 	 * The query variables for a filter.
 	 *
 	 * @param string $filter One of the FILTER_ constants.
@@ -263,6 +287,11 @@ class Media_View {
 
 		if ( null !== $screen && in_array( $screen->id, array( 'upload', 'attachment' ), true ) ) {
 			self::enqueue();
+		}
+
+		/* Core has queued the grid's script by now, on that view of the library alone. */
+		if ( null !== $screen && 'upload' === $screen->id && wp_script_is( 'media-grid', 'enqueued' ) ) {
+			Settings_Page::enqueue_entry( self::GRID_HANDLE, 'media-grid', array( 'media-views' ) );
 		}
 	}
 
@@ -317,8 +346,9 @@ class Media_View {
 
 	/**
 	 * Optimized images whose group wasn't asked for a format the site asks for now,
-	 * as when the site turned AVIF on later. A copy the service made and left out
-	 * for coming out heavier than its size isn't missing: nothing more can be made.
+	 * as when the site turned AVIF on later, the images a run for missing formats takes
+	 * (`Missing::images()`). A copy the service made and left out for coming out heavier
+	 * than its size isn't missing: nothing more can be made.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -329,7 +359,13 @@ class Media_View {
 			return array( 'post__in' => array( 0 ) );
 		}
 
-		$missing = array( 'relation' => 'OR' );
+		$missing = array(
+			'relation' => 'OR',
+			array(
+				'key'     => Records::FORMATS_META,
+				'compare' => 'NOT EXISTS',
+			),
+		);
 
 		foreach ( $formats as $format ) {
 			$missing[] = array(
@@ -421,6 +457,30 @@ class Media_View {
 			) . '</p>';
 		}
 
+		$lacks = Missing::of( $attachment, Missing::FORMATS );
+
+		if ( array() !== $lacks ) {
+			$html .= '<p class="iminify-detail">' . esc_html(
+				sprintf(
+					/* translators: %s: the formats missing, such as "AVIF". */
+					__( 'Missing formats: %s', 'iminify-image-optimizer' ),
+					strtoupper( implode( ', ', $lacks ) )
+				)
+			) . '</p>';
+		}
+
+		$lacks = Missing::of( $attachment, Missing::SIZES );
+
+		if ( array() !== $lacks ) {
+			$html .= '<p class="iminify-detail">' . esc_html(
+				sprintf(
+					/* translators: %s: the sizes missing, by their names. */
+					__( 'Missing sizes: %s', 'iminify-image-optimizer' ),
+					implode( ', ', $lacks )
+				)
+			) . '</p>';
+		}
+
 		if ( ! empty( $record['result']['skipped'] ) ) {
 			$html .= '<p class="iminify-detail">' . esc_html(
 				sprintf(
@@ -499,10 +559,11 @@ class Media_View {
 			);
 		}
 
-		if ( ! in_array( $record['status'], array( Records::NOT_OPTIMIZED, Records::PARKED, Records::SKIPPED, Records::ERROR, Records::QUEUED ), true ) ) {
+		if ( ! in_array( $record['status'], array( Records::NOT_OPTIMIZED, Records::PARKED, Records::SKIPPED, Records::ERROR, Records::QUEUED, Records::OPTIMIZED ), true ) ) {
 			return '';
 		}
 
+		/* An optimized image has a reason only when what it lacked couldn't be made. */
 		return is_array( $record['error'] ) && isset( $record['error']['message'] ) ? (string) $record['error']['message'] : '';
 	}
 
@@ -623,6 +684,10 @@ class Media_View {
 			}
 
 			$html .= '</p>';
+
+			foreach ( self::fills( $attachment ) as $what => $label ) {
+				$html .= '<p class="iminify-actions">' . self::button( $attachment, 'missing', $label, self::fill_warning(), '', '', false, $what ) . '</p>';
+			}
 		}
 
 		$local = '';
@@ -650,16 +715,18 @@ class Media_View {
 	 * @param string $level      The level it asks for, if any.
 	 * @param string $yes        The words of the button that goes ahead once asked, its own words when empty.
 	 * @param bool   $danger     Whether it deletes something.
+	 * @param string $what       What is missing, for the button that makes it.
 	 */
-	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '', string $yes = '', bool $danger = false ): string {
+	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '', string $yes = '', bool $danger = false, string $what = '' ): string {
 		return sprintf(
-			'<button type="button" class="iminify-btn iminify-btn--small %1$s" data-iminify-action="%2$s" data-iminify-attachment="%3$d" data-iminify-confirm="%4$s" data-iminify-yes="%5$s" data-iminify-level="%6$s">%7$s</button> ',
+			'<button type="button" class="iminify-btn iminify-btn--small %1$s" data-iminify-action="%2$s" data-iminify-attachment="%3$d" data-iminify-confirm="%4$s" data-iminify-yes="%5$s" data-iminify-level="%6$s" data-iminify-what="%7$s">%8$s</button> ',
 			$danger ? 'iminify-btn--ghost iminify-btn--danger' : 'iminify-btn--secondary',
 			esc_attr( $action ),
 			$attachment,
 			esc_attr( $confirm ),
 			esc_attr( '' === $yes ? $label : $yes ),
 			esc_attr( $level ),
+			esc_attr( $what ),
 			esc_html( $label )
 		);
 	}
@@ -671,16 +738,50 @@ class Media_View {
 	 * @param string $action     What it asks for.
 	 * @param string $label      Its words.
 	 * @param string $confirm    What to ask first, if anything.
+	 * @param string $what       What is missing, for the action that makes it.
 	 */
-	protected static function row_action( int $attachment, string $action, string $label, string $confirm ): string {
+	protected static function row_action( int $attachment, string $action, string $label, string $confirm, string $what = '' ): string {
 		return sprintf(
-			'<button type="button" class="button-link" data-iminify-action="%1$s" data-iminify-attachment="%2$d" data-iminify-confirm="%3$s" data-iminify-yes="%4$s" data-iminify-reload="1">%5$s</button>',
+			'<button type="button" class="button-link" data-iminify-action="%1$s" data-iminify-attachment="%2$d" data-iminify-confirm="%3$s" data-iminify-yes="%4$s" data-iminify-what="%5$s" data-iminify-reload="1">%6$s</button>',
 			esc_attr( $action ),
 			$attachment,
 			esc_attr( $confirm ),
 			esc_attr( $label ),
+			esc_attr( $what ),
 			esc_html( $label )
 		);
+	}
+
+	/**
+	 * What can be made for an attachment now, as the words of the press that makes it.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array<string, string>
+	 */
+	protected static function fills( int $attachment ): array {
+		if ( null === Plugin::keys()->get() ) {
+			return array();
+		}
+
+		$fills = array();
+
+		if ( array() !== Missing::of( $attachment, Missing::FORMATS ) ) {
+			$fills[ Missing::FORMATS ] = __( 'Make the missing formats', 'iminify-image-optimizer' );
+		}
+
+		if ( array() !== Missing::of( $attachment, Missing::SIZES ) ) {
+			$fills[ Missing::SIZES ] = __( 'Make the missing sizes', 'iminify-image-optimizer' );
+		}
+
+		/* Reads the image's files, so only once something is lacking. */
+		return array() === $fills || ! Missing::can_fill( $attachment ) ? array() : $fills;
+	}
+
+	/**
+	 * What making what's missing does, asked first since it counts.
+	 */
+	protected static function fill_warning(): string {
+		return __( 'Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller.', 'iminify-image-optimizer' );
 	}
 
 	/**

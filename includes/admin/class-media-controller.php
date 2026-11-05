@@ -7,7 +7,9 @@
 
 namespace Iminify\WordPress\Admin;
 
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Media\Copies;
+use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Restorer;
 use Iminify\WordPress\Messages;
@@ -23,8 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The routes under `iminify/v1/media` the media library's buttons call with the
  * REST nonce, for someone who can upload files and edit that attachment, as
- * core asks of editing an image. Each answers the attachment's markup. Only the
- * site's own settings ask for `manage_options`.
+ * core asks of editing an image (Capabilities). Each answers the attachment's markup.
  */
 class Media_Controller {
 
@@ -73,6 +74,18 @@ class Media_Controller {
 				),
 			)
 		);
+		$this->route(
+			'/media/(?P<id>\d+)/missing',
+			WP_REST_Server::CREATABLE,
+			'missing',
+			$id + array(
+				'what' => array(
+					'type'     => 'string',
+					'enum'     => array( Missing::FORMATS, Missing::SIZES ),
+					'required' => true,
+				),
+			)
+		);
 		$this->route( '/media/(?P<id>\d+)/restore', WP_REST_Server::CREATABLE, 'restore', $id );
 		$this->route( '/media/(?P<id>\d+)/copies', WP_REST_Server::DELETABLE, 'delete_copies', $id );
 	}
@@ -81,7 +94,7 @@ class Media_Controller {
 	 * Whether the person can reach the media library at all.
 	 */
 	public function can_upload(): bool {
-		return current_user_can( 'upload_files' );
+		return Capabilities::can( Capabilities::MEDIA );
 	}
 
 	/**
@@ -92,7 +105,7 @@ class Media_Controller {
 	public function can_edit( WP_REST_Request $request ): bool {
 		$attachment = (int) $request->get_param( 'id' );
 
-		return 'attachment' === get_post_type( $attachment ) && $this->can_upload() && current_user_can( 'edit_post', $attachment );
+		return 'attachment' === get_post_type( $attachment ) && Capabilities::can_change( $attachment );
 	}
 
 	/**
@@ -122,6 +135,16 @@ class Media_Controller {
 		$level = $request->get_param( 'level' );
 
 		return $this->answer( (int) $request->get_param( 'id' ), Optimizer::ask( (int) $request->get_param( 'id' ), is_string( $level ) ? $level : null ) );
+	}
+
+	/**
+	 * Makes the formats or sizes an optimized attachment lacks.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function missing( WP_REST_Request $request ) {
+		return $this->answer( (int) $request->get_param( 'id' ), Optimizer::fill( (int) $request->get_param( 'id' ), (string) $request->get_param( 'what' ) ) );
 	}
 
 	/**

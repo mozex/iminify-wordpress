@@ -3,8 +3,8 @@
   "private": true,
   "license": "GPL-2.0-or-later",
   "scripts": {
-    "build": "wp-scripts build settings=./src/settings/index.js notice=./src/notice.js media=./src/media/index.js bulk=./src/bulk/index.js --output-path=assets/build",
-    "start": "wp-scripts start settings=./src/settings/index.js notice=./src/notice.js media=./src/media/index.js bulk=./src/bulk/index.js --output-path=assets/build",
+    "build": "wp-scripts build settings=./src/settings/index.js notice=./src/notice.js media=./src/media/index.js media-grid=./src/media/grid.js bulk=./src/bulk/index.js --output-path=assets/build",
+    "start": "wp-scripts start settings=./src/settings/index.js notice=./src/notice.js media=./src/media/index.js media-grid=./src/media/grid.js bulk=./src/bulk/index.js --output-path=assets/build",
     "lint:js": "wp-scripts lint-js src",
     "env": "wp-env",
     "env:test": "wp-env --config=.wp-env.test.json",

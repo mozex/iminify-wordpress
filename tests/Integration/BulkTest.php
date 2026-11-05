@@ -151,7 +151,7 @@ class BulkTest extends WP_UnitTestCase {
 		/* An image the service can't take is set aside, so it no longer counts as waiting to be optimized. */
 		$this->assertFalse( Optimizer::has_run( $gone ) );
 		$this->assertSame( Records::SKIPPED, Records::get( $gone )['status'] );
-		$this->assertSame( 'unsupported_format', Records::get( $gone )['error']['code'] );
+		$this->assertSame( 'file_missing', Records::get( $gone )['error']['code'] );
 		$this->assertSame( 0, Bulk::counts()['not_optimized'] );
 	}
 
@@ -457,7 +457,8 @@ class BulkTest extends WP_UnitTestCase {
 
 		$this->assertTrue( $run['stalled'] );
 		$this->assertSame( 'The loopback request to your site failed.', $run['loopback']['message'] );
-		$this->assertSame( Bulk_State::COMMAND, $run['command'] );
+		$this->assertSame( Bulk_State::COMMANDS, $run['commands'] );
+		$this->assertContains( 'wp iminify run', $run['commands'] );
 
 		/* The page drives a run in its own mode, so it is never stalled. */
 		Bulk::switch_mode( Bulk::PAGE );

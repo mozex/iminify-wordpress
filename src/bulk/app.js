@@ -203,6 +203,13 @@ export default function App() {
 							onRetry={ () => start( 'retry' ) }
 						/>
 					) }
+					{ ! active && state.connected && (
+						<Lacking
+							state={ state }
+							busy={ busy }
+							onStart={ start }
+						/>
+					) }
 				</div>
 				<div className="iminify-col">
 					<Library state={ state } />
@@ -416,6 +423,28 @@ function chipFor( run, queue ) {
 }
 
 /**
+ * What a run does, in a few words, for its heading.
+ *
+ * @param {string} action The run's action.
+ * @return {string} The words.
+ */
+function runTitle( action ) {
+	switch ( action ) {
+		case 'restore':
+			return __( 'Restoring', 'iminify-image-optimizer' );
+		case 'formats':
+			return __(
+				'Making the missing formats',
+				'iminify-image-optimizer'
+			);
+		case 'sizes':
+			return __( 'Making the missing sizes', 'iminify-image-optimizer' );
+		default:
+			return __( 'Bulk optimization', 'iminify-image-optimizer' );
+	}
+}
+
+/**
  * The run: how far it got, why it waits, and its controls.
  *
  * @param {Object}                 props          The component's props.
@@ -443,11 +472,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 	return (
 		<Panel>
 			<div className="iminify-panel__head">
-				<h2>
-					{ restore
-						? __( 'Restoring', 'iminify-image-optimizer' )
-						: __( 'Bulk optimization', 'iminify-image-optimizer' ) }
-				</h2>
+				<h2>{ runTitle( run.action ) }</h2>
 				<Chip tone={ chip.tone } icon={ chip.icon } moving={ moving }>
 					{ chip.label }
 				</Chip>
@@ -479,11 +504,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 				value={ percent }
 				moving={ moving }
 				restore={ restore }
-				label={
-					restore
-						? __( 'Restoring', 'iminify-image-optimizer' )
-						: __( 'Bulk optimization', 'iminify-image-optimizer' )
-				}
+				label={ runTitle( run.action ) }
 			/>
 			<div className="iminify-progress__row">
 				<span>
@@ -528,6 +549,24 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 									'iminify-image-optimizer'
 								),
 								run.failed
+							) }
+						</p>
+					</Callout>
+				</div>
+			) }
+			{ run.passed > 0 && (
+				<div className="iminify-status-gap">
+					<Callout>
+						<p>
+							{ sprintf(
+								/* translators: %s: how many images. */
+								_n(
+									'%s image has no original to go from, or changed since it was optimized, so nothing was made for it.',
+									'%s images have no original to go from, or changed since they were optimized, so nothing was made for them.',
+									run.passed,
+									'iminify-image-optimizer'
+								),
+								formatNumber( run.passed )
 							) }
 						</p>
 					</Callout>
@@ -616,11 +655,21 @@ function RunStatus( { run, queue } ) {
  */
 function runStatus( run, queue ) {
 	if ( 'done' === run.status ) {
+		if ( 'restore' === run.action ) {
+			return [
+				'check',
+				__(
+					'Finished: the images are back as they were uploaded.',
+					'iminify-image-optimizer'
+				),
+			];
+		}
+
 		return [
 			'check',
-			'restore' === run.action
+			0 === run.sent
 				? __(
-						'Finished: the images are back as they were uploaded.',
+						'Finished: no image needed sending.',
 						'iminify-image-optimizer'
 					)
 				: __(
@@ -760,11 +809,13 @@ function Stalled( { run, busy, onPageMode } ) {
 				) }
 				<p>
 					{ __(
-						'Run it while this page is open instead, or run the queue from the shell:',
+						'Run it while this page is open instead, or carry it on from the shell:',
 						'iminify-image-optimizer'
 					) }
 				</p>
-				<CodeCopy command={ run.command } />
+				{ run.commands.map( ( command ) => (
+					<CodeCopy key={ command } command={ command } />
+				) ) }
 				<div>
 					<Button
 						variant="primary"
@@ -938,6 +989,117 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 				</div>
 			) }
 		</Panel>
+	);
+}
+
+/**
+ * What the optimized images lack, each with the press that makes it, asked in the
+ * page first since each image counts again. A panel only when something is lacking.
+ *
+ * @param {Object}                   props         The component's props.
+ * @param {Object}                   props.state   The page's state.
+ * @param {boolean}                  props.busy    Whether a press is on its way.
+ * @param {(action: string) => void} props.onStart Starts the run.
+ */
+function Lacking( { state, busy, onStart } ) {
+	const { counts, numbers, disk } = state;
+
+	if ( 0 === counts.missing_formats && 0 === counts.missing_sizes ) {
+		return null;
+	}
+
+	return (
+		<Panel>
+			<h2>{ __( 'Missing files', 'iminify-image-optimizer' ) }</h2>
+			{ counts.missing_formats > 0 && (
+				<LackingRow
+					action="formats"
+					busy={ busy || disk.low }
+					text={ sprintf(
+						/* translators: %s: how many images. */
+						_n(
+							'%s optimized image lacks a format your site asks for now.',
+							'%s optimized images lack a format your site asks for now.',
+							counts.missing_formats,
+							'iminify-image-optimizer'
+						),
+						numbers.missing_formats
+					) }
+					label={ __(
+						'Make the missing formats',
+						'iminify-image-optimizer'
+					) }
+					onStart={ onStart }
+				/>
+			) }
+			{ counts.missing_sizes > 0 && (
+				<LackingRow
+					action="sizes"
+					busy={ busy || disk.low }
+					text={ sprintf(
+						/* translators: %s: how many images. */
+						_n(
+							'%s optimized image may lack a size your site makes now.',
+							'%s optimized images may lack a size your site makes now.',
+							counts.missing_sizes,
+							'iminify-image-optimizer'
+						),
+						numbers.missing_sizes
+					) }
+					label={ __(
+						'Make the missing sizes',
+						'iminify-image-optimizer'
+					) }
+					onStart={ onStart }
+				/>
+			) }
+		</Panel>
+	);
+}
+
+/**
+ * One thing the optimized images lack.
+ *
+ * @param {Object}                   props         The component's props.
+ * @param {string}                   props.action  The run that makes it.
+ * @param {boolean}                  props.busy    Whether the press is off.
+ * @param {string}                   props.text    What is lacking.
+ * @param {string}                   props.label   The press's words.
+ * @param {(action: string) => void} props.onStart Starts the run.
+ */
+function LackingRow( { action, busy, text, label, onStart } ) {
+	const { asking, open, close, opener } = useAsk();
+
+	return (
+		<>
+			<p className="iminify-text">{ text }</p>
+			{ asking ? (
+				<Confirm
+					question={ __(
+						'Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller.',
+						'iminify-image-optimizer'
+					) }
+					yes={ label }
+					busy={ busy }
+					onYes={ () => {
+						close();
+						onStart( action );
+					} }
+					onNo={ close }
+				/>
+			) : (
+				<div className="iminify-actions">
+					<Button
+						ref={ opener }
+						icon="send"
+						disabled={ busy }
+						onClick={ open }
+					>
+						{ label }
+					</Button>
+				</div>
+			) }
+		</>
 	);
 }
 

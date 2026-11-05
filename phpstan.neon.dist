@@ -16,9 +16,11 @@ parameters:
         - tests/Integration
         - tests/bootstrap-integration.php
         - tests/e2e
+        - tests/Support/Wp_Cli_Stub.php
     bootstrapFiles:
         - tests/phpstan/bootstrap.php
     scanFiles:
         - vendor/woocommerce/action-scheduler/functions.php
+        - tests/phpstan/wp-cli.php
     scanDirectories:
         - vendor/woocommerce/action-scheduler/classes

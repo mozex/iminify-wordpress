@@ -15,9 +15,26 @@ Iminify Image Optimizer sends the images you upload to Iminify, which compresses
 
 Images already in your library go through Media, Bulk Optimization. It shows how many are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page restores every optimized image at once, on any plan and without a connection.
 
+If you turn AVIF on after optimizing your library, or a theme adds an image size, that page also makes what the optimized images lack. Each one goes again from its original and counts as one more image, and it keeps its other files unless Iminify makes them smaller. The media library shows what each image lacks, with a button for that one image.
+
+For large libraries and hosts whose scheduled tasks don't run, `wp iminify optimize --all` runs the same bulk run from the shell, with a progress bar. `wp help iminify` lists the rest: restore, missing, status, run and stop.
+
+Administrators reach the settings and the bulk page. Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
+
 The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
+
+= For developers =
+
+The plugin has six hooks:
+
+* `iminify_capability` (filter): the capability each part asks for.
+* `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
+* `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
+* `iminify_image_optimized` (action): an image's files were written.
+* `iminify_image_restored` (action): an image's original is back.
+* `iminify_bulk_finished` (action): a bulk run came to its end.
 
 == External services ==
 
