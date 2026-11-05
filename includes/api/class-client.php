@@ -120,10 +120,11 @@ class Client {
 	/**
 	 * Disconnects the site: its key stops working on Iminify.
 	 *
+	 * @param int $timeout How long to wait for the answer, in seconds.
 	 * @return true|WP_Error
 	 */
-	public function disconnect() {
-		$response = $this->request( 'DELETE', 'site' );
+	public function disconnect( int $timeout = self::TIMEOUT ) {
+		$response = $this->request( 'DELETE', 'site', array( 'timeout' => $timeout ) );
 
 		return is_wp_error( $response ) ? $response : true;
 	}

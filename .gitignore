@@ -7,3 +7,7 @@
 /.phpunit.result.cache
 /.phpcs-cache
 /assets/build/
+/test-results/
+/playwright-report/
+/tests/e2e/.auth/
+/.wp-env.e2e.override.json

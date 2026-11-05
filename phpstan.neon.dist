@@ -15,6 +15,7 @@ parameters:
         - tests/phpstan
         - tests/Integration
         - tests/bootstrap-integration.php
+        - tests/e2e
     bootstrapFiles:
         - tests/phpstan/bootstrap.php
     scanFiles:

@@ -100,6 +100,54 @@ class Backups {
 	}
 
 	/**
+	 * Removes the backups folder once it holds nothing but empty folders and the
+	 * index file the plugin put there; anything else in it keeps the folder, and
+	 * its index file with it.
+	 */
+	public static function remove_folder(): void {
+		$root = Paths::uploads() . '/' . Paths::BACKUP_FOLDER;
+
+		if ( is_dir( $root ) && ! is_link( $root ) ) {
+			self::prune( $root, $root );
+		}
+	}
+
+	/**
+	 * Removes a folder under the backups folder if nothing is left in it.
+	 *
+	 * @param string $folder The folder.
+	 * @param string $root   The backups folder.
+	 * @return bool Whether the folder is gone.
+	 */
+	protected static function prune( string $folder, string $root ): bool {
+		$entries = scandir( $folder );
+		$empty   = is_array( $entries );
+
+		foreach ( is_array( $entries ) ? $entries : array() as $entry ) {
+			if ( '.' === $entry || '..' === $entry || ( $folder === $root && 'index.php' === $entry ) ) {
+				continue;
+			}
+
+			$path = $folder . '/' . $entry;
+
+			if ( is_link( $path ) || ! is_dir( $path ) || ! self::prune( $path, $root ) ) {
+				$empty = false;
+			}
+		}
+
+		if ( ! $empty ) {
+			return false;
+		}
+
+		if ( $folder === $root ) {
+			wp_delete_file( $root . '/index.php' );
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- an empty folder the plugin made under uploads, as it is deleted.
+		return rmdir( $folder );
+	}
+
+	/**
 	 * Whether two files hold the same bytes.
 	 *
 	 * @param string $one A file.

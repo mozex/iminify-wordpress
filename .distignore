@@ -23,3 +23,8 @@
 /phpunit.xml.dist
 /phpunit.integration.xml.dist
 /bin
+/.wp-env.e2e.json
+/.wp-env.e2e.override.json
+/playwright.config.js
+/test-results
+/playwright-report

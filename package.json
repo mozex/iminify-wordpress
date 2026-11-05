@@ -8,12 +8,15 @@
     "lint:js": "wp-scripts lint-js src",
     "env": "wp-env",
     "env:test": "wp-env --config=.wp-env.test.json",
-    "test:integration": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/plugins/iminify-image-optimizer vendor/bin/phpunit -c phpunit.integration.xml.dist"
+    "test:integration": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/plugins/iminify-image-optimizer vendor/bin/phpunit -c phpunit.integration.xml.dist",
+    "env:e2e": "wp-env --config=.wp-env.e2e.json",
+    "test:e2e": "playwright test"
   },
   "engines": {
     "node": ">=22.22.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@wordpress/env": "^12.1.0",
     "@wordpress/scripts": "^37.0.0"
   }

@@ -157,6 +157,7 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertNull( $record['group'] );
 		$this->assertSame( strlen( $zip['entries']['full.jpg'] ), $record['written'][ Paths::relative( $attached ) ] );
 		$this->assertSame( Records::ORIGIN, $record['copies'][ Paths::relative( $attached ) . '.webp' ]['origin'] );
+		$this->assertSame( strlen( $zip['entries']['full.jpg'] ), $record['copies'][ Paths::relative( $attached ) . '.webp' ]['for_bytes'], 'The main file as written in the same group, not as it was before.' );
 		$this->assertSame( $before, file_get_contents( $card ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the size left alone.
 		$this->assertSame( 1, $record['result']['skipped'] );
 		$this->assertFileDoesNotExist( $attached . '.avif' );

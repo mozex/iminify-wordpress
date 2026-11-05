@@ -374,8 +374,10 @@ class RestControllerTest extends WP_UnitTestCase {
 		);
 		$this->assertSame(
 			array(
-				'backups'  => false,
-				'delivery' => 'picture',
+				'backups'           => false,
+				'delivery'          => 'picture',
+				'uninstall_copies'  => false,
+				'uninstall_backups' => false,
 			),
 			get_option( Local_Settings::OPTION )
 		);
@@ -428,11 +430,24 @@ class RestControllerTest extends WP_UnitTestCase {
 	}
 
 	public function test_local_settings_save_without_a_connection(): void {
-		$response = $this->call( 'POST', '/settings', array( 'local' => array( 'delivery' => 'off' ) ) );
+		$response = $this->call(
+			'POST',
+			'/settings',
+			array(
+				'local' => array(
+					'delivery'          => 'off',
+					'uninstall_backups' => '1',
+					'unknown'           => true,
+				),
+			)
+		);
 
 		$this->assertSame( 200, $response->get_status() );
 		$this->assertSame( 'off', Local_Settings::get()['delivery'] );
 		$this->assertTrue( Local_Settings::get()['backups'] );
+		$this->assertTrue( Local_Settings::get()['uninstall_backups'] );
+		$this->assertFalse( Local_Settings::get()['uninstall_copies'] );
+		$this->assertArrayNotHasKey( 'unknown', Local_Settings::get() );
 		$this->assertSame( array(), $this->api->requests );
 		$this->assertSame( 409, $this->call( 'POST', '/settings', array( 'site' => array( 'level' => 'ultra' ) ) )->get_status() );
 	}

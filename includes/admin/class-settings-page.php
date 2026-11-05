@@ -96,7 +96,7 @@ class Settings_Page {
 		}
 
 		wp_enqueue_script( $handle, plugins_url( 'assets/build/' . $entry . '.js', IMINIFY_FILE ), $asset['dependencies'], $asset['version'], true );
-		wp_set_script_translations( $handle, 'iminify-image-optimizer', IMINIFY_DIR . '/languages' );
+		wp_set_script_translations( $handle, 'iminify-image-optimizer' );
 
 		return true;
 	}

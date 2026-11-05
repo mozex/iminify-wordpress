@@ -1,6 +1,6 @@
 /**
  * The settings: the site's, kept and checked on iminify.com while the site
- * is connected, and the two kept here, which work without a connection.
+ * is connected, and the ones kept here, which work without a connection.
  */
 import {
 	Button,
@@ -308,6 +308,44 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 							setLocal( { ...local, delivery } )
 						}
 					/>
+					<fieldset className="iminify-sizes iminify-uninstall">
+						<legend>
+							{ __(
+								'When you delete the plugin',
+								'iminify-image-optimizer'
+							) }
+						</legend>
+						<CheckboxControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Also delete the WebP and AVIF copies',
+								'iminify-image-optimizer'
+							) }
+							help={ __(
+								'A page your cache kept with picture tags would show a broken image until the cache is cleared.',
+								'iminify-image-optimizer'
+							) }
+							checked={ Boolean( local.uninstall_copies ) }
+							onChange={ ( on ) =>
+								setLocal( { ...local, uninstall_copies: on } )
+							}
+						/>
+						<CheckboxControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Also delete the backups',
+								'iminify-image-optimizer'
+							) }
+							help={ __(
+								"They're the only originals of the images Iminify optimized, so those images can't be restored afterwards.",
+								'iminify-image-optimizer'
+							) }
+							checked={ Boolean( local.uninstall_backups ) }
+							onChange={ ( on ) =>
+								setLocal( { ...local, uninstall_backups: on } )
+							}
+						/>
+					</fieldset>
 				</CardBody>
 			</Card>
 

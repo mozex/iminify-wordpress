@@ -77,6 +77,7 @@ class Writer {
 		$written = $record['written'];
 		$copies  = $record['copies'];
 		$summary = array();
+		$made    = array();
 		$skipped = 0;
 		$no_room = 0;
 
@@ -138,10 +139,19 @@ class Writer {
 				'bytes'  => strlen( $data ),
 				'origin' => Records::ORIGIN,
 			);
+			$made[]                                   = $write['file'];
 			$summary[ $write['output'] ]['formats'][] = $write['format'];
 		}
 
 		$archive->close();
+
+		/* The file a copy stands beside, as it is once this group's files are written: `<picture>` serves the copy only while it is unchanged. */
+		foreach ( $made as $copy ) {
+			$beside = Paths::absolute( (string) $copies[ $copy ]['for'] );
+			clearstatcache( true, $beside );
+
+			$copies[ $copy ]['for_bytes'] = is_file( $beside ) ? (int) filesize( $beside ) : -1;
+		}
 
 		Records::update(
 			$attachment,

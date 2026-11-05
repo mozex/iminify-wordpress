@@ -31,4 +31,8 @@ require_once __DIR__ . '/vendor/woocommerce/action-scheduler/action-scheduler.ph
 require_once __DIR__ . '/includes/class-autoloader.php';
 
 Iminify\WordPress\Autoloader::register();
+
+register_activation_hook( __FILE__, array( Iminify\WordPress\Lifecycle::class, 'activate' ) );
+register_deactivation_hook( __FILE__, array( Iminify\WordPress\Lifecycle::class, 'deactivate' ) );
+
 Iminify\WordPress\Plugin::boot();

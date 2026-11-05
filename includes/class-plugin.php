@@ -10,10 +10,12 @@ namespace Iminify\WordPress;
 use Iminify\WordPress\Admin\Media_Controller;
 use Iminify\WordPress\Admin\Media_View;
 use Iminify\WordPress\Admin\Notice;
+use Iminify\WordPress\Admin\Privacy;
 use Iminify\WordPress\Admin\Rest_Controller;
 use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Media\Hooks;
+use Iminify\WordPress\Media\Picture;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -32,9 +34,12 @@ class Plugin {
 		add_action( 'init', array( Local_Settings::class, 'register' ) );
 		add_action( 'rest_api_init', array( self::class, 'register_routes' ) );
 		add_action( Connection::CLAIM_HOOK, array( self::class, 'claim_in_background' ) );
+		add_action( 'action_scheduler_init', array( Lifecycle::class, 'resume' ) );
 		Hooks::register();
+		Picture::register();
 
 		if ( is_admin() ) {
+			add_action( 'admin_init', array( Privacy::class, 'register' ) );
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
 			add_action( 'admin_enqueue_scripts', array( Settings_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );

@@ -13,6 +13,10 @@ Compress, convert and resize the images in your media library with Iminify, and 
 
 Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. An upload counts as one image, however many sizes WordPress keeps of it.
 
+The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. The original of each image is kept in a backup under uploads/iminify-backup, so any image can be restored.
+
+When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
+
 == External services ==
 
 This plugin relies on Iminify (https://www.iminify.com), an image optimization service, to compress, convert and resize your images. Nothing is sent to Iminify until you press Connect on the plugin's settings page, or give it a site key there or in wp-config.php.
@@ -23,7 +27,10 @@ Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * your site's home address and the plugin's version, with every call;
-* the settings you choose on the plugin's settings page, which Iminify keeps for your site.
+* the settings you choose on the plugin's settings page, which Iminify keeps for your site;
+* a request that stops the site's key, when you press Disconnect or delete the plugin (not for a key set in wp-config.php).
+
+Nothing about your site's visitors is sent: the images on your pages, and their WebP and AVIF copies, are served from your site. The plugin suggests text for your privacy policy under Settings, Privacy.
 
 Iminify Terms of Service: https://www.iminify.com/terms-of-service
 Iminify Privacy Policy: https://www.iminify.com/privacy-policy
