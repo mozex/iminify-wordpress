@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress;
 
+use Iminify\WordPress\Admin\Media_Controller;
+use Iminify\WordPress\Admin\Media_View;
 use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Admin\Rest_Controller;
 use Iminify\WordPress\Admin\Settings_Page;
@@ -38,6 +40,7 @@ class Plugin {
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );
 			add_action( 'admin_notices', array( Notice::class, 'render' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'action_links' ) );
+			Media_View::register();
 		}
 	}
 
@@ -46,6 +49,7 @@ class Plugin {
 	 */
 	public static function register_routes(): void {
 		( new Rest_Controller() )->register_routes();
+		( new Media_Controller() )->register_routes();
 	}
 
 	/**

@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
@@ -292,16 +293,6 @@ class OptimizerTest extends WP_UnitTestCase {
 				Records::QUEUED,
 				30,
 			),
-			'the day spent, until it opens'   => array(
-				429,
-				array(
-					'code'    => 'images_per_day',
-					'message' => 'Used up.',
-				),
-				array( 'Retry-After' => '7200' ),
-				Records::QUEUED,
-				7200,
-			),
 			'the service failing on the way'  => array(
 				503,
 				array(
@@ -462,6 +453,126 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertCount( 2, $backups );
 		$this->assertCount( 1, $aside );
 		$this->assertSame( $first, file_get_contents( Paths::absolute( $aside[0] ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the old backup kept aside.
+	}
+
+	public function test_with_backups_off_a_backup_of_a_replaced_file_is_moved_aside_so_a_restore_never_puts_it_back(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+		$relative = (string) Paths::relative( $attached );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		copy( DIR_TESTDATA . '/images/test-image-large.jpg', $attached );
+		Records::update( $id, array( 'group' => null ) );
+		Local_Settings::update( array( 'backups' => false ) );
+
+		Optimizer::optimize( $id, Optimizer::MANUAL );
+
+		Local_Settings::update( array( 'backups' => true ) );
+
+		$this->assertFileDoesNotExist( Paths::backup( $relative ) );
+		$this->assertCount( 2, Records::get( $id )['backups'] );
+	}
+
+	public function test_a_disk_that_fills_up_while_writing_skips_what_has_no_room_and_records_only_what_it_wrote(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+
+		$answer = $this->finished( $id );
+		$zip    = $this->zip( $attached, $answer );
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $zip['bytes'] );
+		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
+
+		/* Room for the smallest file alone. */
+		$room = Disk::RESERVE + min( array_map( 'strlen', $zip['entries'] ) );
+		$free = static function () use ( $room ) {
+			return $room;
+		};
+
+		add_filter( 'iminify_disk_free_space', $free );
+		Optimizer::check( $id );
+		remove_filter( 'iminify_disk_free_space', $free );
+
+		$record = Records::get( $id );
+
+		$this->assertSame( Records::OPTIMIZED, $record['status'] );
+		$this->assertSame( count( $zip['entries'] ) - 1, $record['result']['skipped'] );
+		$this->assertSame( 1, count( $record['written'] ) + count( $record['copies'] ) );
+
+		foreach ( $record['copies'] as $copy => $about ) {
+			$this->assertFileExists( Paths::absolute( (string) $copy ) );
+		}
+
+		/* With room for nothing, it isn't called optimized, and its files stay as they were. */
+		$other  = $this->attachment();
+		$file   = (string) get_attached_file( $other );
+		$before = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a test image.
+
+		Optimizer::optimize( $other, Optimizer::AUTOMATIC );
+
+		$answer = $this->finished( $other );
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( $file, $answer )['bytes'] );
+
+		$reserve = static function () {
+			return Disk::RESERVE;
+		};
+
+		add_filter( 'iminify_disk_free_space', $reserve );
+		Optimizer::check( $other );
+		remove_filter( 'iminify_disk_free_space', $reserve );
+
+		$record = Records::get( $other );
+
+		$this->assertSame( array( Records::NOT_OPTIMIZED, 'disk_full' ), array( $record['status'], $record['error']['code'] ?? null ) );
+		$this->assertSame( array(), $record['written'] );
+		$this->assertSame( array(), $record['copies'] );
+		$this->assertNull( $record['group'] );
+		$this->assertSame( $before, file_get_contents( $file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file left alone.
+	}
+
+	public function test_a_restore_during_the_download_keeps_the_files_it_put_back(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+
+		$answer = $this->finished( $id );
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( $attached, $answer )['bytes'] );
+		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
+
+		$before = (string) file_get_contents( $attached ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a test image.
+
+		/* What Restorer::restore() does to the record, happening while the zip comes down. */
+		$restored = static function ( $preempt, $args, $url ) use ( $id ) {
+			if ( false !== strpos( (string) $url, '/download' ) ) {
+				Records::bump( $id );
+				Records::update(
+					$id,
+					array(
+						'group'  => null,
+						'status' => Records::NOT_OPTIMIZED,
+					)
+				);
+			}
+
+			return $preempt;
+		};
+
+		add_filter( 'pre_http_request', $restored, 5, 3 );
+		Optimizer::check( $id );
+		remove_filter( 'pre_http_request', $restored, 5 );
+
+		$this->assertSame( $before, file_get_contents( $attached ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file left alone.
+		$this->assertSame( Records::NOT_OPTIMIZED, Records::get( $id )['status'] );
+		$this->assertSame( array(), Records::get( $id )['written'] );
+		$this->assertFalse( $this->queued( $id ) );
 	}
 
 	public function test_a_browser_made_upload_waits_for_its_sizes_and_an_iphone_upload_goes_from_its_jpeg(): void {

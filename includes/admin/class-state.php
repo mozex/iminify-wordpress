@@ -10,6 +10,8 @@ namespace Iminify\WordPress\Admin;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Disk;
+use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -34,6 +36,21 @@ class State {
 	 * @return array<string, mixed>
 	 */
 	public static function build(): array {
+		$state = self::connection();
+
+		/* After the read above, which may have started or ended the pause. */
+		$state['queue'] = Queue::summary();
+		$state['disk']  = array( 'low' => ! Disk::has_room_for( 0 ) );
+
+		return $state;
+	}
+
+	/**
+	 * The connection and everything read from Iminify through it.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected static function connection(): array {
 		$keys       = Plugin::keys();
 		$connection = new Connection();
 		$pairing    = $connection->pairing();
@@ -52,6 +69,7 @@ class State {
 			'site'          => null,
 			'local'         => Local_Settings::get(),
 			'deliveries'    => Local_Settings::deliveries(),
+			'levels'        => self::levels(),
 			'sizes'         => self::sizes(),
 			'links'         => self::links( $hidden ),
 		);
@@ -169,7 +187,7 @@ class State {
 	 *
 	 * @param mixed $value An ISO 8601 date.
 	 */
-	protected static function date( $value ): ?string {
+	public static function date( $value ): ?string {
 		$time = is_string( $value ) ? strtotime( $value ) : false;
 
 		if ( false === $time ) {
@@ -179,6 +197,24 @@ class State {
 		$formatted = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time );
 
 		return is_string( $formatted ) ? $formatted : null;
+	}
+
+	/**
+	 * The compression levels, for the setting that picks one.
+	 *
+	 * @return list<array{value: string, label: string}>
+	 */
+	protected static function levels(): array {
+		$levels = array();
+
+		foreach ( Messages::levels() as $value => $level ) {
+			$levels[] = array(
+				'value' => $value,
+				'label' => $level['label'],
+			);
+		}
+
+		return $levels;
 	}
 
 	/**

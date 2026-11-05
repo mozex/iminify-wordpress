@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 import { call, openTab } from './api';
 import Account from './account';
 import { Connect, Pairing, PasteKey } from './connect';
+import Queue from './queue';
 import SettingsForm from './settings-form';
 
 /**
@@ -293,6 +294,32 @@ export default function App() {
 					onDisconnect={ disconnect }
 				/>
 			) }
+
+			<Queue
+				state={ state }
+				busy={ busy }
+				onStart={ () =>
+					run( '/queue/start', 'POST' )
+						.then( ( next ) => {
+							if ( next.started ) {
+								setSuccess(
+									__(
+										'The images waiting are on their way.',
+										'iminify-image-optimizer'
+									)
+								);
+							} else {
+								setError( {
+									message: __(
+										"Your account's images for the day are still used up.",
+										'iminify-image-optimizer'
+									),
+								} );
+							}
+						} )
+						.catch( () => {} )
+				}
+			/>
 
 			<SettingsForm
 				key={ connected ? 'connected' : 'local' }

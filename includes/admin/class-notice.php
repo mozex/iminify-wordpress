@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -131,7 +132,18 @@ class Notice {
 			);
 		}
 
-		$kept    = Site_Record::message();
+		$kept  = Site_Record::message();
+		$until = Pause::until();
+
+		/* A group the service refused for the day, when `/site` has nothing to say about it: too few of the day's files for it, or a plan's fair-use line. */
+		if ( null === $kept && null !== $until ) {
+			$kept = array(
+				'message'         => array( 'code' => 'day_spent' ),
+				'next_batch_at'   => gmdate( 'c', $until ),
+				'minimum_version' => null,
+			);
+		}
+
 		$message = null === $kept ? null : Messages::for_site( $kept['message'], Plugin::keys()->hides_account() );
 
 		if ( null === $kept || null === $message ) {

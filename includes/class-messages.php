@@ -24,6 +24,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Messages {
 
 	/**
+	 * The service's compression levels, with a short name and a line saying what each does.
+	 *
+	 * @return array<string, array{name: string, label: string}>
+	 */
+	public static function levels(): array {
+		return array(
+			'smart'    => array(
+				'name'  => __( 'Smart', 'iminify-image-optimizer' ),
+				'label' => __( 'Smart: a balance between quality and size', 'iminify-image-optimizer' ),
+			),
+			'ultra'    => array(
+				'name'  => __( 'Ultra', 'iminify-image-optimizer' ),
+				'label' => __( 'Ultra: the smallest files, with some loss of quality', 'iminify-image-optimizer' ),
+			),
+			'lossless' => array(
+				'name'  => __( 'Lossless', 'iminify-image-optimizer' ),
+				'label' => __( 'Lossless: no visible change in quality', 'iminify-image-optimizer' ),
+			),
+			'none'     => array(
+				'name'  => __( 'None', 'iminify-image-optimizer' ),
+				'label' => __( 'None: no compression, only the other settings', 'iminify-image-optimizer' ),
+			),
+		);
+	}
+
+	/**
 	 * The message `GET /site` answered, ready to show, or null. With the account
 	 * kept out of sight (Key_Store::hides_account()), only the plugin's own words
 	 * show, since the service's name the account's plan, trial and numbers.

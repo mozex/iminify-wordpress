@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress;
 
+use Iminify\WordPress\Media\Pause;
+use Iminify\WordPress\Media\Queue;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,13 +20,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * and the service's message. The plugin's own pages read it fresh and keep the
  * record a few minutes; the message is kept until a later answer replaces it,
  * since the notice on other screens reads only what is kept here, so no admin
- * screen outside the plugin's calls Iminify.
+ * screen outside the plugin's calls Iminify. The formats the site asks for are
+ * kept too, for the media library's filter, and every record read is how the
+ * plugin hears that the account's day is spent or back, and that the connection
+ * works again.
  */
 class Site_Record {
 
 	const TRANSIENT = 'iminify_site';
 
 	const MESSAGE_OPTION = 'iminify_site_message';
+
+	const FORMATS_OPTION = 'iminify_site_formats';
 
 	const TTL = 300;
 
@@ -76,6 +83,12 @@ class Site_Record {
 	public static function remember( array $site ): void {
 		set_transient( self::TRANSIENT, $site, self::TTL );
 		delete_option( Connection::REVOKED_OPTION );
+		Pause::observe( $site );
+		Queue::connection_back();
+
+		$settings = isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array();
+
+		update_option( self::FORMATS_OPTION, array_keys( array_filter( array_intersect_key( $settings, array_flip( array( 'webp', 'avif' ) ) ) ) ), false );
 
 		$message = $site['message'] ?? null;
 
@@ -117,10 +130,22 @@ class Site_Record {
 	}
 
 	/**
+	 * The copies the site asked for in the last record read, by format.
+	 *
+	 * @return list<string>
+	 */
+	public static function formats(): array {
+		$formats = get_option( self::FORMATS_OPTION );
+
+		return is_array( $formats ) ? array_values( array_filter( $formats, 'is_string' ) ) : array();
+	}
+
+	/**
 	 * Drops the kept record.
 	 */
 	public static function forget(): void {
 		delete_transient( self::TRANSIENT );
 		delete_option( self::MESSAGE_OPTION );
+		delete_option( self::FORMATS_OPTION );
 	}
 }

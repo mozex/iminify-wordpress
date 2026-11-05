@@ -21,9 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * over is never an original; the backup the plugin kept of it is. A file it
  * didn't write is the original as it stands, so an edited image (core names it
  * `photo-e1699999999999.jpg` and keeps the old `original_image`) is sent as
- * edited, and the pre-edit original is never sent in its place. An attached file
- * in a format the service doesn't take (an AVIF, an SVG) has none: it is kept as
- * it was uploaded.
+ * edited, and the pre-edit original is never sent in its place. An original
+ * something deleted since has only its backup. An attached file in a format the
+ * service doesn't take (an AVIF, an SVG) has none: it is kept as it was uploaded.
  */
 class Originals {
 
@@ -65,12 +65,18 @@ class Originals {
 		foreach ( $candidates as $kind => $path ) {
 			$relative = Paths::relative( $path );
 
-			/* The service makes every output in its source's format, so a source in another one (a HEIC WordPress turned into a JPEG) would be written over the JPEGs. */
-			if ( null === $relative || ! is_file( $path ) || wp_get_image_mime( $path ) !== $type ) {
+			if ( null === $relative ) {
 				continue;
 			}
 
-			if ( Records::wrote( $attachment, $path ) ) {
+			$gone = ! is_file( $path );
+
+			/* The service makes every output in its source's format, so a source in another one (a HEIC WordPress turned into a JPEG) would be written over the JPEGs. */
+			if ( ! $gone && wp_get_image_mime( $path ) !== $type ) {
+				continue;
+			}
+
+			if ( $gone || Records::wrote( $attachment, $path ) ) {
 				$backup = Paths::backup( $relative );
 
 				if ( is_file( $backup ) && wp_get_image_mime( $backup ) === $type && self::fits( $backup, $max_bytes ) ) {

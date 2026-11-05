@@ -38,6 +38,8 @@ class Hooks {
 		add_action( Optimizer::OPTIMIZE_HOOK, array( Optimizer::class, 'optimize' ), 10, 2 );
 		add_action( Optimizer::CHECK_HOOK, array( Optimizer::class, 'check' ) );
 		add_action( Optimizer::DELETE_GROUP_HOOK, array( Optimizer::class, 'delete_group' ), 10, 2 );
+		add_action( Queue::OPENS_HOOK, array( Queue::class, 'batch_opens' ) );
+		add_action( Queue::RESUME_HOOK, array( Queue::class, 'resume' ) );
 	}
 
 	/**
@@ -102,23 +104,10 @@ class Hooks {
 	 */
 	public static function deleted( $attachment ): void {
 		$attachment = (int) $attachment;
-		$record     = Records::get( $attachment );
 
-		foreach ( $record['copies'] as $copy => $about ) {
-			if ( is_array( $about ) && Records::ORIGIN === ( $about['origin'] ?? null ) ) {
-				wp_delete_file( Paths::absolute( (string) $copy ) );
-			}
-		}
-
-		Backups::forget( $record['backups'] );
-
-		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::AUTOMATIC ), Optimizer::GROUP );
-		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK, array( $attachment, Optimizer::MANUAL ), Optimizer::GROUP );
-		as_unschedule_all_actions( Optimizer::CHECK_HOOK, array( $attachment ), Optimizer::GROUP );
-
-		if ( null !== $record['group'] && '' !== (string) ( $record['group']['id'] ?? '' ) ) {
-			as_schedule_single_action( time(), Optimizer::DELETE_GROUP_HOOK, array( (string) $record['group']['id'], 0 ), Optimizer::GROUP );
-		}
+		Copies::delete_own( $attachment );
+		Backups::forget( Records::get( $attachment )['backups'] );
+		Optimizer::cancel( $attachment );
 	}
 
 	/**

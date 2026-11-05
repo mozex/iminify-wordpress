@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
@@ -30,6 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * one open can no longer finish (it expired, it was lost, or the files it was
  * made for changed), never on an answer that went missing on the way: the
  * group is read first, and only a group still waiting for its source gets it.
+ *
+ * While the account's day is spent (Pause) no group opens and the attachment
+ * reads `paused`; while the site has no working key it reads `parked`, keeping
+ * any group it has open. Neither keeps a run scheduled: Queue sends them on.
  */
 class Optimizer {
 
@@ -40,6 +45,11 @@ class Optimizer {
 	const DELETE_GROUP_HOOK = 'iminify_delete_group';
 
 	const GROUP = 'iminify';
+
+	/**
+	 * The service's refusal for a spent day, whichever count it was: images, or more files than are left.
+	 */
+	const DAILY_LIMIT = 'daily_limit_reached';
 
 	/**
 	 * Sent by an upload, an edit or regenerated sizes, which only runs while the site optimizes uploads.
@@ -88,19 +98,127 @@ class Optimizer {
 	public static function queue( int $attachment, string $trigger = self::AUTOMATIC, int $delay = 10 ): void {
 		$args = array( $attachment, $trigger );
 
+		/* Decided once, so an upload that waited for a batch doesn't come back behind older work for having waited. */
+		$kept     = Records::get( $attachment )['priority'];
+		$posted   = get_post_time( 'U', true, $attachment );
+		$recent   = is_int( $posted ) && time() - $posted <= Declaration::RECENT_SECONDS;
+		$priority = self::MANUAL === $trigger ? self::PRIORITY_UPLOAD : ( $kept ?? ( $recent ? self::PRIORITY_UPLOAD : self::PRIORITY_LATER ) );
+
 		if ( self::pending( self::OPTIMIZE_HOOK, $args ) ) {
+			/* An upload's second event (the sizes a browser made) clears its place while its first run still waits. */
+			if ( null === $kept ) {
+				Records::update( $attachment, array( 'priority' => $priority ) );
+			}
+
 			return;
 		}
 
 		Records::update(
 			$attachment,
 			array(
-				'status' => Records::QUEUED,
-				'error'  => null,
+				'status'   => Records::QUEUED,
+				'trigger'  => $trigger,
+				'priority' => $priority,
+				'error'    => null,
 			)
 		);
 
-		as_schedule_single_action( time() + $delay, self::OPTIMIZE_HOOK, $args, self::GROUP, false, self::priority( $attachment ) );
+		as_schedule_single_action( time() + $delay, self::OPTIMIZE_HOOK, $args, self::GROUP, false, $priority );
+	}
+
+	/**
+	 * Someone asked for an attachment to be optimized, here and now and at any
+	 * level. An image the plugin already wrote goes back to its original first, so
+	 * it comes out as a fresh upload at that level would: the service only replaces
+	 * a file with a smaller one, and the plugin's last output would stand against a
+	 * gentler level. Nothing changes when the service can't take it now.
+	 *
+	 * @param int         $attachment The attachment's id.
+	 * @param string|null $level      The level, or null for the site's.
+	 * @return true|WP_Error
+	 */
+	public static function ask( int $attachment, ?string $level = null ) {
+		if ( ! self::is_optimizable( $attachment ) ) {
+			return new WP_Error( 'not_optimizable', __( 'Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ), array( 'status' => 422 ) );
+		}
+
+		$site = Site_Record::fetch();
+
+		if ( null === $site ) {
+			return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( $site instanceof WP_Error ) {
+			return $site;
+		}
+
+		if ( 'update_required' === ( $site['message']['code'] ?? '' ) ) {
+			return new WP_Error( 'update_required', __( 'Update the Iminify plugin first.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		$until = Pause::until();
+
+		if ( null !== $until ) {
+			return new WP_Error(
+				'day_spent',
+				sprintf(
+					/* translators: %s: the date and time the next batch opens. */
+					__( 'Your account\'s images for the day are used up. The next batch opens on %s.', 'iminify-image-optimizer' ),
+					(string) State::date( gmdate( 'c', $until ) )
+				),
+				array( 'status' => 409 )
+			);
+		}
+
+		$availability = Restorer::availability( $attachment );
+
+		if ( Restorer::NO_ORIGINAL === $availability ) {
+			return new WP_Error( 'no_original', __( 'No original of this image was kept, so it can\'t be optimized again.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( ! Disk::has_room_for( 0 ) ) {
+			return new WP_Error( 'disk_full', __( 'The server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$source   = Originals::find( $attachment, is_array( $metadata ) ? $metadata : array(), null );
+
+		/* An original WordPress kept can stand aside for its `-scaled` copy, but any other source is the one that has to go. */
+		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && isset( $site['max_file_size'] ) && (int) filesize( $source['path'] ) > (int) $site['max_file_size'] ) {
+			return new WP_Error( 'file_too_large', __( 'This image\'s original is larger than your plan\'s file size, so it can\'t be sent.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( Restorer::AVAILABLE === $availability ) {
+			$restored = Restorer::restore( $attachment );
+
+			if ( is_wp_error( $restored ) ) {
+				return $restored;
+			}
+		}
+
+		self::cancel( $attachment );
+		Records::update( $attachment, array( 'level' => $level ) );
+		self::queue( $attachment, self::MANUAL, 0 );
+
+		return true;
+	}
+
+	/**
+	 * Drops everything waiting for an attachment: its runs, and any group it has
+	 * open, which is deleted from Iminify in the background.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function cancel( int $attachment ): void {
+		as_unschedule_all_actions( self::OPTIMIZE_HOOK, array( $attachment, self::AUTOMATIC ), self::GROUP );
+		as_unschedule_all_actions( self::OPTIMIZE_HOOK, array( $attachment, self::MANUAL ), self::GROUP );
+		as_unschedule_all_actions( self::CHECK_HOOK, array( $attachment ), self::GROUP );
+
+		$group = Records::get( $attachment )['group'];
+
+		if ( null !== $group ) {
+			self::drop_group( $attachment, (string) ( $group['id'] ?? '' ) );
+		}
 	}
 
 	/**
@@ -119,8 +237,10 @@ class Optimizer {
 
 		$client = Plugin::client();
 
+		Records::update( $attachment, array( 'trigger' => $trigger ) );
+
 		if ( null === $client ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
+			self::park( $attachment, 'not_connected' );
 
 			return;
 		}
@@ -138,7 +258,10 @@ class Optimizer {
 			self::drop_group( $attachment, (string) ( $record['group']['id'] ?? '' ) );
 		}
 
-		Records::update( $attachment, array( 'trigger' => $trigger ) );
+		/* A batch that is shut asks nothing of the service, however many images come here while it is. */
+		if ( self::waits_for_batch( $attachment ) ) {
+			return;
+		}
 
 		$site = Site_Record::cached() ?? Site_Record::fetch();
 
@@ -163,6 +286,11 @@ class Optimizer {
 			return;
 		}
 
+		/* The read above may have just found the day spent. */
+		if ( self::waits_for_batch( $attachment ) ) {
+			return;
+		}
+
 		if ( ! Zip::available() ) {
 			Records::fail( $attachment, Records::SKIPPED, 'zip_unavailable', __( 'Not sent: this server\'s PHP can\'t open zip files. Ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ) );
 
@@ -178,6 +306,12 @@ class Optimizer {
 			return;
 		}
 
+		if ( ! Disk::has_room_for( 0 ) ) {
+			self::no_room( $attachment );
+
+			return;
+		}
+
 		$source = Originals::find( $attachment, $metadata, isset( $site['max_file_size'] ) ? (int) $site['max_file_size'] : null );
 
 		if ( null === $source ) {
@@ -186,7 +320,7 @@ class Optimizer {
 			return;
 		}
 
-		$declaration = Declaration::build( $attachment, $metadata, $source );
+		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) );
 
 		if ( is_wp_error( $declaration ) ) {
 			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
@@ -197,8 +331,16 @@ class Optimizer {
 		$backups = $record['backups'];
 
 		/* Before the group opens, so a backup that can't be trusted costs no image. */
-		if ( Originals::BACKUP !== $source['kind'] && Local_Settings::get()['backups'] ) {
-			$backups = Backups::keep( $source['path'], $source['file'], $backups );
+		if ( Originals::BACKUP !== $source['kind'] ) {
+			$keep = Local_Settings::get()['backups'];
+
+			if ( $keep && ! Disk::has_room_for( (int) filesize( $source['path'] ) ) ) {
+				self::no_room( $attachment );
+
+				return;
+			}
+
+			$backups = $keep ? Backups::keep( $source['path'], $source['file'], $backups ) : Backups::retire( $source['path'], $source['file'], $backups );
 
 			if ( is_wp_error( $backups ) ) {
 				Records::fail( $attachment, Records::ERROR, (string) $backups->get_error_code(), $backups->get_error_message() );
@@ -255,7 +397,7 @@ class Optimizer {
 		}
 
 		if ( null === $client ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
+			self::park( $attachment, 'not_connected' );
 
 			return;
 		}
@@ -382,6 +524,15 @@ class Optimizer {
 			return;
 		}
 
+		/* A restore or an edit that came along during the download dropped this group, and its files are no longer wanted. */
+		$current = Records::get( $attachment );
+
+		if ( (string) ( $current['group']['id'] ?? '' ) !== (string) $group['id'] || $current['generation'] !== (int) $group['generation'] ) {
+			wp_delete_file( $zip );
+
+			return;
+		}
+
 		$written = Writer::write( $attachment, $group, $answer, $zip );
 		wp_delete_file( $zip );
 
@@ -399,6 +550,14 @@ class Optimizer {
 			return;
 		}
 
+		/* Nothing written for want of room isn't "optimized": it shows why, and goes again once there is some. */
+		if ( $written['no_room'] > 0 && ! Writer::wrote_any( $written['outputs'] ) ) {
+			self::drop_group( $attachment, (string) $group['id'] );
+			self::no_room( $attachment );
+
+			return;
+		}
+
 		Records::update(
 			$attachment,
 			array(
@@ -407,8 +566,11 @@ class Optimizer {
 				'error'    => null,
 				'attempts' => 0,
 				'reopens'  => 0,
+				'level'    => null,
+				'priority' => null,
 				'result'   => array(
 					'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
+					'formats' => array_values( array_intersect( array_keys( Writer::COPIES ), isset( $answer['settings']['formats'] ) && is_array( $answer['settings']['formats'] ) ? $answer['settings']['formats'] : array() ) ),
 					'outputs' => $written['outputs'],
 					'skipped' => $written['skipped'],
 					'at'      => time(),
@@ -420,9 +582,10 @@ class Optimizer {
 	}
 
 	/**
-	 * What a refusal or a failure does: a wait the service asks for, or one on
-	 * the way, runs the same step again later; a key the service stopped
-	 * disconnects the site; anything else is the attachment's error to show.
+	 * What a refusal or a failure does: a spent day stops every new group; a wait
+	 * the service asks for, or one on the way, runs the same step again later; a
+	 * key the service stopped disconnects the site and parks the attachment; anything
+	 * else is the attachment's error to show.
 	 *
 	 * @param int           $attachment The attachment's id.
 	 * @param WP_Error|null $error      What went wrong, or null for no answer at all.
@@ -437,13 +600,22 @@ class Optimizer {
 
 		if ( 'unauthenticated' === $code ) {
 			( new Connection() )->revoked_by_service();
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, $code, __( 'Not optimized: Iminify disconnected this site.', 'iminify-image-optimizer' ) );
+			self::park( $attachment, $code );
 
 			return;
 		}
 
 		if ( in_array( $code, array( 'not_connected', 'site_moved' ), true ) ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, $code, null === $error ? '' : $error->get_error_message() );
+			self::park( $attachment, $code );
+
+			return;
+		}
+
+		if ( self::DAILY_LIMIT === $code && self::OPTIMIZE_HOOK === $hook ) {
+			$site = Site_Record::fetch();
+
+			Pause::refused( isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : HOUR_IN_SECONDS, is_array( $site ) && isset( $site['plan'] ) ? (string) $site['plan'] : '' );
+			self::waits_for_batch( $attachment );
 
 			return;
 		}
@@ -461,6 +633,43 @@ class Optimizer {
 		}
 
 		self::fail( $attachment, $code, null === $error ? __( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ) : $error->get_error_message() );
+	}
+
+	/**
+	 * Marks the attachment as waiting for the next batch, if one is shut.
+	 *
+	 * @phpstan-impure
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return bool Whether it waits.
+	 */
+	protected static function waits_for_batch( int $attachment ): bool {
+		if ( null === Pause::until() ) {
+			return false;
+		}
+
+		Records::wait( $attachment, Records::PAUSED, 'day_spent', __( 'Waiting for the next batch.', 'iminify-image-optimizer' ) );
+
+		return true;
+	}
+
+	/**
+	 * Marks the attachment as waiting for the site's connection. A group it has open stays on its record.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $code       Why the service can't be reached with this key.
+	 */
+	protected static function park( int $attachment, string $code ): void {
+		Records::wait( $attachment, Records::PARKED, $code, __( 'Waiting for the site to be connected to Iminify.', 'iminify-image-optimizer' ) );
+	}
+
+	/**
+	 * Leaves the attachment as it is for want of disk space, with nothing counted.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function no_room( int $attachment ): void {
+		Records::fail( $attachment, Records::NOT_OPTIMIZED, 'disk_full', __( 'Not optimized: the server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ) );
 	}
 
 	/**
@@ -606,7 +815,7 @@ class Optimizer {
 	 * @param string      $hook The step.
 	 * @param list<mixed> $args Its arguments.
 	 */
-	protected static function pending( string $hook, array $args ): bool {
+	public static function pending( string $hook, array $args ): bool {
 		return array() !== as_get_scheduled_actions(
 			array(
 				'hook'     => $hook,
@@ -620,13 +829,11 @@ class Optimizer {
 	}
 
 	/**
-	 * A fresh upload's priority, ahead of older work.
+	 * The attachment's place in the queue, as queue() decided it.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function priority( int $attachment ): int {
-		$posted = get_post_time( 'U', true, $attachment );
-
-		return is_int( $posted ) && time() - $posted <= Declaration::RECENT_SECONDS ? self::PRIORITY_UPLOAD : self::PRIORITY_LATER;
+		return Records::get( $attachment )['priority'] ?? self::PRIORITY_LATER;
 	}
 }

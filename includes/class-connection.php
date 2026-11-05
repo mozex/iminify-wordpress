@@ -8,6 +8,7 @@
 namespace Iminify\WordPress;
 
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Media\Queue;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -414,6 +415,7 @@ class Connection {
 
 		if ( null === $site ) {
 			Site_Record::forget();
+			Queue::connection_back();
 		} else {
 			Site_Record::remember( $site );
 		}

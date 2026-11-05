@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -68,6 +69,7 @@ class Rest_Controller {
 				'local' => array( 'type' => 'object' ),
 			)
 		);
+		$this->route( '/queue/start', WP_REST_Server::CREATABLE, 'start_queue' );
 		$this->route(
 			'/notice',
 			WP_REST_Server::CREATABLE,
@@ -229,6 +231,18 @@ class Rest_Controller {
 		}
 
 		return $this->answer( array( 'saved' => true ) );
+	}
+
+	/**
+	 * "Start now": sends the images waiting for a batch, answering in `started`
+	 * whether it could: false while the account's day is still spent.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function start_queue() {
+		$started = Queue::start_now();
+
+		return is_wp_error( $started ) ? $this->refusal( $started ) : $this->answer( array( 'started' => $started ) );
 	}
 
 	/**

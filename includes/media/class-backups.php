@@ -17,8 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The original an attachment's group is made from, copied under
  * `uploads/iminify-backup/` at the same path before the group is opened: it is
  * what a restore puts back and what a later group is made from. On by default
- * (the backups setting). A backup that can't be made never stops the
- * optimization; the attachment then has none to restore from.
+ * (the backups setting). A backup that can't be made stops the optimization, with
+ * nothing counted: the plugin never writes over an image someone asked it to keep
+ * a copy of without that copy.
  *
  * A backup already at that path is kept only while it holds the same bytes as
  * the source: a file replaced in place since (an image editor overwriting it,
@@ -34,30 +35,53 @@ class Backups {
 	 * @param string       $path     The file to keep.
 	 * @param string       $relative The path it stands for, relative to the uploads folder.
 	 * @param list<string> $backups  The attachment's backups, relative to the uploads folder.
-	 * @return list<string>|WP_Error The attachment's backups with this one, or the reason a stale backup couldn't be moved aside.
+	 * @return list<string>|WP_Error The attachment's backups with this one, or the reason it couldn't be kept.
 	 */
 	public static function keep( string $path, string $relative, array $backups ) {
-		$backup = Paths::backup( $relative );
+		$backup  = Paths::backup( $relative );
+		$backups = self::retire( $path, $relative, $backups );
+
+		if ( is_wp_error( $backups ) ) {
+			return $backups;
+		}
 
 		self::guard();
 
-		if ( is_file( $backup ) && ! self::same( $path, $backup ) ) {
-			$aside = self::aside( $backup );
-
-			if ( null === $aside || ! Files::move( $backup, $aside ) ) {
-				return new WP_Error( 'backup_stale', __( 'The image changed since its backup was made, and the old backup couldn\'t be moved aside, so it wasn\'t optimized.', 'iminify-image-optimizer' ) );
-			}
-
-			$backups[] = (string) Paths::relative( $aside );
-		}
-
 		if ( ! is_file( $backup ) && ! Files::copy( $path, $backup ) ) {
-			return $backups;
+			return new WP_Error( 'backup_failed', __( 'The backup of this image couldn\'t be saved, so it wasn\'t optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings.', 'iminify-image-optimizer' ) );
 		}
 
 		$kept = Paths::relative( $backup );
 
 		return null === $kept || in_array( $kept, $backups, true ) ? $backups : array_merge( $backups, array( $kept ) );
+	}
+
+	/**
+	 * Moves a backup that no longer holds the source's bytes aside, with backups
+	 * on or off: left in place it would later pass for the original of the new
+	 * picture, and a restore would put the old one over it.
+	 *
+	 * @param string       $path     The source.
+	 * @param string       $relative The path it stands for, relative to the uploads folder.
+	 * @param list<string> $backups  The attachment's backups, relative to the uploads folder.
+	 * @return list<string>|WP_Error The attachment's backups, or the reason a stale one couldn't be moved aside.
+	 */
+	public static function retire( string $path, string $relative, array $backups ) {
+		$backup = Paths::backup( $relative );
+
+		if ( ! is_file( $backup ) || self::same( $path, $backup ) ) {
+			return $backups;
+		}
+
+		$aside = self::aside( $backup );
+
+		if ( null === $aside || ! Files::move( $backup, $aside ) ) {
+			return new WP_Error( 'backup_stale', __( 'The image changed since its backup was made, and the old backup couldn\'t be moved aside, so it wasn\'t optimized.', 'iminify-image-optimizer' ) );
+		}
+
+		$backups[] = (string) Paths::relative( $aside );
+
+		return $backups;
 	}
 
 	/**
@@ -81,7 +105,7 @@ class Backups {
 	 * @param string $one A file.
 	 * @param string $two Another.
 	 */
-	protected static function same( string $one, string $two ): bool {
+	public static function same( string $one, string $two ): bool {
 		clearstatcache( true, $one );
 		clearstatcache( true, $two );
 

@@ -176,7 +176,8 @@ class Client {
 
 	/**
 	 * Opens an upload group: one image and the outputs to make from it. A site's group takes
-	 * the site's settings on Iminify, whatever the declaration says beside its outputs.
+	 * the site's settings on Iminify, whatever the declaration says beside its outputs and a
+	 * level it names.
 	 *
 	 * @param array<string, mixed> $declaration The source and its outputs, as `POST /groups` takes them.
 	 * @return array<string, mixed>|WP_Error

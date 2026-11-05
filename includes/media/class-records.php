@@ -19,10 +19,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * something else put there since, so it never sends its own output back for a
  * second lossy pass. Every copy carries its origin, so restoring, deleting the
  * copies or uninstalling only ever deletes the plugin's own.
+ *
+ * The record is one serialized value, which no query can read, so its status
+ * and the formats its group was asked for also go in post meta of their own, for
+ * the media library's filters and the queue.
  */
 class Records {
 
 	const META = '_iminify';
+
+	const STATUS_META = '_iminify_status';
+
+	const FORMATS_META = '_iminify_formats';
 
 	const ORIGIN = 'iminify';
 
@@ -34,6 +42,16 @@ class Records {
 
 	const NOT_OPTIMIZED = 'not_optimized';
 
+	/**
+	 * Waiting for the account's next batch, with no run scheduled (Queue).
+	 */
+	const PAUSED = 'paused';
+
+	/**
+	 * Waiting for the site to be connected again, with no run scheduled and any open group kept (Queue).
+	 */
+	const PARKED = 'parked';
+
 	const SKIPPED = 'skipped';
 
 	const ERROR = 'error';
@@ -42,7 +60,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -51,6 +69,8 @@ class Records {
 		return array(
 			'status'     => isset( $record['status'] ) && is_string( $record['status'] ) ? $record['status'] : null,
 			'trigger'    => isset( $record['trigger'] ) && is_string( $record['trigger'] ) ? $record['trigger'] : null,
+			'level'      => isset( $record['level'] ) && is_string( $record['level'] ) ? $record['level'] : null,
+			'priority'   => isset( $record['priority'] ) ? (int) $record['priority'] : null,
 			'generation' => isset( $record['generation'] ) ? (int) $record['generation'] : 0,
 			'group'      => isset( $record['group'] ) && is_array( $record['group'] ) ? $record['group'] : null,
 			'written'    => isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
@@ -77,13 +97,23 @@ class Records {
 
 		update_post_meta( $attachment, self::META, $record );
 
+		if ( is_string( $record['status'] ) ) {
+			update_post_meta( $attachment, self::STATUS_META, $record['status'] );
+		}
+
+		if ( isset( $record['result']['formats'] ) && is_array( $record['result']['formats'] ) ) {
+			update_post_meta( $attachment, self::FORMATS_META, '|' . implode( '|', $record['result']['formats'] ) . '|' );
+		} else {
+			delete_post_meta( $attachment, self::FORMATS_META );
+		}
+
 		return $record;
 	}
 
 	/**
 	 * Marks the attachment's files as changed, so a group already open for the
 	 * files it had writes nothing over the new ones, and the new files get
-	 * their own reopens.
+	 * their own reopens, their own place in the queue and the site's own level.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
@@ -95,6 +125,8 @@ class Records {
 			array(
 				'generation' => $generation,
 				'reopens'    => 0,
+				'level'      => null,
+				'priority'   => null,
 			)
 		);
 
@@ -124,6 +156,61 @@ class Records {
 		}
 
 		return (int) filesize( $path ) === $written[ $relative ];
+	}
+
+	/**
+	 * Records why an attachment waits, keeping an open group: its image is already
+	 * counted, so it is finished rather than opened again once the wait is over.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $status     What it waits for: PAUSED or PARKED.
+	 * @param string $code       The reason's code.
+	 * @param string $message    The reason, in words.
+	 */
+	public static function wait( int $attachment, string $status, string $code, string $message ): void {
+		self::update(
+			$attachment,
+			array(
+				'status' => $status,
+				'error'  => array(
+					'code'    => $code,
+					'message' => $message,
+				),
+			)
+		);
+	}
+
+	/**
+	 * The attachments with one of these statuses, in the order of their ids.
+	 *
+	 * @param list<string> $statuses The statuses.
+	 * @param int          $limit    How many at most.
+	 * @param int          $after    The id to start after.
+	 * @return list<int>
+	 */
+	public static function with_status( array $statuses, int $limit, int $after = 0 ): array {
+		global $wpdb;
+
+		$in = implode( ', ', array_fill( 0, count( $statuses ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a background read by the meta_key index; the placeholders are built above, one per status.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN ({$in}) AND post_id > %d ORDER BY post_id ASC LIMIT %d", array_merge( array( self::STATUS_META ), $statuses, array( $after, $limit ) ) ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * How many attachments have one of these statuses.
+	 *
+	 * @param list<string> $statuses The statuses.
+	 */
+	public static function count_with_status( array $statuses ): int {
+		global $wpdb;
+
+		$in = implode( ', ', array_fill( 0, count( $statuses ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a count by the meta_key index, on the plugin's own page; the placeholders are built above, one per status.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN ({$in})", array_merge( array( self::STATUS_META ), $statuses ) ) );
 	}
 
 	/**

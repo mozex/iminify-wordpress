@@ -52,9 +52,11 @@ class Declaration {
 	 * @param int                                            $attachment The attachment's id.
 	 * @param array<string, mixed>                           $metadata   Its metadata.
 	 * @param array{path: string, kind: string, file: string} $source     The original to send (Originals::find()).
+	 * @param string|null                                    $level      The level someone asked for, when it isn't the site's.
+	 * @param bool                                           $background Whether it is older work nobody waits on, which takes the slower lane.
 	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int}>, type: string}|WP_Error The request's body, each output's file relative to the uploads folder, and the source's MIME type.
 	 */
-	public static function build( int $attachment, array $metadata, array $source ) {
+	public static function build( int $attachment, array $metadata, array $source, ?string $level = null, bool $background = false ) {
 		$type = wp_get_image_mime( $source['path'] );
 
 		if ( ! is_string( $type ) || ! isset( self::FORMATS[ $type ] ) ) {
@@ -124,10 +126,12 @@ class Declaration {
 			'outputs' => $body,
 		);
 
-		$posted = get_post_time( 'U', true, $attachment );
-
-		if ( is_int( $posted ) && time() - $posted > self::RECENT_SECONDS ) {
+		if ( $background ) {
 			$request['priority'] = 'background';
+		}
+
+		if ( null !== $level ) {
+			$request['level'] = $level;
 		}
 
 		return array(

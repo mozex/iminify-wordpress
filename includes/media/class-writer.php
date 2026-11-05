@@ -52,7 +52,7 @@ class Writer {
 	 * @param array<string, mixed> $group      The open group as its record keeps it.
 	 * @param array<string, mixed> $answer     The group as the service answered it.
 	 * @param string               $zip        The group's downloaded zip.
-	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int}|WP_Error
+	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, no_room: int}|WP_Error
 	 */
 	public static function write( int $attachment, array $group, array $answer, string $zip ) {
 		$declared = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
@@ -78,6 +78,7 @@ class Writer {
 		$copies  = $record['copies'];
 		$summary = array();
 		$skipped = 0;
+		$no_room = 0;
 
 		foreach ( $declared as $name => $output ) {
 			$summary[ $name ] = array(
@@ -95,6 +96,13 @@ class Writer {
 
 			if ( null === $data ) {
 				++$skipped;
+				continue;
+			}
+
+			/* A replacement holds the old file and the new one at once while it is checked. */
+			if ( ! Disk::has_room_for( strlen( $data ) ) ) {
+				++$skipped;
+				++$no_room;
 				continue;
 			}
 
@@ -148,7 +156,23 @@ class Writer {
 		return array(
 			'outputs' => $summary,
 			'skipped' => $skipped,
+			'no_room' => $no_room,
 		);
+	}
+
+	/**
+	 * Whether a write's summary changed any file or made any copy.
+	 *
+	 * @param array<string, array<string, mixed>> $outputs What was written for each output.
+	 */
+	public static function wrote_any( array $outputs ): bool {
+		foreach ( $outputs as $output ) {
+			if ( $output['after'] !== $output['before'] || array() !== $output['formats'] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

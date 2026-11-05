@@ -15,37 +15,6 @@ import {
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-const LEVELS = () => [
-	{
-		value: 'smart',
-		label: __(
-			'Smart: a balance between quality and size',
-			'iminify-image-optimizer'
-		),
-	},
-	{
-		value: 'ultra',
-		label: __(
-			'Ultra: the smallest files, with some loss of quality',
-			'iminify-image-optimizer'
-		),
-	},
-	{
-		value: 'lossless',
-		label: __(
-			'Lossless: no visible change in quality',
-			'iminify-image-optimizer'
-		),
-	},
-	{
-		value: 'none',
-		label: __(
-			'None: no compression, only the other settings',
-			'iminify-image-optimizer'
-		),
-	},
-];
-
 /**
  * A number field's value as the service takes it: a whole number, or null when empty.
  *
@@ -147,7 +116,7 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 								'iminify-image-optimizer'
 							) }
 							value={ site.level }
-							options={ LEVELS() }
+							options={ state.levels }
 							onChange={ change( 'level' ) }
 							help={
 								<FieldError errors={ errors } name="level" />

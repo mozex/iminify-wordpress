@@ -1,0 +1,74 @@
+.iminify-media {
+	p {
+		margin: 0 0 4px;
+	}
+
+	.iminify-status {
+		font-weight: 600;
+	}
+
+	.iminify-status-optimized {
+		color: #007017;
+	}
+
+	.iminify-status-error {
+		color: #b32d2e;
+	}
+
+	.iminify-detail {
+		color: #50575e;
+	}
+
+	.iminify-refusal {
+		color: #b32d2e;
+		font-weight: 600;
+	}
+
+	.iminify-actions-label {
+		margin-top: 8px;
+	}
+
+	.iminify-actions .button {
+		margin: 0 4px 4px 0;
+	}
+}
+
+/* The media modal's attachment fields set every table part to display: block, which would give each row its own columns. */
+.iminify-media .iminify-sizes {
+	border-collapse: collapse;
+	display: table;
+	margin: 8px 0;
+	width: 100%;
+
+	thead {
+		display: table-header-group;
+	}
+
+	tbody {
+		display: table-row-group;
+	}
+
+	tr {
+		display: table-row;
+	}
+
+	th,
+	td {
+		border-bottom: 1px solid #dcdcde;
+		display: table-cell;
+		font-size: 12px;
+		font-weight: 400;
+		overflow-wrap: anywhere;
+		padding: 4px 8px 4px 0;
+		text-align: start;
+		vertical-align: top;
+	}
+
+	thead th {
+		font-weight: 600;
+	}
+}
+
+.column-iminify {
+	width: 16em;
+}
