@@ -10,6 +10,7 @@ namespace Iminify\WordPress;
 use Iminify\WordPress\Admin\Bulk_State;
 use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Compat\Caches;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
 use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
@@ -77,6 +78,7 @@ class Lifecycle {
 		Scanner::LOCK_OPTION,
 		Network::JOIN_OPTION,
 		Network::LOCK_OPTION,
+		Caches::OWED,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -436,6 +438,11 @@ class Lifecycle {
 
 		if ( $backups ) {
 			Backups::remove_folder();
+		}
+
+		/* A page a cache kept still names the copies just deleted, and would show broken images. */
+		if ( $copies ) {
+			Caches::purge( 'uninstall' );
 		}
 	}
 

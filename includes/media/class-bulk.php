@@ -297,6 +297,13 @@ class Bulk {
 			)
 		);
 		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+
+		/**
+		 * A bulk run was paused: nothing more is sent until it goes on, and what is on its way finishes.
+		 *
+		 * @param array<string, mixed> $run The run, as `iminify_bulk_finished` gives it.
+		 */
+		do_action( 'iminify_bulk_paused', (array) self::run() );
 	}
 
 	/**
@@ -348,11 +355,26 @@ class Bulk {
 
 		if ( self::FOLDERS === $run['scope'] ) {
 			self::take_back_files();
-			self::unlock();
-
-			return;
+		} else {
+			self::take_back_images();
 		}
 
+		self::unlock();
+
+		/**
+		 * A bulk run was stopped before it went through every image: what it did stays done.
+		 *
+		 * @param array<string, mixed> $run The run, as `iminify_bulk_finished` gives it.
+		 */
+		do_action( 'iminify_bulk_stopped', (array) self::run() );
+	}
+
+	/**
+	 * Takes back the images a stopped run queued that have no group open yet:
+	 * each reads not optimized again, with nothing counted, and one sent for what
+	 * it lacks goes back to what it was.
+	 */
+	protected static function take_back_images(): void {
 		$after = 0;
 
 		do {
@@ -377,8 +399,6 @@ class Bulk {
 				Records::fail( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
 			}
 		} while ( array() !== $ids );
-
-		self::unlock();
 	}
 
 	/**

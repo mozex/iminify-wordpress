@@ -143,9 +143,35 @@ class OptimizerTest extends WP_UnitTestCase {
 		};
 		add_filter( 'wp_update_attachment_metadata', $regenerate, 100, 2 );
 
+		/* WP Offload Media, which uploads an attachment's files when its metadata is saved, each with the meta it sends, then says they went up. */
+		$offloaded = array();
+		$offload   = static function ( $data, $attachment ) use ( &$offloaded ) {
+			$paths = apply_filters( 'as3cf_attachment_file_paths', array( '__as3cf_primary' => get_attached_file( $attachment, true ) ), $attachment, $data ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Offload Media's filter, as it runs it.
+
+			foreach ( $paths as $key => $path ) {
+				$offloaded[ $key ] = apply_filters(
+					'as3cf_object_meta', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Offload Media's filter, as it runs it.
+					array( 'SourceFile' => $path ),
+					$attachment,
+					$key,
+					false,
+					array(
+						'id'          => $attachment,
+						'source_type' => 'media-library',
+					)
+				);
+			}
+
+			do_action( 'as3cf_post_handle_item_upload', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Offload Media's action once every file went up.
+
+			return $data;
+		};
+		add_filter( 'wp_update_attachment_metadata', $offload, 110, 2 );
+
 		Optimizer::check( $id );
 
 		remove_filter( 'wp_update_attachment_metadata', $regenerate, 100 );
+		remove_filter( 'wp_update_attachment_metadata', $offload, 110 );
 
 		$folder   = dirname( $attached );
 		$metadata = wp_get_attachment_metadata( $id );
@@ -162,6 +188,16 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertSame( strlen( $zip['entries']['full.jpg'] ), $record['written'][ Paths::relative( $attached ) ] );
 		$this->assertSame( Records::ORIGIN, $record['copies'][ Paths::relative( $attached ) . '.webp' ]['origin'] );
 		$this->assertSame( strlen( $zip['entries']['full.jpg'] ), $record['copies'][ Paths::relative( $attached ) . '.webp' ]['for_bytes'], 'The main file as written in the same group, not as it was before.' );
+		/* The copies went up with the files they stand beside, typed, and their record says so; the attachment's own files went as WP Offload Media sends them. */
+		$this->assertSame(
+			array(
+				'SourceFile'  => $attached . '.webp',
+				'ContentType' => 'image/webp',
+			),
+			$offloaded[ 'iminify-' . wp_basename( $attached ) . '.webp' ]
+		);
+		$this->assertSame( array( 'SourceFile' => $attached ), $offloaded['__as3cf_primary'] );
+		$this->assertSame( strlen( $zip['entries']['full.webp'] ), $record['copies'][ Paths::relative( $attached ) . '.webp' ]['offloaded'] );
 		$this->assertSame( $before, file_get_contents( $card ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the size left alone.
 		$this->assertSame( 1, $record['result']['skipped'] );
 		$this->assertFileDoesNotExist( $attached . '.avif' );

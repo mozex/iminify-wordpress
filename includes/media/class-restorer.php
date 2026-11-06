@@ -108,6 +108,9 @@ class Restorer {
 		unset( $written[ $source['file'] ] );
 		Records::update( $attachment, array( 'written' => $written ) );
 
+		/* The copies were made from the files going now, and go first: an offload plugin uploads every file of the attachment on the disk at each save of its metadata that follows. */
+		Copies::delete_own( $attachment );
+
 		/* What was there before WordPress starts, so a file it makes can be told from one it only wrote over. */
 		$existing = glob( dirname( $target ) . '/' . pathinfo( $target, PATHINFO_FILENAME ) . '-*' );
 		$fresh    = self::make_sizes( $attachment, $target, $attached );
@@ -115,17 +118,23 @@ class Restorer {
 		if ( null === $fresh ) {
 			Records::fail( $attachment, Records::ERROR, 'restore_failed', __( 'WordPress couldn\'t read the original, so the image\'s sizes stay as they were. Try again.', 'iminify-image-optimizer' ) );
 
+			/** This action is documented in includes/admin/class-media-controller.php */
+			do_action( 'iminify_copies_deleted', $attachment );
+
 			return self::failed();
 		}
 
 		$fresh = self::keep_size_names( $metadata, $fresh, $written, false === $existing ? array() : array_map( 'wp_normalize_path', $existing ), dirname( $target ) );
 
 		self::save_metadata( $attachment, $metadata, $fresh );
-		Copies::delete_own( $attachment );
+
+		/* A bulk run looking for what images lack could take this one while its copies were gone and its sizes were being made. */
+		Optimizer::cancel( $attachment );
 
 		Records::update(
 			$attachment,
 			array(
+				'fill'    => null,
 				'status'  => Records::NOT_OPTIMIZED,
 				'error'   => array(
 					'code'    => 'restored',

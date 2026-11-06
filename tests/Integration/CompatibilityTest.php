@@ -8,6 +8,8 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Api\Upload;
+use Iminify\WordPress\Compat\Woocommerce;
+use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Loopback;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Paths;
@@ -19,8 +21,9 @@ use WP_UnitTestCase;
 
 /**
  * Covers Regenerate Thumbnails' and Enable Media Replace's calls into core, as
- * each plugin makes them, and the credentials a site behind HTTP basic auth
- * needs on the requests its background queue makes to itself.
+ * each plugin makes them, the credentials a site behind HTTP basic auth needs
+ * on the requests its background queue makes to itself, and the script that
+ * keeps WooCommerce's variation images working inside `<picture>`.
  */
 class CompatibilityTest extends WP_UnitTestCase {
 
@@ -130,6 +133,43 @@ class CompatibilityTest extends WP_UnitTestCase {
 	}
 
 	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- runs WP-Cron's and Action Scheduler's own filters, as they run them.
+	public function test_woocommerces_variation_script_carries_the_watch_on_its_product_image_only_while_copies_are_served(): void {
+		wp_register_script(
+			Woocommerce::HANDLE,
+			'https://example.org/add-to-cart-variation.js',
+			array(),
+			'1',
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+
+		try {
+			Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_OFF ) );
+			Woocommerce::attach();
+
+			$this->assertFalse( wp_scripts()->get_data( Woocommerce::HANDLE, 'before' ) );
+
+			Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_PICTURE ) );
+			Woocommerce::attach();
+
+			/* WordPress keeps a handle's first inline script after a `false`, which it filters out when it prints them. */
+			$this->assertSame( array( Woocommerce::SCRIPT ), array_values( array_filter( (array) wp_scripts()->get_data( Woocommerce::HANDLE, 'before' ) ) ) );
+
+			/* WooCommerce's script, enqueued as WooCommerce does on a variable product, keeps its `defer`: an inline script after it would take it off. */
+			wp_enqueue_script( Woocommerce::HANDLE );
+			ob_start();
+			wp_scripts()->do_item( Woocommerce::HANDLE );
+			$printed = (string) ob_get_clean();
+
+			$this->assertMatchesRegularExpression( '#<script(?=[^>]*\ssrc="https://example\.org/add-to-cart-variation\.js)(?=[^>]*\sdefer[\s>])[^>]*>#', $printed );
+		} finally {
+			wp_deregister_script( Woocommerce::HANDLE );
+			Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_PICTURE ) );
+		}
+	}
+
 	public function test_the_background_queues_requests_to_the_site_itself_carry_its_basic_auth_password(): void {
 		$cron = array(
 			'url'  => site_url( 'wp-cron.php?doing_wp_cron=1' ),

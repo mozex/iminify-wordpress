@@ -445,9 +445,18 @@ class MediaViewTest extends WP_UnitTestCase {
 			)
 		);
 
+		$deleted = array();
+		$heard   = static function ( $attachment ) use ( &$deleted ) {
+			$deleted[] = $attachment;
+		};
+		add_action( 'iminify_copies_deleted', $heard );
+
 		$answer = rest_do_request( new WP_REST_Request( 'DELETE', "/iminify/v1/media/{$id}/copies" ) );
 
+		remove_action( 'iminify_copies_deleted', $heard );
+
 		$this->assertSame( 200, $answer->get_status() );
+		$this->assertSame( array( $id ), $deleted, 'So the page caches that name the copies are emptied.' );
 		$this->assertFileDoesNotExist( $copy );
 
 		/* A file at a copy's name with other bytes than the plugin wrote isn't the plugin's any more. */

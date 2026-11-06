@@ -27,6 +27,8 @@ On a multisite network, activate the plugin for the network and a super admin co
 
 The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
+WooCommerce's product galleries keep their zoom, lightbox and variation images with the picture tags. With WP Offload Media serving your library from a bucket and keeping the files on the server too (its default), the copies go up with each image and are served from the bucket as well. Once a bulk run ends, or an image is restored, the plugin empties the page caches of LiteSpeed Cache, WP Rocket, W3 Total Cache and Cloudflare's plugin, so no cached page keeps pointing at a copy that has gone.
+
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
 
 Translations WPML or Polylang make of an image share its files, so the plugin optimizes those files once, through the image they translate, and never sends a translation on its own. Regenerate Thumbnails and `wp media regenerate` send the image again from its backup, so no size is made from an already compressed file, and a file Enable Media Replace puts in place goes as a new original. A theme or plugin with more image sizes than Iminify makes for one image gets the first ones it lists, and the rest stay as WordPress made them.
@@ -35,18 +37,22 @@ Where WordPress sends over cURL, as nearly every host does, originals go to Imin
 
 = For developers =
 
-The plugin has ten hooks:
+The plugin has fourteen hooks:
 
 * `iminify_capability` (filter): the capability each part asks for.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
 * `iminify_optimize_file` (filter): return false to keep a file in another folder from ever being sent; it gets the file's path in wp-content.
 * `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
 * `iminify_stream_source` (filter): return false to read an original into memory rather than stream it, for a host whose proxy breaks a streamed upload.
+* `iminify_purge_caches` (filter): return false to keep the page caches as they are after a bulk run or a restore; it gets `bulk`, `restore` or `uninstall`.
 * `iminify_image_optimized` (action): an image's files were written.
 * `iminify_image_restored` (action): an image's original is back.
 * `iminify_file_optimized` (action): a file in another folder was written, with its path in wp-content.
 * `iminify_file_restored` (action): a file in another folder has its original back.
+* `iminify_copies_deleted` (action): an image's WebP and AVIF copies were deleted from its panel, or by a restore that couldn't finish.
 * `iminify_bulk_finished` (action): a bulk run came to its end.
+* `iminify_bulk_paused` (action): a bulk run was paused.
+* `iminify_bulk_stopped` (action): a bulk run was stopped before its end.
 
 == External services ==
 

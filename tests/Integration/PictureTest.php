@@ -194,6 +194,53 @@ class PictureTest extends WP_UnitTestCase {
 		$this->assertSame( $bucket . ' 300w, ' . $moved . ' 301w, ' . $comma . ' 768w, ' . $url . '.webp 1920w', $webp[1] );
 	}
 
+	public function test_an_address_wp_offload_media_serves_takes_a_copy_only_once_it_went_to_the_bucket(): void {
+		$id    = $this->attachment();
+		$files = $this->files_of( $id );
+		$this->copies( $id, array( array( $files['full'], 'webp' ), array( $files['medium'], 'webp' ) ) );
+
+		/* The main file's copy went to the bucket with the bytes it has; the medium size's never did. */
+		$record = Records::get( $id );
+		$full   = (string) Paths::relative( $files['full'] ) . '.webp';
+
+		$record['copies'][ $full ]['offloaded'] = $record['copies'][ $full ]['bytes'];
+		Records::update( $id, array( 'copies' => $record['copies'] ) );
+
+		$uploads = (string) wp_get_upload_dir()['baseurl'];
+		$bucket  = static function ( $url ) use ( $uploads ) {
+			return str_replace( $uploads, 'https://bucket.example.com/wp-content/uploads', (string) $url );
+		};
+
+		$local  = (string) wp_get_attachment_image_url( $id, 'medium' );
+		$url    = $bucket( wp_get_attachment_url( $id ) );
+		$medium = $bucket( $local );
+		$signed = $url . '?X-Amz-Signature=abc';
+		$moved  = str_replace( '/' . wp_basename( $url ), '/1999/' . wp_basename( $url ), $url );
+		$tag    = '<img src="' . $url . '" srcset="' . $medium . ' 300w, ' . $local . ' 301w, ' . $url . ' 1920w, ' . $signed . ' 1921w, ' . $moved . ' 1922w" sizes="100vw" class="wp-image-' . $id . '" alt="">';
+
+		add_filter( 'wp_get_attachment_url', $bucket );
+		Picture::flush();
+
+		try {
+			/* Without WP Offload Media running, an attachment's address elsewhere is any other plugin's, and keeps its own, while one under the uploads folder takes its copy as ever. */
+			preg_match( '#type="image/webp" srcset="([^"]+)"#', (string) apply_filters( 'wp_content_img_tag', $tag, 'the_content', $id ), $without ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+
+			$GLOBALS['as3cf'] = new \stdClass(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- WP Offload Media's own global.
+			Picture::flush();
+
+			$html = (string) apply_filters( 'wp_content_img_tag', $tag, 'the_content', $id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+		} finally {
+			remove_filter( 'wp_get_attachment_url', $bucket );
+			unset( $GLOBALS['as3cf'] );
+		}
+
+		preg_match( '#type="image/webp" srcset="([^"]+)"#', $html, $webp );
+
+		$this->assertSame( $medium . ' 300w, ' . $local . '.webp 301w, ' . $url . ' 1920w, ' . $signed . ' 1921w, ' . $moved . ' 1922w', $without[1] ?? null );
+		/* With it, the medium size's copy, never in the bucket, is served from neither address, since WP Offload Media rewrites a local one later. */
+		$this->assertSame( $medium . ' 300w, ' . $local . ' 301w, ' . $url . '.webp 1920w, ' . $signed . ' 1921w, ' . $moved . ' 1922w', $webp[1] ?? null );
+	}
+
 	public function test_a_long_unclosed_picture_never_blanks_the_markup(): void {
 		$id      = $this->attachment();
 		$content = '<p>Before</p><picture><source srcset="https://example.org/a.webp"><img class="wp-image-' . $id . '" src="https://example.org/a.jpg" alt=""><script>' . str_repeat( 'x', 200000 ) . '</script><p>After</p>';

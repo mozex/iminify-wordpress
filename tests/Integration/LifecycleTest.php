@@ -174,9 +174,11 @@ class LifecycleTest extends WP_UnitTestCase {
 
 		$copy   = $this->copy_of( $id );
 		$backup = Paths::absolute( Records::get( $id )['backups'][0] );
+		$purges = $this->purges();
 
 		Lifecycle::uninstall();
 
+		$this->assertSame( array(), $purges->asked, 'The copies stay, so the page caches naming them stay too.' );
 		$this->assertCount( 1, $this->api->requests );
 		$this->assertSame( 'DELETE', $this->api->requests[0]['method'] );
 		$this->assertSame( Lifecycle::REVOKE_TIMEOUT, $this->api->requests[0]['args']['timeout'] );
@@ -236,9 +238,11 @@ class LifecycleTest extends WP_UnitTestCase {
 		$backup = Paths::absolute( Records::get( $id )['backups'][0] );
 
 		Local_Settings::update( array( 'uninstall_copies' => true ) );
+		$purges = $this->purges();
 
 		Lifecycle::uninstall();
 
+		$this->assertSame( array( 'uninstall' ), $purges->asked, 'A page a cache kept would name the copies just deleted.' );
 		$this->assertFileDoesNotExist( $copy );
 		$this->assertFileExists( $backup );
 		$this->assertSame( array(), Records::get( $id )['copies'] );
@@ -334,5 +338,29 @@ class LifecycleTest extends WP_UnitTestCase {
 		global $wpdb;
 
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}{$table} WHERE meta_key = %s", $key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- reads a meta table in a test.
+	}
+
+	/**
+	 * Records each purge of the page caches the plugin asks for, and lets none
+	 * through, for the rest of the test.
+	 *
+	 * @return object{asked: list<string>}
+	 */
+	protected function purges(): object {
+		$purges        = new \stdClass();
+		$purges->asked = array();
+
+		add_filter(
+			'iminify_purge_caches',
+			static function ( $purge, $why ) use ( $purges ) {
+				$purges->asked[] = $why;
+
+				return false;
+			},
+			10,
+			2
+		);
+
+		return $purges;
 	}
 }

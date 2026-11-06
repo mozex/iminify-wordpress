@@ -100,10 +100,25 @@ class RestorerTest extends WP_UnitTestCase {
 
 		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
 
+		/* WP Offload Media uploads what it finds of the attachment on the disk at each save of its metadata; the copies are gone before any. */
+		$on_disk = array();
+		$offload = static function ( $data, $attachment ) use ( &$on_disk, $own ) {
+			$paths     = apply_filters( 'as3cf_attachment_file_paths', array(), $attachment, $data ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Offload Media's filter, as it runs it.
+			$on_disk[] = array( count( $paths ), file_exists( $own ) );
+
+			return $data;
+		};
+		add_filter( 'wp_update_attachment_metadata', $offload, 110, 2 );
+
 		$this->assertTrue( Restorer::restore( $id ) );
+
+		remove_filter( 'wp_update_attachment_metadata', $offload, 110 );
 
 		$after  = wp_get_attachment_metadata( $id );
 		$record = Records::get( $id );
+
+		$this->assertNotEmpty( $on_disk );
+		$this->assertSame( array( array( 0, false ) ), array_values( array_unique( $on_disk, SORT_REGULAR ) ) );
 
 		$this->assertSame( $original, file_get_contents( $attached ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the restored file.
 		$this->assertSame( $made, file_get_contents( $medium ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the size made again.
@@ -309,6 +324,48 @@ class RestorerTest extends WP_UnitTestCase {
 		$this->assertArrayHasKey( (string) Paths::relative( $medium ), Records::get( $id )['written'] );
 		$this->assertArrayNotHasKey( (string) Paths::relative( $attached ), Records::get( $id )['written'] );
 		$this->assertSame( Restorer::AVAILABLE, Restorer::availability( $id ) );
+	}
+
+	public function test_a_restore_wordpress_cant_finish_says_its_copies_are_gone(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+		$relative = (string) Paths::relative( $attached );
+
+		$this->optimized( $id, array( $attached ) );
+		file_put_contents( $attached . '.webp', 'webp' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test copy.
+		Records::update(
+			$id,
+			array(
+				'copies' => array(
+					$relative . '.webp' => array(
+						'for'    => $relative,
+						'format' => 'webp',
+						'bytes'  => 4,
+						'origin' => Records::ORIGIN,
+					),
+				),
+			)
+		);
+
+		$deleted    = array();
+		$heard      = static function ( $attachment ) use ( &$deleted ) {
+			$deleted[] = $attachment;
+		};
+		$unreadable = static function () {
+			return array();
+		};
+		add_action( 'iminify_copies_deleted', $heard );
+		add_filter( 'wp_generate_attachment_metadata', $unreadable, PHP_INT_MAX );
+
+		$restored = Restorer::restore( $id );
+
+		remove_filter( 'wp_generate_attachment_metadata', $unreadable, PHP_INT_MAX );
+		remove_action( 'iminify_copies_deleted', $heard );
+
+		/* The copies went before WordPress gave up, so the pages a cache kept naming them are emptied as for a deletion. */
+		$this->assertSame( 'restore_failed', is_wp_error( $restored ) ? $restored->get_error_code() : null );
+		$this->assertFileDoesNotExist( $attached . '.webp' );
+		$this->assertSame( array( $id ), $deleted );
 	}
 
 	public function test_a_restore_drops_what_was_on_its_way_and_works_with_the_day_spent(): void {

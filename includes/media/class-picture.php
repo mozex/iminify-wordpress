@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Local_Settings;
 use WP_HTML_Tag_Processor;
 
@@ -53,7 +54,7 @@ class Picture {
 	 * attachment: a page that lists several sites of a network
 	 * (`switch_to_blog()`) asks about attachments that share an id.
 	 *
-	 * @var array<string, array<string, array<string, string>>>
+	 * @var array<string, array<string, array<string, array{name: string, bucket: bool}>>>
 	 */
 	protected static $served = array();
 
@@ -195,10 +196,11 @@ class Picture {
 			$candidates = is_string( $src ) && '' !== $src ? array( array( $src, '' ) ) : array();
 		}
 
+		$files   = self::files( $candidates, $attachment );
 		$sources = '';
 
 		foreach ( array_keys( self::FORMATS ) as $format ) {
-			$set = self::source_set( $candidates, $copies, $format );
+			$set = self::source_set( $candidates, $files, $copies, $format );
 
 			if ( null === $set ) {
 				continue;
@@ -219,31 +221,34 @@ class Picture {
 
 	/**
 	 * A source's `srcset`: each candidate's copy in that format, or the best it
-	 * has instead, or null when no candidate has a copy in that format. Only an
-	 * address under this site's uploads folder is matched to a file: one an
-	 * offload or CDN plugin moved elsewhere keeps its own address, since the copy
-	 * may not be there.
+	 * has instead, or null when no candidate has a copy in that format. A copy
+	 * WP Offload Media serves from its bucket is served only once it went there.
 	 *
-	 * @param list<array{0: string, 1: string}>    $candidates The `<img>`'s candidates: each address and its descriptor.
-	 * @param array<string, array<string, string>> $copies     The copies' file names by the path of the file they stand beside, then by format.
-	 * @param string                               $format     The source's format.
+	 * @param list<array{0: string, 1: string}>                            $candidates The `<img>`'s candidates: each address and its descriptor.
+	 * @param list<array{file: string, bucket: bool}|null>                 $files      Each candidate's file (`files()`).
+	 * @param array<string, array<string, array{name: string, bucket: bool}>> $copies     The copies by the path of the file they stand beside, then by format.
+	 * @param string                                                       $format     The source's format.
 	 */
-	protected static function source_set( array $candidates, array $copies, string $format ): ?string {
+	protected static function source_set( array $candidates, array $files, array $copies, string $format ): ?string {
 		$fallbacks = array_slice( array_keys( self::FORMATS ), (int) array_search( $format, array_keys( self::FORMATS ), true ) );
 		$entries   = array();
 		$in_format = false;
 
-		foreach ( $candidates as $candidate ) {
+		foreach ( $candidates as $index => $candidate ) {
 			list( $url, $descriptor ) = $candidate;
 
-			$file = self::uploaded_file( $url );
+			$file = $files[ $index ] ?? null;
 			$copy = null;
 
-			foreach ( null === $file ? array() : $fallbacks as $fallback ) {
-				if ( isset( $copies[ $file ][ $fallback ] ) ) {
-					$copy      = $copies[ $file ][ $fallback ];
-					$in_format = $in_format || $fallback === $format;
-					break;
+			if ( null !== $file ) {
+				foreach ( $fallbacks as $fallback ) {
+					$about = $copies[ $file['file'] ][ $fallback ] ?? null;
+
+					if ( null !== $about && ( ! $file['bucket'] || $about['bucket'] ) ) {
+						$copy      = $about['name'];
+						$in_format = $in_format || $fallback === $format;
+						break;
+					}
 				}
 			}
 
@@ -254,11 +259,109 @@ class Picture {
 	}
 
 	/**
-	 * The attachment's copies that can be served, by the name of the file each
-	 * stands beside, then by format.
+	 * The file each candidate names, relative to the uploads folder, or null.
+	 * An address under this site's uploads folder names its file. One WP Offload
+	 * Media serves from its bucket names a file of this attachment when it is in
+	 * the folder WP Offload Media gives the attachment and carries one of its
+	 * files' names; a signed address, whose signature is for that one file, names
+	 * none. Any other address (a CDN or another offload plugin) keeps its own,
+	 * since the copy may not be there. For an attachment WP Offload Media serves,
+	 * `bucket` says each copy has to be in the bucket, whatever its address.
+	 *
+	 * @param list<array{0: string, 1: string}> $candidates The `<img>`'s candidates.
+	 * @param int                               $attachment The attachment's id.
+	 * @return list<array{file: string, bucket: bool}|null>
+	 */
+	protected static function files( array $candidates, int $attachment ): array {
+		$uploads = self::bare( (string) wp_get_upload_dir()['baseurl'] );
+		$bucket  = '' === $uploads ? null : Offload_Media::folder( $attachment, $uploads );
+		$names   = null === $bucket ? array() : self::names( $attachment );
+		$files   = array();
+
+		foreach ( $candidates as $candidate ) {
+			$url  = $candidate[0];
+			$file = self::uploaded_file( $url );
+
+			/* WP Offload Media rewrites an address under the uploads folder it meets later in the page to its bucket's, so an attachment it serves takes only copies that are there. */
+			if ( null !== $file ) {
+				$files[] = array(
+					'file'   => $file,
+					'bucket' => null !== $bucket,
+				);
+				continue;
+			}
+
+			$end  = strcspn( $url, '?#' );
+			$bare = self::bare( substr( $url, 0, $end ) );
+			$cut  = (int) strrpos( $bare, '/' );
+			$name = rawurldecode( substr( $bare, $cut + 1 ) );
+
+			if ( null === $bucket || strlen( $url ) !== $end || substr( $bare, 0, $cut + 1 ) !== $bucket || ! isset( $names[ $name ] ) ) {
+				$files[] = null;
+				continue;
+			}
+
+			$files[] = array(
+				'file'   => $names[ $name ],
+				'bucket' => true,
+			);
+		}
+
+		return $files;
+	}
+
+	/**
+	 * The attachment's files by their names: the main file, the original WordPress
+	 * kept, and each size, each relative to the uploads folder.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array<string, array<string, string>>
+	 * @return array<string, string>
+	 */
+	protected static function names( int $attachment ): array {
+		$attached = Paths::relative( (string) get_attached_file( $attachment, true ) );
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+
+		if ( null === $attached ) {
+			return array();
+		}
+
+		return self::named( $attached, is_array( $metadata ) ? $metadata : array() );
+	}
+
+	/**
+	 * The files an attachment's metadata names, by their names. Metadata another
+	 * plugin wrote can hold anything, and this runs on every page.
+	 *
+	 * @param string               $attached The attached file, relative to the uploads folder.
+	 * @param array<string, mixed> $metadata The attachment's metadata.
+	 * @return array<string, string>
+	 */
+	protected static function named( string $attached, array $metadata ): array {
+		$folder = dirname( $attached );
+		$folder = '.' === $folder ? '' : $folder . '/';
+		$names  = array( wp_basename( $attached ) => $attached );
+		$files  = isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? array_column( $metadata['sizes'], 'file' ) : array();
+
+		if ( isset( $metadata['original_image'] ) ) {
+			$files[] = $metadata['original_image'];
+		}
+
+		foreach ( $files as $file ) {
+			if ( is_string( $file ) && '' !== $file ) {
+				$names[ wp_basename( $file ) ] = $folder . wp_basename( $file );
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * The attachment's copies that can be served, by the name of the file each
+	 * stands beside, then by format: each copy's file name, and whether it is in
+	 * WP Offload Media's bucket too.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array<string, array<string, array{name: string, bucket: bool}>>
 	 */
 	protected static function copies( int $attachment ): array {
 		$kept = get_current_blog_id() . ':' . $attachment;
@@ -292,7 +395,10 @@ class Picture {
 				continue;
 			}
 
-			$served[ wp_normalize_path( $for ) ][ $format ] = wp_basename( (string) $copy );
+			$served[ wp_normalize_path( $for ) ][ $format ] = array(
+				'name'   => wp_basename( (string) $copy ),
+				'bucket' => Offload_Media::in_bucket( $about ),
+			);
 		}
 
 		self::$served[ $kept ] = $served;

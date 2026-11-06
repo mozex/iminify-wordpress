@@ -164,9 +164,19 @@ class Media_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_copies( WP_REST_Request $request ) {
-		Copies::delete_own( (int) $request->get_param( 'id' ) );
+		$attachment = (int) $request->get_param( 'id' );
 
-		return $this->answer( (int) $request->get_param( 'id' ), true );
+		Copies::delete_own( $attachment );
+
+		/**
+		 * An image's WebP and AVIF copies were deleted: from its panel, or by a
+		 * restore that failed after deleting them, which left the image as it was.
+		 *
+		 * @param int $attachment The attachment's id.
+		 */
+		do_action( 'iminify_copies_deleted', $attachment );
+
+		return $this->answer( $attachment, true );
 	}
 
 	/**
