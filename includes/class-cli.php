@@ -518,7 +518,7 @@ class Cli {
 	 * Whether the run waits on something no shell should sit through.
 	 */
 	protected function waits_long(): bool {
-		return null !== Pause::until() || null === Plugin::keys()->get() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
+		return null !== Pause::until() || ! Plugin::connected() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
 	}
 
 	/**

@@ -23,3 +23,12 @@ tests_add_filter(
 );
 
 require $iminify_tests_dir . '/includes/bootstrap.php';
+
+/*
+ * The database is installed now. A test run in a separate process (one that
+ * defines a wp-config.php constant) reuses it rather than installing it again
+ * under the tests still to come, whose connection keeps the temporary tables of
+ * the sites they made on a network: a second install resets the sites' ids, and
+ * the next site made takes an id whose stale tables that connection still has.
+ */
+putenv( 'WP_TESTS_SKIP_INSTALL=1' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv -- the test library reads it in each separate process.

@@ -43,6 +43,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * second lossy pass, and take it for the original. The files in other folders
  * follow the same rule: their table (`Folders\Table`) goes only with their copies
  * and backups.
+ *
+ * On a network the plugin is active for, turning it off and deleting it does
+ * the same on every site it ran on (`each_site()`), each by its own settings;
+ * the network's key is stopped once, which stops every key its sites joined
+ * with, and the files in other folders, which only the main site lists, are
+ * dealt with once, from it.
  */
 class Lifecycle {
 
@@ -69,6 +75,8 @@ class Lifecycle {
 		Folders::OPTION,
 		Scanner::OPTION,
 		Scanner::LOCK_OPTION,
+		Network::JOIN_OPTION,
+		Network::LOCK_OPTION,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -100,10 +108,17 @@ class Lifecycle {
 	const REVOKE_TIMEOUT = 5;
 
 	/**
+	 * How many sites of a network a page of `each_site()` reads.
+	 */
+	const SITES_PAGE = 100;
+
+	/**
 	 * The activation hook. Action Scheduler may not be ready yet in this request,
 	 * so the queue is looked at once it is (`resume()`). Both options are kept
 	 * autoloaded, since every request reads them: a missing option costs a query
-	 * on each request that asks for it.
+	 * on each request that asks for it. Turned on for a whole network, this runs
+	 * on the main site alone, and each other site sets itself up on its first
+	 * request (`resume()`), so a network of thousands of sites is never walked here.
 	 */
 	public static function activate(): void {
 		update_option( self::ACTIVATED_OPTION, 1, true );
@@ -116,13 +131,21 @@ class Lifecycle {
 	 * without its deactivation running, as renaming its folder does, or a run
 	 * scheduled itself while it was) is parked, a pause that is still on gets its
 	 * timer back, and whatever was parked goes on.
+	 *
+	 * A site with no such option at all is a site of a network the plugin was
+	 * turned on for since this site last ran it (turning it off for the network
+	 * removes the option, `deactivate()`): it runs this once too, and keeps both
+	 * options from then on, which is also how `each_site()` knows the plugin ran here.
 	 */
 	public static function resume(): void {
-		if ( ! get_option( self::ACTIVATED_OPTION ) ) {
+		$activated = get_option( self::ACTIVATED_OPTION, null );
+
+		if ( null !== $activated && ! $activated ) {
 			return;
 		}
 
 		update_option( self::ACTIVATED_OPTION, 0, true );
+		add_option( Local_Settings::OPTION, Local_Settings::defaults(), '', true );
 
 		$after = 0;
 
@@ -140,8 +163,9 @@ class Lifecycle {
 
 		$after = 0;
 
+		/* The files in other folders are the main site's alone on a network, and their runs are in its queue. */
 		do {
-			$ids = Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after );
+			$ids = Folders::available() ? Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after ) : array();
 
 			foreach ( $ids as $id ) {
 				$after = $id;
@@ -174,9 +198,31 @@ class Lifecycle {
 
 	/**
 	 * The deactivation hook: a waiting pairing is dropped, a bulk run is held,
-	 * every image on its way is parked, and nothing of the plugin's stays scheduled.
+	 * every image on its way is parked, and nothing of the plugin's stays
+	 * scheduled; turned off for a whole network, on every site it ran on, each of
+	 * which picks up again on its first request once it is on again (`resume()`).
+	 *
+	 * @param bool $network_wide Whether it was turned off for the whole network.
 	 */
-	public static function deactivate(): void {
+	public static function deactivate( $network_wide = false ): void {
+		if ( true === $network_wide && is_multisite() ) {
+			self::each_site(
+				static function (): void {
+					self::deactivate_site();
+					delete_option( self::ACTIVATED_OPTION );
+				}
+			);
+
+			return;
+		}
+
+		self::deactivate_site();
+	}
+
+	/**
+	 * Turns the plugin off on the site it runs on.
+	 */
+	protected static function deactivate_site(): void {
 		( new Connection( Plugin::keys() ) )->cancel();
 
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
@@ -197,7 +243,7 @@ class Lifecycle {
 		$after = 0;
 
 		do {
-			$ids = Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after );
+			$ids = Folders::available() ? Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after ) : array();
 
 			foreach ( $ids as $id ) {
 				$after = $id;
@@ -220,13 +266,36 @@ class Lifecycle {
 	}
 
 	/**
-	 * Run by `uninstall.php`, with the plugin's main file not loaded.
+	 * Run by `uninstall.php`, with the plugin's main file not loaded. On a
+	 * network, from the main site: the network's key is stopped first, which
+	 * stops every key its sites joined with, then every site the plugin ran on
+	 * is cleaned by its own settings, and the network's key goes last.
 	 */
 	public static function uninstall(): void {
+		if ( is_multisite() ) {
+			self::revoke_network();
+			self::each_site( array( self::class, 'uninstall_site' ) );
+			delete_site_option( Network::KEY_OPTION );
+		} else {
+			self::uninstall_site();
+		}
+
+		delete_metadata( 'user', 0, Notice::META, '', true );
+	}
+
+	/**
+	 * Cleans the site the deletion is on: its key, files, records, options and
+	 * runs, and the files in other folders on the site that lists them.
+	 */
+	protected static function uninstall_site(): void {
 		$settings = Local_Settings::get();
 
 		self::revoke();
-		self::delete_folder_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
+
+		if ( Folders::available() ) {
+			self::delete_folder_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
+		}
+
 		self::delete_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
 
 		if ( $settings['uninstall_copies'] && $settings['uninstall_backups'] ) {
@@ -234,7 +303,9 @@ class Lifecycle {
 				delete_post_meta_by_key( $key );
 			}
 
-			Table::drop();
+			if ( Folders::available() ) {
+				Table::drop();
+			}
 		}
 
 		foreach ( self::OPTIONS as $option ) {
@@ -243,7 +314,6 @@ class Lifecycle {
 
 		delete_transient( Site_Record::TRANSIENT );
 		delete_transient( Bulk_State::LOOPBACK_TRANSIENT );
-		delete_metadata( 'user', 0, Notice::META, '', true );
 
 		self::delete_runs();
 	}
@@ -252,17 +322,79 @@ class Lifecycle {
 	 * Stops the site's key on Iminify, best-effort and briefly, so a deletion
 	 * never hangs on an outage. A key set in wp-config.php is left alone, as
 	 * Disconnect leaves it, and Iminify refuses the call from a copy of the site
-	 * at another address, so a staging copy never cuts off the real site.
+	 * at another address, so a staging copy never cuts off the real site. A key a
+	 * site joined its network with went with the network's (`revoke_network()`).
 	 */
 	protected static function revoke(): void {
 		$keys = Plugin::keys();
 		$key  = $keys->get();
 
-		if ( null === $key || $keys->from_constant() ) {
+		if ( null === $key || $keys->from_constant() || Network::joined() ) {
 			return;
 		}
 
 		( new Client( $key ) )->disconnect( self::REVOKE_TIMEOUT );
+	}
+
+	/**
+	 * Stops the network's key, which stops every key its sites joined with, in
+	 * one call from the network's address. The plugin is off for the network by
+	 * now, so the key is read from where the network keeps it.
+	 */
+	protected static function revoke_network(): void {
+		$key = Sealer::open( get_site_option( Network::KEY_OPTION ) );
+
+		if ( null === $key || Key_Store::constant_set() ) {
+			return;
+		}
+
+		( new Client( $key ) )->disconnect( self::REVOKE_TIMEOUT, Network::address() );
+	}
+
+	/**
+	 * Runs a step on every site of the network the plugin ran on: those keeping
+	 * its settings or its activation mark, which its first run on a site adds
+	 * (`resume()`). Both are autoloaded, so each site costs the one read of its
+	 * autoloaded options, and they are looked up there rather than through
+	 * `get_option()`, which answers the settings' registered default for a site
+	 * that has none. A page of sites at a time, each switched to, so a step reads
+	 * and writes that site's options, records and queue.
+	 *
+	 * @param callable $step The step.
+	 */
+	protected static function each_site( callable $step ): void {
+		$offset = 0;
+
+		do {
+			$sites = get_sites(
+				array(
+					'fields'     => 'ids',
+					'network_id' => get_current_network_id(),
+					'number'     => self::SITES_PAGE,
+					'offset'     => $offset,
+					'orderby'    => 'id',
+					'order'      => 'ASC',
+				)
+			);
+
+			$count = count( $sites );
+
+			foreach ( $sites as $site ) {
+				switch_to_blog( (int) $site );
+
+				try {
+					$options = wp_load_alloptions();
+
+					if ( isset( $options[ Local_Settings::OPTION ] ) || isset( $options[ self::ACTIVATED_OPTION ] ) ) {
+						$step();
+					}
+				} finally {
+					restore_current_blog();
+				}
+			}
+
+			$offset += self::SITES_PAGE;
+		} while ( self::SITES_PAGE === $count );
 	}
 
 	/**

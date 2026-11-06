@@ -11,6 +11,8 @@ domReady( () => {
 	const root = document.getElementById( 'iminify-settings' );
 
 	if ( root ) {
-		createRoot( root ).render( <App /> );
+		createRoot( root ).render(
+			<App scope={ root.dataset.scope || 'site' } />
+		);
 	}
 } );

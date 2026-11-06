@@ -725,7 +725,7 @@ class Optimizer {
 	 * @param mixed $after The id to start after.
 	 */
 	public static function resume( $after = 0 ): void {
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			return;
 		}
 

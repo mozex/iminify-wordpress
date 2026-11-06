@@ -49,9 +49,11 @@ class Picture {
 	);
 
 	/**
-	 * What each attachment's copies are, kept for the request.
+	 * What each attachment's copies are, kept for the request by site and
+	 * attachment: a page that lists several sites of a network
+	 * (`switch_to_blog()`) asks about attachments that share an id.
 	 *
-	 * @var array<int, array<string, array<string, string>>>
+	 * @var array<string, array<string, array<string, string>>>
 	 */
 	protected static $served = array();
 
@@ -259,8 +261,10 @@ class Picture {
 	 * @return array<string, array<string, string>>
 	 */
 	protected static function copies( int $attachment ): array {
-		if ( isset( self::$served[ $attachment ] ) ) {
-			return self::$served[ $attachment ];
+		$kept = get_current_blog_id() . ':' . $attachment;
+
+		if ( isset( self::$served[ $kept ] ) ) {
+			return self::$served[ $kept ];
 		}
 
 		$served = array();
@@ -291,7 +295,7 @@ class Picture {
 			$served[ wp_normalize_path( $for ) ][ $format ] = wp_basename( (string) $copy );
 		}
 
-		self::$served[ $attachment ] = $served;
+		self::$served[ $kept ] = $served;
 
 		return $served;
 	}

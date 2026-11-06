@@ -23,6 +23,8 @@ For large libraries and hosts whose scheduled tasks don't run, `wp iminify optim
 
 Administrators reach the settings, the bulk page and the other folders (on a network, super admins choose the folders). Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
 
+On a multisite network, activate the plugin for the network and a super admin connects the whole network once, under Network Admin, Settings, Iminify. Each site then joins by itself the first time it needs Iminify, with a key of its own, and keeps its own settings, bulk page and backups. A site can connect to an account of its own instead, and a site disconnected on its own page stays out until someone presses Join the network there. Turning the plugin off for the network, or deleting it, does it on every site.
+
 The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
@@ -50,13 +52,14 @@ The plugin has ten hooks:
 
 This plugin relies on Iminify (https://www.iminify.com), an image optimization service, to compress, convert and resize your images. Nothing is sent to Iminify until you press Connect on the plugin's settings page, or give it a site key there or in wp-config.php.
 
-When you press Connect, your site's server sends Iminify your site's home address and name, and the plugin opens a page on www.iminify.com in a new tab, where you sign in or create an account and approve the site. Your site's server then collects the site's key from Iminify. A key you paste is checked with Iminify before it is kept.
+When you press Connect, your site's server sends Iminify your site's home address and name, and the plugin opens a page on www.iminify.com in a new tab, where you sign in or create an account and approve the site. Your site's server then collects the site's key from Iminify. A key you paste is checked with Iminify before it is kept. On a multisite network connected from the network admin, it sends the main site's home address and the network's name.
 
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes or the server's memory can send), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * each image in the folders you choose under Media, Other Folders, with its file name, dimensions and file size, the same way. The folders' paths and the other files in them never leave your site;
 * your site's home address and the plugin's version, with every call;
+* on a multisite network connected as one, each site's home address and name, with the network's key, the first time that site needs Iminify, so it gets a key of its own;
 * how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;
 * a request that stops the site's key, when you press Disconnect or delete the plugin (not for a key set in wp-config.php).

@@ -8,11 +8,13 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
+use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
@@ -72,15 +74,19 @@ class State {
 			'levels'        => self::levels(),
 			'sizes'         => self::sizes(),
 			'links'         => self::links( $hidden ),
+			'network'       => self::network(),
 		);
 
-		if ( null === $keys->get() ) {
+		/* A site of a connected network without a key yet joins it here (`Site_Record::fetch()`), on the plugin's own page. */
+		if ( null === $keys->get() && ! Network::joinable() ) {
 			return $state;
 		}
 
 		$site = Site_Record::fetch();
 
 		if ( null === $site ) {
+			$state['network'] = self::network();
+
 			return $state;
 		}
 
@@ -134,6 +140,54 @@ class State {
 			),
 			'next_batch_at' => self::date( $site['next_batch_at'] ?? null ),
 			'message'       => $message,
+			'network'       => self::site_network( $site['network'] ?? null ),
+		);
+	}
+
+	/**
+	 * The network the site is part of on Iminify, as `GET /site` answered it: whether
+	 * this is its main site, and how many sites it holds of how many it can.
+	 *
+	 * @param mixed $network The record's `network`.
+	 * @return array{main: bool, sites: string, max_sites: string}|null
+	 */
+	protected static function site_network( $network ): ?array {
+		if ( ! is_array( $network ) || ! isset( $network['sites'], $network['max_sites'] ) || ! is_numeric( $network['sites'] ) || ! is_numeric( $network['max_sites'] ) ) {
+			return null;
+		}
+
+		return array(
+			'main'      => ! empty( $network['main'] ),
+			'sites'     => number_format_i18n( (int) $network['sites'] ),
+			'max_sites' => number_format_i18n( (int) $network['max_sites'] ),
+		);
+	}
+
+	/**
+	 * The network this site belongs to, on a network the plugin is active for:
+	 * whether this is its main site, whether the network is connected, who may
+	 * connect it and where, and, for another site, whether its key came from the
+	 * network and what an earlier join was refused with. Null elsewhere.
+	 *
+	 * @return array<string, mixed>|null
+	 */
+	protected static function network(): ?array {
+		if ( ! Network::active() ) {
+			return null;
+		}
+
+		$main = is_main_site();
+
+		return array(
+			'main'        => $main,
+			'name'        => Network::name(),
+			'connected'   => null !== Network::key(),
+			'manage'      => Capabilities::can( Capabilities::NETWORK ),
+			'admin_url'   => network_admin_url( 'settings.php?page=' . Settings_Page::SLUG ),
+			'site_url'    => get_admin_url( get_main_site_id(), 'options-general.php?page=' . Settings_Page::SLUG ),
+			'folders_url' => get_admin_url( get_main_site_id(), 'upload.php?page=' . Folders_Page::SLUG ),
+			'joined'      => ! $main && Network::joined(),
+			'refusal'     => $main ? null : Network::refusal(),
 		);
 	}
 

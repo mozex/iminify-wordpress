@@ -57,7 +57,7 @@ class Bulk_State {
 		$keys = Plugin::keys();
 
 		/* What the optimized images lack depends on what the site asks for, which can change on iminify.com. */
-		if ( $estimate && null !== $keys->get() && null === Site_Record::cached() ) {
+		if ( $estimate && Plugin::connected() && null === Site_Record::cached() ) {
 			Site_Record::fetch();
 		}
 
@@ -66,7 +66,7 @@ class Bulk_State {
 		$saved  = Records::saved();
 		$free   = Disk::free();
 		$state  = array(
-			'connected' => null !== $keys->get(),
+			'connected' => Plugin::connected(),
 			'hidden'    => $hidden,
 			'counts'    => $counts,
 			'numbers'   => array_map( 'number_format_i18n', $counts ),

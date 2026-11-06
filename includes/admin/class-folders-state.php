@@ -57,7 +57,7 @@ class Folders_State {
 		$run    = Bulk::run();
 
 		return array(
-			'connected' => null !== Plugin::keys()->get(),
+			'connected' => Plugin::connected(),
 			'listed'    => Folders::listed(),
 			'offered'   => Folders::offered(),
 			'scan'      => null === $scan ? null : array(

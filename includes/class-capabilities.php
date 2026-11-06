@@ -17,7 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * may optimize and restore an image they can edit, as core asks of editing one, so an
  * author gets their own images and an editor everyone's. The files in other folders
  * (`Folders`) are the site's themes and plugins, so they ask what bulk asks, and on
- * a network, where every site shares them, what managing the network asks.
+ * a network, where every site shares them, what managing the network asks; so does
+ * the network's own connection, which the main site's is (`Network`).
  */
 class Capabilities {
 
@@ -29,17 +30,20 @@ class Capabilities {
 
 	const FOLDERS = 'folders';
 
+	const NETWORK = 'network';
+
 	const DEFAULTS = array(
 		self::SETTINGS => 'manage_options',
 		self::BULK     => 'manage_options',
 		self::MEDIA    => 'upload_files',
 		self::FOLDERS  => 'manage_options',
+		self::NETWORK  => 'manage_network_options',
 	);
 
 	/**
 	 * The capability a part of the plugin asks for.
 	 *
-	 * @param string $context SETTINGS, BULK, MEDIA or FOLDERS.
+	 * @param string $context SETTINGS, BULK, MEDIA, FOLDERS or NETWORK.
 	 */
 	public static function required( string $context ): string {
 		$default = self::FOLDERS === $context && is_multisite() ? 'manage_network_options' : ( self::DEFAULTS[ $context ] ?? 'manage_options' );
@@ -47,8 +51,8 @@ class Capabilities {
 		/**
 		 * The capability a part of the plugin asks for.
 		 *
-		 * @param string $capability The capability: `manage_options` for `settings`, `bulk` and `folders` (`manage_network_options` for `folders` on a network), `upload_files` for `media`.
-		 * @param string $context    `settings`, `bulk`, `media` or `folders`.
+		 * @param string $capability The capability: `manage_options` for `settings`, `bulk` and `folders` (`manage_network_options` for `folders` on a network), `upload_files` for `media`, `manage_network_options` for `network` (the network's connection).
+		 * @param string $context    `settings`, `bulk`, `media`, `folders` or `network`.
 		 */
 		return (string) apply_filters( 'iminify_capability', $default, $context );
 	}
@@ -56,7 +60,7 @@ class Capabilities {
 	/**
 	 * Whether the person may use a part of the plugin.
 	 *
-	 * @param string $context SETTINGS, BULK, MEDIA or FOLDERS.
+	 * @param string $context SETTINGS, BULK, MEDIA, FOLDERS or NETWORK.
 	 */
 	public static function can( string $context ): bool {
 		return current_user_can( self::required( $context ) );

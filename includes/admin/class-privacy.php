@@ -37,6 +37,7 @@ class Privacy {
 			'<p><strong class="privacy-policy-tutorial">' . esc_html__( 'Suggested text:', 'iminify-image-optimizer' ) . ' </strong>'
 				. esc_html__( 'This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site\'s address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them.', 'iminify-image-optimizer' ) . '</p>',
 			'<p>' . esc_html__( 'A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them.', 'iminify-image-optimizer' ) . '</p>',
+			'<p>' . esc_html__( 'Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site\'s address and name the first time the site needs it.', 'iminify-image-optimizer' ) . '</p>',
 			'<p>' . esc_html__( 'Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site.', 'iminify-image-optimizer' ) . '</p>',
 			'<p>' . sprintf(
 				/* translators: %s: the address of Iminify's privacy policy. */

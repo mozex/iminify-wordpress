@@ -1,5 +1,7 @@
 /**
  * Connecting the site: Connect, waiting for the approval, and a pasted key.
+ * On a network's page they connect the network; on another site of a connected
+ * network, the site on its own.
  */
 import { TextControl } from '@wordpress/components';
 import { createInterpolateElement, useState } from '@wordpress/element';
@@ -7,24 +9,78 @@ import { __ } from '@wordpress/i18n';
 
 import { Button, ExternalLink, Panel, PanelTitle } from '../ui';
 
-export function Connect( { state, busy, onConnect } ) {
+/**
+ * The words of the Connect panel for what it connects.
+ *
+ * @param {string} variant `site`, `network`, or `own` for a site of a connected network.
+ * @return {Object} Its title, lead, text and button.
+ */
+function connectWords( variant ) {
+	if ( 'network' === variant ) {
+		return {
+			title: __( 'Connect your network', 'iminify-image-optimizer' ),
+			lead: __(
+				'Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify.',
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network.',
+				'iminify-image-optimizer'
+			),
+			button: __( 'Connect the network', 'iminify-image-optimizer' ),
+		};
+	}
+
+	if ( 'own' === variant ) {
+		return {
+			title: __(
+				'Connect this site on its own',
+				'iminify-image-optimizer'
+			),
+			lead: __(
+				"This site can connect to an Iminify account of its own instead, and then never uses the network's connection.",
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'Connect opens iminify.com in a new tab, where you approve this site.',
+				'iminify-image-optimizer'
+			),
+			button: __( 'Connect', 'iminify-image-optimizer' ),
+		};
+	}
+
+	return {
+		title: __( 'Connect your site', 'iminify-image-optimizer' ),
+		lead: __(
+			'Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start.',
+			'iminify-image-optimizer'
+		),
+		text: __(
+			'Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site.',
+			'iminify-image-optimizer'
+		),
+		button: __( 'Connect', 'iminify-image-optimizer' ),
+	};
+}
+
+export function Connect( { state, busy, onConnect, variant = 'site' } ) {
+	const words = connectWords( variant );
+	const networkHint =
+		'site' === variant && state.network && ! state.network.main;
+
 	return (
 		<Panel>
-			<PanelTitle icon="plug">
-				{ __( 'Connect your site', 'iminify-image-optimizer' ) }
-			</PanelTitle>
-			<p className="iminify-lead">
-				{ __(
-					'Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start.',
-					'iminify-image-optimizer'
-				) }
-			</p>
-			<p className="iminify-text">
-				{ __(
-					'Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site.',
-					'iminify-image-optimizer'
-				) }
-			</p>
+			<PanelTitle icon="plug">{ words.title }</PanelTitle>
+			<p className="iminify-lead">{ words.lead }</p>
+			<p className="iminify-text">{ words.text }</p>
+			{ networkHint && (
+				<p className="iminify-text">
+					{ __(
+						'A super admin can connect the whole network from the network admin instead, and every site joins it by itself.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) }
 			<div className="iminify-actions">
 				<Button
 					variant="primary"
@@ -34,7 +90,7 @@ export function Connect( { state, busy, onConnect } ) {
 					disabled={ busy }
 					onClick={ onConnect }
 				>
-					{ __( 'Connect', 'iminify-image-optimizer' ) }
+					{ words.button }
 				</Button>
 				<span className="iminify-links iminify-links--inline">
 					<ExternalLink href={ state.links.guide }>
@@ -81,35 +137,58 @@ export function Pairing( { state, busy, onCancel } ) {
 	);
 }
 
-export function PasteKey( { state, busy, onPaste } ) {
+/**
+ * How an agency gives a single site its key, linking to Settings, Sites unless the account is kept out of sight.
+ *
+ * @param {Object} props       The component's props.
+ * @param {Object} props.links The page's links.
+ */
+function SiteKeyLead( { links } ) {
+	return links.sites
+		? createInterpolateElement(
+				__(
+					'An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
+					'iminify-image-optimizer'
+				),
+				{
+					a: <ExternalLink href={ links.sites } />,
+					code: <code />,
+				}
+			)
+		: createInterpolateElement(
+				__(
+					'An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
+					'iminify-image-optimizer'
+				),
+				{
+					code: <code />,
+				}
+			);
+}
+
+export function PasteKey( { state, busy, onPaste, network = false } ) {
 	const [ key, setKey ] = useState( '' );
 
 	return (
 		<Panel>
 			<PanelTitle icon="key">
-				{ __( 'Connect with a site key', 'iminify-image-optimizer' ) }
+				{ network
+					? __(
+							"Connect with the network's key",
+							'iminify-image-optimizer'
+						)
+					: __(
+							'Connect with a site key',
+							'iminify-image-optimizer'
+						) }
 			</PanelTitle>
 			<p className="iminify-lead">
-				{ state.links.sites
-					? createInterpolateElement(
-							__(
-								'An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
-								'iminify-image-optimizer'
-							),
-							{
-								a: <ExternalLink href={ state.links.sites } />,
-								code: <code />,
-							}
-						)
-					: createInterpolateElement(
-							__(
-								'An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
-								'iminify-image-optimizer'
-							),
-							{
-								code: <code />,
-							}
-						) }
+				{ network &&
+					__(
+						'An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as IMINIFY_API_KEY.',
+						'iminify-image-optimizer'
+					) }
+				{ ! network && <SiteKeyLead links={ state.links } /> }
 			</p>
 			<form
 				onSubmit={ ( event ) => {
@@ -122,7 +201,11 @@ export function PasteKey( { state, busy, onPaste } ) {
 					__nextHasNoMarginBottom
 					type="password"
 					autoComplete="off"
-					label={ __( 'Site key', 'iminify-image-optimizer' ) }
+					label={
+						network
+							? __( 'Network key', 'iminify-image-optimizer' )
+							: __( 'Site key', 'iminify-image-optimizer' )
+					}
 					value={ key }
 					onChange={ setKey }
 				/>

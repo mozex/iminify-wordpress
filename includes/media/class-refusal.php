@@ -73,7 +73,16 @@ class Refusal {
 		);
 
 		if ( 'unauthenticated' === $code ) {
-			( new Connection() )->revoked_by_service();
+			/* A key another request has since replaced (a site that joined its network again): the step goes again with the new one. */
+			if ( ! ( new Connection() )->revoked_by_service( $error ) ) {
+				return array_merge(
+					$then,
+					array(
+						'then'    => self::WAIT,
+						'seconds' => 1,
+					)
+				);
+			}
 
 			return array_merge( $then, array( 'then' => self::PARK ) );
 		}

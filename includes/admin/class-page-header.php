@@ -29,7 +29,7 @@ class Page_Header {
 	 * @param string $subtitle What the page is for, in one line.
 	 */
 	public static function open( string $title, string $subtitle ): void {
-		$connected = null !== Plugin::keys()->get();
+		$connected = Plugin::connected();
 
 		printf(
 			'<div class="wrap iminify-ui iminify-page"><div class="iminify-header"><span class="iminify-brand"><img src="%2$s" alt="" width="34" height="34"><img src="%3$s" alt="%4$s" width="61" height="19"></span><span class="iminify-header__divider" aria-hidden="true"></span><div class="iminify-header__title"><h1>%1$s</h1><p>%5$s</p></div><span class="iminify-conn" id="iminify-conn" data-state="%6$s"><span class="iminify-conn__dot" aria-hidden="true"></span><span class="iminify-conn__text">%7$s</span></span></div><hr class="wp-header-end">',

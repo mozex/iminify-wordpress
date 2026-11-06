@@ -103,6 +103,12 @@ class Messages {
 					: __( 'Iminify asked the plugin to wait. Try again later.', 'iminify-image-optimizer' );
 			case 'pairing_closed':
 				return __( 'The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again.', 'iminify-image-optimizer' );
+			case 'network_required':
+				return __( 'The network\'s key was made for a single site, so the network\'s sites can\'t join with it. A super admin connects the network again from the network admin.', 'iminify-image-optimizer' );
+			case 'network_full':
+				return __( 'The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own.', 'iminify-image-optimizer' );
+			case 'site_connected_elsewhere':
+				return __( 'This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own.', 'iminify-image-optimizer' );
 			default:
 				return $error->get_error_message();
 		}

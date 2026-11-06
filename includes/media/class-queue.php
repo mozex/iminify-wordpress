@@ -67,7 +67,7 @@ class Queue {
 	 * @param mixed $after The last id a run before this one queued.
 	 */
 	public static function resume( $after = 0 ): void {
-		if ( null === Plugin::keys()->get() ) {
+		if ( null === Plugin::client() ) {
 			return;
 		}
 
@@ -91,7 +91,15 @@ class Queue {
 	 * Schedules a run that queues the images waiting.
 	 */
 	public static function resume_soon(): void {
-		if ( false === as_next_scheduled_action( self::RESUME_HOOK, array( 0 ), Optimizer::GROUP ) ) {
+		$next = as_next_scheduled_action( self::RESUME_HOOK, array( 0 ), Optimizer::GROUP );
+
+		/* A later run (the end of a network join's wait, `Network`) would hold back what can go now. */
+		if ( is_int( $next ) && $next > time() ) {
+			as_unschedule_action( self::RESUME_HOOK, array( 0 ), Optimizer::GROUP );
+			$next = false;
+		}
+
+		if ( false === $next ) {
 			as_schedule_single_action( time(), self::RESUME_HOOK, array( 0 ), Optimizer::GROUP );
 		}
 	}
@@ -154,7 +162,7 @@ class Queue {
 			'paused'     => $paused,
 			'parked'     => Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ),
 			'next_batch' => null === $pause ? null : State::date( gmdate( 'c', $pause['until'] ) ),
-			'can_start'  => $paused > 0 && null !== Plugin::keys()->get() && ( null === $pause || Pause::FROM_SITE !== $pause['from'] ),
+			'can_start'  => $paused > 0 && Plugin::connected() && ( null === $pause || Pause::FROM_SITE !== $pause['from'] ),
 		);
 	}
 }

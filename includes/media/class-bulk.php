@@ -213,7 +213,7 @@ class Bulk {
 		}
 
 		if ( self::RESTORE !== $action ) {
-			if ( null === Plugin::keys()->get() ) {
+			if ( ! Plugin::connected() ) {
 				return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 			}
 
@@ -744,7 +744,7 @@ class Bulk {
 		}
 
 		/* The images it sent wait for the connection on their own, and go on with it. */
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			return 5 * MINUTE_IN_SECONDS;
 		}
 

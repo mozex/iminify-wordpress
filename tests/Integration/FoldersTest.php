@@ -674,7 +674,16 @@ class FoldersTest extends WP_UnitTestCase {
 		$this->assertSame( 403, $this->rest( 'POST', '/iminify/v1/folders', array( 'folder' => self::FOLDER ) )->get_status() );
 		$this->assertSame( array(), Folders::listed() );
 
-		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$admin = self::factory()->user->create( array( 'role' => 'administrator' ) );
+
+		/* On a network the folders are every site's, so only someone who manages the network chooses them. */
+		if ( is_multisite() ) {
+			wp_set_current_user( $admin );
+			$this->assertSame( 403, $this->rest( 'POST', '/iminify/v1/folders', array( 'folder' => self::FOLDER ) )->get_status() );
+			grant_super_admin( $admin );
+		}
+
+		wp_set_current_user( $admin );
 		$added = $this->rest( 'POST', '/iminify/v1/folders', array( 'folder' => self::FOLDER ) );
 		$this->assertSame( 200, $added->get_status() );
 		$this->assertSame( array( self::FOLDER ), $added->get_data()['listed'] );

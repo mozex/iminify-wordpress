@@ -141,7 +141,7 @@ class Hooks {
 
 		Records::bump( $attachment );
 
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
 
 			return;

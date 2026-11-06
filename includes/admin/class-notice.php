@@ -120,7 +120,7 @@ class Notice {
 	 * @return array{key: string, type: string, text: string, action: string}|null
 	 */
 	protected static function pick(): ?array {
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			if ( null !== ( new Connection() )->pairing() ) {
 				return null;
 			}

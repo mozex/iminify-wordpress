@@ -12,6 +12,7 @@ use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
+use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
@@ -25,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * The routes under `iminify/v1` the settings page calls with the REST nonce,
- * each for someone who can manage the site's options. Every call to Iminify
+ * each for someone who can manage the site's options, and the main site's
+ * connection on a network for someone who can manage the network. Every call to Iminify
  * is made from here, on the server, so the site key and the pairing's secret
  * never reach a browser; every answer is the page's whole state (State),
  * which holds neither.
@@ -44,9 +46,9 @@ class Rest_Controller {
 	 */
 	public function register_routes(): void {
 		$this->route( '/state', WP_REST_Server::READABLE, 'state' );
-		$this->route( '/connect', WP_REST_Server::CREATABLE, 'connect' );
-		$this->route( '/connect', WP_REST_Server::DELETABLE, 'cancel' );
-		$this->route( '/connect/claim', WP_REST_Server::CREATABLE, 'claim' );
+		$this->route( '/connect', WP_REST_Server::CREATABLE, 'connect', array(), 'can_connect' );
+		$this->route( '/connect', WP_REST_Server::DELETABLE, 'cancel', array(), 'can_connect' );
+		$this->route( '/connect/claim', WP_REST_Server::CREATABLE, 'claim', array(), 'can_connect' );
 		$this->route(
 			'/key',
 			WP_REST_Server::CREATABLE,
@@ -56,11 +58,13 @@ class Rest_Controller {
 					'type'     => 'string',
 					'required' => true,
 				),
-			)
+			),
+			'can_connect'
 		);
-		$this->route( '/key', WP_REST_Server::DELETABLE, 'disconnect' );
-		$this->route( '/move', WP_REST_Server::CREATABLE, 'move' );
-		$this->route( '/copy', WP_REST_Server::CREATABLE, 'copy' );
+		$this->route( '/key', WP_REST_Server::DELETABLE, 'disconnect', array(), 'can_connect' );
+		$this->route( '/move', WP_REST_Server::CREATABLE, 'move', array(), 'can_connect' );
+		$this->route( '/copy', WP_REST_Server::CREATABLE, 'copy', array(), 'can_connect' );
+		$this->route( '/join', WP_REST_Server::CREATABLE, 'join' );
 		$this->route(
 			'/settings',
 			WP_REST_Server::CREATABLE,
@@ -89,6 +93,15 @@ class Rest_Controller {
 	 */
 	public function can_manage(): bool {
 		return Capabilities::can( Capabilities::SETTINGS );
+	}
+
+	/**
+	 * Connecting and disconnecting ask what the settings ask, except on the main
+	 * site of a network the plugin is active for, whose connection is the whole
+	 * network's: there only someone who can manage the network does it.
+	 */
+	public function can_connect(): bool {
+		return Capabilities::can( Network::is_main() ? Capabilities::NETWORK : Capabilities::SETTINGS );
 	}
 
 	/**
@@ -174,7 +187,7 @@ class Rest_Controller {
 		$site = ( new Connection() )->move();
 
 		if ( is_wp_error( $site ) && 'unauthenticated' === $site->get_error_code() ) {
-			( new Connection() )->revoked_by_service();
+			( new Connection() )->revoked_by_service( $site );
 
 			return $this->answer();
 		}
@@ -191,6 +204,26 @@ class Rest_Controller {
 		$pairing = ( new Connection() )->connect_copy();
 
 		return is_wp_error( $pairing ) ? $this->refusal( $pairing ) : $this->answer();
+	}
+
+	/**
+	 * "Join the network": a site of a connected network asks it for a key of its
+	 * own, whatever an earlier refusal or Disconnect left.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function join() {
+		if ( ! Network::is_member() ) {
+			return $this->refusal( new WP_Error( 'not_a_network_site', __( 'Only a site of a network the plugin is active for can join it.', 'iminify-image-optimizer' ), array( 'status' => 409 ) ) );
+		}
+
+		if ( null !== Plugin::keys()->get() ) {
+			return $this->answer();
+		}
+
+		$joined = Network::join( true );
+
+		return is_wp_error( $joined ) ? $this->refusal( $joined ) : $this->answer();
 	}
 
 	/**
@@ -219,7 +252,7 @@ class Rest_Controller {
 			$record = $client->update_site( array_intersect_key( $site, array_flip( self::SITE_SETTINGS ) ) );
 
 			if ( is_wp_error( $record ) && 'unauthenticated' === $record->get_error_code() ) {
-				( new Connection() )->revoked_by_service();
+				( new Connection() )->revoked_by_service( $record );
 
 				return $this->answer( array( 'saved' => false ) );
 			}
@@ -260,19 +293,20 @@ class Rest_Controller {
 	/**
 	 * Registers one route for people who can manage options.
 	 *
-	 * @param non-falsy-string                    $path     The route's path.
-	 * @param string                              $methods  Its methods.
-	 * @param string                              $callback The method that answers it.
-	 * @param array<string, array<string, mixed>> $args     Its arguments.
+	 * @param non-falsy-string                    $path       The route's path.
+	 * @param string                              $methods    Its methods.
+	 * @param string                              $callback   The method that answers it.
+	 * @param array<string, array<string, mixed>> $args       Its arguments.
+	 * @param string                              $permission The method that says who may call it.
 	 */
-	protected function route( string $path, string $methods, string $callback, array $args = array() ): void {
+	protected function route( string $path, string $methods, string $callback, array $args = array(), string $permission = 'can_manage' ): void {
 		register_rest_route(
 			self::NAMESPACE,
 			$path,
 			array(
 				'methods'             => $methods,
 				'callback'            => array( $this, $callback ),
-				'permission_callback' => array( $this, 'can_manage' ),
+				'permission_callback' => array( $this, $permission ),
 				'args'                => $args,
 			)
 		);

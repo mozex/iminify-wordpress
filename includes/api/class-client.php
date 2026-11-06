@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Api;
 
+use Iminify\WordPress\Network;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -118,35 +119,76 @@ class Client {
 	}
 
 	/**
-	 * Disconnects the site: its key stops working on Iminify.
+	 * Disconnects the site: its key stops working on Iminify. A network's key
+	 * stops every key its sites joined with too.
 	 *
-	 * @param int $timeout How long to wait for the answer, in seconds.
+	 * @param int         $timeout How long to wait for the answer, in seconds.
+	 * @param string|null $site    The address the key is held to, when it isn't this site's home.
 	 * @return true|WP_Error
 	 */
-	public function disconnect( int $timeout = self::TIMEOUT ) {
-		$response = $this->request( 'DELETE', 'site', array( 'timeout' => $timeout ) );
+	public function disconnect( int $timeout = self::TIMEOUT, ?string $site = null ) {
+		$options = array( 'timeout' => $timeout );
+
+		if ( null !== $site ) {
+			$options['site'] = $site;
+		}
+
+		$response = $this->request( 'DELETE', 'site', $options );
 
 		return is_wp_error( $response ) ? $response : true;
 	}
 
 	/**
-	 * Opens a pairing for this site, to be approved on www.iminify.com.
+	 * Opens a pairing for this site, or for a multisite network through its main
+	 * site, to be approved on www.iminify.com.
 	 *
-	 * @param string $url  The site's home address.
-	 * @param string $name The site's name.
+	 * @param string $url     The site's home address.
+	 * @param string $name    The site's name, or the network's.
+	 * @param bool   $network Whether it connects a multisite network.
 	 * @return array<string, mixed>|WP_Error
 	 */
-	public function start_pairing( string $url, string $name ) {
+	public function start_pairing( string $url, string $name, bool $network = false ) {
+		$body = array(
+			'url'  => $url,
+			'name' => $name,
+		);
+
+		if ( $network ) {
+			$body['network'] = true;
+		}
+
 		return $this->data(
 			$this->request(
 				'POST',
 				'connect/start',
 				array(
+					'json' => $body,
+					'auth' => false,
+				)
+			)
+		);
+	}
+
+	/**
+	 * With a multisite network's key, from the network's address: adds one of its
+	 * sites, answering that site's own key (`key`), given out once.
+	 *
+	 * @param string $network The network's address, which its key is held to.
+	 * @param string $url     The site's home address.
+	 * @param string $name    The site's name.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function register_site( string $network, string $url, string $name ) {
+		return $this->data(
+			$this->request(
+				'POST',
+				'site/sites',
+				array(
 					'json' => array(
 						'url'  => $url,
 						'name' => $name,
 					),
-					'auth' => false,
+					'site' => $network,
 				)
 			)
 		);
@@ -258,7 +300,7 @@ class Client {
 	 *
 	 * @param string $method The HTTP method.
 	 * @param string $path   The path under the API's address.
-	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, file?: array{path: string, type: string}, save_to?: string, auth?: bool, timeout?: int} $options How to send it: a JSON body, or one file as a multipart body, streamed where it can be (`Upload`); `save_to` writes a 2xx answer's body to a file.
+	 * @param array{query?: array<string, scalar>, json?: array<string, mixed>, file?: array{path: string, type: string}, save_to?: string, auth?: bool, timeout?: int, site?: string} $options How to send it: a JSON body, or one file as a multipart body, streamed where it can be (`Upload`); `save_to` writes a 2xx answer's body to a file; `site` names another address than this site's home (a network's key calls from the network's).
 	 * @return array{status: int, body: array<string, mixed>}|WP_Error
 	 */
 	public function request( string $method, string $path, array $options = array() ) {
@@ -276,7 +318,7 @@ class Client {
 
 		$headers = array(
 			'Accept'         => 'application/json',
-			'Iminify-Site'   => home_url(),
+			'Iminify-Site'   => $options['site'] ?? home_url(),
 			'Iminify-Client' => 'wordpress/' . IMINIFY_VERSION,
 		);
 
@@ -400,6 +442,8 @@ class Client {
 				'status'      => $status,
 				'retry_after' => self::retry_after( wp_remote_retrieve_header( $response, 'retry-after' ) ),
 				'errors'      => self::field_errors( $body['errors'] ?? null ),
+				/* Which key was refused, so a refusal of a key another request has since replaced stops nothing (`Connection::revoked_by_service()`). */
+				'key'         => Network::fingerprint( $this->key ),
 			)
 		);
 	}

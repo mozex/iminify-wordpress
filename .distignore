@@ -25,6 +25,8 @@
 /bin
 /.wp-env.e2e.json
 /.wp-env.e2e.override.json
+/.wp-env.multisite.json
+/.wp-env.multisite.override.json
 /playwright.config.js
 /test-results
 /playwright-report

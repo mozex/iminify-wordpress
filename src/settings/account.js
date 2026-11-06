@@ -14,20 +14,60 @@ import {
 } from '../ui';
 
 /**
+ * The question before a key stops, for what it stops.
+ *
+ * @param {string} what `site`, `network`, or `joined` for a site whose key came from its network.
+ * @return {string} The question.
+ */
+function disconnectQuestion( what ) {
+	if ( 'network' === what ) {
+		return __(
+			'Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are.',
+			'iminify-image-optimizer'
+		);
+	}
+
+	if ( 'joined' === what ) {
+		return __(
+			"Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are.",
+			'iminify-image-optimizer'
+		);
+	}
+
+	return __(
+		'Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are.',
+		'iminify-image-optimizer'
+	);
+}
+
+/**
+ * What a Disconnect on this page stops: the network's key, a key the site joined its network with, or the site's own.
+ *
+ * @param {Object}  state       The page's state.
+ * @param {boolean} networkPage Whether this is the network admin's page.
+ * @return {string} `network`, `joined` or `site`.
+ */
+export function disconnecting( state, networkPage ) {
+	if ( networkPage ) {
+		return 'network';
+	}
+
+	return state.network?.joined ? 'joined' : 'site';
+}
+
+/**
  * The yes or no before the site's key stops.
  *
  * @param {Object}     props       The component's props.
  * @param {boolean}    props.busy  Whether a press is on its way.
+ * @param {string}     props.what  `site`, `network` or `joined` (`disconnectQuestion()`).
  * @param {() => void} props.onYes Disconnects the site.
  * @param {() => void} props.onNo  Keeps it connected.
  */
-export function DisconnectConfirm( { busy, onYes, onNo } ) {
+export function DisconnectConfirm( { busy, what = 'site', onYes, onNo } ) {
 	return (
 		<Confirm
-			question={ __(
-				'Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are.',
-				'iminify-image-optimizer'
-			) }
+			question={ disconnectQuestion( what ) }
 			yes={ __( 'Disconnect', 'iminify-image-optimizer' ) }
 			busy={ busy }
 			onYes={ onYes }
@@ -86,27 +126,78 @@ function Usage( { row } ) {
 	);
 }
 
-export default function Account( { state, busy, onDisconnect } ) {
+/**
+ * What the account panel says is connected.
+ *
+ * @param {Object} state The page's state.
+ * @return {string} The sentence.
+ */
+function connectedSentence( state ) {
+	const { site, network } = state;
+
+	if ( site.network?.main ) {
+		return sprintf(
+			/* translators: 1: the network's name, 2: its address. */
+			__(
+				'%1$s, at %2$s, is connected to Iminify as a multisite network.',
+				'iminify-image-optimizer'
+			),
+			site.name || site.url,
+			site.url
+		);
+	}
+
+	if ( network?.joined ) {
+		return sprintf(
+			/* translators: 1: the site's name, 2: its address. */
+			__(
+				'%1$s, at %2$s, is connected to Iminify through its network.',
+				'iminify-image-optimizer'
+			),
+			site.name || site.url,
+			site.url
+		);
+	}
+
+	return sprintf(
+		/* translators: 1: the site's name, 2: its address. */
+		__(
+			'%1$s, at %2$s, is connected to Iminify.',
+			'iminify-image-optimizer'
+		),
+		site.name || site.url,
+		site.url
+	);
+}
+
+/**
+ * The connected site and its account.
+ *
+ * @param {Object}     props              The component's props.
+ * @param {Object}     props.state        The page's state.
+ * @param {boolean}    props.busy         Whether a press is on its way.
+ * @param {() => void} props.onDisconnect Disconnects the site.
+ * @param {boolean}    props.readOnly     Whether the connection is changed elsewhere (a network's main site).
+ * @param {boolean}    props.networkPage  Whether this is the network admin's page.
+ */
+export default function Account( {
+	state,
+	busy,
+	onDisconnect,
+	readOnly = false,
+	networkPage = false,
+} ) {
 	const { site, links } = state;
 	const { asking, open, close, opener } = useAsk();
+	const what = disconnecting( state, networkPage );
 
 	return (
 		<Panel>
 			<PanelTitle icon="image">
 				{ __( 'Your account', 'iminify-image-optimizer' ) }
 			</PanelTitle>
-			<p className="iminify-text">
-				{ sprintf(
-					/* translators: 1: the site's name, 2: its address. */
-					__(
-						'%1$s, at %2$s, is connected to Iminify.',
-						'iminify-image-optimizer'
-					),
-					site.name || site.url,
-					site.url
-				) }
-			</p>
-			{ ( site.plan || site.next_batch_at ) && (
+			<p className="iminify-text">{ connectedSentence( state ) }</p>
+			{ ( site.plan || site.next_batch_at || site.network ) && (
 				<dl className="iminify-facts">
 					{ site.plan && (
 						<div>
@@ -135,6 +226,27 @@ export default function Account( { state, busy, onDisconnect } ) {
 								) }
 							</dt>
 							<dd>{ site.next_batch_at }</dd>
+						</div>
+					) }
+					{ site.network && (
+						<div>
+							<dt>
+								{ __(
+									"Network's sites",
+									'iminify-image-optimizer'
+								) }
+							</dt>
+							<dd>
+								{ sprintf(
+									/* translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have. */
+									__(
+										'%1$s of %2$s',
+										'iminify-image-optimizer'
+									),
+									site.network.sites,
+									site.network.max_sites
+								) }
+							</dd>
 						</div>
 					) }
 				</dl>
@@ -175,18 +287,25 @@ export default function Account( { state, busy, onDisconnect } ) {
 					</p>
 				)
 			) }
-			{ state.key_in_config && (
+			{ state.key_in_config && ! readOnly && (
 				<p className="iminify-text">
-					{ __(
-						"The site's key is set in wp-config.php as IMINIFY_API_KEY. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com.",
-						'iminify-image-optimizer'
-					) }
+					{ networkPage
+						? __(
+								"The network's key is set in wp-config.php as IMINIFY_API_KEY. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com.",
+								'iminify-image-optimizer'
+							)
+						: __(
+								"The site's key is set in wp-config.php as IMINIFY_API_KEY. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com.",
+								'iminify-image-optimizer'
+							) }
 				</p>
 			) }
 			{ ! state.key_in_config &&
+				! readOnly &&
 				( asking ? (
 					<DisconnectConfirm
 						busy={ busy }
+						what={ what }
 						onYes={ onDisconnect }
 						onNo={ close }
 					/>

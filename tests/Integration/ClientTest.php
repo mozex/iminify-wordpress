@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Network;
 use Iminify\WordPress\Tests\Support\Api_Stub;
 use WP_Error;
 use WP_UnitTestCase;
@@ -111,6 +112,7 @@ class ClientTest extends WP_UnitTestCase {
 				'status'      => 429,
 				'retry_after' => 30,
 				'errors'      => array(),
+				'key'         => Network::fingerprint( '7|site-key' ),
 			),
 			$error->get_error_data()
 		);

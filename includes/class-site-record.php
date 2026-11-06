@@ -55,7 +55,7 @@ class Site_Record {
 
 		if ( is_wp_error( $site ) ) {
 			if ( 'unauthenticated' === $site->get_error_code() ) {
-				( new Connection() )->revoked_by_service();
+				( new Connection() )->revoked_by_service( $site );
 			}
 
 			return $site;

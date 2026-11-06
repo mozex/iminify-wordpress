@@ -11,3 +11,4 @@
 /playwright-report/
 /tests/e2e/.auth/
 /.wp-env.e2e.override.json
+/.wp-env.multisite.override.json

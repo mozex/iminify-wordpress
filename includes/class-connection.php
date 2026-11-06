@@ -24,6 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * or set in wp-config.php, connects the site too. Disconnect stops the key on
  * Iminify, which refuses it from a copy of the site at another address, and
  * forgets it here.
+ *
+ * On a network the plugin is active for, the main site's connection is the
+ * network's (`Network`): its pairing asks for a network, and its Disconnect
+ * stops every site's key that came from the network. Another site's Disconnect
+ * stops its own key and holds it from joining again by itself.
  */
 class Connection {
 
@@ -75,7 +80,8 @@ class Connection {
 			return self::key_in_config();
 		}
 
-		$answer = ( new Client() )->start_pairing( home_url(), self::site_name() );
+		$network = Network::is_main();
+		$answer  = ( new Client() )->start_pairing( home_url(), $network ? Network::name() : self::site_name(), $network );
 
 		if ( is_wp_error( $answer ) ) {
 			return $answer;
@@ -265,11 +271,11 @@ class Connection {
 			return self::key_in_config();
 		}
 
-		$client  = Plugin::client();
+		$key     = $this->keys->get();
 		$revoked = false;
 
-		if ( null !== $client ) {
-			$answer  = $client->disconnect();
+		if ( null !== $key ) {
+			$answer  = ( new Client( $key ) )->disconnect();
 			$revoked = true === $answer || 'unauthenticated' === $answer->get_error_code();
 		}
 
@@ -277,6 +283,10 @@ class Connection {
 		$this->cancel();
 		Site_Record::forget();
 		delete_option( self::REVOKED_OPTION );
+
+		if ( Network::is_member() ) {
+			Network::hold();
+		}
 
 		return array( 'revoked' => $revoked );
 	}
@@ -287,13 +297,13 @@ class Connection {
 	 * @return array<string, mixed>|WP_Error The site's record.
 	 */
 	public function move() {
-		$client = Plugin::client();
+		$key = $this->keys->get();
 
-		if ( null === $client ) {
+		if ( null === $key ) {
 			return self::not_connected();
 		}
 
-		$site = $client->move_site();
+		$site = ( new Client( $key ) )->move_site();
 
 		if ( ! is_wp_error( $site ) ) {
 			Site_Record::remember( $site );
@@ -324,16 +334,38 @@ class Connection {
 	 * Iminify no longer knows the key (it was disconnected on www.iminify.com, or
 	 * the account went): forgets a stored key and remembers why, for the page. A
 	 * key set in wp-config.php stays, and the page says it no longer works.
+	 *
+	 * Given the refusal, it acts only while the refused key is still the one
+	 * stored: a request that started with a key another request has since
+	 * replaced (a site of a network that joined again) is refused for that old
+	 * key, and must not throw away the new one. A site of a network is held from
+	 * joining again by itself, or a Disconnect on iminify.com would undo itself.
+	 *
+	 * @param WP_Error|null $error The refusal, carrying the refused key's fingerprint.
+	 * @return bool Whether it acted: false for a key since replaced, whose request can go again with the new one.
 	 */
-	public function revoked_by_service(): void {
+	public function revoked_by_service( ?WP_Error $error = null ): bool {
+		$data    = null === $error ? array() : (array) $error->get_error_data();
+		$refused = isset( $data['key'] ) && is_string( $data['key'] ) ? $data['key'] : null;
+
+		if ( null !== $refused && ! hash_equals( Network::fingerprint( $this->keys->get( true ) ), $refused ) ) {
+			return false;
+		}
+
 		Site_Record::forget();
 
 		if ( $this->keys->from_constant() ) {
-			return;
+			return true;
 		}
 
 		$this->keys->forget();
 		update_option( self::REVOKED_OPTION, time(), false );
+
+		if ( Network::is_member() ) {
+			Network::stopped();
+		}
+
+		return true;
 	}
 
 	/**
@@ -412,6 +444,7 @@ class Connection {
 	protected function connected( ?array $site = null ): void {
 		$this->cancel();
 		delete_option( self::REVOKED_OPTION );
+		Network::forget();
 
 		if ( null === $site ) {
 			Site_Record::forget();
@@ -461,30 +494,14 @@ class Connection {
 	 * as closed. A lock older than LOCK_SECONDS is taken over.
 	 */
 	protected function lock(): bool {
-		global $wpdb;
-
-		$now = time();
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- an atomic insert is the lock: add_option() overwrites an existing row.
-		$inserted = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, %s, 'off')", self::LOCK_OPTION, (string) ( $now + self::LOCK_SECONDS ) ) );
-
-		if ( 1 === $inserted ) {
-			return true;
-		}
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- takes over a lock past its expiry in one conditional update.
-		$taken = $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND CAST(option_value AS UNSIGNED) < %d", (string) ( $now + self::LOCK_SECONDS ), self::LOCK_OPTION, $now ) );
-
-		return 1 === $taken;
+		return Option_Lock::take( self::LOCK_OPTION, self::LOCK_SECONDS );
 	}
 
 	/**
 	 * Frees the claim lock.
 	 */
 	protected function unlock(): void {
-		global $wpdb;
-
-		$wpdb->delete( $wpdb->options, array( 'option_name' => self::LOCK_OPTION ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- the lock row is never read through the options API.
+		Option_Lock::release( self::LOCK_OPTION );
 	}
 
 	/**

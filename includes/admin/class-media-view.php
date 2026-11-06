@@ -147,7 +147,7 @@ class Media_View {
 		$available = Restorer::availability( $attachment );
 
 		/* An image waiting for the batch goes out by itself, and pressing this could only say so. */
-		if ( null !== Plugin::keys()->get() && ! self::is_busy( $attachment ) && Records::PAUSED !== $status && Restorer::NO_ORIGINAL !== $available ) {
+		if ( Plugin::connected() && ! self::is_busy( $attachment ) && Records::PAUSED !== $status && Restorer::NO_ORIGINAL !== $available ) {
 			$actions['iminify_optimize'] = self::row_action(
 				$attachment,
 				'optimize',
@@ -670,7 +670,7 @@ class Media_View {
 		$optimized = Records::OPTIMIZED === $record['status'];
 		$html      = '';
 
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			$html .= '<p class="iminify-detail">' . esc_html__( 'Connect the site to Iminify to optimize this image.', 'iminify-image-optimizer' ) . '</p>';
 		} elseif ( Restorer::NO_ORIGINAL === $available ) {
 			$html .= '<p class="iminify-detail">' . esc_html__( 'No original of this image was kept, so it can\'t be optimized again or restored.', 'iminify-image-optimizer' ) . '</p>';
@@ -765,7 +765,7 @@ class Media_View {
 	 * @return array<string, string>
 	 */
 	protected static function fills( int $attachment ): array {
-		if ( null === Plugin::keys()->get() ) {
+		if ( ! Plugin::connected() ) {
 			return array();
 		}
 

@@ -53,12 +53,14 @@ class Plugin {
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
 			add_action( 'admin_menu', array( Bulk_Page::class, 'register' ) );
 			add_action( 'admin_menu', array( Folders_Page::class, 'register' ) );
+			add_action( 'network_admin_menu', array( Settings_Page::class, 'register_network' ) );
 			add_action( 'admin_enqueue_scripts', array( Settings_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Bulk_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Folders_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );
 			add_action( 'admin_notices', array( Notice::class, 'render' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'action_links' ) );
+			add_filter( 'network_admin_plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'network_action_links' ) );
 			Media_View::register();
 		}
 	}
@@ -91,10 +93,28 @@ class Plugin {
 
 	/**
 	 * A client carrying the site key, or null while the site isn't connected.
+	 * A site of a connected network without a key of its own joins the network
+	 * here (`Network::join()`), the first time it needs Iminify: only the
+	 * background and the plugin's own pages ask for a client, so no upload and
+	 * no other screen waits on the join.
 	 */
 	public static function client(): ?Client {
 		$key = self::keys()->get();
 
+		if ( null === $key && Network::joinable() ) {
+			$joined = Network::join();
+			$key    = is_string( $joined ) ? $joined : null;
+		}
+
 		return null === $key ? null : new Client( $key );
+	}
+
+	/**
+	 * Whether the site can reach Iminify: it has a key, or it is a site of a
+	 * connected network that will join it when it first needs to. Read locally,
+	 * so any screen may ask.
+	 */
+	public static function connected(): bool {
+		return null !== self::keys()->get() || Network::joinable();
 	}
 }
