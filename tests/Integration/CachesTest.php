@@ -8,14 +8,18 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Compat\Caches;
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Media\Bulk;
+use Iminify\WordPress\Media\Optimizer;
 use WP_UnitTestCase;
 
 require_once dirname( __DIR__ ) . '/Support/Cache_Plugins.php';
 
 /**
  * Covers each cache plugin's purge at a bulk run's end, the purge a restore
- * outside a run owes the end of its request, the one a run owes its end or its
+ * outside a run owes the end of its request (a file's in another folder too, and
+ * an update that replaced a chosen folder), the one a run owes its end or its
  * stop, and the filter that turns them off.
  */
 class CachesTest extends WP_UnitTestCase {
@@ -93,6 +97,66 @@ class CachesTest extends WP_UnitTestCase {
 
 		$this->assertSame( array( 'litespeed', 'wp-rocket', 'w3tc', 'cloudflare' ), $GLOBALS['iminify_test_purged'] );
 		$this->assertFalse( has_action( 'shutdown', array( Caches::class, 'at_shutdown' ) ) );
+	}
+
+	public function test_a_file_put_back_in_another_folder_empties_the_caches_at_the_end_of_its_request_or_of_a_folders_restore_run(): void {
+		do_action( 'iminify_file_restored', 'themes/theme/photo.jpg' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- the plugin's own action.
+
+		$this->assertSame( 10, has_action( 'shutdown', array( Caches::class, 'at_shutdown' ) ) );
+
+		Caches::at_shutdown();
+
+		$this->assertSame( array( 'litespeed', 'wp-rocket', 'w3tc', 'cloudflare' ), $GLOBALS['iminify_test_purged'] );
+
+		update_option(
+			Bulk::OPTION,
+			array(
+				'action' => Bulk::RESTORE,
+				'scope'  => Bulk::FOLDERS,
+				'status' => Bulk::RUNNING,
+			)
+		);
+		do_action( 'iminify_file_restored', 'themes/theme/photo.jpg' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- the plugin's own action.
+
+		$this->assertFalse( has_action( 'shutdown', array( Caches::class, 'at_shutdown' ) ) );
+		$this->assertSame( '1', (string) get_option( Caches::OWED ) );
+	}
+
+	public function test_an_update_that_replaced_a_chosen_folder_empties_the_caches_and_any_other_update_leaves_them(): void {
+		update_option( Folders::OPTION, array( 'themes/twentytwentyfive/assets', 'plugins/kept' ) );
+
+		try {
+			foreach (
+				array(
+					'another theme'  => array(
+						'type'   => 'theme',
+						'themes' => array( 'twentytwentyfour' ),
+					),
+					'another plugin' => array(
+						'type'    => 'plugin',
+						'plugins' => array( 'other/other.php', 'hello.php' ),
+					),
+					'the theme'      => array(
+						'type'   => 'theme',
+						'themes' => array( 'twentytwentyfive' ),
+					),
+					'the plugin'     => array(
+						'type'   => 'plugin',
+						'plugin' => 'kept/kept.php',
+					),
+				) as $case => $options
+			) {
+				Caches::at_shutdown();
+				/* Called as `upgrader_process_complete` calls it, without core's other listeners, which need the upgrader classes loaded. */
+				Scanner::after_update( null, array_merge( array( 'action' => 'update' ), $options ) );
+
+				$this->assertSame( 0 === strpos( $case, 'the ' ) ? 10 : false, has_action( 'shutdown', array( Caches::class, 'at_shutdown' ) ), $case );
+			}
+		} finally {
+			delete_option( Folders::OPTION );
+			delete_option( Scanner::OPTION );
+			as_unschedule_all_actions( '', array(), Optimizer::GROUP );
+		}
 	}
 
 	public function test_images_put_back_during_a_run_empty_the_caches_at_its_stop_and_a_stop_owing_nothing_leaves_them(): void {

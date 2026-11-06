@@ -27,6 +27,12 @@ class Local_Settings {
 
 	const DELIVERY_PICTURE = 'picture';
 
+	/**
+	 * `<picture>` markup for every image on a page, through a buffer over the
+	 * whole page (`Delivery\Buffer`), beside core's filters.
+	 */
+	const DELIVERY_PAGE = 'page';
+
 	const DELIVERY_OFF = 'off';
 
 	/**
@@ -67,7 +73,7 @@ class Local_Settings {
 	 * @return list<string>
 	 */
 	public static function deliveries(): array {
-		return array( self::DELIVERY_PICTURE, self::DELIVERY_OFF );
+		return array( self::DELIVERY_PICTURE, self::DELIVERY_PAGE, self::DELIVERY_OFF );
 	}
 
 	/**

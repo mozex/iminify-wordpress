@@ -48,6 +48,32 @@ function fromSite( settings ) {
 }
 
 /**
+ * What a way of serving the copies does, under its menu.
+ *
+ * @param {string} delivery The way chosen.
+ * @return {string} The help text.
+ */
+function deliveryHelp( delivery ) {
+	switch ( delivery ) {
+		case 'page':
+			return __(
+				"Also reaches the images in raw HTML, page builders and your theme's own markup, and those in the folders you chose, by reading each page as it's sent. A page your cache hasn't kept takes a little longer.",
+				'iminify-image-optimizer'
+			);
+		case 'off':
+			return __(
+				'Your pages stay as they are: the copies are made, but no page names them.',
+				'iminify-image-optimizer'
+			);
+		default:
+			return __(
+				'For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original.',
+				'iminify-image-optimizer'
+			);
+	}
+}
+
+/**
  * What the form sends: the local settings, and the site's while it is connected.
  *
  * @param {boolean} connected Whether the site is connected.
@@ -319,11 +345,19 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 						'iminify-image-optimizer'
 					) }
 					value={ local.delivery }
+					help={ deliveryHelp( local.delivery ) }
 					options={ [
 						{
 							value: 'picture',
 							label: __(
 								'Serve them with picture tags',
+								'iminify-image-optimizer'
+							),
+						},
+						{
+							value: 'page',
+							label: __(
+								'Serve them on the whole page',
 								'iminify-image-optimizer'
 							),
 						},

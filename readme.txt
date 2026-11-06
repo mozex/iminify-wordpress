@@ -25,9 +25,9 @@ Administrators reach the settings, the bulk page and the other folders (on a net
 
 On a multisite network, activate the plugin for the network and a super admin connects the whole network once, under Network Admin, Settings, Iminify. Each site then joins by itself the first time it needs Iminify, with a key of its own, and keeps its own settings, bulk page and backups. A site can connect to an account of its own instead, and a site disconnected on its own page stays out until someone presses Join the network there. Turning the plugin off for the network, or deleting it, does it on every site.
 
-The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
+The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. For images WordPress doesn't print itself, such as those in raw HTML, a page builder's or a theme's own markup, and the folders you chose, the settings offer to serve the copies on the whole page: each page is read as it's sent, which takes a little longer on a page your cache hasn't kept (on a network, the folders' copies show on the main site's pages). With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
-WooCommerce's product galleries keep their zoom, lightbox and variation images with the picture tags. With WP Offload Media serving your library from a bucket, the copies go up with each image and are served from the bucket as well, whether it keeps the files on the server too (its default) or removes them ("Remove Local Media"). With them removed, only the file the plugin needs (the image's original, or the file WordPress makes a new size from) comes back to the server, for as long as that takes. Once a bulk run ends, or an image is restored, the plugin empties the page caches of LiteSpeed Cache, WP Rocket, W3 Total Cache and Cloudflare's plugin, so no cached page keeps pointing at a copy that has gone.
+WooCommerce's product galleries keep their zoom, lightbox and variation images with the picture tags. With WP Offload Media serving your library from a bucket, the copies go up with each image and are served from the bucket as well, whether it keeps the files on the server too (its default) or removes them ("Remove Local Media"). With them removed, only the file the plugin needs (the image's original, or the file WordPress makes a new size from) comes back to the server, for as long as that takes. Once a bulk run ends, an image is restored, or an update replaces a theme or plugin holding a folder you chose, the plugin empties the page caches of LiteSpeed Cache, WP Rocket, W3 Total Cache and Cloudflare's plugin, so no cached page keeps pointing at a copy that has gone.
 
 When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
 
@@ -37,7 +37,7 @@ Where WordPress sends over cURL, as nearly every host does, originals go to Imin
 
 = For developers =
 
-The plugin has fourteen hooks:
+The plugin has fifteen hooks:
 
 * `iminify_capability` (filter): the capability each part asks for.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
@@ -45,6 +45,7 @@ The plugin has fourteen hooks:
 * `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
 * `iminify_stream_source` (filter): return false to read an original into memory rather than stream it, for a host whose proxy breaks a streamed upload.
 * `iminify_purge_caches` (filter): return false to keep the page caches as they are after a bulk run or a restore; it gets `bulk`, `restore` or `uninstall`.
+* `iminify_page_buffer` (filter): return false to leave a page as WordPress printed it when "Serve them on the whole page" is chosen in the settings.
 * `iminify_image_optimized` (action): an image's files were written.
 * `iminify_image_restored` (action): an image's original is back.
 * `iminify_file_optimized` (action): a file in another folder was written, with its path in wp-content.

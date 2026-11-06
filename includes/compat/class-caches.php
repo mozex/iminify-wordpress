@@ -53,6 +53,7 @@ class Caches {
 		add_action( 'iminify_bulk_paused', array( self::class, 'run_held' ) );
 		add_action( 'iminify_image_restored', array( self::class, 'copies_gone' ) );
 		add_action( 'iminify_copies_deleted', array( self::class, 'copies_gone' ) );
+		add_action( 'iminify_file_restored', array( self::class, 'copies_gone' ) );
 	}
 
 	/**
@@ -78,15 +79,16 @@ class Caches {
 	}
 
 	/**
-	 * An image's WebP and AVIF copies are gone. During a bulk restore the run's
+	 * An image's WebP and AVIF copies are gone, or a file's in another folder,
+	 * which the whole-page mode names in a page. During a bulk restore the run's
 	 * end empties the caches; otherwise the end of this request does, once,
 	 * however many images it put back.
 	 */
 	public static function copies_gone(): void {
 		$run = Bulk::run();
 
-		/* Only a running restore run puts images back by the hundred; a restore during any other run (an optimize waiting out a spent day) or a paused one purges now. */
-		if ( null !== $run && Bulk::RESTORE === $run['action'] && Bulk::LIBRARY === $run['scope'] && Bulk::RUNNING === $run['status'] ) {
+		/* Only a running restore run puts images back by the hundred, the library's or the folders'; a restore during any other run (an optimize waiting out a spent day) or a paused one purges now. */
+		if ( null !== $run && Bulk::RESTORE === $run['action'] && Bulk::RUNNING === $run['status'] ) {
 			update_option( self::OWED, 1, false );
 
 			return;

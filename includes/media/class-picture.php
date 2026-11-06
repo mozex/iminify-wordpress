@@ -37,7 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Core filters the same markup more than once (a block theme's template runs the
  * content filter over posts already filtered), so a wrapped `<img>` carries a
  * marker and is never wrapped again, and neither is one already inside a
- * `<picture>` someone wrote.
+ * `<picture>` someone wrote. With picture tags across the whole page, the
+ * images these filters don't reach are wrapped the same way (`wrap()`,
+ * `wrap_with()`) from the page as it is sent (`Delivery\Buffer`).
  */
 class Picture {
 
@@ -135,14 +137,16 @@ class Picture {
 	}
 
 	/**
-	 * Whether this request's pages get `<picture>` markup: the delivery setting,
-	 * and never on a wp-admin screen (the media screens print attachment images
-	 * too), in a feed or on an AMP page, which allows no `<picture>` of this kind.
-	 * An admin-ajax answer is wrapped, since a theme's front-end requests (more
-	 * posts, a search) come through it, so wp-admin's own AJAX answers are too.
+	 * Whether this request's pages get `<picture>` markup: the delivery setting
+	 * (picture tags, or picture tags over the whole page, which keeps these
+	 * filters and adds `Delivery\Buffer` for what they miss), and never on a
+	 * wp-admin screen (the media screens print attachment images too), in a feed
+	 * or on an AMP page, which allows no `<picture>` of this kind. An admin-ajax
+	 * answer is wrapped, since a theme's front-end requests (more posts, a
+	 * search) come through it, so wp-admin's own AJAX answers are too.
 	 */
 	public static function serves(): bool {
-		if ( Local_Settings::DELIVERY_PICTURE !== Local_Settings::get()['delivery'] ) {
+		if ( ! in_array( Local_Settings::get()['delivery'], array( Local_Settings::DELIVERY_PICTURE, Local_Settings::DELIVERY_PAGE ), true ) ) {
 			return false;
 		}
 
@@ -165,20 +169,62 @@ class Picture {
 	}
 
 	/**
-	 * An `<img>` tag wrapped in a `<picture>` with a source per format it has
-	 * copies in, or as it came when it has none.
+	 * An attachment's `<img>` tag wrapped in a `<picture>` with a source per
+	 * format it has copies in, or as it came when it has none.
 	 *
 	 * @param string $tag        The `<img>` tag.
 	 * @param int    $attachment The attachment's id.
 	 */
-	protected static function wrap( string $tag, int $attachment ): string {
-		if ( 0 !== stripos( ltrim( $tag ), '<img' ) || false !== stripos( $tag, self::MARKER ) || false !== stripos( $tag, '<picture' ) ) {
+	public static function wrap( string $tag, int $attachment ): string {
+		if ( ! self::wrappable( $tag ) ) {
 			return $tag;
 		}
 
 		$copies = self::copies( $attachment );
 
 		if ( array() === $copies ) {
+			return $tag;
+		}
+
+		return self::wrap_with(
+			$tag,
+			$copies,
+			static function ( array $candidates ) use ( $attachment ): array {
+				return self::files( $candidates, $attachment );
+			}
+		);
+	}
+
+	/**
+	 * Whether an attachment has copies `<picture>` can serve.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function has_copies( int $attachment ): bool {
+		return array() !== self::copies( $attachment );
+	}
+
+	/**
+	 * Whether an `<img>` tag may be wrapped: one tag, not marked, and in no `<picture>` of its own.
+	 *
+	 * @param string $tag The markup.
+	 */
+	public static function wrappable( string $tag ): bool {
+		return 0 === stripos( ltrim( $tag ), '<img' ) && false === stripos( $tag, self::MARKER ) && false === stripos( $tag, '<picture' );
+	}
+
+	/**
+	 * An `<img>` tag wrapped in a `<picture>` whose sources take the copies its
+	 * candidates' files have, or as it came when none has one: the markup for an
+	 * attachment's image (`wrap()`), and for a file in another folder, whose
+	 * copies its row proves (`Delivery\Buffer`).
+	 *
+	 * @param string                                                                       $tag     The `<img>` tag.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies  The copies by the path of the file they stand beside, then by format.
+	 * @param callable(list<array{0: string, 1: string}>): list<array{file: string, bucket: bool}|null> $resolve Maps the `<img>`'s candidates to their files, as `files()` does.
+	 */
+	public static function wrap_with( string $tag, array $copies, callable $resolve ): string {
+		if ( ! self::wrappable( $tag ) || array() === $copies ) {
 			return $tag;
 		}
 
@@ -198,7 +244,7 @@ class Picture {
 			$candidates = is_string( $src ) && '' !== $src ? array( array( $src, '' ) ) : array();
 		}
 
-		$files   = self::files( $candidates, $attachment );
+		$files   = $resolve( $candidates );
 		$sources = '';
 
 		foreach ( array_keys( self::FORMATS ) as $format ) {
@@ -431,7 +477,7 @@ class Picture {
 	 * @param string $srcset The attribute's value.
 	 * @return list<array{0: string, 1: string}>
 	 */
-	protected static function candidates( string $srcset ): array {
+	public static function candidates( string $srcset ): array {
 		$candidates = array();
 		$length     = strlen( $srcset );
 		$position   = 0;
@@ -465,9 +511,27 @@ class Picture {
 	 *
 	 * @param string $url An image's address.
 	 */
-	protected static function uploaded_file( string $url ): ?string {
-		$base = self::bare( (string) wp_get_upload_dir()['baseurl'] );
+	public static function uploaded_file( string $url ): ?string {
+		return self::file_under( $url, (string) wp_get_upload_dir()['baseurl'] );
+	}
+
+	/**
+	 * The path, relative to a folder, of the file an address names, or null for
+	 * an address outside the folder's address. An address with no host
+	 * (`/wp-content/uploads/photo.jpg`) is this site's, so it is compared with the
+	 * folder's path alone.
+	 *
+	 * @param string $url    An image's address.
+	 * @param string $folder The folder's address.
+	 */
+	public static function file_under( string $url, string $folder ): ?string {
+		$base = self::bare( $folder );
 		$bare = self::bare( substr( $url, 0, strcspn( $url, '?#' ) ) );
+
+		if ( '/' === substr( $bare, 0, 1 ) && '/' !== substr( $bare, 1, 1 ) ) {
+			$path = wp_parse_url( $base, PHP_URL_PATH );
+			$base = is_string( $path ) ? $path : '';
+		}
 
 		if ( '' === $base || 0 !== strpos( $bare, trailingslashit( $base ) ) ) {
 			return null;

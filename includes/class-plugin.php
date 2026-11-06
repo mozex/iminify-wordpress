@@ -22,6 +22,7 @@ use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Compat\Caches;
 use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Compat\Woocommerce;
+use Iminify\WordPress\Delivery\Buffer;
 use Iminify\WordPress\Folders\Hooks as Folder_Hooks;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Picture;
@@ -47,6 +48,7 @@ class Plugin {
 		Hooks::register();
 		Folder_Hooks::register();
 		Picture::register();
+		Buffer::register();
 		Caches::register();
 		Offload_Media::register();
 		Woocommerce::register();

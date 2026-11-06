@@ -8,12 +8,13 @@
  *   connect    stores the fixtures' site key
  *   state      sets the stub's state from the JSON given (`approved`, `spent`, `settings`)
  *   calls      prints the calls the stub answered, as JSON
- *   optimized  adds an image the plugin optimized, with WebP copies, and a post showing it; prints their ids and the post's address
+ *   optimized  adds an image the plugin optimized, with WebP copies, a post showing it and one showing it in raw HTML; prints its id and the posts' addresses
  *   paused     marks the image given in the JSON (`{"id": N}`) as waiting for the next batch, with the pause a refusal starts
  *   record     prints the record of the image given in the JSON
  *   fresh      adds images the plugin hasn't handled (`{"count": N}`, 2 by default); prints their ids
  *   folder     makes a folder in wp-content with images the plugin hasn't handled (`{"count": N}`, 2 by default); prints its path there
  *   files      prints the rows of the files in the chosen folders, as JSON
+ *   folder-optimized  chooses a folder in wp-content with an image whose WebP copy its row records as the plugin's, and a post showing it in raw HTML; prints the post's address
  *
  * @package Iminify\WordPress
  */
@@ -160,6 +161,48 @@ switch ( $command ) {
 ';
 		break;
 
+	case 'folder-optimized':
+		$e2e_folder = WP_CONTENT_DIR . '/iminify-e2e-folder';
+		wp_mkdir_p( $e2e_folder );
+
+		$canvas = imagecreatetruecolor( 640, 400 );
+		imagefill( $canvas, 0, 0, (int) imagecolorallocate( $canvas, 30, 160, 90 ) );
+		imagejpeg( $canvas, $e2e_folder . '/theme.jpg', 90 );
+		imagewebp( $canvas, $e2e_folder . '/theme.jpg.webp', 80 );
+		clearstatcache();
+
+		Folders::add( 'iminify-e2e-folder' );
+		Scanner::start();
+		Scanner::finish();
+
+		$e2e_rows = Table::by_paths( array( 'iminify-e2e-folder/theme.jpg' ) );
+		Table::update(
+			(int) $e2e_rows['iminify-e2e-folder/theme.jpg']['id'],
+			array(
+				'status' => Records::OPTIMIZED,
+				'copies' => array(
+					'iminify-e2e-folder/theme.jpg.webp' => array(
+						'for'       => 'iminify-e2e-folder/theme.jpg',
+						'format'    => 'webp',
+						'bytes'     => (int) filesize( $e2e_folder . '/theme.jpg.webp' ),
+						'origin'    => Records::ORIGIN,
+						'for_bytes' => (int) filesize( $e2e_folder . '/theme.jpg' ),
+					),
+				),
+			)
+		);
+
+		$showing = wp_insert_post(
+			array(
+				'post_title'   => 'Iminify e2e folder',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:html --><div class="theme-art"><img src="' . esc_url( content_url( 'iminify-e2e-folder/theme.jpg' ) ) . '" alt=""></div><!-- /wp:html -->',
+			)
+		);
+
+		echo wp_json_encode( array( 'post' => get_permalink( $showing ) ) ) . "\n";
+		break;
+
 	case 'optimized':
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -251,10 +294,20 @@ switch ( $command ) {
 			)
 		);
 
+		/* The same image in raw HTML, as a page builder writes it: no class names its attachment. */
+		$raw = wp_insert_post(
+			array(
+				'post_title'   => 'Iminify e2e raw',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:html --><div class="builder"><img src="' . esc_url( $url ) . '" alt=""></div><!-- /wp:html -->',
+			)
+		);
+
 		echo wp_json_encode(
 			array(
 				'id'   => $attachment,
 				'post' => get_permalink( $showing ),
+				'raw'  => get_permalink( $raw ),
 			)
 		) . "\n";
 		break;

@@ -7,8 +7,10 @@
 
 namespace Iminify\WordPress\Folders;
 
+use Iminify\WordPress\Compat\Caches;
 use Iminify\WordPress\Media\Optimizer as Media_Optimizer;
 use Iminify\WordPress\Media\Records;
+use WP_Upgrader;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -202,10 +204,13 @@ class Scanner {
 	 * @param mixed $options  What it did: another plugin can call the action with anything.
 	 */
 	public static function after_update( $upgrader, $options ): void {
-		unset( $upgrader );
-
 		if ( ! is_array( $options ) || ! in_array( $options['type'] ?? '', array( 'theme', 'plugin' ), true ) || array() === Folders::listed() || ! function_exists( 'as_schedule_single_action' ) ) {
 			return;
+		}
+
+		/* An update replaces the theme's or the plugin's folder whole, the copies beside its images with it, which a cached page of the whole-page mode names. */
+		if ( self::replaced_listed( $upgrader, $options ) ) {
+			Caches::copies_gone();
 		}
 
 		self::start();
@@ -213,6 +218,46 @@ class Scanner {
 		if ( ! Media_Optimizer::pending( self::HOOK, array() ) ) {
 			as_schedule_single_action( time() + 30, self::HOOK, array(), Media_Optimizer::GROUP );
 		}
+	}
+
+	/**
+	 * Whether an update replaced a chosen folder, or the folder a chosen one lies
+	 * in: the updated themes by their slugs, the plugins by their main files, and
+	 * an upload that replaced one by the folder it went to.
+	 *
+	 * @param mixed                $upgrader The upgrader.
+	 * @param array<string, mixed> $options  What it did.
+	 */
+	protected static function replaced_listed( $upgrader, array $options ): bool {
+		$paths = array();
+
+		foreach ( array_merge( (array) ( $options['themes'] ?? array() ), (array) ( $options['theme'] ?? array() ) ) as $theme ) {
+			if ( is_string( $theme ) && '' !== $theme ) {
+				$paths[] = get_theme_root( $theme ) . '/' . $theme;
+			}
+		}
+
+		foreach ( array_merge( (array) ( $options['plugins'] ?? array() ), (array) ( $options['plugin'] ?? array() ) ) as $plugin ) {
+			if ( is_string( $plugin ) && '' !== $plugin && '.' !== dirname( $plugin ) ) {
+				$paths[] = WP_PLUGIN_DIR . '/' . dirname( $plugin );
+			}
+		}
+
+		if ( $upgrader instanceof WP_Upgrader && is_array( $upgrader->result ) ) {
+			$paths[] = $upgrader->result['destination'];
+		}
+
+		foreach ( $paths as $path ) {
+			$replaced = Folders::relative( $path );
+
+			foreach ( null === $replaced ? array() : Folders::listed() as $folder ) {
+				if ( 0 === strpos( $folder . '/', $replaced . '/' ) || 0 === strpos( $replaced . '/', $folder . '/' ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

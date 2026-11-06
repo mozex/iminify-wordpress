@@ -191,32 +191,61 @@ class Shared {
 		foreach ( $attachments as $attachment ) {
 			$file = get_post_meta( (int) $attachment, '_wp_attached_file', true );
 
-			if ( is_string( $file ) && '' !== $file && ! isset( self::$named[ get_current_blog_id() . ':' . $file ] ) ) {
-				$files[ $file ] = array();
+			if ( is_string( $file ) && '' !== $file ) {
+				$files[] = $file;
 			}
 		}
 
-		if ( array() === $files ) {
-			return;
-		}
+		self::named( $files );
+	}
 
-		global $wpdb;
+	/**
+	 * The attachments, by id in order, that name each of these files exactly,
+	 * asking the database in one query about those this request hasn't asked
+	 * about yet: a page's whole-page buffer (`Delivery\Buffer`) finds every image
+	 * it names this way.
+	 *
+	 * @param list<string> $files Files relative to the uploads folder.
+	 * @return array<string, list<int>>
+	 */
+	public static function named( array $files ): array {
+		$blog = get_current_blog_id();
+		$ask  = array();
 
-		$placeholders = implode( ', ', array_fill( 0, count( $files ), '%s' ) );
-		$values       = array_merge( array( '_wp_attached_file', 'attachment' ), array_map( 'strval', array_keys( $files ) ) );
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- one lookup for a page of images, kept for the request; one placeholder per file, built above.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT meta.post_id, meta.meta_value FROM {$wpdb->postmeta} AS meta INNER JOIN {$wpdb->posts} AS posts ON posts.ID = meta.post_id WHERE meta.meta_key = %s AND posts.post_type = %s AND meta.meta_value IN ({$placeholders}) ORDER BY meta.post_id", $values ), ARRAY_A );
-
-		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
-			if ( isset( $files[ (string) $row['meta_value'] ] ) ) {
-				$files[ (string) $row['meta_value'] ][] = (int) $row['post_id'];
+		foreach ( $files as $file ) {
+			if ( '' !== $file && ! isset( self::$named[ $blog . ':' . $file ] ) ) {
+				$ask[ $file ] = array();
 			}
 		}
 
-		foreach ( $files as $file => $ids ) {
-			self::$named[ get_current_blog_id() . ':' . $file ] = $ids;
+		if ( array() !== $ask ) {
+			global $wpdb;
+
+			$placeholders = implode( ', ', array_fill( 0, count( $ask ), '%s' ) );
+			$values       = array_merge( array( '_wp_attached_file', 'attachment' ), array_map( 'strval', array_keys( $ask ) ) );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- one lookup for a page of images, kept for the request; one placeholder per file, built above.
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT meta.post_id, meta.meta_value FROM {$wpdb->postmeta} AS meta INNER JOIN {$wpdb->posts} AS posts ON posts.ID = meta.post_id WHERE meta.meta_key = %s AND posts.post_type = %s AND meta.meta_value IN ({$placeholders}) ORDER BY meta.post_id", $values ), ARRAY_A );
+
+			/* The column ignores case and accents, so only the exact name counts. */
+			foreach ( is_array( $rows ) ? $rows : array() as $row ) {
+				if ( isset( $ask[ (string) $row['meta_value'] ] ) ) {
+					$ask[ (string) $row['meta_value'] ][] = (int) $row['post_id'];
+				}
+			}
+
+			foreach ( $ask as $file => $ids ) {
+				self::$named[ $blog . ':' . $file ] = $ids;
+			}
 		}
+
+		$named = array();
+
+		foreach ( $files as $file ) {
+			$named[ $file ] = self::$named[ $blog . ':' . $file ] ?? array();
+		}
+
+		return $named;
 	}
 
 	/**

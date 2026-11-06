@@ -17,6 +17,7 @@ parameters:
         - tests/bootstrap-integration.php
         - tests/e2e
         - tests/Support/Wp_Cli_Stub.php
+        - tests/Support/Copies_Fixture.php
     bootstrapFiles:
         - tests/phpstan/bootstrap.php
     scanFiles:
