@@ -38,11 +38,11 @@ class Caches {
 	const OWED = 'iminify_purge_owed';
 
 	/**
-	 * Whether this request already asked for a purge at its end.
+	 * Why this request asked for a purge at its end, or null while it hasn't.
 	 *
-	 * @var bool
+	 * @var string|null
 	 */
-	protected static $pending = false;
+	protected static $pending = null;
 
 	/**
 	 * Hooks the purges in.
@@ -94,11 +94,20 @@ class Caches {
 			return;
 		}
 
-		if ( self::$pending ) {
+		self::later( 'restore' );
+	}
+
+	/**
+	 * Empties the caches once, at the end of this request.
+	 *
+	 * @param string $why Why, as `purge()` names it.
+	 */
+	public static function later( string $why ): void {
+		if ( null !== self::$pending ) {
 			return;
 		}
 
-		self::$pending = true;
+		self::$pending = $why;
 		add_action( 'shutdown', array( self::class, 'at_shutdown' ) );
 	}
 
@@ -108,26 +117,27 @@ class Caches {
 	public static function at_shutdown(): void {
 		remove_action( 'shutdown', array( self::class, 'at_shutdown' ) );
 
-		if ( ! self::$pending ) {
+		if ( null === self::$pending ) {
 			return;
 		}
 
-		self::$pending = false;
-		self::purge( 'restore' );
+		$why           = self::$pending;
+		self::$pending = null;
+		self::purge( $why );
 	}
 
 	/**
 	 * Tells each cache plugin the site runs to empty itself, on the site this
 	 * request is on.
 	 *
-	 * @param string $why `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies.
+	 * @param string $why `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed.
 	 */
 	public static function purge( string $why ): void {
 		/**
 		 * Whether to empty the site's page caches after the plugin changed its images.
 		 *
 		 * @param bool   $purge Whether to purge. Default true.
-		 * @param string $why   `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies.
+		 * @param string $why   `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed.
 		 */
 		if ( ! apply_filters( 'iminify_purge_caches', true, $why ) ) {
 			return;

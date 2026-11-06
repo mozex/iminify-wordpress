@@ -35,6 +35,54 @@ class Copies {
 	}
 
 	/**
+	 * Deletes the plugin's own copies of an attachment whose file beside them has
+	 * changed since they were made (its bytes on the disk are no longer the
+	 * `for_bytes` written with the copy), and forgets them; the copies of every
+	 * other file stay. A copy whose file isn't on the disk (it may be only in WP
+	 * Offload Media's bucket) is left as it is. Run while the site serves through
+	 * the server's rules (`Delivery\Rules`), which can't ask the record.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return int How many copies it forgot.
+	 */
+	public static function delete_stale( int $attachment ): int {
+		$record = Records::get( $attachment );
+		$stale  = array();
+
+		foreach ( self::own( $record['copies'] ) as $copy => $about ) {
+			$for = isset( $about['for'] ) ? (string) $about['for'] : '';
+
+			if ( '' === $for || ! isset( $about['for_bytes'] ) || null === Paths::relative( Paths::absolute( $for ) ) || null === Paths::relative( Paths::absolute( (string) $copy ) ) ) {
+				continue;
+			}
+
+			$beside = Paths::absolute( $for );
+
+			clearstatcache( true, $beside );
+
+			if ( ! is_file( $beside ) || (int) filesize( $beside ) === (int) $about['for_bytes'] ) {
+				continue;
+			}
+
+			$path = Paths::absolute( (string) $copy );
+
+			clearstatcache( true, $path );
+
+			if ( is_file( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 ) ) {
+				wp_delete_file( $path );
+			}
+
+			$stale[ $copy ] = true;
+		}
+
+		if ( array() !== $stale ) {
+			Records::update( $attachment, array( 'copies' => array_diff_key( $record['copies'], $stale ) ) );
+		}
+
+		return count( $stale );
+	}
+
+	/**
 	 * Deletes the plugin's own copies of an attachment, and forgets them.
 	 *
 	 * @param int $attachment The attachment's id.

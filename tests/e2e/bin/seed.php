@@ -16,11 +16,17 @@
  *   files      prints the rows of the files in the chosen folders, as JSON
  *   folder-optimized  chooses a folder in wp-content with an image whose WebP copy its row records as the plugin's, and a post showing it in raw HTML; prints the post's address
  *   translated  makes a translation of the image given (`{"id": N}`) as Polylang does, and a post showing it; prints its id, its holder and the post's address
+ *   rules-lock  takes the write away from the site's .htaccess, so the settings page can't write the rules; prints the file's path
+ *   rules-write  gives the write back and has the plugin sync the rules, as WP-CLI can write the file; prints where they stand and the file's text
+ *   rules-file  prints the site's .htaccess, after Action Scheduler's start (which puts the rules back once the plugin is turned on again)
+ *   replace    writes another picture over the main file of the image given (`{"id": N}`) and saves its new size, as Enable Media Replace does; prints the file's bytes
+ *   outside    makes a folder in wp-content that isn't chosen, with an image and a WebP copy beside it; prints the image's address
  *   backgrounds  gives the image given (`{"id": N}`) AVIF copies where the server writes AVIF, and adds a post with a background in an inline style and one in a style element; prints the post's address, the image's two addresses and whether AVIF was written
  *
  * @package Iminify\WordPress
  */
 
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
@@ -56,7 +62,18 @@ switch ( $command ) {
 		delete_option( Bulk::OPTION );
 		delete_option( Folders::OPTION );
 		delete_option( Scanner::OPTION );
+		delete_option( Rules::CHECK_OPTION );
 		Table::drop();
+
+		if ( is_file( (string) Rules::file() ) ) {
+			chmod( (string) Rules::file(), 0644 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_chmod -- a test that took the write away gives it back.
+		}
+
+		Rules::remove();
+
+		foreach ( array( 'iminify-e2e-outside/out.jpg', 'iminify-e2e-outside/out.jpg.webp' ) as $e2e_outside ) {
+			wp_delete_file( WP_CONTENT_DIR . '/' . $e2e_outside );
+		}
 
 		$e2e_folder = WP_CONTENT_DIR . '/iminify-e2e-folder';
 
@@ -343,6 +360,57 @@ switch ( $command ) {
 				'post'   => get_permalink( $showing ),
 			)
 		) . "\n";
+		break;
+
+	case 'rules-lock':
+		chmod( (string) Rules::file(), 0444 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_chmod -- a file the web server can't write.
+		echo wp_json_encode( array( 'file' => Rules::file() ) ) . "\n";
+		break;
+
+	case 'rules-write':
+		chmod( (string) Rules::file(), 0644 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_chmod -- given back.
+		clearstatcache();
+		Rules::sync();
+		echo wp_json_encode(
+			array(
+				'where' => Rules::where(),
+				'text'  => (string) file_get_contents( (string) Rules::file() ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- the site's own file.
+			)
+		) . "\n";
+		break;
+
+	case 'rules-file':
+		/* Read through core, since the plugin may be off. */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- the site's own file.
+		echo wp_json_encode( array( 'text' => (string) file_get_contents( get_home_path() . '.htaccess' ) ) ) . "\n";
+		break;
+
+	case 'replace':
+		$e2e_of   = (int) ( $given['id'] ?? 0 );
+		$e2e_main = (string) get_attached_file( $e2e_of );
+		$canvas   = imagecreatetruecolor( 1600, 1000 );
+		imagefill( $canvas, 0, 0, (int) imagecolorallocate( $canvas, 220, 60, 40 ) );
+		imagejpeg( $canvas, $e2e_main, 70 );
+		clearstatcache( true, $e2e_main );
+
+		$e2e_metadata             = wp_get_attachment_metadata( $e2e_of );
+		$e2e_metadata['filesize'] = (int) filesize( $e2e_main );
+		wp_update_attachment_metadata( $e2e_of, $e2e_metadata );
+
+		echo wp_json_encode( array( 'bytes' => (int) filesize( $e2e_main ) ) ) . "\n";
+		break;
+
+	case 'outside':
+		$e2e_folder = WP_CONTENT_DIR . '/iminify-e2e-outside';
+		wp_mkdir_p( $e2e_folder );
+
+		$canvas = imagecreatetruecolor( 320, 200 );
+		imagefill( $canvas, 0, 0, (int) imagecolorallocate( $canvas, 90, 30, 160 ) );
+		imagejpeg( $canvas, $e2e_folder . '/out.jpg', 90 );
+		imagewebp( $canvas, $e2e_folder . '/out.jpg.webp', 80 );
+
+		echo wp_json_encode( array( 'url' => content_url( 'iminify-e2e-outside/out.jpg' ) ) ) . "\n";
 		break;
 
 	case 'backgrounds':

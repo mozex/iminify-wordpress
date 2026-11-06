@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Folders;
 
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Media\Paths;
 use WP_Error;
 
@@ -300,6 +301,9 @@ class Folders {
 		Table::create();
 		update_option( self::OPTION, array_merge( $kept, array( $folder ) ), false );
 
+		/* The server's rules name the chosen folders. */
+		Rules::sync();
+
 		return $folder;
 	}
 
@@ -317,6 +321,7 @@ class Folders {
 		}
 
 		update_option( self::OPTION, array_values( array_diff( $listed, array( $folder ) ) ), false );
+		Rules::sync();
 
 		return true;
 	}

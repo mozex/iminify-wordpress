@@ -36,6 +36,12 @@ class Local_Settings {
 	const DELIVERY_OFF = 'off';
 
 	/**
+	 * The pages stay as they are and the server sends a copy in place of the image
+	 * itself, through rules of its own (`Delivery\Rules`).
+	 */
+	const DELIVERY_RULES = 'rules';
+
+	/**
 	 * Registers the option with its sanitizer, so every write goes through it.
 	 */
 	public static function register(): void {
@@ -73,7 +79,7 @@ class Local_Settings {
 	 * @return list<string>
 	 */
 	public static function deliveries(): array {
-		return array( self::DELIVERY_PICTURE, self::DELIVERY_PAGE, self::DELIVERY_OFF );
+		return array( self::DELIVERY_PICTURE, self::DELIVERY_PAGE, self::DELIVERY_RULES, self::DELIVERY_OFF );
 	}
 
 	/**

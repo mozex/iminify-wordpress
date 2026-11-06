@@ -10,6 +10,7 @@ namespace Iminify\WordPress\Admin;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Queue;
@@ -43,8 +44,22 @@ class State {
 		/* After the read above, which may have started or ended the pause. */
 		$state['queue'] = Queue::summary();
 		$state['disk']  = array( 'low' => ! Disk::has_room_for( 0 ) );
+		$state['rules'] = Rules::active() ? self::rules() : null;
 
 		return $state;
+	}
+
+	/**
+	 * The server's rules as the page shows them, with the time of the last look
+	 * at them in the site's timezone.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected static function rules(): array {
+		$rules            = Rules::state();
+		$rules['checked'] = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $rules['checked'] );
+
+		return $rules;
 	}
 
 	/**

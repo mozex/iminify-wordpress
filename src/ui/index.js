@@ -456,12 +456,13 @@ export function Ring( { value, label, caption } ) {
 }
 
 /**
- * A shell command with a button that copies it.
+ * A shell command, or lines to paste into a file, with a button that copies it.
  *
- * @param {Object} props         The component's props.
- * @param {string} props.command The command.
+ * @param {Object}  props         The component's props.
+ * @param {string}  props.command The command or the lines.
+ * @param {boolean} props.block   Whether it is lines to keep as they are.
  */
-export function CodeCopy( { command } ) {
+export function CodeCopy( { command, block = false } ) {
 	const [ copied, setCopied ] = useState( false );
 
 	const copy = () => {
@@ -472,7 +473,11 @@ export function CodeCopy( { command } ) {
 	};
 
 	return (
-		<div className="iminify-code">
+		<div
+			className={
+				block ? 'iminify-code iminify-code--block' : 'iminify-code'
+			}
+		>
 			{ /* A shell command reads left to right in every language. */ }
 			<code dir="ltr">{ command }</code>
 			{ window.navigator.clipboard && (

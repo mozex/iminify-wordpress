@@ -100,7 +100,7 @@ class Loopback {
 	 *
 	 * @param string $url The address.
 	 */
-	protected static function is_own( string $url ): bool {
+	public static function is_own( string $url ): bool {
 		$host = wp_parse_url( $url, PHP_URL_HOST );
 
 		return is_string( $host ) && strtolower( $host ) === strtolower( (string) wp_parse_url( site_url(), PHP_URL_HOST ) );

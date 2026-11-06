@@ -8,6 +8,8 @@
 namespace Iminify\WordPress\Folders;
 
 use Iminify\WordPress\Compat\Caches;
+use Iminify\WordPress\Delivery\Rules;
+use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Optimizer as Media_Optimizer;
 use Iminify\WordPress\Media\Records;
 use WP_Upgrader;
@@ -354,6 +356,12 @@ class Scanner {
 
 			if ( isset( $changes['generation'] ) ) {
 				++$counted['changed'];
+
+				/* The server's rules serve any copy beside a file, so one made for its old bytes goes now. */
+				if ( Rules::active() && array() !== Copies::own( $row['copies'] ) ) {
+					Restorer::delete_copies( $row );
+					$changes['copies'] = array_diff_key( $row['copies'], Copies::own( $row['copies'] ) );
+				}
 			}
 
 			Table::update( (int) $row['id'], array_merge( $changes, array( 'seen' => $mark ) ) );

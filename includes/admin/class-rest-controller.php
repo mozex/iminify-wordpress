@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
@@ -240,6 +241,12 @@ class Rest_Controller {
 
 		if ( is_array( $local ) ) {
 			Local_Settings::update( $local );
+
+			/* Saving again is how someone asks for the rules to be written and looked at once more, once their file can take them. */
+			if ( Rules::active() ) {
+				Rules::sync( true );
+				Rules::check();
+			}
 		}
 
 		if ( is_array( $site ) && array() !== array_intersect_key( $site, array_flip( self::SITE_SETTINGS ) ) ) {

@@ -286,6 +286,22 @@ class Records {
 	}
 
 	/**
+	 * A page of the attachments the plugin keeps a record of, in the order of their ids.
+	 *
+	 * @param int $after The id to start after.
+	 * @param int $limit How many.
+	 * @return list<int>
+	 */
+	public static function recorded( int $after, int $limit ): array {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a background read by the meta_key index.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id > %d ORDER BY post_id ASC LIMIT %d", self::META, $after, $limit ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
 	 * How many attachments have one of these statuses.
 	 *
 	 * @param list<string> $statuses The statuses.

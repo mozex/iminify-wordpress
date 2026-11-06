@@ -11,6 +11,7 @@ use Iminify\WordPress\Admin\Bulk_State;
 use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Compat\Caches;
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
 use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
@@ -79,6 +80,7 @@ class Lifecycle {
 		Network::JOIN_OPTION,
 		Network::LOCK_OPTION,
 		Caches::OWED,
+		Rules::CHECK_OPTION,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -97,6 +99,7 @@ class Lifecycle {
 		Folder_Optimizer::CHECK_HOOK,
 		Folder_Optimizer::RESUME_HOOK,
 		Scanner::HOOK,
+		Rules::SWEEP_HOOK,
 	);
 
 	/**
@@ -196,6 +199,13 @@ class Lifecycle {
 		if ( null !== $run && Bulk::PAUSED === $run['status'] && 'deactivated' === $run['reason'] ) {
 			Bulk::resume();
 		}
+
+		/* Turning the plugin off took the server's rules out; a site serving through them gets them back, and its images changed meanwhile lose their copies. */
+		Rules::sync();
+
+		if ( Rules::active() ) {
+			Rules::start_sweep();
+		}
 	}
 
 	/**
@@ -226,6 +236,9 @@ class Lifecycle {
 	 */
 	protected static function deactivate_site(): void {
 		( new Connection( Plugin::keys() ) )->cancel();
+
+		/* A copy the rules would serve while the plugin is off is no longer taken away when its file changes. */
+		Rules::remove();
 
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
 			Bulk::pause( 'deactivated' );
@@ -293,6 +306,7 @@ class Lifecycle {
 		$settings = Local_Settings::get();
 
 		self::revoke();
+		Rules::remove();
 
 		if ( Folders::available() ) {
 			self::delete_folder_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
@@ -415,7 +429,7 @@ class Lifecycle {
 		$after = 0;
 
 		do {
-			$ids = self::recorded( $after );
+			$ids = Records::recorded( $after, 200 );
 
 			foreach ( $ids as $id ) {
 				if ( $copies ) {
@@ -480,21 +494,6 @@ class Lifecycle {
 				}
 			}
 		} while ( array() !== $ids );
-	}
-
-	/**
-	 * A page of the attachments the plugin keeps a record of.
-	 *
-	 * @param int $after The id to start after.
-	 * @return list<int>
-	 */
-	protected static function recorded( int $after ): array {
-		global $wpdb;
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a one-off read while the plugin is deleted, by the meta_key index.
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id > %d ORDER BY post_id ASC LIMIT 200", Records::META, $after ) );
-
-		return array_values( array_map( 'intval', $ids ) );
 	}
 
 	/**

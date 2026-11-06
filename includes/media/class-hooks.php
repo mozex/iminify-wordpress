@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -141,7 +142,16 @@ class Hooks {
 		}
 
 		/* A regeneration that skipped every existing size (Regenerate Thumbnails' default) left the files as they were. */
-		if ( Writer::$writing === $attachment || Records::unchanged( $attachment ) || ! Optimizer::is_optimizable( $attachment ) ) {
+		if ( Writer::$writing === $attachment || Records::unchanged( $attachment ) ) {
+			return;
+		}
+
+		/* The server's rules serve any copy beside a file, so one that no longer stands for its file goes now, whatever happens to the image next. */
+		if ( Rules::active() ) {
+			Copies::delete_stale( $attachment );
+		}
+
+		if ( ! Optimizer::is_optimizable( $attachment ) ) {
 			return;
 		}
 

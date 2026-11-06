@@ -13,6 +13,7 @@ import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { Button, Panel, PanelTitle } from '../ui';
+import RulesPanel from './rules';
 
 /**
  * A number field's value as the service takes it: a whole number, or null when empty.
@@ -58,6 +59,11 @@ function deliveryHelp( delivery ) {
 		case 'page':
 			return __(
 				"Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer.",
+				'iminify-image-optimizer'
+			);
+		case 'rules':
+			return __(
+				'Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format.',
 				'iminify-image-optimizer'
 			);
 		case 'off':
@@ -362,6 +368,13 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 							),
 						},
 						{
+							value: 'rules',
+							label: __(
+								'Serve them through server rules',
+								'iminify-image-optimizer'
+							),
+						},
+						{
 							value: 'off',
 							label: __(
 								"Don't change the pages",
@@ -375,6 +388,10 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 						setLocal( { ...local, delivery } )
 					}
 				/>
+				{ /* What the server holds: the rules' state follows a saved choice. */ }
+				{ 'rules' === local.delivery &&
+					'rules' === state.local.delivery &&
+					state.rules && <RulesPanel rules={ state.rules } /> }
 				<fieldset className="iminify-fieldset iminify-box">
 					<legend className="iminify-sr">
 						{ __(

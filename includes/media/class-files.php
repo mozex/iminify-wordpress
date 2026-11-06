@@ -49,6 +49,28 @@ class Files {
 	}
 
 	/**
+	 * Writes a small file of the plugin's own in one step (the look at the
+	 * server's rules, `Delivery\Rules::check()`).
+	 *
+	 * @param string $path  The file.
+	 * @param string $bytes What it holds.
+	 */
+	public static function put( string $path, string $bytes ): bool {
+		return null !== self::replace(
+			$path,
+			static function ( string $temporary ) use ( $bytes ): ?int {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- a temporary file of the plugin's own, renamed into place.
+				$written = file_put_contents( $temporary, $bytes );
+
+				return false === $written ? null : $written;
+			},
+			static function (): bool {
+				return true;
+			}
+		);
+	}
+
+	/**
 	 * Copies a file in one step, through a temporary file beside the copy.
 	 *
 	 * @param string $from The file to copy.

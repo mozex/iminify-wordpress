@@ -391,6 +391,23 @@
 	}
 }
 
+/* Lines to paste into a file: kept as they are, scrolled sideways rather than wrapped. */
+.iminify-code--block {
+	align-items: flex-start;
+
+	code {
+		white-space: pre;
+		overflow-x: auto;
+		overflow-wrap: normal;
+	}
+}
+
+.iminify-ui .iminify-code code {
+	padding: 0;
+	border-radius: 0;
+	background: none;
+}
+
 .iminify-spinner {
 	display: inline-block;
 	width: 14px;

@@ -28,6 +28,22 @@
 		margin-top: 0;
 	}
 
+	.iminify-rules {
+		display: grid;
+		gap: 12px;
+		margin: -6px 0 18px;
+
+		.iminify-text {
+			margin: 0;
+		}
+	}
+
+	.iminify-rules__part {
+		display: grid;
+		gap: 8px;
+		min-width: 0;
+	}
+
 	code {
 		padding: 1px 5px;
 		border-radius: 5px;
