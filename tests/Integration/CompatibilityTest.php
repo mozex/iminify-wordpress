@@ -163,7 +163,7 @@ class CompatibilityTest extends WP_UnitTestCase {
 			wp_scripts()->do_item( Woocommerce::HANDLE );
 			$printed = (string) ob_get_clean();
 
-			$this->assertMatchesRegularExpression( '#<script(?=[^>]*\ssrc="https://example\.org/add-to-cart-variation\.js)(?=[^>]*\sdefer[\s>])[^>]*>#', $printed );
+			$this->assertMatchesRegularExpression( '#<script(?=[^>]*\ssrc="https://example\.org/add-to-cart-variation\.js)(?=[^>]*\sdefer[\s>=])[^>]*>#', $printed );
 		} finally {
 			wp_deregister_script( Woocommerce::HANDLE );
 			Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_PICTURE ) );

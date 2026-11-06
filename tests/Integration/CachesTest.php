@@ -22,6 +22,8 @@ class CachesTest extends WP_UnitTestCase {
 
 	public function set_up(): void {
 		parent::set_up();
+		/* A test before this one may have restored an image outside a run, leaving a purge owed to a request that never ends here. */
+		Caches::at_shutdown();
 		$GLOBALS['iminify_test_purged'] = array();
 		$GLOBALS['cloudflareHooks']     = new class() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Cloudflare's plugin's own global.
 			/**
