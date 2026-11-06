@@ -91,10 +91,16 @@ class CssTest extends TestCase {
 			Css::rewrite( 'background: url(/u/he\\(ro.jpg), image-set(url(/u/x.jpg) 1x), url(/u/hero.jpg)', array( $this, 'copies' ) )
 		);
 
-		/* A copy only stands for its own declaration: one ended by a brace, or one with a declaration between, still gains its copy. */
-		foreach ( array( '.a{background:url(/u/hero.jpg);}.b{background:image-set(url(/u/x.jpg) 1x)}', 'background:url(/u/hero.jpg)}background:image-set(url(/u/x.jpg) 1x)' ) as $css ) {
+		/* A copy only stands for its own declaration: one ended by a brace, one with a declaration between, or one of another property still gains its copy. */
+		foreach ( array( '.a{background:url(/u/hero.jpg);}.b{background:image-set(url(/u/x.jpg) 1x)}', 'background:url(/u/hero.jpg)}background:image-set(url(/u/x.jpg) 1x)', 'background:url(/u/hero.jpg);background-image:image-set(url(/u/x.jpg) 1x)' ) as $css ) {
 			$this->assertStringContainsString( 'background:url(/u/hero.jpg); background:' . self::AVIF, Css::rewrite( $css, array( $this, 'copies' ) ), $css );
 		}
+
+		/* An escaped parenthesis inside a function ends no function. */
+		$this->assertSame(
+			'background: paint(\\() , url(/u/hero.jpg); background: paint(\\() , ' . self::AVIF . 'url(/u/hero.jpg) type("image/jpeg"))',
+			Css::rewrite( 'background: paint(\\() , url(/u/hero.jpg)', array( $this, 'copies' ) )
+		);
 
 		/* What it adds, read again (a page an editor saved back with it), gains nothing more. */
 		$once = Css::rewrite( '.a{background:url(/u/hero.jpg) center}.b{background-image:url(/u/hero.jpg)}', array( $this, 'copies' ) );
