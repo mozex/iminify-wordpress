@@ -88,6 +88,9 @@ const PATHS = {
 		</>
 	),
 	queue: <path d="M5 7h14M5 12h14M5 17h9" />,
+	folder: (
+		<path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" />
+	),
 	sliders: (
 		<>
 			<path d="M5 7h8M17 7h2M5 17h2M11 17h8" />

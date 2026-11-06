@@ -56,6 +56,11 @@ class Bulk_Controller {
 					'enum'    => array( Bulk::BACKGROUND, Bulk::PAGE ),
 					'default' => Bulk::BACKGROUND,
 				),
+				'scope'  => array(
+					'type'    => 'string',
+					'enum'    => array( Bulk::LIBRARY, Bulk::FOLDERS ),
+					'default' => Bulk::LIBRARY,
+				),
 			)
 		);
 		$this->route( '/pause', WP_REST_Server::CREATABLE, 'pause' );
@@ -99,7 +104,14 @@ class Bulk_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function start( WP_REST_Request $request ) {
-		$run = Bulk::start( (string) $request->get_param( 'action' ), (string) $request->get_param( 'mode' ) );
+		$scope = (string) $request->get_param( 'scope' );
+
+		/* The files in other folders are the site's themes and plugins, which may ask more of a person than the library. */
+		if ( Bulk::FOLDERS === $scope && ! Capabilities::can( Capabilities::FOLDERS ) ) {
+			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to do that.', 'iminify-image-optimizer' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		$run = Bulk::start( (string) $request->get_param( 'action' ), (string) $request->get_param( 'mode' ), null, $scope );
 
 		if ( is_wp_error( $run ) ) {
 			return new WP_Error( (string) $run->get_error_code(), Messages::for_error( $run ), array( 'status' => 409 ) );

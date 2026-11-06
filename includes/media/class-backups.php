@@ -15,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * The original an attachment's group is made from, copied under
- * `uploads/iminify-backup/` at the same path before the group is opened: it is
+ * `uploads/iminify-backup/` at the same path before the group is opened (a file
+ * in another folder under `uploads/iminify-backup-folders/`, at its path in
+ * `wp-content`): it is
  * what a restore puts back and what a later group is made from. On by default
  * (the backups setting). A backup that can't be made stops the optimization, with
  * nothing counted: the plugin never writes over an image someone asked it to keep
@@ -33,19 +35,20 @@ class Backups {
 	 * Backs up a source, unless an identical backup is already kept.
 	 *
 	 * @param string       $path     The file to keep.
-	 * @param string       $relative The path it stands for, relative to the uploads folder.
-	 * @param list<string> $backups  The attachment's backups, relative to the uploads folder.
-	 * @return list<string>|WP_Error The attachment's backups with this one, or the reason it couldn't be kept.
+	 * @param string       $relative The path it stands for, relative to the uploads folder (to `wp-content` for another folder's file).
+	 * @param list<string> $backups  The image's backups, relative to the uploads folder.
+	 * @param string       $folder   The backup folder: one of `Paths::BACKUP_FOLDERS`.
+	 * @return list<string>|WP_Error The image's backups with this one, or the reason it couldn't be kept.
 	 */
-	public static function keep( string $path, string $relative, array $backups ) {
-		$backup  = Paths::backup( $relative );
-		$backups = self::retire( $path, $relative, $backups );
+	public static function keep( string $path, string $relative, array $backups, string $folder = Paths::BACKUP_FOLDER ) {
+		$backup  = Paths::backup( $relative, $folder );
+		$backups = self::retire( $path, $relative, $backups, $folder );
 
 		if ( is_wp_error( $backups ) ) {
 			return $backups;
 		}
 
-		self::guard();
+		self::guard( $folder );
 
 		if ( ! is_file( $backup ) && ! Files::copy( $path, $backup ) ) {
 			return new WP_Error( 'backup_failed', __( 'The backup of this image couldn\'t be saved, so it wasn\'t optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings.', 'iminify-image-optimizer' ) );
@@ -62,12 +65,13 @@ class Backups {
 	 * picture, and a restore would put the old one over it.
 	 *
 	 * @param string       $path     The source.
-	 * @param string       $relative The path it stands for, relative to the uploads folder.
-	 * @param list<string> $backups  The attachment's backups, relative to the uploads folder.
-	 * @return list<string>|WP_Error The attachment's backups, or the reason a stale one couldn't be moved aside.
+	 * @param string       $relative The path it stands for, relative to the uploads folder (to `wp-content` for another folder's file).
+	 * @param list<string> $backups  The image's backups, relative to the uploads folder.
+	 * @param string       $folder   The backup folder: one of `Paths::BACKUP_FOLDERS`.
+	 * @return list<string>|WP_Error The image's backups, or the reason a stale one couldn't be moved aside.
 	 */
-	public static function retire( string $path, string $relative, array $backups ) {
-		$backup = Paths::backup( $relative );
+	public static function retire( string $path, string $relative, array $backups, string $folder = Paths::BACKUP_FOLDER ) {
+		$backup = Paths::backup( $relative, $folder );
 
 		if ( ! is_file( $backup ) || self::same( $path, $backup ) ) {
 			return $backups;
@@ -85,30 +89,37 @@ class Backups {
 	}
 
 	/**
-	 * Deletes the backups an attachment's record names, all of them under the backups folder.
+	 * Deletes the backups a record names, each only under one of the backup folders.
 	 *
 	 * @param list<string> $backups Backups relative to the uploads folder.
 	 */
 	public static function forget( array $backups ): void {
-		$folder = Paths::BACKUP_FOLDER . '/';
-
 		foreach ( $backups as $backup ) {
-			if ( 0 === strpos( $backup, $folder ) && false === strpos( $backup, '..' ) ) {
-				wp_delete_file( Paths::absolute( $backup ) );
+			if ( false !== strpos( $backup, '..' ) ) {
+				continue;
+			}
+
+			foreach ( Paths::BACKUP_FOLDERS as $folder ) {
+				if ( 0 === strpos( $backup, $folder . '/' ) ) {
+					wp_delete_file( Paths::absolute( $backup ) );
+					break;
+				}
 			}
 		}
 	}
 
 	/**
-	 * Removes the backups folder once it holds nothing but empty folders and the
-	 * index file the plugin put there; anything else in it keeps the folder, and
-	 * its index file with it.
+	 * Removes the backup folders once each holds nothing but empty folders and the
+	 * index file the plugin put there; anything else in one keeps it, and its index
+	 * file with it.
 	 */
 	public static function remove_folder(): void {
-		$root = Paths::uploads() . '/' . Paths::BACKUP_FOLDER;
+		foreach ( Paths::BACKUP_FOLDERS as $folder ) {
+			$root = Paths::uploads() . '/' . $folder;
 
-		if ( is_dir( $root ) && ! is_link( $root ) ) {
-			self::prune( $root, $root );
+			if ( is_dir( $root ) && ! is_link( $root ) ) {
+				self::prune( $root, $root );
+			}
 		}
 	}
 
@@ -182,10 +193,12 @@ class Backups {
 	}
 
 	/**
-	 * An empty index file in the backups folder, so a server that lists folders doesn't list it.
+	 * An empty index file in a backup folder, so a server that lists folders doesn't list it.
+	 *
+	 * @param string $folder One of `Paths::BACKUP_FOLDERS`.
 	 */
-	protected static function guard(): void {
-		$index = Paths::uploads() . '/' . Paths::BACKUP_FOLDER . '/index.php';
+	protected static function guard( string $folder ): void {
+		$index = Paths::uploads() . '/' . $folder . '/index.php';
 
 		if ( ! is_file( $index ) && wp_mkdir_p( dirname( $index ) ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- an empty index file, as WordPress puts in its own folders.

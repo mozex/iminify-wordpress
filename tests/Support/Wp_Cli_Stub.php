@@ -132,7 +132,7 @@ namespace WP_CLI\Utils {
 		unset( $format, $fields );
 
 		foreach ( $items as $item ) {
-			\WP_CLI::$lines[] = array( 'row', $item['item'] . '=' . $item['value'] );
+			\WP_CLI::$lines[] = array( 'row', implode( '=', $item ) );
 		}
 	}
 }

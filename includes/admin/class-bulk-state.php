@@ -8,6 +8,10 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Capabilities;
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Scanner;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Disk;
@@ -61,8 +65,7 @@ class Bulk_State {
 		$counts = Bulk::counts();
 		$saved  = Records::saved();
 		$free   = Disk::free();
-
-		$state = array(
+		$state  = array(
 			'connected' => null !== $keys->get(),
 			'hidden'    => $hidden,
 			'counts'    => $counts,
@@ -74,6 +77,7 @@ class Bulk_State {
 			) : null,
 			'run'       => self::run(),
 			'queue'     => Queue::summary(),
+			'folders'   => self::folders(),
 			'disk'      => array(
 				'low'     => ! Disk::has_room_for( 0 ),
 				'free'    => null === $free ? null : size_format( (int) $free, 1 ),
@@ -134,6 +138,7 @@ class Bulk_State {
 
 		return array(
 			'action'   => $run['action'],
+			'scope'    => $run['scope'],
 			'mode'     => $run['mode'],
 			'status'   => $run['status'],
 			'reason'   => $run['reason'],
@@ -145,6 +150,30 @@ class Bulk_State {
 			'stalled'  => $stalled,
 			'loopback' => $stalled ? self::loopback() : null,
 			'commands' => self::COMMANDS,
+		);
+	}
+
+	/**
+	 * The files in other folders, for the bulk page's panel: null where this site
+	 * lists none (a network's other sites) or the person may not choose them.
+	 *
+	 * @return array{listed: list<string>, counts: array<string, int>, numbers: array<string, string>, saved: array<string, string>|null, scanning: bool, link: string}|null
+	 */
+	protected static function folders(): ?array {
+		if ( ! Folders::available() || ! Capabilities::can( Capabilities::FOLDERS ) ) {
+			return null;
+		}
+
+		$counts = Table::counts();
+		$saved  = Table::saved();
+
+		return array(
+			'listed'   => Folders::listed(),
+			'counts'   => $counts,
+			'numbers'  => array_map( 'number_format_i18n', $counts ),
+			'saved'    => Folders_State::saved( $saved ),
+			'scanning' => Scanner::running(),
+			'link'     => Folders_Page::url(),
 		);
 	}
 

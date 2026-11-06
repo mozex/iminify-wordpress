@@ -8,6 +8,11 @@
 namespace Iminify\WordPress\Media;
 
 use ActionScheduler;
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
+use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
+use Iminify\WordPress\Folders\Scanner;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
@@ -32,6 +37,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * there (`rate_limited`), so new uploads always find room. The service's own number
  * is never written here. While the day is spent (Pause), the site is disconnected
  * or the disk is low, the feeder sends nothing.
+ *
+ * A run takes either the media library or the files in the folders someone
+ * chose (`Folders`), never both: its `scope`. The files go one group each through
+ * their own pipeline (`Folders\Optimizer`), with the same window, hold and lock,
+ * and the window counts the service's work for both, since they share its queue.
  *
  * In the background the feeder is an Action Scheduler action of its own. A host
  * whose cron or loopback requests don't run gets the other mode: the bulk page
@@ -64,6 +74,18 @@ class Bulk {
 	 * Every action a run can have.
 	 */
 	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES );
+
+	/**
+	 * What a run takes: the media library's images, or the files in the chosen folders.
+	 */
+	const LIBRARY = 'library';
+
+	const FOLDERS = 'folders';
+
+	/**
+	 * The actions a run over the chosen folders can have: their files have no sizes, and get every format they lack by being optimized again.
+	 */
+	const FOLDER_ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE );
 
 	/**
 	 * How it runs: on Action Scheduler, or driven by the bulk page while it is open.
@@ -129,12 +151,12 @@ class Bulk {
 	 * The actions the bulk page runs itself, claimed by hook: an image's steps and
 	 * the queue's own, never another plugin's.
 	 */
-	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK );
+	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK, Folder_Optimizer::OPTIMIZE_HOOK, Folder_Optimizer::CHECK_HOOK, Folder_Optimizer::RESUME_HOOK );
 
 	/**
 	 * The run, or null when there has been none.
 	 *
-	 * @return array{action: string, mode: string, status: string, reason: string|null, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
 	 */
 	public static function run(): ?array {
 		$run = get_option( self::OPTION );
@@ -145,6 +167,7 @@ class Bulk {
 
 		return array(
 			'action'  => in_array( $run['action'], self::ACTIONS, true ) ? (string) $run['action'] : self::OPTIMIZE,
+			'scope'   => self::FOLDERS === ( $run['scope'] ?? null ) ? self::FOLDERS : self::LIBRARY,
 			'mode'    => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
 			'status'  => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
 			'reason'  => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
@@ -168,13 +191,25 @@ class Bulk {
 	 * @param string         $action One of ACTIONS.
 	 * @param string         $mode   BACKGROUND or PAGE.
 	 * @param list<int>|null $only   The images to take, or null for the whole library.
+	 * @param string         $scope  LIBRARY or FOLDERS.
 	 * @return array<string, mixed>|WP_Error The run.
 	 */
-	public static function start( string $action, string $mode, ?array $only = null ) {
+	public static function start( string $action, string $mode, ?array $only = null, string $scope = self::LIBRARY ) {
 		$current = self::run();
+		$scope   = self::FOLDERS === $scope ? self::FOLDERS : self::LIBRARY;
 
 		if ( null !== $current && in_array( $current['status'], array( self::RUNNING, self::PAUSED ), true ) ) {
 			return new WP_Error( 'run_active', __( 'A bulk run is already going. Stop it first.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		if ( self::FOLDERS === $scope ) {
+			if ( ! in_array( $action, self::FOLDER_ACTIONS, true ) || null !== $only ) {
+				return new WP_Error( 'invalid_action', __( 'The files in other folders are optimized, sent again or restored, all of them at once.', 'iminify-image-optimizer' ), array( 'status' => 422 ) );
+			}
+
+			if ( Scanner::running() ) {
+				return new WP_Error( 'scan_running', __( 'Iminify is still looking through your folders. Start again once it has finished.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			}
 		}
 
 		if ( self::RESTORE !== $action ) {
@@ -188,7 +223,7 @@ class Bulk {
 		}
 
 		/* What is missing depends on what the site asks for now. */
-		if ( self::is_fill( $action ) ) {
+		if ( self::LIBRARY === $scope && self::is_fill( $action ) ) {
 			$site = Site_Record::fetch();
 
 			if ( is_wp_error( $site ) ) {
@@ -203,14 +238,14 @@ class Bulk {
 		}
 
 		/* An image waiting for what it lacks is still optimized, so restoring takes it too. */
-		if ( self::RESTORE === $action ) {
+		if ( self::LIBRARY === $scope && self::RESTORE === $action ) {
 			self::take_back_fills( $only );
 		}
 
-		$total = self::count_candidates( $action, $only );
+		$total = self::count_candidates( $action, $only, $scope );
 
 		if ( 0 === $total ) {
-			return new WP_Error( 'nothing_to_do', self::nothing_to_do( $action ), array( 'status' => 409 ) );
+			return new WP_Error( 'nothing_to_do', self::nothing_to_do( $action, $scope ), array( 'status' => 409 ) );
 		}
 
 		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
@@ -219,6 +254,7 @@ class Bulk {
 			self::OPTION,
 			array(
 				'action'  => $action,
+				'scope'   => $scope,
 				'mode'    => self::PAGE === $mode ? self::PAGE : self::BACKGROUND,
 				'status'  => self::RUNNING,
 				'reason'  => null,
@@ -310,6 +346,13 @@ class Bulk {
 			++$tries;
 		}
 
+		if ( self::FOLDERS === $run['scope'] ) {
+			self::take_back_files();
+			self::unlock();
+
+			return;
+		}
+
 		$after = 0;
 
 		do {
@@ -336,6 +379,30 @@ class Bulk {
 		} while ( array() !== $ids );
 
 		self::unlock();
+	}
+
+	/**
+	 * Takes back the files a stopped run queued that have no group open yet: each
+	 * reads not optimized again, with nothing counted.
+	 */
+	protected static function take_back_files(): void {
+		$after = 0;
+
+		do {
+			$ids = Table::anywhere( array( Records::QUEUED, Records::PAUSED, Records::PARKED ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+				$row   = Table::get( $id );
+
+				if ( null === $row || Optimizer::BULK !== $row['trigger'] || null !== $row['group'] ) {
+					continue;
+				}
+
+				as_unschedule_all_actions( Folder_Optimizer::OPTIMIZE_HOOK, array( $id, Optimizer::BULK ), Optimizer::GROUP );
+				Folder_Optimizer::stop( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
+			}
+		} while ( array() !== $ids );
 	}
 
 	/**
@@ -468,7 +535,7 @@ class Bulk {
 		self::change(
 			array(
 				'hold'   => time() + $seconds,
-				'window' => max( self::files_per_image(), intdiv( $run['window'], 2 ) ),
+				'window' => max( self::files_per_image( $run['scope'] ), intdiv( $run['window'], 2 ) ),
 			)
 		);
 	}
@@ -522,8 +589,13 @@ class Bulk {
 	 *
 	 * @param string         $action One of ACTIONS.
 	 * @param list<int>|null $only   The images to take, or null for the whole library.
+	 * @param string         $scope  LIBRARY or FOLDERS.
 	 */
-	public static function count_candidates( string $action, ?array $only = null ): int {
+	public static function count_candidates( string $action, ?array $only = null, string $scope = self::LIBRARY ): int {
+		if ( self::FOLDERS === $scope ) {
+			return Table::count_with_status( self::file_statuses( $action ) );
+		}
+
 		if ( null !== $only ) {
 			return count(
 				array_filter(
@@ -558,30 +630,38 @@ class Bulk {
 	 * skipped or on its way. An image someone names (`takes()`) goes whatever it reads
 	 * but optimized or on its way.
 	 *
+	 * A run over the chosen folders takes their files with the status its action
+	 * reads, by row id, and passes over one the service can't take.
+	 *
 	 * @param string         $action One of ACTIONS.
 	 * @param int            $limit  How many at most.
 	 * @param int            $after  The id to start after.
 	 * @param list<int>|null $only   The images to take, or null for the whole library.
+	 * @param string         $scope  LIBRARY or FOLDERS.
 	 * @return array{ids: list<int>, passed: list<int>, cursor: int, exhausted: bool} The images to send, and those passed over as ones the service can't take, or with nothing to make.
 	 */
-	public static function candidates( string $action, int $limit, int $after, ?array $only = null ): array {
+	public static function candidates( string $action, int $limit, int $after, ?array $only = null, string $scope = self::LIBRARY ): array {
 		$found  = array();
 		$passed = array();
 		$cursor = $after;
+		$files  = self::FOLDERS === $scope;
 
 		do {
-			$ids  = self::next_page( $action, $cursor, $only );
+			$ids  = $files ? Table::with_status( self::file_statuses( $action ), self::PAGE_SIZE, $cursor ) : self::next_page( $action, $cursor, $only );
 			$full = self::PAGE_SIZE === count( $ids );
-			Shared::prime( $ids );
+
+			if ( ! $files ) {
+				Shared::prime( $ids );
+			}
 
 			foreach ( $ids as $id ) {
 				$cursor = $id;
 
-				if ( null !== $only && ! self::takes( $action, $id ) ) {
+				if ( ! $files && null !== $only && ! self::takes( $action, $id ) ) {
 					continue;
 				}
 
-				if ( self::RESTORE === $action || self::can_send( $action, $id ) ) {
+				if ( self::RESTORE === $action || ( $files ? null === Folder_Optimizer::why_not( $id ) : self::can_send( $action, $id ) ) ) {
 					$found[] = $id;
 				} else {
 					$passed[] = $id;
@@ -608,16 +688,19 @@ class Bulk {
 
 	/**
 	 * The files the service makes for one image on the site's settings: the main
-	 * file and each size it sends, in the image's format and each copy's.
+	 * file and each size it sends, in the image's format and each copy's. A file in
+	 * another folder has no sizes.
+	 *
+	 * @param string $scope LIBRARY or FOLDERS.
 	 */
-	public static function files_per_image(): int {
+	public static function files_per_image( string $scope = self::LIBRARY ): int {
 		$site       = Site_Record::cached();
 		$settings   = is_array( $site ) && isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array( 'webp' => true );
 		$registered = array_keys( wp_get_registered_image_subsizes() );
 		$sizes      = isset( $settings['sizes'] ) && is_array( $settings['sizes'] ) ? count( array_intersect( $registered, $settings['sizes'] ) ) : count( $registered );
 		$formats    = 1 + ( empty( $settings['webp'] ) ? 0 : 1 ) + ( empty( $settings['avif'] ) ? 0 : 1 );
 
-		return max( 1, ( 1 + $sizes ) * $formats );
+		return max( 1, ( 1 + ( self::FOLDERS === $scope ? 0 : $sizes ) ) * $formats );
 	}
 
 	/**
@@ -682,17 +765,18 @@ class Bulk {
 		}
 
 		/* An image waiting for the connection means the service refuses this key (a copy at another address, a key it stopped): one window waits, never the library. */
-		if ( Records::count_with_status( array( Records::PARKED ) ) > 0 ) {
+		if ( Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0 ) {
 			return 5 * MINUTE_IN_SECONDS;
 		}
 
-		$per     = self::files_per_image();
-		$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) );
+		$files   = self::FOLDERS === $run['scope'];
+		$per     = self::files_per_image( $run['scope'] );
+		$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) );
 		$room    = max( 1, intdiv( $run['window'], $per ) ) - $working;
 
 		/* The window holds the run back and the service took all of it, so it can hold one image more, once a look. */
 		if ( $room <= 0 ) {
-			if ( 0 === Records::count_with_status( array( Records::QUEUED ) ) && time() - $run['grown'] >= self::TICK ) {
+			if ( 0 === Records::count_with_status( array( Records::QUEUED ) ) + Table::count_anywhere( array( Records::QUEUED ) ) && time() - $run['grown'] >= self::TICK ) {
 				self::change(
 					array(
 						'window' => min( max( self::MAX_FILES, $per ), $run['window'] + $per ),
@@ -704,10 +788,20 @@ class Bulk {
 			return self::TICK;
 		}
 
-		$next  = self::candidates( $run['action'], $room, $run['cursor'], $run['only'] );
+		$next  = self::candidates( $run['action'], $room, $run['cursor'], $run['only'], $run['scope'] );
 		$total = $run['total'];
 
-		foreach ( $next['passed'] as $id ) {
+		foreach ( $files ? $next['passed'] : array() as $id ) {
+			/* A file the service can't take, or one no longer in a chosen folder, is set aside like an image. */
+			$why = Folder_Optimizer::why_not( $id ) ?? array(
+				'code'    => 'unsupported_format',
+				'message' => __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
+			);
+
+			Folder_Optimizer::stop( $id, Records::SKIPPED, $why['code'], $why['message'] );
+		}
+
+		foreach ( $files ? array() : $next['passed'] as $id ) {
 			/* An image the service can't take (a format it doesn't read, a file gone from the disk) is set aside, so the counts and the estimate leave it out. */
 			$why = Optimizer::why_not( $id );
 
@@ -732,6 +826,22 @@ class Bulk {
 		}
 
 		foreach ( $next['ids'] as $id ) {
+			if ( $files ) {
+				/* A failed file sent again starts with its tries counted from nothing. */
+				if ( self::RETRY === $run['action'] ) {
+					Table::update(
+						$id,
+						array(
+							'attempts' => 0,
+							'reopens'  => 0,
+						)
+					);
+				}
+
+				Folder_Optimizer::queue( $id, Optimizer::BULK, 0 );
+				continue;
+			}
+
 			if ( self::is_fill( $run['action'] ) ) {
 				Optimizer::send_for_missing( $id, $run['action'], Optimizer::BULK );
 				continue;
@@ -760,10 +870,12 @@ class Bulk {
 
 		/* Done once nothing is left to send and nothing it sent is still on its way, a wait for the connection included. */
 		if ( $next['exhausted'] && array() === $next['ids'] ) {
-			if ( 0 === Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) ) ) {
+			$on_its_way = $files ? Table::count_anywhere( Table::ON_ITS_WAY ) : Records::count_with_status( array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ) );
+
+			if ( 0 === $on_its_way ) {
 				$changes['status'] = self::DONE;
 			} else {
-				self::heal();
+				self::heal( $files );
 			}
 		}
 
@@ -779,13 +891,30 @@ class Bulk {
 	}
 
 	/**
+	 * The statuses of the files a run of this kind takes.
+	 *
+	 * @param string $action The run's action.
+	 * @return list<string>
+	 */
+	protected static function file_statuses( string $action ): array {
+		switch ( $action ) {
+			case self::RETRY:
+				return array( Records::ERROR );
+			case self::RESTORE:
+				return array( Records::OPTIMIZED );
+			default:
+				return array( Records::NOT_OPTIMIZED );
+		}
+	}
+
+	/**
 	 * Tells whoever listens that a run came to its end.
 	 */
 	protected static function finished(): void {
 		/**
 		 * A bulk run went through every image it had to, and nothing it sent is still on its way.
 		 *
-		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats` or `sizes`), `total`, `sent`, `failed` and `passed`.
+		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats` or `sizes`), `scope` (`library`, or `folders` for the files in other folders), `total`, `sent`, `failed` and `passed`.
 		 */
 		do_action( 'iminify_bulk_finished', (array) self::run() );
 	}
@@ -803,8 +932,24 @@ class Bulk {
 	 * What a run of this kind says when it has nothing to do.
 	 *
 	 * @param string $action The run's action.
+	 * @param string $scope  LIBRARY or FOLDERS.
 	 */
-	protected static function nothing_to_do( string $action ): string {
+	protected static function nothing_to_do( string $action, string $scope ): string {
+		if ( self::FOLDERS === $scope ) {
+			if ( array() === Folders::listed() ) {
+				return __( 'Choose a folder first.', 'iminify-image-optimizer' );
+			}
+
+			switch ( $action ) {
+				case self::RESTORE:
+					return __( 'No optimized file is left to restore in your folders.', 'iminify-image-optimizer' );
+				case self::RETRY:
+					return __( 'No file in your folders failed.', 'iminify-image-optimizer' );
+				default:
+					return __( 'Every file in your folders is already optimized or on its way.', 'iminify-image-optimizer' );
+			}
+		}
+
 		if ( self::RESTORE === $action ) {
 			return __( 'No optimized image is left to restore.', 'iminify-image-optimizer' );
 		}
@@ -913,8 +1058,24 @@ class Bulk {
 	 * its run died with its request (a fatal error, a time limit), and the run
 	 * would wait for it forever. One whose record moved lately may have a run
 	 * under way, which isn't pending, so it is left.
+	 *
+	 * @param bool $files Whether the run takes the chosen folders' files.
 	 */
-	protected static function heal(): void {
+	protected static function heal( bool $files ): void {
+		if ( $files ) {
+			foreach ( Table::anywhere( array( Records::QUEUED, Records::WAITING ), self::PAGE_SIZE ) as $id ) {
+				$row = Table::get( $id );
+
+				if ( null === $row || $row['updated'] > time() - self::STALL_SECONDS || Folder_Optimizer::has_run( $id ) ) {
+					continue;
+				}
+
+				Folder_Optimizer::queue( $id, (string) $row['trigger'], 0 );
+			}
+
+			return;
+		}
+
 		foreach ( Records::with_status( array( Records::QUEUED, Records::WAITING ), self::PAGE_SIZE ) as $id ) {
 			$record = Records::get( $id );
 
@@ -940,7 +1101,7 @@ class Bulk {
 				return null;
 			}
 
-			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'], $run['only'] );
+			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'], $run['only'], $run['scope'] );
 
 			if ( array() === $next['ids'] ) {
 				self::change(
@@ -958,7 +1119,7 @@ class Bulk {
 			$failed = $run['failed'];
 
 			foreach ( $next['ids'] as $id ) {
-				if ( self::restore_one( $id ) ) {
+				if ( self::FOLDERS === $run['scope'] ? self::restore_file( $id ) : self::restore_one( $id ) ) {
 					++$sent;
 				} else {
 					++$failed;
@@ -1009,6 +1170,47 @@ class Bulk {
 					'code'    => Records::RESTORED,
 					'message' => __( 'Restored: the original is back.', 'iminify-image-optimizer' ),
 				),
+			)
+		);
+
+		return true;
+	}
+
+	/**
+	 * Restores one file in a chosen folder. One the service made nothing smaller for is only marked restored.
+	 *
+	 * @param int $id The file's row id.
+	 */
+	protected static function restore_file( int $id ): bool {
+		$row          = Table::get( $id );
+		$availability = null === $row ? Folder_Restorer::GONE : Folder_Restorer::availability( $row );
+
+		if ( Folder_Restorer::AVAILABLE === $availability ) {
+			return true === Folder_Restorer::restore( $id );
+		}
+
+		if ( Folder_Restorer::NOTHING !== $availability ) {
+			$why = Folder_Restorer::refusal( $availability );
+
+			Table::update(
+				$id,
+				array(
+					'error' => array(
+						'code'    => (string) $why->get_error_code(),
+						'message' => $why->get_error_message(),
+					),
+				)
+			);
+
+			return false;
+		}
+
+		Table::update(
+			$id,
+			array(
+				'status' => Records::RESTORED,
+				'result' => null,
+				'error'  => null,
 			)
 		);
 

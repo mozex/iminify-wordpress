@@ -9,6 +9,8 @@ namespace Iminify\WordPress;
 
 use Iminify\WordPress\Admin\Bulk_Controller;
 use Iminify\WordPress\Admin\Bulk_Page;
+use Iminify\WordPress\Admin\Folders_Controller;
+use Iminify\WordPress\Admin\Folders_Page;
 use Iminify\WordPress\Admin\Media_Controller;
 use Iminify\WordPress\Admin\Media_View;
 use Iminify\WordPress\Admin\Notice;
@@ -17,6 +19,7 @@ use Iminify\WordPress\Admin\Rest_Controller;
 use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Api\Upload;
+use Iminify\WordPress\Folders\Hooks as Folder_Hooks;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Picture;
 
@@ -39,6 +42,7 @@ class Plugin {
 		add_action( Connection::CLAIM_HOOK, array( self::class, 'claim_in_background' ) );
 		add_action( 'action_scheduler_init', array( Lifecycle::class, 'resume' ) );
 		Hooks::register();
+		Folder_Hooks::register();
 		Picture::register();
 		Upload::register();
 		Loopback::register();
@@ -48,8 +52,10 @@ class Plugin {
 			add_action( 'admin_init', array( Privacy::class, 'register' ) );
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
 			add_action( 'admin_menu', array( Bulk_Page::class, 'register' ) );
+			add_action( 'admin_menu', array( Folders_Page::class, 'register' ) );
 			add_action( 'admin_enqueue_scripts', array( Settings_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Bulk_Page::class, 'enqueue' ) );
+			add_action( 'admin_enqueue_scripts', array( Folders_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );
 			add_action( 'admin_notices', array( Notice::class, 'render' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'action_links' ) );
@@ -64,6 +70,7 @@ class Plugin {
 		( new Rest_Controller() )->register_routes();
 		( new Media_Controller() )->register_routes();
 		( new Bulk_Controller() )->register_routes();
+		( new Folders_Controller() )->register_routes();
 	}
 
 	/**

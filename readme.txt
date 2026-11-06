@@ -17,9 +17,11 @@ Images already in your library go through Media, Bulk Optimization. It shows how
 
 If you turn AVIF on after optimizing your library, or a theme adds an image size, that page also makes what the optimized images lack. Each one goes again from its original and counts as one more image, and it keeps its other files unless Iminify makes them smaller. The media library shows what each image lacks, with a button for that one image.
 
-For large libraries and hosts whose scheduled tasks don't run, `wp iminify optimize --all` runs the same bulk run from the shell, with a progress bar. `wp help iminify` lists the rest: restore, missing, status, run and stop.
+Images outside the media library, such as your theme's, go through Media, Other Folders. Choose the active theme, its parent, or any folder in wp-content by its path, and the plugin lists the images in it. Each is optimized where it is, keeping its width and height whatever your maximum width says, with its original kept under uploads/iminify-backup-folders. The bulk page optimizes or restores them all in a run of their own. The plugin looks through the folders again after a theme or plugin update, so a changed file reads as not optimized and is never restored over. On a network, the main site chooses the folders for every site.
 
-Administrators reach the settings and the bulk page. Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
+For large libraries and hosts whose scheduled tasks don't run, `wp iminify optimize --all` runs the same bulk run from the shell, with a progress bar, and `wp iminify optimize --folders` does it for the folders you chose with `wp iminify folders add`. `wp help iminify` lists the rest: restore, missing, folders, status, run and stop.
+
+Administrators reach the settings, the bulk page and the other folders (on a network, super admins choose the folders). Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
 
 The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
 
@@ -31,14 +33,17 @@ Where WordPress sends over cURL, as nearly every host does, originals go to Imin
 
 = For developers =
 
-The plugin has seven hooks:
+The plugin has ten hooks:
 
 * `iminify_capability` (filter): the capability each part asks for.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
+* `iminify_optimize_file` (filter): return false to keep a file in another folder from ever being sent; it gets the file's path in wp-content.
 * `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
 * `iminify_stream_source` (filter): return false to read an original into memory rather than stream it, for a host whose proxy breaks a streamed upload.
 * `iminify_image_optimized` (action): an image's files were written.
 * `iminify_image_restored` (action): an image's original is back.
+* `iminify_file_optimized` (action): a file in another folder was written, with its path in wp-content.
+* `iminify_file_restored` (action): a file in another folder has its original back.
 * `iminify_bulk_finished` (action): a bulk run came to its end.
 
 == External services ==
@@ -50,6 +55,7 @@ When you press Connect, your site's server sends Iminify your site's home addres
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes or the server's memory can send), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
+* each image in the folders you choose under Media, Other Folders, with its file name, dimensions and file size, the same way. The folders' paths and the other files in them never leave your site;
 * your site's home address and the plugin's version, with every call;
 * how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;

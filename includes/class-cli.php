@@ -8,6 +8,9 @@
 namespace Iminify\WordPress;
 
 use Iminify\WordPress\Admin\Bulk_State;
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Scanner;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Pause;
@@ -32,6 +35,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  *     # Make the AVIF copies of a library optimized before the site asked for them.
  *     $ wp iminify missing formats
+ *
+ *     # Optimize the images in the active theme's folder.
+ *     $ wp iminify folders add themes/twentytwentyfive
+ *     $ wp iminify optimize --folders
  *
  *     # See where the library and the run stand.
  *     $ wp iminify status
@@ -66,6 +73,9 @@ class Cli {
 	 * [--failed]
 	 * : Send the images that failed again.
 	 *
+	 * [--folders]
+	 * : Optimize the files in the folders chosen with `wp iminify folders` instead of the media library, every one not optimized yet, or with --failed the ones that failed.
+	 *
 	 * [--background]
 	 * : Start the run and return, leaving it to the site's scheduled tasks.
 	 *
@@ -74,6 +84,7 @@ class Cli {
 	 *     $ wp iminify optimize --all
 	 *     $ wp iminify optimize 12 34
 	 *     $ wp iminify optimize --failed
+	 *     $ wp iminify optimize --folders
 	 *
 	 * @param list<string>         $args  The attachments' ids.
 	 * @param array<string, mixed> $assoc The flags.
@@ -81,6 +92,16 @@ class Cli {
 	public function optimize( array $args, array $assoc ): void {
 		$all    = ! empty( $assoc['all'] );
 		$failed = ! empty( $assoc['failed'] );
+
+		if ( ! empty( $assoc['folders'] ) ) {
+			if ( $all || array() !== $args ) {
+				WP_CLI::error( __( 'The folders\' files go all at once: pass --folders alone, or with --failed.', 'iminify-image-optimizer' ) );
+			}
+
+			$this->begin( $failed ? Bulk::RETRY : Bulk::OPTIMIZE, null, $assoc, Bulk::FOLDERS );
+
+			return;
+		}
 
 		if ( (int) $all + (int) $failed + (int) ( array() !== $args ) !== 1 ) {
 			WP_CLI::error( __( 'Name the attachments, or pass --all or --failed.', 'iminify-image-optimizer' ) );
@@ -106,6 +127,9 @@ class Cli {
 	 * [--background]
 	 * : Start the run and return, leaving it to the site's scheduled tasks.
 	 *
+	 * [--folders]
+	 * : Restore every optimized file in the folders chosen with `wp iminify folders` instead of the media library.
+	 *
 	 * [--yes]
 	 * : Don't ask before restoring every image.
 	 *
@@ -113,12 +137,24 @@ class Cli {
 	 *
 	 *     $ wp iminify restore --all --yes
 	 *     $ wp iminify restore 12 34
+	 *     $ wp iminify restore --folders --yes
 	 *
 	 * @param list<string>         $args  The attachments' ids.
 	 * @param array<string, mixed> $assoc The flags.
 	 */
 	public function restore( array $args, array $assoc ): void {
 		$all = ! empty( $assoc['all'] );
+
+		if ( ! empty( $assoc['folders'] ) ) {
+			if ( $all || array() !== $args ) {
+				WP_CLI::error( __( 'The folders\' files go all at once: pass --folders alone.', 'iminify-image-optimizer' ) );
+			}
+
+			WP_CLI::confirm( __( 'Put every optimized file in your folders back as it was?', 'iminify-image-optimizer' ), $assoc );
+			$this->begin( Bulk::RESTORE, null, $assoc, Bulk::FOLDERS );
+
+			return;
+		}
 
 		$named = array() !== $args;
 
@@ -174,6 +210,103 @@ class Cli {
 		}
 
 		$this->begin( $what, array() === $args ? null : $this->ids( $args ), $assoc );
+	}
+
+	/**
+	 * Chooses the folders outside the media library whose images Iminify optimizes, and looks through them.
+	 *
+	 * The active theme, its parent, or any folder inside wp-content, named by its path
+	 * there. The media library's folder, the plugin's own, folders other tools fill with
+	 * copies, caches or backups, and links to other places are refused. A folder is
+	 * looked through when it is added; `scan` looks again for new and changed files,
+	 * as after editing a theme's images by hand.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<action>]
+	 * : What to do.
+	 * ---
+	 * default: list
+	 * options:
+	 *   - list
+	 *   - add
+	 *   - remove
+	 *   - scan
+	 * ---
+	 *
+	 * [<folder>]
+	 * : The folder to add or remove, relative to wp-content.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     $ wp iminify folders add themes/twentytwentyfive
+	 *     $ wp iminify folders scan
+	 *     $ wp iminify folders remove themes/twentytwentyfive
+	 *
+	 * @param list<string>         $args  The action, then the folder.
+	 * @param array<string, mixed> $assoc Unused.
+	 */
+	public function folders( array $args, array $assoc ): void {
+		unset( $assoc );
+
+		$this->check_user( Capabilities::FOLDERS );
+
+		if ( ! Folders::available() ) {
+			WP_CLI::error( __( 'On a network, other folders are chosen on the main site: add --url with its address.', 'iminify-image-optimizer' ) );
+		}
+
+		$action = (string) ( $args[0] ?? 'list' );
+		$folder = (string) ( $args[1] ?? '' );
+
+		if ( in_array( $action, array( 'add', 'remove' ), true ) && '' === $folder ) {
+			WP_CLI::error( __( 'Name the folder, relative to wp-content.', 'iminify-image-optimizer' ) );
+		}
+
+		if ( 'add' === $action ) {
+			$added = Folders::add( $folder );
+
+			if ( is_wp_error( $added ) ) {
+				WP_CLI::error( Messages::for_error( $added ) );
+			}
+
+			Scanner::start( array( $added ) );
+		}
+
+		if ( 'remove' === $action && ! Folders::remove( trim( wp_normalize_path( $folder ), '/' ) ) ) {
+			WP_CLI::error( __( 'That folder isn\'t in the list.', 'iminify-image-optimizer' ) );
+		}
+
+		if ( 'scan' === $action && ! Scanner::running() ) {
+			Scanner::start();
+		}
+
+		if ( in_array( $action, array( 'add', 'scan' ), true ) ) {
+			Scanner::finish();
+
+			$scan = Scanner::state() ?? array(
+				'found'   => 0,
+				'added'   => 0,
+				'changed' => 0,
+			);
+
+			WP_CLI::success(
+				sprintf(
+					/* translators: 1: how many images were found, 2: how many are new, 3: how many changed. */
+					__( 'Found %1$s images: %2$s new, %3$s changed.', 'iminify-image-optimizer' ),
+					number_format_i18n( (int) $scan['found'] ),
+					number_format_i18n( (int) $scan['added'] ),
+					number_format_i18n( (int) $scan['changed'] )
+				)
+			);
+		}
+
+		$items = array();
+
+		foreach ( Folders::listed() as $listed ) {
+			$items[] = array( 'folder' => $listed );
+		}
+
+		WP_CLI\Utils\format_items( 'table', $items, array( 'folder' ) );
 	}
 
 	/**
@@ -277,12 +410,18 @@ class Cli {
 	 * @param string               $action The run's action.
 	 * @param list<int>|null       $only   The images to take, or null for the whole library.
 	 * @param array<string, mixed> $assoc  The flags.
+	 * @param string               $scope  Bulk::LIBRARY or Bulk::FOLDERS.
 	 */
-	protected function begin( string $action, ?array $only, array $assoc ): void {
-		$this->check_user();
+	protected function begin( string $action, ?array $only, array $assoc, string $scope = Bulk::LIBRARY ): void {
+		$this->check_user( Bulk::FOLDERS === $scope ? Capabilities::FOLDERS : Capabilities::BULK );
+
+		/* A run over the folders waits for a look through them that is under way, which the shell can finish here. */
+		if ( Bulk::FOLDERS === $scope && Scanner::running() ) {
+			Scanner::finish();
+		}
 
 		$background = ! empty( $assoc['background'] );
-		$run        = Bulk::start( $action, $background ? Bulk::BACKGROUND : Bulk::PAGE, $only );
+		$run        = Bulk::start( $action, $background ? Bulk::BACKGROUND : Bulk::PAGE, $only, $scope );
 
 		if ( is_wp_error( $run ) ) {
 			WP_CLI::error( Messages::for_error( $run ) );
@@ -334,7 +473,7 @@ class Cli {
 				$shown = $now;
 			}
 
-			$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) );
+			$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) );
 
 			$restore = Bulk::RESTORE === $run['action'];
 
@@ -379,7 +518,7 @@ class Cli {
 	 * Whether the run waits on something no shell should sit through.
 	 */
 	protected function waits_long(): bool {
-		return null !== Pause::until() || null === Plugin::keys()->get() || Records::count_with_status( array( Records::PARKED ) ) > 0;
+		return null !== Pause::until() || null === Plugin::keys()->get() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
 	}
 
 	/**
@@ -449,6 +588,27 @@ class Cli {
 					number_format_i18n( $run['passed'] )
 				)
 			);
+		}
+
+		if ( Bulk::FOLDERS === $run['scope'] ) {
+			$files = Table::counts();
+			$done  = Bulk::RESTORE === $run['action']
+				/* translators: %s: how many files. */
+				? _n( '%s file restored.', '%s files restored.', $run['sent'], 'iminify-image-optimizer' )
+				/* translators: %s: how many files. */
+				: _n( '%s file sent to Iminify.', '%s files sent to Iminify.', $run['sent'], 'iminify-image-optimizer' );
+
+			WP_CLI::success(
+				sprintf( $done, number_format_i18n( $run['sent'] ) ) . ' ' . sprintf(
+					/* translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed. */
+					__( 'Your folders have %1$s of %2$s files optimized, %3$s failed.', 'iminify-image-optimizer' ),
+					number_format_i18n( $files['optimized'] ),
+					number_format_i18n( $files['files'] ),
+					number_format_i18n( $files['failed'] )
+				)
+			);
+
+			return;
 		}
 
 		$counts = Bulk::counts();
@@ -522,10 +682,12 @@ class Cli {
 	/**
 	 * The shell is its own gate, as for `wp action-scheduler run`: whoever has it can
 	 * reach the database. Only an account someone named with `--user` is asked for
-	 * the capability the bulk page asks for.
+	 * the capability the bulk page asks for, or the folders' for a run over them.
+	 *
+	 * @param string $context Capabilities::BULK or Capabilities::FOLDERS.
 	 */
-	protected function check_user(): void {
-		if ( get_current_user_id() > 0 && ! Capabilities::can( Capabilities::BULK ) ) {
+	protected function check_user( string $context = Capabilities::BULK ): void {
+		if ( get_current_user_id() > 0 && ! Capabilities::can( $context ) ) {
 			WP_CLI::error( __( 'This account can\'t run bulk commands.', 'iminify-image-optimizer' ) );
 		}
 	}
@@ -549,8 +711,15 @@ class Cli {
 		$rows['bytes_before'] = (string) $saved['before'];
 		$rows['bytes_after']  = (string) $saved['after'];
 
+		/* The page's state leaves the folders out for a person who can't choose them; the shell is its own gate. */
+		if ( array() !== Folders::listed() ) {
+			foreach ( Table::counts() as $name => $count ) {
+				$rows[ 'folders_' . $name ] = (string) $count;
+			}
+		}
+
 		if ( is_array( $state['run'] ) ) {
-			foreach ( array( 'action', 'mode', 'status', 'reason', 'sent', 'total', 'failed', 'passed' ) as $key ) {
+			foreach ( array( 'action', 'scope', 'mode', 'status', 'reason', 'sent', 'total', 'failed', 'passed' ) as $key ) {
 				$rows[ 'run_' . $key ] = (string) ( $state['run'][ $key ] ?? '' );
 			}
 

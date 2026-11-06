@@ -10,7 +10,6 @@ namespace Iminify\WordPress\Media;
 use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Api\Upload;
-use Iminify\WordPress\Connection;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -334,7 +333,7 @@ class Optimizer {
 	 *
 	 * @param array<string, mixed> $site The site's record.
 	 */
-	protected static function max_source( array $site ): ?int {
+	public static function max_source( array $site ): ?int {
 		$plan = isset( $site['max_file_size'] ) ? (int) $site['max_file_size'] : null;
 		$here = Upload::max_bytes();
 
@@ -795,7 +794,7 @@ class Optimizer {
 	 * @param string               $type   The source's MIME type.
 	 * @return list<string>
 	 */
-	protected static function asked_formats( array $answer, string $type ): array {
+	public static function asked_formats( array $answer, string $type ): array {
 		$asked = array();
 		$own   = array_search( $type, Writer::COPIES, true );
 
@@ -822,53 +821,29 @@ class Optimizer {
 	 * @param list<mixed>   $args       Its arguments.
 	 */
 	protected static function refused( int $attachment, ?WP_Error $error, string $hook, array $args ): void {
-		$code   = null === $error ? 'unexpected_response' : (string) $error->get_error_code();
-		$data   = null === $error ? array() : $error->get_error_data();
-		$data   = is_array( $data ) ? $data : array();
-		$status = (int) ( $data['status'] ?? 0 );
+		$refusal = Refusal::decide( $error, self::OPTIMIZE_HOOK === $hook, Records::get( $attachment )['attempts'] );
 
-		if ( 'unauthenticated' === $code ) {
-			( new Connection() )->revoked_by_service();
-			self::park( $attachment, $code );
+		switch ( $refusal['then'] ) {
+			case Refusal::PARK:
+				self::park( $attachment, $refusal['code'] );
+				return;
+			case Refusal::PAUSE:
+				self::waits_for_batch( $attachment );
+				return;
+			case Refusal::WAIT:
+				/* A bulk group the service turned away for the work already waiting there holds the bulk run back too. */
+				if ( $refusal['throttled'] && self::BULK === Records::get( $attachment )['trigger'] ) {
+					Bulk::throttled( $refusal['seconds'] );
+				}
 
-			return;
+				self::later( $attachment, $hook, $args, $refusal['seconds'], false, $error );
+				return;
+			case Refusal::RETRY:
+				self::later( $attachment, $hook, $args, $refusal['seconds'], true, $error );
+				return;
+			default:
+				self::fail( $attachment, $refusal['code'], $refusal['message'] );
 		}
-
-		if ( in_array( $code, array( 'not_connected', 'site_moved' ), true ) ) {
-			self::park( $attachment, $code );
-
-			return;
-		}
-
-		if ( self::DAILY_LIMIT === $code && self::OPTIMIZE_HOOK === $hook ) {
-			$site = Site_Record::fetch();
-
-			Pause::refused( isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : HOUR_IN_SECONDS, is_array( $site ) && isset( $site['plan'] ) ? (string) $site['plan'] : '' );
-			self::waits_for_batch( $attachment );
-
-			return;
-		}
-
-		if ( 429 === $status ) {
-			$wait = isset( $data['retry_after'] ) ? max( 1, (int) $data['retry_after'] ) : MINUTE_IN_SECONDS;
-
-			/* A bulk group the service turned away for the work already waiting there holds the bulk run back too. */
-			if ( 'rate_limited' === $code && self::OPTIMIZE_HOOK === $hook && self::BULK === Records::get( $attachment )['trigger'] ) {
-				Bulk::throttled( $wait );
-			}
-
-			self::later( $attachment, $hook, $args, $wait, false, $error );
-
-			return;
-		}
-
-		if ( 'unreachable' === $code || $status >= 500 ) {
-			self::later( $attachment, $hook, $args, (int) min( HOUR_IN_SECONDS, MINUTE_IN_SECONDS * pow( 2, Records::get( $attachment )['attempts'] ) ), true, $error );
-
-			return;
-		}
-
-		self::fail( $attachment, $code, null === $error ? __( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ) : $error->get_error_message() );
 	}
 
 	/**

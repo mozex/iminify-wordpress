@@ -253,7 +253,7 @@ class Declaration {
 	 * @param string $type Its MIME type.
 	 * @return array{int, int}|null
 	 */
-	protected static function displayed( string $path, string $type ): ?array {
+	public static function displayed( string $path, string $type ): ?array {
 		$size = wp_getimagesize( $path );
 
 		if ( ! is_array( $size ) || empty( $size[0] ) || empty( $size[1] ) ) {

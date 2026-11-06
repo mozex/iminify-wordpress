@@ -12,10 +12,15 @@
  *   paused     marks the image given in the JSON (`{"id": N}`) as waiting for the next batch, with the pause a refusal starts
  *   record     prints the record of the image given in the JSON
  *   fresh      adds images the plugin hasn't handled (`{"count": N}`, 2 by default); prints their ids
+ *   folder     makes a folder in wp-content with images the plugin hasn't handled (`{"count": N}`, 2 by default); prints its path there
+ *   files      prints the rows of the files in the chosen folders, as JSON
  *
  * @package Iminify\WordPress
  */
 
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Scanner;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Bulk;
@@ -46,6 +51,17 @@ switch ( $command ) {
 		delete_option( 'iminify_pairing' );
 		delete_option( 'iminify_revoked' );
 		delete_option( Bulk::OPTION );
+		delete_option( Folders::OPTION );
+		delete_option( Scanner::OPTION );
+		Table::drop();
+
+		$e2e_folder = WP_CONTENT_DIR . '/iminify-e2e-folder';
+
+		foreach ( is_dir( $e2e_folder ) ? (array) scandir( $e2e_folder ) : array() as $entry ) {
+			if ( is_file( $e2e_folder . '/' . $entry ) ) {
+				wp_delete_file( $e2e_folder . '/' . $entry );
+			}
+		}
 
 		foreach ( get_posts(
 			array(
@@ -123,6 +139,25 @@ switch ( $command ) {
 		}
 
 		echo wp_json_encode( $fresh ) . "\n";
+		break;
+
+	case 'folder':
+		$e2e_folder = WP_CONTENT_DIR . '/iminify-e2e-folder';
+		wp_mkdir_p( $e2e_folder );
+
+		for ( $made = 0; $made < (int) ( $given['count'] ?? 2 ); $made++ ) {
+			$canvas = imagecreatetruecolor( 640, 400 );
+			imagefill( $canvas, 0, 0, (int) imagecolorallocate( $canvas, 200, 60 * $made % 255, 90 ) );
+			imagejpeg( $canvas, $e2e_folder . '/picture-' . $made . '.jpg', 90 );
+		}
+
+		echo 'iminify-e2e-folder
+';
+		break;
+
+	case 'files':
+		echo wp_json_encode( Table::page( null, 1, 100 )['rows'] ) . '
+';
 		break;
 
 	case 'optimized':

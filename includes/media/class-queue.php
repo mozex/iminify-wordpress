@@ -8,6 +8,8 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Admin\State;
+use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
@@ -58,7 +60,9 @@ class Queue {
 
 	/**
 	 * Queues a page of the images waiting, in the order of their ids so a run ends
-	 * however they fare. Those waiting on the next batch stay while it is shut.
+	 * however they fare. Those waiting on the next batch stay while it is shut. The
+	 * first page also sends on the files in other folders, which page themselves
+	 * (`Folders\Optimizer::resume()`).
 	 *
 	 * @param mixed $after The last id a run before this one queued.
 	 */
@@ -76,6 +80,10 @@ class Queue {
 
 		if ( self::PAGE === count( $ids ) ) {
 			as_schedule_single_action( time(), self::RESUME_HOOK, array( (int) end( $ids ) ), Optimizer::GROUP );
+		}
+
+		if ( 0 === (int) $after ) {
+			Folder_Optimizer::resume( 0 );
 		}
 	}
 
@@ -96,7 +104,7 @@ class Queue {
 	public static function connection_back(): void {
 		$statuses = null === Pause::until() ? array( Records::PARKED, Records::PAUSED ) : array( Records::PARKED );
 
-		if ( array() !== Records::with_status( $statuses, 1 ) ) {
+		if ( array() !== Records::with_status( $statuses, 1 ) || array() !== Table::anywhere( $statuses, 1 ) ) {
 			self::resume_soon();
 		}
 	}
@@ -133,18 +141,18 @@ class Queue {
 	}
 
 	/**
-	 * What waits, for the settings page.
+	 * What waits, for the settings page, the files in other folders counted with the images.
 	 *
 	 * @return array{working: int, paused: int, parked: int, next_batch: string|null, can_start: bool}
 	 */
 	public static function summary(): array {
 		$pause  = Pause::current();
-		$paused = Records::count_with_status( array( Records::PAUSED ) );
+		$paused = Records::count_with_status( array( Records::PAUSED ) ) + Table::count_anywhere( array( Records::PAUSED ) );
 
 		return array(
-			'working'    => Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ),
+			'working'    => Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) ),
 			'paused'     => $paused,
-			'parked'     => Records::count_with_status( array( Records::PARKED ) ),
+			'parked'     => Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ),
 			'next_batch' => null === $pause ? null : State::date( gmdate( 'c', $pause['until'] ) ),
 			'can_start'  => $paused > 0 && null !== Plugin::keys()->get() && ( null === $pause || Pause::FROM_SITE !== $pause['from'] ),
 		);

@@ -10,6 +10,11 @@ namespace Iminify\WordPress;
 use Iminify\WordPress\Admin\Bulk_State;
 use Iminify\WordPress\Admin\Notice;
 use Iminify\WordPress\Api\Client;
+use Iminify\WordPress\Folders\Folders;
+use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
+use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
+use Iminify\WordPress\Folders\Scanner;
+use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Copies;
@@ -35,7 +40,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * the backups (the only originals of the images it optimized). Each attachment's
  * record stays while either is kept, since it is the only proof a file is the
  * plugin's output: without it a later install would send an optimized file for a
- * second lossy pass, and take it for the original.
+ * second lossy pass, and take it for the original. The files in other folders
+ * follow the same rule: their table (`Folders\Table`) goes only with their copies
+ * and backups.
  */
 class Lifecycle {
 
@@ -59,6 +66,9 @@ class Lifecycle {
 		Pause::OPTION,
 		Bulk::OPTION,
 		Bulk::LOCK_OPTION,
+		Folders::OPTION,
+		Scanner::OPTION,
+		Scanner::LOCK_OPTION,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -73,6 +83,10 @@ class Lifecycle {
 		Queue::RESUME_HOOK,
 		Bulk::FEED_HOOK,
 		Connection::CLAIM_HOOK,
+		Folder_Optimizer::OPTIMIZE_HOOK,
+		Folder_Optimizer::CHECK_HOOK,
+		Folder_Optimizer::RESUME_HOOK,
+		Scanner::HOOK,
 	);
 
 	/**
@@ -124,6 +138,20 @@ class Lifecycle {
 			}
 		} while ( array() !== $ids );
 
+		$after = 0;
+
+		do {
+			$ids = Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+
+				if ( ! Folder_Optimizer::has_run( $id ) ) {
+					Folder_Optimizer::park( $id, 'deactivated' );
+				}
+			}
+		} while ( array() !== $ids );
+
 		$until = Pause::until();
 
 		if ( null !== $until && ! Optimizer::pending( Queue::OPENS_HOOK, array() ) ) {
@@ -131,6 +159,11 @@ class Lifecycle {
 		}
 
 		Queue::connection_back();
+
+		/* Turning the plugin off unscheduled a scan's next step, and a folders run can't start while one is under way. */
+		if ( Scanner::running() && ! Optimizer::pending( Scanner::HOOK, array() ) ) {
+			as_schedule_single_action( time(), Scanner::HOOK, array(), Optimizer::GROUP );
+		}
 
 		$run = Bulk::run();
 
@@ -161,6 +194,17 @@ class Lifecycle {
 			}
 		} while ( array() !== $ids );
 
+		$after = 0;
+
+		do {
+			$ids = Table::anywhere( array( Records::QUEUED, Records::WAITING ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+				Folder_Optimizer::park( $id, 'deactivated' );
+			}
+		} while ( array() !== $ids );
+
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
 			as_unschedule_all_actions( '', array(), Optimizer::GROUP );
 		}
@@ -182,12 +226,15 @@ class Lifecycle {
 		$settings = Local_Settings::get();
 
 		self::revoke();
+		self::delete_folder_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
 		self::delete_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
 
 		if ( $settings['uninstall_copies'] && $settings['uninstall_backups'] ) {
 			foreach ( self::RECORD_META as $key ) {
 				delete_post_meta_by_key( $key );
 			}
+
+			Table::drop();
 		}
 
 		foreach ( self::OPTIONS as $option ) {
@@ -258,6 +305,42 @@ class Lifecycle {
 		if ( $backups ) {
 			Backups::remove_folder();
 		}
+	}
+
+	/**
+	 * Deletes the copies and the backups of the files in other folders, as the
+	 * person asked; with both, the table goes afterwards (`uninstall()`).
+	 *
+	 * @param bool $copies  Whether to delete the WebP and AVIF copies.
+	 * @param bool $backups Whether to delete the backups.
+	 */
+	protected static function delete_folder_files( bool $copies, bool $backups ): void {
+		if ( ! $copies && ! $backups ) {
+			return;
+		}
+
+		$after = 0;
+
+		do {
+			$ids = Table::ids( $after, 200 );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+				$row   = Table::get( $id );
+
+				if ( null === $row ) {
+					continue;
+				}
+
+				if ( $copies ) {
+					Folder_Restorer::delete_copies( $row );
+				}
+
+				if ( $backups ) {
+					Backups::forget( $row['backups'] );
+				}
+			}
+		} while ( array() !== $ids );
 	}
 
 	/**

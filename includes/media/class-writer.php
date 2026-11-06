@@ -46,7 +46,7 @@ class Writer {
 	);
 
 	/**
-	 * Writes a finished group's files.
+	 * Writes a finished group's files over an attachment's, and saves what it wrote.
 	 *
 	 * @param int                  $attachment The attachment's id.
 	 * @param array<string, mixed> $group      The open group as its record keeps it.
@@ -56,9 +56,48 @@ class Writer {
 	 */
 	public static function write( int $attachment, array $group, array $answer, string $zip ) {
 		$declared = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
+		$record   = Records::get( $attachment );
+		$put      = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads() );
 
+		if ( is_wp_error( $put ) ) {
+			return $put;
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'written' => $put['written'],
+				'copies'  => $put['copies'],
+			)
+		);
+
+		self::save_metadata( $attachment, $declared, $put['outputs'] );
+
+		return array(
+			'outputs' => $put['outputs'],
+			'skipped' => $put['skipped'],
+			'no_room' => $put['no_room'],
+		);
+	}
+
+	/**
+	 * Writes a finished group's files under a root, whose relative paths the
+	 * declared outputs and the record name: the uploads folder for an attachment,
+	 * `wp-content` for a file in another folder (`Folders\Optimizer`). Answers what
+	 * it wrote with the record's `written` and `copies` as they are now; saving
+	 * them is the caller's.
+	 *
+	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared, each `file` relative to the root.
+	 * @param array<string, mixed>                $answer   The group as the service answered it.
+	 * @param string                              $zip      The group's downloaded zip.
+	 * @param array<string, int>                  $written  The record's `written`.
+	 * @param array<string, mixed>                $copies   The record's `copies`.
+	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
+	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
+	 */
+	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root ) {
 		foreach ( $declared as $output ) {
-			$path = Paths::absolute( (string) $output['file'] );
+			$path = Paths::under( $root, (string) $output['file'] );
 			clearstatcache( true, $path );
 
 			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) $output['size'] ) {
@@ -66,16 +105,13 @@ class Writer {
 			}
 		}
 
-		$writes  = self::writes( $declared, $answer );
+		$writes  = self::writes( $declared, $answer, $root );
 		$archive = Zip::open( $zip );
 
 		if ( is_wp_error( $archive ) ) {
 			return $archive;
 		}
 
-		$record  = Records::get( $attachment );
-		$written = $record['written'];
-		$copies  = $record['copies'];
 		$summary = array();
 		$made    = array();
 		$skipped = 0;
@@ -91,9 +127,17 @@ class Writer {
 			);
 		}
 
+		$own = Copies::own( $copies );
+
 		foreach ( $writes as $write ) {
-			$target = Paths::absolute( $write['file'] );
+			$target = Paths::under( $root, $write['file'] );
 			$size   = Zip::size( $archive, $write['entry'] );
+
+			/* A WebP or AVIF of that name another tool made beside the file, or rewrote since the plugin made it, stays its own: written over, it would read as the plugin's and go with a restore. */
+			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_own( $target, $own[ $write['file'] ] ?? null ) ) {
+				++$skipped;
+				continue;
+			}
 
 			if ( null === $size ) {
 				++$skipped;
@@ -149,27 +193,31 @@ class Writer {
 
 		/* The file a copy stands beside, as it is once this group's files are written: `<picture>` serves the copy only while it is unchanged. */
 		foreach ( $made as $copy ) {
-			$beside = Paths::absolute( (string) $copies[ $copy ]['for'] );
+			$beside = Paths::under( $root, (string) $copies[ $copy ]['for'] );
 			clearstatcache( true, $beside );
 
 			$copies[ $copy ]['for_bytes'] = is_file( $beside ) ? (int) filesize( $beside ) : -1;
 		}
 
-		Records::update(
-			$attachment,
-			array(
-				'written' => $written,
-				'copies'  => $copies,
-			)
-		);
-
-		self::save_metadata( $attachment, $declared, $summary );
-
 		return array(
 			'outputs' => $summary,
 			'skipped' => $skipped,
 			'no_room' => $no_room,
+			'written' => $written,
+			'copies'  => $copies,
 		);
+	}
+
+	/**
+	 * Whether a file at a copy's name is the plugin's own copy as it wrote it.
+	 *
+	 * @param string     $path  The file.
+	 * @param mixed|null $about The record's entry for the copy, or null for none.
+	 */
+	protected static function still_own( string $path, $about ): bool {
+		clearstatcache( true, $path );
+
+		return is_array( $about ) && ! is_link( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 );
 	}
 
 	/**
@@ -194,9 +242,10 @@ class Writer {
 	 *
 	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared.
 	 * @param array<string, mixed>                $answer   The group as the service answered it.
+	 * @param string                              $root     The folder the declared files are relative to.
 	 * @return list<array{output: string, format: string, entry: string, file: string, type: string, width: int, height: int}>
 	 */
-	protected static function writes( array $declared, array $answer ): array {
+	protected static function writes( array $declared, array $answer, string $root ): array {
 		$outputs = isset( $answer['outputs'] ) && is_array( $answer['outputs'] ) ? $answer['outputs'] : array();
 		$writes  = array();
 
@@ -214,7 +263,7 @@ class Writer {
 			}
 
 			$file = (string) $declared[ $name ]['file'];
-			$path = Paths::absolute( $file );
+			$path = Paths::under( $root, $file );
 
 			$writes[] = array(
 				'output' => $name,

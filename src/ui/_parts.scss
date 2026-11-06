@@ -434,3 +434,152 @@
 		}
 	}
 }
+
+/* A text field of the design's own, for a screen that needs one beside its buttons. The class twice outweighs core's `input[type="text"]`. */
+.iminify-input.iminify-input {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 36px;
+	margin: 0;
+	padding-block: 6px;
+	padding-inline: 11px;
+	border: 1px solid var(--iminify-z300);
+	border-radius: var(--iminify-radius-small);
+	background: #fff;
+	color: var(--iminify-z900);
+	font-size: 13px;
+	line-height: 1.5;
+	box-shadow: none;
+	transition: border-color var(--iminify-fast) var(--iminify-ease), box-shadow var(--iminify-fast) var(--iminify-ease);
+
+	&:focus {
+		border-color: var(--iminify-focus);
+		outline: 0;
+		box-shadow: 0 0 0 1px var(--iminify-focus);
+	}
+}
+
+.iminify-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+
+	> .iminify-input.iminify-input {
+		flex: 1 1 200px;
+		width: auto;
+	}
+}
+
+/* Filters as a row of buttons, the one showing pressed. */
+.iminify-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 14px;
+	padding: 0;
+	list-style: none;
+}
+
+.iminify-tab {
+	margin: 0;
+	padding-block: 5px;
+	padding-inline: 11px;
+	border: 1px solid var(--iminify-z200);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--iminify-z700);
+	font: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background var(--iminify-fast) var(--iminify-ease), color var(--iminify-fast) var(--iminify-ease);
+
+	&:hover {
+		background: var(--iminify-z50);
+		color: var(--iminify-z900);
+	}
+
+	&:focus-visible {
+		outline: 0;
+		box-shadow: var(--iminify-ring-focus);
+	}
+
+	&[aria-pressed="true"] {
+		border-color: var(--iminify-s200);
+		background: var(--iminify-s50);
+		color: var(--iminify-s700);
+	}
+}
+
+/* A list of files, one row each: its path, what it weighs, where it stands and what it can do. */
+.iminify-files {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--iminify-z100);
+}
+
+.iminify-file {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 6px 14px;
+	align-items: center;
+	margin: 0;
+	padding-block: 12px;
+	border-bottom: 1px solid var(--iminify-z100);
+}
+
+.iminify-file__path {
+	min-width: 0;
+	color: var(--iminify-z900);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.iminify-file__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 12px;
+	align-items: center;
+	grid-column: 1;
+	color: var(--iminify-z500);
+	font-size: 12px;
+}
+
+.iminify-file__why {
+	grid-column: 1 / -1;
+	margin: 0;
+	color: var(--iminify-z600);
+	font-size: 12px;
+}
+
+.iminify-file__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: flex-end;
+	grid-row: 1 / span 2;
+	grid-column: 2;
+}
+
+.iminify-file .iminify-confirm {
+	grid-column: 1 / -1;
+}
+
+/* Previous and next for a long list. */
+.iminify-pager {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 14px;
+	color: var(--iminify-z500);
+	font-size: 12px;
+}
+
+/* A row with nothing under its path, such as a chosen folder, keeps its actions beside the path. */
+.iminify-file--one .iminify-file__actions {
+	grid-row: 1;
+}

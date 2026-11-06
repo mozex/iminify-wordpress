@@ -15,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Someone who can manage the site's options reaches its settings and its bulk run,
  * which spends the account's day for the whole library. Someone who can upload files
  * may optimize and restore an image they can edit, as core asks of editing one, so an
- * author gets their own images and an editor everyone's.
+ * author gets their own images and an editor everyone's. The files in other folders
+ * (`Folders`) are the site's themes and plugins, so they ask what bulk asks, and on
+ * a network, where every site shares them, what managing the network asks.
  */
 class Capabilities {
 
@@ -25,31 +27,36 @@ class Capabilities {
 
 	const MEDIA = 'media';
 
+	const FOLDERS = 'folders';
+
 	const DEFAULTS = array(
 		self::SETTINGS => 'manage_options',
 		self::BULK     => 'manage_options',
 		self::MEDIA    => 'upload_files',
+		self::FOLDERS  => 'manage_options',
 	);
 
 	/**
 	 * The capability a part of the plugin asks for.
 	 *
-	 * @param string $context SETTINGS, BULK or MEDIA.
+	 * @param string $context SETTINGS, BULK, MEDIA or FOLDERS.
 	 */
 	public static function required( string $context ): string {
+		$default = self::FOLDERS === $context && is_multisite() ? 'manage_network_options' : ( self::DEFAULTS[ $context ] ?? 'manage_options' );
+
 		/**
 		 * The capability a part of the plugin asks for.
 		 *
-		 * @param string $capability The capability: `manage_options` for `settings` and `bulk`, `upload_files` for `media`.
-		 * @param string $context    `settings`, `bulk` or `media`.
+		 * @param string $capability The capability: `manage_options` for `settings`, `bulk` and `folders` (`manage_network_options` for `folders` on a network), `upload_files` for `media`.
+		 * @param string $context    `settings`, `bulk`, `media` or `folders`.
 		 */
-		return (string) apply_filters( 'iminify_capability', self::DEFAULTS[ $context ] ?? 'manage_options', $context );
+		return (string) apply_filters( 'iminify_capability', $default, $context );
 	}
 
 	/**
 	 * Whether the person may use a part of the plugin.
 	 *
-	 * @param string $context SETTINGS, BULK or MEDIA.
+	 * @param string $context SETTINGS, BULK, MEDIA or FOLDERS.
 	 */
 	public static function can( string $context ): bool {
 		return current_user_can( self::required( $context ) );

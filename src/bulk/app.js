@@ -29,6 +29,7 @@ import {
 	Icon,
 	Loading,
 	Panel,
+	PanelTitle,
 	ProgressBar,
 	Ring,
 	useAsk,
@@ -150,6 +151,34 @@ export default function App() {
 		};
 	}, [ driving, reading ] );
 
+	const scanning = Boolean( state?.folders?.scanning );
+
+	/* A look through the folders under way blocks their run, so the page walks it on, as their own page does. */
+	useEffect( () => {
+		if ( ! scanning ) {
+			return undefined;
+		}
+
+		let stopped = false;
+		const press = presses.current;
+		const walk = setTimeout( () => {
+			call( '/folders/scan', 'POST', { continue: true } )
+				.then( () => call( '/bulk' ) )
+				.then(
+					( next ) =>
+						! stopped &&
+						press === presses.current &&
+						setState( next )
+				)
+				.catch( () => {} );
+		}, 300 );
+
+		return () => {
+			stopped = true;
+			clearTimeout( walk );
+		};
+	}, [ scanning, state ] );
+
 	if ( null === state ) {
 		return error ? (
 			<ErrorState
@@ -165,7 +194,8 @@ export default function App() {
 	const active =
 		state.run && [ 'running', 'paused' ].includes( state.run.status );
 
-	const start = ( action ) => run( '/bulk/start', 'POST', { action, mode } );
+	const start = ( action, scope = 'library' ) =>
+		run( '/bulk/start', 'POST', { action, mode, scope } );
 
 	return (
 		<>
@@ -218,6 +248,14 @@ export default function App() {
 							state={ state }
 							busy={ busy }
 							onRestore={ () => start( 'restore' ) }
+						/>
+					) }
+					{ ! active && state.folders && (
+						<OtherFolders
+							folders={ state.folders }
+							connected={ state.connected }
+							busy={ busy }
+							onStart={ ( action ) => start( action, 'folders' ) }
 						/>
 					) }
 				</div>
@@ -426,9 +464,16 @@ function chipFor( run, queue ) {
  * What a run does, in a few words, for its heading.
  *
  * @param {string} action The run's action.
+ * @param {string} scope  What it takes: `library`, or `folders` for the images in other folders.
  * @return {string} The words.
  */
-function runTitle( action ) {
+function runTitle( action, scope ) {
+	if ( 'folders' === scope ) {
+		return 'restore' === action
+			? __( 'Restoring other folders', 'iminify-image-optimizer' )
+			: __( 'Optimizing other folders', 'iminify-image-optimizer' );
+	}
+
 	switch ( action ) {
 		case 'restore':
 			return __( 'Restoring', 'iminify-image-optimizer' );
@@ -472,7 +517,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 	return (
 		<Panel>
 			<div className="iminify-panel__head">
-				<h2>{ runTitle( run.action ) }</h2>
+				<h2>{ runTitle( run.action, run.scope ) }</h2>
 				<Chip tone={ chip.tone } icon={ chip.icon } moving={ moving }>
 					{ chip.label }
 				</Chip>
@@ -504,7 +549,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 				value={ percent }
 				moving={ moving }
 				restore={ restore }
-				label={ runTitle( run.action ) }
+				label={ runTitle( run.action, run.scope ) }
 			/>
 			<div className="iminify-progress__row">
 				<span>
@@ -540,16 +585,27 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 				<div className="iminify-status-gap">
 					<Callout>
 						<p>
-							{ sprintf(
-								/* translators: %d: how many images. */
-								_n(
-									"%d image couldn't be restored. Its panel in the media library says why.",
-									"%d images couldn't be restored. Their panels in the media library say why.",
-									run.failed,
-									'iminify-image-optimizer'
-								),
-								run.failed
-							) }
+							{ 'folders' === run.scope
+								? sprintf(
+										/* translators: %d: how many images. */
+										_n(
+											"%d image couldn't be restored. Its row under Media, Other Folders says why.",
+											"%d images couldn't be restored. Their rows under Media, Other Folders say why.",
+											run.failed,
+											'iminify-image-optimizer'
+										),
+										run.failed
+									)
+								: sprintf(
+										/* translators: %d: how many images. */
+										_n(
+											"%d image couldn't be restored. Its panel in the media library says why.",
+											"%d images couldn't be restored. Their panels in the media library say why.",
+											run.failed,
+											'iminify-image-optimizer'
+										),
+										run.failed
+									) }
 						</p>
 					</Callout>
 				</div>
@@ -1262,6 +1318,119 @@ function Estimate( { estimate, links } ) {
 				) }
 			</div>
 		</div>
+	);
+}
+
+/**
+ * The images in other folders, the theme's and any chosen in wp-content: what
+ * they hold, and the runs that optimize or restore them all, which go through
+ * this page's run like the library's. The folders are chosen on their own page.
+ *
+ * @param {Object}                   props           The component's props.
+ * @param {Object}                   props.folders   What the page's state says of them.
+ * @param {boolean}                  props.connected Whether the site is connected.
+ * @param {boolean}                  props.busy      Whether a press is on its way.
+ * @param {(action: string) => void} props.onStart   Starts a run over them.
+ */
+function OtherFolders( { folders, connected, busy, onStart } ) {
+	const { asking, open, close, opener } = useAsk();
+	const { counts, numbers, listed, scanning, link } = folders;
+
+	return (
+		<Panel>
+			<PanelTitle icon="folder">
+				{ __( 'Other folders', 'iminify-image-optimizer' ) }
+			</PanelTitle>
+			{ 0 === listed.length ? (
+				<p className="iminify-text">
+					{ __(
+						'Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) : (
+				<p className="iminify-text">
+					{ sprintf(
+						/* translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet. */
+						_n(
+							'%1$s image in your folders: %2$s optimized, %3$s not yet.',
+							'%1$s images in your folders: %2$s optimized, %3$s not yet.',
+							counts.files,
+							'iminify-image-optimizer'
+						),
+						numbers.files,
+						numbers.optimized,
+						numbers.not_optimized
+					) }
+				</p>
+			) }
+			{ scanning && (
+				<p className="iminify-text">
+					{ __(
+						'Iminify is still looking through them.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) }
+			{ asking ? (
+				<Confirm
+					question={ __(
+						'Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay.',
+						'iminify-image-optimizer'
+					) }
+					yes={ __( 'Restore all', 'iminify-image-optimizer' ) }
+					busy={ busy }
+					onYes={ () => {
+						close();
+						onStart( 'restore' );
+					} }
+					onNo={ close }
+				/>
+			) : (
+				<div className="iminify-actions">
+					{ connected && counts.not_optimized > 0 && (
+						<Button
+							variant="primary"
+							icon="send"
+							disabled={ busy || scanning }
+							onClick={ () => onStart( 'optimize' ) }
+						>
+							{ __( 'Optimize them', 'iminify-image-optimizer' ) }
+						</Button>
+					) }
+					{ connected && counts.failed > 0 && (
+						<Button
+							disabled={ busy || scanning }
+							onClick={ () => onStart( 'retry' ) }
+						>
+							{ __(
+								'Send the failed again',
+								'iminify-image-optimizer'
+							) }
+						</Button>
+					) }
+					{ counts.optimized > 0 && (
+						<Button
+							ref={ opener }
+							icon="restore"
+							disabled={ busy }
+							onClick={ open }
+						>
+							{ __( 'Restore all', 'iminify-image-optimizer' ) }
+						</Button>
+					) }
+					<a className="iminify-btn iminify-btn--ghost" href={ link }>
+						{ 0 === listed.length
+							? __( 'Choose folders', 'iminify-image-optimizer' )
+							: __(
+									'See the images',
+									'iminify-image-optimizer'
+								) }
+						<Icon name="arrow" flip />
+					</a>
+				</div>
+			) }
+		</Panel>
 	);
 }
 
