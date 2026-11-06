@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -85,7 +87,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -103,6 +105,7 @@ class Records {
 			'written'    => isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
 			'copies'     => isset( $record['copies'] ) && is_array( $record['copies'] ) ? $record['copies'] : array(),
 			'backups'    => isset( $record['backups'] ) && is_array( $record['backups'] ) ? array_values( array_map( 'strval', $record['backups'] ) ) : array(),
+			'fetched'    => isset( $record['fetched'] ) && is_array( $record['fetched'] ) ? array_filter( $record['fetched'], 'is_array' ) : array(),
 			'result'     => isset( $record['result'] ) && is_array( $record['result'] ) ? $record['result'] : null,
 			'error'      => isset( $record['error'] ) && is_array( $record['error'] ) ? $record['error'] : null,
 			'attempts'   => isset( $record['attempts'] ) ? (int) $record['attempts'] : 0,
@@ -182,7 +185,8 @@ class Records {
 
 	/**
 	 * Whether the file at a path is one the plugin wrote: its record names the
-	 * path, and the file still has the bytes the plugin wrote there.
+	 * path, and the file still has the bytes the plugin wrote there (for a file
+	 * only in WP Offload Media's bucket, the bytes the metadata gives it).
 	 *
 	 * @param int    $attachment The attachment's id.
 	 * @param string $path       The file's absolute path.
@@ -195,20 +199,14 @@ class Records {
 			return false;
 		}
 
-		/* PHP 7.4 keeps a file's size from before a write in the same run. */
-		clearstatcache( true, $path );
-
-		if ( ! is_file( $path ) ) {
-			return false;
-		}
-
-		return (int) filesize( $path ) === $written[ $relative ];
+		return Offload_Media::bytes( $attachment, $path ) === $written[ $relative ];
 	}
 
 	/**
 	 * Whether an optimized attachment's files are all as its result left them: the
-	 * main file and every size the result accounts for has the bytes it had after,
-	 * so an event that changed none of them (a regeneration that skipped every size
+	 * main file and every size the result accounts for has the bytes it had after
+	 * (read from the metadata for a file only in WP Offload Media's bucket), so an
+	 * event that changed none of them (a regeneration that skipped every size
 	 * it found) has nothing to send. A size the result doesn't name was never sent,
 	 * and what it lacks is `Missing`'s to find.
 	 *
@@ -233,9 +231,7 @@ class Records {
 		}
 
 		foreach ( $files as $name => $path ) {
-			clearstatcache( true, $path );
-
-			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) ( $outputs[ $name ]['after'] ?? -1 ) ) {
+			if ( Offload_Media::bytes( $attachment, $path ) !== (int) ( $outputs[ $name ]['after'] ?? -1 ) ) {
 				return false;
 			}
 		}

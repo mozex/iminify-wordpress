@@ -25,7 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Only copies the attachment's record names as the plugin's own are served, and
  * only while the copy and the file it stands beside still hold the bytes the
  * plugin recorded: never a file that merely sits beside an image, one that is
- * gone, or one left from a picture replaced since.
+ * gone, or one left from a picture replaced since. With WP Offload Media's
+ * "Remove Local Media" on, neither is on the disk: the copy's record says it went
+ * to the bucket with its bytes, and the metadata gives the file's.
  *
  * Each source lists the same candidates as the `<img>`'s `srcset`, so the browser
  * picks the same width it would have; a width with no copy in that format keeps
@@ -54,7 +56,7 @@ class Picture {
 	 * attachment: a page that lists several sites of a network
 	 * (`switch_to_blog()`) asks about attachments that share an id.
 	 *
-	 * @var array<string, array<string, array<string, array{name: string, bucket: bool}>>>
+	 * @var array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>>
 	 */
 	protected static $served = array();
 
@@ -222,11 +224,12 @@ class Picture {
 	/**
 	 * A source's `srcset`: each candidate's copy in that format, or the best it
 	 * has instead, or null when no candidate has a copy in that format. A copy
-	 * WP Offload Media serves from its bucket is served only once it went there.
+	 * WP Offload Media serves from its bucket is served only once it went there,
+	 * and one served from the uploads folder only while it is on the disk.
 	 *
 	 * @param list<array{0: string, 1: string}>                            $candidates The `<img>`'s candidates: each address and its descriptor.
 	 * @param list<array{file: string, bucket: bool}|null>                 $files      Each candidate's file (`files()`).
-	 * @param array<string, array<string, array{name: string, bucket: bool}>> $copies     The copies by the path of the file they stand beside, then by format.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies The copies by the path of the file they stand beside, then by format.
 	 * @param string                                                       $format     The source's format.
 	 */
 	protected static function source_set( array $candidates, array $files, array $copies, string $format ): ?string {
@@ -244,7 +247,7 @@ class Picture {
 				foreach ( $fallbacks as $fallback ) {
 					$about = $copies[ $file['file'] ][ $fallback ] ?? null;
 
-					if ( null !== $about && ( ! $file['bucket'] || $about['bucket'] ) ) {
+					if ( null !== $about && ( $file['bucket'] ? $about['bucket'] : $about['local'] ) ) {
 						$copy      = $about['name'];
 						$in_format = $in_format || $fallback === $format;
 						break;
@@ -357,11 +360,11 @@ class Picture {
 
 	/**
 	 * The attachment's copies that can be served, by the name of the file each
-	 * stands beside, then by format: each copy's file name, and whether it is in
-	 * WP Offload Media's bucket too.
+	 * stands beside, then by format: each copy's file name, whether it is in WP
+	 * Offload Media's bucket, and whether it is on the disk.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array<string, array<string, array{name: string, bucket: bool}>>
+	 * @return array<string, array<string, array{name: string, bucket: bool, local: bool}>>
 	 */
 	protected static function copies( int $attachment ): array {
 		$kept = get_current_blog_id() . ':' . $attachment;
@@ -371,6 +374,7 @@ class Picture {
 		}
 
 		$served = array();
+		$serves = null;
 
 		foreach ( Copies::own( Records::get( $attachment )['copies'] ) as $copy => $about ) {
 			$format = isset( $about['format'] ) ? (string) $about['format'] : '';
@@ -387,17 +391,30 @@ class Picture {
 				continue;
 			}
 
-			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) ( $about['bytes'] ?? -1 ) ) {
+			$local  = is_file( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 );
+			$bucket = Offload_Media::in_bucket( $about );
+
+			if ( ! $local && ! $bucket ) {
 				continue;
 			}
 
-			if ( ! is_file( $beside ) || (int) filesize( $beside ) !== (int) $about['for_bytes'] ) {
-				continue;
+			/* The file beside it, on the disk, or only in the bucket WP Offload Media serves the attachment from, with the bytes the metadata gives it. */
+			if ( is_file( $beside ) ) {
+				if ( (int) filesize( $beside ) !== (int) $about['for_bytes'] ) {
+					continue;
+				}
+			} else {
+				$serves = $serves ?? Offload_Media::serves( $attachment );
+
+				if ( ! $serves || Offload_Media::metadata_bytes( $attachment, $beside ) !== (int) $about['for_bytes'] ) {
+					continue;
+				}
 			}
 
 			$served[ wp_normalize_path( $for ) ][ $format ] = array(
 				'name'   => wp_basename( (string) $copy ),
-				'bucket' => Offload_Media::in_bucket( $about ),
+				'bucket' => $bucket,
+				'local'  => $local,
 			);
 		}
 

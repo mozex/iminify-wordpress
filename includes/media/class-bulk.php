@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use ActionScheduler;
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
 use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
@@ -745,7 +746,7 @@ class Bulk {
 			$source   = Originals::find( $id, is_array( $metadata ) ? $metadata : array(), null );
 
 			if ( null !== $source && Originals::BACKUP !== $source['kind'] ) {
-				$bytes += (int) filesize( $source['path'] );
+				$bytes += (int) Offload_Media::bytes( $id, $source['path'] );
 			}
 		}
 

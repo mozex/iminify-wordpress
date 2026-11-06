@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,6 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Nothing goes missing on the way: the main file is swapped in one step, and a
  * size stays as the plugin wrote it until WordPress has made its new one.
+ *
+ * With WP Offload Media's "Remove Local Media" on, an original only in its bucket
+ * is brought back first, its uploads wait while WordPress makes the sizes, and
+ * the restored files go up at the one save of the metadata, which takes them off
+ * the disk again.
  */
 class Restorer {
 
@@ -61,7 +67,8 @@ class Restorer {
 
 		$main = Paths::relative( $attached );
 
-		if ( null !== $main && isset( $record['written'][ $main ] ) && ! Records::wrote( $attachment, $attached ) ) {
+		/* A main file only in WP Offload Media's bucket that the metadata doesn't measure is asked once a restore brings it back. */
+		if ( null !== $main && isset( $record['written'][ $main ] ) && ! Records::wrote( $attachment, $attached ) && ! Offload_Media::unmeasured( $attachment, $attached ) ) {
 			return self::CHANGED;
 		}
 
@@ -70,12 +77,28 @@ class Restorer {
 
 	/**
 	 * Restores an attachment: its original back, the sizes made again by WordPress,
-	 * the plugin's copies gone. Anything waiting to be sent for it is dropped.
+	 * the plugin's copies gone. Anything waiting to be sent for it is dropped. An
+	 * original brought back from WP Offload Media's bucket for it goes again
+	 * unless the restore put it in place.
 	 *
 	 * @param int $attachment The attachment's id.
 	 * @return true|WP_Error
 	 */
 	public static function restore( int $attachment ) {
+		try {
+			return self::put_back( $attachment );
+		} finally {
+			Offload_Media::put_away( $attachment );
+		}
+	}
+
+	/**
+	 * Puts the attachment's original back.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return true|WP_Error
+	 */
+	protected static function put_back( int $attachment ) {
 		$availability = self::availability( $attachment );
 
 		if ( self::AVAILABLE !== $availability ) {
@@ -87,10 +110,20 @@ class Restorer {
 		$metadata = wp_get_attachment_metadata( $attachment, true );
 		$metadata = is_array( $metadata ) ? $metadata : array();
 		$attached = (string) get_attached_file( $attachment, true );
-		$source   = Originals::find( $attachment, $metadata, null );
+		/* An original only in WP Offload Media's bucket is brought back, then asked again of its own bytes. */
+		$source = Originals::fetch( $attachment, $metadata, null );
+
+		if ( $source instanceof WP_Error ) {
+			return new WP_Error( 'restore_failed', __( 'The original couldn\'t be copied back from WP Offload Media\'s bucket, so the image stays as it was. Try again.', 'iminify-image-optimizer' ), array( 'status' => 503 ) );
+		}
 
 		if ( null === $source ) {
 			return self::refusal( self::NO_ORIGINAL );
+		}
+
+		/* A main file brought back to find the original can turn out to be something else's, which is never written over. */
+		if ( self::CHANGED === self::availability( $attachment ) ) {
+			return self::refusal( self::CHANGED );
 		}
 
 		Optimizer::cancel( $attachment );
@@ -188,6 +221,7 @@ class Restorer {
 	 */
 	protected static function make_sizes( int $attachment, string $file, string $attached ): ?array {
 		Writer::$writing = $attachment;
+		Offload_Media::hold( $attachment );
 
 		try {
 			/* WordPress changes the attached file only when it scales or turns the image, so a file it leaves as it is has to be the attached one already. */
@@ -204,6 +238,7 @@ class Restorer {
 			return $fresh;
 		} finally {
 			Writer::$writing = null;
+			Offload_Media::release();
 		}
 	}
 
@@ -244,8 +279,16 @@ class Restorer {
 
 			clearstatcache( true, $kept );
 
-			$fresh['sizes'][ $name ]['file']     = wp_basename( (string) $was['file'] );
-			$fresh['sizes'][ $name ]['filesize'] = (int) filesize( $kept );
+			$fresh['sizes'][ $name ]['file'] = wp_basename( (string) $was['file'] );
+
+			/* A file left only in WP Offload Media's bucket keeps the size the metadata gave it. */
+			if ( is_file( $kept ) ) {
+				$fresh['sizes'][ $name ]['filesize'] = (int) filesize( $kept );
+			} elseif ( isset( $was['filesize'] ) ) {
+				$fresh['sizes'][ $name ]['filesize'] = (int) $was['filesize'];
+			} else {
+				unset( $fresh['sizes'][ $name ]['filesize'] );
+			}
 		}
 
 		return $fresh;
@@ -272,9 +315,16 @@ class Restorer {
 		$fresh['sizes'] = $sizes;
 
 		Writer::$writing = $attachment;
+		$metadata        = array_merge( $old, $fresh );
 
 		try {
-			wp_update_attachment_metadata( $attachment, array_merge( $old, $fresh ) );
+			/* WP Offload Media's upload at this save measures the original through paths in its bucket. */
+			Offload_Media::locally(
+				$attachment,
+				static function ( int $id ) use ( $metadata ) {
+					return wp_update_attachment_metadata( $id, $metadata );
+				}
+			);
 		} finally {
 			Writer::$writing = null;
 		}

@@ -7,6 +7,9 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -24,6 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * edited, and the pre-edit original is never sent in its place. An original
  * something deleted since has only its backup. An attached file in a format the
  * service doesn't take (an AVIF, an SVG) has none: it is kept as it was uploaded.
+ *
+ * A file only in WP Offload Media's bucket is answered from what the metadata
+ * says of it, which a send or a restore brings back and asks again of the file
+ * itself (`Compat\Offload_Media::bring_back()`), so only the disk's bytes ever
+ * decide that a file the plugin wrote is an original.
  */
 class Originals {
 
@@ -57,7 +65,7 @@ class Originals {
 		}
 
 		$candidates[ self::ATTACHED ] = $attached;
-		$type                         = is_file( $attached ) ? wp_get_image_mime( $attached ) : false;
+		$type                         = self::type( $attachment, $attached );
 
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
 			return null;
@@ -70,17 +78,18 @@ class Originals {
 				continue;
 			}
 
-			$gone = ! is_file( $path );
+			$here = is_file( $path );
+			$gone = ! $here && ! Offload_Media::only_in_bucket( $attachment, $path );
 
-			/* The service makes every output in its source's format, so a source in another one (a HEIC WordPress turned into a JPEG) would be written over the JPEGs. */
-			if ( ! $gone && wp_get_image_mime( $path ) !== $type ) {
+			/* The service makes every output in its source's format, so a source in another one (a HEIC WordPress turned into a JPEG) would be written over the JPEGs. One only in the bucket is read by its name. */
+			if ( $here ? wp_get_image_mime( $path ) !== $type : ( ! $gone && wp_check_filetype( $path )['type'] !== $type ) ) {
 				continue;
 			}
 
 			if ( $gone || Records::wrote( $attachment, $path ) ) {
 				$backup = Paths::backup( $relative );
 
-				if ( is_file( $backup ) && wp_get_image_mime( $backup ) === $type && self::fits( $backup, $max_bytes ) ) {
+				if ( is_file( $backup ) && wp_get_image_mime( $backup ) === $type && self::fits( $attachment, $backup, $max_bytes ) ) {
 					return array(
 						'path' => $backup,
 						'kind' => self::BACKUP,
@@ -91,12 +100,12 @@ class Originals {
 				continue;
 			}
 
-			/* A backup of this file that another attachment's record keeps means the file is that one's output (a translation left on its holder's old file when the holder was edited), never an original. */
-			if ( self::backed_up_elsewhere( $attachment, $relative, $path ) ) {
+			/* A backup of this file that another attachment's record keeps means the file is that one's output (a translation left on its holder's old file when the holder was edited), never an original. A file only in WP Offload Media's bucket is asked once it is brought back. */
+			if ( $here && self::backed_up_elsewhere( $attachment, $relative, $path ) ) {
 				continue;
 			}
 
-			if ( self::fits( $path, $max_bytes ) ) {
+			if ( self::fits( $attachment, $path, $max_bytes ) ) {
 				return array(
 					'path' => $path,
 					'kind' => $kind,
@@ -106,6 +115,51 @@ class Originals {
 		}
 
 		return null;
+	}
+
+	/**
+	 * The original as `find()` answers it, on the disk: a file only in WP Offload
+	 * Media's bucket is brought back and asked again of its own bytes, which may
+	 * pass it over for the next one (an original past the plan's file size gives
+	 * way to WordPress's `-scaled` copy), brought back in its turn.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   Its metadata.
+	 * @param int|null             $max_bytes  The largest source the plan takes, or null when the service didn't say.
+	 * @return array{path: string, kind: string, file: string}|WP_Error|null The original, the bucket's refusal, or null when there is none.
+	 */
+	public static function fetch( int $attachment, array $metadata, ?int $max_bytes ) {
+		/* Two files can be brought back, the original WordPress kept and the attached file, so the third look only reads. */
+		for ( $look = 0; $look < 3; $look++ ) {
+			$source = self::find( $attachment, $metadata, $max_bytes );
+
+			if ( null === $source || is_file( $source['path'] ) ) {
+				return $source;
+			}
+
+			if ( ! Offload_Media::bring_back( $attachment, $source['path'] ) ) {
+				return Offload_Media::unreachable();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * The file WordPress makes an attachment's sizes from, on the disk: the
+	 * original it keeps beside a `-scaled` or `-rotated` copy, else the attached
+	 * file. Core's `wp_get_original_image_path()` passes its answer through a
+	 * filter even when asked for the unfiltered path, and WP Offload Media answers
+	 * a file only in its bucket there with its address.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function kept( int $attachment ): string {
+		$attached = (string) get_attached_file( $attachment, true );
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$original = is_array( $metadata ) && isset( $metadata['original_image'] ) ? wp_basename( (string) $metadata['original_image'] ) : '';
+
+		return '' === $attached || '' === $original ? $attached : dirname( $attached ) . '/' . $original;
 	}
 
 	/**
@@ -149,12 +203,31 @@ class Originals {
 	}
 
 	/**
-	 * Whether a file is within the plan's file size.
+	 * Whether a file is within the plan's file size. A file only in WP Offload
+	 * Media's bucket whose size the metadata doesn't give is measured once it is
+	 * brought back.
 	 *
-	 * @param string   $path      The file.
-	 * @param int|null $max_bytes The plan's file size, or null for no check.
+	 * @param int      $attachment The attachment's id.
+	 * @param string   $path       The file.
+	 * @param int|null $max_bytes  The plan's file size, or null for no check.
 	 */
-	protected static function fits( string $path, ?int $max_bytes ): bool {
-		return null === $max_bytes || (int) filesize( $path ) <= $max_bytes;
+	protected static function fits( int $attachment, string $path, ?int $max_bytes ): bool {
+		return null === $max_bytes || (int) Offload_Media::bytes( $attachment, $path ) <= $max_bytes;
+	}
+
+	/**
+	 * The MIME type of the attached file, read from it, or from its name while it
+	 * is only in WP Offload Media's bucket, or false.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $attached   The attached file.
+	 * @return string|false
+	 */
+	public static function type( int $attachment, string $attached ) {
+		if ( is_file( $attached ) ) {
+			return wp_get_image_mime( $attached );
+		}
+
+		return Offload_Media::only_in_bucket( $attachment, $attached ) ? wp_check_filetype( $attached )['type'] : false;
 	}
 }

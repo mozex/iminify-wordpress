@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Site_Record;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -121,18 +122,28 @@ class Missing {
 	 * until the service's files, made from the true original, replace them.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{only: list<string>, fresh: list<string>, lacking: bool} The sizes to declare, those just made, and whether any size is still lacking.
+	 * @return array{only: list<string>, fresh: list<string>, lacking: bool}|null The sizes to declare, those just made, and whether any size is still lacking, or null when the file to make them from couldn't be brought back from WP Offload Media's bucket.
 	 */
-	public static function make_sizes( int $attachment ): array {
+	public static function make_sizes( int $attachment ): ?array {
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
 		$missing = self::wanted_by_core( $attachment );
+		$from    = Originals::kept( $attachment );
+
+		/* WordPress makes them from a file on the disk: one only in WP Offload Media's bucket is brought back first. */
+		if ( array() !== $missing && '' !== $from && ! is_file( $from ) && Offload_Media::only_in_bucket( $attachment, $from ) && ! Offload_Media::bring_back( $attachment, $from ) ) {
+			return null;
+		}
+
+		/* Asked before WordPress makes them, since WP Offload Media takes the file off the disk again at its save. */
+		$from_output = '' !== $from && Records::wrote( $attachment, $from );
 
 		if ( array() !== $missing && array() !== self::sizes( $attachment ) ) {
+
 			Writer::$writing = $attachment;
 
 			try {
-				wp_update_image_subsizes( $attachment );
+				Offload_Media::locally( $attachment, 'wp_update_image_subsizes' );
 			} finally {
 				Writer::$writing = null;
 			}
@@ -142,14 +153,13 @@ class Missing {
 		$made    = array_values( array_unique( array_merge( Records::get( $attachment )['made'], array_diff( $missing, self::wanted_by_core( $attachment ) ) ) ) );
 		$lacking = self::sizes( $attachment );
 		$only    = array_values( array_intersect( $lacking, self::with_files( $attachment ) ) );
-		$source  = wp_get_original_image_path( $attachment );
 
 		Records::update( $attachment, array( 'made' => $made ) );
 
 		return array(
 			'only'    => $only,
 			/* WordPress made them from the file its original stands in; only from the plugin's own output does a size hold no bytes worth keeping. */
-			'fresh'   => is_string( $source ) && Records::wrote( $attachment, $source ) ? array_values( array_intersect( $only, $made ) ) : array(),
+			'fresh'   => $from_output ? array_values( array_intersect( $only, $made ) ) : array(),
 			'lacking' => array() !== $lacking,
 		);
 	}
@@ -278,11 +288,13 @@ class Missing {
 	protected static function wanted_by_core( int $attachment ): array {
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
-		return array_map( 'strval', array_keys( wp_get_missing_image_subsizes( $attachment ) ) );
+		/* Core measures the original WordPress kept, through paths WP Offload Media answers in its bucket. */
+		return array_map( 'strval', array_keys( Offload_Media::locally( $attachment, 'wp_get_missing_image_subsizes' ) ) );
 	}
 
 	/**
-	 * The sizes the image's metadata names whose file is there.
+	 * The sizes the image's metadata names whose file is there, on the disk or in
+	 * WP Offload Media's bucket.
 	 *
 	 * @param int $attachment The attachment's id.
 	 * @return list<string>
@@ -293,7 +305,9 @@ class Missing {
 		$names    = array();
 
 		foreach ( is_array( $metadata ) ? ( $metadata['sizes'] ?? array() ) : array() as $name => $size ) {
-			if ( is_file( $folder . '/' . wp_basename( $size['file'] ) ) ) {
+			$path = $folder . '/' . wp_basename( $size['file'] );
+
+			if ( is_file( $path ) || Offload_Media::only_in_bucket( $attachment, $path ) ) {
 				$names[] = (string) $name;
 			}
 		}

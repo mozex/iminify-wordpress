@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * the site has. The service makes every output from the source and decides which
  * of them the site's settings keep, so the plugin declares what is there and
  * nothing else.
+ *
+ * A file only in WP Offload Media's bucket is declared from the metadata: its
+ * width and height, and its bytes where the metadata gives them, else none, so
+ * the service's file takes its place. Every output of an attachment WP Offload
+ * Media serves is marked `bucket`, since any save of its metadata can take the
+ * file off the disk, with the bytes the metadata gives it (`listed`), which the
+ * writer compares with the metadata's then for a file gone by then (`Writer`).
  */
 class Declaration {
 
@@ -62,7 +70,7 @@ class Declaration {
 	 * @param bool                                           $background Whether it is older work nobody waits on, which takes the slower lane.
 	 * @param list<string>|null                              $only       The only sizes to declare beside the main file (those an image lacks), or null for all.
 	 * @param list<string>                                   $fresh      The sizes WordPress just made, possibly from the plugin's own output: they name no bytes, so the service's file made from the original always takes their place.
-	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int}>, type: string}|WP_Error The request's body, each output's file relative to the uploads folder, and the source's MIME type.
+	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int, bucket?: true, listed?: int|null}>, type: string}|WP_Error The request's body, each output's file relative to the uploads folder (its bytes 0 when they aren't known, and for an attachment WP Offload Media serves the bytes its metadata gives it), and the source's MIME type.
 	 */
 	public static function build( int $attachment, array $metadata, array $source, ?string $level = null, bool $background = false, ?array $only = null, array $fresh = array() ) {
 		$type = wp_get_image_mime( $source['path'] );
@@ -73,7 +81,9 @@ class Declaration {
 
 		$source_size = self::displayed( $source['path'], $type );
 		$attached    = (string) get_attached_file( $attachment, true );
-		$main_size   = '' === $attached ? null : self::displayed( $attached, (string) wp_get_image_mime( $attached ) );
+		$served      = Offload_Media::serves( $attachment );
+		$bucket      = $served && '' !== $attached && ! is_file( $attached );
+		$main_size   = '' === $attached ? null : ( $bucket ? self::measured( $metadata ) : self::displayed( $attached, (string) wp_get_image_mime( $attached ) ) );
 
 		if ( null === $source_size || null === $main_size ) {
 			return new WP_Error( 'unreadable_image', __( 'The image couldn\'t be read.', 'iminify-image-optimizer' ) );
@@ -85,46 +95,37 @@ class Declaration {
 			return new WP_Error( 'outside_uploads', __( 'The image isn\'t in the uploads folder.', 'iminify-image-optimizer' ) );
 		}
 
-		$outputs = array(
-			self::MAIN => array(
-				'file'   => $main_file,
-				'size'   => (int) filesize( $attached ),
-				'width'  => $main_size[0],
-				'height' => $main_size[1],
+		$main_bytes = Offload_Media::bytes( $attachment, $attached );
+		$outputs    = array(
+			self::MAIN => array_merge(
+				array(
+					'file'   => $main_file,
+					'size'   => (int) $main_bytes,
+					'width'  => $main_size[0],
+					'height' => $main_size[1],
+				),
+				$served ? self::listed( $attachment, $attached ) : array()
 			),
 		);
-		$body    = array(
-			array(
-				'name'   => self::MAIN,
-				'width'  => $main_size[0],
-				'height' => $main_size[1],
-				'size'   => (int) filesize( $attached ),
-			),
+		$body       = array(
+			self::output( self::MAIN, $main_size[0], $main_size[1], null, $main_bytes ),
 		);
 
-		foreach ( self::sizes( $metadata, $attached, $source_size, $type ) as $name => $size ) {
+		foreach ( self::sizes( $attachment, $metadata, $attached, $source_size, $type ) as $name => $size ) {
 			if ( null !== $only && ! in_array( (string) $name, $only, true ) ) {
 				continue;
 			}
 
-			$outputs[ $name ] = array(
-				'file'   => $size['file'],
-				'size'   => $size['size'],
-				'width'  => $size['width'],
-				'height' => $size['height'],
-			);
-			$body[]           = array_filter(
+			$outputs[ $name ] = array_merge(
 				array(
-					'name'   => $name,
+					'file'   => $size['file'],
+					'size'   => (int) $size['size'],
 					'width'  => $size['width'],
 					'height' => $size['height'],
-					'crop'   => $size['crop'],
-					'size'   => in_array( (string) $name, $fresh, true ) ? null : $size['size'],
 				),
-				static function ( $value ): bool {
-					return null !== $value;
-				}
+				$served ? self::listed( $attachment, Paths::absolute( $size['file'] ) ) : array()
 			);
+			$body[]           = self::output( (string) $name, $size['width'], $size['height'], $size['crop'], in_array( (string) $name, $fresh, true ) ? null : $size['size'] );
 		}
 
 		$request = array(
@@ -154,18 +155,78 @@ class Declaration {
 	}
 
 	/**
+	 * The mark of an output of an attachment WP Offload Media serves: it may leave
+	 * the disk at any save of the metadata, and the bytes the metadata gives it now
+	 * are what the writer compares the metadata with then.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $path       The output's file.
+	 * @return array{bucket: true, listed: int|null}
+	 */
+	protected static function listed( int $attachment, string $path ): array {
+		return array(
+			'bucket' => true,
+			'listed' => Offload_Media::metadata_bytes( $attachment, $path ),
+		);
+	}
+
+	/**
+	 * One output as the request declares it: without bytes where they aren't
+	 * known, which the service always replaces, and without anchors for a size
+	 * that keeps the source's shape.
+	 *
+	 * @param string                         $name   The output's name.
+	 * @param int                            $width  Its width.
+	 * @param int                            $height Its height.
+	 * @param array{0: string, 1: string}|null $crop   The anchors it was cut at.
+	 * @param int|null                       $bytes  Its bytes.
+	 * @return array<string, mixed>
+	 */
+	protected static function output( string $name, int $width, int $height, ?array $crop, ?int $bytes ): array {
+		return array_filter(
+			array(
+				'name'   => $name,
+				'width'  => $width,
+				'height' => $height,
+				'crop'   => $crop,
+				'size'   => $bytes,
+			),
+			static function ( $value ): bool {
+				return null !== $value;
+			}
+		);
+	}
+
+	/**
+	 * The main file's width and height as the metadata gives them, for a file only
+	 * in WP Offload Media's bucket: WordPress turns an upload with a stored
+	 * orientation into a `-rotated` copy, so they are as a viewer shows it.
+	 *
+	 * @param array<string, mixed> $metadata The attachment's metadata.
+	 * @return array{int, int}|null
+	 */
+	protected static function measured( array $metadata ): ?array {
+		$width  = (int) ( $metadata['width'] ?? 0 );
+		$height = (int) ( $metadata['height'] ?? 0 );
+
+		return $width > 0 && $height > 0 ? array( $width, $height ) : null;
+	}
+
+	/**
 	 * The sizes WordPress made of the image, one per file: a size whose file is
 	 * the main file or another size's is left out, as is one in another format
 	 * than the source's (a copy another plugin made), since the service writes
-	 * each output in the source's format, or one whose name it can't take.
+	 * each output in the source's format, or one whose name it can't take. A size
+	 * only in WP Offload Media's bucket is read from its name and the metadata.
 	 *
-	 * @param array<string, mixed> $metadata The attachment's metadata.
-	 * @param string               $attached The attached file.
-	 * @param array{int, int}      $source   The source's displayed width and height.
-	 * @param string               $type     The source's MIME type.
-	 * @return array<string, array{file: string, size: int, width: int, height: int, crop: array{0: string, 1: string}|null}>
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   The attachment's metadata.
+	 * @param string               $attached   The attached file.
+	 * @param array{int, int}      $source     The source's displayed width and height.
+	 * @param string               $type       The source's MIME type.
+	 * @return array<string, array{file: string, size: int|null, width: int, height: int, crop: array{0: string, 1: string}|null}>
 	 */
-	protected static function sizes( array $metadata, string $attached, array $source, string $type ): array {
+	protected static function sizes( int $attachment, array $metadata, string $attached, array $source, string $type ): array {
 		$sizes      = isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array();
 		$registered = wp_get_registered_image_subsizes();
 		$folder     = dirname( $attached );
@@ -180,16 +241,18 @@ class Declaration {
 				continue;
 			}
 
-			$file  = wp_basename( (string) $size['file'] );
-			$path  = $folder . '/' . $file;
-			$width = (int) $size['width'];
-			$tall  = (int) $size['height'];
+			$file   = wp_basename( (string) $size['file'] );
+			$path   = $folder . '/' . $file;
+			$width  = (int) $size['width'];
+			$tall   = (int) $size['height'];
+			$here   = is_file( $path );
+			$bucket = ! $here && Offload_Media::only_in_bucket( $attachment, $path );
 
-			if ( isset( $seen[ $file ] ) || isset( $names[ strtolower( $name ) ] ) || ! is_file( $path ) || $width < 1 || $tall < 1 || $width > $source[0] || $tall > $source[1] ) {
+			if ( isset( $seen[ $file ] ) || isset( $names[ strtolower( $name ) ] ) || ! ( $here || $bucket ) || $width < 1 || $tall < 1 || $width > $source[0] || $tall > $source[1] ) {
 				continue;
 			}
 
-			if ( wp_get_image_mime( $path ) !== $type ) {
+			if ( ( $here ? wp_get_image_mime( $path ) : wp_check_filetype( $path )['type'] ) !== $type ) {
 				continue;
 			}
 
@@ -203,7 +266,7 @@ class Declaration {
 			$names[ strtolower( $name ) ] = true;
 			$found[ $name ]               = array(
 				'file'   => $relative,
-				'size'   => (int) filesize( $path ),
+				'size'   => Offload_Media::bytes( $attachment, $path ),
 				'width'  => $width,
 				'height' => $tall,
 				'crop'   => self::crop( $registered[ $name ]['crop'] ?? null, $width, $tall, $source ),

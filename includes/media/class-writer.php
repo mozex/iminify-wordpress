@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,6 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * it (`filesize`, and the main file's width and height when the site's maximum
  * width or size limit made it smaller), so every key another plugin keeps
  * there survives.
+ *
+ * An output declared while its file was only in WP Offload Media's bucket
+ * (`bucket`) is checked against the metadata, since its file isn't on the disk
+ * to read, and is written as a new file there, which WP Offload Media uploads
+ * at the save of the metadata that follows.
  */
 class Writer {
 
@@ -57,7 +63,19 @@ class Writer {
 	public static function write( int $attachment, array $group, array $answer, string $zip ) {
 		$declared = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
 		$record   = Records::get( $attachment );
-		$put      = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads() );
+
+		foreach ( $declared as $output ) {
+			$path   = Paths::absolute( (string) $output['file'] );
+			$listed = isset( $output['listed'] ) ? (int) $output['listed'] : null;
+			$now    = null !== $listed && ! file_exists( $path ) ? Offload_Media::metadata_bytes( $attachment, $path ) : null;
+
+			/* A file only in the bucket now has to be the one declared, as far as the metadata says, which it is compared with as it said then: an edit names another file, and makes a new generation besides. */
+			if ( null !== $now && $now !== $listed ) {
+				return self::changed();
+			}
+		}
+
+		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['type'] ?? '' ) );
 
 		if ( is_wp_error( $put ) ) {
 			return $put;
@@ -93,19 +111,25 @@ class Writer {
 	 * @param array<string, int>                  $written  The record's `written`.
 	 * @param array<string, mixed>                $copies   The record's `copies`.
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
+	 * @param string                              $type     The source's MIME type, every output's, for a file not on the disk.
 	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
-	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root ) {
+	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '' ) {
 		foreach ( $declared as $output ) {
 			$path = Paths::under( $root, (string) $output['file'] );
 			clearstatcache( true, $path );
 
+			/* An output only in WP Offload Media's bucket was checked by the caller, which can read the metadata. */
+			if ( ! empty( $output['bucket'] ) && ! file_exists( $path ) ) {
+				continue;
+			}
+
 			if ( ! is_file( $path ) || (int) filesize( $path ) !== (int) $output['size'] ) {
-				return new WP_Error( 'changed', __( 'The image changed while Iminify was optimizing it, so it\'s sent again.', 'iminify-image-optimizer' ) );
+				return self::changed();
 			}
 		}
 
-		$writes  = self::writes( $declared, $answer, $root );
+		$writes  = self::writes( $declared, $answer, $root, $type );
 		$archive = Zip::open( $zip );
 
 		if ( is_wp_error( $archive ) ) {
@@ -172,6 +196,11 @@ class Writer {
 			}
 
 			if ( 'original' === $write['format'] ) {
+				/* A file only in the bucket whose bytes nobody knew saves nothing that can be shown. */
+				if ( (int) $declared[ $write['output'] ]['size'] <= 0 ) {
+					$summary[ $write['output'] ]['before'] = $bytes;
+				}
+
 				$written[ $write['file'] ]             = $bytes;
 				$summary[ $write['output'] ]['after']  = $bytes;
 				$summary[ $write['output'] ]['width']  = $write['width'];
@@ -185,18 +214,18 @@ class Writer {
 				'bytes'  => $bytes,
 				'origin' => Records::ORIGIN,
 			);
-			$made[]                                   = $write['file'];
+			$made[ $write['file'] ]                   = $write['output'];
 			$summary[ $write['output'] ]['formats'][] = $write['format'];
 		}
 
 		$archive->close();
 
-		/* The file a copy stands beside, as it is once this group's files are written: `<picture>` serves the copy only while it is unchanged. */
-		foreach ( $made as $copy ) {
+		/* The file a copy stands beside, as it is once this group's files are written: `<picture>` serves the copy only while it is unchanged. One left only in the bucket has the bytes it was declared with. */
+		foreach ( $made as $copy => $output ) {
 			$beside = Paths::under( $root, (string) $copies[ $copy ]['for'] );
 			clearstatcache( true, $beside );
 
-			$copies[ $copy ]['for_bytes'] = is_file( $beside ) ? (int) filesize( $beside ) : -1;
+			$copies[ $copy ]['for_bytes'] = is_file( $beside ) ? (int) filesize( $beside ) : ( ! empty( $declared[ $output ]['bucket'] ) && (int) $declared[ $output ]['size'] > 0 ? (int) $declared[ $output ]['size'] : -1 );
 		}
 
 		return array(
@@ -206,6 +235,13 @@ class Writer {
 			'written' => $written,
 			'copies'  => $copies,
 		);
+	}
+
+	/**
+	 * The refusal for a file that changed under an open group.
+	 */
+	protected static function changed(): WP_Error {
+		return new WP_Error( 'changed', __( 'The image changed while Iminify was optimizing it, so it\'s sent again.', 'iminify-image-optimizer' ) );
 	}
 
 	/**
@@ -243,9 +279,10 @@ class Writer {
 	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared.
 	 * @param array<string, mixed>                $answer   The group as the service answered it.
 	 * @param string                              $root     The folder the declared files are relative to.
+	 * @param string                              $type     The source's MIME type, for a file not on the disk.
 	 * @return list<array{output: string, format: string, entry: string, file: string, type: string, width: int, height: int}>
 	 */
-	protected static function writes( array $declared, array $answer, string $root ): array {
+	protected static function writes( array $declared, array $answer, string $root, string $type ): array {
 		$outputs = isset( $answer['outputs'] ) && is_array( $answer['outputs'] ) ? $answer['outputs'] : array();
 		$writes  = array();
 
@@ -270,7 +307,7 @@ class Writer {
 				'format' => $format,
 				'entry'  => $entry,
 				'file'   => 'original' === $format ? $file : $file . '.' . $format,
-				'type'   => 'original' === $format ? (string) wp_get_image_mime( $path ) : self::COPIES[ $format ],
+				'type'   => 'original' === $format ? ( is_file( $path ) ? (string) wp_get_image_mime( $path ) : $type ) : self::COPIES[ $format ],
 				'width'  => (int) ( $output['width'] ?? 0 ),
 				'height' => (int) ( $output['height'] ?? 0 ),
 			);
@@ -280,8 +317,10 @@ class Writer {
 	}
 
 	/**
-	 * Saves the new file sizes, and the main file's dimensions when they
-	 * changed, into the metadata as it stands now.
+	 * Saves every declared file's size, and the main file's dimensions when they
+	 * changed, into the metadata as it stands now: a size's bytes are how a file
+	 * only in WP Offload Media's bucket is known, and an upload made before
+	 * WordPress 6.0 has none of its own.
 	 *
 	 * @param int                                 $attachment The attachment's id.
 	 * @param array<string, array<string, mixed>> $declared   The group's outputs as declared.
@@ -297,15 +336,21 @@ class Writer {
 		$by_file = array();
 
 		foreach ( $summary as $name => $output ) {
-			if ( $output['after'] !== $output['before'] ) {
+			if ( $output['after'] > 0 ) {
 				$by_file[ wp_basename( (string) $declared[ $name ]['file'] ) ] = $output;
 			}
 		}
 
-		if ( isset( $summary[ Declaration::MAIN ] ) && $summary[ Declaration::MAIN ]['after'] !== $summary[ Declaration::MAIN ]['before'] ) {
-			$metadata['filesize'] = $summary[ Declaration::MAIN ]['after'];
-			$metadata['width']    = $summary[ Declaration::MAIN ]['width'];
-			$metadata['height']   = $summary[ Declaration::MAIN ]['height'];
+		if ( isset( $summary[ Declaration::MAIN ] ) && $summary[ Declaration::MAIN ]['after'] > 0 ) {
+			$main = $summary[ Declaration::MAIN ];
+
+			$metadata['filesize'] = $main['after'];
+
+			/* The dimensions the file was written at, which differ from those declared when the site's maximum width or size limit made it smaller. */
+			if ( $main['width'] !== (int) $declared[ Declaration::MAIN ]['width'] || $main['height'] !== (int) $declared[ Declaration::MAIN ]['height'] ) {
+				$metadata['width']  = $main['width'];
+				$metadata['height'] = $main['height'];
+			}
 		}
 
 		if ( isset( $metadata['sizes'] ) ) {
@@ -321,7 +366,13 @@ class Writer {
 		self::$writing = $attachment;
 
 		try {
-			wp_update_attachment_metadata( $attachment, $metadata );
+			/* WP Offload Media's upload at this save measures the original through paths in its bucket. */
+			Offload_Media::locally(
+				$attachment,
+				static function ( int $id ) use ( $metadata ) {
+					return wp_update_attachment_metadata( $id, $metadata );
+				}
+			);
 		} finally {
 			self::$writing = null;
 		}

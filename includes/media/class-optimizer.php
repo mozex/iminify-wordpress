@@ -10,6 +10,7 @@ namespace Iminify\WordPress\Media;
 use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Api\Upload;
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -287,7 +288,7 @@ class Optimizer {
 		/* An original WordPress kept can stand aside for its `-scaled` copy, but any other source is the one that has to go. */
 		$max = self::max_source( $site );
 
-		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && null !== $max && (int) filesize( $source['path'] ) > $max ) {
+		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && null !== $max && (int) Offload_Media::bytes( $attachment, $source['path'] ) > $max ) {
 			return new WP_Error( 'file_too_large', __( 'This image\'s original is too large to send: past your plan\'s file size, or more than this server\'s memory can hold.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
@@ -306,9 +307,9 @@ class Optimizer {
 	 * @return list<string>
 	 */
 	protected static function regenerated( int $attachment, array $metadata ): array {
-		$from = wp_get_original_image_path( $attachment );
+		$from = Originals::kept( $attachment );
 
-		if ( ! is_string( $from ) || ! Records::wrote( $attachment, $from ) ) {
+		if ( '' === $from || ! Records::wrote( $attachment, $from ) ) {
 			return array();
 		}
 
@@ -318,7 +319,7 @@ class Optimizer {
 		foreach ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array() as $name => $size ) {
 			$path = $folder . '/' . wp_basename( (string) ( $size['file'] ?? '' ) );
 
-			if ( is_file( $path ) && ! Records::wrote( $attachment, $path ) ) {
+			if ( ( is_file( $path ) || Offload_Media::only_in_bucket( $attachment, $path ) ) && ! Records::wrote( $attachment, $path ) ) {
 				$names[] = (string) $name;
 			}
 		}
@@ -361,15 +362,28 @@ class Optimizer {
 	}
 
 	/**
-	 * Action Scheduler's run for OPTIMIZE_HOOK: opens the attachment's group and sends its source.
+	 * Action Scheduler's run for OPTIMIZE_HOOK: opens the attachment's group and
+	 * sends its source. A source brought back from WP Offload Media's bucket for
+	 * it goes again once it was sent.
 	 *
 	 * @param mixed $attachment The attachment's id.
 	 * @param mixed $trigger    What asked for it.
 	 */
 	public static function optimize( $attachment, $trigger = self::AUTOMATIC ): void {
-		$attachment = (int) $attachment;
-		$trigger    = self::trigger( $trigger );
+		try {
+			self::open( (int) $attachment, self::trigger( $trigger ) );
+		} finally {
+			Offload_Media::put_away( (int) $attachment );
+		}
+	}
 
+	/**
+	 * Opens the attachment's group and sends its source.
+	 *
+	 * @param int    $attachment The attachment's id.
+	 * @param string $trigger    What asked for it.
+	 */
+	protected static function open( int $attachment, string $trigger ): void {
 		if ( 'attachment' !== get_post_type( $attachment ) ) {
 			return;
 		}
@@ -460,7 +474,14 @@ class Optimizer {
 			return;
 		}
 
-		$source = Originals::find( $attachment, $metadata, self::max_source( $site ) );
+		/* An original only in WP Offload Media's bucket is brought back, then asked again of its own bytes. */
+		$source = Originals::fetch( $attachment, $metadata, self::max_source( $site ) );
+
+		if ( $source instanceof WP_Error ) {
+			self::refused( $attachment, $source, self::OPTIMIZE_HOOK, array( $attachment, $trigger ) );
+
+			return;
+		}
 
 		if ( null === $source ) {
 			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
@@ -473,6 +494,12 @@ class Optimizer {
 
 		if ( Missing::SIZES === $record['fill'] ) {
 			$sizes = Missing::make_sizes( $attachment );
+
+			if ( null === $sizes ) {
+				self::refused( $attachment, Offload_Media::unreachable(), self::OPTIMIZE_HOOK, array( $attachment, $trigger ) );
+
+				return;
+			}
 
 			if ( array() === $sizes['only'] ) {
 				if ( $sizes['lacking'] ) {
@@ -489,6 +516,17 @@ class Optimizer {
 			$fresh    = $sizes['fresh'];
 			$metadata = wp_get_attachment_metadata( $attachment, true );
 			$metadata = is_array( $metadata ) ? $metadata : array();
+
+			/* WP Offload Media uploads the sizes WordPress made and takes the image's files off the disk, a source brought back among them. */
+			if ( ! is_file( $source['path'] ) ) {
+				$source = Originals::fetch( $attachment, $metadata, self::max_source( $site ) );
+
+				if ( ! is_array( $source ) ) {
+					self::refused( $attachment, $source instanceof WP_Error ? $source : Offload_Media::unreachable(), self::OPTIMIZE_HOOK, array( $attachment, $trigger ) );
+
+					return;
+				}
+			}
 		} elseif ( null === $record['fill'] ) {
 			$fresh = self::regenerated( $attachment, $metadata );
 		}
@@ -530,6 +568,11 @@ class Optimizer {
 			}
 
 			Records::update( $attachment, array( 'backups' => $backups ) );
+
+			/* A source brought back from WP Offload Media's bucket goes from its backup, an identical file that stays, so the one brought back can go at once. */
+			if ( $keep && isset( Records::get( $attachment )['fetched'][ $source['file'] ] ) ) {
+				$source['path'] = Paths::backup( $source['file'] );
+			}
 		}
 
 		$group = $client->open_group( $declaration['body'] );
@@ -568,10 +611,22 @@ class Optimizer {
 	 * @param mixed $attachment The attachment's id.
 	 */
 	public static function check( $attachment ): void {
-		$attachment = (int) $attachment;
-		$record     = Records::get( $attachment );
-		$group      = $record['group'];
-		$client     = Plugin::client();
+		try {
+			self::look( (int) $attachment );
+		} finally {
+			Offload_Media::put_away( (int) $attachment );
+		}
+	}
+
+	/**
+	 * Reads the group, and sends its source or writes its files.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function look( int $attachment ): void {
+		$record = Records::get( $attachment );
+		$group  = $record['group'];
+		$client = Plugin::client();
 
 		if ( null === $group || '' === (string) ( $group['id'] ?? '' ) ) {
 			return;
@@ -672,7 +727,16 @@ class Optimizer {
 			return;
 		}
 
-		$sent = $client->send_group_source( (string) $group['id'], Paths::absolute( (string) $group['source'] ), (string) $group['type'] );
+		$source = Paths::absolute( (string) $group['source'] );
+
+		/* A source WP Offload Media took off the disk again meanwhile comes back from its bucket. */
+		if ( ! is_file( $source ) && Offload_Media::only_in_bucket( $attachment, $source ) && ! Offload_Media::bring_back( $attachment, $source ) ) {
+			self::refused( $attachment, Offload_Media::unreachable(), self::CHECK_HOOK, array( $attachment ) );
+
+			return;
+		}
+
+		$sent = $client->send_group_source( (string) $group['id'], $source, (string) $group['type'] );
 
 		if ( is_wp_error( $sent ) && 'group_closed' !== $sent->get_error_code() ) {
 			self::refused( $attachment, $sent, self::CHECK_HOOK, array( $attachment ) );
@@ -1005,14 +1069,15 @@ class Optimizer {
 
 		$file = (string) get_attached_file( $attachment, true );
 
-		if ( '' === $file || ! is_file( $file ) ) {
+		/* A file only in WP Offload Media's bucket is read from its name, and brought back when it is sent. */
+		if ( '' === $file || ( ! is_file( $file ) && ! Offload_Media::only_in_bucket( $attachment, $file ) ) ) {
 			return array(
 				'code'    => 'file_missing',
 				'message' => __( 'Not sent: the image\'s file isn\'t in the uploads folder.', 'iminify-image-optimizer' ),
 			);
 		}
 
-		$type = wp_get_image_mime( $file );
+		$type = Originals::type( $attachment, $file );
 
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
 			return $unsupported;
