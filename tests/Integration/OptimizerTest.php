@@ -209,6 +209,36 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertSame( Originals::BACKUP, Originals::find( $id, $metadata, null )['kind'] ?? null );
 	}
 
+	public function test_a_translation_made_before_the_image_was_optimized_is_pointed_at_it_once_its_files_are_written(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+
+		/* As Polylang makes one: a new attachment given the image's metadata and file, which nothing of the plugin's stands beside yet. */
+		$translation = (int) wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/jpeg',
+				'post_status'    => 'inherit',
+			)
+		);
+		add_post_meta( $translation, '_wp_attachment_metadata', wp_get_attachment_metadata( $id, true ) );
+		add_post_meta( $translation, '_wp_attached_file', (string) get_post_meta( $id, '_wp_attached_file', true ) );
+
+		$this->assertNull( Records::get( $translation )['holder'] );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+
+		$answer = $this->finished( $id );
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( $attached, $answer )['bytes'] );
+
+		Optimizer::check( $id );
+
+		$this->assertSame( Records::OPTIMIZED, Records::get( $id )['status'] );
+		$this->assertFileExists( $attached . '.webp' );
+		$this->assertSame( $id, Records::get( $translation )['holder'] );
+		$this->assertNull( Records::get( $id )['holder'] );
+	}
+
 	public function test_the_original_is_the_untouched_file_and_never_the_plugins_own_output(): void {
 		add_filter( 'big_image_size_threshold', array( $this, 'scale_at_500' ) );
 		$scaled = $this->attachment();

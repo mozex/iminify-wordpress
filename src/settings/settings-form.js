@@ -57,7 +57,7 @@ function deliveryHelp( delivery ) {
 	switch ( delivery ) {
 		case 'page':
 			return __(
-				"Also reaches the images in raw HTML, page builders and your theme's own markup, and those in the folders you chose, by reading each page as it's sent. A page your cache hasn't kept takes a little longer.",
+				"Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer.",
 				'iminify-image-optimizer'
 			);
 		case 'off':

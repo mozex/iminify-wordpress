@@ -18,8 +18,8 @@ require_once dirname( __DIR__ ) . '/Support/Copies_Fixture.php';
 
 /**
  * Covers the markup on a post and from a theme's call, the copies it may serve,
- * the widths a missing copy keeps, markup filtered twice or written by hand, and
- * where it never runs.
+ * the widths a missing copy keeps, markup filtered twice or written by hand, a
+ * translation's page serving its holder's copies, and where it never runs.
  */
 class PictureTest extends WP_UnitTestCase {
 
@@ -234,6 +234,72 @@ class PictureTest extends WP_UnitTestCase {
 		$this->assertSame( $medium . ' 300w, ' . $local . '.webp 301w, ' . $url . ' 1920w, ' . $signed . ' 1921w, ' . $moved . ' 1922w', $without[1] ?? null );
 		/* With it, the medium size's copy, never in the bucket, is served from neither address, since WP Offload Media rewrites a local one later. */
 		$this->assertSame( $medium . ' 300w, ' . $local . ' 301w, ' . $url . '.webp 1920w, ' . $signed . ' 1921w, ' . $moved . ' 1922w', $webp[1] ?? null );
+	}
+
+	public function test_a_translation_serves_its_holders_copies_one_step_away_while_both_name_its_file(): void {
+		$holder = $this->attachment();
+		$files  = $this->files_of( $holder );
+		$this->copies( $holder, array( array( $files['full'], 'webp' ), array( $files['large'], 'webp' ) ) );
+
+		/* Made once the holder's main file has its copy, so the translation is pointed at it as it is made. */
+		$translation = $this->translation( $holder );
+		$large       = wp_basename( $files['large'] ) . '.webp';
+
+		$this->assertSame( $holder, Records::get( $translation )['holder'] );
+		$this->assertStringContainsString( $large, $this->render( $translation ) );
+		$this->assertStringContainsString( '<source type="image/webp"', (string) wp_get_attachment_image( $translation, 'large' ) );
+
+		/* One step only: pointed at the translation, whose own pointer names the holder, another serves nothing. */
+		$second = $this->translation( $holder );
+		Records::update( $second, array( 'holder' => $translation ) );
+
+		$this->assertStringNotContainsString( '<picture', $this->render( $second ) );
+
+		/* A pointer kept after the attachment came to name another file serves nothing, even for markup naming the holder's files. */
+		Records::update( $second, array( 'holder' => $holder ) );
+		$this->assertStringContainsString( $large, $this->render( $second ), 'The fixture: pointed at the holder, it serves.' );
+
+		update_post_meta( $second, '_wp_attached_file', 'elsewhere/photo.jpg' );
+		Picture::flush();
+		$markup = (string) apply_filters( 'the_content', '<img src="' . wp_get_attachment_image_url( $holder, 'large' ) . '" alt="" class="wp-image-' . $second . '">' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+
+		$this->assertStringNotContainsString( '<picture', $markup );
+	}
+
+	public function test_a_pages_translations_and_their_holders_are_read_in_one_go(): void {
+		$pairs = array();
+
+		for ( $made = 0; $made < 3; $made++ ) {
+			$holder = $this->attachment();
+			$files  = $this->files_of( $holder );
+			$this->copies( $holder, array( array( $files['full'], 'webp' ), array( $files['large'], 'webp' ) ) );
+			$pairs[] = array( $holder, $this->translation( $holder ) );
+		}
+
+		$read = static function ( array $pairs ): array {
+			$content = '';
+
+			foreach ( $pairs as $pair ) {
+				$content .= '<p><img src="' . wp_get_attachment_image_url( $pair[0], 'large' ) . '" alt="" class="wp-image-' . $pair[1] . '"></p>';
+				clean_post_cache( $pair[0] );
+				clean_post_cache( $pair[1] );
+			}
+
+			Picture::flush();
+			$queries = $GLOBALS['wpdb']->num_queries;
+			$html    = (string) apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, run as a page runs it.
+
+			return array( $GLOBALS['wpdb']->num_queries - $queries, substr_count( $html, '<picture' ) );
+		};
+
+		/* Once first, so what any first page reads (options, the theme's settings) is behind it. */
+		$read( array_slice( $pairs, 0, 1 ) );
+
+		$one   = $read( array_slice( $pairs, 0, 1 ) );
+		$three = $read( $pairs );
+
+		$this->assertSame( array( 1, 3 ), array( $one[1], $three[1] ) );
+		$this->assertSame( $one[0], $three[0], 'The translations and their holders are read in one go, whatever their number.' );
 	}
 
 	public function test_a_long_unclosed_picture_never_blanks_the_markup(): void {

@@ -78,6 +78,27 @@ trait Copies_Fixture {
 	}
 
 	/**
+	 * A translation of an attachment as Polylang makes one: a new attachment, then
+	 * the original's metadata and file added to it as post meta.
+	 *
+	 * @param int $of The attachment translated.
+	 */
+	protected function translation( int $of ): int {
+		$id = (int) wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/jpeg',
+				'post_title'     => 'Translation',
+				'post_status'    => 'inherit',
+			)
+		);
+
+		add_post_meta( $id, '_wp_attachment_metadata', wp_get_attachment_metadata( $of, true ) );
+		add_post_meta( $id, '_wp_attached_file', (string) get_post_meta( $of, '_wp_attached_file', true ) );
+
+		return $id;
+	}
+
+	/**
 	 * Deletes the copy files the test wrote.
 	 */
 	protected function delete_copies(): void {

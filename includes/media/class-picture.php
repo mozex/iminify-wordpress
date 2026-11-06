@@ -27,7 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * plugin recorded: never a file that merely sits beside an image, one that is
  * gone, or one left from a picture replaced since. With WP Offload Media's
  * "Remove Local Media" on, neither is on the disk: the copy's record says it went
- * to the bucket with its bytes, and the metadata gives the file's.
+ * to the bucket with its bytes, and the metadata gives the file's. A translation
+ * that shares another attachment's files has no copies of its own, so it serves
+ * the copies of the holder its record points to (`source()`).
  *
  * Each source lists the same candidates as the `<img>`'s `srcset`, so the browser
  * picks the same width it would have; a width with no copy in that format keeps
@@ -39,7 +41,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * marker and is never wrapped again, and neither is one already inside a
  * `<picture>` someone wrote. With picture tags across the whole page, the
  * images these filters don't reach are wrapped the same way (`wrap()`,
- * `wrap_with()`) from the page as it is sent (`Delivery\Buffer`).
+ * `wrap_with()`) from the page as it is sent (`Delivery\Buffer`), and the
+ * backgrounds it finds take the same copies (`image_set()`, `image_set_with()`).
  */
 class Picture {
 
@@ -71,6 +74,7 @@ class Picture {
 
 		foreach ( array( 'the_content', 'the_excerpt', 'widget_text_content', 'widget_block_content' ) as $hook ) {
 			add_filter( $hook, array( self::class, 'mark_pictures' ), 11 );
+			add_filter( $hook, array( self::class, 'prime_content' ), 11 );
 		}
 
 		add_filter( 'render_block', array( self::class, 'mark_pictures' ) );
@@ -137,6 +141,57 @@ class Picture {
 	}
 
 	/**
+	 * Reads, before core filters a piece of markup's images (`wp_filter_content_tags`
+	 * at priority 12), the attachments its `wp-image-N` classes name and the holders
+	 * their records point to, so a translation's images ask nothing more one at a
+	 * time. The pattern is core's own for those classes.
+	 *
+	 * @param mixed $html The markup.
+	 * @return mixed
+	 */
+	public static function prime_content( $html ) {
+		if ( ! is_string( $html ) || false === stripos( $html, 'wp-image-' ) || ! self::serves() ) {
+			return $html;
+		}
+
+		if ( preg_match_all( '/wp-image-([0-9]+)/i', $html, $matches ) > 0 ) {
+			self::prime( array_map( 'intval', $matches[1] ) );
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Reads these attachments, with their records and metadata, and the holders
+	 * their records point to, in one read of each.
+	 *
+	 * @param list<int> $attachments The attachments' ids.
+	 */
+	public static function prime( array $attachments ): void {
+		$attachments = array_values( array_unique( array_filter( $attachments ) ) );
+
+		if ( array() === $attachments ) {
+			return;
+		}
+
+		_prime_post_caches( $attachments, false, true );
+
+		$holders = array();
+
+		foreach ( $attachments as $attachment ) {
+			$holder = Records::get( $attachment )['holder'];
+
+			if ( null !== $holder ) {
+				$holders[] = $holder;
+			}
+		}
+
+		if ( array() !== $holders ) {
+			_prime_post_caches( array_values( array_unique( $holders ) ), false, true );
+		}
+	}
+
+	/**
 	 * Whether this request's pages get `<picture>` markup: the delivery setting
 	 * (picture tags, or picture tags over the whole page, which keeps these
 	 * filters and adds `Delivery\Buffer` for what they miss), and never on a
@@ -180,7 +235,8 @@ class Picture {
 			return $tag;
 		}
 
-		$copies = self::copies( $attachment );
+		$source = self::source( $attachment );
+		$copies = self::copies( $source );
 
 		if ( array() === $copies ) {
 			return $tag;
@@ -189,19 +245,95 @@ class Picture {
 		return self::wrap_with(
 			$tag,
 			$copies,
-			static function ( array $candidates ) use ( $attachment ): array {
-				return self::files( $candidates, $attachment );
+			static function ( array $candidates ) use ( $source ): array {
+				return self::files( $candidates, $source );
 			}
 		);
 	}
 
 	/**
-	 * Whether an attachment has copies `<picture>` can serve.
+	 * Whether an attachment has copies `<picture>` can serve, its own or, for a
+	 * translation sharing another's files, the holder's.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function has_copies( int $attachment ): bool {
-		return array() !== self::copies( $attachment );
+		return array() !== self::copies( self::source( $attachment ) );
+	}
+
+	/**
+	 * The attachment whose copies serve an attachment's files: itself while it has
+	 * copies of its own, else the holder its record points to (`Shared::point()`)
+	 * while both name the very same file, compared byte for byte since the
+	 * column's collation ignores case. One step only: the holder's own pointer is
+	 * never followed, so a stale one serves nothing rather than another's copies.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function source( int $attachment ): int {
+		if ( array() !== self::copies( $attachment ) ) {
+			return $attachment;
+		}
+
+		$holder = Records::get( $attachment )['holder'];
+
+		if ( null === $holder ) {
+			return $attachment;
+		}
+
+		$file = get_post_meta( $attachment, '_wp_attached_file', true );
+
+		return is_string( $file ) && '' !== $file && get_post_meta( $holder, '_wp_attached_file', true ) === $file ? $holder : $attachment;
+	}
+
+	/**
+	 * The copies that can be served of the file an address names, as addresses
+	 * beside it by their MIME type, AVIF first: an attachment's own or its
+	 * holder's, under the same proof as `wrap()`'s. Empty when it has none.
+	 *
+	 * @param string $url        The file's address.
+	 * @param int    $attachment The attachment's id.
+	 * @return array<string, string>
+	 */
+	public static function image_set( string $url, int $attachment ): array {
+		$source = self::source( $attachment );
+
+		return self::image_set_with(
+			$url,
+			self::copies( $source ),
+			static function ( array $candidates ) use ( $source ): array {
+				return self::files( $candidates, $source );
+			}
+		);
+	}
+
+	/**
+	 * The copies that can be served of the file an address names, from copies
+	 * proven elsewhere: an attachment's (`image_set()`), or a file's in another
+	 * folder, whose row proves them (`Delivery\Buffer`).
+	 *
+	 * @param string                                                                       $url     The file's address.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies  The copies by the path of the file they stand beside, then by format.
+	 * @param callable(list<array{0: string, 1: string}>): list<array{file: string, bucket: bool}|null> $resolve Maps addresses to their files, as `files()` does.
+	 * @return array<string, string>
+	 */
+	public static function image_set_with( string $url, array $copies, callable $resolve ): array {
+		$file = array() === $copies ? null : ( $resolve( array( array( $url, '' ) ) )[0] ?? null );
+		$set  = array();
+
+		if ( null === $file ) {
+			return $set;
+		}
+
+		foreach ( self::FORMATS as $format => $type ) {
+			$about = $copies[ $file['file'] ][ $format ] ?? null;
+
+			if ( null !== $about && ( $file['bucket'] ? $about['bucket'] : $about['local'] ) ) {
+				$set[ $type ] = self::beside( $url, $about['name'] );
+			}
+		}
+
+		return $set;
 	}
 
 	/**

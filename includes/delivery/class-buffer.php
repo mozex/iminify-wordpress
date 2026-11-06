@@ -13,6 +13,7 @@ use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Picture;
 use Iminify\WordPress\Media\Shared;
+use WP_HTML_Tag_Processor;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -38,8 +39,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * An image already wrapped (`Picture::MARKER`) or inside a `<picture>` someone
  * wrote is left as it is, so nothing is wrapped twice.
+ *
+ * A background named in a `style` attribute or a `<style>` element (a page
+ * builder's hero, a theme's banner) gets its copies the same way, its address
+ * looked up with the images' and proven the same way, as an `image-set()` in a
+ * declaration added after its own (`Css`). A stylesheet in a file of its own
+ * never passes through a page, so its backgrounds keep their originals.
  */
 class Buffer {
+
+	/**
+	 * Where the buffer's filter runs on core's template buffer: after core's own,
+	 * which a classic theme's styles printed late in the page (the global styles,
+	 * a block's styles, `wp_add_inline_style()`) reach the head through, so their
+	 * backgrounds are read too.
+	 */
+	const PRIORITY = 20;
 
 	/**
 	 * The suffix WordPress puts on the file of an image's size (`photo-300x200.jpg`).
@@ -67,7 +82,7 @@ class Buffer {
 	 */
 	public static function start(): void {
 		if ( self::reads() ) {
-			add_filter( 'wp_template_enhancement_output_buffer', array( self::class, 'rewrite' ) );
+			add_filter( 'wp_template_enhancement_output_buffer', array( self::class, 'rewrite' ), self::PRIORITY );
 		}
 	}
 
@@ -93,52 +108,59 @@ class Buffer {
 
 	/**
 	 * The `wp_template_enhancement_output_buffer` filter: the page with every
-	 * `<img>` that has proven copies wrapped, and every other byte as it came.
+	 * `<img>` that has proven copies wrapped, every background with proven copies
+	 * given them in an `image-set()`, and every other byte as it came.
 	 *
 	 * @param mixed $html The page.
 	 * @return mixed
 	 */
 	public static function rewrite( $html ) {
-		if ( ! is_string( $html ) || false === stripos( $html, '<img' ) ) {
+		if ( ! is_string( $html ) || ( false === stripos( $html, '<img' ) && false === stripos( $html, 'url(' ) ) ) {
 			return $html;
 		}
 
-		$images = self::images( $html );
+		$tags = self::tags( $html );
 
-		if ( array() === $images ) {
+		if ( array() === $tags ) {
 			return $html;
 		}
 
-		$attachments = self::attachments( $images );
-		$folders     = self::folders( $images );
+		$urls = array();
+
+		foreach ( $tags as $tag ) {
+			foreach ( array_merge( $tag['urls'], $tag['backgrounds'] ) as $url ) {
+				$urls[ $url ] = true;
+			}
+		}
+
+		$urls        = array_map( 'strval', array_keys( $urls ) );
+		$attachments = self::attachments( $urls, array_column( $tags, 'attachment' ) );
+		$folders     = self::folders( $urls );
 		$parts       = array();
 		$at          = 0;
 
-		foreach ( $images as $index => $image ) {
-			list( $start, $length ) = $image['span'];
+		$copies = static function ( string $url ) use ( $attachments, $folders ): array {
+			$set = isset( $attachments[ $url ] ) ? Picture::image_set( $url, $attachments[ $url ] ) : array();
 
-			$tag     = substr( $html, $start, $length );
-			$wrapped = $tag;
+			return array() === $set && isset( $folders[ $url ] ) ? Picture::image_set_with( $url, $folders[ $url ], array( self::class, 'folder_files' ) ) : $set;
+		};
 
-			/* The class first, which also matches an address WP Offload Media serves; then the attachment the address names, for a class left from another image. */
-			foreach ( array_unique( array_filter( array( $image['attachment'], $attachments[ $index ] ?? 0 ) ) ) as $attachment ) {
-				$wrapped = Picture::wrap( $tag, $attachment );
+		foreach ( $tags as $tag ) {
+			list( $start, $length ) = $tag['span'];
 
-				if ( $wrapped !== $tag ) {
-					break;
-				}
+			$original = substr( $html, $start, $length );
+			$changed  = array() === $tag['backgrounds'] ? $original : self::backgrounds( $original, $tag['element'], $copies );
+
+			if ( $tag['image'] ) {
+				$changed = self::picture( $changed, $tag, $attachments, $folders );
 			}
 
-			if ( $wrapped === $tag && isset( $folders[ $index ] ) ) {
-				$wrapped = Picture::wrap_with( $tag, $folders[ $index ], array( self::class, 'folder_files' ) );
-			}
-
-			if ( $wrapped === $tag ) {
+			if ( $changed === $original ) {
 				continue;
 			}
 
 			$parts[] = substr( $html, $at, $start - $at );
-			$parts[] = $wrapped;
+			$parts[] = $changed;
 			$at      = $start + $length;
 		}
 
@@ -149,6 +171,77 @@ class Buffer {
 		$parts[] = substr( $html, $at );
 
 		return implode( '', $parts );
+	}
+
+	/**
+	 * An `<img>` tag in its `<picture>`: by the attachment its class names first,
+	 * which also matches an address WP Offload Media serves, then by the one its
+	 * address names, for a class left from another image, then by a chosen
+	 * folder's row.
+	 *
+	 * @param string                                                                                       $tag         The `<img>` tag.
+	 * @param array{attachment: int, urls: list<string>}                                                   $image       What the page says of it.
+	 * @param array<string, int>                                                                           $attachments The attachment each address names.
+	 * @param array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>> $folders     The proven copies of the folders' files each address names.
+	 */
+	protected static function picture( string $tag, array $image, array $attachments, array $folders ): string {
+		$named  = 0;
+		$copies = array();
+
+		foreach ( $image['urls'] as $url ) {
+			$named = 0 === $named ? ( $attachments[ $url ] ?? 0 ) : $named;
+
+			if ( isset( $folders[ $url ] ) ) {
+				$copies = array_merge( $copies, $folders[ $url ] );
+			}
+		}
+
+		foreach ( array_unique( array_filter( array( $image['attachment'], $named ) ) ) as $attachment ) {
+			$wrapped = Picture::wrap( $tag, $attachment );
+
+			if ( $wrapped !== $tag ) {
+				return $wrapped;
+			}
+		}
+
+		return array() === $copies ? $tag : Picture::wrap_with( $tag, $copies, array( self::class, 'folder_files' ) );
+	}
+
+	/**
+	 * A tag whose `style` attribute, or a `<style>` element whose text, has its
+	 * backgrounds given their copies (`Css::rewrite()`), changed through core's tag
+	 * processor, which changes only that attribute or that text.
+	 *
+	 * @param string                                  $markup  The tag, or the whole `<style>` element.
+	 * @param bool                                    $element Whether it is a `<style>` element.
+	 * @param callable(string): array<string, string> $copies  The copies of the file an address names.
+	 */
+	protected static function backgrounds( string $markup, bool $element, callable $copies ): string {
+		$processor = new WP_HTML_Tag_Processor( $markup );
+
+		if ( ! $processor->next_tag() ) {
+			return $markup;
+		}
+
+		$css = $element ? $processor->get_modifiable_text() : $processor->get_attribute( 'style' );
+
+		if ( ! is_string( $css ) ) {
+			return $markup;
+		}
+
+		$rewritten = Css::rewrite( $css, $copies );
+
+		if ( $rewritten === $css ) {
+			return $markup;
+		}
+
+		if ( $element ) {
+			$processor->set_modifiable_text( $rewritten );
+		} else {
+			$processor->set_attribute( 'style', $rewritten );
+		}
+
+		return $processor->get_updated_html();
 	}
 
 	/**
@@ -195,28 +288,39 @@ class Buffer {
 	}
 
 	/**
-	 * Every `<img>` of the page neither wrapped nor inside a `<picture>`: where it
-	 * lies, the attachment its class names (0 for none), and the addresses its
-	 * `srcset` and `src` name.
+	 * Every tag of the page to look at: an `<img>` neither wrapped nor inside a
+	 * `<picture>` (a wrapped one is inside its own), with the attachment its class
+	 * names (0 for none) and the addresses its `srcset` and `src` name; and any
+	 * tag whose `style` attribute, or a `<style>` element whose text, names a
+	 * background's address. Each with where it lies; a `<style>` element's span
+	 * covers its text and its closing tag.
 	 *
 	 * @param string $html The page.
-	 * @return list<array{span: array{0: int, 1: int}, attachment: int, urls: list<string>}>
+	 * @return list<array{span: array{0: int, 1: int}, image: bool, element: bool, attachment: int, urls: list<string>, backgrounds: list<string>}>
 	 */
-	protected static function images( string $html ): array {
+	protected static function tags( string $html ): array {
 		$markup = new Markup( $html );
 		$depth  = 0;
-		$images = array();
+		$tags   = array();
 
 		while ( $markup->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
-			$tag = $markup->get_tag();
+			$name = $markup->get_tag();
 
-			if ( 'PICTURE' === $tag ) {
+			if ( 'PICTURE' === $name ) {
 				$depth = max( 0, $depth + ( $markup->is_tag_closer() ? -1 : 1 ) );
 				continue;
 			}
 
-			/* A wrapped `<img>` is inside its `<picture>`, so this leaves it too. */
-			if ( 'IMG' !== $tag || $markup->is_tag_closer() || $depth > 0 ) {
+			if ( $markup->is_tag_closer() ) {
+				continue;
+			}
+
+			$element     = 'STYLE' === $name;
+			$image       = 'IMG' === $name && 0 === $depth;
+			$css         = $element ? $markup->get_modifiable_text() : $markup->get_attribute( 'style' );
+			$backgrounds = is_string( $css ) && false !== stripos( $css, 'url(' ) ? Css::urls( $css ) : array();
+
+			if ( ! $image && array() === $backgrounds ) {
 				continue;
 			}
 
@@ -226,76 +330,72 @@ class Buffer {
 				continue;
 			}
 
-			$src    = $markup->get_attribute( 'src' );
-			$srcset = $markup->get_attribute( 'srcset' );
-			$class  = $markup->get_attribute( 'class' );
-			$urls   = is_string( $srcset ) ? array_column( Picture::candidates( $srcset ), 0 ) : array();
+			$urls  = array();
+			$class = null;
 
-			if ( is_string( $src ) && '' !== $src ) {
-				$urls[] = $src;
+			if ( $image ) {
+				$src    = $markup->get_attribute( 'src' );
+				$srcset = $markup->get_attribute( 'srcset' );
+				$class  = $markup->get_attribute( 'class' );
+				$urls   = is_string( $srcset ) ? array_column( Picture::candidates( $srcset ), 0 ) : array();
+
+				if ( is_string( $src ) && '' !== $src ) {
+					$urls[] = $src;
+				}
 			}
 
-			$images[] = array(
-				'span'       => $span,
-				'attachment' => is_string( $class ) && 1 === preg_match( '/(?:^|\s)wp-image-(\d+)(?:\s|$)/', $class, $id ) ? (int) $id[1] : 0,
-				'urls'       => array_values( array_unique( $urls ) ),
+			$tags[] = array(
+				'span'        => $span,
+				'image'       => $image,
+				'element'     => $element,
+				'attachment'  => is_string( $class ) && 1 === preg_match( '/(?:^|\s)wp-image-(\d+)(?:\s|$)/', $class, $id ) ? (int) $id[1] : 0,
+				'urls'        => array_values( array_unique( $urls ) ),
+				'backgrounds' => $backgrounds,
 			);
 		}
 
-		return $images;
+		return $tags;
 	}
 
 	/**
-	 * The attachment each image names by the address of one of its files under
-	 * the uploads folder: one that names the file and has copies to serve, found
-	 * with every other image's in one query. Every attachment the page names is
-	 * read here, its class's too.
+	 * The attachment each address names under the uploads folder: one that names
+	 * the file and has copies to serve, found with every other address's in one
+	 * query. Every attachment the page names is read here, by its class too, with
+	 * the holders their records point to (`Picture::prime()`).
 	 *
-	 * @param list<array{span: array{0: int, 1: int}, attachment: int, urls: list<string>}> $images The page's images.
-	 * @return array<int, int> The attachment's id by the image's place in the list.
+	 * @param list<string> $urls    The page's images' and backgrounds' addresses.
+	 * @param list<int>    $classes The attachments its images' classes name, 0 for none.
+	 * @return array<string, int> The attachment's id by the address.
 	 */
-	protected static function attachments( array $images ): array {
+	protected static function attachments( array $urls, array $classes ): array {
 		$files   = array();
 		$guesses = array();
 
-		foreach ( $images as $index => $image ) {
-			foreach ( $image['urls'] as $url ) {
-				$file = Picture::uploaded_file( $url );
+		foreach ( $urls as $url ) {
+			$file = Picture::uploaded_file( $url );
 
-				if ( null === $file ) {
-					continue;
-				}
+			if ( null === $file ) {
+				continue;
+			}
 
-				$files[ $index ][] = $file;
+			$files[ $url ] = $file;
 
-				foreach ( self::main_files( $file ) as $main ) {
-					$guesses[ $main ] = true;
-				}
+			foreach ( self::main_files( $file ) as $main ) {
+				$guesses[ $main ] = true;
 			}
 		}
 
 		$named = array() === $guesses ? array() : Shared::named( array_map( 'strval', array_keys( $guesses ) ) );
-		$ids   = array_values( array_filter( array_unique( array_merge( array_column( $images, 'attachment' ), ...array_values( $named ) ) ) ) );
 
-		/* Every attachment the page names, by its class or its address, with its record and metadata, in one read of each. */
-		if ( array() !== $ids ) {
-			_prime_post_caches( $ids, false, true );
-		}
-
-		if ( array() === $guesses ) {
-			return array();
-		}
+		Picture::prime( array_map( 'intval', array_merge( $classes, ...array_values( $named ) ) ) );
 
 		$found = array();
 
-		foreach ( $files as $index => $paths ) {
-			foreach ( $paths as $file ) {
-				$attachment = self::attachment_of( $file, $named );
+		foreach ( $files as $url => $file ) {
+			$attachment = self::attachment_of( $file, $named );
 
-				if ( null !== $attachment ) {
-					$found[ $index ] = $attachment;
-					break;
-				}
+			if ( null !== $attachment ) {
+				$found[ (string) $url ] = $attachment;
 			}
 		}
 
@@ -324,45 +424,37 @@ class Buffer {
 	}
 
 	/**
-	 * The proven copies of the files in the chosen folders each image names by
-	 * its address, found with every other image's in one query. The folders are
-	 * a single site's, or a network's main site's (`Folders::listed()`).
+	 * The proven copies of the file in the chosen folders each address names,
+	 * found with every other address's in one query. The folders are a single
+	 * site's, or a network's main site's (`Folders::listed()`).
 	 *
-	 * @param list<array{span: array{0: int, 1: int}, attachment: int, urls: list<string>}> $images The page's images.
-	 * @return array<int, array<string, array<string, array{name: string, bucket: bool, local: bool}>>> The copies by the image's place in the list.
+	 * @param list<string> $urls The page's images' and backgrounds' addresses.
+	 * @return array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>> The copies by the address.
 	 */
-	protected static function folders( array $images ): array {
+	protected static function folders( array $urls ): array {
 		$files = array();
-		$all   = array();
 
-		foreach ( $images as $index => $image ) {
-			foreach ( $image['urls'] as $url ) {
-				$file = self::folder_file( $url );
+		foreach ( $urls as $url ) {
+			$file = self::folder_file( $url );
 
-				if ( null !== $file ) {
-					$files[ $index ][] = $file;
-					$all[ $file ]      = true;
-				}
+			if ( null !== $file ) {
+				$files[ $url ] = $file;
 			}
 		}
 
 		/* The table's mark is autoloaded where it exists, and a site that never chose a folder pays no query for it; `Folders::guard()` asks the list again of each file. */
-		if ( array() === $all || ! isset( wp_load_alloptions()[ Table::VERSION_OPTION ] ) || array() === Folders::listed() ) {
+		if ( array() === $files || ! isset( wp_load_alloptions()[ Table::VERSION_OPTION ] ) || array() === Folders::listed() ) {
 			return array();
 		}
 
-		$rows   = Table::by_paths( array_map( 'strval', array_keys( $all ) ) );
+		$rows   = Table::by_paths( array_values( array_unique( $files ) ) );
 		$copies = array();
 
-		foreach ( $files as $index => $paths ) {
-			foreach ( $paths as $file ) {
-				if ( isset( $rows[ $file ] ) ) {
-					$copies[ $index ] = array_merge( $copies[ $index ] ?? array(), self::proven( $rows[ $file ] ) );
-				}
-			}
+		foreach ( $files as $url => $file ) {
+			$proven = isset( $rows[ $file ] ) ? self::proven( $rows[ $file ] ) : array();
 
-			if ( empty( $copies[ $index ] ) ) {
-				unset( $copies[ $index ] );
+			if ( array() !== $proven ) {
+				$copies[ (string) $url ] = $proven;
 			}
 		}
 

@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Tests\Integration;
 
+use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
@@ -74,6 +75,10 @@ class SharedTest extends WP_UnitTestCase {
 
 		$translation = $this->translation( $holder );
 
+		/* Made once the holder's file has its copy, it is pointed at the holder as it is made, which makes it no holder. */
+		$this->assertSame( $holder, Records::get( $translation )['holder'] );
+		$this->assertNull( Records::get( $holder )['holder'] );
+		$this->assertFalse( Shared::holds_work( $translation ) );
 		$this->assertSame( array( $translation ), Shared::others( $holder ) );
 		$this->assertSame( $holder, Shared::holder( $translation ) );
 		$this->assertSame( 'shared', Optimizer::why_not( $translation )['code'] ?? null );
@@ -87,13 +92,15 @@ class SharedTest extends WP_UnitTestCase {
 		$this->assertSame( $original, file_get_contents( Paths::backup( $relative ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the backup.
 		$this->assertSame( array( Paths::BACKUP_FOLDER . '/' . $relative ), Records::get( $holder )['backups'] );
 
-		/* Its files regenerated queue the holder, never itself. */
+		/* Its files regenerated queue the holder, never itself, and point it at the holder again. */
 		Optimizer::cancel( $holder );
+		Records::update( $translation, array( 'holder' => null ) );
 		$this->assertFalse( as_next_scheduled_action( Optimizer::OPTIMIZE_HOOK, array( $holder, Optimizer::AUTOMATIC ), Optimizer::GROUP ) );
 		Hooks::generated( wp_get_attachment_metadata( $translation ), $translation );
 
 		$this->assertNotFalse( as_next_scheduled_action( Optimizer::OPTIMIZE_HOOK, array( $holder, Optimizer::AUTOMATIC ), Optimizer::GROUP ) );
 		$this->assertFalse( as_next_scheduled_action( Optimizer::OPTIMIZE_HOOK, array( $translation, Optimizer::AUTOMATIC ), Optimizer::GROUP ) );
+		$this->assertSame( $holder, Records::get( $translation )['holder'] );
 
 		/* Deleting the translation deletes nothing the files still need, even when a translation plugin copied the holder's record onto it. */
 		Records::update(
@@ -288,6 +295,10 @@ class SharedTest extends WP_UnitTestCase {
 		$this->assertSame( $first, Shared::holder( $second ) );
 		$this->assertNull( Optimizer::why_not( $first ) );
 		$this->assertSame( 'shared', Optimizer::why_not( $second )['code'] ?? null );
+
+		/* The pointers follow the record: the new holder's is gone, the other's names it. */
+		$this->assertNull( $taken['holder'] );
+		$this->assertSame( $first, Records::get( $second )['holder'] );
 	}
 
 	public function test_a_holder_deleted_on_its_way_hands_the_send_to_the_next(): void {
@@ -309,15 +320,48 @@ class SharedTest extends WP_UnitTestCase {
 		Optimizer::cancel( $holder );
 		Records::update( $holder, array( 'status' => Records::NOT_OPTIMIZED ) );
 		$translation = $this->translation( $holder );
+		$second      = $this->translation( $holder );
+
+		/* Nothing of the plugin's was on the file as they were made, so a run setting each aside is what points it. */
+		$this->assertNull( Records::get( $translation )['holder'] );
+		$this->assertNull( Records::get( $second )['holder'] );
 
 		Optimizer::optimize( $translation, Optimizer::BULK );
 		$this->assertSame( 'shared', Records::get( $translation )['error']['code'] ?? null );
+		$this->assertSame( $holder, Records::get( $translation )['holder'] );
+
+		$this->assertIsArray( Bulk::start( Bulk::OPTIMIZE, Bulk::BACKGROUND, array( $second ) ) );
+		$this->assertSame( 'shared', Records::get( $second )['error']['code'] ?? null );
+		$this->assertSame( $holder, Records::get( $second )['holder'] );
+		delete_option( Bulk::OPTION );
 
 		wp_delete_attachment( $holder, true );
 
 		$this->assertSame( Records::NOT_OPTIMIZED, Records::get( $translation )['status'] );
 		$this->assertNull( Records::get( $translation )['error'] );
 		$this->assertNull( Optimizer::why_not( $translation ) );
+	}
+
+	public function test_an_upload_asks_who_names_its_file_only_once(): void {
+		$file = get_temp_dir() . 'iminify-asked-' . wp_generate_password( 12, false ) . '.jpg';
+		copy( DIR_TESTDATA . '/images/canola.jpg', $file );
+
+		$asked = array();
+		$watch = static function ( $query ) use ( &$asked ) {
+			if ( false !== strpos( (string) $query, "meta.meta_key = '_wp_attached_file' AND meta.meta_value = '" ) ) {
+				$asked[] = $query;
+			}
+
+			return $query;
+		};
+
+		add_filter( 'query', $watch );
+		self::factory()->attachment->create_upload_object( $file );
+		remove_filter( 'query', $watch );
+		wp_delete_file( $file );
+
+		/* The hook that queues it asks; naming its new file, which nothing of the plugin's stands beside, asks nothing. */
+		$this->assertCount( 1, $asked );
 	}
 
 	public function test_the_wpml_config_leaves_out_every_meta_the_plugin_keeps(): void {

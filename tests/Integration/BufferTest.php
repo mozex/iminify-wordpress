@@ -23,9 +23,10 @@ require_once dirname( __DIR__ ) . '/Support/Copies_Fixture.php';
 /**
  * Covers the images the buffer finds by their address, all of a page's in one
  * lookup, the class, a translation sharing the file, the files in other folders,
- * what it leaves (an image already wrapped, an author's `<picture>`, a copy it
- * can't prove, an address elsewhere), and when it reads a page at all, through
- * core's template buffer.
+ * the backgrounds in `style` attributes and `<style>` elements, what it leaves
+ * (an image already wrapped, an author's `<picture>`, a copy it can't prove, an
+ * address elsewhere), and when it reads a page at all, through core's template
+ * buffer.
  */
 class BufferTest extends WP_UnitTestCase {
 
@@ -99,6 +100,51 @@ class BufferTest extends WP_UnitTestCase {
 		$this->assertSame( $page, $unwrapped );
 
 		/* Read again, as a cache's own buffer or a second pass would, nothing is wrapped twice. */
+		$this->assertSame( $html, Buffer::rewrite( $html ) );
+	}
+
+	public function test_backgrounds_in_a_style_attribute_and_a_style_element_take_their_copies_from_the_images_lookup(): void {
+		$id    = $this->attachment();
+		$files = $this->files_of( $id );
+		$other = $this->attachment();
+		$third = $this->attachment();
+
+		$this->copies( $id, array( array( $files['full'], 'avif' ), array( $files['full'], 'webp' ), array( $files['large'], 'webp' ) ) );
+		$this->copies( $third, array( array( $this->files_of( $third )['full'], 'webp' ) ) );
+
+		$full  = (string) wp_get_attachment_url( $id );
+		$large = (string) wp_get_attachment_image_url( $id, 'large' );
+		$page  = '<!DOCTYPE html><html><head><style id="hero-css">.hero{background:linear-gradient(#0008,#0008),url(' . $full . ') center/cover}' . "\n" . '.card{color:red}</style><style>.plain{color:blue}</style></head><body>'
+			. '<section class="builder" style="min-height:40vh;background-image:url(&quot;' . $large . '&quot;)" data-x=\'1\'></section>'
+			. '<div style="background-image:url(' . wp_get_attachment_url( $other ) . ')"></div>'
+			. '<div style="--hero:url(' . $full . ')"></div>'
+			. '<div style="background:url(' . wp_get_attachment_url( $third ) . ') repeat-x"></div>'
+			. '<img src="' . $large . '">'
+			. '<script>var css = "background:url(' . $full . ')";</script>'
+			. '</body></html>';
+
+		foreach ( array( $id, $other, $third ) as $attachment ) {
+			clean_post_cache( $attachment );
+		}
+
+		$queries = $GLOBALS['wpdb']->num_queries;
+		$html    = Buffer::rewrite( $page );
+
+		$this->assertSame( 3, $GLOBALS['wpdb']->num_queries - $queries, 'The backgrounds\' addresses go into the images\' one lookup and their reads.' );
+
+		$hero = '; background:linear-gradient(#0008,#0008),image-set(url("' . $full . '.avif") type("image/avif"), url("' . $full . '.webp") type("image/webp"), url(' . $full . ') type("image/jpeg")) center/cover';
+		$card = '; background-image:image-set(url(&quot;' . $large . '.webp&quot;) type(&quot;image/webp&quot;), url(&quot;' . $large . '&quot;) type(&quot;image/jpeg&quot;))';
+		$band = '; background:image-set(url(&quot;' . wp_get_attachment_url( $third ) . '.webp&quot;) type(&quot;image/webp&quot;), url(' . wp_get_attachment_url( $third ) . ') type(&quot;image/jpeg&quot;)) repeat-x';
+
+		$this->assertStringContainsString( '.hero{background:linear-gradient(#0008,#0008),url(' . $full . ') center/cover' . $hero . '}', $html );
+		$this->assertStringContainsString( '<section class="builder" style="min-height:40vh;background-image:url(&quot;' . $large . '&quot;)' . $card . '" data-x=\'1\'>', $html );
+		$this->assertStringContainsString( ') repeat-x' . $band . '"', $html );
+		$this->assertSame( 1, substr_count( $html, '<picture' ), 'The image is wrapped as before.' );
+
+		/* Everything but what it adds is the page as it came: no copies, a custom property and a script's text all stay. */
+		$this->assertSame( $page, str_replace( array( $hero, $card, $band ), '', preg_replace( array( '#<picture style="display: contents;">(?:<source [^>]+>)+#', '#</picture>#', '# data-iminify-picture#' ), '', $html ) ) );
+
+		/* Read again, nothing is added twice. */
 		$this->assertSame( $html, Buffer::rewrite( $html ) );
 	}
 
@@ -176,6 +222,11 @@ class BufferTest extends WP_UnitTestCase {
 		$html = Buffer::rewrite( $page );
 
 		$this->assertSame( '<picture style="display: contents;"><source type="image/avif" srcset="' . $base . '/photo.jpg.avif"><img data-iminify-picture src="' . $base . '/photo.jpg"></picture><img src="' . $base . '/second.jpg"><img src="' . $base . '/sub/third.jpg">', $html, 'A file with no row, or no copies, stays.' );
+		$this->assertSame(
+			'<div style="background:url(' . $base . '/photo.jpg) center; background:image-set(url(&quot;' . $base . '/photo.jpg.avif&quot;) type(&quot;image/avif&quot;), url(' . $base . '/photo.jpg) type(&quot;image/jpeg&quot;)) center"></div><div style="background:url(' . $base . '/second.jpg)"></div>',
+			Buffer::rewrite( '<div style="background:url(' . $base . '/photo.jpg) center"></div><div style="background:url(' . $base . '/second.jpg)"></div>' ),
+			'A background takes the copies the row proves.'
+		);
 
 		/* A copy beside a file replaced since, one written over since, and one a row names in another folder. */
 		$cases = array(
@@ -208,7 +259,7 @@ class BufferTest extends WP_UnitTestCase {
 		$type = (string) ini_get( 'default_mimetype' );
 
 		Buffer::start();
-		$this->assertSame( 10, has_filter( 'wp_template_enhancement_output_buffer', array( Buffer::class, 'rewrite' ) ) );
+		$this->assertSame( Buffer::PRIORITY, has_filter( 'wp_template_enhancement_output_buffer', array( Buffer::class, 'rewrite' ) ) );
 
 		try {
 			ini_set( 'default_mimetype', 'application/json' ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- what core reads when no header was sent, as under the command line.
@@ -250,6 +301,33 @@ class BufferTest extends WP_UnitTestCase {
 
 		/* Picture tags over the whole page keep core's own filters too. */
 		$this->assertStringContainsString( '<picture', wp_get_attachment_image( $id, 'full' ) );
+	}
+
+	public function test_the_page_is_read_after_core_has_put_a_classic_themes_late_styles_in_it(): void {
+		$id    = $this->attachment();
+		$files = $this->files_of( $id );
+		$this->copies( $id, array( array( $files['full'], 'webp' ) ) );
+
+		$full = (string) wp_get_attachment_url( $id );
+		$late = '<style id="late-inline-css">.hero{background-image:url(' . $full . ')}</style>';
+		$type = (string) ini_get( 'default_mimetype' );
+
+		/* The buffer's filter goes on at `template_redirect`; core adds the one that moves late styles into the head once its buffer starts, after it, at the default priority. */
+		Buffer::start();
+		$hoist = static function ( $html ) use ( $late ) {
+			return str_replace( '</head>', $late . '</head>', (string) $html );
+		};
+		add_filter( 'wp_template_enhancement_output_buffer', $hoist );
+
+		try {
+			ini_set( 'default_mimetype', 'text/html' ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- an HTML answer.
+			$html = wp_finalize_template_enhancement_output_buffer( '<html><head></head><body></body></html>', PHP_OUTPUT_HANDLER_FINAL );
+		} finally {
+			ini_set( 'default_mimetype', $type ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- puts it back.
+			remove_filter( 'wp_template_enhancement_output_buffer', $hoist );
+		}
+
+		$this->assertStringContainsString( '.hero{background-image:url(' . $full . '); background-image:image-set(url("' . $full . '.webp") type("image/webp"), url(' . $full . ') type("image/jpeg"))}', $html );
 	}
 
 	public function test_a_main_file_is_found_from_any_of_its_sizes(): void {

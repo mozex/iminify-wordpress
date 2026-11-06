@@ -131,8 +131,14 @@ class Hooks {
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function changed( int $attachment ): void {
+		$given = $attachment;
+
 		/* A translation's files are the holder's to send; a translation plugin copying the holder's own save onto it changed nothing. */
 		$attachment = Shared::holder( $attachment, true );
+
+		if ( $attachment !== $given ) {
+			Shared::point( $attachment, array( $given ) );
+		}
 
 		/* A regeneration that skipped every existing size (Regenerate Thumbnails' default) left the files as they were. */
 		if ( Writer::$writing === $attachment || Records::unchanged( $attachment ) || ! Optimizer::is_optimizable( $attachment ) ) {

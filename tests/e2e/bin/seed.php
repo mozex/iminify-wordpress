@@ -15,6 +15,8 @@
  *   folder     makes a folder in wp-content with images the plugin hasn't handled (`{"count": N}`, 2 by default); prints its path there
  *   files      prints the rows of the files in the chosen folders, as JSON
  *   folder-optimized  chooses a folder in wp-content with an image whose WebP copy its row records as the plugin's, and a post showing it in raw HTML; prints the post's address
+ *   translated  makes a translation of the image given (`{"id": N}`) as Polylang does, and a post showing it; prints its id, its holder and the post's address
+ *   backgrounds  gives the image given (`{"id": N}`) AVIF copies where the server writes AVIF, and adds a post with a background in an inline style and one in a style element; prints the post's address, the image's two addresses and whether AVIF was written
  *
  * @package Iminify\WordPress
  */
@@ -308,6 +310,88 @@ switch ( $command ) {
 				'id'   => $attachment,
 				'post' => get_permalink( $showing ),
 				'raw'  => get_permalink( $raw ),
+			)
+		) . "\n";
+		break;
+
+	case 'translated':
+		/* As Polylang translates an image: a new attachment given the image's metadata and file as post meta. */
+		$e2e_of      = (int) ( $given['id'] ?? 0 );
+		$translation = (int) wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/jpeg',
+				'post_title'     => 'Iminify e2e translation',
+				'post_status'    => 'inherit',
+			)
+		);
+
+		add_post_meta( $translation, '_wp_attachment_metadata', wp_get_attachment_metadata( $e2e_of, true ) );
+		add_post_meta( $translation, '_wp_attached_file', (string) get_post_meta( $e2e_of, '_wp_attached_file', true ) );
+
+		$showing = wp_insert_post(
+			array(
+				'post_title'   => 'Iminify e2e translated',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:image {"id":' . $translation . ',"sizeSlug":"large"} --><figure class="wp-block-image size-large"><img src="' . esc_url( (string) wp_get_attachment_image_url( $translation, 'large' ) ) . '" alt="" class="wp-image-' . $translation . '"/></figure><!-- /wp:image -->',
+			)
+		);
+
+		echo wp_json_encode(
+			array(
+				'id'     => $translation,
+				'holder' => Records::get( $translation )['holder'],
+				'post'   => get_permalink( $showing ),
+			)
+		) . "\n";
+		break;
+
+	case 'backgrounds':
+		/* AVIF copies beside the optimized image's main file and large size, where this server's image editor writes AVIF. */
+		$e2e_of     = (int) ( $given['id'] ?? 0 );
+		$e2e_record = Records::get( $e2e_of );
+		$e2e_main   = (string) get_attached_file( $e2e_of );
+		$e2e_large  = dirname( $e2e_main ) . '/' . wp_get_attachment_metadata( $e2e_of )['sizes']['large']['file'];
+		$e2e_avif   = wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) );
+
+		foreach ( $e2e_avif ? array( $e2e_main, $e2e_large ) : array() as $sized ) {
+			$editor = wp_get_image_editor( $sized );
+
+			if ( is_wp_error( $editor ) || is_wp_error( $editor->save( $sized . '.avif', 'image/avif' ) ) ) {
+				$e2e_avif = false;
+				continue;
+			}
+
+			clearstatcache( true, $sized . '.avif' );
+
+			$e2e_record['copies'][ (string) Paths::relative( $sized . '.avif' ) ] = array(
+				'for'       => (string) Paths::relative( $sized ),
+				'format'    => 'avif',
+				'bytes'     => (int) filesize( $sized . '.avif' ),
+				'origin'    => Records::ORIGIN,
+				'for_bytes' => (int) filesize( $sized ),
+			);
+		}
+
+		Records::update( $e2e_of, array( 'copies' => $e2e_record['copies'] ) );
+
+		/* A builder's hero in an inline style, a gradient over the photo, and a banner a style element sets; written as an editor with unfiltered HTML saves them. */
+		kses_remove_filters();
+		$showing = wp_insert_post(
+			array(
+				'post_title'   => 'Iminify e2e backgrounds',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:html --><style>.iminify-banner{min-height:120px;background-image:url(' . esc_url( (string) wp_get_attachment_url( $e2e_of ) ) . ')}</style>'
+					. '<div class="iminify-hero" style="min-height:120px;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),url(' . esc_url( (string) wp_get_attachment_image_url( $e2e_of, 'large' ) ) . ') center/cover no-repeat"></div>'
+					. '<div class="iminify-banner"></div><!-- /wp:html -->',
+			)
+		);
+
+		echo wp_json_encode(
+			array(
+				'post'  => get_permalink( $showing ),
+				'main'  => (string) wp_get_attachment_url( $e2e_of ),
+				'large' => (string) wp_get_attachment_image_url( $e2e_of, 'large' ),
+				'avif'  => $e2e_avif,
 			)
 		) . "\n";
 		break;

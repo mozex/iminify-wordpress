@@ -392,7 +392,7 @@ class Optimizer {
 		$why = self::why_not( $attachment, true );
 
 		if ( null !== $why ) {
-			Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
+			self::skip( $attachment, $why );
 
 			return;
 		}
@@ -840,6 +840,9 @@ class Optimizer {
 
 		self::delete_group( (string) $group['id'] );
 
+		/* Translations sharing the files serve these copies through their own pages, so each is pointed here, asked afresh. */
+		Shared::point( $attachment, Shared::others( $attachment, true ) );
+
 		/**
 		 * An image's files were written: the plugin's output and its WebP and AVIF copies are in place.
 		 *
@@ -1051,11 +1054,27 @@ class Optimizer {
 	}
 
 	/**
+	 * Sets an image aside as one the plugin doesn't send, with the reason beside
+	 * it; one sharing another's files is pointed at the holder, whose copies its
+	 * pages then serve.
+	 *
+	 * @param int                                                $attachment The attachment's id.
+	 * @param array{code: string, message: string, holder?: int} $why        Why, as `why_not()` answers.
+	 */
+	public static function skip( int $attachment, array $why ): void {
+		Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
+
+		if ( isset( $why['holder'] ) ) {
+			Shared::point( $why['holder'], array( $attachment ) );
+		}
+	}
+
+	/**
 	 * Why an attachment isn't an image the plugin sends, or null when it is.
 	 *
 	 * @param int  $attachment The attachment's id.
 	 * @param bool $fresh      Whether to ask afresh who shares its files, as a run that writes them must (`Shared`).
-	 * @return array{code: string, message: string}|null
+	 * @return array{code: string, message: string, holder?: int}|null
 	 */
 	public static function why_not( int $attachment, bool $fresh = false ): ?array {
 		$unsupported = array(
@@ -1093,6 +1112,7 @@ class Optimizer {
 					__( 'Its files are attachment #%d\'s, as a translation\'s are, so Iminify optimizes them there.', 'iminify-image-optimizer' ),
 					$holder
 				),
+				'holder'  => $holder,
 			);
 		}
 

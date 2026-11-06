@@ -832,7 +832,7 @@ class Bulk {
 					'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
 				);
 
-				Records::fail( $id, Records::SKIPPED, $why['code'], $why['message'] );
+				Optimizer::skip( $id, $why );
 				continue;
 			}
 

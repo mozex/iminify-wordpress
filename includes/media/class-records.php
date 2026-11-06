@@ -22,6 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * second lossy pass. Every copy carries its origin, so restoring, deleting the
  * copies or uninstalling only ever deletes the plugin's own.
  *
+ * An attachment that shares its files with another (a translation's, `Shared`)
+ * keeps only `holder`, the id of the one whose record holds the work on them,
+ * so `<picture>` finds that one's copies with no lookup by file name.
+ *
  * The record is one serialized value, which no query can read, so its status
  * and the formats its group was asked for also go in post meta of their own, for
  * the media library's filters, the queue and the bulk run, as do the bytes its
@@ -87,7 +91,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -110,6 +114,7 @@ class Records {
 			'error'      => isset( $record['error'] ) && is_array( $record['error'] ) ? $record['error'] : null,
 			'attempts'   => isset( $record['attempts'] ) ? (int) $record['attempts'] : 0,
 			'reopens'    => isset( $record['reopens'] ) ? (int) $record['reopens'] : 0,
+			'holder'     => isset( $record['holder'] ) && (int) $record['holder'] > 0 ? (int) $record['holder'] : null,
 			'updated'    => isset( $record['updated'] ) ? (int) $record['updated'] : 0,
 		);
 	}

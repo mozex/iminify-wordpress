@@ -29,6 +29,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * counts) reads an answer kept for the request, which an attachment's file
  * changing, a WP-CLI look and each Action Scheduler action drop, and whose worst
  * error is a button the action then refuses.
+ *
+ * Each of the others keeps the holder's id in its record (`holder`), so a page
+ * showing a translation serves the holder's copies (`Picture`) without asking
+ * who names the file. It is written wherever the holder is already known: when
+ * the holder's work is written, when a run sets one aside as sharing its files,
+ * when its files change, when the holder's record moves on, and when an
+ * attachment comes to name a file the plugin has worked on. `Picture` takes it
+ * only while both still name the same file, so one left behind serves nothing.
  */
 class Shared {
 
@@ -46,7 +54,7 @@ class Shared {
 	 */
 	public static function register(): void {
 		foreach ( array( 'added_post_meta', 'updated_post_meta', 'deleted_post_meta' ) as $hook ) {
-			add_action( $hook, array( self::class, 'file_changed' ), 10, 3 );
+			add_action( $hook, array( self::class, 'file_changed' ), 10, 4 );
 		}
 
 		add_action( 'action_scheduler_before_execute', array( self::class, 'forget' ) );
@@ -54,16 +62,69 @@ class Shared {
 	}
 
 	/**
-	 * The meta hooks: drops the kept answers when the meta is an attachment's file.
+	 * The meta hooks: drops the kept answers when the meta is an attachment's
+	 * file. An attachment coming to name a file the plugin has worked on (a
+	 * translation WPML or Polylang just made of an optimized image) is pointed at
+	 * the holder. Asking who names the file costs a query, so it is asked only
+	 * when the file has a copy or a backup of the plugin's kind, which a new
+	 * upload's unique name never has.
 	 *
 	 * @param mixed $meta_ids  The meta rows.
 	 * @param mixed $object_id The post's id.
 	 * @param mixed $meta_key  The meta key.
+	 * @param mixed $value     The meta's value.
 	 */
-	public static function file_changed( $meta_ids, $object_id, $meta_key ): void {
-		if ( '_wp_attached_file' === $meta_key ) {
-			self::forget();
+	public static function file_changed( $meta_ids, $object_id, $meta_key, $value = null ): void {
+		if ( '_wp_attached_file' !== $meta_key ) {
+			return;
 		}
+
+		self::forget();
+
+		if ( ! is_string( $value ) || '' === $value || ! self::worked_on( $value ) ) {
+			return;
+		}
+
+		$attachment = (int) $object_id;
+		$sharing    = array_merge( array( $attachment ), self::others( $attachment, true ) );
+
+		if ( count( $sharing ) > 1 ) {
+			self::point( self::first_holder( $sharing ), $sharing );
+		}
+	}
+
+	/**
+	 * Writes the holder's id into the records of the others sharing its files,
+	 * where it isn't already, and takes it out of the holder's own.
+	 *
+	 * @param int       $holder      The attachment holding the work.
+	 * @param list<int> $attachments The attachments sharing its files, the holder among them or not.
+	 */
+	public static function point( int $holder, array $attachments ): void {
+		foreach ( array_unique( array_merge( array( $holder ), $attachments ) ) as $attachment ) {
+			$pointer = $attachment === $holder ? null : $holder;
+
+			if ( Records::get( $attachment )['holder'] !== $pointer ) {
+				Records::update( $attachment, array( 'holder' => $pointer ) );
+			}
+		}
+	}
+
+	/**
+	 * Whether a file, relative to the uploads folder, has a WebP or AVIF copy beside
+	 * it or a backup in the plugin's backup folder: the marks the plugin's work
+	 * leaves on an image's main file.
+	 *
+	 * @param string $file The file, relative to the uploads folder.
+	 */
+	protected static function worked_on( string $file ): bool {
+		if ( false !== strpos( '/' . $file . '/', '/../' ) ) {
+			return false;
+		}
+
+		$path = Paths::absolute( $file );
+
+		return is_file( $path . '.webp' ) || is_file( $path . '.avif' ) || is_file( Paths::backup( $file ) );
 	}
 
 	/**
@@ -153,8 +214,9 @@ class Shared {
 			}
 		}
 
+		$next = self::first_holder( $others );
+
 		if ( self::holds_work( $attachment ) ) {
-			$next   = self::first_holder( $others );
 			$record = Records::get( $attachment );
 			$send   = in_array( $record['status'], array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ), true );
 
@@ -174,6 +236,8 @@ class Shared {
 				Optimizer::queue( $next, Optimizer::trigger( $record['trigger'] ) );
 			}
 		}
+
+		self::point( $next, $others );
 
 		return true;
 	}

@@ -61,3 +61,45 @@ test( 'Picture tags across the whole page reach an image in raw HTML and one in 
 	await expect( page.locator( 'picture' ) ).toHaveCount( 1 );
 	await expect( page.locator( 'picture picture' ) ).toHaveCount( 0 );
 } );
+
+test( "A translation's page serves the copies of the image it translates", async ( { page } ) => {
+	seed( 'reset' );
+	const { id } = seedJson( 'optimized' );
+	const translated = seedJson( 'translated', { id } );
+
+	expect( translated.holder ).toBe( id );
+
+	await page.goto( translated.post );
+	const image = page.locator( `picture > img.wp-image-${ translated.id }[data-iminify-picture]` );
+	await expect( image ).toHaveCount( 1 );
+	await expect( page.locator( 'picture > source[type="image/webp"]' ) ).toHaveCount( 1 );
+	expect( await image.evaluate( ( img ) => img.currentSrc ) ).toMatch( /\.jpg\.webp$/ );
+} );
+
+test( "Across the whole page a builder's background and a style element's load their AVIF", async ( { page } ) => {
+	seed( 'reset' );
+	const { id } = seedJson( 'optimized' );
+	const { post, main, large, avif } = seedJson( 'backgrounds', { id } );
+
+	expect( avif, "The e2e server's image editor writes AVIF." ).toBe( true );
+
+	await page.goto( settingsPage );
+	await page.getByLabel( 'WebP and AVIF on your pages' ).selectOption( 'page' );
+	await expect( page.getByText( 'A background set in a stylesheet file keeps its original.' ) ).toBeVisible();
+	await page.getByRole( 'button', { name: 'Save changes' } ).click();
+	await expect( page.locator( '.iminify-toast', { hasText: 'Settings saved.' } ) ).toBeVisible();
+
+	await page.goto( post, { waitUntil: 'load' } );
+
+	/* The first declaration stays as it was, so a browser that can't read the second keeps the original. */
+	const style = ( await page.locator( '.iminify-hero' ).getAttribute( 'style' ) ) ?? '';
+	expect( style.indexOf( `url(${ large })` ) ).toBeLessThan( style.indexOf( 'image-set(' ) );
+
+	const loaded = async () =>
+		page.evaluate( () => performance.getEntriesByType( 'resource' ).map( ( entry ) => entry.name ) );
+
+	await expect.poll( loaded ).toContain( `${ large }.avif` );
+	await expect.poll( loaded ).toContain( `${ main }.avif` );
+	expect( await loaded() ).not.toContain( large );
+	expect( await loaded() ).not.toContain( main );
+} );
