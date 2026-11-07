@@ -435,7 +435,7 @@ class Media_View {
 		$other  = self::other( $attachment );
 
 		if ( null !== $other ) {
-			return self::other_summary( $other );
+			return self::other_summary( $other ) . self::taken_detail( $record );
 		}
 
 		$away = Others::away( $attachment );
@@ -468,7 +468,7 @@ class Media_View {
 		}
 
 		if ( Records::OPTIMIZED !== $record['status'] || null === $record['result'] ) {
-			return $html;
+			return $html . self::taken_detail( $record );
 		}
 
 		$saved = self::saved( $record['result'] );
@@ -504,6 +504,8 @@ class Media_View {
 			) . '</p>';
 		}
 
+		$html .= self::taken_detail( $record );
+
 		$lacks = Missing::of( $attachment, Missing::FORMATS );
 
 		if ( array() !== $lacks ) {
@@ -530,18 +532,12 @@ class Media_View {
 
 		if ( ! empty( $record['result']['kept'] ) ) {
 			$kept = (int) $record['result']['kept'];
-			$by   = isset( $record['result']['kept_by'] ) && is_string( $record['result']['kept_by'] ) ? Others::name( $record['result']['kept_by'] ) : '';
 
 			$html .= '<p class="iminify-detail">' . esc_html(
-				'' === $by ? sprintf(
+				sprintf(
 					/* translators: %s: how many copies. */
 					_n( '%s WebP or AVIF copy another tool made was kept as it is.', '%s WebP or AVIF copies another tool made were kept as they are.', $kept, 'iminify-image-optimizer' ),
 					number_format_i18n( $kept )
-				) : sprintf(
-					/* translators: 1: how many copies, 2: another image optimizer's name, such as EWWW Image Optimizer. */
-					_n( '%1$s WebP or AVIF copy %2$s made was kept as it is.', '%1$s WebP or AVIF copies %2$s made were kept as they are.', $kept, 'iminify-image-optimizer' ),
-					number_format_i18n( $kept ),
-					$by
 				)
 			) . '</p>';
 		}
@@ -724,6 +720,39 @@ class Media_View {
 		}
 
 		return implode( ', ', array_intersect_key( $names, $found ) );
+	}
+
+	/**
+	 * Which copies another plugin made the image's pages are served, in a
+	 * sentence, or empty when it has none the plugin took over.
+	 *
+	 * @param array<string, mixed> $record The record.
+	 */
+	protected static function taken_detail( array $record ): string {
+		$names   = array(
+			'webp' => __( 'WebP', 'iminify-image-optimizer' ),
+			'avif' => __( 'AVIF', 'iminify-image-optimizer' ),
+		);
+		$formats = array();
+		$plugins = array();
+
+		foreach ( Copies::taken( $record['copies'] ) as $copy ) {
+			$formats[ (string) ( $copy['format'] ?? '' ) ]       = true;
+			$plugins[ Others::name( (string) $copy['origin'] ) ] = true;
+		}
+
+		if ( array() === $plugins ) {
+			return '';
+		}
+
+		return '<p class="iminify-detail">' . esc_html(
+			sprintf(
+				/* translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer". */
+				__( 'Its pages are served the %1$s copies %2$s made, until Iminify makes its own.', 'iminify-image-optimizer' ),
+				implode( ', ', array_intersect_key( $names, $formats ) ),
+				implode( ', ', array_keys( $plugins ) )
+			)
+		) . '</p>';
 	}
 
 	/**

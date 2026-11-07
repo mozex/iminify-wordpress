@@ -8,6 +8,8 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Switching\Converter;
+use Iminify\WordPress\Switching\Places;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,8 +20,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  * its file still has the bytes the plugin wrote: anything else at that name is
  * another plugin's, and stays. Restoring, "delete the copies", deleting an
  * attachment and uninstalling all come through here.
+ *
+ * A copy another optimizer made and the plugin took over (`Switching\Takeover`,
+ * W137) is recorded with that plugin's short name as its origin, and served
+ * like the plugin's own while it is proven the same way. It is never the
+ * plugin's to delete: every path here only forgets it, and its file stays.
  */
 class Copies {
+
+	/**
+	 * The start of a record's key for a copy kept under `wp-content` outside the
+	 * uploads folder (Converter for Media's), followed by its path from there.
+	 */
+	const IN_CONTENT = 'wp-content:';
 
 	/**
 	 * The copies in a record that are the plugin's own.
@@ -37,12 +50,87 @@ class Copies {
 	}
 
 	/**
+	 * The copies in a record another plugin made that the plugin took over: their
+	 * origin is that plugin's short name.
+	 *
+	 * @param array<string, mixed> $copies A record's `copies`.
+	 * @return array<string, array<string, mixed>>
+	 */
+	public static function taken( array $copies ): array {
+		return array_filter(
+			$copies,
+			static function ( $about ): bool {
+				return is_array( $about ) && isset( $about['origin'] ) && is_string( $about['origin'] ) && '' !== $about['origin'] && Records::ORIGIN !== $about['origin'];
+			}
+		);
+	}
+
+	/**
+	 * A taken copy's file by its key in a record, when it is there with no link on
+	 * the way (`Places`): under the uploads folder, or in Converter for Media's
+	 * folder under `wp-content` for a key that starts with IN_CONTENT. Null otherwise.
+	 *
+	 * @param string $key The copy's key in a record.
+	 */
+	public static function file( string $key ): ?string {
+		if ( 0 === strpos( $key, self::IN_CONTENT ) ) {
+			$relative = ltrim( substr( $key, strlen( self::IN_CONTENT ) ), '/' );
+
+			return 0 === strpos( $relative, Converter::FOLDER . '/' ) ? Places::file( untrailingslashit( wp_normalize_path( WP_CONTENT_DIR ) ) . '/' . $relative ) : null;
+		}
+
+		return Places::upload( $key );
+	}
+
+	/**
+	 * The address of a copy kept under `wp-content` outside the uploads folder, or
+	 * empty for one beside its file, whose address is its file's with its own name.
+	 *
+	 * @param string $key The copy's key in a record.
+	 */
+	public static function address( string $key ): string {
+		return 0 === strpos( $key, self::IN_CONTENT ) ? content_url( implode( '/', array_map( 'rawurlencode', explode( '/', ltrim( substr( $key, strlen( self::IN_CONTENT ) ), '/' ) ) ) ) ) : '';
+	}
+
+	/**
+	 * The keys of the taken copies that can't be served any more: a copy no longer
+	 * there with the bytes it had when taken, or beside a file that changed since
+	 * (its bytes are no longer `for_bytes`), or is gone.
+	 *
+	 * @param array<string, mixed> $copies A record's `copies`.
+	 * @return array<string, true>
+	 */
+	public static function unproven( array $copies ): array {
+		$unproven = array();
+
+		foreach ( self::taken( $copies ) as $copy => $about ) {
+			$path   = self::file( (string) $copy );
+			$beside = Places::upload( (string) ( $about['for'] ?? '' ) );
+
+			if ( null !== $path && null !== $beside ) {
+				clearstatcache( true, $path );
+				clearstatcache( true, $beside );
+
+				if ( (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 ) && (int) filesize( $beside ) === (int) ( $about['for_bytes'] ?? -1 ) ) {
+					continue;
+				}
+			}
+
+			$unproven[ (string) $copy ] = true;
+		}
+
+		return $unproven;
+	}
+
+	/**
 	 * Deletes the plugin's own copies of an attachment whose file beside them has
 	 * changed since they were made (its bytes on the disk are no longer the
 	 * `for_bytes` written with the copy), and forgets them; the copies of every
 	 * other file stay. A copy whose file isn't on the disk (it may be only in WP
-	 * Offload Media's bucket) is left as it is. Run while the site serves through
-	 * the server's rules (`Delivery\Rules`), which can't ask the record.
+	 * Offload Media's bucket) is left as it is. A copy taken over from another
+	 * plugin that can't be served any more is forgotten, its file left. Run while
+	 * the site serves through the server's rules (`Delivery\Rules`), which can't
+	 * ask the record.
 	 *
 	 * @param int $attachment The attachment's id.
 	 * @return int How many copies it forgot.
@@ -77,6 +165,9 @@ class Copies {
 			$stale[ $copy ] = true;
 		}
 
+		/* Another plugin's copy the plugin took over is only forgotten: the rules go on serving it beside its file, which isn't the plugin's to delete. */
+		$stale += self::unproven( $record['copies'] );
+
 		if ( array() !== $stale ) {
 			Records::update( $attachment, array( 'copies' => array_diff_key( $record['copies'], $stale ) ) );
 		}
@@ -91,7 +182,8 @@ class Copies {
 	 * `create` context (a regeneration, a replaced image), the plugin's own copies
 	 * among them. A format with a copy gone is taken off the result, so the image
 	 * reads as lacking it (`Missing`). A copy WP Offload Media keeps in its bucket
-	 * is left as it is.
+	 * is left as it is. A copy taken over from another plugin that can't be served
+	 * any more (gone, or beside a file put back) is forgotten too.
 	 *
 	 * @param int $attachment The attachment's id.
 	 * @return int How many copies it forgot.
@@ -126,13 +218,16 @@ class Copies {
 			);
 		}
 
+		/* A copy taken over from another plugin is only forgotten, and never stood in the plugin's result. */
+		$gone += self::unproven( $record['copies'] );
+
 		if ( array() === $gone ) {
 			return 0;
 		}
 
 		$result = $record['result'];
 
-		if ( null !== $result ) {
+		if ( null !== $result && array() !== $lost ) {
 			$result['formats'] = array_values( array_diff( isset( $result['formats'] ) && is_array( $result['formats'] ) ? $result['formats'] : array(), array_column( $lost, 'format' ) ) );
 
 			foreach ( $lost as $copy ) {
@@ -176,7 +271,8 @@ class Copies {
 	}
 
 	/**
-	 * Deletes the plugin's own copies of an attachment, and forgets them.
+	 * Deletes the plugin's own copies of an attachment, and forgets them with the
+	 * copies it took over from another plugin, whose files stay.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
@@ -210,7 +306,7 @@ class Copies {
 		Records::update(
 			$attachment,
 			array(
-				'copies' => array_diff_key( $record['copies'], self::own( $record['copies'] ) ),
+				'copies' => array_diff_key( $record['copies'], self::own( $record['copies'] ), self::taken( $record['copies'] ) ),
 				'result' => $result,
 			)
 		);

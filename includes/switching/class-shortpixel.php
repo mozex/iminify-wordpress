@@ -190,7 +190,7 @@ class Shortpixel extends Reader {
 
 			foreach ( array( 'webp', 'avif' ) as $format ) {
 				if ( isset( $extra[ $format ] ) && is_string( $extra[ $format ] ) && '' !== $extra[ $format ] ) {
-					$copies[] = $folder . wp_basename( $extra[ $format ] );
+					$copies[ $folder . wp_basename( $extra[ $format ] ) ] = $path;
 				}
 			}
 

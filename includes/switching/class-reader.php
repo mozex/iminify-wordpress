@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Readers only read. Every path a record gives goes through `Places`.
  *
- * @phpstan-type Found array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>, outside: array<string, list<string>>, elsewhere: string}
+ * @phpstan-type Found array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: array<string, string>, outside: array<string, list<string>>, elsewhere: string}
  */
 abstract class Reader {
 
@@ -213,7 +213,8 @@ abstract class Reader {
 	 * @return Found|null
 	 *         Paths relative to the uploads folder: the files it recorded compressing with the bytes it recorded, those
 	 *         that still hold its output, a verified backup of each it kept (absolute), the copies its records name beside
-	 *         the files, its copies of each file kept outside the uploads folder (absolute), and, when restoring the image
+	 *         the files with the file each stands beside, its copies of each file kept outside the uploads folder
+	 *         (absolute), and, when restoring the image
 	 *         is that plugin's own to do rather than Iminify's, why, in a sentence.
 	 */
 	public function read( int $attachment, array $metadata ): ?array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- a reader that keeps no records answers nothing.
@@ -331,7 +332,7 @@ abstract class Reader {
 	 * @param int                                                         $attachment The attachment's id.
 	 * @param array<string, array{size: string, before: int, after: int}> $files      The files it recorded, by path.
 	 * @param array<string, string>                                       $backups    A verified backup for each file that has one.
-	 * @param list<string>                                                $copies     The copies its records name beside the files.
+	 * @param array<string, string>                                       $copies     The copies its records name beside the files, each with the file it stands beside.
 	 * @param string                                                      $elsewhere  Why restoring the image is that plugin's own to do, or empty.
 	 * @param array<string, list<string>>                                 $outside    Its copies of each file kept outside the uploads folder, absolute.
 	 * @return Found|null
@@ -347,9 +348,9 @@ abstract class Reader {
 
 		$existing = array();
 
-		foreach ( $copies as $copy ) {
-			if ( null !== Places::upload( $copy ) ) {
-				$existing[] = $copy;
+		foreach ( $copies as $copy => $for ) {
+			if ( null !== Places::upload( (string) $copy ) ) {
+				$existing[ (string) $copy ] = $for;
 			}
 		}
 
@@ -372,7 +373,7 @@ abstract class Reader {
 			'files'     => $files,
 			'outputs'   => $outputs,
 			'backups'   => array_intersect_key( $backups, array_flip( $outputs ) ),
-			'copies'    => array_values( array_unique( $existing ) ),
+			'copies'    => $existing,
 			'outside'   => $away,
 			'elsewhere' => array() === $outputs ? '' : $elsewhere,
 		);

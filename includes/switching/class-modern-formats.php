@@ -159,7 +159,7 @@ class Modern_Formats extends Reader {
 
 			foreach ( $sources as $mime => $source ) {
 				if ( in_array( $mime, self::MODERN, true ) && is_array( $source ) && ! empty( $source['file'] ) && $folder . wp_basename( (string) $source['file'] ) !== $relative ) {
-					$copies[] = $folder . wp_basename( (string) $source['file'] );
+					$copies[ $folder . wp_basename( (string) $source['file'] ) ] = $relative;
 				}
 			}
 

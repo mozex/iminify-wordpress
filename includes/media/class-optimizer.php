@@ -954,7 +954,6 @@ class Optimizer {
 			'outputs' => $written['outputs'],
 			'skipped' => $written['skipped'],
 			'kept'    => count( $written['kept'] ),
-			'kept_by' => Others::copies_owner( $attachment, $written['kept'] ),
 			'at'      => time(),
 		);
 

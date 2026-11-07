@@ -240,6 +240,14 @@ export default function RulesPanel( { rules } ) {
 					) }
 				</p>
 			) }
+			{ covered.length > 0 && (
+				<p className="iminify-text">
+					{ __(
+						'They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) }
 			{ rules.cloudflare && (
 				<Callout tone="warning">
 					{ __(

@@ -130,14 +130,14 @@ class Caches {
 	 * Tells each cache plugin the site runs to empty itself, on the site this
 	 * request is on.
 	 *
-	 * @param string $why `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed.
+	 * @param string $why `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed, `others` after another image optimizer whose copies the pages may serve was deleted.
 	 */
 	public static function purge( string $why ): void {
 		/**
 		 * Whether to empty the site's page caches after the plugin changed its images.
 		 *
 		 * @param bool   $purge Whether to purge. Default true.
-		 * @param string $why   `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed.
+		 * @param string $why   `bulk` after a bulk run, `restore` after images were put back outside one, `uninstall` after the plugin deleted its copies, `delivery` after the way the pages serve the copies changed, `others` after another image optimizer whose copies the pages may serve was deleted.
 		 */
 		if ( ! apply_filters( 'iminify_purge_caches', true, $why ) ) {
 			return;

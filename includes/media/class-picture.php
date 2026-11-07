@@ -61,7 +61,7 @@ class Picture {
 	 * attachment: a page that lists several sites of a network
 	 * (`switch_to_blog()`) asks about attachments that share an id.
 	 *
-	 * @var array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>>
+	 * @var array<string, array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>>>
 	 */
 	protected static $served = array();
 
@@ -313,7 +313,7 @@ class Picture {
 	 * folder, whose row proves them (`Delivery\Buffer`).
 	 *
 	 * @param string                                                                       $url     The file's address.
-	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies  The copies by the path of the file they stand beside, then by format.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>> $copies  The copies by the path of the file they stand beside, then by format.
 	 * @param callable(list<array{0: string, 1: string}>): list<array{file: string, bucket: bool}|null> $resolve Maps addresses to their files, as `files()` does.
 	 * @return array<string, string>
 	 */
@@ -329,7 +329,7 @@ class Picture {
 			$about = $copies[ $file['file'] ][ $format ] ?? null;
 
 			if ( null !== $about && ( $file['bucket'] ? $about['bucket'] : $about['local'] ) ) {
-				$set[ $type ] = self::beside( $url, $about['name'] );
+				$set[ $type ] = self::address( $url, $about );
 			}
 		}
 
@@ -352,7 +352,7 @@ class Picture {
 	 * copies its row proves (`Delivery\Buffer`).
 	 *
 	 * @param string                                                                       $tag     The `<img>` tag.
-	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies  The copies by the path of the file they stand beside, then by format.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>> $copies  The copies by the path of the file they stand beside, then by format.
 	 * @param callable(list<array{0: string, 1: string}>): list<array{file: string, bucket: bool}|null> $resolve Maps the `<img>`'s candidates to their files, as `files()` does.
 	 */
 	public static function wrap_with( string $tag, array $copies, callable $resolve ): string {
@@ -407,7 +407,7 @@ class Picture {
 	 *
 	 * @param list<array{0: string, 1: string}>                            $candidates The `<img>`'s candidates: each address and its descriptor.
 	 * @param list<array{file: string, bucket: bool}|null>                 $files      Each candidate's file (`files()`).
-	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool}>> $copies The copies by the path of the file they stand beside, then by format.
+	 * @param array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>> $copies The copies by the path of the file they stand beside, then by format.
 	 * @param string                                                       $format     The source's format.
 	 */
 	protected static function source_set( array $candidates, array $files, array $copies, string $format ): ?string {
@@ -426,14 +426,14 @@ class Picture {
 					$about = $copies[ $file['file'] ][ $fallback ] ?? null;
 
 					if ( null !== $about && ( $file['bucket'] ? $about['bucket'] : $about['local'] ) ) {
-						$copy      = $about['name'];
+						$copy      = self::address( $url, $about );
 						$in_format = $in_format || $fallback === $format;
 						break;
 					}
 				}
 			}
 
-			$entries[] = ( null === $copy ? $url : self::beside( $url, $copy ) ) . ( '' === $descriptor ? '' : ' ' . $descriptor );
+			$entries[] = ( null === $copy ? $url : $copy ) . ( '' === $descriptor ? '' : ' ' . $descriptor );
 		}
 
 		return $in_format ? implode( ', ', $entries ) : null;
@@ -539,10 +539,13 @@ class Picture {
 	/**
 	 * The attachment's copies that can be served, by the name of the file each
 	 * stands beside, then by format: each copy's file name, whether it is in WP
-	 * Offload Media's bucket, and whether it is on the disk.
+	 * Offload Media's bucket, whether it is on the disk, and its own address for
+	 * one kept away from its file (empty for one beside it). The plugin's own and
+	 * those it took over from another plugin (`Copies::taken()`), under the same
+	 * proof; its own wins where both stand for a file in one format.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array<string, array<string, array{name: string, bucket: bool, local: bool}>>
+	 * @return array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>>
 	 */
 	protected static function copies( int $attachment ): array {
 		$kept = get_current_blog_id() . ':' . $attachment;
@@ -553,8 +556,9 @@ class Picture {
 
 		$served = array();
 		$serves = null;
+		$copies = Records::get( $attachment )['copies'];
 
-		foreach ( Copies::own( Records::get( $attachment )['copies'] ) as $copy => $about ) {
+		foreach ( Copies::own( $copies ) + Copies::taken( $copies ) as $copy => $about ) {
 			$format = isset( $about['format'] ) ? (string) $about['format'] : '';
 			$for    = isset( $about['for'] ) ? (string) $about['for'] : '';
 
@@ -562,15 +566,16 @@ class Picture {
 				continue;
 			}
 
-			$path   = Paths::absolute( (string) $copy );
+			$theirs = Records::ORIGIN !== $about['origin'];
+			$path   = $theirs ? Copies::file( (string) $copy ) : Paths::absolute( (string) $copy );
 			$beside = Paths::absolute( $for );
 
-			if ( null === Paths::relative( $path ) || null === Paths::relative( $beside ) ) {
+			if ( null === $path || ( ! $theirs && null === Paths::relative( $path ) ) || null === Paths::relative( $beside ) ) {
 				continue;
 			}
 
 			$local  = is_file( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 );
-			$bucket = Offload_Media::in_bucket( $about );
+			$bucket = ! $theirs && Offload_Media::in_bucket( $about );
 
 			if ( ! $local && ! $bucket ) {
 				continue;
@@ -589,10 +594,16 @@ class Picture {
 				}
 			}
 
+			/* A copy taken over from another plugin serves only a file and format the plugin's own doesn't. */
+			if ( isset( $served[ wp_normalize_path( $for ) ][ $format ] ) && $theirs ) {
+				continue;
+			}
+
 			$served[ wp_normalize_path( $for ) ][ $format ] = array(
 				'name'   => wp_basename( (string) $copy ),
 				'bucket' => $bucket,
 				'local'  => $local,
+				'url'    => $theirs ? Copies::address( (string) $copy ) : '',
 			);
 		}
 
@@ -696,6 +707,17 @@ class Picture {
 		$cut  = strrpos( $path, '/' );
 
 		return ( false === $cut ? '' : substr( $path, 0, $cut + 1 ) ) . rawurlencode( $copy ) . substr( $url, $end );
+	}
+
+	/**
+	 * A copy's address: its own, for one kept away from its file, else the
+	 * address of the file it stands beside with the copy's name.
+	 *
+	 * @param string                                                  $url   The file's address.
+	 * @param array{name: string, bucket: bool, local: bool, url: string} $about The copy, as `copies()` answers it.
+	 */
+	protected static function address( string $url, array $about ): string {
+		return '' !== $about['url'] ? $about['url'] : self::beside( $url, $about['name'] );
 	}
 
 	/**

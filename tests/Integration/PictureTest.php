@@ -84,7 +84,7 @@ class PictureTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '/' . $small . ' 768w', $webp[1] );
 	}
 
-	public function test_only_copies_the_record_names_as_its_own_and_unchanged_are_served(): void {
+	public function test_only_copies_the_record_proves_unchanged_are_served(): void {
 		$id    = $this->attachment();
 		$files = $this->files_of( $id );
 
@@ -98,8 +98,8 @@ class PictureTest extends WP_UnitTestCase {
 		$large        = (string) Paths::relative( $files['large'] ) . '.webp';
 		$medium_large = (string) Paths::relative( $files['medium_large'] ) . '.webp';
 
-		/* Another plugin's copy, one that is gone, one written over since, and one whose image was replaced since. */
-		$copies[ $full ]['origin'] = 'other-plugin';
+		/* A copy whose record names no one as its maker, one that is gone, one written over since, and one whose image was replaced since. */
+		unset( $copies[ $full ]['origin'] );
 		wp_delete_file( Paths::absolute( $medium ) );
 		file_put_contents( Paths::absolute( $large ), 'changed since' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- a test fixture.
 		$copies[ $medium_large ]['for_bytes'] = 1;

@@ -138,7 +138,7 @@ class RestorerTest extends WP_UnitTestCase {
 		$this->assertSame( array( 'kept' => true ), $after['sizes']['medium']['sources'] );
 		$this->assertFileDoesNotExist( $own );
 		$this->assertFileExists( $theirs );
-		$this->assertSame( array( $relative . '.avif' ), array_keys( $record['copies'] ) );
+		$this->assertSame( array(), $record['copies'], 'The copy another plugin made is forgotten, its file kept.' );
 		$this->assertSame( array(), $record['written'] );
 		$this->assertNull( $record['result'] );
 		$this->assertSame( array( Records::NOT_OPTIMIZED, 'restored' ), array( $record['status'], $record['error']['code'] ) );

@@ -100,7 +100,7 @@ class Tinypng extends Reader {
 			$copy = self::copy_of( $entry, $path );
 
 			if ( null !== $copy ) {
-				$copies[] = $copy;
+				$copies[ $copy ] = $path;
 			}
 
 			/* "Mark as compressed" records sizes with no ratio and changes nothing. */

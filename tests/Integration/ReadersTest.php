@@ -53,7 +53,7 @@ class ReadersTest extends WP_UnitTestCase {
 
 		$this->assertSame( 'imagify', $trace['plugin'] );
 		$this->assertSame( $numbers['full'], array_intersect_key( $trace['files'][ $main ], array_flip( array( 'before', 'after' ) ) ) );
-		$this->assertContains( Paths::relative( $files['medium'] ) . '.webp', $trace['copies'] );
+		$this->assertSame( Paths::relative( $files['medium'] ), $trace['copies'][ Paths::relative( $files['medium'] ) . '.webp' ], 'Each copy names the file it stands beside.' );
 		$this->assertNotContains( Paths::relative( $files['original'] ), $trace['outputs'], 'Imagify never compresses the original WordPress keeps.' );
 		$this->assertSame(
 			array(
@@ -110,7 +110,7 @@ class ReadersTest extends WP_UnitTestCase {
 		$this->assertSame( 'shortpixel', $trace['plugin'] );
 		$this->assertContains( Paths::relative( $files['original'] ), $trace['outputs'], 'ShortPixel compresses the original WordPress keeps.' );
 		$this->assertSame( $numbers['original']['after'], $trace['files'][ Paths::relative( $files['original'] ) ]['after'] );
-		$this->assertSame( array( dirname( (string) Paths::relative( $files['medium'] ) ) . '/' . wp_basename( $files['medium'], '.jpg' ) . '.webp' ), $trace['copies'], 'Its copy is photo.webp beside the file.' );
+		$this->assertSame( array( dirname( (string) Paths::relative( $files['medium'] ) ) . '/' . wp_basename( $files['medium'], '.jpg' ) . '.webp' => Paths::relative( $files['medium'] ) ), $trace['copies'], 'Its copy is photo.webp beside the file, which it names.' );
 		$this->assertSame( Paths::uploads() . '/ShortpixelBackups/' . $this->from_abspath( $files['original'] ), $source['path'] );
 		$this->assertSame( Originals::OTHER, $source['kind'] );
 		$this->assertSame( Paths::relative( $files['original'] ), $source['file'] );
@@ -174,7 +174,7 @@ class ReadersTest extends WP_UnitTestCase {
 
 		$this->assertSame( 'ewww', $trace['plugin'] );
 		$this->assertSame( $numbers['full']['after'], $trace['files'][ $main ]['after'] );
-		$this->assertContains( $main . '.webp', $trace['copies'] );
+		$this->assertSame( $main, $trace['copies'][ $main . '.webp' ] );
 		$this->assertSame( WP_CONTENT_DIR . '/ewww/image-backup/uploads/' . $main, $source['path'] );
 		$this->assertSame( Originals::OTHER, $source['kind'] );
 		$this->assertTrue( Others::verdict( $id )['original'] );
@@ -449,8 +449,8 @@ class ReadersTest extends WP_UnitTestCase {
 		$this->assertSame( array( $main ), array_keys( $trace['backups'] ), 'Only a `.bk.` with the bytes WordPress recorded is the original.' );
 		$this->assertSame( Originals::OTHER, $source['kind'] );
 		$this->assertSame( (int) wp_get_attachment_metadata( $id )['filesize'], (int) filesize( $source['path'] ) );
-		$this->assertContains( $medium . '.webp', $trace['copies'] );
-		$this->assertNotContains( $thumb . '.avif', $trace['copies'] );
+		$this->assertSame( $medium, $trace['copies'][ $medium . '.webp' ] );
+		$this->assertArrayNotHasKey( $thumb . '.avif', $trace['copies'] );
 		$this->assertSame( 'other_plugin', Optimizer::why_not( $id )['code'] );
 
 		/* Its backups turned off, or removed by its "Remove Original Image Backups": its output stands alone, with no original. */
@@ -551,7 +551,7 @@ class ReadersTest extends WP_UnitTestCase {
 		$this->assertSame( 'other_plugin', Optimizer::why_not( $plain )['code'], 'An AVIF, which the service never takes, still says whose it is.' );
 		$this->assertContains( $capture['modern-only']['large']['_wp_attached_file'], Others::trace( $large )['outputs'] );
 		$this->assertNull( Others::verdict( $kept ), 'With its fallback the JPEGs are the uploads as they were.' );
-		$this->assertContains( $folder . 'miffall-large-scaled-jpg.avif', ( new Modern_Formats() )->read( $kept, wp_get_attachment_metadata( $kept ) )['copies'] );
+		$this->assertSame( $folder . 'miffall-large-scaled.jpg', ( new Modern_Formats() )->read( $kept, wp_get_attachment_metadata( $kept ) )['copies'][ $folder . 'miffall-large-scaled-jpg.avif' ] );
 
 		/* A file changed since it recorded it is no output of its. */
 		file_put_contents( Paths::absolute( $folder . 'mifonly-plain-300x200.avif' ), 'changed' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test file.

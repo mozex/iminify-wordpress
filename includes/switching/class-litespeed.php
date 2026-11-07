@@ -138,7 +138,7 @@ class Litespeed extends Reader {
 
 			foreach ( array( 'webp', 'avif' ) as $format ) {
 				if ( ! isset( $own[ $relative . '.' . $format ] ) ) {
-					$copies[] = $relative . '.' . $format;
+					$copies[ $relative . '.' . $format ] = $relative;
 				}
 			}
 

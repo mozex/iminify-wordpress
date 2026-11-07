@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Switching\Takeover;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -75,7 +76,7 @@ class Writer {
 			}
 		}
 
-		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['type'] ?? '' ) );
+		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['type'] ?? '' ), Takeover::named( $attachment ) );
 
 		if ( is_wp_error( $put ) ) {
 			return $put;
@@ -113,9 +114,10 @@ class Writer {
 	 * @param array<string, mixed>                $copies   The record's `copies`.
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
 	 * @param string                              $type     The source's MIME type, every output's, for a file not on the disk.
+	 * @param array<string, mixed>                $theirs   The copies another plugin's records name beside the files, by their paths relative to the root (`Takeover::named()`), which the plugin's own copy of the same name replaces (W133).
 	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
-	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '' ) {
+	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '', array $theirs = array() ) {
 		foreach ( $declared as $output ) {
 			$path = Paths::under( $root, (string) $output['file'] );
 			clearstatcache( true, $path );
@@ -153,14 +155,15 @@ class Writer {
 			);
 		}
 
-		$own = Copies::own( $copies );
+		$recorded = Copies::own( $copies ) + Copies::taken( $copies );
+		$rewrote  = array();
 
 		foreach ( $writes as $write ) {
 			$target = Paths::under( $root, $write['file'] );
 			$size   = Zip::size( $archive, $write['entry'] );
 
-			/* A WebP or AVIF of that name another tool made beside the file, or rewrote since the plugin made it, stays its own: written over, it would read as the plugin's and go with a restore. */
-			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_own( $target, $own[ $write['file'] ] ?? null ) ) {
+			/* A WebP or AVIF of that name that neither the record nor another optimizer's records name (another tool made it, or rewrote it since) stays as it is: written over, it would read as the plugin's and go with a restore. One another optimizer's records name is replaced in place, the one write W133 allows over another plugin's file. */
+			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_recorded( $target, $recorded[ $write['file'] ] ?? null ) && ( is_link( $target ) || ! isset( $theirs[ $write['file'] ] ) ) ) {
 				$kept[] = $write['file'];
 				continue;
 			}
@@ -204,6 +207,7 @@ class Writer {
 				}
 
 				$written[ $write['file'] ]             = $bytes;
+				$rewrote[ $write['file'] ]             = true;
 				$summary[ $write['output'] ]['after']  = $bytes;
 				$summary[ $write['output'] ]['width']  = $write['width'];
 				$summary[ $write['output'] ]['height'] = $write['height'];
@@ -221,6 +225,21 @@ class Writer {
 		}
 
 		$archive->close();
+
+		/* A copy taken over from another plugin stops being served once its file is written over, or the plugin made its own copy of that file in that format (ShortPixel's `photo.webp` beside the plugin's `photo.jpg.webp`); its file stays. */
+		$replaced = array();
+
+		foreach ( array_keys( $made ) as $mine ) {
+			$replaced[ $copies[ $mine ]['for'] . '|' . $copies[ $mine ]['format'] ] = true;
+		}
+
+		foreach ( Copies::taken( $copies ) as $copy => $about ) {
+			$for = (string) ( $about['for'] ?? '' );
+
+			if ( isset( $rewrote[ $for ] ) || isset( $replaced[ $for . '|' . (string) ( $about['format'] ?? '' ) ] ) ) {
+				unset( $copies[ $copy ] );
+			}
+		}
 
 		/* The file a copy stands beside, as it is once this group's files are written: `<picture>` serves the copy only while it is unchanged. One left only in the bucket has the bytes it was declared with. */
 		foreach ( $made as $copy => $output ) {
@@ -248,12 +267,13 @@ class Writer {
 	}
 
 	/**
-	 * Whether a file at a copy's name is the plugin's own copy as it wrote it.
+	 * Whether a file at a copy's name is the copy the record names, the plugin's
+	 * own or one it took over from another plugin, with the bytes recorded.
 	 *
 	 * @param string     $path  The file.
 	 * @param mixed|null $about The record's entry for the copy, or null for none.
 	 */
-	protected static function still_own( string $path, $about ): bool {
+	protected static function still_recorded( string $path, $about ): bool {
 		clearstatcache( true, $path );
 
 		return is_array( $about ) && ! is_link( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 );

@@ -188,7 +188,7 @@ class Ewww extends Reader {
 			}
 
 			if ( null !== $row['webp_size'] && (int) $row['webp_size'] > 0 ) {
-				$copies[] = $replace ? preg_replace( '/\.[^.\/]+$/', '', $relative ) . '.webp' : $relative . '.webp';
+				$copies[ $replace ? (string) preg_replace( '/\.[^.\/]+$/', '', $relative ) . '.webp' : $relative . '.webp' ] = $relative;
 			}
 
 			$before = (int) $row['orig_size'];
@@ -221,7 +221,7 @@ class Ewww extends Reader {
 		/* Its cloud mode keeps the original on EWWW's servers for 30 days, fetched only with its key (W141). */
 		$elsewhere = $cloud && ! isset( $names_by_size['original'] ) ? __( 'EWWW Image Optimizer kept this image\'s original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can\'t fetch it.', 'iminify-image-optimizer' ) : '';
 
-		return self::answer( $attachment, $files, $backups, array_map( 'strval', $copies ), $elsewhere );
+		return self::answer( $attachment, $files, $backups, $copies, $elsewhere );
 	}
 
 	public function optimized_files( array $paths ): array {

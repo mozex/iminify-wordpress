@@ -182,7 +182,7 @@ class Buffer {
 	 * @param string                                                                                       $tag         The `<img>` tag.
 	 * @param array{attachment: int, urls: list<string>}                                                   $image       What the page says of it.
 	 * @param array<string, int>                                                                           $attachments The attachment each address names.
-	 * @param array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>> $folders     The proven copies of the folders' files each address names.
+	 * @param array<string, array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>>> $folders     The proven copies of the folders' files each address names.
 	 */
 	protected static function picture( string $tag, array $image, array $attachments, array $folders ): string {
 		$named  = 0;
@@ -429,7 +429,7 @@ class Buffer {
 	 * site's, or a network's main site's (`Folders::listed()`).
 	 *
 	 * @param list<string> $urls The page's images' and backgrounds' addresses.
-	 * @return array<string, array<string, array<string, array{name: string, bucket: bool, local: bool}>>> The copies by the address.
+	 * @return array<string, array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>>> The copies by the address.
 	 */
 	protected static function folders( array $urls ): array {
 		$files = array();
@@ -468,7 +468,7 @@ class Buffer {
 	 * Each path is read through `Folders::guard()`, since a row is data.
 	 *
 	 * @param array<string, mixed> $row The file's row.
-	 * @return array<string, array<string, array{name: string, bucket: bool, local: bool}>>
+	 * @return array<string, array<string, array{name: string, bucket: bool, local: bool, url: string}>>
 	 */
 	protected static function proven( array $row ): array {
 		$path   = (string) $row['path'];
@@ -493,6 +493,7 @@ class Buffer {
 				'name'   => wp_basename( $copy ),
 				'bucket' => false,
 				'local'  => true,
+				'url'    => '',
 			);
 		}
 

@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Switching;
 
+use Iminify\WordPress\Compat\Caches;
+use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Paths;
@@ -34,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * optimizes nothing, on upload or in bulk; restoring and serving copies go on.
  *
  * @phpstan-import-type Found from Reader
- * @phpstan-type Trace array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>, outside: array<string, list<string>>, elsewhere: string}
+ * @phpstan-type Trace array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: array<string, string>, outside: array<string, list<string>>, elsewhere: string}
  */
 class Others {
 
@@ -98,6 +100,7 @@ class Others {
 	public static function register(): void {
 		add_action( self::SWEEP_HOOK, array( self::class, 'sweep' ) );
 		add_action( 'deactivated_plugin', array( self::class, 'deactivated' ) );
+		add_action( 'deleted_plugin', array( self::class, 'deleted' ) );
 		add_filter( 'the_posts', array( self::class, 'prime_posts' ) );
 	}
 
@@ -394,33 +397,6 @@ class Others {
 	}
 
 	/**
-	 * The plugin whose records name these WebP or AVIF copies of an attachment's
-	 * files, which the plugin left in place rather than write over (`Writer::put()`),
-	 * or null when no reader knows them.
-	 *
-	 * @param int          $attachment The attachment's id.
-	 * @param list<string> $copies     The copies, relative to the uploads folder.
-	 */
-	public static function copies_owner( int $attachment, array $copies ): ?string {
-		if ( array() === $copies ) {
-			return null;
-		}
-
-		$metadata = wp_get_attachment_metadata( $attachment, true );
-		$metadata = is_array( $metadata ) ? $metadata : array();
-
-		foreach ( self::readers() as $reader ) {
-			$found = $reader->present() ? $reader->read( $attachment, $metadata ) : null;
-
-			if ( null !== $found && array() !== array_intersect( $copies, $found['copies'] ) ) {
-				return $reader->slug();
-			}
-		}
-
-		return null;
-	}
-
-	/**
 	 * The plugin that optimized a file in another folder through a folder of its
 	 * own (W140), or null.
 	 *
@@ -609,6 +585,25 @@ class Others {
 	}
 
 	/**
+	 * Another optimizer was deleted, which may have deleted its copies with it
+	 * (Converter for Media's uninstall deletes its folder): the library is looked
+	 * at again, so the copies taken over from it that are gone are forgotten, and
+	 * the page caches are emptied, since a page they kept may name those copies.
+	 *
+	 * @param mixed $plugin The plugin's main file.
+	 */
+	public static function deleted( $plugin ): void {
+		foreach ( self::readers() as $reader ) {
+			if ( $reader->owns( (string) $plugin ) ) {
+				self::deactivated( $plugin );
+				Caches::later( 'others' );
+
+				return;
+			}
+		}
+	}
+
+	/**
 	 * Schedules the look's next page, or, at the end, stamps what it found, read
 	 * then, so a change made while it walked is looked at again.
 	 *
@@ -724,8 +719,9 @@ class Others {
 
 	/**
 	 * Looks at the images from one id on until the time is spent: each another
-	 * plugin optimized is recorded so, and one recorded so that no reader claims
-	 * any more reads not optimized. Answers where to go on, or null at the end.
+	 * plugin optimized is recorded so, one recorded so that no reader claims any
+	 * more reads not optimized, and the copies other plugins made of each are
+	 * taken over (`Takeover`). Answers where to go on, or null at the end.
 	 *
 	 * @param int   $after    The id to start after.
 	 * @param float $deadline When to stop, as `microtime( true )`.
@@ -756,6 +752,13 @@ class Others {
 					self::mark( $id, $verdict );
 				} elseif ( Records::OTHER === Records::get( $id )['status'] ) {
 					self::unmark( $id );
+				}
+
+				Takeover::take( $id );
+
+				/* A translation shares its holder's files, so it serves the copies taken over for them through the holder (`Picture::source()`). */
+				if ( array() !== Copies::taken( Records::get( $id )['copies'] ) && array() !== Shared::others( $id ) ) {
+					Shared::point( $id, Shared::others( $id ) );
 				}
 			}
 

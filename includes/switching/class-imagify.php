@@ -97,7 +97,7 @@ class Imagify extends Reader {
 
 			if ( null !== $copy ) {
 				if ( isset( $names[ $copy['size'] ] ) ) {
-					$copies[] = $names[ $copy['size'] ] . '.' . $copy['format'];
+					$copies[ $names[ $copy['size'] ] . '.' . $copy['format'] ] = $names[ $copy['size'] ];
 				}
 
 				continue;
