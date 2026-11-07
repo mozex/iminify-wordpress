@@ -185,9 +185,11 @@ class Modern_Formats extends Reader {
 			}
 		}
 
-		$elsewhere = array() === $files ? '' : __( 'Modern Image Formats replaced this image\'s files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image\'s addresses and break the posts that link to them, so Iminify leaves it as it is.', 'iminify-image-optimizer' );
+		return self::answer( $attachment, $files, $backups, $copies, array() === $files ? '' : $this->restore_elsewhere() );
+	}
 
-		return self::answer( $attachment, $files, $backups, $copies, $elsewhere );
+	public function restore_elsewhere(): string {
+		return __( 'Modern Image Formats replaced this image\'s files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image\'s addresses and break the posts that link to them, so Iminify doesn\'t restore it.', 'iminify-image-optimizer' );
 	}
 
 	/**

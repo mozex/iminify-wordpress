@@ -12,6 +12,7 @@ use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
+use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Restorer;
@@ -146,14 +147,16 @@ class Media_View {
 			return $actions;
 		}
 
-		/* An image another plugin optimized is left as it is (decision 39), unless someone optimizes it again or restores it from the original that plugin kept. */
+		/* An image another plugin optimized is left as it is (decision 39), unless someone optimizes it again or restores it from the original that plugin kept; one it converted is restored only there (W135). */
 		if ( null !== self::other( $attachment ) ) {
-			if ( Restorer::AVAILABLE === Restorer::availability( $attachment ) && ! self::is_busy( $attachment ) ) {
+			if ( ! self::is_busy( $attachment ) ) {
 				if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
 					$actions['iminify_optimize'] = self::row_action( $attachment, 'optimize', __( 'Optimize again from the original', 'iminify-image-optimizer' ), self::redo_warning( $attachment ) );
 				}
 
-				$actions['iminify_restore'] = self::row_action( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) );
+				if ( Restorer::AVAILABLE === Restorer::availability( $attachment ) ) {
+					$actions['iminify_restore'] = self::row_action( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) );
+				}
 			}
 
 			return $actions;
@@ -174,7 +177,7 @@ class Media_View {
 				$attachment,
 				'optimize',
 				$optimized ? __( 'Optimize again', 'iminify-image-optimizer' ) : __( 'Optimize', 'iminify-image-optimizer' ),
-				$optimized ? self::again_warning() : ''
+				$optimized ? self::again_warning( $attachment ) : ''
 			);
 		}
 
@@ -812,29 +815,28 @@ class Media_View {
 			return '';
 		}
 
-		/* Another plugin's image is optimized again or restored from the original it kept. */
+		/* Another plugin's image is optimized again or restored from the original it kept; one it converted is restored only there (W135), which the panel says. */
 		if ( null !== self::other( $attachment ) ) {
 			$available = Restorer::availability( $attachment );
+			$html      = '';
 
-			if ( Restorer::AVAILABLE === $available ) {
-				$html = '';
+			if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
+				$html .= '<p class="iminify-actions-label">' . esc_html__( 'Optimize again from the original at', 'iminify-image-optimizer' ) . '</p><p class="iminify-actions iminify-levels">';
 
-				if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
-					$html .= '<p class="iminify-actions-label">' . esc_html__( 'Optimize again from the original at', 'iminify-image-optimizer' ) . '</p><p class="iminify-actions iminify-levels">';
-
-					foreach ( Messages::levels() as $level => $about ) {
-						if ( 'none' !== $level ) {
-							$html .= self::button( $attachment, 'optimize', $about['name'], self::redo_warning( $attachment ), $level, __( 'Optimize again', 'iminify-image-optimizer' ) );
-						}
+				foreach ( Messages::levels() as $level => $about ) {
+					if ( 'none' !== $level ) {
+						$html .= self::button( $attachment, 'optimize', $about['name'], self::redo_warning( $attachment ), $level, __( 'Optimize again', 'iminify-image-optimizer' ) );
 					}
-
-					$html .= '</p>';
 				}
 
+				$html .= '</p>';
+			}
+
+			if ( Restorer::AVAILABLE === $available ) {
 				return $html . '<p class="iminify-actions">' . self::button( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) ) . '</p>';
 			}
 
-			return Restorer::THEIRS === $available ? '<p class="iminify-detail">' . esc_html( Others::elsewhere( $attachment ) ) . '</p>' : '';
+			return Restorer::THEIRS === $available ? $html . '<p class="iminify-detail">' . esc_html( Others::elsewhere( $attachment ) ) . '</p>' : $html;
 		}
 
 		if ( null !== Others::away( $attachment ) ) {
@@ -855,7 +857,7 @@ class Media_View {
 
 			foreach ( Messages::levels() as $level => $about ) {
 				if ( 'none' !== $level ) {
-					$html .= self::button( $attachment, 'optimize', $about['name'], $optimized ? self::again_warning() : '', $level, $optimized ? __( 'Optimize again', 'iminify-image-optimizer' ) : '' );
+					$html .= self::button( $attachment, 'optimize', $about['name'], $optimized ? self::again_warning( $attachment ) : '', $level, $optimized ? __( 'Optimize again', 'iminify-image-optimizer' ) : '' );
 				}
 			}
 
@@ -878,6 +880,9 @@ class Media_View {
 			$local .= self::button( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_warning() );
 		} elseif ( Restorer::CHANGED === $available ) {
 			$html .= '<p class="iminify-detail">' . esc_html__( 'This image has changed since Iminify optimized it, so there\'s nothing to restore.', 'iminify-image-optimizer' ) . '</p>';
+		} elseif ( Restorer::THEIRS === $available ) {
+			/* An image another plugin converted, optimized again by Iminify: its original stays that plugin's to put back. */
+			$html .= '<p class="iminify-detail">' . esc_html( Others::elsewhere( $attachment ) ) . '</p>';
 		}
 
 		if ( array() !== Copies::own( $record['copies'] ) ) {
@@ -969,7 +974,11 @@ class Media_View {
 	/**
 	 * What optimizing again does to an image already optimized, asked first since it counts.
 	 */
-	protected static function again_warning(): string {
+	protected static function again_warning( int $attachment ): string {
+		if ( null !== Originals::converted( $attachment ) ) {
+			return __( 'Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image.', 'iminify-image-optimizer' );
+		}
+
 		return __( 'Optimize this image again? Its original goes back first, and this counts as one more image.', 'iminify-image-optimizer' );
 	}
 
@@ -987,6 +996,15 @@ class Media_View {
 	 */
 	protected static function redo_warning( int $attachment ): string {
 		$other = self::other( $attachment );
+
+		/* One it converted keeps its format and names: nothing goes back. */
+		if ( null !== Originals::converted( $attachment ) ) {
+			return sprintf(
+				/* translators: %s: another image optimizer's name, such as Image Optimizer by Elementor. */
+				__( 'Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image.', 'iminify-image-optimizer' ),
+				Others::name( null === $other ? '' : $other['plugin'] )
+			);
+		}
 
 		return sprintf(
 			/* translators: %s: another image optimizer's name, such as Imagify. */

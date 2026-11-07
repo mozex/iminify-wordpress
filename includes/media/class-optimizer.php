@@ -157,12 +157,18 @@ class Optimizer {
 	 * guard is passed by. Every refusal that costs nothing comes first, so a site
 	 * that can't send it now never loses that plugin's savings for nothing.
 	 *
+	 * An image another optimizer converted into WebP or AVIF (W135) has nothing put
+	 * back: its files are made again in their own format from the JPEG or PNG that
+	 * plugin kept, and later from the plugin's own backup of it
+	 * (`Originals::converted()`), each named without bytes (`redo`), so a gentler
+	 * level lands as it would on an image put back.
+	 *
 	 * @param int         $attachment The attachment's id.
 	 * @param string|null $level      The level, or null for the site's.
 	 * @return true|WP_Error
 	 */
 	public static function ask( int $attachment, ?string $level = null ) {
-		$redo    = self::redoable( $attachment );
+		$redo    = null !== Originals::converted( $attachment ) || self::redoable( $attachment );
 		$refusal = self::refusal( $attachment, $redo );
 
 		if ( null !== $refusal ) {
@@ -245,14 +251,15 @@ class Optimizer {
 
 	/**
 	 * Whether an image another optimizer compressed can be optimized again from the
-	 * original that plugin kept: restoring it is the plugin's to do (W250, not that
-	 * plugin's own, W135 and W141), and nothing else keeps it from being sent.
+	 * original that plugin kept: restoring it is the plugin's to do (W250, not
+	 * W141's), or that plugin converted it into WebP or AVIF and kept its JPEG or
+	 * PNG (W135, `Originals::converted()`), and nothing else keeps it from being sent.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function redoable( int $attachment ): bool {
 		return null !== Others::verdict( $attachment )
-			&& Restorer::AVAILABLE === Restorer::availability( $attachment )
+			&& ( Restorer::AVAILABLE === Restorer::availability( $attachment ) || null !== Originals::converted( $attachment ) )
 			&& null === self::why_not( $attachment, false, true );
 	}
 
@@ -364,6 +371,70 @@ class Optimizer {
 		}
 
 		return $names;
+	}
+
+	/**
+	 * The outputs of an image another optimizer converted (W135) whose files hold
+	 * nothing worth keeping against the original it kept: every one at someone's
+	 * ask, since nothing was put back first, else each file the plugin didn't
+	 * write (that optimizer's), so the service's file made from the original takes
+	 * its place, while the plugin's own keep theirs (a run for what it lacks).
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   Its metadata.
+	 * @param bool                 $all        Whether someone asked for it to be optimized again.
+	 * @return list<string>
+	 */
+	protected static function made_again( int $attachment, array $metadata, bool $all ): array {
+		$attached = (string) get_attached_file( $attachment, true );
+		$files    = array( Declaration::MAIN => $attached );
+
+		foreach ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array() as $name => $size ) {
+			if ( is_array( $size ) && isset( $size['file'] ) ) {
+				$files[ (string) $name ] = dirname( $attached ) . '/' . wp_basename( (string) $size['file'] );
+			}
+		}
+
+		$names = array();
+
+		foreach ( $files as $name => $path ) {
+			if ( $all || ! Records::wrote( $attachment, $path ) ) {
+				$names[] = (string) $name;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * The bytes an image another optimizer converted had before it, by output, for
+	 * its savings: what its result already says of a file the plugin wrote, else
+	 * what that optimizer recorded of the file before it (Image Optimizer by
+	 * Elementor's JPEG of each size, Modern Image Formats' upload for the main
+	 * file). An output neither knows counts from its file as it is.
+	 *
+	 * @param int                                 $attachment The attachment's id.
+	 * @param array<string, array<string, mixed>> $outputs    The declared outputs.
+	 * @return array<string, int>
+	 */
+	protected static function converted_before( int $attachment, array $outputs ): array {
+		$result = Records::get( $attachment )['result'];
+		$trace  = Others::trace( $attachment );
+		$before = array();
+
+		foreach ( $outputs as $name => $output ) {
+			$file = (string) $output['file'];
+			$kept = (int) ( $result['outputs'][ $name ]['before'] ?? 0 );
+			$was  = null === $trace ? 0 : (int) ( $trace['files'][ $file ]['before'] ?? 0 );
+
+			if ( $kept > 0 && Records::wrote( $attachment, Paths::absolute( $file ) ) ) {
+				$before[ (string) $name ] = $kept;
+			} elseif ( $was > 0 ) {
+				$before[ (string) $name ] = $was;
+			}
+		}
+
+		return $before;
 	}
 
 	/**
@@ -559,15 +630,24 @@ class Optimizer {
 		}
 
 		if ( null === $source ) {
+			/* An image another optimizer converted has only the original it kept, which can be past what the site sends. */
+			if ( null !== Originals::converted( $attachment ) ) {
+				Records::fail( $attachment, Records::SKIPPED, 'file_too_large', __( 'Not sent: this image\'s original is too large to send, past your plan\'s file size or more than this server\'s memory can hold.', 'iminify-image-optimizer' ) );
+
+				return;
+			}
+
 			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
 
 			return;
 		}
 
-		/* A file brought back from WP Offload Media's bucket is measured now, and may turn out to be another optimizer's output. */
+		$converted = Originals::CONVERTED === $source['kind'] ? Originals::converted( $attachment ) : null;
+
+		/* A file brought back from WP Offload Media's bucket is measured now, and may turn out to be another optimizer's output. An image that optimizer converted, sent at someone's ask, still has its files, which are made again in their format from the original it kept. */
 		$other = Others::why( $attachment, true );
 
-		if ( null !== $other ) {
+		if ( null !== $other && ! ( $redo && null !== $converted ) ) {
 			self::skip( $attachment, $other );
 
 			return;
@@ -615,12 +695,24 @@ class Optimizer {
 			$fresh = self::regenerated( $attachment, $metadata );
 		}
 
+		/* Nothing was put back first, so a file the plugin didn't write (that optimizer's), and at someone's ask every file, holds nothing worth keeping against the original. */
+		if ( null !== $converted ) {
+			$fresh = array_values( array_unique( array_merge( $fresh, self::made_again( $attachment, $metadata, $record['redo'] ) ) ) );
+		}
+
 		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ), $only, $fresh );
 
 		if ( is_wp_error( $declaration ) ) {
 			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
 
 			return;
+		}
+
+		/* Its savings are counted from the original that optimizer recorded, as an image put back counts them from its original, not from that optimizer's files. */
+		if ( null !== $converted ) {
+			foreach ( self::converted_before( $attachment, $declaration['outputs'] ) as $name => $bytes ) {
+				$declaration['outputs'][ $name ]['before'] = $bytes;
+			}
 		}
 
 		/* A size no group can take (a file in another format, one another size shares) leaves nothing to send but the main file, which would count an image for nothing. */
@@ -651,7 +743,18 @@ class Optimizer {
 				return;
 			}
 
-			Records::update( $attachment, array( 'backups' => $backups ) );
+			/* The original kept in another format than the files is the source of every later send, and never goes over them (`Originals::converted()`). */
+			Records::update(
+				$attachment,
+				null === $converted ? array( 'backups' => $backups ) : array(
+					'backups'   => $backups,
+					'converted' => array(
+						'file'   => $source['file'],
+						'plugin' => $converted['plugin'],
+						'type'   => $converted['made'],
+					),
+				)
+			);
 
 			/* A source brought back from WP Offload Media's bucket goes from its backup, an identical file that stays, so the one brought back can go at once. */
 			if ( $keep && isset( Records::get( $attachment )['fetched'][ $source['file'] ] ) ) {
@@ -679,6 +782,7 @@ class Optimizer {
 					'outputs'    => $declaration['outputs'],
 					'source'     => (string) Paths::relative( $source['path'] ),
 					'type'       => $declaration['type'],
+					'made'       => $declaration['made'],
 					'sent'       => false,
 					'opened'     => time(),
 				),
@@ -696,7 +800,9 @@ class Optimizer {
 	 * plugin's, with nothing put back or sent: its restore is no longer the
 	 * plugin's to do (its backup went missing since, or failed its size check), its
 	 * original is past what the site can send, or there is no room for the backup
-	 * it keeps (W253). A restore that failed shows why.
+	 * it keeps (W253). A restore that failed shows why. One that plugin converted
+	 * into WebP or AVIF (W135) has nothing put back, and goes on from the original
+	 * it kept (`Originals::converted()`).
 	 *
 	 * @param int                  $attachment The attachment's id.
 	 * @param string               $trigger    What asked for it.
@@ -715,7 +821,9 @@ class Optimizer {
 		$max      = self::max_source( $site );
 		$bytes    = null === $source ? 0 : (int) Offload_Media::bytes( $attachment, $source['path'] );
 
-		if ( null === $source || Restorer::AVAILABLE !== Restorer::availability( $attachment ) || ( null !== $max && Originals::ORIGINAL !== $source['kind'] && $bytes > $max ) || ! Disk::has_room_for( $bytes ) ) {
+		$converted = null !== $source && Originals::CONVERTED === $source['kind'];
+
+		if ( null === $source || ( ! $converted && Restorer::AVAILABLE !== Restorer::availability( $attachment ) ) || ( null !== $max && Originals::ORIGINAL !== $source['kind'] && $bytes > $max ) || ! Disk::has_room_for( $bytes ) ) {
 			Records::update( $attachment, array( 'redo' => false ) );
 			Others::mark( $attachment, $theirs['other'] );
 
@@ -727,7 +835,7 @@ class Optimizer {
 			return false;
 		}
 
-		$restored = Restorer::restore( $attachment );
+		$restored = $converted ? true : Restorer::restore( $attachment );
 
 		if ( is_wp_error( $restored ) ) {
 			Records::fail( $attachment, Records::ERROR, (string) $restored->get_error_code(), $restored->get_error_message() );
@@ -950,7 +1058,7 @@ class Optimizer {
 
 		$result = array(
 			'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
-			'formats' => self::asked_formats( $answer, (string) ( $group['type'] ?? '' ) ),
+			'formats' => self::asked_formats( $answer, (string) ( $group['made'] ?? $group['type'] ?? '' ) ),
 			'outputs' => $written['outputs'],
 			'skipped' => $written['skipped'],
 			'kept'    => count( $written['kept'] ),
@@ -1001,15 +1109,17 @@ class Optimizer {
 
 	/**
 	 * The copies' formats a finished group was asked for, read from its answer. The
-	 * service answers a source's own format as `original`, so a WebP source's `webp`
-	 * reads as asked too; it would otherwise read as missing on every run.
+	 * service answers the outputs' own format as `original`, so a WebP source's
+	 * `webp` reads as asked too; it would otherwise read as missing on every run. An
+	 * AVIF file never has a WebP beside it (W267: the copy would be served in its
+	 * place), so it lacks none.
 	 *
 	 * @param array<string, mixed> $answer The group as the service answered it.
-	 * @param string               $type   The source's MIME type.
+	 * @param string               $type   The MIME type the outputs were made in: the source's, or the attachment's files' when another optimizer converted them.
 	 * @return list<string>
 	 */
 	public static function asked_formats( array $answer, string $type ): array {
-		$asked = array();
+		$asked = 'image/avif' === $type ? array( 'webp' ) : array();
 		$own   = array_search( $type, Writer::COPIES, true );
 
 		foreach ( isset( $answer['settings']['formats'] ) && is_array( $answer['settings']['formats'] ) ? $answer['settings']['formats'] : array() as $format ) {
@@ -1255,8 +1365,8 @@ class Optimizer {
 
 		$type = Originals::type( $attachment, $file );
 
-		/* A format the service doesn't take can be another plugin's output (Modern Image Formats' AVIF in a JPEG's place), which says so; a translation is the holder's to answer for. */
-		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
+		/* A format the service doesn't take can be another plugin's output (Modern Image Formats' AVIF in a JPEG's place), which says so; a translation is the holder's to answer for. Its files are made again in that format from the original that plugin kept, at someone's ask. */
+		if ( ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) && null === Originals::converted( $attachment ) ) {
 			return ( Shared::holder( $attachment, $fresh ) === $attachment ? Others::why( $attachment, $fresh ) : null ) ?? $unsupported;
 		}
 

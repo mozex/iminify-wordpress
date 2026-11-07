@@ -751,7 +751,8 @@ class Bulk {
 					continue;
 				}
 
-				if ( self::RESTORE === $action || ( $files ? null === Folder_Optimizer::why_not( $id ) : self::can_send( $action, $id ) ) ) {
+				/* Restore all leaves an image another optimizer converted as it is, since its original is that plugin's to put back (W135); one someone names is refused with why. */
+				if ( self::RESTORE === $action ? $files || null !== $only || null === Originals::converted( $id ) : ( $files ? null === Folder_Optimizer::why_not( $id ) : self::can_send( $action, $id ) ) ) {
 					$found[] = $id;
 				} else {
 					$passed[] = $id;
@@ -1248,6 +1249,27 @@ class Bulk {
 			}
 
 			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'], $run['only'], $run['scope'] );
+
+			/* An image another optimizer converted stays as it is (W272): it leaves the total and counts as passed over, once, since the cursor moves only as images are restored. */
+			if ( array() !== $next['passed'] ) {
+				$total  = $run['total'];
+				$passed = $run['passed'];
+
+				foreach ( $next['passed'] as $id ) {
+					if ( $id > $run['seen'] ) {
+						--$total;
+						++$passed;
+					}
+				}
+
+				self::change(
+					array(
+						'total'  => max( 0, $total ),
+						'passed' => $passed,
+						'seen'   => max( $run['seen'], $next['cursor'] ),
+					)
+				);
+			}
 
 			if ( array() === $next['ids'] ) {
 				self::change(

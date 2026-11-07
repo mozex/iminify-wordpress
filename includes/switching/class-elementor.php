@@ -22,8 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * - converting (its default, to WebP or AVIF) replaces the attachment's files
  *   with `photo.webp` and keeps the untouched `photo.jpg` at its own path, so a
- *   file whose name is no longer the one `original_data` gives is its output, and
- *   the file of that name is the original. Restoring it would rewrite the
+ *   file of that name in a modern format is its output, and the file of the name
+ *   `original_data` gives is the original. It refuses to convert where a
+ *   `photo.webp` already exists rather than choosing another name, so a file of
+ *   another name (an edit WordPress saved as `photo-e1699999999999.webp`) is
+ *   not its output. Restoring it would rewrite the
  *   attachment, its address and the posts linking to it, which Iminify never
  *   does (W135): Elementor's own Restore does, while it is installed;
  * - keeping the format, it copies each file first as `photo.backup.jpg` beside
@@ -136,6 +139,11 @@ class Elementor extends Reader {
 			}
 
 			if ( $source !== $relative ) {
+				/* Converted keeps the old name's stem, so any other file (an edit made since) is not its output. */
+				if ( ! self::conversion_of( $source, $relative ) ) {
+					continue;
+				}
+
 				/* Converted: the attachment's file is its output, and the file of the old name the original it kept. */
 				$converted = true;
 				$backup    = $this->kept( $source, $before );
@@ -162,9 +170,23 @@ class Elementor extends Reader {
 			}
 		}
 
-		$elsewhere = $converted ? __( 'Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn\'t rewrite your posts, so it leaves the image as it is.', 'iminify-image-optimizer' ) : '';
+		return self::answer( $attachment, $files, $backups, array(), $converted ? $this->restore_elsewhere() : '' );
+	}
 
-		return self::answer( $attachment, $files, $backups, array(), $elsewhere );
+	public function restore_elsewhere(): string {
+		return __( 'Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn\'t rewrite your posts, so it doesn\'t restore this image.', 'iminify-image-optimizer' );
+	}
+
+	/**
+	 * Whether a file is the conversion of another: the same name in WebP or AVIF.
+	 *
+	 * @param string $source   The file it was made from, relative to the uploads folder.
+	 * @param string $relative The file, relative to the uploads folder.
+	 */
+	protected static function conversion_of( string $source, string $relative ): bool {
+		$extension = strtolower( pathinfo( $relative, PATHINFO_EXTENSION ) );
+
+		return in_array( $extension, self::MODERN, true ) && substr( $source, 0, -strlen( pathinfo( $source, PATHINFO_EXTENSION ) ) - 1 ) === substr( $relative, 0, -strlen( $extension ) - 1 );
 	}
 
 	/**

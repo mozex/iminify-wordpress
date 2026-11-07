@@ -11,6 +11,7 @@ use Iminify\WordPress\Compat\Caches;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
 use Iminify\WordPress\Media\Optimizer;
+use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
@@ -325,14 +326,24 @@ class Others {
 
 	/**
 	 * Why restoring an attachment another plugin optimized is that plugin's own to
-	 * do rather than Iminify's (W135), in a sentence, or empty.
+	 * do rather than Iminify's (W135, W141), in a sentence, or empty. An image that
+	 * plugin converted, which the plugin optimized again from the original it kept,
+	 * is no longer claimed by its reader, so its sentence comes from the record
+	 * (`Originals::converted()`).
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function elsewhere( int $attachment ): string {
 		$trace = self::trace( $attachment );
 
-		return null === $trace ? '' : $trace['elsewhere'];
+		if ( null !== $trace && '' !== $trace['elsewhere'] ) {
+			return $trace['elsewhere'];
+		}
+
+		$converted = Originals::converted( $attachment );
+		$reader    = null === $converted ? null : self::reader( $converted['plugin'] );
+
+		return null === $reader ? '' : $reader->restore_elsewhere();
 	}
 
 	/**

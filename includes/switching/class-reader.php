@@ -10,6 +10,7 @@ namespace Iminify\WordPress\Switching;
 use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Shared;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -100,6 +101,14 @@ abstract class Reader {
 	 */
 	public function owns( string $basename ): bool {
 		return in_array( $basename, $this->basenames(), true );
+	}
+
+	/**
+	 * Why restoring an image this plugin converted into WebP or AVIF (W135) is its
+	 * own to do, in a sentence, or empty for a plugin that never converts.
+	 */
+	public function restore_elsewhere(): string {
+		return '';
 	}
 
 	/**
@@ -305,7 +314,7 @@ abstract class Reader {
 	 * @return array<string, array{size: string, before: int, after: int}>
 	 */
 	protected function held( int $attachment, array $paths ): array {
-		$written = Records::get( $attachment )['written'];
+		$written = Records::get( Shared::holder( $attachment ) )['written'];
 		$files   = array();
 
 		foreach ( $paths as $size => $path ) {
@@ -327,7 +336,11 @@ abstract class Reader {
 
 	/**
 	 * The answer for one attachment from what a reader found: each recorded file
-	 * that still has the bytes the plugin recorded after is its output.
+	 * that still has the bytes the plugin recorded after is its output, unless it
+	 * has the bytes Iminify wrote there (W249), as the record of the attachment
+	 * holding the files says (a translation's are its holder's): a reader that
+	 * records no bytes of its own (Image Optimizer by Elementor's converted files)
+	 * would otherwise claim the files Iminify made again from its original.
 	 *
 	 * @param int                                                         $attachment The attachment's id.
 	 * @param array<string, array{size: string, before: int, after: int}> $files      The files it recorded, by path.
@@ -339,9 +352,12 @@ abstract class Reader {
 	 */
 	protected static function answer( int $attachment, array $files, array $backups, array $copies, string $elsewhere = '', array $outside = array() ): ?array {
 		$outputs = array();
+		$written = Records::get( Shared::holder( $attachment ) )['written'];
 
 		foreach ( $files as $path => $file ) {
-			if ( $file['after'] > 0 && self::bytes( $attachment, $path ) === $file['after'] ) {
+			$bytes = self::bytes( $attachment, $path );
+
+			if ( $file['after'] > 0 && $bytes === $file['after'] && ( $written[ $path ] ?? -1 ) !== $bytes ) {
 				$outputs[] = $path;
 			}
 		}

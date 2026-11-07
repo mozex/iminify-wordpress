@@ -28,6 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Media serves is marked `bucket`, since any save of its metadata can take the
  * file off the disk, with the bytes the metadata gives it (`listed`), which the
  * writer compares with the metadata's then for a file gone by then (`Writer`).
+ *
+ * An image another optimizer converted into WebP or AVIF goes from the JPEG or
+ * PNG that plugin kept (`Originals::converted()`), so its group names the format
+ * the attachment's files are in (`output_format`), which the service makes each
+ * output in, in the source's place, and its sizes are read in that format.
  */
 class Declaration {
 
@@ -69,8 +74,8 @@ class Declaration {
 	 * @param string|null                                    $level      The level someone asked for, when it isn't the site's.
 	 * @param bool                                           $background Whether it is older work nobody waits on, which takes the slower lane.
 	 * @param list<string>|null                              $only       The only sizes to declare beside the main file (those an image lacks), or null for all.
-	 * @param list<string>                                   $fresh      The sizes WordPress just made, possibly from the plugin's own output: they name no bytes, so the service's file made from the original always takes their place.
-	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int, bucket?: true, listed?: int|null}>, type: string}|WP_Error The request's body, each output's file relative to the uploads folder (its bytes 0 when they aren't known, and for an attachment WP Offload Media serves the bytes its metadata gives it), and the source's MIME type.
+	 * @param list<string>                                   $fresh      The outputs whose files hold nothing worth keeping against the original (sizes WordPress just made from the plugin's own output, another optimizer's files about to be made again from its original, MAIN among them): they name no bytes, so the service's file made from the original always takes their place.
+	 * @return array{body: array<string, mixed>, outputs: array<string, array{file: string, size: int, width: int, height: int, bucket?: true, listed?: int|null}>, type: string, made: string}|WP_Error The request's body, each output's file relative to the uploads folder (its bytes 0 when they aren't known, and for an attachment WP Offload Media serves the bytes its metadata gives it), the source's MIME type, and the one every output is made in.
 	 */
 	public static function build( int $attachment, array $metadata, array $source, ?string $level = null, bool $background = false, ?array $only = null, array $fresh = array() ) {
 		$type = wp_get_image_mime( $source['path'] );
@@ -79,8 +84,17 @@ class Declaration {
 			return new WP_Error( 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
 		}
 
+		$attached = (string) get_attached_file( $attachment, true );
+		$made     = '' === $attached ? $type : Originals::type( $attachment, $attached );
+		$made     = is_string( $made ) ? $made : $type;
+		$in       = $made === $type ? null : array_search( $made, Writer::COPIES, true );
+
+		/* A source in another format than the files is made in theirs only as WebP or AVIF, the formats another optimizer converts to. */
+		if ( false === $in ) {
+			return new WP_Error( 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+		}
+
 		$source_size = self::displayed( $source['path'], $type );
-		$attached    = (string) get_attached_file( $attachment, true );
 		$served      = Offload_Media::serves( $attachment );
 		$bucket      = $served && '' !== $attached && ! is_file( $attached );
 		$main_size   = '' === $attached ? null : ( $bucket ? self::measured( $metadata ) : self::displayed( $attached, (string) wp_get_image_mime( $attached ) ) );
@@ -108,10 +122,10 @@ class Declaration {
 			),
 		);
 		$body       = array(
-			self::output( self::MAIN, $main_size[0], $main_size[1], null, $main_bytes ),
+			self::output( self::MAIN, $main_size[0], $main_size[1], null, in_array( self::MAIN, $fresh, true ) ? null : $main_bytes ),
 		);
 
-		foreach ( self::sizes( $attachment, $metadata, $attached, $source_size, $type ) as $name => $size ) {
+		foreach ( self::sizes( $attachment, $metadata, $attached, $source_size, $made ) as $name => $size ) {
 			if ( null !== $only && ! in_array( (string) $name, $only, true ) ) {
 				continue;
 			}
@@ -147,10 +161,15 @@ class Declaration {
 			$request['level'] = $level;
 		}
 
+		if ( null !== $in ) {
+			$request['output_format'] = $in;
+		}
+
 		return array(
 			'body'    => $request,
 			'outputs' => $outputs,
 			'type'    => $type,
+			'made'    => $made,
 		);
 	}
 
@@ -215,15 +234,15 @@ class Declaration {
 	/**
 	 * The sizes WordPress made of the image, one per file: a size whose file is
 	 * the main file or another size's is left out, as is one in another format
-	 * than the source's (a copy another plugin made), since the service writes
-	 * each output in the source's format, or one whose name it can't take. A size
+	 * than the outputs are made in (a copy another plugin made), since the service
+	 * writes each output in that format, or one whose name it can't take. A size
 	 * only in WP Offload Media's bucket is read from its name and the metadata.
 	 *
 	 * @param int                  $attachment The attachment's id.
 	 * @param array<string, mixed> $metadata   The attachment's metadata.
 	 * @param string               $attached   The attached file.
 	 * @param array{int, int}      $source     The source's displayed width and height.
-	 * @param string               $type       The source's MIME type.
+	 * @param string               $type       The MIME type the outputs are made in: the source's, or the attachment's files' when another optimizer converted them.
 	 * @return array<string, array{file: string, size: int|null, width: int, height: int, crop: array{0: string, 1: string}|null}>
 	 */
 	protected static function sizes( int $attachment, array $metadata, string $attached, array $source, string $type ): array {

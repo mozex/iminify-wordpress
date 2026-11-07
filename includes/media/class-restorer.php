@@ -35,7 +35,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * restore still finds it; WordPress makes the sizes again over its outputs under
  * their names; and a size WordPress doesn't make any more is put back from that
  * plugin's backup of it, where it kept one (W250). Its copies stay where they are.
- * Where restoring is that plugin's own to do (W135, W141), it says why instead.
+ * Where restoring is that plugin's own to do (W135, W141), it says why instead,
+ * and keeps saying it once the plugin optimized such a converted image again from
+ * the JPEG or PNG that plugin kept (`Originals::converted()`): that original is in
+ * another format than the files, and is never put over them.
  */
 class Restorer {
 
@@ -74,6 +77,11 @@ class Restorer {
 		$metadata = wp_get_attachment_metadata( $attachment, true );
 		$metadata = is_array( $metadata ) ? $metadata : array();
 		$attached = (string) get_attached_file( $attachment, true );
+
+		/* An image another optimizer converted keeps its format and names: its original, in another format, never goes over its files, before the plugin optimized it again or after. */
+		if ( null !== Originals::converted( $attachment ) ) {
+			return self::THEIRS;
+		}
 
 		/* Another plugin's output is no file the plugin wrote, so it is asked first: such an image is never "nothing to restore". */
 		if ( null !== Others::verdict( $attachment ) ) {
@@ -440,12 +448,17 @@ class Restorer {
 	 * @param int    $attachment   The attachment's id.
 	 */
 	protected static function refusal( string $availability, int $attachment ): WP_Error {
-		$verdict = self::NO_ORIGINAL === $availability || self::THEIRS === $availability ? Others::verdict( $attachment ) : null;
+		/* Said from the plugin's own record too once it optimized a converted image again, which no reader claims any more. */
+		if ( self::THEIRS === $availability ) {
+			return new WP_Error( 'restore_elsewhere', Others::elsewhere( $attachment ), array( 'status' => 409 ) );
+		}
+
+		$verdict = self::NO_ORIGINAL === $availability ? Others::verdict( $attachment ) : null;
 
 		if ( null !== $verdict ) {
 			return new WP_Error(
-				self::THEIRS === $availability ? 'restore_elsewhere' : 'no_original',
-				self::THEIRS === $availability ? Others::elsewhere( $attachment ) : sprintf(
+				'no_original',
+				sprintf(
 					/* translators: %s: another image optimizer's name, such as Imagify. */
 					__( '%s kept no original of this image that Iminify can check, so it can\'t be restored here.', 'iminify-image-optimizer' ),
 					Others::name( $verdict['plugin'] )

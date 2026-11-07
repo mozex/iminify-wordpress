@@ -695,29 +695,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 			{ run.passed > 0 && (
 				<div className="iminify-status-gap">
 					<Callout>
-						<p>
-							{ 'redo' === run.action
-								? sprintf(
-										/* translators: %s: how many images. */
-										_n(
-											'%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.',
-											'%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.',
-											run.passed,
-											'iminify-image-optimizer'
-										),
-										formatNumber( run.passed )
-									)
-								: sprintf(
-										/* translators: %s: how many images. */
-										_n(
-											'%s image has no original to go from, or changed since it was optimized, so nothing was made for it.',
-											'%s images have no original to go from, or changed since they were optimized, so nothing was made for them.',
-											run.passed,
-											'iminify-image-optimizer'
-										),
-										formatNumber( run.passed )
-									) }
-						</p>
+						<p>{ passedOver( run ) }</p>
 					</Callout>
 				</div>
 			) }
@@ -1281,9 +1259,55 @@ function LackingRow( { action, busy, text, label, onStart } ) {
 }
 
 /**
+ * What a run says of the images it passed over, by its action.
+ *
+ * @param {Object} run The run.
+ * @return {string} The sentence.
+ */
+function passedOver( run ) {
+	if ( 'restore' === run.action ) {
+		return sprintf(
+			/* translators: %s: how many images. */
+			_n(
+				'%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back.',
+				'%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back.',
+				run.passed,
+				'iminify-image-optimizer'
+			),
+			formatNumber( run.passed )
+		);
+	}
+
+	if ( 'redo' === run.action ) {
+		return sprintf(
+			/* translators: %s: how many images. */
+			_n(
+				'%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.',
+				'%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.',
+				run.passed,
+				'iminify-image-optimizer'
+			),
+			formatNumber( run.passed )
+		);
+	}
+
+	return sprintf(
+		/* translators: %s: how many images. */
+		_n(
+			'%s image has no original to go from, or changed since it was optimized, so nothing was made for it.',
+			'%s images have no original to go from, or changed since they were optimized, so nothing was made for them.',
+			run.passed,
+			'iminify-image-optimizer'
+		),
+		formatNumber( run.passed )
+	);
+}
+
+/**
  * The images other plugins optimized that kept their originals, optimized again
- * from them: each original goes back first, and each image counts again, so the
- * page asks first. A panel only when there are some.
+ * from them: each original goes back first (one converted to WebP or AVIF is
+ * made again in that format instead), and each image counts again, so the page
+ * asks first. A panel only when there are some.
  *
  * @param {Object}     props         The component's props.
  * @param {Object}     props.state   The page's state.
@@ -1311,8 +1335,8 @@ function Redo( { state, busy, onStart } ) {
 				{ sprintf(
 					/* translators: %s: how many images. */
 					_n(
-						'%s image another plugin optimized kept its original. Iminify can optimize it again from that original: the original goes back first, then Iminify optimizes it and keeps its own backup.',
-						'%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals: each goes back first, then Iminify optimizes it and keeps its own backup.',
+						'%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names.',
+						'%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names.',
 						counts.redo,
 						'iminify-image-optimizer'
 					),
@@ -1648,7 +1672,7 @@ function Restore( { state, busy, onRestore } ) {
 			<h2>{ __( 'Restore the library', 'iminify-image-optimizer' ) }</h2>
 			<p className="iminify-text">
 				{ __(
-					'Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place.',
+					'Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back.',
 					'iminify-image-optimizer'
 				) }
 			</p>

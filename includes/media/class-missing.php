@@ -101,12 +101,16 @@ class Missing {
 
 	/**
 	 * Whether an image can be sent for what it lacks: it has an original to go from,
-	 * and nothing replaced its files since.
+	 * and nothing replaced its files since. One another optimizer converted, which
+	 * the plugin optimized again from the original it kept, goes from the plugin's
+	 * backup of it, which is never restored (`Originals::converted()`).
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function can_fill( int $attachment ): bool {
-		if ( ! Optimizer::is_optimizable( $attachment ) || ! in_array( Restorer::availability( $attachment ), array( Restorer::AVAILABLE, Restorer::NOTHING ), true ) ) {
+		$availability = Restorer::availability( $attachment );
+
+		if ( ! Optimizer::is_optimizable( $attachment ) || ! ( in_array( $availability, array( Restorer::AVAILABLE, Restorer::NOTHING ), true ) || ( Restorer::THEIRS === $availability && null !== Originals::converted( $attachment ) ) ) ) {
 			return false;
 		}
 

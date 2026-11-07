@@ -76,7 +76,8 @@ class Writer {
 			}
 		}
 
-		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['type'] ?? '' ), Takeover::named( $attachment ) );
+		/* Every output is made in the attachment's files' format, which is the source's unless another optimizer converted them (`made`). */
+		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['made'] ?? $group['type'] ?? '' ), Takeover::named( $attachment ) );
 
 		if ( is_wp_error( $put ) ) {
 			return $put;
@@ -113,7 +114,7 @@ class Writer {
 	 * @param array<string, int>                  $written  The record's `written`.
 	 * @param array<string, mixed>                $copies   The record's `copies`.
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
-	 * @param string                              $type     The source's MIME type, every output's, for a file not on the disk.
+	 * @param string                              $type     The MIME type every output is made in, for a file not on the disk.
 	 * @param array<string, mixed>                $theirs   The copies another plugin's records name beside the files, by their paths relative to the root (`Takeover::named()`), which the plugin's own copy of the same name replaces (W133).
 	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
@@ -201,9 +202,11 @@ class Writer {
 			}
 
 			if ( 'original' === $write['format'] ) {
-				/* A file only in the bucket whose bytes nobody knew saves nothing that can be shown. */
+				/* A file only in the bucket whose bytes nobody knew saves nothing that can be shown; one made again from another optimizer's original counts from the bytes it names (`Optimizer::converted_before()`). */
 				if ( (int) $declared[ $write['output'] ]['size'] <= 0 ) {
 					$summary[ $write['output'] ]['before'] = $bytes;
+				} elseif ( isset( $declared[ $write['output'] ]['before'] ) ) {
+					$summary[ $write['output'] ]['before'] = (int) $declared[ $write['output'] ]['before'];
 				}
 
 				$written[ $write['file'] ]             = $bytes;
@@ -302,7 +305,7 @@ class Writer {
 	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared.
 	 * @param array<string, mixed>                $answer   The group as the service answered it.
 	 * @param string                              $root     The folder the declared files are relative to.
-	 * @param string                              $type     The source's MIME type, for a file not on the disk.
+	 * @param string                              $type     The MIME type every output is made in, for a file not on the disk.
 	 * @return list<array{output: string, format: string, entry: string, file: string, type: string, width: int, height: int}>
 	 */
 	protected static function writes( array $declared, array $answer, string $root, string $type ): array {

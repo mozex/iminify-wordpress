@@ -81,7 +81,7 @@ class Cli {
 	 * : Optimize the files in the folders chosen with `wp iminify folders` instead of the media library, every one not optimized yet, or with --failed the ones that failed.
 	 *
 	 * [--others]
-	 * : Optimize again the images another image optimizer compressed, from the originals it kept: every one, or the attachments named. Each original is put back first, and each image counts as one of the account's daily images.
+	 * : Optimize again the images another image optimizer compressed, from the originals it kept: every one, or the attachments named. Each original is put back first, or, for an image converted to WebP or AVIF, its files are made again in that format under the same names, and each image counts as one of the account's daily images.
 	 *
 	 * [--background]
 	 * : Start the run and return, leaving it to the site's scheduled tasks.
@@ -606,7 +606,15 @@ class Cli {
 			);
 		}
 
-		if ( $run['passed'] > 0 && Bulk::REDO === $run['action'] ) {
+		if ( $run['passed'] > 0 && Bulk::RESTORE === $run['action'] ) {
+			WP_CLI::warning(
+				sprintf(
+					/* translators: %s: how many images. */
+					_n( '%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back.', '%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back.', $run['passed'], 'iminify-image-optimizer' ),
+					number_format_i18n( $run['passed'] )
+				)
+			);
+		} elseif ( $run['passed'] > 0 && Bulk::REDO === $run['action'] ) {
 			WP_CLI::warning(
 				sprintf(
 					/* translators: %s: how many images. */

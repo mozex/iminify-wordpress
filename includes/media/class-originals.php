@@ -31,6 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * kept of it, where that backup passes its size check, and otherwise nothing. An attached file in a format the
  * service doesn't take (an AVIF, an SVG) has none: it is kept as it was uploaded.
  *
+ * One exception to the format: an image another optimizer converted into WebP or
+ * AVIF (W135) is made again from the JPEG or PNG that plugin kept, in its files'
+ * own format (`converted()`), since putting that original back would change the
+ * attachment's address and the posts linking to it. Its source is answered as
+ * CONVERTED, and nothing ever copies it over the attachment's files.
+ *
  * A file only in WP Offload Media's bucket is answered from what the metadata
  * says of it, which a send or a restore brings back and asks again of the file
  * itself (`Compat\Offload_Media::bring_back()`), so only the disk's bytes ever
@@ -50,6 +56,11 @@ class Originals {
 	const OTHER = 'other';
 
 	/**
+	 * The JPEG or PNG another optimizer kept of an image it converted into WebP or AVIF (`converted()`).
+	 */
+	const CONVERTED = 'converted';
+
+	/**
 	 * The file an attachment's outputs are made from, or null when it has none.
 	 *
 	 * @param int                  $attachment The attachment's id.
@@ -63,6 +74,17 @@ class Originals {
 		/* A translation's files are its holder's, whose record alone knows which of them the plugin wrote. */
 		if ( ! is_string( $attached ) || '' === $attached || Shared::holder( $attachment ) !== $attachment ) {
 			return null;
+		}
+
+		/* An image another optimizer converted goes from the JPEG or PNG it kept, in another format than its files, which nothing puts back over them. */
+		$converted = self::converted( $attachment );
+
+		if ( null !== $converted ) {
+			return self::fits( $attachment, $converted['path'], $max_bytes ) ? array(
+				'path' => $converted['path'],
+				'kind' => self::CONVERTED,
+				'file' => $converted['file'],
+			) : null;
 		}
 
 		$candidates = array();
@@ -150,6 +172,95 @@ class Originals {
 		}
 
 		return null;
+	}
+
+	/**
+	 * The original another optimizer kept of an image it converted into WebP or
+	 * AVIF (W135: Image Optimizer by Elementor's `photo.webp` beside the `photo.jpg`
+	 * it kept, Modern Image Formats' `photo.avif` beside the upload WordPress keeps
+	 * as its original), or null. The service makes the attachment's files from it
+	 * in their own format (`output_format`), with nothing put back.
+	 *
+	 * Until the plugin first writes such an image, it is that plugin's verified
+	 * backup of the main file, while that plugin's output is still there (a run
+	 * sends it only when someone asked, `Optimizer::redoable()`), or the plugin's
+	 * own backup where that file is one the plugin wrote before. After, it is the
+	 * plugin's own backup of it, which the record's `converted` names while the
+	 * main file holds the bytes the plugin wrote in that format: an edit, or that
+	 * plugin's own Restore putting the JPEG back, ends it.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array{path: string, file: string, plugin: string, made: string}|null The original, the path it stands for (its own name, relative to the uploads folder), the plugin that converted the image, and the MIME type the attachment's files are in.
+	 */
+	public static function converted( int $attachment ): ?array {
+		$attached = (string) get_attached_file( $attachment, true );
+
+		if ( '' === $attached || Shared::holder( $attachment ) !== $attachment ) {
+			return null;
+		}
+
+		$made = self::type( $attachment, $attached );
+
+		if ( ! is_string( $made ) || ! in_array( $made, Writer::COPIES, true ) ) {
+			return null;
+		}
+
+		$record = Records::get( $attachment );
+		$mark   = $record['converted'];
+
+		if ( null !== $mark && $mark['type'] === $made && Records::wrote( $attachment, $attached ) ) {
+			$backup = Paths::backup( $mark['file'] );
+
+			return in_array( Paths::relative( $backup ), $record['backups'], true ) && self::other_format( $backup, $made ) ? array(
+				'path'   => $backup,
+				'file'   => $mark['file'],
+				'plugin' => $mark['plugin'],
+				'made'   => $made,
+			) : null;
+		}
+
+		$trace = Others::trace( $attachment );
+		$main  = Paths::relative( $attached );
+
+		if ( null === $trace || null === $main || '' === $trace['elsewhere'] || ! in_array( $main, $trace['outputs'], true ) || ! isset( $trace['backups'][ $main ] ) ) {
+			return null;
+		}
+
+		$backup = $trace['backups'][ $main ];
+		$file   = Paths::relative( $backup );
+
+		/* A JPEG the plugin optimized before that plugin converted it is the plugin's output, never an original: the plugin's own backup of it is. */
+		if ( null !== $file && Records::wrote( $attachment, $backup ) ) {
+			$backup = Paths::backup( $file );
+
+			if ( ! in_array( Paths::relative( $backup ), $record['backups'], true ) ) {
+				return null;
+			}
+		}
+
+		return null !== $file && self::other_format( $backup, $made ) ? array(
+			'path'   => $backup,
+			'file'   => $file,
+			'plugin' => $trace['plugin'],
+			'made'   => $made,
+		) : null;
+	}
+
+	/**
+	 * Whether a file is a JPEG, PNG or GIF the service takes as a source, in
+	 * another format than the attachment's files.
+	 *
+	 * @param string $path The file.
+	 * @param string $made The attachment's files' MIME type.
+	 */
+	protected static function other_format( string $path, string $made ): bool {
+		if ( ! is_file( $path ) ) {
+			return false;
+		}
+
+		$type = wp_get_image_mime( $path );
+
+		return is_string( $type ) && $type !== $made && isset( Declaration::FORMATS[ $type ] ) && ! in_array( $type, Writer::COPIES, true );
 	}
 
 	/**

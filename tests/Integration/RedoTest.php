@@ -168,8 +168,12 @@ class RedoTest extends WP_UnitTestCase {
 
 		$squeezed = md5_file( $attached );
 		$counts   = Bulk::counts();
+		$left_out = static function ( bool $optimize, int $attachment ) use ( $converted ): bool {
+			return $optimize && $attachment !== $converted;
+		};
 
-		/* Imagify kept no original of its image; Elementor's conversion is its own to put back (W135). */
+		/* Imagify kept no original of its image; the site leaves the image Elementor converted out (ConvertedTest sends one), so the run passes it over. */
+		add_filter( 'iminify_optimize_image', $left_out, 10, 2 );
 		$this->assertSame( 3, $counts['redo'] );
 		$this->assertFalse( Optimizer::redoable( $bare ) );
 		$this->assertFalse( Optimizer::redoable( $converted ) );
@@ -190,7 +194,7 @@ class RedoTest extends WP_UnitTestCase {
 		$run = Bulk::start( Bulk::REDO, Bulk::BACKGROUND );
 
 		$this->assertSame( Bulk::REDO, $run['action'] );
-		$this->assertSame( 2, $run['total'], 'The image only its plugin can put back is passed over.' );
+		$this->assertSame( 2, $run['total'], 'The image the site leaves out is passed over.' );
 		$this->assertSame( 1, $run['passed'] );
 		$this->assertTrue( Optimizer::pending( Optimizer::OPTIMIZE_HOOK, array( $ewww, Optimizer::BULK ) ) );
 		$this->assertTrue( Records::get( $ewww )['redo'] );

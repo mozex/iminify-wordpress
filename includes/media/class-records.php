@@ -27,6 +27,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * put back from that original first, and keeps a backup of it whatever the
  * setting says.
  *
+ * An image another optimizer converted into WebP or AVIF (W135) and the plugin
+ * optimized again from the JPEG or PNG that plugin kept keeps `converted`: the
+ * kept file's path (whose backup the plugin holds under its own name), the
+ * plugin's short name and the format the attachment's files are in. Its backup is
+ * in another format than its files, so it is never put over them, and every later
+ * send makes the files in their own format from it (`Originals::converted()`).
+ *
  * An attachment that shares its files with another (a translation's, `Shared`)
  * keeps only `holder`, the id of the one whose record holds the work on them,
  * so `<picture>` finds that one's copies with no lookup by file name.
@@ -108,7 +115,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -134,7 +141,27 @@ class Records {
 			'holder'     => isset( $record['holder'] ) && (int) $record['holder'] > 0 ? (int) $record['holder'] : null,
 			'other'      => self::other( $record['other'] ?? null ),
 			'redo'       => ! empty( $record['redo'] ),
+			'converted'  => self::converted( $record['converted'] ?? null ),
 			'updated'    => isset( $record['updated'] ) ? (int) $record['updated'] : 0,
+		);
+	}
+
+	/**
+	 * The mark of an image optimized again from another optimizer's original in
+	 * another format than its files (W135), as a record keeps it, or null.
+	 *
+	 * @param mixed $converted The record's `converted`.
+	 * @return array{file: string, plugin: string, type: string}|null
+	 */
+	protected static function converted( $converted ): ?array {
+		if ( ! is_array( $converted ) || empty( $converted['file'] ) || empty( $converted['plugin'] ) || empty( $converted['type'] ) || ! is_string( $converted['file'] ) || ! is_string( $converted['plugin'] ) || ! is_string( $converted['type'] ) ) {
+			return null;
+		}
+
+		return array(
+			'file'   => $converted['file'],
+			'plugin' => sanitize_key( $converted['plugin'] ),
+			'type'   => $converted['type'],
 		);
 	}
 
