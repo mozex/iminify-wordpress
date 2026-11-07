@@ -152,14 +152,21 @@ class SwitchingTest extends WP_UnitTestCase {
 		$this->assertFalse( Optimizer::has_run( $later ) );
 		$this->assertFalse( Optimizer::has_run( $smush ) );
 
-		/* Smush restored it and dropped its records: no reader claims it, and its files no longer have the bytes remembered, so it goes back to not optimized on the next look. */
+		/* Smush restored it, which takes its backup and its pointer with its records: no reader claims it, and its files no longer have the bytes remembered, so it goes back to not optimized on the next look, and for good. */
+		$named = $this->named( $smush );
 		delete_post_meta( $smush, 'wp-smpro-smush-data' );
+		delete_post_meta( $smush, '_wp_attachment_backup_sizes' );
+		wp_delete_file( dirname( $named['original'] ) . '/' . wp_basename( $named['original'], '.jpg' ) . '.bak.jpg' );
 		copy( DIR_TESTDATA . '/images/canola.jpg', (string) get_attached_file( $smush ) );
 		Others::forget();
 		Others::look();
 
 		$this->assertSame( Records::NOT_OPTIMIZED, Records::get( $smush )['status'] );
 		$this->assertSame( '', get_post_meta( $smush, Records::OTHER_META, true ) );
+
+		Others::forget();
+
+		$this->assertNotSame( Others::CODE, Optimizer::why_not( $smush, true )['code'] ?? null );
 	}
 
 	public function test_the_media_library_shows_whose_an_image_is_with_its_filter_and_only_its_restore(): void {

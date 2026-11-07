@@ -1139,9 +1139,9 @@ class Optimizer {
 
 		$type = Originals::type( $attachment, $file );
 
-		/* A format the service doesn't take can be another plugin's output (Modern Image Formats' AVIF in a JPEG's place), which says so. */
+		/* A format the service doesn't take can be another plugin's output (Modern Image Formats' AVIF in a JPEG's place), which says so; a translation is the holder's to answer for. */
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
-			return Others::why( $attachment, $fresh ) ?? $unsupported;
+			return ( Shared::holder( $attachment, $fresh ) === $attachment ? Others::why( $attachment, $fresh ) : null ) ?? $unsupported;
 		}
 
 		$holder = Shared::holder( $attachment, $fresh );

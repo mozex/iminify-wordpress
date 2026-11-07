@@ -215,7 +215,7 @@ class Shortpixel extends Reader {
 			}
 		}
 
-		/* A conversion not compressed yet recorded no bytes: the JPEG it wrote is its output, with no original, while it keeps the bytes it had when first read so. */
+		/* A conversion not compressed yet recorded no bytes: the JPEG it wrote is its output, with no original, while its record of the conversion is there. */
 		if ( $converted && ! isset( $files[ $names['full'] ] ) ) {
 			return self::answer( $attachment, $files + $this->held( $attachment, array( 'full' => $names['full'] ) ), array(), $copies );
 		}

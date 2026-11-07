@@ -134,6 +134,15 @@ abstract class Reader {
 	}
 
 	/**
+	 * Whether the plugin keeps its records in each attachment's metadata, read with
+	 * no query, so a send asks it whatever the site's look at its records says: a look
+	 * kept between requests can be older than the plugin's last conversions.
+	 */
+	public function in_metadata(): bool {
+		return false;
+	}
+
+	/**
 	 * Whether the plugin took an attachment away from the site (Optimole's
 	 * offload, W139): its files are gone from here, and only that plugin brings
 	 * them back.
@@ -284,31 +293,31 @@ abstract class Reader {
 	}
 
 	/**
-	 * Files the plugin wrote without recording their bytes (W249), as its: with the
-	 * bytes the plugin's own record remembered of them once it first read them so,
-	 * else the bytes they have now, so a file changed since is an upload again.
+	 * Files the plugin wrote without recording their bytes (W249), as its, with the
+	 * bytes they have now: nothing tells a later change apart, so they stay its while
+	 * the trace that says so (its backup, its conversion's record) is there, which its
+	 * own restore removes. A file with the bytes the plugin itself wrote is the
+	 * plugin's own output, never another plugin's.
 	 *
 	 * @param int                   $attachment The attachment's id.
 	 * @param array<string, string> $paths      The files, relative to the uploads folder, by WordPress's names.
 	 * @return array<string, array{size: string, before: int, after: int}>
 	 */
 	protected function held( int $attachment, array $paths ): array {
-		$record = Records::get( $attachment );
-		$kept   = null !== $record['other'] && $this->slug() === $record['other']['plugin'] ? $record['other']['outputs'] : array();
-		$files  = array();
+		$written = Records::get( $attachment )['written'];
+		$files   = array();
 
 		foreach ( $paths as $size => $path ) {
 			$bytes = self::bytes( $attachment, $path );
 
-			if ( $bytes < 0 ) {
+			if ( $bytes < 0 || ( isset( $written[ $path ] ) && $written[ $path ] === $bytes ) ) {
 				continue;
 			}
 
-			$after          = $kept[ $path ] ?? $bytes;
 			$files[ $path ] = array(
 				'size'   => (string) $size,
-				'before' => $after,
-				'after'  => $after,
+				'before' => $bytes,
+				'after'  => $bytes,
 			);
 		}
 

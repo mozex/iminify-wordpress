@@ -277,7 +277,7 @@ class ReadersTest extends WP_UnitTestCase {
 		$id    = $this->scaled_upload();
 		$files = $this->named( $id );
 
-		$this->as_smush( $id );
+		$this->as_smush( $id, false );
 		Others::mark( $id, (array) Others::verdict( $id ) );
 
 		/* Smush's uninstall with "Keep Data" off deletes its records; its files stay as it compressed them. */
@@ -454,14 +454,23 @@ class ReadersTest extends WP_UnitTestCase {
 		$this->assertSame( 'other_plugin', Optimizer::why_not( $id )['code'] );
 
 		/* Its backups turned off, or removed by its "Remove Original Image Backups": its output stands alone, with no original. */
-		unlink( dirname( $files['full'] ) . '/' . wp_basename( $files['full'], '.jpg' ) . '.bk.jpg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- as LiteSpeed does it.
+		$bk        = dirname( $files['full'] ) . '/' . wp_basename( $files['full'], '.jpg' ) . '.bk.jpg';
+		$untouched = (string) file_get_contents( $bk ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a test file.
+		unlink( $bk ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- as LiteSpeed does it.
 		Others::forget();
 
 		$this->assertContains( $main, Others::trace( $id )['outputs'] );
 		$this->assertNull( Originals::find( $id, wp_get_attachment_metadata( $id ), null ) );
 
-		/* Queued, with no results back, it wrote nothing. */
-		delete_post_meta( $id, 'litespeed-optimize-size' );
+		/* Results with WebP alone, its "Optimize Original Images" off: it wrote no original. */
+		update_post_meta( $id, 'litespeed-optimize-size', array( 'webp_total' => 1 ) );
+		Others::forget();
+
+		$this->assertNull( Others::verdict( $id ) );
+
+		/* A file with the bytes WordPress recorded is no file it wrote, results or not. */
+		update_post_meta( $id, 'litespeed-optimize-size', array( 'ori_total' => 1 ) );
+		file_put_contents( $files['full'], $untouched ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test file.
 		Others::forget();
 
 		$this->assertNull( Others::verdict( $id ) );
@@ -560,6 +569,12 @@ class ReadersTest extends WP_UnitTestCase {
 		Others::forget();
 
 		$this->assertNull( Others::verdict( $plain ) );
+
+		/* A look kept from before its last conversions never stops a send reading them. */
+		set_transient( Modern_Formats::FOUND, '0', DAY_IN_SECONDS );
+		Others::forget();
+
+		$this->assertSame( 'modern-formats', Others::verdict( $large )['plugin'] );
 	}
 
 	public function test_converter_captured_running_answers_its_copies_outside_the_uploads_folder_and_never_an_optimization(): void {

@@ -136,10 +136,10 @@ class Smush extends Reader {
 	 * writes its record only once every size went through, so a backup of its own
 	 * with no record means it wrote some of the files in place and recorded no
 	 * bytes. Its main file (and the original it compresses beside a `-scaled` copy)
-	 * is taken as its output, with no original, while it keeps the bytes it had when
-	 * first read so (`held()`), so nothing it may have compressed is sent for a
-	 * second lossy pass. Its uninstall with "Keep Data" off leaves the same, which
-	 * this reads the same way.
+	 * is taken as its output, with no original, while its backup is there (its own
+	 * restore removes it with the pointer), so nothing it may have compressed is sent
+	 * for a second lossy pass. Its uninstall with "Keep Data" off leaves the same,
+	 * which this reads the same way.
 	 *
 	 * @param int                   $attachment The attachment's id.
 	 * @param array<string, string> $names      Its files by WordPress's names.

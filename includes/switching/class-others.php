@@ -837,7 +837,7 @@ class Others {
 		$readers = array_filter(
 			self::readers(),
 			static function ( Reader $reader ): bool {
-				return $reader->compresses() && $reader->present();
+				return $reader->compresses() && ( $reader->in_metadata() || $reader->present() );
 			}
 		);
 

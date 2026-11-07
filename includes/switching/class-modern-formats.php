@@ -75,11 +75,17 @@ class Modern_Formats extends Reader {
 	 * or WebP. Its format setting is stored only when someone saves its settings.
 	 */
 	protected function holds_records(): bool {
-		if ( $this->active() || false !== get_option( 'perflab_generate_webp_and_jpeg' ) ) {
+		if ( $this->active() ) {
+			set_transient( self::FOUND, '1', DAY_IN_SECONDS );
+
 			return true;
 		}
 
-		/* The look over every attachment is kept for a day, and forgotten when the plugin is turned off, so a site that never ran it pays it once a day. */
+		if ( false !== get_option( 'perflab_generate_webp_and_jpeg' ) ) {
+			return true;
+		}
+
+		/* The look over every attachment is kept for a day, and forgotten when the plugin is turned off, so a site that never ran it pays it once a day; a send reads each image's metadata whatever it says (`in_metadata()`). */
 		$found = get_transient( self::FOUND );
 
 		if ( false === $found ) {
@@ -94,6 +100,10 @@ class Modern_Formats extends Reader {
 		delete_transient( self::FOUND );
 	}
 
+	public function in_metadata(): bool {
+		return true;
+	}
+
 	/**
 	 * How many attachments it converted, which changes as it converts more.
 	 */
@@ -103,7 +113,7 @@ class Modern_Formats extends Reader {
 
 	/**
 	 * How many attachments say JPEG or PNG while their file is AVIF or WebP, or
-	 * whether there is one, through the type's index and the short attached-file rows.
+	 * whether there is one, by a scan of the attachments' attached-file rows.
 	 *
 	 * @param bool $any Whether one is enough.
 	 */

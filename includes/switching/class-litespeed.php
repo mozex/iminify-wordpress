@@ -34,7 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * that `filesize` gives: a backup taken after its backups were off for a pass, or
  * after its "Remove Original Image Backups", is of a file it had compressed. With
  * its backups off, or removed, its output stands alone with no original, read as
- * its once its results came back. Its own "Restore original" moves the `.bk.` back
+ * its once results came back with an optimized original (`ori_total`, which a
+ * WebP- or AVIF-only result leaves out). Its own "Restore original" moves the `.bk.` back
  * and parks its output as `photo.bk.optm.jpg`, so a file beside one is the original
  * again. Its WebP and AVIF copies are `photo.jpg.webp` and `photo.jpg.avif`, the
  * plugin's own names, and no record names them: those the plugin's record names as
@@ -117,9 +118,11 @@ class Litespeed extends Reader {
 	}
 
 	public function read( int $attachment, array $metadata ): ?array {
-		$done = metadata_exists( 'post', $attachment, 'litespeed-optimize-size' );
+		/* Its results came back with an optimized original only when its totals count one: WebP- or AVIF-only results write the totals too. */
+		$totals = get_post_meta( $attachment, 'litespeed-optimize-size', true );
+		$done   = is_array( $totals ) && ! empty( $totals['ori_total'] );
 
-		if ( ! $done && ! metadata_exists( 'post', $attachment, 'litespeed-optimize-set' ) ) {
+		if ( ! $done && ! metadata_exists( 'post', $attachment, 'litespeed-optimize-size' ) && ! metadata_exists( 'post', $attachment, 'litespeed-optimize-set' ) ) {
 			return null;
 		}
 
