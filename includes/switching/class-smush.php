@@ -24,7 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * it has the bytes Smush recorded before its first step on that file (`full`'s,
  * or its resize's or PNG conversion's, which run earlier). The free plugin
  * makes no WebP or AVIF copies. Files outside the library are rows of
- * `{base_prefix}smush_dir_images` by absolute path, with no backups.
+ * `{base_prefix}smush_dir_images` by absolute path, with no backups. A run it
+ * never finished leaves its backup with no record (W249).
+ *
+ * @phpstan-import-type Found from Reader
  */
 class Smush extends Reader {
 
@@ -60,8 +63,19 @@ class Smush extends Reader {
 		return ! empty( $auto );
 	}
 
+	/**
+	 * Its record of any image, or the pointer to a backup it takes before its first
+	 * step, which a run it never finished leaves alone (W249).
+	 */
 	protected function holds_records(): bool {
-		return self::meta_exists( array( 'wp-smpro-smush-data' ) );
+		global $wpdb;
+
+		if ( self::meta_exists( array( 'wp-smpro-smush-data' ) ) ) {
+			return true;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one look a request, by the meta_key index, at the few images WordPress's editor or Smush backed up.
+		return null !== $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value LIKE %s LIMIT 1", '_wp_attachment_backup_sizes', '%' . $wpdb->esc_like( '"smush-full"' ) . '%' ) );
 	}
 
 	public function stamp(): string {
@@ -72,8 +86,12 @@ class Smush extends Reader {
 		$data  = get_post_meta( $attachment, 'wp-smpro-smush-data', true );
 		$names = self::files( $attachment, $metadata );
 
-		if ( ! is_array( $data ) || empty( $data['stats'] ) || ! isset( $data['sizes'] ) || ! is_array( $data['sizes'] ) || ! isset( $names['full'] ) ) {
+		if ( ! isset( $names['full'] ) ) {
 			return null;
+		}
+
+		if ( ! is_array( $data ) || empty( $data['stats'] ) || ! isset( $data['sizes'] ) || ! is_array( $data['sizes'] ) ) {
+			return $this->unfinished( $attachment, $names );
 		}
 
 		$scaled = isset( $names['original'] );
@@ -111,6 +129,46 @@ class Smush extends Reader {
 		}
 
 		return self::answer( $attachment, $files, $backups, array() );
+	}
+
+	/**
+	 * A run Smush never finished: it backs the original up before any step and
+	 * writes its record only once every size went through, so a backup of its own
+	 * with no record means it wrote some of the files in place and recorded no
+	 * bytes. Its main file (and the original it compresses beside a `-scaled` copy)
+	 * is taken as its output, with no original, while it keeps the bytes it had when
+	 * first read so (`held()`), so nothing it may have compressed is sent for a
+	 * second lossy pass. Its uninstall with "Keep Data" off leaves the same, which
+	 * this reads the same way.
+	 *
+	 * @param int                   $attachment The attachment's id.
+	 * @param array<string, string> $names      Its files by WordPress's names.
+	 * @return Found|null
+	 */
+	protected function unfinished( int $attachment, array $names ): ?array {
+		$original = $names['original'] ?? $names['full'];
+		$sizes    = get_post_meta( $attachment, '_wp_attachment_backup_sizes', true );
+		$backup   = is_array( $sizes ) && isset( $sizes['smush-full']['file'] ) && is_string( $sizes['smush-full']['file'] ) ? wp_basename( $sizes['smush-full']['file'] ) : '';
+		$folder   = dirname( $original );
+
+		if ( '' === $backup || null === Places::upload( ( '.' === $folder ? '' : $folder . '/' ) . $backup ) || wp_basename( $original ) === $backup ) {
+			return null;
+		}
+
+		return self::answer(
+			$attachment,
+			$this->held(
+				$attachment,
+				array_unique(
+					array(
+						'full'     => $names['full'],
+						'original' => $original,
+					)
+				)
+			),
+			array(),
+			array()
+		);
 	}
 
 	public function optimized_files( array $paths ): array {

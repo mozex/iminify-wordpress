@@ -1077,6 +1077,8 @@ class Bulk {
 			case self::RETRY:
 				return Records::ERROR === $status;
 			case self::RESTORE:
+				/* An image another plugin optimized is restored only when someone names it (W251). */
+				return in_array( $status, array( Records::OPTIMIZED, Records::OTHER ), true );
 			case self::FORMATS:
 			case self::SIZES:
 				return Records::OPTIMIZED === $status;

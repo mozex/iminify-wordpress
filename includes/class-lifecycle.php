@@ -25,6 +25,7 @@ use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
+use Iminify\WordPress\Switching\Modern_Formats;
 use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -338,6 +339,7 @@ class Lifecycle {
 
 		delete_transient( Site_Record::TRANSIENT );
 		delete_transient( Bulk_State::LOOPBACK_TRANSIENT );
+		delete_transient( Modern_Formats::FOUND );
 
 		self::delete_runs();
 	}

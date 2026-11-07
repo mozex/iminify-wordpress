@@ -25,7 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * folder for others), never written over, so a backup passes when it has
  * `orig_size`; in cloud mode the originals are on its servers (W141). Its WebP
  * copies are `photo.jpg.webp`, or `photo.webp` in its replace mode. Files outside
- * the library are rows with no attachment.
+ * the library are rows with no attachment, and so are the library's own files a
+ * folder scan compressed ("Include Media Folders", or a folder under the uploads
+ * folder), which are found by their paths. A site can have it write paths from a
+ * folder of its own (`EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER`).
  */
 class Ewww extends Reader {
 
@@ -118,18 +121,53 @@ class Ewww extends Reader {
 		$in = implode( ', ', array_fill( 0, count( $ask ), '%d' ) );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a page's rows of another plugin's table in one query; one placeholder per id, built above.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT attachment_id, path, image_size, orig_size, webp_size FROM {$wpdb->prefix}ewwwio_images WHERE attachment_id IN ({$in}) AND gallery = %s AND image_size > 0 AND pending = 0", array_merge( $ask, array( 'media' ) ) ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT attachment_id, path, image_size, orig_size, webp_size, backup FROM {$wpdb->prefix}ewwwio_images WHERE attachment_id IN ({$in}) AND gallery = %s AND image_size > 0 AND pending = 0", array_merge( $ask, array( 'media' ) ) ), ARRAY_A );
+		$seen = array();
 
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$this->rows[ $blog . ':' . (int) $row['attachment_id'] ][] = $row;
+			$seen[ self::absolute( (string) $row['path'] ) ]           = true;
+		}
+
+		/* A folder scan ("Include Media Folders", or a folder under the uploads folder) compresses a library's files through rows with no attachment, found by their paths. */
+		$forms = array();
+
+		foreach ( $ask as $attachment ) {
+			$metadata = wp_get_attachment_metadata( $attachment, true );
+
+			foreach ( self::files( $attachment, is_array( $metadata ) ? $metadata : array() ) as $relative ) {
+				$path = Paths::absolute( $relative );
+
+				if ( ! isset( $seen[ $path ] ) ) {
+					foreach ( self::forms( $path ) as $form ) {
+						$forms[ $form ] = $attachment;
+					}
+				}
+			}
+		}
+
+		if ( array() === $forms ) {
+			return;
+		}
+
+		$in = implode( ', ', array_fill( 0, count( $forms ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- the page's files by EWWW's indexed path in one query; one placeholder per form, built above.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT path, image_size, orig_size, webp_size, backup FROM {$wpdb->prefix}ewwwio_images WHERE path IN ({$in}) AND image_size > 0 AND pending = 0", array_keys( $forms ) ), ARRAY_A );
+
+		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
+			if ( isset( $forms[ (string) $row['path'] ] ) ) {
+				$this->rows[ $blog . ':' . $forms[ (string) $row['path'] ] ][] = $row;
+			}
 		}
 	}
 
 	public function read( int $attachment, array $metadata ): ?array {
 		$this->prime( array( $attachment ) );
 
-		$rows  = $this->rows[ get_current_blog_id() . ':' . $attachment ] ?? array();
-		$names = array_flip( self::files( $attachment, $metadata ) );
+		$rows          = $this->rows[ get_current_blog_id() . ':' . $attachment ] ?? array();
+		$names_by_size = self::files( $attachment, $metadata );
+		$names         = array_flip( $names_by_size );
 
 		if ( array() === $rows || array() === $names ) {
 			return null;
@@ -139,6 +177,7 @@ class Ewww extends Reader {
 		$files   = array();
 		$backups = array();
 		$copies  = array();
+		$cloud   = false;
 
 		foreach ( $rows as $row ) {
 			$relative = Paths::relative( self::absolute( (string) $row['path'] ) );
@@ -159,6 +198,11 @@ class Ewww extends Reader {
 				continue;
 			}
 
+			/* A path the attachment's own row already gave is read from that row. */
+			if ( isset( $files[ $relative ] ) ) {
+				continue;
+			}
+
 			$files[ $relative ] = array(
 				'size'   => (string) $names[ $relative ],
 				'before' => $before,
@@ -169,10 +213,15 @@ class Ewww extends Reader {
 
 			if ( null !== $backup ) {
 				$backups[ $relative ] = $backup;
+			} elseif ( 'full' === $names[ $relative ] && ! empty( $row['backup'] ) ) {
+				$cloud = true;
 			}
 		}
 
-		return self::answer( $attachment, $files, $backups, array_map( 'strval', $copies ) );
+		/* Its cloud mode keeps the original on EWWW's servers for 30 days, fetched only with its key (W141). */
+		$elsewhere = $cloud && ! isset( $names_by_size['original'] ) ? __( 'EWWW Image Optimizer kept this image\'s original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can\'t fetch it.', 'iminify-image-optimizer' ) : '';
+
+		return self::answer( $attachment, $files, $backups, array_map( 'strval', $copies ), $elsewhere );
 	}
 
 	public function optimized_files( array $paths ): array {
@@ -219,6 +268,12 @@ class Ewww extends Reader {
 	 * @param string $path The row's path.
 	 */
 	protected static function absolute( string $path ): string {
+		$folder = self::relative_folder();
+
+		if ( '' !== $folder && 0 === strpos( $path, 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' ) ) {
+			return wp_normalize_path( $folder . substr( $path, strlen( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' ) ) );
+		}
+
 		if ( 0 === strpos( $path, 'ABSPATH' ) ) {
 			return wp_normalize_path( trailingslashit( ABSPATH ) . substr( $path, strlen( 'ABSPATH' ) ) );
 		}
@@ -228,6 +283,14 @@ class Ewww extends Reader {
 		}
 
 		return wp_normalize_path( $path );
+	}
+
+	/**
+	 * The folder a site names in `EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER`, which EWWW
+	 * writes as that constant's name at the start of a path, or empty.
+	 */
+	protected static function relative_folder(): string {
+		return defined( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' ) ? (string) constant( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' ) : '';
 	}
 
 	/**
@@ -241,6 +304,11 @@ class Ewww extends Reader {
 		$abs     = trailingslashit( wp_normalize_path( ABSPATH ) );
 		$content = untrailingslashit( wp_normalize_path( WP_CONTENT_DIR ) );
 		$forms   = array( $path );
+		$folder  = wp_normalize_path( self::relative_folder() );
+
+		if ( '' !== $folder && 0 === strpos( $path, $folder ) ) {
+			$forms[] = 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' . substr( $path, strlen( $folder ) );
+		}
 
 		if ( 0 === strpos( $path, $abs ) ) {
 			$forms[] = 'ABSPATH' . substr( $path, strlen( $abs ) );

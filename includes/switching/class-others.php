@@ -32,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * While another optimizer can act on uploads (`acting()`, W134) the plugin
  * optimizes nothing, on upload or in bulk; restoring and serving copies go on.
+ *
+ * @phpstan-import-type Found from Reader
+ * @phpstan-type Trace array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>, outside: array<string, list<string>>, elsewhere: string}
  */
 class Others {
 
@@ -85,7 +88,7 @@ class Others {
 	/**
 	 * What each attachment's readers answered in this request, by site and id.
 	 *
-	 * @var array<string, array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|false>
+	 * @var array<string, Trace|false>
 	 */
 	protected static $traces = array();
 
@@ -209,16 +212,14 @@ class Others {
 	 *
 	 * @param int  $attachment The attachment's id.
 	 * @param bool $fresh      Whether to read again rather than take this request's answer.
-	 * @return array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|null
+	 * @return Trace|null
 	 */
 	public static function trace( int $attachment, bool $fresh = false ): ?array {
 		$key = get_current_blog_id() . ':' . $attachment;
 
 		if ( $fresh || ! isset( self::$traces[ $key ] ) ) {
 			if ( $fresh ) {
-				foreach ( self::readers() as $reader ) {
-					$reader->drop( $attachment );
-				}
+				self::drop( $attachment );
 			}
 
 			self::$traces[ $key ] = self::read( $attachment ) ?? false;
@@ -320,12 +321,53 @@ class Others {
 	}
 
 	/**
+	 * Why restoring an attachment another plugin optimized is that plugin's own to
+	 * do rather than Iminify's (W135), in a sentence, or empty.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function elsewhere( int $attachment ): string {
+		$trace = self::trace( $attachment );
+
+		return null === $trace ? '' : $trace['elsewhere'];
+	}
+
+	/**
+	 * The plugin that took an attachment away from the site (Optimole's offload,
+	 * W139), whose files only it brings back, or null.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function away( int $attachment ): ?Reader {
+		foreach ( self::readers() as $reader ) {
+			if ( $reader->present() && $reader->away( $attachment ) ) {
+				return $reader;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Forgets what this request read about one attachment, after its files changed.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public static function drop( int $attachment ): void {
+		unset( self::$traces[ get_current_blog_id() . ':' . $attachment ] );
+
+		foreach ( self::readers() as $reader ) {
+			$reader->drop( $attachment );
+		}
+	}
+
+	/**
 	 * Whether a file of an attachment holds another plugin's output, and the
 	 * backup that plugin kept of it, when that backup passed its size check.
 	 *
 	 * @param int    $attachment The attachment's id.
 	 * @param string $relative   The file, relative to the uploads folder.
-	 * @return array{plugin: string, backup: string|null}|null
+	 * @return array{plugin: string, backup: string|null, before: int}|null The plugin, its backup, and the bytes it recorded the file had before it (0 when unknown).
 	 */
 	public static function output( int $attachment, string $relative ): ?array {
 		$trace = self::trace( $attachment );
@@ -336,6 +378,7 @@ class Others {
 			return null !== $kept && isset( $kept['outputs'][ $relative ] ) ? array(
 				'plugin' => $kept['plugin'],
 				'backup' => null,
+				'before' => 0,
 			) : null;
 		}
 
@@ -346,6 +389,7 @@ class Others {
 		return array(
 			'plugin' => $trace['plugin'],
 			'backup' => $trace['backups'][ $relative ] ?? null,
+			'before' => $trace['files'][ $relative ]['before'] ?? 0,
 		);
 	}
 
@@ -552,6 +596,7 @@ class Others {
 		foreach ( self::readers() as $reader ) {
 			if ( $reader->owns( (string) $plugin ) ) {
 				delete_option( self::STAMP_OPTION );
+				$reader->deactivated();
 				Reader::forget();
 
 				if ( ! as_has_scheduled_action( self::SWEEP_HOOK, null, Optimizer::GROUP ) ) {
@@ -665,11 +710,7 @@ class Others {
 
 			/* The page's records are read again once, in one query a plugin, rather than one an image. */
 			foreach ( $ids as $id ) {
-				unset( self::$traces[ get_current_blog_id() . ':' . $id ] );
-
-				foreach ( self::readers() as $reader ) {
-					$reader->drop( $id );
-				}
+				self::drop( $id );
 			}
 
 			self::prime( $ids );
@@ -763,16 +804,40 @@ class Others {
 	}
 
 	/**
+	 * A reader's answer without the backups that hold the plugin's own output: where
+	 * another plugin compressed a file the plugin had written (with its backups off),
+	 * that plugin's backup is of the plugin's output, which passes that plugin's own
+	 * size check and is never an original.
+	 *
+	 * @param int   $attachment The attachment's id.
+	 * @param Found $found      A reader's answer.
+	 * @return Found
+	 */
+	protected static function without_own_output( int $attachment, array $found ): array {
+		$written = Records::get( $attachment )['written'];
+
+		foreach ( $found['backups'] as $path => $backup ) {
+			clearstatcache( true, $backup );
+
+			if ( isset( $written[ $path ] ) && (int) filesize( $backup ) === $written[ $path ] ) {
+				unset( $found['backups'][ $path ] );
+			}
+		}
+
+		return $found;
+	}
+
+	/**
 	 * Asks the readers, in order, for the first that finds its plugin's output.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{plugin: string, files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|null
+	 * @return Trace|null
 	 */
 	protected static function read( int $attachment ): ?array {
 		$readers = array_filter(
 			self::readers(),
 			static function ( Reader $reader ): bool {
-				return $reader->present();
+				return $reader->compresses() && $reader->present();
 			}
 		);
 
@@ -789,7 +854,7 @@ class Others {
 				$found = $reader->read( $id, $metadata );
 
 				if ( null !== $found && array() !== $found['outputs'] ) {
-					return array_merge( array( 'plugin' => $reader->slug() ), $found );
+					return array_merge( array( 'plugin' => $reader->slug() ), self::without_own_output( $attachment, $found ) );
 				}
 			}
 		}

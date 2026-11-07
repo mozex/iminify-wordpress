@@ -406,6 +406,183 @@ trait Others_Fixture {
 	}
 
 	/**
+	 * LiteSpeed's records: the attached file and two sizes compressed in place, each
+	 * backed up once beside it as `canola.bk.jpg`, its copy of the medium size, and
+	 * its meta, which only says it took the attachment.
+	 *
+	 * @param int $id The attachment's id.
+	 * @return array<string, array{before: int, after: int}> The numbers, by size.
+	 */
+	protected function as_litespeed( int $id ): array {
+		$files   = $this->named( $id );
+		$numbers = array();
+
+		foreach ( array( 'full', 'thumbnail', 'medium' ) as $size ) {
+			$numbers[ $size ] = $this->squeeze( $files[ $size ], dirname( $files[ $size ] ) . '/' . wp_basename( $files[ $size ], '.jpg' ) . '.bk.jpg' );
+		}
+
+		file_put_contents( $files['medium'] . '.webp', 'webp' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- another plugin's copy.
+		$this->others_made[] = $files['medium'] . '.webp';
+
+		update_post_meta(
+			$id,
+			'litespeed-optimize-size',
+			array(
+				'ori_total' => 1,
+				'ori_saved' => 1,
+			)
+		);
+		update_post_meta( $id, 'litespeed-optimize-set', array( '150x150', '300x225' ) );
+		Others::forget();
+
+		return $numbers;
+	}
+
+	/**
+	 * Image Optimizer by Elementor's records. Converting (its default), the attached
+	 * file and the medium size become WebP files that take the attachment's place,
+	 * the JPEGs kept at their names; keeping the format, they are compressed in place
+	 * after a `.backup.jpg` copy of each.
+	 *
+	 * @param int  $id      The attachment's id.
+	 * @param bool $convert Whether it converted them.
+	 * @return array<string, string> The files it left in the attachment's place, by size.
+	 */
+	protected function as_elementor( int $id, bool $convert ): array {
+		$files    = $this->named( $id );
+		$metadata = wp_get_attachment_metadata( $id );
+		$original = array();
+		$placed   = array();
+
+		foreach ( array( 'full', 'medium' ) as $size ) {
+			$entry             = 'full' === $size ? $metadata : $metadata['sizes'][ $size ];
+			$original[ $size ] = array(
+				'file'      => 'full' === $size ? $metadata['file'] : $entry['file'],
+				'filesize'  => (int) filesize( $files[ $size ] ),
+				'width'     => $entry['width'],
+				'height'    => $entry['height'],
+				'mime-type' => 'image/jpeg',
+			);
+
+			if ( ! $convert ) {
+				$this->squeeze( $files[ $size ], dirname( $files[ $size ] ) . '/' . wp_basename( $files[ $size ], '.jpg' ) . '.backup.jpg' );
+				$placed[ $size ] = $files[ $size ];
+				continue;
+			}
+
+			$webp  = dirname( $files[ $size ] ) . '/' . wp_basename( $files[ $size ], '.jpg' ) . '.webp';
+			$saved = wp_get_image_editor( $files[ $size ] )->save( $webp, 'image/webp' );
+
+			$this->others_made[] = $saved['path'];
+			$placed[ $size ]     = $saved['path'];
+
+			if ( 'full' === $size ) {
+				$metadata['file']     = dirname( $metadata['file'] ) . '/' . wp_basename( $saved['path'] );
+				$metadata['filesize'] = (int) filesize( $saved['path'] );
+				update_post_meta( $id, '_wp_attached_file', $metadata['file'] );
+				wp_update_post(
+					array(
+						'ID'             => $id,
+						'post_mime_type' => 'image/webp',
+					)
+				);
+			} else {
+				$metadata['sizes'][ $size ]['file']      = wp_basename( $saved['path'] );
+				$metadata['sizes'][ $size ]['mime-type'] = 'image/webp';
+				$metadata['sizes'][ $size ]['filesize']  = (int) filesize( $saved['path'] );
+			}
+		}
+
+		update_post_meta( $id, '_wp_attachment_metadata', $metadata );
+		update_post_meta(
+			$id,
+			'image_optimizer_metadata',
+			array(
+				'status'            => 'optimized',
+				'compression_level' => 'lossy',
+				'sizes_optimized'   => array( 'full', 'medium' ),
+				'backups'           => array( 'full' => '/somewhere/else/canola.jpg' ),
+				'original_data'     => array( 'sizes' => $original ),
+			)
+		);
+		Others::forget();
+
+		return $placed;
+	}
+
+	/**
+	 * An attachment as a capture in `tests/fixtures/others/` holds it: its type,
+	 * attached file and metadata, and each file it lists with the bytes it lists
+	 * (filled with zeros: the readers read names and bytes), plus any other files
+	 * named by their path from `wp-content`.
+	 *
+	 * @param array<string, mixed> $capture The captured upload.
+	 * @param array<string, int>   $content Other files to make, by their path from `wp-content`, with their bytes.
+	 */
+	protected function replay( array $capture, array $content = array() ): int {
+		$folder = Paths::uploads() . '/' . dirname( (string) $capture['_wp_attached_file'] );
+		$id     = (int) self::factory()->attachment->create_object(
+			array(
+				'file'           => $capture['_wp_attached_file'],
+				'post_mime_type' => $capture['post_mime_type'],
+			)
+		);
+
+		wp_mkdir_p( $folder );
+
+		foreach ( $capture['files'] as $name => $bytes ) {
+			file_put_contents( $folder . '/' . $name, str_repeat( "\0", (int) $bytes ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a captured file's stand-in.
+			$this->others_made[] = $folder . '/' . $name;
+		}
+
+		foreach ( $content as $path => $bytes ) {
+			wp_mkdir_p( dirname( WP_CONTENT_DIR . '/' . $path ) );
+			file_put_contents( WP_CONTENT_DIR . '/' . $path, str_repeat( "\0", $bytes ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a captured file's stand-in.
+		}
+
+		update_post_meta( $id, '_wp_attached_file', $capture['_wp_attached_file'] );
+		update_post_meta( $id, '_wp_attachment_metadata', $capture['metadata'] );
+		Others::forget();
+
+		return $id;
+	}
+
+	/**
+	 * A capture from `tests/fixtures/others/`.
+	 *
+	 * @param string $name The file's name, without `.json`.
+	 * @return array<string, mixed>
+	 */
+	protected function captured( string $name ): array {
+		return json_decode( (string) file_get_contents( dirname( __DIR__ ) . '/fixtures/others/' . $name . '.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a fixture.
+	}
+
+	/**
+	 * Optimole's offload of an attachment: its marks, the metadata naming its cloud
+	 * copy, and the attachment's files deleted here.
+	 *
+	 * @param int $id The attachment's id.
+	 */
+	protected function as_optimole_offloaded( int $id ): void {
+		$metadata = wp_get_attachment_metadata( $id );
+
+		foreach ( $this->named( $id ) as $file ) {
+			wp_delete_file( $file );
+		}
+
+		$metadata['file'] = '/id:abc123/https://example.org/canola.jpg';
+
+		foreach ( $metadata['sizes'] as $size => $about ) {
+			$metadata['sizes'][ $size ]['file'] = 'canola.jpg';
+		}
+
+		update_post_meta( $id, '_wp_attachment_metadata', $metadata );
+		update_post_meta( $id, 'om_image_offloaded', '1' );
+		update_post_meta( $id, 'optimole_offload', 'true' );
+		Others::forget();
+	}
+
+	/**
 	 * Removes what the fixture made and the other plugins' tables, and forgets what the readers read.
 	 */
 	protected function forget_others(): void {
@@ -423,6 +600,10 @@ trait Others_Fixture {
 			if ( is_dir( Paths::uploads() . '/' . $folder ) ) {
 				$this->rmdir( Paths::uploads() . '/' . $folder );
 			}
+		}
+
+		if ( is_dir( WP_CONTENT_DIR . '/uploads-webpc' ) ) {
+			$this->rmdir( WP_CONTENT_DIR . '/uploads-webpc' );
 		}
 
 		foreach ( array( 'shortpixel_postmeta', 'shortpixel_meta', 'ewwwio_images' ) as $table ) {

@@ -1,0 +1,78 @@
+{
+    "_read": "Captured from Converter for Media 6.7.2 running on wp-env (wp webp-converter regenerate): the copies of a 3000x2000 JPEG upload WordPress scaled, by path from wp-content, with their bytes, and the upload itself.",
+    "upload": {
+        "post_mime_type": "image/jpeg",
+        "_wp_attached_file": "2026/11/webpc-large-scaled.jpg",
+        "metadata": {
+            "width": 2560,
+            "height": 1707,
+            "file": "2026/11/webpc-large-scaled.jpg",
+            "filesize": 369724,
+            "sizes": {
+                "medium": {
+                    "file": "webpc-large-300x200.jpg",
+                    "width": 300,
+                    "height": 200,
+                    "mime-type": "image/jpeg",
+                    "filesize": 19133
+                },
+                "large": {
+                    "file": "webpc-large-1024x683.jpg",
+                    "width": 1024,
+                    "height": 683,
+                    "mime-type": "image/jpeg",
+                    "filesize": 107377
+                },
+                "thumbnail": {
+                    "file": "webpc-large-150x150.jpg",
+                    "width": 150,
+                    "height": 150,
+                    "mime-type": "image/jpeg",
+                    "filesize": 8711
+                },
+                "medium_large": {
+                    "file": "webpc-large-768x512.jpg",
+                    "width": 768,
+                    "height": 512,
+                    "mime-type": "image/jpeg",
+                    "filesize": 72619
+                },
+                "1536x1536": {
+                    "file": "webpc-large-1536x1024.jpg",
+                    "width": 1536,
+                    "height": 1024,
+                    "mime-type": "image/jpeg",
+                    "filesize": 182313
+                },
+                "2048x2048": {
+                    "file": "webpc-large-2048x1365.jpg",
+                    "width": 2048,
+                    "height": 1365,
+                    "mime-type": "image/jpeg",
+                    "filesize": 277382
+                }
+            },
+            "original_image": "webpc-large.jpg"
+        },
+        "files": {
+            "webpc-large-1024x683.jpg": 107377,
+            "webpc-large-150x150.jpg": 8711,
+            "webpc-large-1536x1024.jpg": 182313,
+            "webpc-large-2048x1365.jpg": 277382,
+            "webpc-large-300x200.jpg": 19133,
+            "webpc-large-768x512.jpg": 72619,
+            "webpc-large-scaled.jpg": 369724,
+            "webpc-large.jpg": 727262
+        }
+    },
+    "copies": {
+        "uploads-webpc/uploads/2026/11/webpc-large-1024x683.jpg.webp": 68712,
+        "uploads-webpc/uploads/2026/11/webpc-large-150x150.jpg.webp": 7416,
+        "uploads-webpc/uploads/2026/11/webpc-large-1536x1024.jpg.webp": 104358,
+        "uploads-webpc/uploads/2026/11/webpc-large-2048x1365.jpg.webp": 141766,
+        "uploads-webpc/uploads/2026/11/webpc-large-300x200.jpg.webp": 16232,
+        "uploads-webpc/uploads/2026/11/webpc-large-768x512.jpg.webp": 50354,
+        "uploads-webpc/uploads/2026/11/webpc-large-scaled.jpg.webp": 179774,
+        "uploads-webpc/uploads/2026/11/webpc-large.jpg.webp": 239168
+    }
+}

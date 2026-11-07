@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,6 +28,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * is brought back first, its uploads wait while WordPress makes the sizes, and
  * the restored files go up at the one save of the metadata, which takes them off
  * the disk again.
+ *
+ * An image another optimizer compressed (`Switching\Others`) is restored from
+ * the original that plugin kept, when it passes that plugin's size check, the
+ * same way: its backup is copied into place, never moved, so that plugin's own
+ * restore still finds it; WordPress makes the sizes again over its outputs under
+ * their names; and a size WordPress doesn't make any more is put back from that
+ * plugin's backup of it, where it kept one (W250). Its copies stay where they are.
+ * Where restoring is that plugin's own to do (W135, W141), it says why instead.
  */
 class Restorer {
 
@@ -48,6 +57,11 @@ class Restorer {
 	const CHANGED = 'changed';
 
 	/**
+	 * Another optimizer compressed the image, and restoring it is that plugin's own to do (W135, W141).
+	 */
+	const THEIRS = 'theirs';
+
+	/**
 	 * Whether an attachment can be restored. Only the files it has now count: an
 	 * older edit's files stay in the record, so they are never taken for originals,
 	 * but there is nothing to put back for them.
@@ -60,6 +74,15 @@ class Restorer {
 		$metadata = wp_get_attachment_metadata( $attachment, true );
 		$metadata = is_array( $metadata ) ? $metadata : array();
 		$attached = (string) get_attached_file( $attachment, true );
+
+		/* Another plugin's output is no file the plugin wrote, so it is asked first: such an image is never "nothing to restore". */
+		if ( null !== Others::verdict( $attachment ) ) {
+			if ( '' !== Others::elsewhere( $attachment ) ) {
+				return self::THEIRS;
+			}
+
+			return null === Originals::find( $attachment, $metadata, null ) ? self::NO_ORIGINAL : self::AVAILABLE;
+		}
 
 		if ( array() === array_intersect_key( $record['written'], array_flip( self::files_of( $attached, $metadata ) ) ) && array() === Copies::own( $record['copies'] ) ) {
 			return self::NOTHING;
@@ -85,10 +108,14 @@ class Restorer {
 	 * @return true|WP_Error
 	 */
 	public static function restore( int $attachment ) {
+		/* What another optimizer left is read afresh: a restore writes over files on its word. */
+		Others::trace( $attachment, true );
+
 		try {
 			return self::put_back( $attachment );
 		} finally {
 			Offload_Media::put_away( $attachment );
+			Others::drop( $attachment );
 		}
 	}
 
@@ -102,10 +129,12 @@ class Restorer {
 		$availability = self::availability( $attachment );
 
 		if ( self::AVAILABLE !== $availability ) {
-			return self::refusal( $availability );
+			return self::refusal( $availability, $attachment );
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$theirs = self::theirs( $attachment );
 
 		$metadata = wp_get_attachment_metadata( $attachment, true );
 		$metadata = is_array( $metadata ) ? $metadata : array();
@@ -118,12 +147,12 @@ class Restorer {
 		}
 
 		if ( null === $source ) {
-			return self::refusal( self::NO_ORIGINAL );
+			return self::refusal( self::NO_ORIGINAL, $attachment );
 		}
 
 		/* A main file brought back to find the original can turn out to be something else's, which is never written over. */
 		if ( self::CHANGED === self::availability( $attachment ) ) {
-			return self::refusal( self::CHANGED );
+			return self::refusal( self::CHANGED, $attachment );
 		}
 
 		Optimizer::cancel( $attachment );
@@ -158,9 +187,11 @@ class Restorer {
 			return self::failed();
 		}
 
-		$fresh = self::keep_size_names( $metadata, $fresh, $written, false === $existing ? array() : array_map( 'wp_normalize_path', $existing ), dirname( $target ) );
+		/* A size keeps its name over another plugin's output as over the plugin's own. */
+		$fresh  = self::keep_size_names( $metadata, $fresh, $written + $theirs['outputs'], false === $existing ? array() : array_map( 'wp_normalize_path', $existing ), dirname( $target ) );
+		$merged = self::put_back_theirs( $attachment, self::merged( $metadata, $fresh ), $theirs );
 
-		self::save_metadata( $attachment, $metadata, $fresh );
+		self::save_metadata( $attachment, $merged );
 
 		/* A bulk run looking for what images lack could take this one while its copies were gone and its sizes were being made. */
 		Optimizer::cancel( $attachment );
@@ -296,16 +327,16 @@ class Restorer {
 	}
 
 	/**
-	 * Saves the new metadata over the old, keeping every key WordPress didn't make
-	 * again, at the top and in each size, as other plugins keep their own there. A
-	 * size WordPress didn't make keeps its entry too, since its file is still there:
-	 * the site stopped making it, or the image editor failed.
+	 * The new metadata over the old, keeping every key WordPress didn't make again,
+	 * at the top and in each size, as other plugins keep their own there. A size
+	 * WordPress didn't make keeps its entry too, since its file is still there: the
+	 * site stopped making it, or the image editor failed.
 	 *
-	 * @param int                  $attachment The attachment's id.
-	 * @param array<string, mixed> $old        The metadata before the restore.
-	 * @param array<string, mixed> $fresh      What WordPress made.
+	 * @param array<string, mixed> $old   The metadata before the restore.
+	 * @param array<string, mixed> $fresh What WordPress made.
+	 * @return array<string, mixed>
 	 */
-	protected static function save_metadata( int $attachment, array $old, array $fresh ): void {
+	protected static function merged( array $old, array $fresh ): array {
 		$sizes = isset( $old['sizes'] ) && is_array( $old['sizes'] ) ? $old['sizes'] : array();
 
 		foreach ( isset( $fresh['sizes'] ) && is_array( $fresh['sizes'] ) ? $fresh['sizes'] : array() as $name => $size ) {
@@ -315,8 +346,79 @@ class Restorer {
 
 		$fresh['sizes'] = $sizes;
 
+		return array_merge( $old, $fresh );
+	}
+
+	/**
+	 * What another optimizer left of an attachment that its restore uses: each
+	 * output's bytes and the backups it kept, verified by its size check, or
+	 * nothing for an image no other plugin optimized.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array{outputs: array<string, int>, backups: array<string, string>}
+	 */
+	protected static function theirs( int $attachment ): array {
+		$verdict = Others::verdict( $attachment );
+		$trace   = null === $verdict ? null : Others::trace( $attachment );
+
+		return array(
+			'outputs' => null === $verdict ? array() : $verdict['outputs'],
+			'backups' => null === $trace ? array() : $trace['backups'],
+		);
+	}
+
+	/**
+	 * Puts back from another optimizer's backups the sizes WordPress didn't make
+	 * again (a size the site stopped making), each only while its file still has
+	 * that plugin's output and the copy comes out whole. The sizes WordPress made
+	 * again came from the original already.
+	 *
+	 * @param int                                                                  $attachment The attachment's id.
+	 * @param array<string, mixed>                                                 $metadata   The metadata about to be saved.
+	 * @param array{outputs: array<string, int>, backups: array<string, string>} $theirs     What `theirs()` answered.
+	 * @return array<string, mixed>
+	 */
+	protected static function put_back_theirs( int $attachment, array $metadata, array $theirs ): array {
+		if ( array() === $theirs['backups'] ) {
+			return $metadata;
+		}
+
+		$folder = dirname( (string) get_attached_file( $attachment, true ) );
+
+		foreach ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array() as $name => $size ) {
+			$relative = is_array( $size ) && isset( $size['file'] ) ? Paths::relative( $folder . '/' . wp_basename( (string) $size['file'] ) ) : null;
+
+			if ( null === $relative || ! isset( $theirs['backups'][ $relative ], $theirs['outputs'][ $relative ] ) ) {
+				continue;
+			}
+
+			$path = Paths::absolute( $relative );
+
+			clearstatcache( true, $path );
+
+			if ( ! is_file( $path ) || (int) filesize( $path ) !== $theirs['outputs'][ $relative ] ) {
+				continue;
+			}
+
+			/* Copied, never moved: that plugin's own restore still needs its backup where it is. */
+			if ( Files::copy( $theirs['backups'][ $relative ], $path ) && Backups::same( $theirs['backups'][ $relative ], $path ) ) {
+				clearstatcache( true, $path );
+				$metadata['sizes'][ $name ]['filesize'] = (int) filesize( $path );
+			}
+		}
+
+		return $metadata;
+	}
+
+	/**
+	 * Saves the restored metadata, under the writer's guard, so the plugin's own
+	 * hooks ignore it.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   The metadata to save.
+	 */
+	protected static function save_metadata( int $attachment, array $metadata ): void {
 		Writer::$writing = $attachment;
-		$metadata        = array_merge( $old, $fresh );
 
 		try {
 			/* WP Offload Media's upload at this save measures the original through paths in its bucket. */
@@ -335,8 +437,23 @@ class Restorer {
 	 * The refusal for an attachment that can't be restored.
 	 *
 	 * @param string $availability Why not.
+	 * @param int    $attachment   The attachment's id.
 	 */
-	protected static function refusal( string $availability ): WP_Error {
+	protected static function refusal( string $availability, int $attachment ): WP_Error {
+		$verdict = self::NO_ORIGINAL === $availability || self::THEIRS === $availability ? Others::verdict( $attachment ) : null;
+
+		if ( null !== $verdict ) {
+			return new WP_Error(
+				self::THEIRS === $availability ? 'restore_elsewhere' : 'no_original',
+				self::THEIRS === $availability ? Others::elsewhere( $attachment ) : sprintf(
+					/* translators: %s: another image optimizer's name, such as Imagify. */
+					__( '%s kept no original of this image that Iminify can check, so it can\'t be restored here.', 'iminify-image-optimizer' ),
+					Others::name( $verdict['plugin'] )
+				),
+				array( 'status' => 409 )
+			);
+		}
+
 		switch ( $availability ) {
 			case self::NOTHING:
 				return new WP_Error( 'nothing_to_restore', __( 'Iminify hasn\'t changed this image, so there\'s nothing to restore.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );

@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Backups;
+use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
@@ -18,14 +19,19 @@ use Iminify\WordPress\Media\Restorer;
 use Iminify\WordPress\Media\Writer;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use Iminify\WordPress\Tests\Support\Api_Stub;
+use Iminify\WordPress\Tests\Support\Others_Fixture;
 use WP_UnitTestCase;
 
 /**
  * Covers each kind of original, the names and metadata a restore has to keep, the
- * copies it deletes, and the cases that have to refuse.
+ * copies it deletes, the cases that have to refuse, and an image another
+ * optimizer compressed, restored from the original that plugin kept.
  */
 class RestorerTest extends WP_UnitTestCase {
+
+	use Others_Fixture;
 
 	/**
 	 * The stand-in API, which only the group's deletion may reach.
@@ -43,6 +49,8 @@ class RestorerTest extends WP_UnitTestCase {
 	}
 
 	public function tear_down(): void {
+		$this->forget_others();
+		delete_option( Bulk::OPTION );
 		$this->api->stop();
 		Local_Settings::update( array( 'backups' => true ) );
 		Pause::lift();
@@ -447,5 +455,147 @@ class RestorerTest extends WP_UnitTestCase {
 				),
 			)
 		);
+	}
+
+	/**
+	 * The plugins that keep an original Iminify can check, each on the upload it reads best.
+	 *
+	 * @return array<string, array{0: string, 1: bool}>
+	 */
+	public function others_with_originals(): array {
+		return array(
+			'Imagify, WordPress\'s original untouched' => array( 'imagify', true ),
+			'EWWW, a backup of every file'             => array( 'ewww', false ),
+			'ShortPixel, the original compressed too'  => array( 'shortpixel', true ),
+			'Smush, a backup beside the original'      => array( 'smush', true ),
+			'TinyPNG, a backup of the attached file'   => array( 'tinypng', false ),
+			'LiteSpeed, a `.bk.` beside each file'     => array( 'litespeed', false ),
+			'Elementor, a `.backup.` beside each file' => array( 'elementor', false ),
+		);
+	}
+
+	/**
+	 * @dataProvider others_with_originals
+	 *
+	 * @param string $plugin The other plugin.
+	 * @param bool   $scaled Whether WordPress scaled the upload.
+	 */
+	public function test_an_image_another_plugin_optimized_gets_the_original_it_kept_back_and_its_backups_stay_where_they_were( string $plugin, bool $scaled ): void {
+		if ( $scaled ) {
+			add_filter( 'big_image_size_threshold', array( $this, 'scale_at_500' ) );
+		}
+
+		$id        = $this->attachment();
+		$files     = $this->named( $id );
+		$original  = $files['original'] ?? $files['full'];
+		$untouched = md5_file( $original );
+
+		if ( 'elementor' === $plugin ) {
+			$this->as_elementor( $id, false );
+		} else {
+			$this->{'as_' . $plugin}( $id );
+		}
+
+		$trace   = (array) Others::trace( $id );
+		$outputs = Others::verdict( $id )['outputs'];
+		$kept    = array_map( 'md5_file', $trace['backups'] );
+		$thumb   = (string) Paths::relative( $files['thumbnail'] );
+
+		$metadata                  = wp_get_attachment_metadata( $id );
+		$metadata['ewww_noresize'] = true;
+		update_post_meta( $id, '_wp_attachment_metadata', $metadata );
+
+		/* A size the site stopped making is put back from that plugin's backup of it, where it kept one. */
+		$medium = (string) Paths::relative( $files['medium'] );
+		$drop   = static function ( array $sizes ): array {
+			unset( $sizes['medium'] );
+
+			return $sizes;
+		};
+		add_filter( 'intermediate_image_sizes_advanced', $drop );
+
+		$this->assertSame( Restorer::AVAILABLE, Restorer::availability( $id ) );
+		$this->assertTrue( Restorer::restore( $id ) );
+
+		remove_filter( 'intermediate_image_sizes_advanced', $drop );
+
+		$record = Records::get( $id );
+
+		$this->assertSame( $untouched, md5_file( $original ), 'The original is back.' );
+		$this->assertNull( Others::verdict( $id, true ) );
+		$this->assertSame( Records::NOT_OPTIMIZED, $record['status'] );
+		$this->assertSame( Records::RESTORED, $record['error']['code'] );
+		$this->assertTrue( wp_get_attachment_metadata( $id )['ewww_noresize'] );
+		$this->assertSame( $kept, array_map( 'md5_file', $trace['backups'] ), 'Its backups stay where they were, as they were.' );
+
+		if ( isset( $outputs[ $thumb ] ) ) {
+			$this->assertNotSame( $outputs[ $thumb ], (int) filesize( $files['thumbnail'] ), 'WordPress made the thumbnail again from the original.' );
+		}
+
+		if ( isset( $trace['backups'][ $medium ] ) ) {
+			$this->assertSame( $kept[ $medium ], md5_file( $files['medium'] ), 'The medium size WordPress no longer makes came back from its backup.' );
+			$this->assertSame( (int) filesize( $files['medium'] ), wp_get_attachment_metadata( $id )['sizes']['medium']['filesize'] );
+		}
+	}
+
+	public function test_an_image_compressed_again_by_another_plugin_after_iminify_restores_from_iminifys_backup_and_one_with_no_original_says_whose(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+		$original = md5_file( $attached );
+
+		$this->optimized( $id, array( $attached ) );
+		$this->as_tinypng( $id );
+
+		$source = Originals::find( $id, wp_get_attachment_metadata( $id ), null );
+
+		$this->assertSame( 'tinypng', Others::verdict( $id )['plugin'] );
+		$this->assertSame( Originals::BACKUP, $source['kind'], 'TinyPNG\'s backup is of Iminify\'s output; Iminify\'s own is of the upload.' );
+		$this->assertSame( $original, md5_file( $source['path'] ) );
+
+		/* With Iminify's backups off, TinyPNG's backup is of Iminify's output, which is no original. */
+		$unbacked = $this->attachment();
+		$this->optimized( $unbacked, array( (string) get_attached_file( $unbacked ) ), false );
+		$this->as_tinypng( $unbacked );
+
+		$this->assertSame( 'tinypng', Others::verdict( $unbacked )['plugin'] );
+		$this->assertFalse( Others::verdict( $unbacked )['original'] );
+		$this->assertSame( Restorer::NO_ORIGINAL, Restorer::availability( $unbacked ) );
+
+		/* A picture replaced since Iminify optimized it is TinyPNG's original, never Iminify's backup of the old one. */
+		$replaced = $this->attachment();
+		$file     = (string) get_attached_file( $replaced );
+		$this->optimized( $replaced, array( $file ) );
+		copy( DIR_TESTDATA . '/images/2004-07-22-DSC_0008.jpg', $file );
+		$picture = md5_file( $file );
+		$this->as_tinypng( $replaced );
+
+		$this->assertSame( $picture, md5_file( Originals::find( $replaced, wp_get_attachment_metadata( $replaced ), null )['path'] ) );
+
+		$bare = $this->attachment();
+		$this->as_shortpixel( $bare, false );
+		$why = Restorer::restore( $bare );
+
+		$this->assertSame( Restorer::NO_ORIGINAL, Restorer::availability( $bare ) );
+		$this->assertWPError( $why );
+		$this->assertStringContainsString( 'ShortPixel', $why->get_error_message() );
+	}
+
+	public function test_a_named_restore_run_takes_another_plugins_image_while_restore_all_leaves_it(): void {
+		$id    = $this->attachment();
+		$files = $this->named( $id );
+
+		$this->as_ewww( $id );
+		Others::mark( $id, (array) Others::verdict( $id ) );
+
+		$this->assertSame( 0, Bulk::count_candidates( Bulk::RESTORE ) );
+
+		Bulk::start( Bulk::RESTORE, Bulk::PAGE, array( $id ) );
+
+		for ( $look = 0; $look < 5; $look++ ) {
+			Bulk::step();
+		}
+
+		$this->assertSame( Records::NOT_OPTIMIZED, Records::get( $id )['status'] );
+		$this->assertSame( md5_file( WP_CONTENT_DIR . '/ewww/image-backup/uploads/' . Paths::relative( $files['full'] ) ), md5_file( $files['full'] ) );
 	}
 }

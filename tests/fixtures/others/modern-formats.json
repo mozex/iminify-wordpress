@@ -1,0 +1,313 @@
+{
+    "_read": "Captured from Modern Image Formats 2.7.1 running on wp-env (WordPress 7.1, Imagick with AVIF): uploads of a 1200x800 and a 3000x2000 JPEG without its JPEG fallback, then the large one with it. \"files\" lists every file of the upload's name in its folder, with its bytes.",
+    "modern-only": {
+        "plain": {
+            "post_mime_type": "image/jpeg",
+            "_wp_attached_file": "2026/11/mifonly-plain.avif",
+            "metadata": {
+                "width": 1200,
+                "height": 800,
+                "file": "2026/11/mifonly-plain.avif",
+                "filesize": 213132,
+                "sizes": {
+                    "medium": {
+                        "file": "mifonly-plain-300x200.avif",
+                        "width": 300,
+                        "height": 200,
+                        "mime-type": "image/avif",
+                        "filesize": 27623,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-plain-300x200.avif",
+                                "filesize": 27623
+                            }
+                        }
+                    },
+                    "large": {
+                        "file": "mifonly-plain-1024x683.avif",
+                        "width": 1024,
+                        "height": 683,
+                        "mime-type": "image/avif",
+                        "filesize": 142838,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-plain-1024x683.avif",
+                                "filesize": 142838
+                            }
+                        }
+                    },
+                    "thumbnail": {
+                        "file": "mifonly-plain-150x150.avif",
+                        "width": 150,
+                        "height": 150,
+                        "mime-type": "image/avif",
+                        "filesize": 12561,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-plain-150x150.avif",
+                                "filesize": 12561
+                            }
+                        }
+                    },
+                    "medium_large": {
+                        "file": "mifonly-plain-768x512.avif",
+                        "width": 768,
+                        "height": 512,
+                        "mime-type": "image/avif",
+                        "filesize": 93950,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-plain-768x512.avif",
+                                "filesize": 93950
+                            }
+                        }
+                    }
+                },
+                "original_image": "mifonly-plain.jpg",
+                "sources": {
+                    "image/avif": {
+                        "file": "mifonly-plain.avif",
+                        "filesize": 213132
+                    }
+                }
+            },
+            "files": {
+                "mifonly-plain-1024x683.avif": 142838,
+                "mifonly-plain-150x150.avif": 12561,
+                "mifonly-plain-300x200.avif": 27623,
+                "mifonly-plain-768x512.avif": 93950,
+                "mifonly-plain.avif": 213132,
+                "mifonly-plain.jpg": 291954
+            }
+        },
+        "large": {
+            "post_mime_type": "image/jpeg",
+            "_wp_attached_file": "2026/11/mifonly-large-scaled.avif",
+            "metadata": {
+                "width": 2560,
+                "height": 1707,
+                "file": "2026/11/mifonly-large-scaled.avif",
+                "filesize": 272689,
+                "sizes": {
+                    "medium": {
+                        "file": "mifonly-large-300x200.avif",
+                        "width": 300,
+                        "height": 200,
+                        "mime-type": "image/avif",
+                        "filesize": 20168,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-large-300x200.avif",
+                                "filesize": 20168
+                            }
+                        }
+                    },
+                    "large": {
+                        "file": "mifonly-large-1024x683.avif",
+                        "width": 1024,
+                        "height": 683,
+                        "mime-type": "image/avif",
+                        "filesize": 86932,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-large-1024x683.avif",
+                                "filesize": 86932
+                            }
+                        }
+                    },
+                    "thumbnail": {
+                        "file": "mifonly-large-150x150.avif",
+                        "width": 150,
+                        "height": 150,
+                        "mime-type": "image/avif",
+                        "filesize": 9525,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-large-150x150.avif",
+                                "filesize": 9525
+                            }
+                        }
+                    },
+                    "medium_large": {
+                        "file": "mifonly-large-768x512.avif",
+                        "width": 768,
+                        "height": 512,
+                        "mime-type": "image/avif",
+                        "filesize": 63310,
+                        "sources": {
+                            "image/avif": {
+                                "file": "mifonly-large-768x512.avif",
+                                "filesize": 63310
+                            }
+                        }
+                    },
+                    "1536x1536": {
+                        "file": "mifonly-large-1536x1024.avif",
+                        "width": 1536,
+                        "height": 1024,
+                        "mime-type": "image/avif",
+                        "filesize": 146396
+                    },
+                    "2048x2048": {
+                        "file": "mifonly-large-2048x1365.avif",
+                        "width": 2048,
+                        "height": 1365,
+                        "mime-type": "image/avif",
+                        "filesize": 214587
+                    }
+                },
+                "original_image": "mifonly-large.jpg",
+                "sources": {
+                    "image/avif": {
+                        "file": "mifonly-large-scaled.avif",
+                        "filesize": 272689
+                    }
+                }
+            },
+            "files": {
+                "mifonly-large-1024x683.avif": 86932,
+                "mifonly-large-150x150.avif": 9525,
+                "mifonly-large-1536x1024.avif": 146396,
+                "mifonly-large-2048x1365.avif": 214587,
+                "mifonly-large-300x200.avif": 20168,
+                "mifonly-large-768x512.avif": 63310,
+                "mifonly-large-scaled.avif": 272689,
+                "mifonly-large.jpg": 727262
+            }
+        }
+    },
+    "fallback": {
+        "large": {
+            "post_mime_type": "image/jpeg",
+            "_wp_attached_file": "2026/11/miffall-large-scaled.jpg",
+            "metadata": {
+                "width": 2560,
+                "height": 1707,
+                "file": "2026/11/miffall-large-scaled.jpg",
+                "filesize": 369724,
+                "sizes": {
+                    "medium": {
+                        "file": "miffall-large-300x200.jpg",
+                        "width": 300,
+                        "height": 200,
+                        "mime-type": "image/jpeg",
+                        "filesize": 19133,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-300x200.jpg",
+                                "filesize": 19133
+                            }
+                        }
+                    },
+                    "large": {
+                        "file": "miffall-large-1024x683.jpg",
+                        "width": 1024,
+                        "height": 683,
+                        "mime-type": "image/jpeg",
+                        "filesize": 107377,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-1024x683.jpg",
+                                "filesize": 107377
+                            },
+                            "image/avif": {
+                                "file": "miffall-large-1024x683-jpg.avif",
+                                "filesize": 86932
+                            }
+                        }
+                    },
+                    "thumbnail": {
+                        "file": "miffall-large-150x150.jpg",
+                        "width": 150,
+                        "height": 150,
+                        "mime-type": "image/jpeg",
+                        "filesize": 8711,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-150x150.jpg",
+                                "filesize": 8711
+                            }
+                        }
+                    },
+                    "medium_large": {
+                        "file": "miffall-large-768x512.jpg",
+                        "width": 768,
+                        "height": 512,
+                        "mime-type": "image/jpeg",
+                        "filesize": 72619,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-768x512.jpg",
+                                "filesize": 72619
+                            },
+                            "image/avif": {
+                                "file": "miffall-large-768x512-jpg.avif",
+                                "filesize": 63310
+                            }
+                        }
+                    },
+                    "1536x1536": {
+                        "file": "miffall-large-1536x1024.jpg",
+                        "width": 1536,
+                        "height": 1024,
+                        "mime-type": "image/jpeg",
+                        "filesize": 182313,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-1536x1024.jpg",
+                                "filesize": 182313
+                            },
+                            "image/avif": {
+                                "file": "miffall-large-1536x1024-jpg.avif",
+                                "filesize": 146396
+                            }
+                        }
+                    },
+                    "2048x2048": {
+                        "file": "miffall-large-2048x1365.jpg",
+                        "width": 2048,
+                        "height": 1365,
+                        "mime-type": "image/jpeg",
+                        "filesize": 277382,
+                        "sources": {
+                            "image/jpeg": {
+                                "file": "miffall-large-2048x1365.jpg",
+                                "filesize": 277382
+                            },
+                            "image/avif": {
+                                "file": "miffall-large-2048x1365-jpg.avif",
+                                "filesize": 214587
+                            }
+                        }
+                    }
+                },
+                "original_image": "miffall-large.jpg",
+                "sources": {
+                    "image/jpeg": {
+                        "file": "miffall-large-scaled.jpg",
+                        "filesize": 369724
+                    },
+                    "image/avif": {
+                        "file": "miffall-large-scaled-jpg.avif",
+                        "filesize": 272689
+                    }
+                }
+            },
+            "files": {
+                "miffall-large-1024x683-jpg.avif": 86932,
+                "miffall-large-1024x683.jpg": 107377,
+                "miffall-large-150x150.jpg": 8711,
+                "miffall-large-1536x1024-jpg.avif": 146396,
+                "miffall-large-1536x1024.jpg": 182313,
+                "miffall-large-2048x1365-jpg.avif": 214587,
+                "miffall-large-2048x1365.jpg": 277382,
+                "miffall-large-300x200.jpg": 19133,
+                "miffall-large-768x512-jpg.avif": 63310,
+                "miffall-large-768x512.jpg": 72619,
+                "miffall-large-scaled-jpg.avif": 272689,
+                "miffall-large-scaled.jpg": 369724,
+                "miffall-large.jpg": 727262
+            }
+        }
+    }
+}

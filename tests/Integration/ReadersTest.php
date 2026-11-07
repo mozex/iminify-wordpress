@@ -7,9 +7,14 @@
 
 namespace Iminify\WordPress\Tests\Integration;
 
+use Iminify\WordPress\Admin\Media_View;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
+use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Restorer;
+use Iminify\WordPress\Switching\Converter;
+use Iminify\WordPress\Switching\Modern_Formats;
 use Iminify\WordPress\Switching\Others;
 use Iminify\WordPress\Switching\Places;
 use Iminify\WordPress\Tests\Support\Others_Fixture;
@@ -20,7 +25,10 @@ use WP_UnitTestCase;
  * and TinyPNG: detection from their records alone, each file's bytes before and
  * after, the backup taken only through its own size check (a compressed one
  * refused), their copies, the original lookup taking a verified original, a file
- * changed since read as an original, and the hostile records.
+ * changed since read as an original, and the hostile records. For LiteSpeed and
+ * Image Optimizer by Elementor, which record no bytes of their own, what they did
+ * to the files; for Modern Image Formats and Converter for Media, their records
+ * replayed from captures of them running; for Optimole, its offload.
  */
 class ReadersTest extends WP_UnitTestCase {
 
@@ -394,5 +402,310 @@ class ReadersTest extends WP_UnitTestCase {
 		$this->assertNull( Others::verdict( $id ) );
 		$this->assertSame( $files['full'], $source['path'] );
 		$this->assertSame( Originals::ATTACHED, $source['kind'] );
+	}
+
+	public function test_litespeed_reads_a_file_with_a_differing_bk_as_its_output_and_trusts_the_bk_only_with_the_bytes_wordpress_recorded(): void {
+		$id      = $this->plain_upload();
+		$files   = $this->named( $id );
+		$numbers = $this->as_litespeed( $id );
+		$main    = (string) Paths::relative( $files['full'] );
+		$medium  = (string) Paths::relative( $files['medium'] );
+		$thumb   = (string) Paths::relative( $files['thumbnail'] );
+
+		/* LiteSpeed's own restore of the thumbnail moved its `.bk.` back and parked its output beside it, on an upload whose metadata, made before WordPress 6.0, gives the thumbnail no bytes; the medium size's `.bk.` was taken of a file it had already compressed. */
+		$metadata = wp_get_attachment_metadata( $id );
+		unset( $metadata['sizes']['thumbnail']['filesize'] );
+		update_post_meta( $id, '_wp_attachment_metadata', $metadata );
+		$parked = dirname( $files['thumbnail'] ) . '/' . wp_basename( $files['thumbnail'], '.jpg' ) . '.bk.optm.jpg';
+		rename( $files['thumbnail'], $parked ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- as LiteSpeed does it.
+		rename( dirname( $files['thumbnail'] ) . '/' . wp_basename( $files['thumbnail'], '.jpg' ) . '.bk.jpg', $files['thumbnail'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- as LiteSpeed does it.
+		$this->others_made[] = $parked;
+		file_put_contents( dirname( $files['medium'] ) . '/' . wp_basename( $files['medium'], '.jpg' ) . '.bk.jpg', 'x', FILE_APPEND ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test file.
+
+		/* The plugin's own copy beside the thumbnail, which never reads as LiteSpeed's. */
+		file_put_contents( $files['thumbnail'] . '.avif', 'avif' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test copy.
+		$this->others_made[] = $files['thumbnail'] . '.avif';
+		Records::update(
+			$id,
+			array(
+				'copies' => array(
+					$thumb . '.avif' => array(
+						'for'    => $thumb,
+						'format' => 'avif',
+						'bytes'  => 4,
+						'origin' => Records::ORIGIN,
+					),
+				),
+			)
+		);
+		Others::forget();
+
+		$trace  = (array) Others::trace( $id );
+		$source = Originals::find( $id, wp_get_attachment_metadata( $id ), null );
+
+		$this->assertSame( 'litespeed', $trace['plugin'] );
+		$this->assertEqualsCanonicalizing( array( $main, $medium ), $trace['outputs'] );
+		$this->assertSame( $numbers['full']['before'], $trace['files'][ $main ]['before'] );
+		$this->assertSame( array( $main ), array_keys( $trace['backups'] ), 'Only a `.bk.` with the bytes WordPress recorded is the original.' );
+		$this->assertSame( Originals::OTHER, $source['kind'] );
+		$this->assertSame( (int) wp_get_attachment_metadata( $id )['filesize'], (int) filesize( $source['path'] ) );
+		$this->assertContains( $medium . '.webp', $trace['copies'] );
+		$this->assertNotContains( $thumb . '.avif', $trace['copies'] );
+		$this->assertSame( 'other_plugin', Optimizer::why_not( $id )['code'] );
+
+		/* Its backups turned off, or removed by its "Remove Original Image Backups": its output stands alone, with no original. */
+		unlink( dirname( $files['full'] ) . '/' . wp_basename( $files['full'], '.jpg' ) . '.bk.jpg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- as LiteSpeed does it.
+		Others::forget();
+
+		$this->assertContains( $main, Others::trace( $id )['outputs'] );
+		$this->assertNull( Originals::find( $id, wp_get_attachment_metadata( $id ), null ) );
+
+		/* Queued, with no results back, it wrote nothing. */
+		delete_post_meta( $id, 'litespeed-optimize-size' );
+		Others::forget();
+
+		$this->assertNull( Others::verdict( $id ) );
+	}
+
+	public function test_elementor_converted_image_is_its_output_with_its_jpeg_kept_and_restoring_it_is_elementors(): void {
+		$id     = $this->plain_upload();
+		$files  = $this->named( $id );
+		$placed = $this->as_elementor( $id, true );
+		$main   = (string) Paths::relative( $placed['full'] );
+		$trace  = (array) Others::trace( $id );
+		$why    = Restorer::restore( $id );
+
+		$this->assertSame( 'elementor', $trace['plugin'] );
+		$this->assertContains( $main, $trace['outputs'] );
+		$this->assertSame( $files['full'], $trace['backups'][ $main ], 'The JPEG it kept at its own name is the original.' );
+		$this->assertNotSame( '', $trace['elsewhere'] );
+		$this->assertTrue( Others::verdict( $id )['original'] );
+		$this->assertSame( Restorer::THEIRS, Restorer::availability( $id ) );
+		$this->assertWPError( $why );
+		$this->assertSame( 'restore_elsewhere', $why->get_error_code() );
+		$this->assertStringContainsString( 'Elementor', $why->get_error_message() );
+		$this->assertFileExists( $placed['full'] );
+		$this->assertFileExists( $files['full'] );
+	}
+
+	public function test_elementor_keeping_the_format_backs_each_file_up_and_a_modern_backup_beside_a_jpeg_is_never_trusted(): void {
+		$id    = $this->plain_upload();
+		$files = $this->named( $id );
+
+		$this->as_elementor( $id, false );
+
+		$main  = (string) Paths::relative( $files['full'] );
+		$trace = (array) Others::trace( $id );
+
+		$this->assertSame( 'elementor', $trace['plugin'] );
+		$this->assertSame( '', $trace['elsewhere'] );
+		$this->assertSame( dirname( $files['full'] ) . '/' . wp_basename( $files['full'], '.jpg' ) . '.backup.jpg', $trace['backups'][ $main ] );
+		$this->assertSame( Restorer::AVAILABLE, Restorer::availability( $id ) );
+
+		/* Its bulk "Reoptimize" of a converted image backs the compressed WebP up beside the JPEG it came from. */
+		$webp = $this->plain_upload();
+		$this->as_elementor( $webp, true );
+		$named = $this->named( $webp );
+		copy( $named['full'], dirname( $named['full'] ) . '/' . wp_basename( $named['full'], '.webp' ) . '.backup.webp' );
+		$this->others_made[]       = dirname( $named['full'] ) . '/' . wp_basename( $named['full'], '.webp' ) . '.backup.webp';
+		$record                    = get_post_meta( $webp, 'image_optimizer_metadata', true );
+		$record['original_data']   = array(
+			'sizes' => array(
+				'full' => array(
+					'file'     => get_post_meta( $webp, '_wp_attached_file', true ),
+					'filesize' => (int) filesize( $named['full'] ),
+				),
+			),
+		);
+		$record['sizes_optimized'] = array( 'full' );
+		update_post_meta( $webp, 'image_optimizer_metadata', $record );
+		$this->squeeze( $named['full'] );
+		Others::forget();
+
+		$this->assertSame( array(), Others::trace( $webp )['backups'] );
+		$this->assertSame( Restorer::NO_ORIGINAL, Restorer::availability( $webp ) );
+	}
+
+	public function test_modern_formats_captured_running_its_avif_files_are_its_output_and_its_fallback_copies_only_copies(): void {
+		$capture = $this->captured( 'modern-formats' );
+		$plain   = $this->replay( $capture['modern-only']['plain'] );
+		$large   = $this->replay( $capture['modern-only']['large'] );
+		$kept    = $this->replay( $capture['fallback']['large'] );
+		$trace   = (array) Others::trace( $plain );
+		$main    = (string) $capture['modern-only']['plain']['_wp_attached_file'];
+		$folder  = dirname( $main ) . '/';
+
+		$this->assertSame( 'modern-formats', $trace['plugin'] );
+		$this->assertCount( 5, $trace['outputs'] );
+		$this->assertSame( Paths::absolute( $folder . 'mifonly-plain.jpg' ), $trace['backups'][ $main ], 'WordPress keeps the upload, which it was made from.' );
+		$this->assertSame( Restorer::THEIRS, Restorer::availability( $plain ) );
+		$this->assertSame( 'other_plugin', Optimizer::why_not( $plain )['code'], 'An AVIF, which the service never takes, still says whose it is.' );
+		$this->assertContains( $capture['modern-only']['large']['_wp_attached_file'], Others::trace( $large )['outputs'] );
+		$this->assertNull( Others::verdict( $kept ), 'With its fallback the JPEGs are the uploads as they were.' );
+		$this->assertContains( $folder . 'miffall-large-scaled-jpg.avif', ( new Modern_Formats() )->read( $kept, wp_get_attachment_metadata( $kept ) )['copies'] );
+
+		/* A file changed since it recorded it is no output of its. */
+		file_put_contents( Paths::absolute( $folder . 'mifonly-plain-300x200.avif' ), 'changed' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test file.
+		Others::forget();
+
+		$this->assertCount( 4, Others::trace( $plain )['outputs'] );
+
+		/* An AVIF upload is the upload, whatever its sources say. */
+		wp_update_post(
+			array(
+				'ID'             => $plain,
+				'post_mime_type' => 'image/avif',
+			)
+		);
+		Others::forget();
+
+		$this->assertNull( Others::verdict( $plain ) );
+	}
+
+	public function test_converter_captured_running_answers_its_copies_outside_the_uploads_folder_and_never_an_optimization(): void {
+		$capture = $this->captured( 'converter' );
+		$id      = $this->replay( $capture['upload'], $capture['copies'] );
+		$main    = (string) $capture['upload']['_wp_attached_file'];
+		$crashed = WP_CONTENT_DIR . '/uploads-webpc/uploads/' . dirname( $main ) . '/webpc-large-150x150.jpg.webp';
+
+		touch( $crashed . '.crashed' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_touch -- the marker Converter for Media leaves.
+
+		$found = ( new Converter() )->read( $id, wp_get_attachment_metadata( $id ) );
+
+		$this->assertNull( Others::trace( $id ) );
+		$this->assertSame( array(), $found['outputs'] );
+		$this->assertSame( array( WP_CONTENT_DIR . '/uploads-webpc/uploads/' . $main . '.webp' ), $found['outside'][ $main ] );
+		$this->assertCount( 7, $found['outside'], 'Every file but the one whose conversion crashed.' );
+		$this->assertArrayNotHasKey( dirname( $main ) . '/webpc-large-150x150.jpg', $found['outside'] );
+		$this->assertNull( Others::why( $id ) );
+	}
+
+	public function test_optimole_offloaded_image_is_away_until_rolled_back_and_never_sent(): void {
+		$id    = $this->plain_upload();
+		$files = $this->named( $id );
+
+		$this->as_optimole_offloaded( $id );
+
+		$this->assertSame( 'optimole', Others::away( $id )->slug() );
+		$this->assertNull( Others::verdict( $id ) );
+		$this->assertStringContainsString( 'Optimole', Optimizer::why_not( $id )['message'] );
+		$this->assertStringContainsString( 'Offloaded by Optimole', Media_View::cell( $id ) );
+		$this->assertArrayNotHasKey( 'iminify_optimize', Media_View::row_actions( array(), get_post( $id ) ) );
+
+		/* Its rollback brings the file back before it takes its marks off. */
+		copy( DIR_TESTDATA . '/images/canola.jpg', $files['full'] );
+		Others::forget();
+
+		$this->assertNull( Others::away( $id ) );
+	}
+
+	public function test_ewww_rows_a_folder_scan_wrote_for_a_librarys_files_are_found_by_their_paths_and_its_cloud_originals_named(): void {
+		global $wpdb;
+
+		$id    = $this->plain_upload();
+		$files = $this->named( $id );
+
+		$this->as_ewww( $id );
+
+		/* As "Include Media Folders" writes them: no attachment, no gallery, no size name; and the main file's original on EWWW's servers. */
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}ewwwio_images SET attachment_id = NULL, gallery = '', resize = NULL, backup = IF( path LIKE %s, 'cloudhash', '' ) WHERE attachment_id = %d", '%' . $wpdb->esc_like( wp_basename( $files['full'] ) ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- another plugin's table, made for a test.
+		$this->rmdir( WP_CONTENT_DIR . '/ewww/image-backup' );
+		Others::forget();
+
+		$trace = (array) Others::trace( $id );
+
+		$this->assertSame( 'ewww', $trace['plugin'] );
+		$this->assertContains( (string) Paths::relative( $files['full'] ), $trace['outputs'] );
+		$this->assertNull( Originals::find( $id, wp_get_attachment_metadata( $id ), null ) );
+		$this->assertStringContainsString( 'EWWW', $trace['elsewhere'] );
+		$this->assertSame( Restorer::THEIRS, Restorer::availability( $id ) );
+	}
+
+	/**
+	 * Runs alone, since a constant can't be undefined for the tests after it.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_ewww_paths_written_from_a_sites_own_folder_are_read(): void {
+		global $wpdb;
+
+		define( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER', untrailingslashit( wp_normalize_path( WP_CONTENT_DIR ) ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- EWWW's own constant, as a site sets it.
+
+		$id    = $this->plain_upload();
+		$files = $this->named( $id );
+
+		$this->as_ewww( $id );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}ewwwio_images SET path = REPLACE( path, %s, %s ), attachment_id = NULL, gallery = '' WHERE attachment_id = %d", 'ABSPATHwp-content', 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER', $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- another plugin's table, made for a test.
+		Others::forget();
+
+		$this->assertSame( 'ewww', Others::verdict( $id )['plugin'] );
+		$this->assertContains( (string) Paths::relative( $files['full'] ), Others::trace( $id )['outputs'] );
+	}
+
+	public function test_shortpixel_conversion_is_its_output_whether_it_gained_nothing_or_isnt_compressed_yet(): void {
+		global $wpdb;
+
+		$id    = $this->plain_upload();
+		$files = $this->named( $id );
+
+		$this->shortpixel_table();
+		$bytes = (int) filesize( $files['full'] );
+		$row   = array(
+			'attach_id'        => $id,
+			'parent'           => 0,
+			'image_type'       => 0,
+			'status'           => 2,
+			'compression_type' => 1,
+			'compressed_size'  => $bytes,
+			'original_size'    => $bytes,
+			'extra_info'       => wp_json_encode(
+				array(
+					'convertMeta' => array(
+						'fileFormat'           => 'png',
+						'isConverted'          => true,
+						'replacementImageBase' => 'canola',
+					),
+				)
+			),
+		);
+
+		/* Its conversion's JPEG, on which its compression then gained nothing. */
+		$wpdb->insert( $wpdb->prefix . 'shortpixel_postmeta', $row ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- another plugin's table, made for a test.
+		Others::forget();
+
+		$this->assertSame( 'shortpixel', Others::verdict( $id )['plugin'] );
+		$this->assertSame( array( (string) Paths::relative( $files['full'] ) => $bytes ), Others::verdict( $id )['outputs'], 'The bytes it recorded writing are kept, which stand in once its records are gone.' );
+		$this->assertNull( Originals::find( $id, wp_get_attachment_metadata( $id ), null ) );
+
+		/* Its conversion at upload, its compression still on its way. */
+		$wpdb->update( $wpdb->prefix . 'shortpixel_postmeta', array( 'status' => 1 ), array( 'attach_id' => $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- another plugin's table, made for a test.
+		Others::forget();
+
+		$this->assertSame( 'shortpixel', Others::verdict( $id )['plugin'] );
+		$this->assertFalse( Others::verdict( $id )['original'] );
+		$this->assertSame( 'other_plugin', Optimizer::why_not( $id )['code'] );
+	}
+
+	public function test_a_smush_run_it_never_finished_holds_the_image_as_its_with_no_original(): void {
+		$id    = $this->scaled_upload();
+		$files = $this->named( $id );
+
+		$this->as_smush( $id );
+		delete_post_meta( $id, 'wp-smpro-smush-data' );
+
+		/* Its pointer alone is what tells the site held Smush. */
+		$verdict = Others::verdict( $id );
+
+		$this->assertSame( 'smush', $verdict['plugin'] );
+		$this->assertFalse( $verdict['original'] );
+		$this->assertNull( Originals::find( $id, wp_get_attachment_metadata( $id ), null ) );
+		$this->assertFileExists( dirname( $files['original'] ) . '/' . wp_basename( $files['original'], '.jpg' ) . '.bak.jpg' );
+
+		/* A pointer that names the file itself means Smush left it as it was. */
+		update_post_meta( $id, '_wp_attachment_backup_sizes', array( 'smush-full' => array( 'file' => wp_basename( $files['original'] ) ) ) );
+		Others::forget();
+
+		$this->assertNull( Others::verdict( $id ) );
 	}
 }

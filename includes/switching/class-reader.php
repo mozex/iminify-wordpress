@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Switching;
 
 use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Media\Paths;
+use Iminify\WordPress\Media\Records;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -28,6 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * (W134), in which case the plugin optimizes nothing until it is switched off.
  *
  * Readers only read. Every path a record gives goes through `Places`.
+ *
+ * @phpstan-type Found array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>, outside: array<string, list<string>>, elsewhere: string}
  */
 abstract class Reader {
 
@@ -122,6 +125,39 @@ abstract class Reader {
 	}
 
 	/**
+	 * Whether the plugin changes the library's own files, so its answer can be its
+	 * optimization; one that only makes copies elsewhere or moves images away
+	 * (Converter for Media, Optimole) is never asked for one.
+	 */
+	public function compresses(): bool {
+		return true;
+	}
+
+	/**
+	 * Whether the plugin took an attachment away from the site (Optimole's
+	 * offload, W139): its files are gone from here, and only that plugin brings
+	 * them back.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	public function away( int $attachment ): bool { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- only a plugin that offloads takes images away.
+		return false;
+	}
+
+	/**
+	 * What to tell the person about an image the plugin took away, in a sentence.
+	 */
+	public function away_message(): string {
+		return '';
+	}
+
+	/**
+	 * Forgets what is kept about the plugin beyond a request, once it was turned off.
+	 */
+	public function deactivated(): void {
+	}
+
+	/**
 	 * Whether the site keeps any of the plugin's records about its media library,
 	 * asked once a request, so a site that never had the plugin pays one query.
 	 */
@@ -165,9 +201,11 @@ abstract class Reader {
 	 *
 	 * @param int                  $attachment The attachment's id.
 	 * @param array<string, mixed> $metadata   Its metadata.
-	 * @return array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|null
+	 * @return Found|null
 	 *         Paths relative to the uploads folder: the files it recorded compressing with the bytes it recorded, those
-	 *         that still hold its output, a verified backup of each it kept (absolute), and the copies its records name.
+	 *         that still hold its output, a verified backup of each it kept (absolute), the copies its records name beside
+	 *         the files, its copies of each file kept outside the uploads folder (absolute), and, when restoring the image
+	 *         is that plugin's own to do rather than Iminify's, why, in a sentence.
 	 */
 	public function read( int $attachment, array $metadata ): ?array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- a reader that keeps no records answers nothing.
 		return null;
@@ -246,26 +284,56 @@ abstract class Reader {
 	}
 
 	/**
+	 * Files the plugin wrote without recording their bytes (W249), as its: with the
+	 * bytes the plugin's own record remembered of them once it first read them so,
+	 * else the bytes they have now, so a file changed since is an upload again.
+	 *
+	 * @param int                   $attachment The attachment's id.
+	 * @param array<string, string> $paths      The files, relative to the uploads folder, by WordPress's names.
+	 * @return array<string, array{size: string, before: int, after: int}>
+	 */
+	protected function held( int $attachment, array $paths ): array {
+		$record = Records::get( $attachment );
+		$kept   = null !== $record['other'] && $this->slug() === $record['other']['plugin'] ? $record['other']['outputs'] : array();
+		$files  = array();
+
+		foreach ( $paths as $size => $path ) {
+			$bytes = self::bytes( $attachment, $path );
+
+			if ( $bytes < 0 ) {
+				continue;
+			}
+
+			$after          = $kept[ $path ] ?? $bytes;
+			$files[ $path ] = array(
+				'size'   => (string) $size,
+				'before' => $after,
+				'after'  => $after,
+			);
+		}
+
+		return $files;
+	}
+
+	/**
 	 * The answer for one attachment from what a reader found: each recorded file
 	 * that still has the bytes the plugin recorded after is its output.
 	 *
 	 * @param int                                                         $attachment The attachment's id.
 	 * @param array<string, array{size: string, before: int, after: int}> $files      The files it recorded, by path.
 	 * @param array<string, string>                                       $backups    A verified backup for each file that has one.
-	 * @param list<string>                                                $copies     The copies its records name.
-	 * @return array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|null
+	 * @param list<string>                                                $copies     The copies its records name beside the files.
+	 * @param string                                                      $elsewhere  Why restoring the image is that plugin's own to do, or empty.
+	 * @param array<string, list<string>>                                 $outside    Its copies of each file kept outside the uploads folder, absolute.
+	 * @return Found|null
 	 */
-	protected static function answer( int $attachment, array $files, array $backups, array $copies ): ?array {
+	protected static function answer( int $attachment, array $files, array $backups, array $copies, string $elsewhere = '', array $outside = array() ): ?array {
 		$outputs = array();
 
 		foreach ( $files as $path => $file ) {
 			if ( $file['after'] > 0 && self::bytes( $attachment, $path ) === $file['after'] ) {
 				$outputs[] = $path;
 			}
-		}
-
-		if ( array() === $files && array() === $outputs ) {
-			return null;
 		}
 
 		$existing = array();
@@ -276,11 +344,28 @@ abstract class Reader {
 			}
 		}
 
+		$away = array();
+
+		foreach ( $outside as $file => $paths ) {
+			foreach ( $paths as $path ) {
+				if ( null !== Places::file( $path ) ) {
+					$away[ $file ][] = $path;
+				}
+			}
+		}
+
+		/* A plugin that only made copies (Converter for Media, Modern Image Formats with its JPEG kept) answers them alone: such an answer never reads as its optimization, which needs an output. */
+		if ( array() === $files && array() === $outputs && array() === $existing && array() === $away ) {
+			return null;
+		}
+
 		return array(
-			'files'   => $files,
-			'outputs' => $outputs,
-			'backups' => array_intersect_key( $backups, array_flip( $outputs ) ),
-			'copies'  => array_values( array_unique( $existing ) ),
+			'files'     => $files,
+			'outputs'   => $outputs,
+			'backups'   => array_intersect_key( $backups, array_flip( $outputs ) ),
+			'copies'    => array_values( array_unique( $existing ) ),
+			'outside'   => $away,
+			'elsewhere' => array() === $outputs ? '' : $elsewhere,
 		);
 	}
 

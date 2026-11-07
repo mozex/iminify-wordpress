@@ -28,6 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * here. Its WebP and AVIF copies are named in `extra_info` (`photo.webp`, or
  * `photo.jpg.webp` with a wp-config constant). Files outside the library are
  * rows of `{prefix}shortpixel_meta` by absolute path.
+ *
+ * @phpstan-import-type Found from Reader
  */
 class Shortpixel extends Reader {
 
@@ -87,8 +89,9 @@ class Shortpixel extends Reader {
 			return false;
 		}
 
+		/* Any row: a conversion it made at upload is a row before its compression is. */
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one look a request at another plugin's table.
-		return null !== $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}shortpixel_postmeta WHERE status = %d LIMIT 1", 2 ) );
+		return null !== $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}shortpixel_postmeta LIMIT 1" );
 	}
 
 	public function stamp(): string {
@@ -99,9 +102,9 @@ class Shortpixel extends Reader {
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a count on the plugin's own pages.
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS total, MAX(id) AS newest FROM {$wpdb->prefix}shortpixel_postmeta WHERE status = %d", 2 ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS total, SUM( status = %d ) AS done, MAX(id) AS newest FROM {$wpdb->prefix}shortpixel_postmeta", 2 ), ARRAY_A );
 
-		return is_array( $row ) ? $row['total'] . '.' . $row['newest'] : '';
+		return is_array( $row ) ? $row['total'] . '.' . $row['done'] . '.' . $row['newest'] : '';
 	}
 
 	public function reset(): void {
@@ -133,7 +136,7 @@ class Shortpixel extends Reader {
 		$in = implode( ', ', array_fill( 0, count( $ask ), '%d' ) );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a page's rows of another plugin's table in one query; one placeholder per id, built above.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT attach_id, image_type, size, status, original_size, compressed_size, extra_info FROM {$wpdb->prefix}shortpixel_postmeta WHERE attach_id IN ({$in}) AND status = %d", array_merge( $ask, array( 2 ) ) ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT attach_id, image_type, size, status, original_size, compressed_size, extra_info FROM {$wpdb->prefix}shortpixel_postmeta WHERE attach_id IN ({$in}) AND ( status = %d OR image_type = %d )", array_merge( $ask, array( 2, 0 ) ) ), ARRAY_A );
 
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$this->rows[ $blog . ':' . (int) $row['attach_id'] ][] = $row;
@@ -154,24 +157,35 @@ class Shortpixel extends Reader {
 			return $this->legacy( $attachment, $metadata, $names );
 		}
 
-		$folder  = dirname( $names['full'] );
-		$folder  = '.' === $folder ? '' : $folder . '/';
-		$files   = array();
-		$backups = array();
-		$copies  = array();
-		$convert = false;
+		$folder    = dirname( $names['full'] );
+		$folder    = '.' === $folder ? '' : $folder . '/';
+		$files     = array();
+		$backups   = array();
+		$copies    = array();
+		$convert   = false;
+		$converted = false;
 
 		foreach ( $rows as $row ) {
 			$extra = json_decode( (string) $row['extra_info'], true );
 			$extra = is_array( $extra ) ? $extra : array();
 			$path  = $this->path( (int) $row['image_type'], (string) $row['size'], $extra, $names, $folder );
+			$main  = 0 === (int) $row['image_type'];
 
 			if ( null === $path ) {
 				continue;
 			}
 
-			if ( 0 === (int) $row['image_type'] && ( ! empty( $extra['convertMeta']['isConverted'] ) || ! empty( $extra['wasConverted'] ) ) ) {
+			/* Its own format conversion wrote the attached file at its new name, in JPEG, at upload; a row migrated from before 5.0 took its `original_size` from the backup itself. Neither leaves a backup whose bytes it recorded. */
+			if ( $main && $this->converted( $extra, $names['full'] ) ) {
+				$convert   = true;
+				$converted = true;
+			} elseif ( $main && ! empty( $extra['wasConverted'] ) ) {
 				$convert = true;
+			}
+
+			/* A main row it hasn't compressed yet is read only for whether it converted the file. */
+			if ( 2 !== (int) $row['status'] ) {
+				continue;
 			}
 
 			foreach ( array( 'webp', 'avif' ) as $format ) {
@@ -183,8 +197,8 @@ class Shortpixel extends Reader {
 			$before = (int) $row['original_size'];
 			$after  = (int) $row['compressed_size'];
 
-			/* A file it gained nothing on is the file as uploaded. */
-			if ( $after <= 0 || $after >= $before ) {
+			/* A file it gained nothing on is the file as uploaded, unless it is the JPEG its conversion wrote, whose bytes it recorded all the same. */
+			if ( $after <= 0 || ( $after >= $before && ! ( $main && $converted ) ) ) {
 				continue;
 			}
 
@@ -201,8 +215,27 @@ class Shortpixel extends Reader {
 			}
 		}
 
+		/* A conversion not compressed yet recorded no bytes: the JPEG it wrote is its output, with no original, while it keeps the bytes it had when first read so. */
+		if ( $converted && ! isset( $files[ $names['full'] ] ) ) {
+			return self::answer( $attachment, $files + $this->held( $attachment, array( 'full' => $names['full'] ) ), array(), $copies );
+		}
+
 		/* A converted image's main row is read after its sizes only by chance, so its backups are dropped once it is known. */
 		return self::answer( $attachment, $files, $convert ? array() : $backups, $copies );
+	}
+
+	/**
+	 * Whether its format conversion (PNG, HEIC, TIFF or BMP to JPEG) made the
+	 * attached file: its main row says so, from a format other than the file's.
+	 *
+	 * @param array<string, mixed> $extra    The main row's `extra_info`.
+	 * @param string               $attached The attached file, relative to the uploads folder.
+	 */
+	protected function converted( array $extra, string $attached ): bool {
+		$meta = isset( $extra['convertMeta'] ) && is_array( $extra['convertMeta'] ) ? $extra['convertMeta'] : array();
+		$from = isset( $meta['fileFormat'] ) ? strtolower( (string) $meta['fileFormat'] ) : '';
+
+		return ! empty( $meta['isConverted'] ) && '' !== $from && strtolower( pathinfo( $attached, PATHINFO_EXTENSION ) ) !== $from;
 	}
 
 	/**
@@ -215,7 +248,7 @@ class Shortpixel extends Reader {
 	 * @param int                   $attachment The attachment's id.
 	 * @param array<string, mixed>  $metadata   Its metadata.
 	 * @param array<string, string> $names      Its files by WordPress's names.
-	 * @return array{files: array<string, array{size: string, before: int, after: int}>, outputs: list<string>, backups: array<string, string>, copies: list<string>}|null
+	 * @return Found|null
 	 */
 	protected function legacy( int $attachment, array $metadata, array $names ): ?array {
 		$improvement = $metadata['ShortPixelImprovement'] ?? null;
@@ -233,10 +266,12 @@ class Shortpixel extends Reader {
 		}
 
 		return array() === $outputs ? null : array(
-			'files'   => array(),
-			'outputs' => $outputs,
-			'backups' => array(),
-			'copies'  => array(),
+			'files'     => array(),
+			'outputs'   => $outputs,
+			'backups'   => array(),
+			'copies'    => array(),
+			'outside'   => array(),
+			'elsewhere' => '',
 		);
 	}
 

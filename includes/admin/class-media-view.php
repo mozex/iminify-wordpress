@@ -146,8 +146,17 @@ class Media_View {
 			return $actions;
 		}
 
-		/* An image another plugin optimized is left as it is (decision 39). */
+		/* An image another plugin optimized is left as it is (decision 39), unless someone restores it from the original that plugin kept. */
 		if ( null !== self::other( $attachment ) ) {
+			if ( Restorer::AVAILABLE === Restorer::availability( $attachment ) && ! self::is_busy( $attachment ) ) {
+				$actions['iminify_restore'] = self::row_action( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) );
+			}
+
+			return $actions;
+		}
+
+		/* An image another plugin took away is that plugin's until it brings it back. */
+		if ( null !== Others::away( $attachment ) ) {
 			return $actions;
 		}
 
@@ -423,6 +432,22 @@ class Media_View {
 
 		if ( null !== $other ) {
 			return self::other_summary( $other );
+		}
+
+		$away = Others::away( $attachment );
+
+		if ( null !== $away ) {
+			return sprintf(
+				'<p class="iminify-status iminify-status-other"><span class="iminify-chip iminify-chip--neutral"><span class="iminify-chip__dot" aria-hidden="true"></span>%1$s</span></p><p class="iminify-detail">%2$s</p>',
+				esc_html(
+					sprintf(
+						/* translators: %s: another image optimizer's name, such as Optimole. */
+						__( 'Offloaded by %s', 'iminify-image-optimizer' ),
+						$away->name()
+					)
+				),
+				esc_html( $away->away_message() )
+			);
 		}
 
 		$html   = sprintf(
@@ -754,8 +779,18 @@ class Media_View {
 			return '';
 		}
 
-		/* Restoring it and optimizing it again from its original come with the plugin's own steps for another plugin's images. */
+		/* Another plugin's image is restored from the original it kept; optimizing it again from that original is a step of its own. */
 		if ( null !== self::other( $attachment ) ) {
+			$available = Restorer::availability( $attachment );
+
+			if ( Restorer::AVAILABLE === $available ) {
+				return '<p class="iminify-actions">' . self::button( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) ) . '</p>';
+			}
+
+			return Restorer::THEIRS === $available ? '<p class="iminify-detail">' . esc_html( Others::elsewhere( $attachment ) ) . '</p>' : '';
+		}
+
+		if ( null !== Others::away( $attachment ) ) {
 			return '';
 		}
 
@@ -896,5 +931,20 @@ class Media_View {
 	 */
 	protected static function restore_warning(): string {
 		return __( 'Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted.', 'iminify-image-optimizer' );
+	}
+
+	/**
+	 * What restoring an image another plugin optimized does, asked first.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function restore_theirs_warning( int $attachment ): string {
+		$other = self::other( $attachment );
+
+		return sprintf(
+			/* translators: %s: another image optimizer's name, such as Imagify. */
+			__( 'Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin\'s backups and copies stay where they are.', 'iminify-image-optimizer' ),
+			Others::name( null === $other ? '' : $other['plugin'] )
+		);
 	}
 }

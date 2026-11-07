@@ -7,6 +7,9 @@
 
 namespace Iminify\WordPress\Switching;
 
+use Iminify\WordPress\Media\Copies;
+use Iminify\WordPress\Media\Records;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,9 +19,38 @@ if ( ! defined( 'ABSPATH' ) ) {
  * optimization acts when its "Auto Request Cron" sends the library to QUIC.cloud,
  * which needs the site's QUIC.cloud account, or while images it already sent are
  * on their way back (rows of `{prefix}litespeed_img_optming`): each that comes back
- * replaces its file. Its records are read in a later step.
+ * replaces its file. Its "Auto Rescale Original Images" moves each upload's
+ * `-scaled` copy over its original on every request, with no backup, which would
+ * leave the plugin's records naming files that moved.
+ *
+ * It records no bytes per file: `litespeed-optimize-size` holds the attachment's
+ * totals once its results came back, and `litespeed-optimize-set` the site's
+ * sizes once it queued the attachment. The files tell the rest. It writes over the
+ * attached file and each size (never WordPress's original beside a `-scaled` copy,
+ * and only a lowercase `jpg`, `jpeg`, `png` or `gif`), and never the metadata's
+ * `filesize`, so a file whose bytes are no longer the `filesize` WordPress wrote is
+ * its output (W247). Before writing it copies the file once beside it as
+ * `photo.bk.jpg`, never written again, which is the original only with the bytes
+ * that `filesize` gives: a backup taken after its backups were off for a pass, or
+ * after its "Remove Original Image Backups", is of a file it had compressed. With
+ * its backups off, or removed, its output stands alone with no original, read as
+ * its once its results came back. Its own "Restore original" moves the `.bk.` back
+ * and parks its output as `photo.bk.optm.jpg`, so a file beside one is the original
+ * again. Its WebP and AVIF copies are `photo.jpg.webp` and `photo.jpg.avif`, the
+ * plugin's own names, and no record names them: those the plugin's record names as
+ * its own are never listed as LiteSpeed's.
  */
 class Litespeed extends Reader {
+
+	/**
+	 * Its post meta, whose presence says it took the attachment.
+	 */
+	const META = array( 'litespeed-optimize-size', 'litespeed-optimize-set' );
+
+	/**
+	 * The extensions it optimizes, as it compares them, case included.
+	 */
+	const TYPES = array( 'jpg', 'jpeg', 'png', 'gif' );
 
 	public function slug(): string {
 		return 'litespeed';
@@ -29,7 +61,7 @@ class Litespeed extends Reader {
 	}
 
 	public function switch_off(): string {
-		return __( 'Turn off "Auto Request Cron" under LiteSpeed Cache, Image Optimization, and let the images it already sent come back, or deactivate LiteSpeed Cache.', 'iminify-image-optimizer' );
+		return __( 'Turn off "Auto Request Cron" under LiteSpeed Cache, Image Optimization, and "Auto Rescale Original Images" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache.', 'iminify-image-optimizer' );
 	}
 
 	protected function basenames(): array {
@@ -41,9 +73,10 @@ class Litespeed extends Reader {
 	}
 
 	/**
-	 * Its "Auto Request Cron" on with a QUIC.cloud account to send with, or images
-	 * still on their way back (W134), read only while LiteSpeed is loaded, since its
-	 * settings filter answers its own name otherwise.
+	 * Its "Auto Request Cron" on with a QUIC.cloud account to send with, images
+	 * still on their way back, or its "Auto Rescale Original Images" on (W134,
+	 * W245), read only while LiteSpeed is loaded, since its settings filter answers
+	 * its own name otherwise. It keeps an array setting as JSON in its option.
 	 */
 	protected function optimizes_uploads(): bool {
 		global $wpdb;
@@ -52,8 +85,15 @@ class Litespeed extends Reader {
 			return false;
 		}
 
-		$auto    = apply_filters( 'litespeed_conf', 'img_optm-auto' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- LiteSpeed's own documented filter, which answers its setting after every override.
+		$rescale = apply_filters( 'litespeed_conf', 'media-auto_rescale_ori' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- LiteSpeed's own documented filter, which answers its setting after every override.
+
+		if ( 'media-auto_rescale_ori' !== $rescale && ! empty( $rescale ) ) {
+			return true;
+		}
+
+		$auto    = apply_filters( 'litespeed_conf', 'img_optm-auto' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- as above.
 		$summary = get_option( 'litespeed.cloud._summary' );
+		$summary = is_string( $summary ) ? json_decode( $summary, true ) : $summary;
 		$account = is_array( $summary ) && ! empty( $summary['sk_b64'] ) && ! empty( $summary['qc_activated'] );
 
 		if ( 'img_optm-auto' !== $auto && ! empty( $auto ) && $account ) {
@@ -66,5 +106,108 @@ class Litespeed extends Reader {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one look a request at another plugin's table.
 		return null !== $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}litespeed_img_optming LIMIT 1" );
+	}
+
+	protected function holds_records(): bool {
+		return self::meta_exists( self::META );
+	}
+
+	public function stamp(): string {
+		return self::meta_stamp( self::META );
+	}
+
+	public function read( int $attachment, array $metadata ): ?array {
+		$done = metadata_exists( 'post', $attachment, 'litespeed-optimize-size' );
+
+		if ( ! $done && ! metadata_exists( 'post', $attachment, 'litespeed-optimize-set' ) ) {
+			return null;
+		}
+
+		$own     = Copies::own( Records::get( $attachment )['copies'] );
+		$files   = array();
+		$backups = array();
+		$copies  = array();
+
+		foreach ( self::files( $attachment, $metadata ) as $size => $relative ) {
+			if ( 'original' === $size || ! in_array( pathinfo( $relative, PATHINFO_EXTENSION ), self::TYPES, true ) ) {
+				continue;
+			}
+
+			foreach ( array( 'webp', 'avif' ) as $format ) {
+				if ( ! isset( $own[ $relative . '.' . $format ] ) ) {
+					$copies[] = $relative . '.' . $format;
+				}
+			}
+
+			$live = Places::upload( $relative );
+
+			if ( null === $live ) {
+				continue;
+			}
+
+			clearstatcache( true, $live );
+
+			$bytes    = (int) filesize( $live );
+			$recorded = self::recorded( $metadata, $size );
+			$backup   = Places::upload( self::backup_of( $relative, 'bk.' ) );
+
+			/* A file with the bytes WordPress wrote is no file it wrote; one beside its parked output is the original its own restore put back. */
+			if ( $recorded === $bytes || ( null === $backup && ( ! $done || null !== Places::upload( self::backup_of( $relative, 'bk.optm.' ) ) ) ) ) {
+				continue;
+			}
+
+			$kept = null === $backup ? 0 : self::size_of( $backup );
+
+			$files[ $relative ] = array(
+				'size'   => $size,
+				'before' => $recorded > 0 ? $recorded : ( $kept > 0 ? $kept : $bytes ),
+				'after'  => $bytes,
+			);
+
+			if ( null !== $backup && $recorded > 0 && $kept === $recorded ) {
+				$backups[ $relative ] = $backup;
+			}
+		}
+
+		return self::answer( $attachment, $files, $backups, $copies );
+	}
+
+	/**
+	 * A file LiteSpeed keeps beside another: its backup (`photo.bk.jpg` beside
+	 * `photo.jpg`) or, after its own restore, its parked output (`photo.bk.optm.jpg`).
+	 *
+	 * @param string $relative The file, relative to the uploads folder.
+	 * @param string $infix    `bk.` or `bk.optm.`.
+	 */
+	protected static function backup_of( string $relative, string $infix ): string {
+		$extension = pathinfo( $relative, PATHINFO_EXTENSION );
+
+		return substr( $relative, 0, -strlen( $extension ) ) . $infix . $extension;
+	}
+
+	/**
+	 * A file's bytes now.
+	 *
+	 * @param string $path An absolute path.
+	 */
+	protected static function size_of( string $path ): int {
+		clearstatcache( true, $path );
+
+		return (int) filesize( $path );
+	}
+
+	/**
+	 * The bytes WordPress recorded for a file when it made it, or 0 where the
+	 * metadata gives none (an upload made before WordPress 6.0).
+	 *
+	 * @param array<string, mixed> $metadata The attachment's metadata.
+	 * @param string               $size     The file's name: `full` or a size's.
+	 */
+	protected static function recorded( array $metadata, string $size ): int {
+		if ( 'full' === $size ) {
+			return isset( $metadata['filesize'] ) ? (int) $metadata['filesize'] : 0;
+		}
+
+		return isset( $metadata['sizes'][ $size ]['filesize'] ) ? (int) $metadata['sizes'][ $size ]['filesize'] : 0;
 	}
 }

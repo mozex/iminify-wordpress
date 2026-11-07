@@ -112,6 +112,18 @@ class Originals {
 			$theirs = Others::output( $attachment, $relative );
 
 			if ( null !== $theirs ) {
+				/* One the plugin optimized first keeps its own backup, of the file before either: the other plugin's is of the plugin's output, which it records as the bytes the file had before it. A file replaced since has a backup of another picture. */
+				$own     = Paths::backup( $relative );
+				$written = Records::get( $attachment )['written'][ $relative ] ?? -1;
+
+				if ( $theirs['before'] === $written && in_array( Paths::relative( $own ), Records::get( $attachment )['backups'], true ) && is_file( $own ) && wp_get_image_mime( $own ) === $type && self::fits( $attachment, $own, $max_bytes ) ) {
+					return array(
+						'path' => $own,
+						'kind' => self::BACKUP,
+						'file' => $relative,
+					);
+				}
+
 				if ( null !== $theirs['backup'] && wp_get_image_mime( $theirs['backup'] ) === $type && self::fits( $attachment, $theirs['backup'], $max_bytes ) ) {
 					return array(
 						'path' => $theirs['backup'],

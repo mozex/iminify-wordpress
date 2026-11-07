@@ -15,7 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Optimole (read from 4.2.18) serves images through its own service and leaves
  * the files alone, unless "Optimole Cloud only" is chosen for storing them
  * (`offload_media`), which sends each upload away and deletes its local files
- * (W139). Its records are read in a later step.
+ * (W139): `om_image_offloaded` (or, from older versions, `optimole_offload`
+ * alone) and an attachment's metadata naming `/id:` say so, while its attached
+ * file is gone (a rollback in progress brings it back with the marks still on).
+ * Such an image isn't Iminify's to touch until Optimole rolls it back. It changes
+ * no other file, so it optimized nothing here.
  */
 class Optimole extends Reader {
 
@@ -44,5 +48,29 @@ class Optimole extends Reader {
 	 */
 	protected function optimizes_uploads(): bool {
 		return 'enabled' === self::setting( 'optml_settings', 'offload_media', 'disabled' ) && 'enabled' !== self::setting( 'optml_settings', 'offload_limit_reached', 'disabled' );
+	}
+
+	public function compresses(): bool {
+		return false;
+	}
+
+	protected function holds_records(): bool {
+		return self::meta_exists( array( 'om_image_offloaded', 'optimole_offload' ) );
+	}
+
+	public function stamp(): string {
+		return self::meta_stamp( array( 'om_image_offloaded', 'optimole_offload' ) );
+	}
+
+	public function away( int $attachment ): bool {
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$attached = (string) get_attached_file( $attachment, true );
+		$marked   = '' !== (string) get_post_meta( $attachment, 'om_image_offloaded', true ) || 'true' === get_post_meta( $attachment, 'optimole_offload', true );
+
+		return $marked && is_array( $metadata ) && false !== strpos( (string) ( $metadata['file'] ?? '' ), '/id:' ) && ( '' === $attached || ! file_exists( $attached ) );
+	}
+
+	public function away_message(): string {
+		return __( 'Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then.', 'iminify-image-optimizer' );
 	}
 }

@@ -162,7 +162,7 @@ class SwitchingTest extends WP_UnitTestCase {
 		$this->assertSame( '', get_post_meta( $smush, Records::OTHER_META, true ) );
 	}
 
-	public function test_the_media_library_shows_whose_an_image_is_with_its_filter_and_no_action_on_it(): void {
+	public function test_the_media_library_shows_whose_an_image_is_with_its_filter_and_only_its_restore(): void {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		$id    = $this->fresh( $this->plain_upload() );
@@ -173,8 +173,10 @@ class SwitchingTest extends WP_UnitTestCase {
 		/* Before any look, the column reads the records it finds. */
 		$this->assertStringContainsString( 'Optimized by EWWW Image Optimizer', Media_View::cell( $id ) );
 		$this->assertStringContainsString( 'Its original is kept.', Media_View::cell( $id ) );
-		$this->assertSame( array(), Media_View::row_actions( array(), get_post( $id ) ) );
-		$this->assertStringNotContainsString( 'data-iminify-action', Media_View::panel( $id ) );
+		$this->assertSame( array( 'iminify_restore' ), array_keys( Media_View::row_actions( array(), get_post( $id ) ) ) );
+		$this->assertStringContainsString( 'data-iminify-action="restore"', Media_View::panel( $id ) );
+		$this->assertStringNotContainsString( 'data-iminify-action="optimize"', Media_View::panel( $id ) );
+		$this->assertStringContainsString( 'EWWW Image Optimizer kept', Media_View::panel( $id ) );
 		$this->assertArrayHasKey( 'iminify_optimize', Media_View::row_actions( array(), get_post( $other ) ) );
 
 		Others::look();
@@ -396,6 +398,50 @@ class SwitchingTest extends WP_UnitTestCase {
 
 		$this->assertSame( 'imagify', Others::acting()->slug() );
 		delete_option( 'imagify_settings' );
+	}
+
+	/**
+	 * Runs alone, since a constant can't be undefined for the tests after it.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_litespeed_acts_with_the_quic_cloud_account_it_keeps_as_json_and_with_its_rescale_on(): void {
+		define( 'LSCWP_V', '7.9.3' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- LiteSpeed's own constant, as it defines it.
+
+		$conf = array(
+			'img_optm-auto'          => true,
+			'media-auto_rescale_ori' => false,
+		);
+
+		/* Its settings filter answers a setting's value, and its own name for one it doesn't know. */
+		add_filter(
+			'litespeed_conf',
+			static function ( $id ) use ( &$conf ) {
+				return array_key_exists( $id, $conf ) ? $conf[ $id ] : $id;
+			}
+		);
+
+		$this->assertNull( Others::acting(), 'Its "Auto Request Cron" sends nothing without an account.' );
+
+		update_option(
+			'litespeed.cloud._summary',
+			wp_json_encode(
+				array(
+					'sk_b64'       => 'c2VjcmV0',
+					'qc_activated' => 'linked',
+				)
+			)
+		);
+
+		$this->assertSame( 'litespeed', Others::acting()->slug() );
+
+		$conf = array(
+			'img_optm-auto'          => false,
+			'media-auto_rescale_ori' => true,
+		);
+
+		$this->assertSame( 'litespeed', Others::acting()->slug(), 'Its rescale moves every upload\'s files.' );
 	}
 
 	public function test_a_file_another_plugin_optimized_through_its_own_folders_is_set_aside_as_its(): void {

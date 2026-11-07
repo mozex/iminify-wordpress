@@ -1129,16 +1129,19 @@ class Optimizer {
 
 		/* A file only in WP Offload Media's bucket is read from its name, and brought back when it is sent. */
 		if ( '' === $file || ( ! is_file( $file ) && ! Offload_Media::only_in_bucket( $attachment, $file ) ) ) {
+			$away = Others::away( $attachment );
+
 			return array(
 				'code'    => 'file_missing',
-				'message' => __( 'Not sent: the image\'s file isn\'t in the uploads folder.', 'iminify-image-optimizer' ),
+				'message' => null === $away ? __( 'Not sent: the image\'s file isn\'t in the uploads folder.', 'iminify-image-optimizer' ) : $away->away_message(),
 			);
 		}
 
 		$type = Originals::type( $attachment, $file );
 
+		/* A format the service doesn't take can be another plugin's output (Modern Image Formats' AVIF in a JPEG's place), which says so. */
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
-			return $unsupported;
+			return Others::why( $attachment, $fresh ) ?? $unsupported;
 		}
 
 		$holder = Shared::holder( $attachment, $fresh );
