@@ -139,13 +139,22 @@ class Takeover {
 				continue;
 			}
 
+			$bytes     = (int) filesize( $about['path'] );
+			$for_bytes = (int) filesize( $beside );
+			$earlier   = $before[ $key ] ?? null;
+
+			/* The same copy, taken before against other bytes of its file, is of the picture that was there then, however close their times. */
+			if ( null !== $earlier && (int) ( $earlier['bytes'] ?? -1 ) === $bytes && (int) ( $earlier['for_bytes'] ?? -1 ) !== $for_bytes ) {
+				continue;
+			}
+
 			$pairs[ $pair ] = true;
 			$taken[ $key ]  = array(
 				'for'       => $about['for'],
 				'format'    => $format,
-				'bytes'     => (int) filesize( $about['path'] ),
+				'bytes'     => $bytes,
 				'origin'    => $about['plugin'],
-				'for_bytes' => (int) filesize( $beside ),
+				'for_bytes' => $for_bytes,
 			);
 		}
 

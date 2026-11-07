@@ -104,7 +104,8 @@ class TakeoverTest extends WP_UnitTestCase {
 
 		$this->assertStringNotContainsString( '<picture', Picture::wrap( '<img src="' . esc_url( $url ) . '" alt="">', $id ) );
 
-		/* And the next look forgets it, since it is now older than its file. */
+		/* And the next look forgets it, even with the new picture written in the same second as the copy. */
+		touch( $files['full'], (int) filemtime( $files['full'] . '.webp' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_touch -- a replacement as fast as a quick machine makes it.
 		Others::look( true );
 
 		$this->assertSame( array(), Records::get( $id )['copies'] );
