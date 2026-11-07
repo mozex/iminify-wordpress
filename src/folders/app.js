@@ -162,6 +162,11 @@ export default function App() {
 					<p>{ error.message }</p>
 				</Callout>
 			) }
+			{ state.conflict && (
+				<Callout tone="warning" role="status">
+					<p>{ state.conflict.message }</p>
+				</Callout>
+			) }
 			<div className="iminify-grid">
 				<div className="iminify-col">
 					<Files
@@ -399,6 +404,7 @@ function Summary( { state } ) {
 		failed: __( 'Failed', 'iminify-image-optimizer' ),
 		skipped: __( 'Skipped', 'iminify-image-optimizer' ),
 		restored: __( 'Restored', 'iminify-image-optimizer' ),
+		other: __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
 	};
 
 	if ( 0 === counts.files ) {
@@ -426,8 +432,9 @@ function Summary( { state } ) {
 				{ Object.keys( labels )
 					.filter(
 						( key ) =>
-							! [ 'skipped', 'restored' ].includes( key ) ||
-							counts[ key ] > 0
+							! [ 'skipped', 'restored', 'other' ].includes(
+								key
+							) || counts[ key ] > 0
 					)
 					.map( ( key ) => (
 						<li key={ key }>
@@ -548,6 +555,17 @@ function chipFor( file ) {
 				tone: 'neutral',
 				moving: false,
 			};
+		case 'other':
+			return {
+				label:
+					file.reason ||
+					__(
+						'Optimized by another plugin',
+						'iminify-image-optimizer'
+					),
+				tone: 'success',
+				moving: false,
+			};
 		default:
 			return {
 				label: __( 'Not optimized', 'iminify-image-optimizer' ),
@@ -585,6 +603,12 @@ function Files( {
 		not_optimized: __( 'Not optimized', 'iminify-image-optimizer' ),
 		waiting: __( 'On their way', 'iminify-image-optimizer' ),
 		failed: __( 'Failed', 'iminify-image-optimizer' ),
+		...( counts.other > 0 && {
+			other: __(
+				'Optimized by another plugin',
+				'iminify-image-optimizer'
+			),
+		} ),
 	};
 
 	if ( 0 === listed.length ) {
@@ -715,7 +739,9 @@ function FileRow( { file, connected, busy, onOptimize, onRestore } ) {
 	const { asking, open, close, opener } = useAsk();
 	const chip = chipFor( file );
 	const optimizable =
-		connected && ! file.on_its_way && 'skipped' !== file.status;
+		connected &&
+		! file.on_its_way &&
+		! [ 'skipped', 'other' ].includes( file.status );
 
 	return (
 		<li className="iminify-file">

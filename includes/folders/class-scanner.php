@@ -12,6 +12,7 @@ use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Optimizer as Media_Optimizer;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Switching\Others;
 use WP_Upgrader;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -369,8 +370,50 @@ class Scanner {
 
 		Table::stamp( $found, $mark );
 		Table::insert( $new, $mark );
+		self::mark_others( array_map( 'strval', array_keys( $new ) ) );
 
 		return $counted;
+	}
+
+	/**
+	 * Records the new files another plugin optimized through a folder of its own
+	 * (W140) as that plugin's, so the counts show them and no run sends them.
+	 *
+	 * @param list<string> $paths The new files, relative to `wp-content`.
+	 */
+	protected static function mark_others( array $paths ): void {
+		if ( array() === $paths ) {
+			return;
+		}
+
+		$absolute = array();
+
+		foreach ( $paths as $path ) {
+			$absolute[ Folders::absolute( $path ) ] = $path;
+		}
+
+		$owners = Others::file_owners( array_keys( $absolute ) );
+
+		if ( array() === $owners ) {
+			return;
+		}
+
+		$rows = Table::by_paths( array_values( array_intersect_key( $absolute, $owners ) ) );
+
+		foreach ( $owners as $file => $owner ) {
+			$row = $rows[ $absolute[ $file ] ] ?? null;
+
+			if ( null !== $row ) {
+				Optimizer::set_aside(
+					(int) $row['id'],
+					array(
+						'code'    => Others::CODE,
+						'message' => Others::label( $owner ),
+						'other'   => $owner,
+					)
+				);
+			}
+		}
 	}
 
 	/**

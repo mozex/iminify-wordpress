@@ -39,6 +39,7 @@ use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -70,6 +71,8 @@ switch ( $command ) {
 		}
 
 		Rules::remove();
+		update_option( 'active_plugins', array_values( array_diff( (array) get_option( 'active_plugins', array() ), array( 'wp-smushit/wp-smush.php' ) ) ) );
+		delete_option( Others::STAMP_OPTION );
 
 		foreach ( array( 'iminify-e2e-outside/out.jpg', 'iminify-e2e-outside/out.jpg.webp' ) as $e2e_outside ) {
 			wp_delete_file( WP_CONTENT_DIR . '/' . $e2e_outside );
@@ -107,6 +110,38 @@ switch ( $command ) {
 		update_option( 'iminify_e2e_state', array_merge( (array) get_option( 'iminify_e2e_state', array() ), $given ), false );
 		Site_Record::forget();
 		echo "state\n";
+		break;
+
+	case 'smushed':
+		/* An image Smush compressed in place and recorded, with Smush itself switched off. */
+		$e2e_file   = (string) get_attached_file( (int) $given['id'] );
+		$e2e_before = (int) filesize( $e2e_file );
+		$e2e_editor = wp_get_image_editor( $e2e_file );
+		$e2e_editor->set_quality( 20 );
+		$e2e_saved = $e2e_editor->save( get_temp_dir() . 'iminify-e2e-smushed.jpg', 'image/jpeg' );
+		copy( $e2e_saved['path'], $e2e_file );
+		wp_delete_file( $e2e_saved['path'] );
+		clearstatcache( true, $e2e_file );
+		update_post_meta(
+			(int) $given['id'],
+			'wp-smpro-smush-data',
+			array(
+				'stats' => array( 'size_before' => $e2e_before ),
+				'sizes' => array(
+					'full' => (object) array(
+						'size_before' => $e2e_before,
+						'size_after'  => (int) filesize( $e2e_file ),
+					),
+				),
+			)
+		);
+		echo "smushed\n";
+		break;
+
+	case 'acting':
+		/* Smush listed as active, its automatic compression on by default. */
+		update_option( 'active_plugins', array_values( array_unique( array_merge( (array) get_option( 'active_plugins', array() ), array( 'wp-smushit/wp-smush.php' ) ) ) ) );
+		echo "acting\n";
 		break;
 
 	case 'calls':

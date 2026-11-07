@@ -24,6 +24,8 @@ use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Shared;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -81,6 +83,7 @@ class Lifecycle {
 		Network::LOCK_OPTION,
 		Caches::OWED,
 		Rules::CHECK_OPTION,
+		Others::STAMP_OPTION,
 		self::ACTIVATED_OPTION,
 	);
 
@@ -100,6 +103,7 @@ class Lifecycle {
 		Folder_Optimizer::RESUME_HOOK,
 		Scanner::HOOK,
 		Rules::SWEEP_HOOK,
+		Others::SWEEP_HOOK,
 	);
 
 	/**
@@ -151,6 +155,9 @@ class Lifecycle {
 
 		update_option( self::ACTIVATED_OPTION, 0, true );
 		add_option( Local_Settings::OPTION, Local_Settings::defaults(), '', true );
+
+		/* Another optimizer may have worked while the plugin was off, and deactivation dropped any look under way. */
+		delete_option( Others::STAMP_OPTION );
 
 		$after = 0;
 
@@ -313,6 +320,7 @@ class Lifecycle {
 		}
 
 		self::delete_files( $settings['uninstall_copies'], $settings['uninstall_backups'] );
+		self::forget_others();
 
 		if ( $settings['uninstall_copies'] && $settings['uninstall_backups'] ) {
 			foreach ( self::RECORD_META as $key ) {
@@ -458,6 +466,32 @@ class Lifecycle {
 		if ( $copies ) {
 			Caches::purge( 'uninstall' );
 		}
+	}
+
+	/**
+	 * Deletes the records of images another plugin optimized that hold nothing of
+	 * the plugin's, so none outlives it and a later install looks again. One that
+	 * still names the plugin's backups or copies (an image another plugin
+	 * compressed after Iminify did) is kept, as every record holding work is.
+	 */
+	protected static function forget_others(): void {
+		$after = 0;
+
+		do {
+			$ids = Records::with_status( array( Records::OTHER ), 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+
+				if ( Shared::holds_work( $id ) ) {
+					continue;
+				}
+
+				foreach ( self::RECORD_META as $key ) {
+					delete_post_meta( $id, $key );
+				}
+			}
+		} while ( array() !== $ids );
 	}
 
 	/**

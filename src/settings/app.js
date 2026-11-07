@@ -245,6 +245,11 @@ export default function App( { scope } ) {
 					<p>{ state.site.message.text }</p>
 				</Callout>
 			) }
+			{ state.conflict && (
+				<Callout tone="warning" role="status">
+					<p>{ state.conflict.message }</p>
+				</Callout>
+			) }
 			{ state.revoked && ! connected && (
 				<Callout icon="plug">
 					<p>{ revokedText( networkPage, mainSite, joinable ) }</p>

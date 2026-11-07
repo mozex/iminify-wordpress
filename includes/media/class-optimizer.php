@@ -14,6 +14,7 @@ use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -246,6 +247,12 @@ class Optimizer {
 			return new WP_Error( 'not_optimizable', $why['message'], array( 'status' => 422 ) );
 		}
 
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			return new WP_Error( Others::ACTING, Others::acting_message( $acting ), array( 'status' => 409 ) );
+		}
+
 		$site = Site_Record::fetch();
 
 		if ( null === $site ) {
@@ -420,6 +427,20 @@ class Optimizer {
 			self::drop_group( $attachment, (string) ( $record['group']['id'] ?? '' ) );
 		}
 
+		/* While another optimizer acts on uploads nothing opens (W134): it compresses the image itself, and a later look records it as its. */
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+
+			/* The run sends it again once the other optimizer stops, so it doesn't count as sent twice. */
+			if ( self::BULK === $trigger ) {
+				Bulk::returned();
+			}
+
+			return;
+		}
+
 		/* A batch that is shut asks nothing of the service, however many images come here while it is. */
 		if ( self::waits_for_batch( $attachment ) ) {
 			return;
@@ -485,6 +506,15 @@ class Optimizer {
 
 		if ( null === $source ) {
 			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		/* A file brought back from WP Offload Media's bucket is measured now, and may turn out to be another optimizer's output. */
+		$other = Others::why( $attachment, true );
+
+		if ( null !== $other ) {
+			self::skip( $attachment, $other );
 
 			return;
 		}
@@ -808,6 +838,8 @@ class Optimizer {
 			'formats' => self::asked_formats( $answer, (string) ( $group['type'] ?? '' ) ),
 			'outputs' => $written['outputs'],
 			'skipped' => $written['skipped'],
+			'kept'    => count( $written['kept'] ),
+			'kept_by' => Others::copies_owner( $attachment, $written['kept'] ),
 			'at'      => time(),
 		);
 
@@ -1059,9 +1091,16 @@ class Optimizer {
 	 * pages then serve.
 	 *
 	 * @param int                                                $attachment The attachment's id.
-	 * @param array{code: string, message: string, holder?: int} $why        Why, as `why_not()` answers.
+	 * @param array{code: string, message: string, holder?: int, other?: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}} $why        Why, as `why_not()` answers.
 	 */
 	public static function skip( int $attachment, array $why ): void {
+		/* An image another plugin optimized reads as that plugin's, not as one set aside. */
+		if ( isset( $why['other'] ) ) {
+			Others::mark( $attachment, $why['other'] );
+
+			return;
+		}
+
 		Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
 
 		if ( isset( $why['holder'] ) ) {
@@ -1074,7 +1113,7 @@ class Optimizer {
 	 *
 	 * @param int  $attachment The attachment's id.
 	 * @param bool $fresh      Whether to ask afresh who shares its files, as a run that writes them must (`Shared`).
-	 * @return array{code: string, message: string, holder?: int}|null
+	 * @return array{code: string, message: string, holder?: int, other?: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}}|null
 	 */
 	public static function why_not( int $attachment, bool $fresh = false ): ?array {
 		$unsupported = array(
@@ -1114,6 +1153,13 @@ class Optimizer {
 				),
 				'holder'  => $holder,
 			);
+		}
+
+		/* Another plugin's output is never sent for a second lossy pass (decision 39), so it is read afresh here, where every send asks. */
+		$other = Others::why( $attachment, $fresh );
+
+		if ( null !== $other ) {
+			return $other;
 		}
 
 		/**

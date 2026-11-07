@@ -378,9 +378,30 @@ class Table {
 	}
 
 	/**
+	 * The absolute paths of some files, by one query, for a run's page.
+	 *
+	 * @param list<int> $ids The files' row ids.
+	 * @return list<string>
+	 */
+	public static function paths( array $ids ): array {
+		global $wpdb;
+
+		if ( array() === $ids || ! self::exists() ) {
+			return array();
+		}
+
+		$in = implode( ', ', array_fill( 0, count( $ids ), '%d' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a run's page by the primary key; one placeholder per id, built above.
+		$paths = $wpdb->get_col( $wpdb->prepare( "SELECT path FROM {$wpdb->base_prefix}iminify_files WHERE id IN ({$in})", $ids ) );
+
+		return array_values( array_map( array( Folders::class, 'absolute' ), array_map( 'strval', $paths ) ) );
+	}
+
+	/**
 	 * The files in the chosen folders the screens count.
 	 *
-	 * @return array{files: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int}
+	 * @return array{files: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int}
 	 */
 	public static function counts(): array {
 		global $wpdb;
@@ -393,6 +414,7 @@ class Table {
 			'failed'        => 0,
 			'skipped'       => 0,
 			'restored'      => 0,
+			'other'         => 0,
 		);
 		$folders = Folders::listed();
 
@@ -414,6 +436,7 @@ class Table {
 			Records::ERROR         => 'failed',
 			Records::SKIPPED       => 'skipped',
 			Records::RESTORED      => 'restored',
+			Records::OTHER         => 'other',
 		);
 
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
@@ -496,7 +519,7 @@ class Table {
 
 		$likes = implode( ' OR ', array_fill( 0, count( $folders ), 'path LIKE %s' ) );
 
-		$statuses = $statuses ?? array( Records::OPTIMIZED, Records::NOT_OPTIMIZED, Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED, Records::ERROR, Records::SKIPPED, Records::RESTORED );
+		$statuses = $statuses ?? array( Records::OPTIMIZED, Records::NOT_OPTIMIZED, Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED, Records::ERROR, Records::SKIPPED, Records::RESTORED, Records::OTHER );
 		$in       = implode( ', ', array_fill( 0, count( $statuses ), '%s' ) );
 		$values   = array_merge( $statuses, self::patterns( $folders ) );
 

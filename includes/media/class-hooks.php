@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -151,7 +152,14 @@ class Hooks {
 			Copies::delete_stale( $attachment );
 		}
 
-		if ( ! Optimizer::is_optimizable( $attachment ) ) {
+		$why = Optimizer::why_not( $attachment );
+
+		if ( null !== $why ) {
+			/* A regeneration of an image another plugin optimized leaves it that plugin's, and the screens say so. */
+			if ( isset( $why['other'] ) ) {
+				Others::mark( $attachment, $why['other'] );
+			}
+
 			return;
 		}
 

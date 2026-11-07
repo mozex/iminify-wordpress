@@ -16,6 +16,7 @@ use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
+use Iminify\WordPress\Switching\Others;
 use WP_CLI;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -518,7 +519,7 @@ class Cli {
 	 * Whether the run waits on something no shell should sit through.
 	 */
 	protected function waits_long(): bool {
-		return null !== Pause::until() || ! Plugin::connected() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
+		return null !== Pause::until() || ! Plugin::connected() || null !== Others::acting() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
 	}
 
 	/**
@@ -526,6 +527,14 @@ class Cli {
 	 */
 	protected function hand_over(): void {
 		Bulk::switch_mode( Bulk::BACKGROUND );
+
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			WP_CLI::warning( Others::acting_message( $acting ) . ' ' . __( 'The run goes on in the background once it stops.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
 
 		$until = Pause::until();
 
@@ -640,6 +649,7 @@ class Cli {
 
 		$wpdb->queries = array();
 		Shared::forget();
+		Others::forget();
 
 		if ( function_exists( 'wp_cache_supports' ) && wp_cache_supports( 'flush_runtime' ) ) {
 			wp_cache_flush_runtime();

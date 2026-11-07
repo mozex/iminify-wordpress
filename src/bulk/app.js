@@ -282,11 +282,13 @@ function Library( { state } ) {
 		failed: __( 'Failed', 'iminify-image-optimizer' ),
 		skipped: __( 'Skipped', 'iminify-image-optimizer' ),
 		restored: __( 'Restored', 'iminify-image-optimizer' ),
+		other: __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
 	};
-	/* The four that always show, then the two that only matter once they happen. */
+	/* The four that always show, then those that only matter once they happen. */
 	const rows = Object.keys( labels ).filter(
 		( key ) =>
-			! [ 'skipped', 'restored' ].includes( key ) || counts[ key ] > 0
+			! [ 'skipped', 'restored', 'other' ].includes( key ) ||
+			counts[ key ] > 0
 	);
 
 	return (
@@ -347,6 +349,15 @@ function Library( { state } ) {
 							</li>
 						) ) }
 					</ul>
+					{ state.others.length > 0 && (
+						<ul className="iminify-others">
+							{ state.others.map( ( other ) => (
+								<li key={ other.name }>
+									{ othersLine( other ) }
+								</li>
+							) ) }
+						</ul>
+					) }
 					{ saved && (
 						<div className="iminify-saved">
 							<span className="iminify-label">
@@ -374,6 +385,53 @@ function Library( { state } ) {
 				</div>
 			) }
 		</Panel>
+	);
+}
+
+/**
+ * What another plugin optimized, in a sentence: how many images, and how many keep an original.
+ *
+ * @param {Object} other The plugin's count, as the page's state gives it.
+ * @return {string} The sentence.
+ */
+function othersLine( other ) {
+	if ( other.with === other.count ) {
+		return sprintf(
+			/* translators: 1: another image optimizer's name, 2: how many images it optimized. */
+			_n(
+				'%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is.',
+				'%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are.',
+				other.count,
+				'iminify-image-optimizer'
+			),
+			other.name,
+			other.number
+		);
+	}
+
+	if ( 0 === other.with ) {
+		return sprintf(
+			/* translators: 1: another image optimizer's name, 2: how many images it optimized. */
+			_n(
+				'%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is.',
+				'%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are.',
+				other.count,
+				'iminify-image-optimizer'
+			),
+			other.name,
+			other.number
+		);
+	}
+
+	return sprintf(
+		/* translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. */
+		__(
+			'%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are.',
+			'iminify-image-optimizer'
+		),
+		other.name,
+		other.number,
+		other.originals
 	);
 }
 
@@ -413,6 +471,17 @@ function chipFor( run, queue ) {
 					tone: 'neutral',
 					icon: 'pause',
 				};
+	}
+
+	if ( 'other_optimizer' === run.reason ) {
+		return {
+			label: __(
+				'Waiting for another optimizer',
+				'iminify-image-optimizer'
+			),
+			tone: 'warning',
+			icon: 'alert',
+		};
 	}
 
 	if ( run.stalled ) {
@@ -785,6 +854,16 @@ function runStatus( run, queue ) {
 		];
 	}
 
+	if ( 'other_optimizer' === run.reason ) {
+		return [
+			'alert',
+			__(
+				'Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off.',
+				'iminify-image-optimizer'
+			),
+		];
+	}
+
 	if ( queue.next_batch && 'restore' !== run.action ) {
 		return [
 			'clock',
@@ -914,11 +993,18 @@ function Stalled( { run, busy, onPageMode } ) {
  * @param {() => void} props.onRetry Sends the failed images again.
  */
 function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
-	const { counts, numbers, estimate, disk, links, connected } = state;
+	const { counts, numbers, estimate, disk, links, connected, conflict } =
+		state;
 	const left = counts.not_optimized;
+	const held = busy || ! connected || disk.low || Boolean( conflict );
 
 	return (
 		<Panel>
+			{ conflict && (
+				<Callout tone="warning">
+					<p>{ conflict.message }</p>
+				</Callout>
+			) }
 			{ ! connected && (
 				<Callout icon="plug">
 					<p>
@@ -1026,7 +1112,7 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 							size="big"
 							iconEnd="arrow"
 							busy={ busy }
-							disabled={ busy || ! connected || disk.low }
+							disabled={ held }
 							onClick={ onStart }
 						>
 							{ __(
@@ -1038,7 +1124,7 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 					{ counts.failed > 0 && (
 						<Button
 							icon="send"
-							disabled={ busy || ! connected || disk.low }
+							disabled={ held }
 							onClick={ onRetry }
 						>
 							{ sprintf(

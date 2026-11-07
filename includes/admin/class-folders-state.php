@@ -40,6 +40,7 @@ class Folders_State {
 		'not_optimized' => array( Records::NOT_OPTIMIZED, Records::RESTORED ),
 		'waiting'       => array( Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ),
 		'failed'        => array( Records::ERROR, Records::SKIPPED ),
+		'other'         => array( Records::OTHER ),
 	);
 
 	/**
@@ -58,6 +59,7 @@ class Folders_State {
 
 		return array(
 			'connected' => Plugin::connected(),
+			'conflict'  => Bulk_State::conflict(),
 			'listed'    => Folders::listed(),
 			'offered'   => Folders::offered(),
 			'scan'      => null === $scan ? null : array(

@@ -46,6 +46,9 @@ class State {
 		$state['disk']  = array( 'low' => ! Disk::has_room_for( 0 ) );
 		$state['rules'] = Rules::active() ? self::rules() : null;
 
+		/* Another optimizer acting on uploads holds every optimization back (W134), so the page says which and what to switch off. */
+		$state['conflict'] = Bulk_State::conflict();
+
 		return $state;
 	}
 

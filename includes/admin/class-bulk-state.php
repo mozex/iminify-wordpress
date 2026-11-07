@@ -20,6 +20,7 @@ use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 use WP_Site_Health;
 
@@ -61,6 +62,11 @@ class Bulk_State {
 			Site_Record::fetch();
 		}
 
+		/* Another plugin's records may have changed since the last look: the page counts what it finds. */
+		if ( $estimate ) {
+			Others::look();
+		}
+
 		$hidden = $keys->hides_account();
 		$counts = Bulk::counts();
 		$saved  = Records::saved();
@@ -75,6 +81,8 @@ class Bulk_State {
 				'before'  => size_format( $saved['before'], 1 ),
 				'percent' => number_format_i18n( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
 			) : null,
+			'others'    => self::others(),
+			'conflict'  => self::conflict(),
 			'run'       => self::run(),
 			'queue'     => Queue::summary(),
 			'folders'   => self::folders(),
@@ -120,6 +128,41 @@ class Bulk_State {
 		$state['queue'] = Queue::summary();
 
 		return $state;
+	}
+
+	/**
+	 * The images other plugins optimized, by plugin: how many, and how many with an original kept.
+	 *
+	 * @return list<array{name: string, count: int, number: string, with: int, originals: string}>
+	 */
+	protected static function others(): array {
+		$others = array();
+
+		foreach ( Others::counts() as $slug => $count ) {
+			$others[] = array(
+				'name'      => Others::name( $slug ),
+				'count'     => $count['with'] + $count['without'],
+				'number'    => number_format_i18n( $count['with'] + $count['without'] ),
+				'with'      => $count['with'],
+				'originals' => number_format_i18n( $count['with'] ),
+			);
+		}
+
+		return $others;
+	}
+
+	/**
+	 * The other optimizer that holds the plugin back (W134), with what to switch off, or null.
+	 *
+	 * @return array{name: string, message: string}|null
+	 */
+	public static function conflict(): ?array {
+		$acting = Others::acting();
+
+		return null === $acting ? null : array(
+			'name'    => $acting->name(),
+			'message' => Others::acting_message( $acting ),
+		);
 	}
 
 	/**

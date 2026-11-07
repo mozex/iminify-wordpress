@@ -541,7 +541,8 @@ class FoldersTest extends WP_UnitTestCase {
 
 		$this->assertSame( $theirs, file_get_contents( $foreign ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the other tool's copy.
 		$this->assertSame( array(), Table::get( $id )['copies'] );
-		$this->assertSame( 1, Table::get( $id )['result']['skipped'] );
+		$this->assertSame( 0, Table::get( $id )['result']['skipped'], 'A copy another tool made is kept, never a fault.' );
+		$this->assertSame( 1, Table::get( $id )['result']['kept'] );
 
 		$this->assertTrue( Restorer::restore( $id ) );
 		$this->assertSame( $theirs, file_get_contents( $foreign ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the other tool's copy.
@@ -602,13 +603,15 @@ class FoldersTest extends WP_UnitTestCase {
 		/* The record names the copy, but something rewrote it since: it is someone else's now. */
 		$put = Writer::put( $declared, $answer, $zip, array(), $recorded( strlen( $theirs ) + 1 ), Folders::root() );
 
-		$this->assertSame( 1, $put['skipped'] );
+		$this->assertSame( array( self::FOLDER . '/photo.jpg.webp' ), $put['kept'] );
+		$this->assertSame( 0, $put['skipped'] );
 		$this->assertSame( $theirs, file_get_contents( $copy ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the copy left as it was.
 
 		/* Still as the plugin wrote it: the plugin's own, written over. */
 		$put = Writer::put( $declared, $answer, $zip, array(), $recorded( strlen( $theirs ) ), Folders::root() );
 		wp_delete_file( $zip );
 
+		$this->assertSame( array(), $put['kept'] );
 		$this->assertSame( 0, $put['skipped'] );
 		$this->assertSame( $webp, file_get_contents( $copy ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the written copy.
 	}

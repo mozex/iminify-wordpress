@@ -18,6 +18,7 @@ use Iminify\WordPress\Media\Restorer;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use WP_Post;
 use WP_Query;
 
@@ -50,6 +51,8 @@ class Media_View {
 
 	const FILTER_MISSING = 'missing_formats';
 
+	const FILTER_OTHER = 'other';
+
 	const IMAGE_TYPES = Declaration::MIME_TYPES;
 
 	/**
@@ -65,6 +68,7 @@ class Media_View {
 		add_filter( 'attachment_fields_to_edit', array( self::class, 'attachment_field' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_on_screen' ) );
 		add_action( 'wp_enqueue_media', array( self::class, 'enqueue' ) );
+		add_action( 'load-upload.php', array( Others::class, 'look' ), 10, 0 );
 	}
 
 	/**
@@ -139,6 +143,11 @@ class Media_View {
 		$attachment = (int) $post->ID;
 
 		if ( ! self::handles( $attachment ) || ! Capabilities::can_change( $attachment ) ) {
+			return $actions;
+		}
+
+		/* An image another plugin optimized is left as it is (decision 39). */
+		if ( null !== self::other( $attachment ) ) {
 			return $actions;
 		}
 
@@ -262,6 +271,8 @@ class Media_View {
 				return array( 'meta_query' => array( self::status_clause( array( Records::OPTIMIZED ) ) ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- the filter a person picked, on the plugin's own meta key.
 			case self::FILTER_ERRORS:
 				return array( 'meta_query' => array( self::status_clause( array( Records::ERROR, Records::SKIPPED ) ) ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- the filter a person picked, on the plugin's own meta key.
+			case self::FILTER_OTHER:
+				return array( 'meta_query' => array( self::status_clause( array( Records::OTHER ) ) ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- the filter a person picked, on the plugin's own meta key.
 			case self::FILTER_NOT_OPTIMIZED:
 				return array(
 					'post_mime_type' => self::IMAGE_TYPES,
@@ -327,6 +338,7 @@ class Media_View {
 			self::FILTER_NOT_OPTIMIZED => __( 'Not optimized', 'iminify-image-optimizer' ),
 			self::FILTER_ERRORS        => __( 'Errors', 'iminify-image-optimizer' ),
 			self::FILTER_MISSING       => __( 'Missing formats', 'iminify-image-optimizer' ),
+			self::FILTER_OTHER         => __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
 		);
 	}
 
@@ -407,6 +419,12 @@ class Media_View {
 	 */
 	protected static function summary( int $attachment ): string {
 		$record = Records::get( $attachment );
+		$other  = self::other( $attachment );
+
+		if ( null !== $other ) {
+			return self::other_summary( $other );
+		}
+
 		$html   = sprintf(
 			'<p class="iminify-status iminify-status-%1$s"><span class="iminify-chip iminify-chip--%2$s%3$s"><span class="iminify-chip__dot" aria-hidden="true"></span>%4$s</span></p>',
 			esc_attr( $record['status'] ?? 'none' ),
@@ -481,6 +499,24 @@ class Media_View {
 			) . '</p>';
 		}
 
+		if ( ! empty( $record['result']['kept'] ) ) {
+			$kept = (int) $record['result']['kept'];
+			$by   = isset( $record['result']['kept_by'] ) && is_string( $record['result']['kept_by'] ) ? Others::name( $record['result']['kept_by'] ) : '';
+
+			$html .= '<p class="iminify-detail">' . esc_html(
+				'' === $by ? sprintf(
+					/* translators: %s: how many copies. */
+					_n( '%s WebP or AVIF copy another tool made was kept as it is.', '%s WebP or AVIF copies another tool made were kept as they are.', $kept, 'iminify-image-optimizer' ),
+					number_format_i18n( $kept )
+				) : sprintf(
+					/* translators: 1: how many copies, 2: another image optimizer's name, such as EWWW Image Optimizer. */
+					_n( '%1$s WebP or AVIF copy %2$s made was kept as it is.', '%1$s WebP or AVIF copies %2$s made were kept as they are.', $kept, 'iminify-image-optimizer' ),
+					number_format_i18n( $kept ),
+					$by
+				)
+			) . '</p>';
+		}
+
 		if ( ! empty( $record['result']['skipped'] ) ) {
 			$html .= '<p class="iminify-detail">' . esc_html(
 				sprintf(
@@ -490,6 +526,59 @@ class Media_View {
 				)
 			) . '</p>';
 		}
+
+		return $html;
+	}
+
+	/**
+	 * Another plugin's optimization of an attachment: the plugin's record of it, or,
+	 * for an image the plugin hasn't looked at yet, what the readers find now.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null
+	 */
+	protected static function other( int $attachment ): ?array {
+		$record = Records::get( $attachment );
+
+		if ( Records::OTHER === $record['status'] ) {
+			return $record['other'];
+		}
+
+		$unseen = null === $record['status'] || ( Records::NOT_OPTIMIZED === $record['status'] && Records::RESTORED !== ( $record['error']['code'] ?? null ) );
+
+		return $unseen ? Others::verdict( $attachment ) : null;
+	}
+
+	/**
+	 * Where an image another plugin optimized stands: whose it is, what that plugin
+	 * saved as it recorded it, and whether its original is kept.
+	 *
+	 * @param array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>} $other The plugin's optimization.
+	 */
+	protected static function other_summary( array $other ): string {
+		$html = sprintf(
+			'<p class="iminify-status iminify-status-other"><span class="iminify-chip iminify-chip--success"><span class="iminify-chip__dot" aria-hidden="true"></span>%s</span></p>',
+			esc_html( Others::label( $other['plugin'] ) )
+		);
+
+		if ( $other['before'] > $other['after'] && $other['after'] > 0 ) {
+			$percent = (int) round( 100 * ( $other['before'] - $other['after'] ) / $other['before'] );
+			$html   .= '<p class="iminify-detail">' . esc_html(
+				sprintf(
+					/* translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB. */
+					__( '%1$s saved %2$s (%3$s), as it recorded it.', 'iminify-image-optimizer' ),
+					Others::name( $other['plugin'] ),
+					$percent . '%',
+					(string) size_format( $other['before'] - $other['after'], 1 )
+				)
+			) . '</p>';
+		}
+
+		$html .= '<p class="iminify-detail">' . esc_html(
+			$other['original']
+				? __( 'Its original is kept. Iminify leaves the image as it is, and it costs nothing.', 'iminify-image-optimizer' )
+				: __( 'No original of it was kept, so Iminify leaves it as it is rather than compress it a second time.', 'iminify-image-optimizer' )
+		) . '</p>';
 
 		return $html;
 	}
@@ -662,6 +751,11 @@ class Media_View {
 	 */
 	protected static function actions( int $attachment ): string {
 		if ( self::is_busy( $attachment ) ) {
+			return '';
+		}
+
+		/* Restoring it and optimizing it again from its original come with the plugin's own steps for another plugin's images. */
+		if ( null !== self::other( $attachment ) ) {
 			return '';
 		}
 

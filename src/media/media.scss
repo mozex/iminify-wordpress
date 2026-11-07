@@ -21,6 +21,13 @@
 		margin-bottom: 6px;
 	}
 
+	/* Another plugin's name can be long, and the column is narrow: the chip wraps inside it rather than run past it. */
+	.iminify-status-other .iminify-chip {
+		max-width: 100%;
+		box-sizing: border-box;
+		white-space: normal;
+	}
+
 	.iminify-detail {
 		color: var(--iminify-z600);
 		line-height: 1.5;

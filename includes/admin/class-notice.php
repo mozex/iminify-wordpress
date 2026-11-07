@@ -13,6 +13,7 @@ use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -135,6 +136,18 @@ class Notice {
 				'type'   => 'info',
 				'text'   => __( 'Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images.', 'iminify-image-optimizer' ),
 				'action' => __( 'Connect', 'iminify-image-optimizer' ),
+			);
+		}
+
+		/* Another optimizer acting on uploads holds everything back (W134), which matters more than any message from Iminify. */
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			return array(
+				'key'    => Others::ACTING . '|' . $acting->slug(),
+				'type'   => 'warning',
+				'text'   => Others::acting_message( $acting ),
+				'action' => __( 'Open the Iminify settings', 'iminify-image-optimizer' ),
 			);
 		}
 

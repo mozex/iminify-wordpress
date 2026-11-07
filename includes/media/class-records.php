@@ -52,9 +52,15 @@ class Records {
 	const AFTER_META = '_iminify_after';
 
 	/**
+	 * The other plugin that optimized an image, and whether its original is kept
+	 * (`imagify:1`), while the record reads OTHER: what the bulk page counts.
+	 */
+	const OTHER_META = '_iminify_other';
+
+	/**
 	 * Every post meta key of a record.
 	 */
-	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::SIZES_META, self::BEFORE_META, self::AFTER_META );
+	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::SIZES_META, self::BEFORE_META, self::AFTER_META, self::OTHER_META );
 
 	const ORIGIN = 'iminify';
 
@@ -81,6 +87,12 @@ class Records {
 	const ERROR = 'error';
 
 	/**
+	 * Another plugin optimized the image (`Switching\Others`), which the record
+	 * keeps in `other`: it costs nothing and is never sent again unless someone asks.
+	 */
+	const OTHER = 'other';
+
+	/**
 	 * The status meta of an image someone restored: its record reads NOT_OPTIMIZED
 	 * with the code `restored`, which the bulk run leaves out, so the image stays as
 	 * the person chose (the media library's "Not optimized" filter still lists it).
@@ -91,7 +103,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -115,6 +127,7 @@ class Records {
 			'attempts'   => isset( $record['attempts'] ) ? (int) $record['attempts'] : 0,
 			'reopens'    => isset( $record['reopens'] ) ? (int) $record['reopens'] : 0,
 			'holder'     => isset( $record['holder'] ) && (int) $record['holder'] > 0 ? (int) $record['holder'] : null,
+			'other'      => self::other( $record['other'] ?? null ),
 			'updated'    => isset( $record['updated'] ) ? (int) $record['updated'] : 0,
 		);
 	}
@@ -130,7 +143,20 @@ class Records {
 		$record            = array_merge( self::get( $attachment ), $changes );
 		$record['updated'] = time();
 
+		/* Whose an image is holds only while it reads as another plugin's. */
+		if ( self::OTHER !== $record['status'] ) {
+			$record['other'] = null;
+		}
+
 		update_post_meta( $attachment, self::META, $record );
+
+		$other = self::other( $record['other'] );
+
+		if ( null !== $other ) {
+			update_post_meta( $attachment, self::OTHER_META, $other['plugin'] . ':' . ( $other['original'] ? '1' : '0' ) );
+		} else {
+			delete_post_meta( $attachment, self::OTHER_META );
+		}
 
 		if ( is_string( $record['status'] ) ) {
 			$restored = self::NOT_OPTIMIZED === $record['status'] && is_array( $record['error'] ) && self::RESTORED === ( $record['error']['code'] ?? null );
@@ -161,6 +187,33 @@ class Records {
 		}
 
 		return $record;
+	}
+
+	/**
+	 * Another plugin's optimization as a record keeps it, or null.
+	 *
+	 * @param mixed $other The record's `other`.
+	 * @return array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null
+	 */
+	protected static function other( $other ): ?array {
+		if ( ! is_array( $other ) || ! isset( $other['plugin'] ) || ! is_string( $other['plugin'] ) || '' === $other['plugin'] ) {
+			return null;
+		}
+
+		$outputs = array();
+
+		foreach ( isset( $other['outputs'] ) && is_array( $other['outputs'] ) ? $other['outputs'] : array() as $path => $bytes ) {
+			$outputs[ (string) $path ] = (int) $bytes;
+		}
+
+		return array(
+			'plugin'   => sanitize_key( $other['plugin'] ),
+			'before'   => (int) ( $other['before'] ?? 0 ),
+			'after'    => (int) ( $other['after'] ?? 0 ),
+			'files'    => (int) ( $other['files'] ?? 0 ),
+			'original' => ! empty( $other['original'] ),
+			'outputs'  => $outputs,
+		);
 	}
 
 	/**

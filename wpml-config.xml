@@ -6,5 +6,6 @@
 		<custom-field action="ignore">_iminify_sizes</custom-field>
 		<custom-field action="ignore">_iminify_before</custom-field>
 		<custom-field action="ignore">_iminify_after</custom-field>
+		<custom-field action="ignore">_iminify_other</custom-field>
 	</custom-fields>
 </wpml-config>

@@ -16,6 +16,7 @@ use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -157,7 +158,7 @@ class Bulk {
 	/**
 	 * The run, or null when there has been none.
 	 *
-	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, rewind: bool, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
 	 */
 	public static function run(): ?array {
 		$run = get_option( self::OPTION );
@@ -172,6 +173,7 @@ class Bulk {
 			'mode'    => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
 			'status'  => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
 			'reason'  => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
+			'rewind'  => ! empty( $run['rewind'] ),
 			'only'    => isset( $run['only'] ) && is_array( $run['only'] ) ? array_values( array_map( 'intval', $run['only'] ) ) : null,
 			'cursor'  => (int) ( $run['cursor'] ?? 0 ),
 			'total'   => (int) ( $run['total'] ?? 0 ),
@@ -214,6 +216,12 @@ class Bulk {
 		}
 
 		if ( self::RESTORE !== $action ) {
+			$acting = Others::acting();
+
+			if ( null !== $acting ) {
+				return new WP_Error( Others::ACTING, Others::acting_message( $acting ), array( 'status' => 409 ) );
+			}
+
 			if ( ! Plugin::connected() ) {
 				return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 			}
@@ -562,6 +570,20 @@ class Bulk {
 	}
 
 	/**
+	 * An image the run sent came back unsent, as when another optimizer started
+	 * acting: it isn't counted as sent, since the run sends it again.
+	 */
+	public static function returned(): void {
+		wp_cache_delete( self::OPTION, 'options' );
+
+		$run = self::run();
+
+		if ( null !== $run && $run['sent'] > 0 ) {
+			self::change( array( 'sent' => $run['sent'] - 1 ) );
+		}
+	}
+
+	/**
 	 * Whether a background run's actions have been due for long with nothing
 	 * running them: the host's cron or its loopback requests don't work.
 	 */
@@ -589,7 +611,7 @@ class Bulk {
 	/**
 	 * The images the bulk page counts.
 	 *
-	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, missing_formats: int, missing_sizes: int}
+	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int, missing_formats: int, missing_sizes: int}
 	 */
 	public static function counts(): array {
 		return array(
@@ -600,6 +622,7 @@ class Bulk {
 			'failed'          => Records::count_with_status( array( Records::ERROR ) ),
 			'skipped'         => Records::count_with_status( array( Records::SKIPPED ) ),
 			'restored'        => Records::count_with_status( array( Records::RESTORED ) ),
+			'other'           => Records::count_with_status( array( Records::OTHER ) ),
 			'missing_formats' => Missing::count( Missing::FORMATS ),
 			'missing_sizes'   => Missing::count( Missing::SIZES ),
 		);
@@ -671,8 +694,11 @@ class Bulk {
 			$ids  = $files ? Table::with_status( self::file_statuses( $action ), self::PAGE_SIZE, $cursor ) : self::next_page( $action, $cursor, $only );
 			$full = self::PAGE_SIZE === count( $ids );
 
-			if ( ! $files ) {
+			if ( $files ) {
+				Others::file_owners( Table::paths( $ids ) );
+			} else {
 				Shared::prime( $ids );
+				Others::prime( $ids );
 			}
 
 			foreach ( $ids as $id ) {
@@ -764,6 +790,32 @@ class Bulk {
 			return null;
 		}
 
+		/* While another optimizer acts on uploads nothing is sent (W134); the run holds, saying why, and goes on once it is switched off. */
+		if ( null !== Others::acting() ) {
+			if ( Others::ACTING !== $run['reason'] || ! $run['rewind'] ) {
+				self::change(
+					array(
+						'reason' => Others::ACTING,
+						'rewind' => true,
+					)
+				);
+			}
+
+			return MINUTE_IN_SECONDS;
+		}
+
+		/* The images it had sent that met the other optimizer read not optimized, so the run looks again from the start, passing over what is done. A pause or a resume since keeps this owed. */
+		if ( $run['rewind'] ) {
+			self::change(
+				array(
+					'reason' => Others::ACTING === $run['reason'] ? null : $run['reason'],
+					'rewind' => false,
+					'cursor' => 0,
+				)
+			);
+			$run = self::run() ?? $run;
+		}
+
 		/* The images it sent wait for the connection on their own, and go on with it. */
 		if ( ! Plugin::connected() ) {
 			return 5 * MINUTE_IN_SECONDS;
@@ -819,7 +871,7 @@ class Bulk {
 				'message' => __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
 			);
 
-			Folder_Optimizer::stop( $id, Records::SKIPPED, $why['code'], $why['message'] );
+			Folder_Optimizer::set_aside( $id, $why );
 		}
 
 		foreach ( $files ? array() : $next['passed'] as $id ) {

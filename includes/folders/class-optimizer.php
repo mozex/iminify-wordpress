@@ -23,6 +23,7 @@ use Iminify\WordPress\Media\Writer;
 use Iminify\WordPress\Media\Zip;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -129,6 +130,12 @@ class Optimizer {
 			return new WP_Error( 'not_optimizable', $why['message'], array( 'status' => 422 ) );
 		}
 
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			return new WP_Error( Others::ACTING, Others::acting_message( $acting ), array( 'status' => 409 ) );
+		}
+
 		$site = Site_Record::fetch();
 
 		if ( null === $site ) {
@@ -214,7 +221,7 @@ class Optimizer {
 		$why = self::why_not( $id );
 
 		if ( null !== $why ) {
-			self::stop( $id, Records::SKIPPED, $why['code'], $why['message'] );
+			self::set_aside( $id, $why );
 
 			return;
 		}
@@ -238,6 +245,15 @@ class Optimizer {
 			}
 
 			self::drop_group( $id, (string) ( $row['group']['id'] ?? '' ) );
+		}
+
+		/* While another optimizer acts on uploads nothing opens (W134). */
+		$acting = Others::acting();
+
+		if ( null !== $acting ) {
+			self::stop( $id, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+
+			return;
 		}
 
 		if ( self::waits_for_batch( $id ) ) {
@@ -526,6 +542,7 @@ class Optimizer {
 			'formats' => Media_Optimizer::asked_formats( $answer, (string) ( $group['type'] ?? '' ) ),
 			'outputs' => $put['outputs'],
 			'skipped' => $put['skipped'],
+			'kept'    => count( $put['kept'] ),
 			'at'      => time(),
 		);
 
@@ -672,7 +689,7 @@ class Optimizer {
 	 * Why a file isn't one the plugin sends, or null when it is.
 	 *
 	 * @param int $id The file's row id.
-	 * @return array{code: string, message: string}|null
+	 * @return array{code: string, message: string, other?: string}|null
 	 */
 	public static function why_not( int $id ): ?array {
 		$row = Table::get( $id );
@@ -699,6 +716,17 @@ class Optimizer {
 			return array(
 				'code'    => 'unsupported_format',
 				'message' => __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
+			);
+		}
+
+		/* A file another plugin optimized in a folder of its own is never sent for a second lossy pass (W140). */
+		$owner = Others::file_owner( $file );
+
+		if ( null !== $owner ) {
+			return array(
+				'code'    => Others::CODE,
+				'message' => Others::label( $owner ),
+				'other'   => $owner,
 			);
 		}
 
@@ -856,6 +884,17 @@ class Optimizer {
 	 */
 	protected static function no_room( int $id ): void {
 		self::stop( $id, Records::NOT_OPTIMIZED, 'disk_full', __( 'Not optimized: the server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ) );
+	}
+
+	/**
+	 * Sets a file aside as one the plugin doesn't send, with the reason beside it:
+	 * one another plugin optimized reads as that plugin's.
+	 *
+	 * @param int                                                $id  The file's row id.
+	 * @param array{code: string, message: string, other?: string} $why Why, as `why_not()` answers.
+	 */
+	public static function set_aside( int $id, array $why ): void {
+		self::stop( $id, isset( $why['other'] ) ? Records::OTHER : Records::SKIPPED, $why['code'], $why['message'] );
 	}
 
 	/**

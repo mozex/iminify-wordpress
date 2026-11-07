@@ -131,7 +131,8 @@ class Restorer {
 
 		$target = Paths::absolute( $source['file'] );
 
-		if ( Originals::BACKUP === $source['kind'] && ( ! Files::copy( $source['path'], $target ) || ! Backups::same( $source['path'], $target ) ) ) {
+		/* Another plugin's backup is copied, never moved: its own restore still needs it where it is. */
+		if ( in_array( $source['kind'], array( Originals::BACKUP, Originals::OTHER ), true ) && ( ! Files::copy( $source['path'], $target ) || ! Backups::same( $source['path'], $target ) ) ) {
 			Records::fail( $attachment, Records::ERROR, 'restore_failed', __( 'The original couldn\'t be put back, so the image stays as it was.', 'iminify-image-optimizer' ) );
 
 			return self::failed();

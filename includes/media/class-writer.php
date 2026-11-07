@@ -58,7 +58,7 @@ class Writer {
 	 * @param array<string, mixed> $group      The open group as its record keeps it.
 	 * @param array<string, mixed> $answer     The group as the service answered it.
 	 * @param string               $zip        The group's downloaded zip.
-	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, no_room: int}|WP_Error
+	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int}|WP_Error
 	 */
 	public static function write( int $attachment, array $group, array $answer, string $zip ) {
 		$declared = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
@@ -94,6 +94,7 @@ class Writer {
 		return array(
 			'outputs' => $put['outputs'],
 			'skipped' => $put['skipped'],
+			'kept'    => $put['kept'],
 			'no_room' => $put['no_room'],
 		);
 	}
@@ -112,7 +113,7 @@ class Writer {
 	 * @param array<string, mixed>                $copies   The record's `copies`.
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
 	 * @param string                              $type     The source's MIME type, every output's, for a file not on the disk.
-	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
+	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
 	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '' ) {
 		foreach ( $declared as $output ) {
@@ -138,6 +139,7 @@ class Writer {
 
 		$summary = array();
 		$made    = array();
+		$kept    = array();
 		$skipped = 0;
 		$no_room = 0;
 
@@ -159,7 +161,7 @@ class Writer {
 
 			/* A WebP or AVIF of that name another tool made beside the file, or rewrote since the plugin made it, stays its own: written over, it would read as the plugin's and go with a restore. */
 			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_own( $target, $own[ $write['file'] ] ?? null ) ) {
-				++$skipped;
+				$kept[] = $write['file'];
 				continue;
 			}
 
@@ -231,6 +233,7 @@ class Writer {
 		return array(
 			'outputs' => $summary,
 			'skipped' => $skipped,
+			'kept'    => $kept,
 			'no_room' => $no_room,
 			'written' => $written,
 			'copies'  => $copies,

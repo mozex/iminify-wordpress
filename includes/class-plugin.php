@@ -27,6 +27,7 @@ use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Folders\Hooks as Folder_Hooks;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Picture;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -57,6 +58,7 @@ class Plugin {
 		Upload::register();
 		Loopback::register();
 		Cli::register();
+		Others::register();
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( Privacy::class, 'register' ) );

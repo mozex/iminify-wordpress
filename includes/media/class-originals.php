@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,7 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * didn't write is the original as it stands, so an edited image (core names it
  * `photo-e1699999999999.jpg` and keeps the old `original_image`) is sent as
  * edited, and the pre-edit original is never sent in its place. An original
- * something deleted since has only its backup. An attached file in a format the
+ * something deleted since has only its backup. A file another optimizer
+ * compressed in place is never an original either: only the backup that plugin
+ * kept of it, where that backup passes its size check, and otherwise nothing. An attached file in a format the
  * service doesn't take (an AVIF, an SVG) has none: it is kept as it was uploaded.
  *
  * A file only in WP Offload Media's bucket is answered from what the metadata
@@ -40,6 +43,11 @@ class Originals {
 	const ORIGINAL = 'original';
 
 	const ATTACHED = 'attached';
+
+	/**
+	 * The backup another plugin kept of a file it compressed (`Switching\Others`).
+	 */
+	const OTHER = 'other';
 
 	/**
 	 * The file an attachment's outputs are made from, or null when it has none.
@@ -100,6 +108,21 @@ class Originals {
 				continue;
 			}
 
+			/* A file another plugin compressed is never an original; the backup that plugin kept of it is, once it passes that plugin's size check (`Switching\Others`). */
+			$theirs = Others::output( $attachment, $relative );
+
+			if ( null !== $theirs ) {
+				if ( null !== $theirs['backup'] && wp_get_image_mime( $theirs['backup'] ) === $type && self::fits( $attachment, $theirs['backup'], $max_bytes ) ) {
+					return array(
+						'path' => $theirs['backup'],
+						'kind' => self::OTHER,
+						'file' => $relative,
+					);
+				}
+
+				continue;
+			}
+
 			/* A backup of this file that another attachment's record keeps means the file is that one's output (a translation left on its holder's old file when the holder was edited), never an original. A file only in WP Offload Media's bucket is asked once it is brought back. */
 			if ( $here && self::backed_up_elsewhere( $attachment, $relative, $path ) ) {
 				continue;
@@ -140,6 +163,9 @@ class Originals {
 			if ( ! Offload_Media::bring_back( $attachment, $source['path'] ) ) {
 				return Offload_Media::unreachable();
 			}
+
+			/* What another optimizer left is read again with the file on the disk, where its bytes can be measured. */
+			Others::trace( $attachment, true );
 		}
 
 		return null;
