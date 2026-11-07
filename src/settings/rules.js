@@ -123,17 +123,19 @@ function Apache( { rules } ) {
 		case 'damaged':
 			return (
 				<Callout tone="warning">
-					{ withFile(
-						sprintf(
-							/* translators: %1$s: the name of the plugin's block in the file, such as "Iminify". */
-							__(
-								'<file /> holds the line # BEGIN %1$s without its # END %1$s line, so the plugin leaves the file alone. Put the line # END %1$s back after the block’s last </IfModule>, or delete every line of the block, then save again.',
-								'iminify-image-optimizer'
+					<p>
+						{ withFile(
+							sprintf(
+								/* translators: %1$s: the name of the plugin's block in the file, such as "Iminify". */
+								__(
+									'<file /> holds the line # BEGIN %1$s without its # END %1$s line, so the plugin leaves the file alone. Put the line # END %1$s back after the block’s last </IfModule>, or delete every line of the block, then save again.',
+									'iminify-image-optimizer'
+								),
+								rules.marker
 							),
-							rules.marker
-						),
-						rules.file
-					) }
+							rules.file
+						) }
+					</p>
 				</Callout>
 			);
 		case 'outside':

@@ -18,6 +18,7 @@
  *   translated  makes a translation of the image given (`{"id": N}`) as Polylang does, and a post showing it; prints its id, its holder and the post's address
  *   rules-lock  takes the write away from the site's .htaccess, so the settings page can't write the rules; prints the file's path
  *   rules-write  gives the write back and has the plugin sync the rules, as WP-CLI can write the file; prints where they stand and the file's text
+ *   leftovers  appends to the site's .htaccess the block EWWW left there, as it wrote it running; prints the file's path
  *   rules-file  prints the site's .htaccess, after Action Scheduler's start (which puts the rules back once the plugin is turned on again)
  *   replace    writes another picture over the main file of the image given (`{"id": N}`) and saves its new size, as Enable Media Replace does; prints the file's bytes
  *   outside    makes a folder in wp-content that isn't chosen, with an image and a WebP copy beside it; prints the image's address
@@ -26,6 +27,7 @@
  * @package Iminify\WordPress
  */
 
+use Iminify\WordPress\Delivery\Config_File;
 use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Scanner;
@@ -39,6 +41,7 @@ use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Leftovers;
 use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -71,6 +74,17 @@ switch ( $command ) {
 		}
 
 		Rules::remove();
+
+		/* A test that stopped before its press leaves EWWW's block, which would serve every copy beside an image. */
+		if ( is_file( (string) Rules::file() ) ) {
+			Config_File::edit(
+				(string) Rules::file(),
+				static function ( array $lines ): ?array {
+					return Leftovers::without( $lines, Leftovers::MARKERS['ewww'] );
+				}
+			);
+		}
+
 		update_option( 'active_plugins', array_values( array_diff( (array) get_option( 'active_plugins', array() ), array( 'wp-smushit/wp-smush.php' ) ) ) );
 		delete_option( Others::STAMP_OPTION );
 
@@ -428,6 +442,17 @@ switch ( $command ) {
 				'text'  => (string) file_get_contents( (string) Rules::file() ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- the site's own file.
 			)
 		) . "\n";
+		break;
+
+	case 'leftovers':
+		/* EWWW's block as it wrote it running, appended as its insert_with_markers() call does. */
+		$e2e_file = (string) Rules::file();
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- a fixture of the test suite.
+		$e2e_ewww = trim( (string) file_get_contents( dirname( __DIR__, 2 ) . '/fixtures/others/leftovers/ewww.htaccess' ) );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- the site's own file.
+		file_put_contents( $e2e_file, rtrim( (string) file_get_contents( $e2e_file ) ) . "\n\n" . $e2e_ewww );
+		update_option( 'active_plugins', array_values( array_diff( (array) get_option( 'active_plugins', array() ), array( 'ewww-image-optimizer/ewww-image-optimizer.php' ) ) ) );
+		echo wp_json_encode( array( 'file' => $e2e_file ) ) . "\n";
 		break;
 
 	case 'rules-file':

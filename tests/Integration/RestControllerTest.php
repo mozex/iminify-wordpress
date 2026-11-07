@@ -58,6 +58,7 @@ class RestControllerTest extends WP_UnitTestCase {
 			array( 'POST', '/copy' ),
 			array( 'POST', '/settings' ),
 			array( 'POST', '/notice' ),
+			array( 'DELETE', '/leftovers' ),
 		);
 
 		foreach ( array(
@@ -75,6 +76,7 @@ class RestControllerTest extends WP_UnitTestCase {
 						array(
 							'key'    => self::KEY,
 							'notice' => 'connect',
+							'id'     => 'ewww:root',
 						)
 					)->get_status(),
 					$role . ' ' . implode( ' ', $route )

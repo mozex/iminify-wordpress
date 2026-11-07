@@ -18,6 +18,7 @@ use Iminify\WordPress\Messages;
 use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Leftovers;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -48,6 +49,9 @@ class State {
 
 		/* Another optimizer acting on uploads holds every optimization back (W134), so the page says which and what to switch off. */
 		$state['conflict'] = Bulk_State::conflict();
+
+		/* Rules another optimizer left behind still serve its old copies (W136); they go only on the person's press. */
+		$state['leftovers'] = Leftovers::found();
 
 		return $state;
 	}

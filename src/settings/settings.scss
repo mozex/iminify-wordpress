@@ -44,6 +44,40 @@
 		min-width: 0;
 	}
 
+	.iminify-leftovers__list {
+		display: grid;
+		gap: 18px;
+		margin: 16px 0 0;
+		padding: 0;
+		list-style: none;
+
+		/* A plugin's block can run to fifty lines: it scrolls rather than fill the page. */
+		.iminify-code--block code {
+			max-height: 16.5em;
+			overflow-y: auto;
+		}
+	}
+
+	.iminify-leftovers__item {
+		display: grid;
+		gap: 8px;
+		min-width: 0;
+		margin: 0;
+		padding-top: 18px;
+		border-top: 1px solid var(--iminify-z200);
+
+		h3 {
+			margin: 0;
+			font-size: 14px;
+			font-weight: 600;
+		}
+
+		.iminify-text,
+		.iminify-actions {
+			margin: 0;
+		}
+	}
+
 	code {
 		padding: 1px 5px;
 		border-radius: 5px;

@@ -16,6 +16,7 @@ use Iminify\WordPress\Messages;
 use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Switching\Leftovers;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -76,6 +77,17 @@ class Rest_Controller {
 			)
 		);
 		$this->route( '/queue/start', WP_REST_Server::CREATABLE, 'start_queue' );
+		$this->route(
+			'/leftovers',
+			WP_REST_Server::DELETABLE,
+			'remove_leftover',
+			array(
+				'id' => array(
+					'type'     => 'string',
+					'required' => true,
+				),
+			)
+		);
 		$this->route(
 			'/notice',
 			WP_REST_Server::CREATABLE,
@@ -284,6 +296,19 @@ class Rest_Controller {
 		$started = Queue::start_now();
 
 		return is_wp_error( $started ) ? $this->refusal( $started ) : $this->answer( array( 'started' => $started ) );
+	}
+
+	/**
+	 * Takes out the rules another optimizer left that the page lists, by the id
+	 * the page was given, never a path: the server finds them again.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function remove_leftover( WP_REST_Request $request ) {
+		$removed = Leftovers::remove( (string) $request->get_param( 'id' ) );
+
+		return is_wp_error( $removed ) ? $removed : $this->answer( array( 'removed' => true ) );
 	}
 
 	/**

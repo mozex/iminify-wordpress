@@ -823,7 +823,7 @@ class Rules {
 
 	/**
 	 * Changes the site's `.htaccess` under the lock WordPress takes when it writes
-	 * its own rules there (`insert_with_markers()`), so neither write is lost.
+	 * its own rules there (`Config_File::edit()`), so neither write is lost.
 	 *
 	 * @param callable(list<string>): ?list<string> $change The file's lines changed, or null to leave it.
 	 * @return bool Whether the file now says what the change wanted.
@@ -831,53 +831,7 @@ class Rules {
 	protected static function edit( callable $change ): bool {
 		$file = self::file();
 
-		if ( null === $file || ! is_file( $file ) || ! wp_is_writable( $file ) ) {
-			return false;
-		}
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- read and written under one lock, as core's insert_with_markers() does with this file.
-		$handle = fopen( $file, 'r+' );
-
-		if ( false === $handle ) {
-			return false;
-		}
-
-		flock( $handle, LOCK_EX );
-
-		$text  = (string) stream_get_contents( $handle );
-		$lines = self::split( $text );
-		$new   = $change( $lines );
-		$done  = null !== $new;
-
-		/* Written over from the start and cut where it ends, as core does, so a write that fails leaves the old text rather than an empty file. */
-		if ( null !== $new && $new !== $lines ) {
-			$text = implode( "\n", $new );
-
-			rewind( $handle );
-			$written = fwrite( $handle, $text ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- under the lock taken above.
-			$done    = strlen( $text ) === $written;
-
-			/* A short write (a full disk) leaves a cut-off file the server would refuse: the old text goes back. */
-			if ( ! $done ) {
-				$old = implode( "\n", $lines );
-
-				rewind( $handle );
-				fwrite( $handle, $old ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- the old text put back, under the same lock.
-				fflush( $handle );
-				ftruncate( $handle, strlen( $old ) );
-			}
-
-			$end = ftell( $handle );
-
-			if ( $done && false !== $end ) {
-				$done = fflush( $handle ) && ftruncate( $handle, max( 0, $end ) );
-			}
-		}
-
-		flock( $handle, LOCK_UN );
-		fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- the handle opened above.
-
-		return $done;
+		return null !== $file && Config_File::edit( $file, $change );
 	}
 
 	/**
@@ -887,25 +841,7 @@ class Rules {
 	 * @return list<string>
 	 */
 	protected static function read( string $file ): array {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- a local file, the site's .htaccess.
-		$text = file_get_contents( $file );
-
-		return self::split( false === $text ? '' : $text );
-	}
-
-	/**
-	 * Text as lines, without their line endings.
-	 *
-	 * @param string $text The text.
-	 * @return list<string>
-	 */
-	protected static function split( string $text ): array {
-		return array_map(
-			static function ( string $line ): string {
-				return rtrim( $line, "\r" );
-			},
-			explode( "\n", $text )
-		);
+		return Config_File::lines( $file );
 	}
 
 	/**

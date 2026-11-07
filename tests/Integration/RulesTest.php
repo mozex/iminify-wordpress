@@ -222,6 +222,20 @@ class RulesTest extends WP_UnitTestCase {
 		$this->assertNull( State::build()['rules'] );
 	}
 
+	public function test_a_file_with_windows_line_endings_keeps_them_on_the_lines_the_rules_leave(): void {
+		$crlf = str_replace( "\n", "\r\n", self::HOTLINK . "\n\n" . self::WORDPRESS . "\n" );
+		$this->htaccess( $crlf );
+
+		Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_RULES ) );
+		$this->assertSame( 'written', Rules::where() );
+		/* After the file's own lines on a single site, above WordPress's on a network: each block keeps its endings either way. */
+		$this->assertStringContainsString( str_replace( "\n", "\r\n", self::HOTLINK . "\n" ), $this->htaccess() );
+		$this->assertStringContainsString( str_replace( "\n", "\r\n", self::WORDPRESS . "\n" ), $this->htaccess() );
+
+		Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_PICTURE ) );
+		$this->assertSame( $crlf, $this->htaccess() );
+	}
+
 	public function test_turning_the_plugin_off_takes_the_rules_out_and_turning_it_on_puts_them_back(): void {
 		Local_Settings::update( array( 'delivery' => Local_Settings::DELIVERY_RULES ) );
 		$written = $this->htaccess();

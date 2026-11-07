@@ -16,6 +16,7 @@ import { call, openTab } from './api';
 import Account, { DisconnectConfirm, disconnecting } from './account';
 import { Connect, Pairing, PasteKey } from './connect';
 import { JoinNetwork, NetworkManaged, NetworkSites } from './network';
+import Leftovers, { shownLeftovers } from './leftovers';
 import Queue from './queue';
 import SettingsForm from './settings-form';
 import {
@@ -381,6 +382,31 @@ export default function App( { scope } ) {
 							onDisconnect={ disconnect }
 						/>
 					) }
+
+					<Leftovers
+						leftovers={ shownLeftovers( state, networkPage ) }
+						network={ Boolean( state.network ) }
+						busy={ busy }
+						onRemove={ ( leftover ) =>
+							run( '/leftovers', 'DELETE', { id: leftover.id } )
+								.then( () => {
+									toast(
+										'nginx' === leftover.kind
+											? __(
+													'The lines are removed. Reload Nginx so it stops serving them.',
+													'iminify-image-optimizer'
+												)
+											: __(
+													'The lines are removed.',
+													'iminify-image-optimizer'
+												)
+									);
+
+									return true;
+								} )
+								.catch( () => false )
+						}
+					/>
 				</div>
 
 				<div className="iminify-col">
