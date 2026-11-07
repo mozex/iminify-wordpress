@@ -64,6 +64,54 @@ class Smush extends Reader {
 	}
 
 	/**
+	 * Its settings, its resize box and its sizes, three options.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'wp-smush-settings'     => array( 'lossy', 'resize', 'strip_exif', 'backup' ),
+			'wp-smush-resize_sizes' => array( 'width' ),
+			'wp-smush-image_sizes'  => null,
+		);
+	}
+
+	/**
+	 * As Smush reads them on a network: the network's, unless the network hands
+	 * its bulk settings down to each site (`wp-smush-networkwide` all, or a list
+	 * naming `bulk`). Then the site's settings lie over the network's, and its
+	 * resize box and sizes are its own, else the network's.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function settings(): array {
+		if ( ! is_multisite() ) {
+			return parent::settings();
+		}
+
+		$controls = get_site_option( 'wp-smush-networkwide' );
+		$handed   = ! empty( $controls ) && ( ! is_array( $controls ) || in_array( 'bulk', $controls, true ) );
+		$settings = array();
+
+		foreach ( $this->setting_options() as $option => $keys ) {
+			$value = self::only( get_site_option( $option, self::MISSING ), $keys );
+			$own   = $handed ? self::only( get_option( $option, self::MISSING ), $keys ) : self::MISSING;
+
+			if ( 'wp-smush-settings' === $option && is_array( $own ) ) {
+				$own = array_merge( is_array( $value ) ? $value : array(), $own );
+			}
+
+			$value = self::MISSING !== $own ? $own : $value;
+
+			if ( self::MISSING !== $value ) {
+				$settings[ $option ] = $value;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Its record of any image, or the pointer to a backup it takes before its first
 	 * step, which a run it never finished leaves alone (W249).
 	 */

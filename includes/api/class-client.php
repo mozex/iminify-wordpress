@@ -110,6 +110,18 @@ class Client {
 	}
 
 	/**
+	 * Asks Iminify which of the site's settings another optimizer's settings
+	 * match. It changes nothing: the answer's `settings` go back through
+	 * `update_site()` once someone confirms them.
+	 *
+	 * @param array{plugin: string, settings: array<string, mixed>, sizes: list<string>} $import The plugin's short name, its options as `Reader::settings()` names them, and the image sizes the site registers.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function import_settings( array $import ) {
+		return $this->data( $this->request( 'POST', 'site/import', array( 'json' => $import ) ) );
+	}
+
+	/**
 	 * Moves the site's connection to the address this copy runs at, after a `site_moved`.
 	 *
 	 * @return array<string, mixed>|WP_Error

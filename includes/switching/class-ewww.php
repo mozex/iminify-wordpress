@@ -72,6 +72,38 @@ class Ewww extends Reader {
 		return ! get_option( 'ewww_image_optimizer_noauto' ) && ! ( is_multisite() && get_site_option( 'ewww_image_optimizer_noauto' ) );
 	}
 
+	/**
+	 * One option per setting; its cloud key is never one of them.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'ewww_image_optimizer_jpg_level'           => null,
+			'ewww_image_optimizer_maxmediawidth'       => null,
+			'ewww_image_optimizer_metadata_remove'     => null,
+			'ewww_image_optimizer_webp'                => null,
+			'ewww_image_optimizer_disable_resizes_opt' => null,
+			'ewww_image_optimizer_backup_files'        => null,
+		);
+	}
+
+	/**
+	 * As EWWW reads its options: the network's while it is active for the network
+	 * and the network lets no site override them, else the site's; the sizes it
+	 * leaves alone are always the site's own.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function stored( string $option ) {
+		if ( 'ewww_image_optimizer_disable_resizes_opt' === $option || ( $this->network_active() && get_site_option( 'ewww_image_optimizer_allow_multisite_override' ) ) ) {
+			return get_option( $option, self::MISSING );
+		}
+
+		return $this->across_network( $option );
+	}
+
 	protected function holds_records(): bool {
 		global $wpdb;
 

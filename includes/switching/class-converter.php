@@ -69,6 +69,27 @@ class Converter extends Reader {
 		return ! is_array( $settings ) || ! array_key_exists( 'auto_conversion', $settings ) || ! empty( $settings['auto_conversion'] );
 	}
 
+	/**
+	 * One array option, which also holds its access token.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'webpc_settings' => array( 'features', 'output_formats' ),
+		);
+	}
+
+	/**
+	 * One option for the whole network on a multisite.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function stored( string $option ) {
+		return is_multisite() ? get_site_option( $option, self::MISSING ) : get_option( $option, self::MISSING );
+	}
+
 	public function compresses(): bool {
 		return false;
 	}

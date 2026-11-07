@@ -109,6 +109,40 @@ class Litespeed extends Reader {
 		return null !== $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}litespeed_img_optming LIMIT 1" );
 	}
 
+	/**
+	 * Only once it optimized images here, or optimizes uploads by itself: it
+	 * writes every default on install, and most sites keep it for its cache.
+	 */
+	public function settings_chosen(): bool {
+		return $this->present() || ! empty( get_option( 'litespeed.conf.img_optm-auto' ) );
+	}
+
+	/**
+	 * One option per setting, booleans as `'1'` or empty and lists as JSON, sent as stored.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'litespeed.conf.img_optm-ori'           => null,
+			'litespeed.conf.img_optm-lossless'      => null,
+			'litespeed.conf.img_optm-exif'          => null,
+			'litespeed.conf.img_optm-webp'          => null,
+			'litespeed.conf.img_optm-rm_bkup'       => null,
+			'litespeed.conf.img_optm-sizes_skipped' => null,
+		);
+	}
+
+	/**
+	 * Its WebP setting is the network's while it is active for the network.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function stored( string $option ) {
+		return 'litespeed.conf.img_optm-webp' === $option ? $this->across_network( $option ) : get_option( $option, self::MISSING );
+	}
+
 	protected function holds_records(): bool {
 		return self::meta_exists( self::META );
 	}

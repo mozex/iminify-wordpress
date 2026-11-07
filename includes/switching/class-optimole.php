@@ -50,6 +50,17 @@ class Optimole extends Reader {
 		return 'enabled' === self::setting( 'optml_settings', 'offload_media', 'disabled' ) && 'enabled' !== self::setting( 'optml_settings', 'offload_limit_reached', 'disabled' );
 	}
 
+	/**
+	 * One array option, which also holds its API key.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'optml_settings' => array( 'autoquality', 'quality', 'limit_dimensions', 'limit_width', 'strip_metadata', 'best_format', 'avif' ),
+		);
+	}
+
 	public function compresses(): bool {
 		return false;
 	}

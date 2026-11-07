@@ -19,6 +19,7 @@ use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Leftovers;
+use Iminify\WordPress\Switching\Settings_Copy;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,6 +53,9 @@ class State {
 
 		/* Rules another optimizer left behind still serve its old copies (W136); they go only on the person's press. */
 		$state['leftovers'] = Leftovers::found();
+
+		/* Another optimizer's settings the page offers to use (D11), once the site is connected. */
+		$state['imports'] = Settings_Copy::offers();
 
 		return $state;
 	}

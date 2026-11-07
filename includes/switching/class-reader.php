@@ -36,6 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Reader {
 
 	/**
+	 * What an option the plugin never saved reads as, told apart from one it saved empty.
+	 */
+	const MISSING = "\0iminify:missing";
+
+	/**
 	 * Whether the site holds any of the plugin's records, asked once a request.
 	 *
 	 * @var array<string, bool>
@@ -467,6 +472,134 @@ abstract class Reader {
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS total, MAX(meta_id) AS newest FROM {$wpdb->postmeta} WHERE meta_key IN ({$in})", $keys ), ARRAY_A );
 
 		return is_array( $row ) ? $row['total'] . '.' . $row['newest'] : '';
+	}
+
+	/**
+	 * The plugin's settings as Iminify's settings import takes them (W278): each
+	 * option the import maps, by name, as the plugin keeps it, an array option cut
+	 * to the keys the import reads, so the API key or token another service keeps
+	 * beside them never leaves the site. An option the plugin never saved is left
+	 * out, so the import proposes nothing for it rather than that plugin's default.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function settings(): array {
+		$settings = array();
+
+		foreach ( $this->setting_options() as $option => $keys ) {
+			$value = self::only( $this->stored( $option ), $keys );
+
+			if ( self::MISSING !== $value ) {
+				$settings[ $option ] = $value;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Whether the plugin's settings say how someone wanted their images
+	 * optimized, so the page may offer them. A plugin installed for something
+	 * else (LiteSpeed Cache, kept for its page cache) writes its image defaults
+	 * on install, which nobody chose.
+	 */
+	public function settings_chosen(): bool {
+		return true;
+	}
+
+	/**
+	 * The options the settings import maps, each with the keys an array option is
+	 * cut to, or null for an option sent as it is stored (a value, or a list or
+	 * map of image size names).
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array();
+	}
+
+	/**
+	 * An option as the plugin reads it on this site, or `MISSING`.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function stored( string $option ) {
+		return get_option( $option, self::MISSING );
+	}
+
+	/**
+	 * An option the plugin keeps for the whole network while it is active for the
+	 * network, or `MISSING`. Turned off, nothing says any more whether it was, so
+	 * the site's own is read, else the network's.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function across_network( string $option ) {
+		if ( ! is_multisite() ) {
+			return get_option( $option, self::MISSING );
+		}
+
+		if ( $this->network_active() ) {
+			return get_site_option( $option, self::MISSING );
+		}
+
+		$own = get_option( $option, self::MISSING );
+
+		return self::MISSING !== $own || $this->active() ? $own : get_site_option( $option, self::MISSING );
+	}
+
+	/**
+	 * Whether the plugin is active for the whole network.
+	 */
+	protected function network_active(): bool {
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		$wide = (array) get_site_option( 'active_sitewide_plugins', array() );
+
+		foreach ( $this->basenames() as $basename ) {
+			if ( isset( $wide[ $basename ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * A stored option as the import may see it: an array option holds only the
+	 * keys given, and reads as `MISSING` when none of them is there; one saved
+	 * empty in its place (an unticked group of boxes) is sent as it is; any other
+	 * value, and an object where a value or a list belongs, is left out, since
+	 * nothing says what it holds.
+	 *
+	 * @param mixed             $value The stored value, or `MISSING`.
+	 * @param list<string>|null $keys  The keys of an array option, or null.
+	 * @return mixed
+	 */
+	protected static function only( $value, ?array $keys ) {
+		if ( self::MISSING === $value ) {
+			return $value;
+		}
+
+		if ( null === $keys ) {
+			return is_object( $value ) ? self::MISSING : $value;
+		}
+
+		if ( is_object( $value ) ) {
+			$value = get_object_vars( $value );
+		}
+
+		if ( is_array( $value ) ) {
+			$value = array_intersect_key( $value, array_flip( $keys ) );
+
+			return array() === $value ? self::MISSING : $value;
+		}
+
+		return '' === $value || false === $value || null === $value ? $value : self::MISSING;
 	}
 
 	/**

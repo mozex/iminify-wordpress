@@ -65,6 +65,27 @@ class Imagify extends Reader {
 		return $key && ( ! array_key_exists( 'auto_optimize', $from ) || ! empty( $from['auto_optimize'] ) );
 	}
 
+	/**
+	 * One array option, beside its API key, which stays out.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'imagify_settings' => array( 'lossless', 'optimization_level', 'resize_larger', 'resize_larger_w', 'optimization_format', 'disallowed-sizes', 'backup' ),
+		);
+	}
+
+	/**
+	 * The network's settings while it is active for the network.
+	 *
+	 * @param string $option The option's name.
+	 * @return mixed
+	 */
+	protected function stored( string $option ) {
+		return $this->across_network( $option );
+	}
+
 	protected function holds_records(): bool {
 		return self::meta_exists( array( '_imagify_data' ) );
 	}

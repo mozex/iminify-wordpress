@@ -10,11 +10,12 @@
  * without changing it; another site's joins the network or connects on its own.
  */
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 
 import { call, openTab } from './api';
 import Account, { DisconnectConfirm, disconnecting } from './account';
 import { Connect, Pairing, PasteKey } from './connect';
+import Imports from './imports';
 import { JoinNetwork, NetworkManaged, NetworkSites } from './network';
 import Leftovers, { shownLeftovers } from './leftovers';
 import Queue from './queue';
@@ -71,6 +72,10 @@ export default function App( { scope } ) {
 	const [ state, setState ] = useState( null );
 	const [ busy, setBusy ] = useState( false );
 	const [ error, setError ] = useState( null );
+	/* What Iminify proposed for another optimizer's settings, until it is used or put aside. */
+	const [ importing, setImporting ] = useState( null );
+	/* Bumped once another optimizer's settings are used, so the form starts again from them. */
+	const [ formVersion, setFormVersion ] = useState( 0 );
 	const { toasts, toast, dismiss } = useToasts();
 	const claimTimer = useRef( null );
 
@@ -192,6 +197,37 @@ export default function App( { scope } ) {
 					} );
 				}
 			} )
+			.catch( () => {} );
+
+	const importFrom = ( offer ) =>
+		run( '/import', 'POST', { plugin: offer.plugin } )
+			.then( ( next ) => setImporting( next.import ?? null ) )
+			.catch( () => {} );
+
+	const applyImport = ( offer ) =>
+		run( '/import/use', 'POST', { plugin: offer.plugin } )
+			.then( ( next ) => {
+				setImporting( null );
+
+				if ( next.used ) {
+					setFormVersion( ( version ) => version + 1 );
+					toast(
+						sprintf(
+							/* translators: %s: another image optimizer's name. */
+							__(
+								'This site now uses %s’s settings.',
+								'iminify-image-optimizer'
+							),
+							next.used
+						)
+					);
+				}
+			} )
+			.catch( () => {} );
+
+	const declineImport = ( offer ) =>
+		run( '/import', 'DELETE', { plugin: offer.plugin } )
+			.then( () => setImporting( null ) )
 			.catch( () => {} );
 
 	const join = () =>
@@ -350,9 +386,25 @@ export default function App( { scope } ) {
 						/>
 					) }
 
+					{ ! networkPage && connected && (
+						<Imports
+							offers={ state.imports ?? [] }
+							preview={ importing }
+							busy={ busy }
+							onPreview={ importFrom }
+							onUse={ applyImport }
+							onDecline={ declineImport }
+							onCancel={ () => setImporting( null ) }
+						/>
+					) }
+
 					{ ! networkPage && (
 						<SettingsForm
-							key={ connected ? 'connected' : 'local' }
+							key={
+								connected
+									? `connected-${ formVersion }`
+									: 'local'
+							}
 							state={ state }
 							busy={ busy }
 							errors={ error?.errors ?? {} }

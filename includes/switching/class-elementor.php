@@ -99,6 +99,23 @@ class Elementor extends Reader {
 		return null !== $wpdb->get_var( $wpdb->prepare( "SELECT umeta_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value <> '' LIMIT 1", 'image_optimizer_access_token' ) );
 	}
 
+	/**
+	 * Seven options of its own, never its access token or its connection's data.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'image_optimizer_compression_level'         => null,
+			'image_optimizer_resize_larger_images'      => null,
+			'image_optimizer_resize_larger_images_size' => null,
+			'image_optimizer_exif_metadata'             => null,
+			'image_optimizer_original_images'           => null,
+			'image_optimizer_convert_to_format'         => null,
+			'image_optimizer_custom_sizes'              => null,
+		);
+	}
+
 	protected function holds_records(): bool {
 		return self::meta_exists( array( self::META ) );
 	}

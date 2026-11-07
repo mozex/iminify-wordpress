@@ -43,6 +43,7 @@ use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Leftovers;
 use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Switching\Settings_Copy;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -87,6 +88,11 @@ switch ( $command ) {
 
 		update_option( 'active_plugins', array_values( array_diff( (array) get_option( 'active_plugins', array() ), array( 'wp-smushit/wp-smush.php' ) ) ) );
 		delete_option( Others::STAMP_OPTION );
+		delete_option( Settings_Copy::OPTION );
+
+		foreach ( array( 'ewww_image_optimizer_jpg_level', 'ewww_image_optimizer_maxmediawidth', 'ewww_image_optimizer_metadata_remove', 'ewww_image_optimizer_webp', 'ewww_image_optimizer_disable_resizes_opt', 'ewww_image_optimizer_backup_files' ) as $e2e_option ) {
+			delete_option( $e2e_option );
+		}
 
 		foreach ( array( 'iminify-e2e-outside/out.jpg', 'iminify-e2e-outside/out.jpg.webp' ) as $e2e_outside ) {
 			wp_delete_file( WP_CONTENT_DIR . '/' . $e2e_outside );
@@ -166,6 +172,15 @@ switch ( $command ) {
 			)
 		);
 		echo "smushed\n";
+		break;
+
+	case 'ewww-settings':
+		/* EWWW's settings as it keeps them, one option each, with EWWW itself gone. */
+		update_option( 'ewww_image_optimizer_jpg_level', '20' );
+		update_option( 'ewww_image_optimizer_maxmediawidth', '1920' );
+		update_option( 'ewww_image_optimizer_webp', '1' );
+		update_option( 'ewww_image_optimizer_backup_files', '' );
+		echo "ewww-settings\n";
 		break;
 
 	case 'acting':

@@ -70,6 +70,17 @@ class Modern_Formats extends Reader {
 	}
 
 	/**
+	 * The format it makes, saved only once someone saves Settings, Media.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'perflab_modern_image_format' => null,
+		);
+	}
+
+	/**
 	 * The plugin itself, its fallback setting (which only its uninstall deletes), or
 	 * an attachment it left: one that still says JPEG or PNG while its file is AVIF
 	 * or WebP. Its format setting is stored only when someone saves its settings.

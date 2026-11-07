@@ -28,6 +28,7 @@ use Iminify\WordPress\Folders\Hooks as Folder_Hooks;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Picture;
 use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Switching\Settings_Copy;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -59,6 +60,7 @@ class Plugin {
 		Loopback::register();
 		Cli::register();
 		Others::register();
+		Settings_Copy::register();
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( Privacy::class, 'register' ) );

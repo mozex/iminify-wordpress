@@ -69,6 +69,7 @@ Once the site is connected, the plugin sends Iminify, from your site's server:
 * on a multisite network connected as one, each site's home address and name, with the network's key, the first time that site needs Iminify, so it gets a key of its own;
 * how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;
+* when you press "Use <plugin>'s settings" on the settings page, the settings another image optimizer kept on your site (only those Iminify has a match for, never that optimizer's own keys or tokens), that optimizer's name and the names of the image sizes your site makes. Iminify answers with the settings they match and keeps none of it, and nothing changes until you confirm them;
 * a request that stops the site's key, when you press Disconnect or delete the plugin (not for a key set in wp-config.php).
 
 Nothing about your site's visitors is sent: the images on your pages, and their WebP and AVIF copies, are served from your site. The plugin suggests text for your privacy policy under Settings, Privacy.

@@ -27,6 +27,7 @@ use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
 use Iminify\WordPress\Switching\Modern_Formats;
 use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Switching\Settings_Copy;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -85,6 +86,7 @@ class Lifecycle {
 		Caches::OWED,
 		Rules::CHECK_OPTION,
 		Others::STAMP_OPTION,
+		Settings_Copy::OPTION,
 		self::ACTIVATED_OPTION,
 	);
 

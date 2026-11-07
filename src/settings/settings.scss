@@ -91,3 +91,35 @@
 		font-weight: 600;
 	}
 }
+
+/* Another optimizer's settings beside the values now (`imports.js`). */
+.iminify-import {
+	dd {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 4px 8px;
+	}
+}
+
+.iminify-import__now {
+	font-weight: 400;
+	color: var(--iminify-z500);
+}
+
+.iminify-import__arrow {
+	display: inline-flex;
+	color: var(--iminify-z400);
+
+	svg {
+		width: 14px;
+		height: 14px;
+	}
+}
+
+.iminify-import__same {
+	font-size: 12px;
+	font-weight: 400;
+	color: var(--iminify-z500);
+}

@@ -1,0 +1,16 @@
+{
+    "data": {
+        "plugin": "ewww",
+        "settings": {
+            "level": "lossless",
+            "webp": true,
+            "max_width": 1920,
+            "keep_metadata": false,
+            "sizes": [
+                "thumbnail",
+                "medium"
+            ]
+        },
+        "backups": false
+    }
+}

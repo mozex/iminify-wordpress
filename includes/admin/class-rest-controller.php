@@ -17,6 +17,8 @@ use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Leftovers;
+use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Switching\Settings_Copy;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -77,6 +79,17 @@ class Rest_Controller {
 			)
 		);
 		$this->route( '/queue/start', WP_REST_Server::CREATABLE, 'start_queue' );
+
+		$plugin = array(
+			'plugin' => array(
+				'type'     => 'string',
+				'required' => true,
+			),
+		);
+
+		$this->route( '/import', WP_REST_Server::CREATABLE, 'preview_import', $plugin );
+		$this->route( '/import/use', WP_REST_Server::CREATABLE, 'use_import', $plugin );
+		$this->route( '/import', WP_REST_Server::DELETABLE, 'decline_import', $plugin );
 		$this->route(
 			'/leftovers',
 			WP_REST_Server::DELETABLE,
@@ -121,6 +134,9 @@ class Rest_Controller {
 	 * The page's state.
 	 */
 	public function state(): WP_REST_Response {
+		/* The page opening is when the plugin looks at another optimizer's settings (W138); its other answers read the copy. */
+		Settings_Copy::take_all();
+
 		return $this->answer();
 	}
 
@@ -296,6 +312,67 @@ class Rest_Controller {
 		$started = Queue::start_now();
 
 		return is_wp_error( $started ) ? $this->refusal( $started ) : $this->answer( array( 'started' => $started ) );
+	}
+
+	/**
+	 * "Use <plugin>'s settings": what Iminify proposes for another optimizer's
+	 * settings, answered in `import` beside the values now. Nothing changes yet.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function preview_import( WP_REST_Request $request ) {
+		$slug     = (string) $request->get_param( 'plugin' );
+		$proposal = Settings_Import::preview( $slug );
+
+		if ( is_wp_error( $proposal ) ) {
+			return $this->revoked_or_refused( $proposal );
+		}
+
+		$state = State::build();
+
+		return new WP_REST_Response( array_merge( $state, array( 'import' => Settings_Import::view( $slug, $proposal, $state ) ) ) );
+	}
+
+	/**
+	 * Uses the settings Iminify proposed, answering in `used` the plugin's name.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function use_import( WP_REST_Request $request ) {
+		$slug = (string) $request->get_param( 'plugin' );
+		$used = Settings_Import::apply( $slug );
+
+		return is_wp_error( $used ) ? $this->revoked_or_refused( $used ) : $this->answer( array( 'used' => Others::name( $slug ) ) );
+	}
+
+	/**
+	 * Turns the offer down.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function decline_import( WP_REST_Request $request ): WP_REST_Response {
+		Settings_Import::decline( (string) $request->get_param( 'plugin' ) );
+
+		return $this->answer();
+	}
+
+	/**
+	 * A key Iminify no longer knows disconnects the site, which the page's state
+	 * then shows; any other refusal is shown as it is.
+	 *
+	 * @param WP_Error $error The refusal.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	protected function revoked_or_refused( WP_Error $error ) {
+		if ( 'unauthenticated' === $error->get_error_code() ) {
+			( new Connection() )->revoked_by_service( $error );
+
+			return $this->answer();
+		}
+
+		return $this->refusal( $error );
 	}
 
 	/**

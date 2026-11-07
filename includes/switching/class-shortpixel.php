@@ -40,6 +40,11 @@ class Shortpixel extends Reader {
 	const BACKUP_FOLDER = 'ShortpixelBackups';
 
 	/**
+	 * The keys of `spio_settings` Iminify's settings import maps.
+	 */
+	const SETTING_KEYS = array( 'compressionType', 'resizeImages', 'resizeType', 'resizeWidth', 'exif', 'createWebp', 'createAvif', 'processThumbnails', 'excludeSizes', 'backupImages' );
+
+	/**
 	 * The rows read for a page, by site and attachment.
 	 *
 	 * @var array<string, list<array<string, mixed>>>
@@ -75,6 +80,56 @@ class Shortpixel extends Reader {
 		$key  = defined( 'SHORTPIXEL_API_KEY' ) || ! empty( self::setting( 'spio_key', 'verifiedKey', false ) ) || ! empty( get_option( 'wp-short-pixel-verifiedKey' ) );
 
 		return ! empty( $auto ) && $key;
+	}
+
+	/**
+	 * One array option; its API key lives in another.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'spio_settings' => self::SETTING_KEYS,
+		);
+	}
+
+	/**
+	 * The site's settings, or the network's while the network's override is on.
+	 * ShortPixel then reads every setting from the network, a setting the
+	 * network never saved as its own default, so the site's value is left out
+	 * rather than sent for it; only the resize mode, whose default is none,
+	 * still comes from the site.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function settings(): array {
+		$settings = parent::settings();
+		$network  = is_multisite() ? get_site_option( 'spio_wpmu' ) : false;
+
+		if ( ! is_array( $network ) || empty( $network['network_settings_override_enabled'] ) ) {
+			return $settings;
+		}
+
+		$cut = self::only( $network, self::SETTING_KEYS );
+		$set = is_array( $cut ) ? array_filter(
+			$cut,
+			static function ( $value ): bool {
+				return null !== $value;
+			}
+		) : array();
+		$own = $settings['spio_settings'] ?? null;
+
+		if ( ! isset( $set['resizeType'] ) && is_array( $own ) && isset( $own['resizeType'] ) ) {
+			$set['resizeType'] = $own['resizeType'];
+		}
+
+		unset( $settings['spio_settings'] );
+
+		if ( array() !== $set ) {
+			$settings['spio_settings'] = $set;
+		}
+
+		return $settings;
 	}
 
 	protected function holds_records(): bool {

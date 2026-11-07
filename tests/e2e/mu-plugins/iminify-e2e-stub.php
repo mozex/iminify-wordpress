@@ -93,6 +93,10 @@ add_filter(
 			return $answer( 200, $site() );
 		}
 
+		if ( 'POST' === $method && 'site/import' === $path ) {
+			return $answer( 200, $fixture( 'site-import' ) );
+		}
+
 		if ( 'DELETE' === $method && 'site' === $path ) {
 			return $answer( 204, null );
 		}

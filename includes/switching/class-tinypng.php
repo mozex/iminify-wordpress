@@ -65,6 +65,21 @@ class Tinypng extends Reader {
 		return $key && 'manual' !== $timing;
 	}
 
+	/**
+	 * One option per setting; its API key is another.
+	 *
+	 * @return array<string, list<string>|null>
+	 */
+	protected function setting_options(): array {
+		return array(
+			'tinypng_sizes'           => null,
+			'tinypng_resize_original' => array( 'enabled', 'width' ),
+			'tinypng_preserve_data'   => array( 'copyright', 'creation', 'location' ),
+			'tinypng_convert_format'  => array( 'convert', 'convert_to' ),
+			'tinypng_backup'          => array( 'enabled' ),
+		);
+	}
+
 	protected function holds_records(): bool {
 		return self::meta_exists( array( self::META, self::LEGACY_META ) );
 	}
