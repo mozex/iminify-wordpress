@@ -289,7 +289,7 @@ class Others {
 	 */
 	protected static function remembered( int $attachment ): ?array {
 		$record = Records::get( $attachment );
-		$other  = Records::OTHER === $record['status'] ? $record['other'] : null;
+		$other  = Records::OTHER === $record['status'] || $record['redo'] ? $record['other'] : null;
 
 		if ( null === $other ) {
 			return null;
@@ -692,6 +692,34 @@ class Others {
 		ksort( $counts );
 
 		return $counts;
+	}
+
+	/**
+	 * A page of the images the plugin records as another plugin's with an original
+	 * kept, in the order of their ids: what a run optimizing them again from those
+	 * originals looks at (`Bulk::REDO`), each asked again before it is sent.
+	 *
+	 * @param int $limit How many at most.
+	 * @param int $after The id to start after.
+	 * @return list<int>
+	 */
+	public static function with_original( int $limit, int $after ): array {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a background read by the meta_key index.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT m.post_id FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} p ON p.ID = m.post_id AND p.post_status <> 'trash' WHERE m.meta_key = %s AND m.meta_value LIKE %s AND m.post_id > %d ORDER BY m.post_id ASC LIMIT %d", Records::OTHER_META, '%:1', $after, $limit ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * How many images `with_original()` finds.
+	 */
+	public static function count_with_original(): int {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a count by the meta_key index, on the plugin's own page.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} p ON p.ID = m.post_id AND p.post_status <> 'trash' WHERE m.meta_key = %s AND m.meta_value LIKE %s", Records::OTHER_META, '%:1' ) );
 	}
 
 	/**

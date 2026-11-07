@@ -73,9 +73,15 @@ class Bulk {
 	const SIZES = Missing::SIZES;
 
 	/**
+	 * The images another optimizer compressed, optimized again from the originals it
+	 * kept: each is put back from its original in its own run, then sent (D11).
+	 */
+	const REDO = 'redo';
+
+	/**
 	 * Every action a run can have.
 	 */
-	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES );
+	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES, self::REDO );
 
 	/**
 	 * What a run takes: the media library's images, or the files in the chosen folders.
@@ -158,7 +164,7 @@ class Bulk {
 	/**
 	 * The run, or null when there has been none.
 	 *
-	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, rewind: bool, only: list<int>|null, cursor: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, rewind: bool, only: list<int>|null, cursor: int, seen: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
 	 */
 	public static function run(): ?array {
 		$run = get_option( self::OPTION );
@@ -176,6 +182,7 @@ class Bulk {
 			'rewind'  => ! empty( $run['rewind'] ),
 			'only'    => isset( $run['only'] ) && is_array( $run['only'] ) ? array_values( array_map( 'intval', $run['only'] ) ) : null,
 			'cursor'  => (int) ( $run['cursor'] ?? 0 ),
+			'seen'    => (int) ( $run['seen'] ?? 0 ),
 			'total'   => (int) ( $run['total'] ?? 0 ),
 			'sent'    => (int) ( $run['sent'] ?? 0 ),
 			'failed'  => (int) ( $run['failed'] ?? 0 ),
@@ -269,6 +276,7 @@ class Bulk {
 				'reason'  => null,
 				'only'    => $only,
 				'cursor'  => 0,
+				'seen'    => 0,
 				'total'   => $total,
 				'sent'    => 0,
 				'failed'  => 0,
@@ -336,8 +344,9 @@ class Bulk {
 
 	/**
 	 * Ends the run. The images it queued that have no group open yet go back to
-	 * "not optimized" with nothing counted; a group already open goes on, since
-	 * its image is counted.
+	 * "not optimized" with nothing counted, or, for a redo, to the plugin that
+	 * optimized them while they aren't put back yet (W254); a group already open
+	 * goes on, since its image is counted.
 	 */
 	public static function stop(): void {
 		$run = self::run();
@@ -380,8 +389,9 @@ class Bulk {
 
 	/**
 	 * Takes back the images a stopped run queued that have no group open yet:
-	 * each reads not optimized again, with nothing counted, and one sent for what
-	 * it lacks goes back to what it was.
+	 * each reads not optimized again, with nothing counted, one sent for what it
+	 * lacks goes back to what it was, and one sent to be optimized again from
+	 * another plugin's original and not put back yet stays that plugin's.
 	 */
 	protected static function take_back_images(): void {
 		$after = 0;
@@ -402,6 +412,15 @@ class Bulk {
 				/* An image sent for what it lacks goes back to what it was: nothing happened to it. */
 				if ( null !== $record['fill'] ) {
 					Records::end_fill( $id );
+					continue;
+				}
+
+				/* One sent to be optimized again from another plugin's original, not put back yet, is still that plugin's. */
+				$theirs = $record['redo'] ? Others::why( $id, true ) : null;
+
+				if ( null !== $theirs ) {
+					Records::update( $id, array( 'redo' => false ) );
+					Others::mark( $id, $theirs['other'] );
 					continue;
 				}
 
@@ -584,6 +603,27 @@ class Bulk {
 	}
 
 	/**
+	 * An image the run sent turned out to be one it can't send after all (a redo
+	 * whose original is gone or too large since the run looked): it counts as
+	 * passed over, not sent.
+	 */
+	public static function passed_over(): void {
+		wp_cache_delete( self::OPTION, 'options' );
+
+		$run = self::run();
+
+		if ( null !== $run && $run['sent'] > 0 ) {
+			self::change(
+				array(
+					'sent'   => $run['sent'] - 1,
+					'total'  => max( 0, $run['total'] - 1 ),
+					'passed' => $run['passed'] + 1,
+				)
+			);
+		}
+	}
+
+	/**
 	 * Whether a background run's actions have been due for long with nothing
 	 * running them: the host's cron or its loopback requests don't work.
 	 */
@@ -611,7 +651,7 @@ class Bulk {
 	/**
 	 * The images the bulk page counts.
 	 *
-	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int, missing_formats: int, missing_sizes: int}
+	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int, redo: int, missing_formats: int, missing_sizes: int}
 	 */
 	public static function counts(): array {
 		return array(
@@ -623,6 +663,7 @@ class Bulk {
 			'skipped'         => Records::count_with_status( array( Records::SKIPPED ) ),
 			'restored'        => Records::count_with_status( array( Records::RESTORED ) ),
 			'other'           => Records::count_with_status( array( Records::OTHER ) ),
+			'redo'            => self::count_candidates( self::REDO ),
 			'missing_formats' => Missing::count( Missing::FORMATS ),
 			'missing_sizes'   => Missing::count( Missing::SIZES ),
 		);
@@ -659,6 +700,8 @@ class Bulk {
 			case self::FORMATS:
 			case self::SIZES:
 				return Missing::count( $action );
+			case self::REDO:
+				return Others::count_with_original();
 			default:
 				return self::count_images( true );
 		}
@@ -875,6 +918,16 @@ class Bulk {
 		}
 
 		foreach ( $files ? array() : $next['passed'] as $id ) {
+			/* Another optimizer's image whose restore is that plugin's own to do, or that has no original left, stays that plugin's, as it was; it stays in the query too, so a look again from the start after a rewind counts it once. */
+			if ( self::REDO === $run['action'] ) {
+				if ( $id > $run['seen'] ) {
+					--$total;
+					++$run['passed'];
+				}
+
+				continue;
+			}
+
 			/* An image the service can't take (a format it doesn't read, a file gone from the disk) is set aside, so the counts and the estimate leave it out. */
 			$why = Optimizer::why_not( $id );
 
@@ -920,6 +973,11 @@ class Bulk {
 				continue;
 			}
 
+			/* Put back from that plugin's original in its own run, once nothing that costs nothing refuses it, so the feeder stays light. */
+			if ( self::REDO === $run['action'] ) {
+				Records::update( $id, array( 'redo' => true ) );
+			}
+
 			/* A failed image sent again starts with its tries counted from nothing. */
 			if ( self::RETRY === $run['action'] ) {
 				Records::update(
@@ -936,6 +994,7 @@ class Bulk {
 
 		$changes = array(
 			'cursor' => $next['cursor'],
+			'seen'   => max( $run['seen'], $next['cursor'] ),
 			'sent'   => $run['sent'] + count( $next['ids'] ),
 			'total'  => max( 0, $total ),
 			'passed' => $run['passed'],
@@ -987,7 +1046,7 @@ class Bulk {
 		/**
 		 * A bulk run went through every image it had to, and nothing it sent is still on its way.
 		 *
-		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats` or `sizes`), `scope` (`library`, or `folders` for the files in other folders), `total`, `sent`, `failed` and `passed`.
+		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats`, `sizes` or `redo`), `scope` (`library`, or `folders` for the files in other folders), `total`, `sent`, `failed` and `passed`.
 		 */
 		do_action( 'iminify_bulk_finished', (array) self::run() );
 	}
@@ -1027,6 +1086,10 @@ class Bulk {
 			return __( 'No optimized image is left to restore.', 'iminify-image-optimizer' );
 		}
 
+		if ( self::REDO === $action ) {
+			return __( 'No image another plugin optimized has an original left to optimize it again from.', 'iminify-image-optimizer' );
+		}
+
 		return self::is_fill( $action ) ? __( 'No optimized image lacks anything your site asks for now.', 'iminify-image-optimizer' ) : __( 'Every image is already optimized or on its way.', 'iminify-image-optimizer' );
 	}
 
@@ -1058,6 +1121,8 @@ class Bulk {
 			case self::FORMATS:
 			case self::SIZES:
 				return Missing::images( $action, self::PAGE_SIZE, $after );
+			case self::REDO:
+				return Others::with_original( self::PAGE_SIZE, $after );
 			default:
 				return self::not_optimized( self::PAGE_SIZE, $after );
 		}
@@ -1082,6 +1147,8 @@ class Bulk {
 			case self::FORMATS:
 			case self::SIZES:
 				return Records::OPTIMIZED === $status;
+			case self::REDO:
+				return Records::OTHER === $status;
 			default:
 				return ! in_array( $status, array( Records::OPTIMIZED, Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ), true );
 		}
@@ -1094,6 +1161,10 @@ class Bulk {
 	 * @param int    $id     The attachment's id.
 	 */
 	protected static function can_send( string $action, int $id ): bool {
+		if ( self::REDO === $action ) {
+			return Optimizer::redoable( $id );
+		}
+
 		if ( ! self::is_fill( $action ) ) {
 			return Optimizer::is_optimizable( $id );
 		}

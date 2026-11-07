@@ -112,8 +112,9 @@ class SwitchingTest extends WP_UnitTestCase {
 		$this->assertSame( 'shortpixel:1', get_post_meta( $id, Records::OTHER_META, true ) );
 		$this->assertCount( 0, $this->api->calls( 'POST', 'groups' ) );
 
-		/* Someone's press is refused too, until optimizing it again from its original comes. */
-		$this->assertSame( 'not_optimizable', Optimizer::ask( $id )->get_error_code() );
+		/* Only someone's press sends it, and from the original ShortPixel kept, put back first (RedoTest). */
+		$this->assertTrue( Optimizer::ask( $id ) );
+		$this->assertNull( Others::verdict( $id, true ) );
 	}
 
 	public function test_the_bulk_run_and_its_counts_leave_out_images_another_plugin_optimized_found_by_the_look_or_at_send_time(): void {
@@ -169,7 +170,7 @@ class SwitchingTest extends WP_UnitTestCase {
 		$this->assertNotSame( Others::CODE, Optimizer::why_not( $smush, true )['code'] ?? null );
 	}
 
-	public function test_the_media_library_shows_whose_an_image_is_with_its_filter_and_only_its_restore(): void {
+	public function test_the_media_library_shows_whose_an_image_is_with_its_filter_its_restore_and_its_redo(): void {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		$id    = $this->fresh( $this->plain_upload() );
@@ -180,10 +181,18 @@ class SwitchingTest extends WP_UnitTestCase {
 		/* Before any look, the column reads the records it finds. */
 		$this->assertStringContainsString( 'Optimized by EWWW Image Optimizer', Media_View::cell( $id ) );
 		$this->assertStringContainsString( 'Its original is kept.', Media_View::cell( $id ) );
-		$this->assertSame( array( 'iminify_restore' ), array_keys( Media_View::row_actions( array(), get_post( $id ) ) ) );
+		$this->assertSame( array( 'iminify_optimize', 'iminify_restore' ), array_keys( Media_View::row_actions( array(), get_post( $id ) ) ) );
 		$this->assertStringContainsString( 'data-iminify-action="restore"', Media_View::panel( $id ) );
-		$this->assertStringNotContainsString( 'data-iminify-action="optimize"', Media_View::panel( $id ) );
+		$this->assertStringContainsString( 'Optimize again from the original at', Media_View::panel( $id ) );
 		$this->assertStringContainsString( 'EWWW Image Optimizer kept', Media_View::panel( $id ) );
+
+		/* Disconnected, it can still be restored, never sent. */
+		Plugin::keys()->forget();
+
+		$this->assertSame( array( 'iminify_restore' ), array_keys( Media_View::row_actions( array(), get_post( $id ) ) ) );
+		$this->assertStringNotContainsString( 'data-iminify-action="optimize"', Media_View::panel( $id ) );
+
+		Plugin::keys()->save( self::KEY );
 		$this->assertArrayHasKey( 'iminify_optimize', Media_View::row_actions( array(), get_post( $other ) ) );
 
 		Others::look();

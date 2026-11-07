@@ -151,12 +151,19 @@ class Optimizer {
 	 * a file with a smaller one, and the plugin's last output would stand against a
 	 * gentler level. Nothing changes when the service can't take it now.
 	 *
+	 * An image another optimizer compressed goes back the same way, from the
+	 * original that plugin kept (`Restorer`, W250), so it is an ordinary image by
+	 * the time it is sent: its files are no longer that plugin's output, and no
+	 * guard is passed by. Every refusal that costs nothing comes first, so a site
+	 * that can't send it now never loses that plugin's savings for nothing.
+	 *
 	 * @param int         $attachment The attachment's id.
 	 * @param string|null $level      The level, or null for the site's.
 	 * @return true|WP_Error
 	 */
 	public static function ask( int $attachment, ?string $level = null ) {
-		$refusal = self::refusal( $attachment );
+		$redo    = self::redoable( $attachment );
+		$refusal = self::refusal( $attachment, $redo );
 
 		if ( null !== $refusal ) {
 			return $refusal;
@@ -176,6 +183,7 @@ class Optimizer {
 			array(
 				'level' => $level,
 				'fill'  => null,
+				'redo'  => $redo,
 			)
 		);
 		self::queue( $attachment, self::MANUAL, 0 );
@@ -236,12 +244,26 @@ class Optimizer {
 	}
 
 	/**
-	 * Why someone can't send an image right now, or null when they can.
+	 * Whether an image another optimizer compressed can be optimized again from the
+	 * original that plugin kept: restoring it is the plugin's to do (W250, not that
+	 * plugin's own, W135 and W141), and nothing else keeps it from being sent.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
-	protected static function refusal( int $attachment ): ?WP_Error {
-		$why = self::why_not( $attachment );
+	public static function redoable( int $attachment ): bool {
+		return null !== Others::verdict( $attachment )
+			&& Restorer::AVAILABLE === Restorer::availability( $attachment )
+			&& null === self::why_not( $attachment, false, true );
+	}
+
+	/**
+	 * Why someone can't send an image right now, or null when they can.
+	 *
+	 * @param int  $attachment The attachment's id.
+	 * @param bool $redo       Whether it goes from another optimizer's original, which `ask()` puts back first.
+	 */
+	protected static function refusal( int $attachment, bool $redo = false ): ?WP_Error {
+		$why = self::why_not( $attachment, false, $redo );
 
 		if ( null !== $why ) {
 			return new WP_Error( 'not_optimizable', $why['message'], array( 'status' => 422 ) );
@@ -297,6 +319,16 @@ class Optimizer {
 
 		if ( null !== $source && Originals::ORIGINAL !== $source['kind'] && null !== $max && (int) Offload_Media::bytes( $attachment, $source['path'] ) > $max ) {
 			return new WP_Error( 'file_too_large', __( 'This image\'s original is too large to send: past your plan\'s file size, or more than this server\'s memory can hold.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		/* An image put back from another plugin's original keeps a backup of it whatever the setting (W253), so there has to be room for one before anything is put back. */
+		if ( $redo && null !== $source && ! Disk::has_room_for( (int) Offload_Media::bytes( $attachment, $source['path'] ) ) ) {
+			return new WP_Error( 'disk_full', __( 'The server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+		}
+
+		/* Checked here as the run checks it, since optimizing again puts the original back before the run starts. */
+		if ( ! Zip::available() ) {
+			return new WP_Error( 'zip_unavailable', __( 'Not sent: this server\'s PHP can\'t open zip files. Ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
 		return null;
@@ -395,8 +427,11 @@ class Optimizer {
 			return;
 		}
 
+		/* An image someone asked to optimize again from another optimizer's original is put back from it further down, once nothing that costs nothing refuses it. */
+		$redo = Records::get( $attachment )['redo'];
+
 		/* An image that stopped being one to send since it was queued would otherwise stay queued, and hold its run open. Who shares its files is asked afresh, since this run writes them. */
-		$why = self::why_not( $attachment, true );
+		$why = self::why_not( $attachment, true, $redo );
 
 		if ( null !== $why ) {
 			self::skip( $attachment, $why );
@@ -431,7 +466,15 @@ class Optimizer {
 		$acting = Others::acting();
 
 		if ( null !== $acting ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+			$theirs = $redo ? Others::why( $attachment, true ) : null;
+
+			/* One still that plugin's output, sent to be optimized again from its original, stays that plugin's, so a run looking for those finds it again. */
+			if ( null !== $theirs ) {
+				Records::update( $attachment, array( 'redo' => false ) );
+				Others::mark( $attachment, $theirs['other'] );
+			} else {
+				Records::fail( $attachment, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+			}
 
 			/* The run sends it again once the other optimizer stops, so it doesn't count as sent twice. */
 			if ( self::BULK === $trigger ) {
@@ -493,6 +536,17 @@ class Optimizer {
 			self::no_room( $attachment );
 
 			return;
+		}
+
+		/* Another optimizer's original goes back here, at the last moment before the group opens, so a wait or a refusal above never leaves the image restored and unsent. */
+		if ( $redo ) {
+			if ( ! self::put_back_theirs( $attachment, $trigger, $site ) ) {
+				return;
+			}
+
+			$metadata = wp_get_attachment_metadata( $attachment, true );
+			$metadata = is_array( $metadata ) ? $metadata : array();
+			$record   = Records::get( $attachment );
 		}
 
 		/* An original only in WP Offload Media's bucket is brought back, then asked again of its own bytes. */
@@ -579,9 +633,9 @@ class Optimizer {
 
 		$backups = $record['backups'];
 
-		/* Before the group opens, so a backup that can't be trusted costs no image. */
+		/* Before the group opens, so a backup that can't be trusted costs no image. One put back from another optimizer's original is kept whatever the setting, or restoring it would end with that plugin's backup (D11). */
 		if ( Originals::BACKUP !== $source['kind'] ) {
-			$keep = Local_Settings::get()['backups'];
+			$keep = Local_Settings::get()['backups'] || $record['redo'];
 
 			if ( $keep && ! Disk::has_room_for( (int) filesize( $source['path'] ) ) ) {
 				self::no_room( $attachment );
@@ -632,6 +686,67 @@ class Optimizer {
 		);
 
 		self::send( $attachment, $client );
+	}
+
+	/**
+	 * Puts back the original another optimizer kept of an image someone asked to
+	 * optimize again (W250), so the image goes on as an ordinary one: its files are
+	 * no longer that plugin's output, and its original is the one sent. One no
+	 * reader claims any more goes on as it is. One that can't go now stays that
+	 * plugin's, with nothing put back or sent: its restore is no longer the
+	 * plugin's to do (its backup went missing since, or failed its size check), its
+	 * original is past what the site can send, or there is no room for the backup
+	 * it keeps (W253). A restore that failed shows why.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param string               $trigger    What asked for it.
+	 * @param array<string, mixed> $site       The site's record.
+	 * @return bool Whether to go on and send it.
+	 */
+	protected static function put_back_theirs( int $attachment, string $trigger, array $site ): bool {
+		$theirs = Others::why( $attachment, true );
+
+		if ( null === $theirs ) {
+			return true;
+		}
+
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$source   = Originals::find( $attachment, is_array( $metadata ) ? $metadata : array(), null );
+		$max      = self::max_source( $site );
+		$bytes    = null === $source ? 0 : (int) Offload_Media::bytes( $attachment, $source['path'] );
+
+		if ( null === $source || Restorer::AVAILABLE !== Restorer::availability( $attachment ) || ( null !== $max && Originals::ORIGINAL !== $source['kind'] && $bytes > $max ) || ! Disk::has_room_for( $bytes ) ) {
+			Records::update( $attachment, array( 'redo' => false ) );
+			Others::mark( $attachment, $theirs['other'] );
+
+			/* Nothing was sent: the run counts it as passed over. */
+			if ( self::BULK === $trigger ) {
+				Bulk::passed_over();
+			}
+
+			return false;
+		}
+
+		$restored = Restorer::restore( $attachment );
+
+		if ( is_wp_error( $restored ) ) {
+			Records::fail( $attachment, Records::ERROR, (string) $restored->get_error_code(), $restored->get_error_message() );
+
+			return false;
+		}
+
+		/* The restore read the image as a fresh one; it is still on its way, and keeps its backup. */
+		Records::update(
+			$attachment,
+			array(
+				'status'  => Records::QUEUED,
+				'trigger' => $trigger,
+				'error'   => null,
+				'redo'    => true,
+			)
+		);
+
+		return true;
 	}
 
 	/**
@@ -866,6 +981,7 @@ class Optimizer {
 				'fill'     => null,
 				'made'     => array(),
 				'priority' => null,
+				'redo'     => false,
 				'result'   => $result,
 			)
 		);
@@ -1113,9 +1229,10 @@ class Optimizer {
 	 *
 	 * @param int  $attachment The attachment's id.
 	 * @param bool $fresh      Whether to ask afresh who shares its files, as a run that writes them must (`Shared`).
+	 * @param bool $redo       Whether it goes from another optimizer's original, put back before it is sent (`ask()`, `open()`): that plugin's output is no reason then, and only then.
 	 * @return array{code: string, message: string, holder?: int, other?: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}}|null
 	 */
-	public static function why_not( int $attachment, bool $fresh = false ): ?array {
+	public static function why_not( int $attachment, bool $fresh = false, bool $redo = false ): ?array {
 		$unsupported = array(
 			'code'    => 'unsupported_format',
 			'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
@@ -1158,8 +1275,8 @@ class Optimizer {
 			);
 		}
 
-		/* Another plugin's output is never sent for a second lossy pass (decision 39), so it is read afresh here, where every send asks. */
-		$other = Others::why( $attachment, $fresh );
+		/* Another plugin's output is never sent for a second lossy pass (decision 39), so it is read afresh here, where every send asks; an image put back from that plugin's original before it is sent is no longer its output. */
+		$other = $redo ? null : Others::why( $attachment, $fresh );
 
 		if ( null !== $other ) {
 			return $other;

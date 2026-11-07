@@ -240,6 +240,14 @@ export default function App() {
 							onStart={ start }
 						/>
 					) }
+					{ ! active && state.connected && state.counts.redo > 0 && (
+						<Redo
+							state={ state }
+							busy={ busy }
+							onStart={ () => start( 'redo' ) }
+						/>
+					) }
+					{ state.putback && <PutBack /> }
 				</div>
 				<div className="iminify-col">
 					<Library state={ state } />
@@ -553,6 +561,11 @@ function runTitle( action, scope ) {
 			);
 		case 'sizes':
 			return __( 'Making the missing sizes', 'iminify-image-optimizer' );
+		case 'redo':
+			return __(
+				'Optimizing again from the originals',
+				'iminify-image-optimizer'
+			);
 		default:
 			return __( 'Bulk optimization', 'iminify-image-optimizer' );
 	}
@@ -683,16 +696,27 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 				<div className="iminify-status-gap">
 					<Callout>
 						<p>
-							{ sprintf(
-								/* translators: %s: how many images. */
-								_n(
-									'%s image has no original to go from, or changed since it was optimized, so nothing was made for it.',
-									'%s images have no original to go from, or changed since they were optimized, so nothing was made for them.',
-									run.passed,
-									'iminify-image-optimizer'
-								),
-								formatNumber( run.passed )
-							) }
+							{ 'redo' === run.action
+								? sprintf(
+										/* translators: %s: how many images. */
+										_n(
+											'%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.',
+											'%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.',
+											run.passed,
+											'iminify-image-optimizer'
+										),
+										formatNumber( run.passed )
+									)
+								: sprintf(
+										/* translators: %s: how many images. */
+										_n(
+											'%s image has no original to go from, or changed since it was optimized, so nothing was made for it.',
+											'%s images have no original to go from, or changed since they were optimized, so nothing was made for them.',
+											run.passed,
+											'iminify-image-optimizer'
+										),
+										formatNumber( run.passed )
+									) }
 						</p>
 					</Callout>
 				</div>
@@ -1253,6 +1277,93 @@ function LackingRow( { action, busy, text, label, onStart } ) {
 				</div>
 			) }
 		</>
+	);
+}
+
+/**
+ * The images other plugins optimized that kept their originals, optimized again
+ * from them: each original goes back first, and each image counts again, so the
+ * page asks first. A panel only when there are some.
+ *
+ * @param {Object}     props         The component's props.
+ * @param {Object}     props.state   The page's state.
+ * @param {boolean}    props.busy    Whether a press is on its way.
+ * @param {() => void} props.onStart Starts the run.
+ */
+function Redo( { state, busy, onStart } ) {
+	const { counts, numbers, disk, links, conflict } = state;
+	const estimate = state.redo_estimate;
+	const { asking, open, close, opener } = useAsk();
+	const label = __(
+		'Optimize them again from their originals',
+		'iminify-image-optimizer'
+	);
+
+	return (
+		<Panel>
+			<h2>
+				{ __(
+					'Optimized by another plugin',
+					'iminify-image-optimizer'
+				) }
+			</h2>
+			<p className="iminify-text">
+				{ sprintf(
+					/* translators: %s: how many images. */
+					_n(
+						'%s image another plugin optimized kept its original. Iminify can optimize it again from that original: the original goes back first, then Iminify optimizes it and keeps its own backup.',
+						'%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals: each goes back first, then Iminify optimizes it and keeps its own backup.',
+						counts.redo,
+						'iminify-image-optimizer'
+					),
+					numbers.redo
+				) }
+			</p>
+			{ estimate && <Estimate estimate={ estimate } links={ links } /> }
+			{ asking ? (
+				<Confirm
+					question={ __(
+						'Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is.',
+						'iminify-image-optimizer'
+					) }
+					yes={ label }
+					busy={ busy }
+					onYes={ () => {
+						close();
+						onStart();
+					} }
+					onNo={ close }
+				/>
+			) : (
+				<div className="iminify-actions">
+					<Button
+						ref={ opener }
+						icon="send"
+						disabled={ busy || disk.low || Boolean( conflict ) }
+						onClick={ open }
+					>
+						{ label }
+					</Button>
+				</div>
+			) }
+		</Panel>
+	);
+}
+
+/**
+ * What LiteSpeed Cache, active, does to the images whenever WordPress makes their
+ * sizes again, and what stops it.
+ */
+function PutBack() {
+	return (
+		<Callout>
+			<p>
+				{ __(
+					'LiteSpeed Cache is active. Whenever WordPress makes an image\'s sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. "Remove Original Image Backups", under LiteSpeed Cache, Image Optimization, stops it putting old files back.',
+					'iminify-image-optimizer'
+				) }
+			</p>
+		</Callout>
 	);
 }
 

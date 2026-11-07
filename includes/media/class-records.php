@@ -22,6 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * second lossy pass. Every copy carries its origin, so restoring, deleting the
  * copies or uninstalling only ever deletes the plugin's own.
  *
+ * An image another optimizer compressed and someone asked to optimize again from
+ * the original that plugin kept reads `redo` until its files are written: it is
+ * put back from that original first, and keeps a backup of it whatever the
+ * setting says.
+ *
  * An attachment that shares its files with another (a translation's, `Shared`)
  * keeps only `holder`, the id of the one whose record holds the work on them,
  * so `<picture>` finds that one's copies with no lookup by file name.
@@ -103,7 +108,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -128,6 +133,7 @@ class Records {
 			'reopens'    => isset( $record['reopens'] ) ? (int) $record['reopens'] : 0,
 			'holder'     => isset( $record['holder'] ) && (int) $record['holder'] > 0 ? (int) $record['holder'] : null,
 			'other'      => self::other( $record['other'] ?? null ),
+			'redo'       => ! empty( $record['redo'] ),
 			'updated'    => isset( $record['updated'] ) ? (int) $record['updated'] : 0,
 		);
 	}
@@ -143,14 +149,14 @@ class Records {
 		$record            = array_merge( self::get( $attachment ), $changes );
 		$record['updated'] = time();
 
-		/* Whose an image is holds only while it reads as another plugin's. */
-		if ( self::OTHER !== $record['status'] ) {
+		/* Whose an image is holds while it reads as another plugin's, and while it waits to be put back from that plugin's original (`redo`), so the plugin's memory of that plugin's output still guards it if that plugin deletes its records meanwhile. */
+		if ( self::OTHER !== $record['status'] && empty( $record['redo'] ) ) {
 			$record['other'] = null;
 		}
 
 		update_post_meta( $attachment, self::META, $record );
 
-		$other = self::other( $record['other'] );
+		$other = self::OTHER === $record['status'] ? self::other( $record['other'] ) : null;
 
 		if ( null !== $other ) {
 			update_post_meta( $attachment, self::OTHER_META, $other['plugin'] . ':' . ( $other['original'] ? '1' : '0' ) );
@@ -235,6 +241,7 @@ class Records {
 				'fill'       => null,
 				'made'       => array(),
 				'priority'   => null,
+				'redo'       => false,
 			)
 		);
 

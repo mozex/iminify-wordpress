@@ -146,9 +146,13 @@ class Media_View {
 			return $actions;
 		}
 
-		/* An image another plugin optimized is left as it is (decision 39), unless someone restores it from the original that plugin kept. */
+		/* An image another plugin optimized is left as it is (decision 39), unless someone optimizes it again or restores it from the original that plugin kept. */
 		if ( null !== self::other( $attachment ) ) {
 			if ( Restorer::AVAILABLE === Restorer::availability( $attachment ) && ! self::is_busy( $attachment ) ) {
+				if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
+					$actions['iminify_optimize'] = self::row_action( $attachment, 'optimize', __( 'Optimize again from the original', 'iminify-image-optimizer' ), self::redo_warning( $attachment ) );
+				}
+
 				$actions['iminify_restore'] = self::row_action( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) );
 			}
 
@@ -779,12 +783,26 @@ class Media_View {
 			return '';
 		}
 
-		/* Another plugin's image is restored from the original it kept; optimizing it again from that original is a step of its own. */
+		/* Another plugin's image is optimized again or restored from the original it kept. */
 		if ( null !== self::other( $attachment ) ) {
 			$available = Restorer::availability( $attachment );
 
 			if ( Restorer::AVAILABLE === $available ) {
-				return '<p class="iminify-actions">' . self::button( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) ) . '</p>';
+				$html = '';
+
+				if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
+					$html .= '<p class="iminify-actions-label">' . esc_html__( 'Optimize again from the original at', 'iminify-image-optimizer' ) . '</p><p class="iminify-actions iminify-levels">';
+
+					foreach ( Messages::levels() as $level => $about ) {
+						if ( 'none' !== $level ) {
+							$html .= self::button( $attachment, 'optimize', $about['name'], self::redo_warning( $attachment ), $level, __( 'Optimize again', 'iminify-image-optimizer' ) );
+						}
+					}
+
+					$html .= '</p>';
+				}
+
+				return $html . '<p class="iminify-actions">' . self::button( $attachment, 'restore', __( 'Restore original', 'iminify-image-optimizer' ), self::restore_theirs_warning( $attachment ) ) . '</p>';
 			}
 
 			return Restorer::THEIRS === $available ? '<p class="iminify-detail">' . esc_html( Others::elsewhere( $attachment ) ) . '</p>' : '';
@@ -931,6 +949,21 @@ class Media_View {
 	 */
 	protected static function restore_warning(): string {
 		return __( 'Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted.', 'iminify-image-optimizer' );
+	}
+
+	/**
+	 * What optimizing an image another plugin optimized again does, asked first since it counts.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function redo_warning( int $attachment ): string {
+		$other = self::other( $attachment );
+
+		return sprintf(
+			/* translators: %s: another image optimizer's name, such as Imagify. */
+			__( 'Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image.', 'iminify-image-optimizer' ),
+			Others::name( null === $other ? '' : $other['plugin'] )
+		);
 	}
 
 	/**

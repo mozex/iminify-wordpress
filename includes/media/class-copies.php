@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Compat\Offload_Media;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -80,6 +82,97 @@ class Copies {
 		}
 
 		return count( $stale );
+	}
+
+	/**
+	 * Forgets the plugin's own copies of an attachment that are no longer on the
+	 * disk with the bytes written: LiteSpeed Cache, active, deletes every WebP and
+	 * AVIF beside an attachment's files when WordPress makes its metadata in the
+	 * `create` context (a regeneration, a replaced image), the plugin's own copies
+	 * among them. A format with a copy gone is taken off the result, so the image
+	 * reads as lacking it (`Missing`). A copy WP Offload Media keeps in its bucket
+	 * is left as it is.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return int How many copies it forgot.
+	 */
+	public static function forget_gone( int $attachment ): int {
+		$record   = Records::get( $attachment );
+		$metadata = wp_get_attachment_metadata( $attachment, true );
+		$names    = self::output_names( $attachment, is_array( $metadata ) ? $metadata : array() );
+		$gone     = array();
+		$lost     = array();
+
+		foreach ( self::own( $record['copies'] ) as $copy => $about ) {
+			$relative = (string) $copy;
+
+			if ( null === Paths::relative( Paths::absolute( $relative ) ) || Offload_Media::in_bucket( $about ) ) {
+				continue;
+			}
+
+			$path = Paths::absolute( $relative );
+
+			clearstatcache( true, $path );
+
+			if ( is_file( $path ) && (int) filesize( $path ) === (int) ( $about['bytes'] ?? -1 ) ) {
+				continue;
+			}
+
+			$format        = (string) ( $about['format'] ?? '' );
+			$gone[ $copy ] = true;
+			$lost[]        = array(
+				'format' => $format,
+				'output' => $names[ wp_basename( (string) ( $about['for'] ?? '' ) ) ] ?? null,
+			);
+		}
+
+		if ( array() === $gone ) {
+			return 0;
+		}
+
+		$result = $record['result'];
+
+		if ( null !== $result ) {
+			$result['formats'] = array_values( array_diff( isset( $result['formats'] ) && is_array( $result['formats'] ) ? $result['formats'] : array(), array_column( $lost, 'format' ) ) );
+
+			foreach ( $lost as $copy ) {
+				$output = $copy['output'];
+
+				if ( null !== $output && isset( $result['outputs'][ $output ]['formats'] ) && is_array( $result['outputs'][ $output ]['formats'] ) ) {
+					$result['outputs'][ $output ]['formats'] = array_values( array_diff( $result['outputs'][ $output ]['formats'], array( $copy['format'] ) ) );
+				}
+			}
+		}
+
+		Records::update(
+			$attachment,
+			array(
+				'copies' => array_diff_key( $record['copies'], $gone ),
+				'result' => $result,
+			)
+		);
+
+		return count( $gone );
+	}
+
+	/**
+	 * The output names a group gives an attachment's files, by file name: `full`
+	 * for the attached file, and each size by its name.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $metadata   Its metadata.
+	 * @return array<string, string>
+	 */
+	protected static function output_names( int $attachment, array $metadata ): array {
+		$names = array( wp_basename( (string) get_attached_file( $attachment, true ) ) => Declaration::MAIN );
+
+		foreach ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array() as $name => $size ) {
+			if ( is_array( $size ) && isset( $size['file'] ) && ! isset( $names[ wp_basename( (string) $size['file'] ) ] ) ) {
+				$names[ wp_basename( (string) $size['file'] ) ] = (string) $name;
+			}
+		}
+
+		return $names;
 	}
 
 	/**

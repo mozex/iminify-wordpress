@@ -142,8 +142,15 @@ class Hooks {
 			Shared::point( $attachment, array( $given ) );
 		}
 
+		if ( Writer::$writing === $attachment ) {
+			return;
+		}
+
+		/* LiteSpeed Cache, active, deletes the WebP and AVIF copies beside an image's files when its metadata is made again, the plugin's own among them, and may put its own old files back over the plugin's (W134): a copy gone is forgotten, and a file put back reads as changed below. */
+		Copies::forget_gone( $attachment );
+
 		/* A regeneration that skipped every existing size (Regenerate Thumbnails' default) left the files as they were. */
-		if ( Writer::$writing === $attachment || Records::unchanged( $attachment ) ) {
+		if ( Records::unchanged( $attachment ) ) {
 			return;
 		}
 
@@ -155,8 +162,8 @@ class Hooks {
 		$why = Optimizer::why_not( $attachment );
 
 		if ( null !== $why ) {
-			/* A regeneration of an image another plugin optimized leaves it that plugin's, and the screens say so. */
-			if ( isset( $why['other'] ) ) {
+			/* A regeneration of an image another plugin optimized leaves it that plugin's, and the screens say so. One waiting to be put back from that plugin's original stays on its way: its run puts it back as asked, and a stop still finds it among the images on their way. */
+			if ( isset( $why['other'] ) && ! Records::get( $attachment )['redo'] ) {
 				Others::mark( $attachment, $why['other'] );
 			}
 

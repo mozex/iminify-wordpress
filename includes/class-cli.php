@@ -37,6 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *     # Make the AVIF copies of a library optimized before the site asked for them.
  *     $ wp iminify missing formats
  *
+ *     # Optimize again, from the originals it kept, the images another optimizer compressed.
+ *     $ wp iminify optimize --others
+ *
  *     # Optimize the images in the active theme's folder.
  *     $ wp iminify folders add themes/twentytwentyfive
  *     $ wp iminify optimize --folders
@@ -77,6 +80,9 @@ class Cli {
 	 * [--folders]
 	 * : Optimize the files in the folders chosen with `wp iminify folders` instead of the media library, every one not optimized yet, or with --failed the ones that failed.
 	 *
+	 * [--others]
+	 * : Optimize again the images another image optimizer compressed, from the originals it kept: every one, or the attachments named. Each original is put back first, and each image counts as one of the account's daily images.
+	 *
 	 * [--background]
 	 * : Start the run and return, leaving it to the site's scheduled tasks.
 	 *
@@ -86,6 +92,7 @@ class Cli {
 	 *     $ wp iminify optimize 12 34
 	 *     $ wp iminify optimize --failed
 	 *     $ wp iminify optimize --folders
+	 *     $ wp iminify optimize --others
 	 *
 	 * @param list<string>         $args  The attachments' ids.
 	 * @param array<string, mixed> $assoc The flags.
@@ -93,6 +100,16 @@ class Cli {
 	public function optimize( array $args, array $assoc ): void {
 		$all    = ! empty( $assoc['all'] );
 		$failed = ! empty( $assoc['failed'] );
+
+		if ( ! empty( $assoc['others'] ) ) {
+			if ( $all || $failed || ! empty( $assoc['folders'] ) ) {
+				WP_CLI::error( __( 'Pass --others alone, or with the attachments to optimize again.', 'iminify-image-optimizer' ) );
+			}
+
+			$this->begin( Bulk::REDO, array() === $args ? null : $this->ids( $args ), $assoc );
+
+			return;
+		}
 
 		if ( ! empty( $assoc['folders'] ) ) {
 			if ( $all || array() !== $args ) {
@@ -589,7 +606,15 @@ class Cli {
 			);
 		}
 
-		if ( $run['passed'] > 0 ) {
+		if ( $run['passed'] > 0 && Bulk::REDO === $run['action'] ) {
+			WP_CLI::warning(
+				sprintf(
+					/* translators: %s: how many images. */
+					_n( '%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.', '%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.', $run['passed'], 'iminify-image-optimizer' ),
+					number_format_i18n( $run['passed'] )
+				)
+			);
+		} elseif ( $run['passed'] > 0 ) {
 			WP_CLI::warning(
 				sprintf(
 					/* translators: %s: how many images. */

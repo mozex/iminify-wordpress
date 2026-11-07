@@ -35,3 +35,18 @@ test( 'While another optimizer acts on uploads, the bulk page holds its run and 
 	await expect( page.getByText( /"Automatic compression"/ ) ).toBeVisible();
 	await expect( page.getByRole( 'button', { name: 'Optimize the library' } ) ).toBeDisabled();
 } );
+
+test( 'Images another plugin optimized with their originals kept are optimized again from those originals, asked first', async ( { page } ) => {
+	const [ id ] = seedJson( 'fresh', { count: 1 } );
+	seed( 'smushed', { id, backup: true } );
+
+	await page.goto( bulkPage );
+	await expect( page.getByRole( 'heading', { name: 'Optimized by another plugin' } ) ).toBeVisible();
+	await expect( page.getByText( /^1 image another plugin optimized kept its original\./ ) ).toBeVisible();
+
+	await page.getByRole( 'button', { name: 'Optimize them again from their originals' } ).click();
+	await expect( page.getByText( /Each counts as one more image/ ) ).toBeVisible();
+	await page.getByRole( 'button', { name: 'Optimize them again from their originals' } ).click();
+
+	await expect( page.getByRole( 'heading', { name: 'Optimizing again from the originals' } ) ).toBeVisible();
+} );

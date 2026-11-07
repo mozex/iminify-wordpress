@@ -113,9 +113,25 @@ switch ( $command ) {
 		break;
 
 	case 'smushed':
-		/* An image Smush compressed in place and recorded, with Smush itself switched off. */
+		/* An image Smush compressed in place and recorded, with Smush itself switched off; with `backup`, its original kept beside it as Smush keeps it. */
 		$e2e_file   = (string) get_attached_file( (int) $given['id'] );
 		$e2e_before = (int) filesize( $e2e_file );
+
+		if ( ! empty( $given['backup'] ) ) {
+			copy( $e2e_file, dirname( $e2e_file ) . '/' . wp_basename( $e2e_file, '.jpg' ) . '.bak.jpg' );
+			update_post_meta(
+				(int) $given['id'],
+				'_wp_attachment_backup_sizes',
+				array(
+					'smush-full' => array(
+						'file'   => wp_basename( $e2e_file, '.jpg' ) . '.bak.jpg',
+						'width'  => 1,
+						'height' => 1,
+					),
+				)
+			);
+		}
+
 		$e2e_editor = wp_get_image_editor( $e2e_file );
 		$e2e_editor->set_quality( 20 );
 		$e2e_saved = $e2e_editor->save( get_temp_dir() . 'iminify-e2e-smushed.jpg', 'image/jpeg' );

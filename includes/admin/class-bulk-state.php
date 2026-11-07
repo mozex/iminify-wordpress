@@ -72,28 +72,30 @@ class Bulk_State {
 		$saved  = Records::saved();
 		$free   = Disk::free();
 		$state  = array(
-			'connected' => Plugin::connected(),
-			'hidden'    => $hidden,
-			'counts'    => $counts,
-			'numbers'   => array_map( 'number_format_i18n', $counts ),
-			'saved'     => $saved['before'] > 0 && $saved['after'] < $saved['before'] ? array(
+			'connected'     => Plugin::connected(),
+			'hidden'        => $hidden,
+			'counts'        => $counts,
+			'numbers'       => array_map( 'number_format_i18n', $counts ),
+			'saved'         => $saved['before'] > 0 && $saved['after'] < $saved['before'] ? array(
 				'bytes'   => size_format( $saved['before'] - $saved['after'], 1 ),
 				'before'  => size_format( $saved['before'], 1 ),
 				'percent' => number_format_i18n( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
 			) : null,
-			'others'    => self::others(),
-			'conflict'  => self::conflict(),
-			'run'       => self::run(),
-			'queue'     => Queue::summary(),
-			'folders'   => self::folders(),
-			'disk'      => array(
+			'others'        => self::others(),
+			'conflict'      => self::conflict(),
+			'putback'       => self::puts_back(),
+			'run'           => self::run(),
+			'queue'         => Queue::summary(),
+			'folders'       => self::folders(),
+			'disk'          => array(
 				'low'     => ! Disk::has_room_for( 0 ),
 				'free'    => null === $free ? null : size_format( (int) $free, 1 ),
 				'backups' => null,
 			),
-			'estimate'  => null,
-			'error'     => null,
-			'links'     => array(
+			'estimate'      => null,
+			'redo_estimate' => null,
+			'error'         => null,
+			'links'         => array(
 				'settings' => Settings_Page::url(),
 				'plans'    => $hidden ? null : Client::website( 'pricing', array( 'utm_campaign' => 'bulk' ) ),
 			),
@@ -107,27 +109,49 @@ class Bulk_State {
 			$state['disk']['backups'] = size_format( Bulk::backup_bytes(), 1 );
 		}
 
-		if ( ! $state['connected'] || 0 === $counts['not_optimized'] ) {
+		if ( ! $state['connected'] ) {
 			return $state;
 		}
 
-		$site = Site_Record::fetch(
-			array(
-				'attachments' => $counts['not_optimized'],
-				'files'       => $counts['not_optimized'] * Bulk::files_per_image(),
-			)
-		);
+		/* Each choice gets its own estimate, as the service counts it: the images not optimized yet, and those another plugin optimized, again from their originals. */
+		foreach ( array(
+			'estimate'      => $counts['not_optimized'],
+			'redo_estimate' => $counts['redo'],
+		) as $key => $images ) {
+			if ( 0 === $images || null !== $state['error'] ) {
+				continue;
+			}
 
-		if ( $site instanceof WP_Error ) {
-			$state['error'] = Messages::for_error( $site );
-		} elseif ( is_array( $site ) && ! $hidden ) {
-			$state['estimate'] = self::estimate( $site['estimate'] ?? null );
+			$site = Site_Record::fetch(
+				array(
+					'attachments' => $images,
+					'files'       => $images * Bulk::files_per_image(),
+				)
+			);
+
+			if ( $site instanceof WP_Error ) {
+				$state['error'] = Messages::for_error( $site );
+			} elseif ( is_array( $site ) && ! $hidden ) {
+				$state[ $key ] = self::estimate( $site['estimate'] ?? null );
+			}
 		}
 
-		/* The read above may have started or ended the pause. */
+		/* The reads above may have started or ended the pause. */
 		$state['queue'] = Queue::summary();
 
 		return $state;
+	}
+
+	/**
+	 * Whether LiteSpeed Cache is active, which puts its own old files back over the
+	 * plugin's and deletes the WebP and AVIF copies beside an image whenever
+	 * WordPress makes that image's sizes again (W134): the page says so, and that its
+	 * "Remove Original Image Backups" ends the first.
+	 */
+	protected static function puts_back(): bool {
+		$reader = Others::reader( 'litespeed' );
+
+		return null !== $reader && $reader->active();
 	}
 
 	/**

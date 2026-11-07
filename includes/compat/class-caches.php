@@ -87,8 +87,8 @@ class Caches {
 	public static function copies_gone(): void {
 		$run = Bulk::run();
 
-		/* Only a running restore run puts images back by the hundred, the library's or the folders'; a restore during any other run (an optimize waiting out a spent day) or a paused one purges now. */
-		if ( null !== $run && Bulk::RESTORE === $run['action'] && Bulk::RUNNING === $run['status'] ) {
+		/* Only a running restore run, or a redo putting another plugin's originals back before sending them, puts images back by the hundred; a restore during any other run (an optimize waiting out a spent day) or a paused one purges now. */
+		if ( null !== $run && in_array( $run['action'], array( Bulk::RESTORE, Bulk::REDO ), true ) && Bulk::RUNNING === $run['status'] ) {
 			update_option( self::OWED, 1, false );
 
 			return;
