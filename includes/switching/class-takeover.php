@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Switching;
 
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Shared;
 use Iminify\WordPress\Media\Writer;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -86,6 +87,22 @@ class Takeover {
 						);
 					}
 				}
+			}
+		}
+
+		/* A file an attachment holds as its own (someone uploaded `photo.jpg.webp`, a name WordPress keeps) is never another plugin's copy, whatever a reader that lists copies by their names says: taken over it would serve another picture, written over it would destroy one. */
+		$beside = array_values(
+			array_filter(
+				array_keys( $named ),
+				static function ( string $key ): bool {
+					return 0 !== strpos( $key, Copies::IN_CONTENT );
+				}
+			)
+		);
+
+		foreach ( array() === $beside ? array() : Shared::named( $beside ) as $file => $ids ) {
+			if ( array() !== $ids ) {
+				unset( $named[ $file ] );
 			}
 		}
 

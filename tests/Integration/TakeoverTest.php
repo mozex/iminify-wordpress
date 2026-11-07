@@ -263,6 +263,64 @@ class TakeoverTest extends WP_UnitTestCase {
 		$this->assertSame( $avif_copy, md5_file( $avif ), 'And stays where its plugin left it.' );
 	}
 
+	public function test_a_file_another_attachment_holds_as_its_own_is_never_taken_over_or_written_over(): void {
+		$id    = $this->fresh( $this->plain_upload() );
+		$files = $this->named( $id );
+		$main  = (string) Paths::relative( $files['full'] );
+
+		$this->as_ewww( $id );
+		$this->webp_of( $files['full'] );
+
+		/* Someone uploaded a WebP whose name WordPress kept as it was: `photo.jpg.webp`, beside the JPEG EWWW named it a copy of. */
+		$upload = (int) wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/webp',
+				'post_title'     => 'Their own WebP',
+				'post_status'    => 'inherit',
+			)
+		);
+		update_post_meta( $upload, '_wp_attached_file', $main . '.webp' );
+
+		$theirs = md5_file( $files['full'] . '.webp' );
+
+		Others::look( true );
+
+		$this->assertSame( array(), Records::get( $id )['copies'], 'Never served as the JPEG\'s copy.' );
+
+		$dimensions = (array) wp_getimagesize( $files['full'] );
+		$written    = Writer::write(
+			$id,
+			array(
+				'outputs' => array(
+					'full' => array(
+						'file'   => $main,
+						'size'   => (int) filesize( $files['full'] ),
+						'width'  => (int) $dimensions[0],
+						'height' => (int) $dimensions[1],
+					),
+				),
+				'type'    => 'image/jpeg',
+			),
+			array(
+				'outputs' => array(
+					array(
+						'name'    => 'full',
+						'format'  => 'webp',
+						'file'    => 'full.webp',
+						'width'   => (int) $dimensions[0],
+						'height'  => (int) $dimensions[1],
+						'replace' => true,
+					),
+				),
+			),
+			$this->zip( array( 'full.webp' => $this->webp_bytes( $files['full'], 30 ) ) )
+		);
+
+		clearstatcache();
+		$this->assertSame( array( $main . '.webp' ), $written['kept'] );
+		$this->assertSame( $theirs, md5_file( $files['full'] . '.webp' ), 'Never written over.' );
+	}
+
 	public function test_converter_for_medias_copies_are_taken_over_and_served_from_their_own_address(): void {
 		$id    = $this->fresh( $this->plain_upload() );
 		$files = $this->named( $id );
