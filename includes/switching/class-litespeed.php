@@ -114,7 +114,13 @@ class Litespeed extends Reader {
 	 * writes every default on install, and most sites keep it for its cache.
 	 */
 	public function settings_chosen(): bool {
-		return $this->present() || ! empty( get_option( 'litespeed.conf.img_optm-auto' ) );
+		if ( $this->present() ) {
+			return true;
+		}
+
+		$auto = $this->stored( 'litespeed.conf.img_optm-auto' );
+
+		return self::MISSING !== $auto && ! empty( $auto );
 	}
 
 	/**
@@ -134,13 +140,64 @@ class Litespeed extends Reader {
 	}
 
 	/**
-	 * Its WebP setting is the network's while it is active for the network.
+	 * Its WebP setting is the network's while the site follows the network's
+	 * configuration (`follows_network()`). Its other image settings are then the
+	 * main site's on every other site while the network's "Use Primary Site
+	 * Configuration" is on (`use_primary_settings`, which
+	 * `Conf::_try_load_site_options()` lays over a site's own), and the site's
+	 * own otherwise.
 	 *
 	 * @param string $option The option's name.
 	 * @return mixed
 	 */
 	protected function stored( string $option ) {
-		return 'litespeed.conf.img_optm-webp' === $option ? $this->across_network( $option ) : get_option( $option, self::MISSING );
+		if ( 'litespeed.conf.img_optm-webp' === $option ) {
+			return $this->follows_network() ? get_site_option( $option, self::MISSING ) : get_option( $option, self::MISSING );
+		}
+
+		$primary = $this->primary_site();
+
+		if ( null === $primary ) {
+			return get_option( $option, self::MISSING );
+		}
+
+		switch_to_blog( $primary );
+		$value = get_option( $option, self::MISSING );
+		restore_current_blog();
+
+		return $value;
+	}
+
+	/**
+	 * Whether this site runs, or last ran, on the network's configuration: while
+	 * LiteSpeed is active for the network, and once it is turned off there, while
+	 * it isn't active on this site and the network's settings are still kept
+	 * (`litespeed.conf._version`, which only a network activation writes and its
+	 * uninstall deletes). Each site keeps LiteSpeed's install defaults in its own
+	 * options, which it never ran on, so they are no answer then.
+	 */
+	protected function follows_network(): bool {
+		if ( $this->network_active() ) {
+			return true;
+		}
+
+		return is_multisite() && ! $this->active() && false !== get_site_option( 'litespeed.conf._version', false );
+	}
+
+	/**
+	 * The main site whose settings this site follows, or null: only while it
+	 * follows the network's configuration with "Use Primary Site Configuration" on,
+	 * and only on a site other than the main one, as LiteSpeed decides it (by
+	 * `BLOG_ID_CURRENT_SITE`).
+	 */
+	protected function primary_site(): ?int {
+		if ( ! $this->follows_network() || empty( get_site_option( 'litespeed.conf.use_primary_settings' ) ) ) {
+			return null;
+		}
+
+		$primary = defined( 'BLOG_ID_CURRENT_SITE' ) ? (int) BLOG_ID_CURRENT_SITE : get_main_site_id();
+
+		return get_current_blog_id() === $primary ? null : $primary;
 	}
 
 	protected function holds_records(): bool {

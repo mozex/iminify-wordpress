@@ -9,7 +9,7 @@ import {
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { Button, Panel, PanelTitle } from '../ui';
@@ -112,7 +112,13 @@ function FieldError( { errors, name } ) {
 	) : null;
 }
 
-export default function SettingsForm( { state, busy, errors, onSave } ) {
+export default function SettingsForm( {
+	state,
+	busy,
+	errors,
+	onSave,
+	onUnsaved,
+} ) {
 	const connected = 'connected' === state.connection;
 	const [ site, setSite ] = useState( () =>
 		fromSite( state.site?.settings ?? {} )
@@ -130,6 +136,11 @@ export default function SettingsForm( { state, busy, errors, onSave } ) {
 				state.local
 			)
 		);
+
+	/* So "Use <plugin>'s settings" can say that using them drops what wasn't saved here. */
+	useEffect( () => {
+		onUnsaved?.( changed );
+	}, [ changed, onUnsaved ] );
 
 	const change = ( name ) => ( value ) =>
 		setSite( ( current ) => ( { ...current, [ name ]: value } ) );

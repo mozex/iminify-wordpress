@@ -76,6 +76,8 @@ export default function App( { scope } ) {
 	const [ importing, setImporting ] = useState( null );
 	/* Bumped once another optimizer's settings are used, so the form starts again from them. */
 	const [ formVersion, setFormVersion ] = useState( 0 );
+	/* Whether the form holds changes not saved yet, which starting it again would drop. */
+	const [ unsaved, setUnsaved ] = useState( false );
 	const { toasts, toast, dismiss } = useToasts();
 	const claimTimer = useRef( null );
 
@@ -390,6 +392,7 @@ export default function App( { scope } ) {
 						<Imports
 							offers={ state.imports ?? [] }
 							preview={ importing }
+							unsaved={ unsaved }
 							busy={ busy }
 							onPreview={ importFrom }
 							onUse={ applyImport }
@@ -408,6 +411,7 @@ export default function App( { scope } ) {
 							state={ state }
 							busy={ busy }
 							errors={ error?.errors ?? {} }
+							onUnsaved={ setUnsaved }
 							onSave={ ( changes ) =>
 								run( '/settings', 'POST', changes )
 									.then( ( next ) => {

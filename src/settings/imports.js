@@ -62,6 +62,7 @@ function Proposal( { rows } ) {
  * @param {Object}      props           The component's props.
  * @param {Object}      props.offer     The plugin: its short name and name.
  * @param {Object|null} props.preview   What Iminify proposed, once asked.
+ * @param {boolean}     props.unsaved   Whether the settings form holds changes not saved yet.
  * @param {boolean}     props.busy      Whether a press is on its way.
  * @param {() => void}  props.onPreview Asks Iminify.
  * @param {() => void}  props.onUse     Uses the proposal.
@@ -71,6 +72,7 @@ function Proposal( { rows } ) {
 function Offer( {
 	offer,
 	preview,
+	unsaved,
 	busy,
 	onPreview,
 	onUse,
@@ -126,6 +128,34 @@ function Offer( {
 	}
 
 	const changes = preview.rows.some( ( row ) => row.changes );
+	let lead = sprintf(
+		/* translators: %s: another image optimizer's name. */
+		__(
+			'This site already uses what %s’s settings match.',
+			'iminify-image-optimizer'
+		),
+		offer.name
+	);
+
+	if ( changes ) {
+		lead = unsaved
+			? sprintf(
+					/* translators: %s: another image optimizer's name. */
+					__(
+						'From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below.',
+						'iminify-image-optimizer'
+					),
+					offer.name
+				)
+			: sprintf(
+					/* translators: %s: another image optimizer's name. */
+					__(
+						'From %s’s settings, Iminify would set these. Nothing changes until you use them.',
+						'iminify-image-optimizer'
+					),
+					offer.name
+				);
+	}
 
 	return (
 		<Panel className="iminify-import-offer">
@@ -144,23 +174,7 @@ function Offer( {
 			) : (
 				<>
 					<p className="iminify-lead" role="status">
-						{ changes
-							? sprintf(
-									/* translators: %s: another image optimizer's name. */
-									__(
-										'From %s’s settings, Iminify would set these. Nothing changes until you use them.',
-										'iminify-image-optimizer'
-									),
-									offer.name
-								)
-							: sprintf(
-									/* translators: %s: another image optimizer's name. */
-									__(
-										'This site already uses what %s’s settings match.',
-										'iminify-image-optimizer'
-									),
-									offer.name
-								) }
+						{ lead }
 					</p>
 					<Proposal rows={ preview.rows } />
 				</>
@@ -188,12 +202,8 @@ function Offer( {
 						</Button>
 					</>
 				) : (
-					<Button
-						disabled={ busy }
-						onClick={
-							0 === preview.rows.length ? onDecline : onUse
-						}
-					>
+					/* Nothing to use: OK only ends the offer, so a setting saved since the proposal was shown stays. */
+					<Button disabled={ busy } onClick={ onDecline }>
 						{ __( 'OK', 'iminify-image-optimizer' ) }
 					</Button>
 				) }
@@ -208,6 +218,7 @@ function Offer( {
  * @param {Object}                  props           The component's props.
  * @param {Object[]}                props.offers    The plugins, from the state's `imports`.
  * @param {Object|null}             props.preview   What Iminify proposed for one of them.
+ * @param {boolean}                 props.unsaved   Whether the settings form holds changes not saved yet.
  * @param {boolean}                 props.busy      Whether a press is on its way.
  * @param {(offer: Object) => void} props.onPreview Asks Iminify about one.
  * @param {(offer: Object) => void} props.onUse     Uses one's proposal.
@@ -217,6 +228,7 @@ function Offer( {
 export default function Imports( {
 	offers,
 	preview,
+	unsaved,
 	busy,
 	onPreview,
 	onUse,
@@ -228,6 +240,7 @@ export default function Imports( {
 			key={ offer.plugin }
 			offer={ offer }
 			preview={ preview?.plugin === offer.plugin ? preview : null }
+			unsaved={ unsaved }
 			busy={ busy }
 			onPreview={ () => onPreview( offer ) }
 			onUse={ () => onUse( offer ) }

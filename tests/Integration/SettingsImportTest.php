@@ -227,6 +227,78 @@ class SettingsImportTest extends WP_UnitTestCase {
 		$this->assertSame( '1', Settings_Copy::options( 'litespeed' )['litespeed.conf.img_optm-exif'] );
 	}
 
+	public function test_a_network_litespeed_using_the_primary_sites_configuration_reads_the_main_sites_image_settings(): void {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( 'A network only.' );
+		}
+
+		$site = (int) self::factory()->blog->create( array( 'path' => '/litespeed-' . wp_generate_password( 8, false ) . '/' ) );
+
+		update_option( 'litespeed.conf.img_optm-ori', '1' );
+		update_option( 'litespeed.conf.img_optm-lossless', '1' );
+		update_option( 'litespeed.conf.img_optm-exif', '' );
+		update_option( 'litespeed.conf.img_optm-auto', '1' );
+		update_site_option( 'litespeed.conf.img_optm-webp', '2' );
+		update_site_option( 'active_sitewide_plugins', array( 'litespeed-cache/litespeed-cache.php' => time() ) );
+
+		switch_to_blog( $site );
+
+		try {
+			update_option( 'litespeed.conf.img_optm-ori', '' );
+			update_option( 'litespeed.conf.img_optm-lossless', '' );
+			update_option( 'litespeed.conf.img_optm-exif', '1' );
+			update_option( 'litespeed.conf.img_optm-webp', '0' );
+
+			/* Its own, while the network leaves each site its settings: no records and no "Auto Request Cron" of its own. */
+			$this->assertFalse( Others::reader( 'litespeed' )->settings_chosen() );
+			$this->assertSame(
+				array(
+					'litespeed.conf.img_optm-ori'      => '',
+					'litespeed.conf.img_optm-lossless' => '',
+					'litespeed.conf.img_optm-exif'     => '1',
+					'litespeed.conf.img_optm-webp'     => '2',
+				),
+				Others::reader( 'litespeed' )->settings()
+			);
+
+			update_site_option( 'litespeed.conf.use_primary_settings', '1' );
+
+			/* The main site's, its WebP the network's: what LiteSpeed itself runs this site on. */
+			$this->assertTrue( Others::reader( 'litespeed' )->settings_chosen(), 'The main site\'s "Auto Request Cron" is this site\'s.' );
+			$this->assertSame(
+				array(
+					'litespeed.conf.img_optm-ori'      => '1',
+					'litespeed.conf.img_optm-lossless' => '1',
+					'litespeed.conf.img_optm-exif'     => '',
+					'litespeed.conf.img_optm-webp'     => '2',
+				),
+				Others::reader( 'litespeed' )->settings()
+			);
+			$this->assertSame( $site, get_current_blog_id(), 'The read leaves the site it ran on.' );
+
+			/* Turned off for the network, which keeps its settings: still what this site last ran on, never its own install defaults. */
+			update_site_option( 'litespeed.conf._version', '7.9.3' );
+			update_site_option( 'active_sitewide_plugins', array() );
+
+			$this->assertSame( '1', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-lossless'] );
+			$this->assertSame( '2', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-webp'] );
+
+			/* Uninstalled, which deletes the network's settings; or active on this site alone: its own. */
+			delete_site_option( 'litespeed.conf._version' );
+
+			$this->assertSame( '', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-lossless'] );
+			$this->assertSame( '0', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-webp'] );
+
+			update_site_option( 'litespeed.conf._version', '7.9.3' );
+			update_option( 'active_plugins', array( 'litespeed-cache/litespeed-cache.php' ) );
+
+			$this->assertSame( '', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-lossless'] );
+			$this->assertSame( '0', Others::reader( 'litespeed' )->settings()['litespeed.conf.img_optm-webp'] );
+		} finally {
+			restore_current_blog();
+		}
+	}
+
 	public function test_a_network_smush_reads_the_networks_settings_unless_it_hands_its_bulk_settings_down(): void {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped( 'A network only.' );
