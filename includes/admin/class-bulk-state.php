@@ -148,7 +148,7 @@ class Bulk_State {
 	/**
 	 * Whether LiteSpeed Cache is active, which puts its own old files back over the
 	 * plugin's and deletes the WebP and AVIF copies beside an image whenever
-	 * WordPress makes that image's sizes again (W134): the page says so, and that its
+	 * WordPress makes that image's sizes again: the page says so, and that its
 	 * "Remove Original Image Backups" ends the first.
 	 */
 	protected static function puts_back(): bool {
@@ -179,7 +179,7 @@ class Bulk_State {
 	}
 
 	/**
-	 * The other optimizer that holds the plugin back (W134), with what to switch off, or null.
+	 * The other optimizer that holds the plugin back, with what to switch off, or null.
 	 *
 	 * @return array{name: string, message: string}|null
 	 */

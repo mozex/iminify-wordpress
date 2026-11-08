@@ -377,7 +377,7 @@ class Scanner {
 
 	/**
 	 * Records the new files another plugin optimized through a folder of its own
-	 * (W140) as that plugin's, so the counts show them and no run sends them.
+	 * as that plugin's, so the counts show them and no run sends them.
 	 *
 	 * @param list<string> $paths The new files, relative to `wp-content`.
 	 */

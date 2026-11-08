@@ -139,7 +139,7 @@ class Notice {
 			);
 		}
 
-		/* Another optimizer acting on uploads holds everything back (W134), which matters more than any message from Iminify. */
+		/* Another optimizer acting on uploads holds everything back, which matters more than any message from Iminify. */
 		$acting = Others::acting();
 
 		if ( null !== $acting ) {

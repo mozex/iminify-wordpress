@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * file it compresses under `wp-content/ewww/image-backup/`, at the file's path
  * from the uploads folder under `uploads/` (from `wp-content` or the site's
  * folder for others), never written over, so a backup passes when it has
- * `orig_size`; in cloud mode the originals are on its servers (W141). Its WebP
+ * `orig_size`; in cloud mode the originals are on its servers. Its WebP
  * copies are `photo.jpg.webp`, or `photo.webp` in its replace mode. Files outside
  * the library are rows with no attachment, and so are the library's own files a
  * folder scan compressed ("Include Media Folders", or a folder under the uploads
@@ -250,7 +250,7 @@ class Ewww extends Reader {
 			}
 		}
 
-		/* Its cloud mode keeps the original on EWWW's servers for 30 days, fetched only with its key (W141). */
+		/* Its cloud mode keeps the original on EWWW's servers for 30 days, fetched only with its key. */
 		$elsewhere = $cloud && ! isset( $names_by_size['original'] ) ? __( 'EWWW Image Optimizer kept this image\'s original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can\'t fetch it.', 'iminify-image-optimizer' ) : '';
 
 		return self::answer( $attachment, $files, $backups, $copies, $elsewhere );

@@ -1,5 +1,5 @@
 /**
- * "Use <plugin>'s settings" (D11): another image optimizer's settings, which
+ * "Use <plugin>'s settings": another image optimizer's settings, which
  * the plugin kept a copy of, offered as the site's own once it is connected.
  * The first press asks Iminify what they match and shows it beside the values
  * now, changing nothing; the second uses them. Drawn from what the server

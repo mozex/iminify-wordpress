@@ -74,7 +74,7 @@ class Bulk {
 
 	/**
 	 * The images another optimizer compressed, optimized again from the originals it
-	 * kept: each is put back from its original in its own run, then sent (D11).
+	 * kept: each is put back from its original in its own run, then sent.
 	 */
 	const REDO = 'redo';
 
@@ -345,7 +345,7 @@ class Bulk {
 	/**
 	 * Ends the run. The images it queued that have no group open yet go back to
 	 * "not optimized" with nothing counted, or, for a redo, to the plugin that
-	 * optimized them while they aren't put back yet (W254); a group already open
+	 * optimized them while they aren't put back yet; a group already open
 	 * goes on, since its image is counted.
 	 */
 	public static function stop(): void {
@@ -713,7 +713,7 @@ class Bulk {
 	 * still moves past it, so a run never looks at it twice.
 	 *
 	 * The images to optimize are the ones with no record, or "not optimized" for any
-	 * reason but a restore someone chose (W161), never one optimized, failed,
+	 * reason but a restore someone chose, never one optimized, failed,
 	 * skipped or on its way. An image someone names (`takes()`) goes whatever it reads
 	 * but optimized or on its way.
 	 *
@@ -751,7 +751,7 @@ class Bulk {
 					continue;
 				}
 
-				/* Restore all leaves an image another optimizer converted as it is, since its original is that plugin's to put back (W135); one someone names is refused with why. */
+				/* Restore all leaves an image another optimizer converted as it is, since its original is that plugin's to put back; one someone names is refused with why. */
 				if ( self::RESTORE === $action ? $files || null !== $only || null === Originals::converted( $id ) : ( $files ? null === Folder_Optimizer::why_not( $id ) : self::can_send( $action, $id ) ) ) {
 					$found[] = $id;
 				} else {
@@ -834,7 +834,7 @@ class Bulk {
 			return null;
 		}
 
-		/* While another optimizer acts on uploads nothing is sent (W134); the run holds, saying why, and goes on once it is switched off. */
+		/* While another optimizer acts on uploads nothing is sent; the run holds, saying why, and goes on once it is switched off. */
 		if ( null !== Others::acting() ) {
 			if ( Others::ACTING !== $run['reason'] || ! $run['rewind'] ) {
 				self::change(
@@ -1143,7 +1143,7 @@ class Bulk {
 			case self::RETRY:
 				return Records::ERROR === $status;
 			case self::RESTORE:
-				/* An image another plugin optimized is restored only when someone names it (W251). */
+				/* An image another plugin optimized is restored only when someone names it. */
 				return in_array( $status, array( Records::OPTIMIZED, Records::OTHER ), true );
 			case self::FORMATS:
 			case self::SIZES:
@@ -1250,7 +1250,7 @@ class Bulk {
 
 			$next = self::candidates( self::RESTORE, self::RESTORE_BATCH, $run['cursor'], $run['only'], $run['scope'] );
 
-			/* An image another optimizer converted stays as it is (W272): it leaves the total and counts as passed over, once, since the cursor moves only as images are restored. */
+			/* An image another optimizer converted stays as it is: it leaves the total and counts as passed over, once, since the cursor moves only as images are restored. */
 			if ( array() !== $next['passed'] ) {
 				$total  = $run['total'];
 				$passed = $run['passed'];

@@ -146,7 +146,7 @@ class Hooks {
 			return;
 		}
 
-		/* LiteSpeed Cache, active, deletes the WebP and AVIF copies beside an image's files when its metadata is made again, the plugin's own among them, and may put its own old files back over the plugin's (W134): a copy gone is forgotten, and a file put back reads as changed below. */
+		/* LiteSpeed Cache, active, deletes the WebP and AVIF copies beside an image's files when its metadata is made again, the plugin's own among them, and may put its own old files back over the plugin's: a copy gone is forgotten, and a file put back reads as changed below. */
 		Copies::forget_gone( $attachment );
 
 		/* A regeneration that skipped every existing size (Regenerate Thumbnails' default) left the files as they were. */

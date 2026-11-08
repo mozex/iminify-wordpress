@@ -48,13 +48,13 @@ class State {
 		$state['disk']  = array( 'low' => ! Disk::has_room_for( 0 ) );
 		$state['rules'] = Rules::active() ? self::rules() : null;
 
-		/* Another optimizer acting on uploads holds every optimization back (W134), so the page says which and what to switch off. */
+		/* Another optimizer acting on uploads holds every optimization back, so the page says which and what to switch off. */
 		$state['conflict'] = Bulk_State::conflict();
 
-		/* Rules another optimizer left behind still serve its old copies (W136); they go only on the person's press. */
+		/* Rules another optimizer left behind still serve its old copies; they go only on the person's press. */
 		$state['leftovers'] = Leftovers::found();
 
-		/* Another optimizer's settings the page offers to use (D11), once the site is connected. */
+		/* Another optimizer's settings the page offers to use, once the site is connected. */
 		$state['imports'] = Settings_Copy::offers();
 
 		return $state;

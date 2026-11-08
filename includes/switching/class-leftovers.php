@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Several optimizers leave their rules for serving WebP and AVIF behind once they
- * are switched off (W136): EWWW keeps its `.htaccess` block until it is deleted,
+ * are switched off: EWWW keeps its `.htaccess` block until it is deleted,
  * TinyPNG has no deactivation at all, ShortPixel keeps its blocks on a server it
  * took for Nginx, and Imagify and Converter for Media keep theirs wherever they
  * couldn't write. Each still answers a browser's request for an image with a copy

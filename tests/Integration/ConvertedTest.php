@@ -26,7 +26,7 @@ use Iminify\WordPress\Tests\Support\Others_Fixture;
 use WP_UnitTestCase;
 
 /**
- * Covers W135's redo: an image Image Optimizer by Elementor converted to WebP, or
+ * Covers the redo of a converted image: an image Image Optimizer by Elementor converted to WebP, or
  * whose files Modern Image Formats replaced with AVIF, is made again in its own
  * format and names from the JPEG that plugin kept (`output_format`), with nothing
  * put back; the JPEG is kept in the plugin's own backup whatever the setting, and

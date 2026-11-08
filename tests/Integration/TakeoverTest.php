@@ -24,7 +24,7 @@ use WP_UnitTestCase;
 /**
  * `Switching\Takeover`, the copies `Media\Picture` serves, `Media\Writer`'s one
  * write over another plugin's file, and every path in `Media\Copies` that
- * deletes copies, which only forgets a taken one (W137, W133).
+ * deletes copies, which only forgets a taken one.
  */
 class TakeoverTest extends WP_UnitTestCase {
 

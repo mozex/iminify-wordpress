@@ -26,12 +26,12 @@ use Iminify\WordPress\Tests\Support\Others_Fixture;
 use WP_UnitTestCase;
 
 /**
- * Covers D11's "optimize again from the originals": an image another optimizer
- * compressed is put back from the original it kept (W250) before it is sent, at
+ * Covers "optimize again from the originals": an image another optimizer
+ * compressed is put back from the original it kept before it is sent, at
  * the press in the media library and in its own run for the bulk run's `redo`,
  * after every refusal that costs nothing, and keeps a backup whatever the
  * setting; a stop gives back what wasn't put back yet; every automatic path still
- * sends nothing. And LiteSpeed Cache's put-back on a regeneration (W134): copies
+ * sends nothing. And LiteSpeed Cache's put-back on a regeneration: copies
  * it deleted are forgotten, and a file it put back reads as changed.
  */
 class RedoTest extends WP_UnitTestCase {

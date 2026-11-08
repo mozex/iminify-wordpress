@@ -134,7 +134,7 @@ class Rest_Controller {
 	 * The page's state.
 	 */
 	public function state(): WP_REST_Response {
-		/* The page opening is when the plugin looks at another optimizer's settings (W138); its other answers read the copy. */
+		/* The page opening is when the plugin looks at another optimizer's settings; its other answers read the copy. */
 		Settings_Copy::take_all();
 
 		return $this->answer();

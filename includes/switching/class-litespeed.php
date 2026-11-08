@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * attached file and each size (never WordPress's original beside a `-scaled` copy,
  * and only a lowercase `jpg`, `jpeg`, `png` or `gif`), and never the metadata's
  * `filesize`, so a file whose bytes are no longer the `filesize` WordPress wrote is
- * its output (W247). Before writing it copies the file once beside it as
+ * its output. Before writing it copies the file once beside it as
  * `photo.bk.jpg`, never written again, which is the original only with the bytes
  * that `filesize` gives: a backup taken after its backups were off for a pass, or
  * after its "Remove Original Image Backups", is of a file it had compressed. With
@@ -75,8 +75,8 @@ class Litespeed extends Reader {
 
 	/**
 	 * Its "Auto Request Cron" on with a QUIC.cloud account to send with, images
-	 * still on their way back, or its "Auto Rescale Original Images" on (W134,
-	 * W245), read only while LiteSpeed is loaded, since its settings filter answers
+	 * still on their way back, or its "Auto Rescale Original Images" on, read
+	 * only while LiteSpeed is loaded, since its settings filter answers
 	 * its own name otherwise. It keeps an array setting as JSON in its option.
 	 */
 	protected function optimizes_uploads(): bool {

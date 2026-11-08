@@ -134,7 +134,7 @@ class Writer {
 	 * @param array<string, mixed>                $copies   The record's `copies`.
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
 	 * @param string                              $type     The MIME type every output is made in, for a file not on the disk.
-	 * @param array<string, mixed>                $theirs   The copies another plugin's records name beside the files, by their paths relative to the root (`Takeover::named()`), which the plugin's own copy of the same name replaces (W133).
+	 * @param array<string, mixed>                $theirs   The copies another plugin's records name beside the files, by their paths relative to the root (`Takeover::named()`), which the plugin's own copy of the same name replaces.
 	 * @param callable|null                       $journal  Saves the record's `pending` before anything is renamed: `function ( array $pending ): void`.
 	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
@@ -183,7 +183,7 @@ class Writer {
 		foreach ( $writes as $write ) {
 			$target = Paths::under( $root, $write['file'] );
 
-			/* A WebP or AVIF of that name that neither the record nor another optimizer's records name (another tool made it, or rewrote it since) stays as it is: written over, it would read as the plugin's and go with a restore. One another optimizer's records name is replaced in place, the one write W133 allows over another plugin's file. */
+			/* A WebP or AVIF of that name that neither the record nor another optimizer's records name (another tool made it, or rewrote it since) stays as it is: written over, it would read as the plugin's and go with a restore. One another optimizer's records name is replaced in place, the one write over another plugin's file the plugin ever makes. */
 			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_recorded( $target, $recorded[ $write['file'] ] ?? null ) && ( is_link( $target ) || ! isset( $theirs[ $write['file'] ] ) ) ) {
 				$kept[] = $write['file'];
 				continue;

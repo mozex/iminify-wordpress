@@ -34,8 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * same way: its backup is copied into place, never moved, so that plugin's own
  * restore still finds it; WordPress makes the sizes again over its outputs under
  * their names; and a size WordPress doesn't make any more is put back from that
- * plugin's backup of it, where it kept one (W250). Its copies stay where they are.
- * Where restoring is that plugin's own to do (W135, W141), it says why instead,
+ * plugin's backup of it, where it kept one. Its copies stay where they are.
+ * Where restoring is that plugin's own to do, it says why instead,
  * and keeps saying it once the plugin optimized such a converted image again from
  * the JPEG or PNG that plugin kept (`Originals::converted()`): that original is in
  * another format than the files, and is never put over them.
@@ -60,7 +60,7 @@ class Restorer {
 	const CHANGED = 'changed';
 
 	/**
-	 * Another optimizer compressed the image, and restoring it is that plugin's own to do (W135, W141).
+	 * Another optimizer compressed the image, and restoring it is that plugin's own to do.
 	 */
 	const THEIRS = 'theirs';
 

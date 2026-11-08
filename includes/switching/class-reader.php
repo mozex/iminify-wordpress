@@ -26,8 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * copies its records name. A shape it doesn't know reads as nothing, and the
  * attachment is left as it is.
  *
- * It also says whether that plugin, active now, would act on uploads by itself
- * (W134), in which case the plugin optimizes nothing until it is switched off.
+ * It also says whether that plugin, active now, would act on uploads by itself,
+ * in which case the plugin optimizes nothing until it is switched off.
  *
  * Readers only read. Every path a record gives goes through `Places`.
  *
@@ -109,7 +109,7 @@ abstract class Reader {
 	}
 
 	/**
-	 * Why restoring an image this plugin converted into WebP or AVIF (W135) is its
+	 * Why restoring an image this plugin converted into WebP or AVIF is its
 	 * own to do, in a sentence, or empty for a plugin that never converts.
 	 */
 	public function restore_elsewhere(): string {
@@ -131,7 +131,7 @@ abstract class Reader {
 	}
 
 	/**
-	 * Whether the plugin can act on the library now (W134): active, with its
+	 * Whether the plugin can act on the library now: active, with its
 	 * optimization of uploads on.
 	 */
 	public function acts(): bool {
@@ -158,7 +158,7 @@ abstract class Reader {
 
 	/**
 	 * Whether the plugin took an attachment away from the site (Optimole's
-	 * offload, W139): its files are gone from here, and only that plugin brings
+	 * offload): its files are gone from here, and only that plugin brings
 	 * them back.
 	 *
 	 * @param int $attachment The attachment's id.
@@ -237,7 +237,7 @@ abstract class Reader {
 
 	/**
 	 * Of these files outside the media library, those the plugin optimized through
-	 * a folder of its own (W140) that still hold what it wrote.
+	 * a folder of its own that still hold what it wrote.
 	 *
 	 * @param list<string> $paths Absolute paths.
 	 * @return list<string>
@@ -308,7 +308,7 @@ abstract class Reader {
 	}
 
 	/**
-	 * Files the plugin wrote without recording their bytes (W249), as its, with the
+	 * Files the plugin wrote without recording their bytes, as its, with the
 	 * bytes they have now: nothing tells a later change apart, so they stay its while
 	 * the trace that says so (its backup, its conversion's record) is there, which its
 	 * own restore removes. A file with the bytes the plugin itself wrote is the
@@ -342,7 +342,7 @@ abstract class Reader {
 	/**
 	 * The answer for one attachment from what a reader found: each recorded file
 	 * that still has the bytes the plugin recorded after is its output, unless it
-	 * has the bytes Iminify wrote there (W249), as the record of the attachment
+	 * has the bytes Iminify wrote there, as the record of the attachment
 	 * holding the files says (a translation's are its holder's): a reader that
 	 * records no bytes of its own (Image Optimizer by Elementor's converted files)
 	 * would otherwise claim the files Iminify made again from its original.
@@ -475,7 +475,7 @@ abstract class Reader {
 	}
 
 	/**
-	 * The plugin's settings as Iminify's settings import takes them (W278): each
+	 * The plugin's settings as Iminify's settings import takes them: each
 	 * option the import maps, by name, as the plugin keeps it, an array option cut
 	 * to the keys the import reads, so the API key or token another service keeps
 	 * beside them never leaves the site. An option the plugin never saved is left

@@ -247,7 +247,7 @@ class Optimizer {
 			self::drop_group( $id, (string) ( $row['group']['id'] ?? '' ) );
 		}
 
-		/* While another optimizer acts on uploads nothing opens (W134). */
+		/* While another optimizer acts on uploads nothing opens. */
 		$acting = Others::acting();
 
 		if ( null !== $acting ) {
@@ -733,7 +733,7 @@ class Optimizer {
 			);
 		}
 
-		/* A file another plugin optimized in a folder of its own is never sent for a second lossy pass (W140). */
+		/* A file another plugin optimized in a folder of its own is never sent for a second lossy pass. */
 		$owner = Others::file_owner( $file );
 
 		if ( null !== $owner ) {

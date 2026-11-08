@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * A copy another plugin's records name (W137) is taken over when it reads as its
+ * A copy another plugin's records name is taken over when it reads as its
  * format and is no older than the file it stands beside, so a copy of a picture
  * replaced since is never taken: it is recorded with that plugin's short name as
  * its origin, the bytes it has and the bytes of the file beside it, and
@@ -32,7 +32,7 @@ class Takeover {
 
 	/**
 	 * The plugins whose copies are never taken over: LiteSpeed Cache's, which no
-	 * record of its names, so they are found only by being there (W247).
+	 * record of its names, so they are found only by being there.
 	 */
 	const UNNAMED = array( 'litespeed' );
 

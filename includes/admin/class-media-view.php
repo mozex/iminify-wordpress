@@ -147,7 +147,7 @@ class Media_View {
 			return $actions;
 		}
 
-		/* An image another plugin optimized is left as it is (decision 39), unless someone optimizes it again or restores it from the original that plugin kept; one it converted is restored only there (W135). */
+		/* An image another plugin optimized is left as it is, unless someone optimizes it again or restores it from the original that plugin kept; one it converted is restored only there. */
 		if ( null !== self::other( $attachment ) ) {
 			if ( ! self::is_busy( $attachment ) ) {
 				if ( Plugin::connected() && Optimizer::redoable( $attachment ) ) {
@@ -815,7 +815,7 @@ class Media_View {
 			return '';
 		}
 
-		/* Another plugin's image is optimized again or restored from the original it kept; one it converted is restored only there (W135), which the panel says. */
+		/* Another plugin's image is optimized again or restored from the original it kept; one it converted is restored only there, which the panel says. */
 		if ( null !== self::other( $attachment ) ) {
 			$available = Restorer::availability( $attachment );
 			$html      = '';

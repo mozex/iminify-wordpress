@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * and `original_data.sizes` keeps each one's WordPress entry from before (its
  * `file` and `filesize`). It writes the metadata's `filesize` from what its
  * service reported, which isn't proven to be the bytes it wrote, so its output
- * is told by what it did to the files rather than by bytes (W248):
+ * is told by what it did to the files rather than by bytes:
  *
  * - converting (its default, to WebP or AVIF) replaces the attachment's files
  *   with `photo.webp` and keeps the untouched `photo.jpg` at its own path, so a
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   another name (an edit WordPress saved as `photo-e1699999999999.webp`) is
  *   not its output. Restoring it would rewrite the
  *   attachment, its address and the posts linking to it, which Iminify never
- *   does (W135): Elementor's own Restore does, while it is installed;
+ *   does: Elementor's own Restore does, while it is installed;
  * - keeping the format, it copies each file first as `photo.backup.jpg` beside
  *   it, so a file with a `.backup.` copy that differs from it is its output (or,
  *   with backups turned off, one whose bytes are no longer `original_data`'s).

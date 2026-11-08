@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * or its resize's or PNG conversion's, which run earlier). The free plugin
  * makes no WebP or AVIF copies. Files outside the library are rows of
  * `{base_prefix}smush_dir_images` by absolute path, with no backups. A run it
- * never finished leaves its backup with no record (W249).
+ * never finished leaves its backup with no record.
  *
  * @phpstan-import-type Found from Reader
  */
@@ -113,7 +113,7 @@ class Smush extends Reader {
 
 	/**
 	 * Its record of any image, or the pointer to a backup it takes before its first
-	 * step, which a run it never finished leaves alone (W249).
+	 * step, which a run it never finished leaves alone.
 	 */
 	protected function holds_records(): bool {
 		global $wpdb;

@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * put back from that original first, and keeps a backup of it whatever the
  * setting says.
  *
- * An image another optimizer converted into WebP or AVIF (W135) and the plugin
+ * An image another optimizer converted into WebP or AVIF and the plugin
  * optimized again from the JPEG or PNG that plugin kept keeps `converted`: the
  * kept file's path (whose backup the plugin holds under its own name), the
  * plugin's short name and the format the attachment's files are in. Its backup is
@@ -164,7 +164,7 @@ class Records {
 
 	/**
 	 * The mark of an image optimized again from another optimizer's original in
-	 * another format than its files (W135), as a record keeps it, or null.
+	 * another format than its files, as a record keeps it, or null.
 	 *
 	 * @param mixed $converted The record's `converted`.
 	 * @return array{file: string, plugin: string, type: string}|null

@@ -31,10 +31,10 @@ use WP_Query;
 use WP_UnitTestCase;
 
 /**
- * Covers what decision 39 and W134 make of another optimizer's work: such an
+ * Covers what becomes of another optimizer's work: such an
  * image is never sent again (a regeneration, a bulk run, a press), reads as that
  * plugin's in the media library, its filter and the bulk page's counts, and its
- * files in other folders are set aside (W140); while another optimizer acts on
+ * files in other folders are set aside; while another optimizer acts on
  * uploads, uploads, presses and bulk runs send nothing and the pages say which
  * plugin to switch off, while restoring goes on.
  */

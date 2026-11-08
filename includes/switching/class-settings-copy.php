@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * A copy of each other optimizer's settings (W138), as its reader names them
+ * A copy of each other optimizer's settings, as its reader names them
  * (`Reader::settings()`: only what Iminify's settings import maps, never a key
  * or a token), kept in an option of the plugin's own that isn't autoloaded,
  * since Imagify, Converter for Media, LiteSpeed Cache and Modern Image Formats

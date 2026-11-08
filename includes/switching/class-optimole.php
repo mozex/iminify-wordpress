@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Optimole (read from 4.2.18) serves images through its own service and leaves
  * the files alone, unless "Optimole Cloud only" is chosen for storing them
- * (`offload_media`), which sends each upload away and deletes its local files
- * (W139): `om_image_offloaded` (or, from older versions, `optimole_offload`
+ * (`offload_media`), which sends each upload away and deletes its local files:
+ * `om_image_offloaded` (or, from older versions, `optimole_offload`
  * alone) and an attachment's metadata naming `/id:` say so, while its attached
  * file is gone (a rollback in progress brings it back with the marks still on).
  * Such an image isn't Iminify's to touch until Optimole rolls it back. It changes

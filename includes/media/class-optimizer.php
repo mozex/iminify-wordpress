@@ -152,12 +152,12 @@ class Optimizer {
 	 * gentler level. Nothing changes when the service can't take it now.
 	 *
 	 * An image another optimizer compressed goes back the same way, from the
-	 * original that plugin kept (`Restorer`, W250), so it is an ordinary image by
+	 * original that plugin kept (`Restorer`), so it is an ordinary image by
 	 * the time it is sent: its files are no longer that plugin's output, and no
 	 * guard is passed by. Every refusal that costs nothing comes first, so a site
 	 * that can't send it now never loses that plugin's savings for nothing.
 	 *
-	 * An image another optimizer converted into WebP or AVIF (W135) has nothing put
+	 * An image another optimizer converted into WebP or AVIF has nothing put
 	 * back: its files are made again in their own format from the JPEG or PNG that
 	 * plugin kept, and later from the plugin's own backup of it
 	 * (`Originals::converted()`), each named without bytes (`redo`), so a gentler
@@ -251,9 +251,10 @@ class Optimizer {
 
 	/**
 	 * Whether an image another optimizer compressed can be optimized again from the
-	 * original that plugin kept: restoring it is the plugin's to do (W250, not
-	 * W141's), or that plugin converted it into WebP or AVIF and kept its JPEG or
-	 * PNG (W135, `Originals::converted()`), and nothing else keeps it from being sent.
+	 * original that plugin kept: restoring it is the plugin's to do (not an original
+	 * on that plugin's servers), or that plugin converted it into WebP or AVIF and
+	 * kept its JPEG or PNG (`Originals::converted()`), and nothing else keeps it from
+	 * being sent.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
@@ -328,7 +329,7 @@ class Optimizer {
 			return new WP_Error( 'file_too_large', __( 'This image\'s original is too large to send: past your plan\'s file size, or more than this server\'s memory can hold.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
 
-		/* An image put back from another plugin's original keeps a backup of it whatever the setting (W253), so there has to be room for one before anything is put back. */
+		/* An image put back from another plugin's original keeps a backup of it whatever the setting, so there has to be room for one before anything is put back. */
 		if ( $redo && null !== $source && ! Disk::has_room_for( (int) Offload_Media::bytes( $attachment, $source['path'] ) ) ) {
 			return new WP_Error( 'disk_full', __( 'The server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 		}
@@ -374,7 +375,7 @@ class Optimizer {
 	}
 
 	/**
-	 * The outputs of an image another optimizer converted (W135) whose files hold
+	 * The outputs of an image another optimizer converted whose files hold
 	 * nothing worth keeping against the original it kept: every one at someone's
 	 * ask, since nothing was put back first, else each file the plugin didn't
 	 * write (that optimizer's), so the service's file made from the original takes
@@ -533,7 +534,7 @@ class Optimizer {
 			self::drop_group( $attachment, (string) ( $record['group']['id'] ?? '' ) );
 		}
 
-		/* While another optimizer acts on uploads nothing opens (W134): it compresses the image itself, and a later look records it as its. */
+		/* While another optimizer acts on uploads nothing opens: it compresses the image itself, and a later look records it as its. */
 		$acting = Others::acting();
 
 		if ( null !== $acting ) {
@@ -725,7 +726,7 @@ class Optimizer {
 
 		$backups = $record['backups'];
 
-		/* Before the group opens, so a backup that can't be trusted costs no image. One put back from another optimizer's original is kept whatever the setting, or restoring it would end with that plugin's backup (D11). */
+		/* Before the group opens, so a backup that can't be trusted costs no image. One put back from another optimizer's original is kept whatever the setting, or restoring it would end with that plugin's backup. */
 		if ( Originals::BACKUP !== $source['kind'] ) {
 			$keep = Local_Settings::get()['backups'] || $record['redo'];
 
@@ -794,14 +795,14 @@ class Optimizer {
 
 	/**
 	 * Puts back the original another optimizer kept of an image someone asked to
-	 * optimize again (W250), so the image goes on as an ordinary one: its files are
+	 * optimize again, so the image goes on as an ordinary one: its files are
 	 * no longer that plugin's output, and its original is the one sent. One no
 	 * reader claims any more goes on as it is. One that can't go now stays that
 	 * plugin's, with nothing put back or sent: its restore is no longer the
 	 * plugin's to do (its backup went missing since, or failed its size check), its
 	 * original is past what the site can send, or there is no room for the backup
-	 * it keeps (W253). A restore that failed shows why. One that plugin converted
-	 * into WebP or AVIF (W135) has nothing put back, and goes on from the original
+	 * it keeps. A restore that failed shows why. One that plugin converted
+	 * into WebP or AVIF has nothing put back, and goes on from the original
 	 * it kept (`Originals::converted()`).
 	 *
 	 * @param int                  $attachment The attachment's id.
@@ -1111,7 +1112,7 @@ class Optimizer {
 	 * The copies' formats a finished group was asked for, read from its answer. The
 	 * service answers the outputs' own format as `original`, so a WebP source's
 	 * `webp` reads as asked too; it would otherwise read as missing on every run. An
-	 * AVIF file never has a WebP beside it (W267: the copy would be served in its
+	 * AVIF file never has a WebP beside it (the copy would be served in its
 	 * place), so it lacks none.
 	 *
 	 * @param array<string, mixed> $answer The group as the service answered it.
@@ -1384,7 +1385,7 @@ class Optimizer {
 			);
 		}
 
-		/* Another plugin's output is never sent for a second lossy pass (decision 39), so it is read afresh here, where every send asks; an image put back from that plugin's original before it is sent is no longer its output. */
+		/* Another plugin's output is never sent for a second lossy pass, so it is read afresh here, where every send asks; an image put back from that plugin's original before it is sent is no longer its output. */
 		$other = $redo ? null : Others::why( $attachment, $fresh );
 
 		if ( null !== $other ) {

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The settings import (D11, W138): the press sends the copy of another
+ * The settings import: the press sends the copy of another
  * optimizer's settings (`Settings_Copy`, taken again first while that plugin's
  * options are still there), its short name and the image sizes the site
  * registers to Iminify (`POST /site/import`), which maps them and writes
@@ -32,8 +32,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Settings_Import {
 
 	/**
-	 * The most image sizes a site sends, as many as Iminify takes from a site
-	 * (`compressor.sites.max-declared`); a size past them isn't matched by name.
+	 * The most image sizes a site sends, as many as Iminify takes from a site; a
+	 * size past them isn't matched by name.
 	 */
 	const MAX_SIZES = 100;
 

@@ -21,8 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * another plugin's, and stays. Restoring, "delete the copies", deleting an
  * attachment and uninstalling all come through here.
  *
- * A copy another optimizer made and the plugin took over (`Switching\Takeover`,
- * W137) is recorded with that plugin's short name as its origin, and served
+ * A copy another optimizer made and the plugin took over (`Switching\Takeover`)
+ * is recorded with that plugin's short name as its origin, and served
  * like the plugin's own while it is proven the same way. It is never the
  * plugin's to delete: every path here only forgets it, and its file stays.
  */

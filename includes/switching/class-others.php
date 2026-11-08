@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Asks each reader (`Reader`) what its plugin left on the site.
  *
  * An attachment whose attached file still holds another plugin's output reads as
- * optimized by that plugin (decision 39): it costs nothing, is never sent again
+ * optimized by that plugin: it costs nothing, is never sent again
  * unless someone asks, and its pages and counts say whose it is. That is checked
  * afresh wherever an image could be sent (`Optimizer::why_not()`), which is what
  * keeps another plugin's output from a second lossy pass; the plugin's own record
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * (`look()`, then `sweep()` in the background) writes that record when another
  * plugin's records change, and takes it off an image no reader claims any more.
  *
- * While another optimizer can act on uploads (`acting()`, W134) the plugin
+ * While another optimizer can act on uploads (`acting()`) the plugin
  * optimizes nothing, on upload or in bulk; restoring and serving copies go on.
  *
  * @phpstan-import-type Found from Reader
@@ -145,7 +145,7 @@ class Others {
 	}
 
 	/**
-	 * The other optimizer that can act on the library now (W134), or null.
+	 * The other optimizer that can act on the library now, or null.
 	 */
 	public static function acting(): ?Reader {
 		foreach ( self::readers() as $reader ) {
@@ -348,7 +348,7 @@ class Others {
 
 	/**
 	 * Why restoring an attachment another plugin optimized is that plugin's own to
-	 * do rather than Iminify's (W135, W141), in a sentence, or empty. An image that
+	 * do rather than Iminify's, in a sentence, or empty. An image that
 	 * plugin converted, which the plugin optimized again from the original it kept,
 	 * is no longer claimed by its reader, so its sentence comes from the record
 	 * (`Originals::converted()`).
@@ -369,8 +369,8 @@ class Others {
 	}
 
 	/**
-	 * The plugin that took an attachment away from the site (Optimole's offload,
-	 * W139), whose files only it brings back, or null.
+	 * The plugin that took an attachment away from the site (Optimole's offload),
+	 * whose files only it brings back, or null.
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
@@ -431,7 +431,7 @@ class Others {
 
 	/**
 	 * The plugin that optimized a file in another folder through a folder of its
-	 * own (W140), or null.
+	 * own, or null.
 	 *
 	 * @param string $path The file's absolute path.
 	 */

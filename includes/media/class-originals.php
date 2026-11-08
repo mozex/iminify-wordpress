@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * service doesn't take (an AVIF, an SVG) has none: it is kept as it was uploaded.
  *
  * One exception to the format: an image another optimizer converted into WebP or
- * AVIF (W135) is made again from the JPEG or PNG that plugin kept, in its files'
+ * AVIF is made again from the JPEG or PNG that plugin kept, in its files'
  * own format (`converted()`), since putting that original back would change the
  * attachment's address and the posts linking to it. Its source is answered as
  * CONVERTED, and nothing ever copies it over the attachment's files.
@@ -176,7 +176,7 @@ class Originals {
 
 	/**
 	 * The original another optimizer kept of an image it converted into WebP or
-	 * AVIF (W135: Image Optimizer by Elementor's `photo.webp` beside the `photo.jpg`
+	 * AVIF (Image Optimizer by Elementor's `photo.webp` beside the `photo.jpg`
 	 * it kept, Modern Image Formats' `photo.avif` beside the upload WordPress keeps
 	 * as its original), or null. The service makes the attachment's files from it
 	 * in their own format (`output_format`), with nothing put back.

@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   the attachment still says `image/jpeg`. Those files are its output, while they
  *   have the bytes the metadata gives them, and the upload is the original.
  *   Restoring the JPEG would give the attachment new addresses and break the posts
- *   linking to it, which Iminify never does (W135).
+ *   linking to it, which Iminify never does.
  * - With its fallback the JPEGs stay as they were and each AVIF is a copy beside
  *   its file (`photo-jpg.avif`), which `sources` names.
  *
