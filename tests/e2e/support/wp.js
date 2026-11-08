@@ -16,16 +16,25 @@ const wpEnv = path.join( root, 'node_modules/@wordpress/env/bin/wp-env' );
 let cli;
 
 /**
- * How WP-CLI is reached: `docker compose exec` on the compose file wp-env wrote
- * for the e2e site, which `wp-env status` names, run as `wp-env run` runs it;
- * `wp-env run` itself when the site isn't running on Docker. wp-env starts Node
- * and reads its configuration on every call, about two seconds each, and a test
- * sets up its state through several calls.
+ * How WP-CLI is reached: the command in `IMINIFY_E2E_CLI` when it is set, its
+ * words separated by spaces (`docker exec -i -w /var/www/html <container>`), for
+ * a site this process's wp-env can't describe, as when wp-env runs inside WSL and
+ * the browser on Windows; otherwise `docker compose exec` on the compose file
+ * wp-env wrote for the e2e site, which `wp-env status` names, run as `wp-env run`
+ * runs it; `wp-env run` itself when the site isn't running on Docker. wp-env
+ * starts Node and reads its configuration on every call, about two seconds each,
+ * and a test sets up its state through several calls.
  *
  * @return {string[]} The program and its arguments, before WP-CLI's.
  */
 function cliCommand() {
 	if ( undefined !== cli ) {
+		return cli;
+	}
+
+	if ( process.env.IMINIFY_E2E_CLI ) {
+		cli = process.env.IMINIFY_E2E_CLI.trim().split( /\s+/ );
+
 		return cli;
 	}
 
