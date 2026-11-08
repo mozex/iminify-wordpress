@@ -13,7 +13,7 @@ test( 'The server sends a copy only where the rules cover it, and the rules foll
 	page,
 	request,
 } ) => {
-	/* About ten WP-CLI calls, each a few seconds through wp-env. */
+	/* About ten WP-CLI calls, each loading WordPress again. */
 	test.slow();
 	/* A run cut short after turning the plugin off leaves it off. */
 	wp( 'plugin', 'activate', 'iminify-image-optimizer' );

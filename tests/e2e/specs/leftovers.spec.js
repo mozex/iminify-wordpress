@@ -13,7 +13,7 @@ test( 'A rule another optimizer left is shown with its lines and removed on the 
 	page,
 	request,
 } ) => {
-	/* A handful of WP-CLI calls, each a few seconds through wp-env. */
+	/* A handful of WP-CLI calls, each loading WordPress again. */
 	test.slow();
 	wp( 'plugin', 'activate', 'iminify-image-optimizer' );
 	seed( 'reset' );

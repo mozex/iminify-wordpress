@@ -12,7 +12,7 @@ const { seed, seedJson, settingsPage, wp } = require( '../support/wp' );
 test( 'Another optimizer’s settings are shown before they are used, then used', async ( {
 	page,
 } ) => {
-	/* A handful of WP-CLI calls, each a few seconds through wp-env. */
+	/* A handful of WP-CLI calls, each loading WordPress again. */
 	test.slow();
 	wp( 'plugin', 'activate', 'iminify-image-optimizer' );
 	seed( 'reset' );

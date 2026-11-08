@@ -32,3 +32,13 @@ require $iminify_tests_dir . '/includes/bootstrap.php';
  * the next site made takes an id whose stale tables that connection still has.
  */
 putenv( 'WP_TESTS_SKIP_INSTALL=1' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv -- the test library reads it in each separate process.
+
+/*
+ * The run's own process puts the uploads folder back as it found it once the run
+ * ends (Uploads_Sweep says why). A test run in a separate process starts with the
+ * variable set, so it leaves the folder to the run.
+ */
+if ( false === getenv( 'IMINIFY_TESTS_CHILD' ) ) {
+	putenv( 'IMINIFY_TESTS_CHILD=1' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv -- each separate process inherits it.
+	\Iminify\WordPress\Tests\Support\Uploads_Sweep::start( wp_upload_dir( null, false )['basedir'] );
+}

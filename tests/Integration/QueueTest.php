@@ -477,6 +477,9 @@ class QueueTest extends WP_UnitTestCase {
 
 		$this->assertCount( 1, $this->api->calls( 'POST', 'groups' ) );
 		Local_Settings::update( array( 'backups' => true ) );
+
+		$this->rmdir( dirname( $moved ) );
+		rmdir( dirname( $moved ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- the folder the test made.
 	}
 
 	public function test_the_notice_tells_of_a_refused_day_when_the_site_record_has_no_message_for_it(): void {
