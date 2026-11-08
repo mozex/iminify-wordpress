@@ -216,6 +216,7 @@ class Restorer {
 				'group'   => null,
 				/* Only what this restore replaced: a file it didn't touch is still the plugin's output, and must never pass for an original. */
 				'written' => array_diff_key( $written, array_flip( self::files_of( (string) get_attached_file( $attachment, true ), $fresh ) ) ),
+				'pending' => null,
 				'result'  => null,
 			)
 		);

@@ -315,6 +315,71 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertTrue( $this->queued( $other ) );
 	}
 
+	public function test_files_written_by_a_request_that_died_before_saving_the_record_are_still_the_plugins_own(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+		$main     = (string) Paths::relative( $attached );
+		$original = (string) file_get_contents( $attached ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a test image.
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->answer( $id );
+
+		/* The request dies with the group's files in place, before the record naming them is saved. What they named is saved before the first of them took its place. */
+		$journaled = null;
+		$dies      = static function ( $check, $attachment, $key, $value ) use ( $main, $attached, &$journaled ) {
+			if ( Records::META === $key && is_array( $value ) && isset( $value['pending']['written'][ $main ] ) ) {
+				$journaled = file_get_contents( $attached ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file as the journal is saved.
+			}
+
+			if ( Records::META === $key && is_array( $value ) && isset( $value['written'][ $main ] ) ) {
+				throw new \RuntimeException( 'died' );
+			}
+
+			return $check;
+		};
+		add_filter( 'update_post_metadata', $dies, 10, 4 );
+
+		try {
+			Optimizer::check( $id );
+			$this->fail( 'The record was saved.' );
+		} catch ( \RuntimeException $died ) {
+			$this->assertSame( 'died', $died->getMessage() );
+		} finally {
+			remove_filter( 'update_post_metadata', $dies, 10 );
+		}
+
+		$this->assertSame( $original, $journaled );
+		$this->assertNotSame( $original, file_get_contents( $attached ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file written.
+		$this->assertFileExists( $attached . '.webp' );
+
+		/* Its output is never an original, and its WebP is its own, never served while nothing proves which file it was made for. */
+		$this->assertSame( Originals::BACKUP, Originals::find( $id, wp_get_attachment_metadata( $id ), null )['kind'] ?? null );
+		$this->assertSame( Records::ORIGIN, Records::get( $id )['copies'][ $main . '.webp' ]['origin'] ?? null );
+		$this->assertSame( -1, Records::get( $id )['copies'][ $main . '.webp' ]['for_bytes'] ?? null );
+
+		/* The next try finds the group's files changed under it, and the image goes again from its backup. */
+		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
+		Optimizer::check( $id );
+
+		$this->assertTrue( $this->queued( $id ) );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$sent = $this->api->calls( 'POST', 'groups/' . self::GROUP . '/source' );
+
+		$this->assertCount( 2, $sent );
+		$this->assertSame( $original, file_get_contents( $sent[1]['args'][ Upload::ARGUMENT ]['path'] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file streamed.
+
+		/* Its WebP is written over like any of its own, never kept as another tool's. */
+		$this->answer( $id );
+		Optimizer::check( $id );
+		$record = Records::get( $id );
+
+		$this->assertSame( Records::OPTIMIZED, $record['status'] );
+		$this->assertSame( 0, $record['result']['kept'] );
+		$this->assertSame( (int) filesize( $attached ), $record['copies'][ $main . '.webp' ]['for_bytes'] ?? null );
+		$this->assertNull( $record['pending'] );
+	}
+
 	/**
 	 * Each refusal and failure: whether the step runs again, when, and what the attachment shows.
 	 *
@@ -684,6 +749,18 @@ class OptimizerTest extends WP_UnitTestCase {
 	 */
 	protected function attachment(): int {
 		return (int) self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg' );
+	}
+
+	/**
+	 * Answers the attachment's open group as finished, each output with its WebP, from a zip made of its main file.
+	 *
+	 * @param int $id The attachment's id.
+	 */
+	protected function answer( int $id ): void {
+		$answer = $this->finished( $id );
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( (string) get_attached_file( $id ), $answer )['bytes'] );
 	}
 
 	/**

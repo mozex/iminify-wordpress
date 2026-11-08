@@ -130,6 +130,7 @@ class Restorer {
 				'error'      => null,
 				'written'    => $written,
 				'copies'     => array_diff_key( $row['copies'], Copies::own( $row['copies'] ) ),
+				'pending'    => null,
 				'result'     => null,
 			)
 		);

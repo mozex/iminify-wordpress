@@ -457,8 +457,7 @@ class BulkTest extends WP_UnitTestCase {
 
 		$this->assertTrue( $run['stalled'] );
 		$this->assertSame( 'The loopback request to your site failed.', $run['loopback']['message'] );
-		$this->assertSame( Bulk_State::COMMANDS, $run['commands'] );
-		$this->assertContains( 'wp iminify run', $run['commands'] );
+		$this->assertSame( array( 'wp iminify run' ), $run['commands'] );
 
 		/* The page drives a run in its own mode, so it is never stalled. */
 		Bulk::switch_mode( Bulk::PAGE );

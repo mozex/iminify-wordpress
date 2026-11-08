@@ -10,6 +10,7 @@ namespace Iminify\WordPress\Media;
 use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
 use Iminify\WordPress\Folders\Table;
+use Iminify\WordPress\Network;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
@@ -68,6 +69,13 @@ class Queue {
 	 */
 	public static function resume( $after = 0 ): void {
 		if ( null === Plugin::client() ) {
+			$until = Network::waits_until();
+
+			/* A run brought forward (`resume_soon()`) while the site waits out a refused join would leave what waits until some other path joins: the wake goes back to the wait's end, unless one waits for it already (a join refused again schedules its own). Only a pending run counts, never this one. */
+			if ( null !== $until && ! Optimizer::pending( self::RESUME_HOOK, array( 0 ) ) ) {
+				as_schedule_single_action( $until, self::RESUME_HOOK, array( 0 ), Optimizer::GROUP );
+			}
+
 			return;
 		}
 

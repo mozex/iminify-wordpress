@@ -149,6 +149,20 @@ class Network {
 	}
 
 	/**
+	 * When this site may ask the network for a key again, while it waits out a
+	 * refused join, or null when it isn't waiting.
+	 */
+	public static function waits_until(): ?int {
+		$state = self::state();
+
+		if ( ! self::joinable() || ! isset( $state['retry_at'] ) || (int) $state['retry_at'] <= time() ) {
+			return null;
+		}
+
+		return (int) $state['retry_at'];
+	}
+
+	/**
 	 * Whether this site's key came from the network, so the network's own
 	 * disconnect stops it too.
 	 */

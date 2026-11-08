@@ -681,7 +681,7 @@ class Media_View {
 		}
 
 		/* An optimized image has a reason only when what it lacked couldn't be made. */
-		return is_array( $record['error'] ) && isset( $record['error']['message'] ) ? (string) $record['error']['message'] : '';
+		return (string) Others::reason( $record['error'] );
 	}
 
 	/**

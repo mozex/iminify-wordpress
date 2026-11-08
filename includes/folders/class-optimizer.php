@@ -511,7 +511,19 @@ class Optimizer {
 		}
 
 		$outputs = isset( $group['outputs'] ) && is_array( $group['outputs'] ) ? $group['outputs'] : array();
-		$put     = Writer::put( $outputs, $answer, $zip, $row['written'], $row['copies'], Folders::root() );
+		$put     = Writer::put(
+			$outputs,
+			$answer,
+			$zip,
+			$row['written'],
+			$row['copies'],
+			Folders::root(),
+			'',
+			array(),
+			static function ( array $pending ) use ( $id ): void {
+				Table::update( $id, array( 'pending' => $pending ) );
+			}
+		);
 
 		wp_delete_file( $zip );
 
@@ -531,6 +543,7 @@ class Optimizer {
 
 		/* Nothing written for want of room isn't "optimized": it shows why, and goes again once there is some. */
 		if ( $put['no_room'] > 0 && ! Writer::wrote_any( $put['outputs'] ) ) {
+			Table::update( $id, array( 'pending' => null ) );
 			self::drop_group( $id, (string) $group['id'] );
 			self::no_room( $id );
 
@@ -559,6 +572,7 @@ class Optimizer {
 				'reopens'  => 0,
 				'written'  => $put['written'],
 				'copies'   => $put['copies'],
+				'pending'  => null,
 				'result'   => $result,
 			)
 		);

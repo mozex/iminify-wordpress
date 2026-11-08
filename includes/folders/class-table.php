@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Folders;
 
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Writer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -21,7 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * their own for the queries. The written bytes are the only proof a file is the
  * plugin's output, so a row stays while its file is gone (`missing`) or its
  * folder leaves the list, and goes only with its files when the plugin is
- * deleted.
+ * deleted. A write's `pending` names the files it is about to rename into
+ * place, so one that dies before saving the row still leaves that proof
+ * (`Writer::settle()`, read through `Folders::guard()`).
  *
  * The table is made when the first folder is chosen, never on a site that
  * chooses none, and is the network's (`base_prefix`), since `wp-content` is.
@@ -50,7 +53,7 @@ class Table {
 	/**
 	 * The keys `record` holds.
 	 */
-	const RECORD_KEYS = array( 'trigger', 'generation', 'group', 'written', 'copies', 'backups', 'result', 'error', 'attempts', 'reopens' );
+	const RECORD_KEYS = array( 'trigger', 'generation', 'group', 'written', 'copies', 'pending', 'backups', 'result', 'error', 'attempts', 'reopens' );
 
 	/**
 	 * Whether the table has been made.
@@ -126,7 +129,7 @@ class Table {
 	 * A file's row, every record key present, or null for none.
 	 *
 	 * @param int $id The row's id.
-	 * @return array{id: int, path: string, status: string, was: string, bytes: int, seen: int, updated: int, trigger: string|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int}|null
+	 * @return array{id: int, path: string, status: string, was: string, bytes: int, seen: int, updated: int, trigger: string|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int}|null
 	 */
 	public static function get( int $id ): ?array {
 		global $wpdb;
@@ -539,11 +542,21 @@ class Table {
 	 * A row as `get()` answers it.
 	 *
 	 * @param array<string, mixed> $row The row as the database answers it.
-	 * @return array{id: int, path: string, status: string, was: string, bytes: int, seen: int, updated: int, trigger: string|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int}
+	 * @return array{id: int, path: string, status: string, was: string, bytes: int, seen: int, updated: int, trigger: string|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int}
 	 */
 	protected static function shape( array $row ): array {
-		$record = maybe_unserialize( (string) ( $row['record'] ?? '' ) );
-		$record = is_array( $record ) ? $record : array();
+		$record  = maybe_unserialize( (string) ( $row['record'] ?? '' ) );
+		$record  = is_array( $record ) ? $record : array();
+		$settled = Writer::settle(
+			isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
+			isset( $record['copies'] ) && is_array( $record['copies'] ) ? $record['copies'] : array(),
+			$record['pending'] ?? null,
+			static function ( string $file ): ?int {
+				$path = Folders::guard( $file );
+
+				return null === $path ? null : (int) filesize( $path );
+			}
+		);
 
 		return array(
 			'id'         => (int) $row['id'],
@@ -556,8 +569,9 @@ class Table {
 			'trigger'    => isset( $record['trigger'] ) && is_string( $record['trigger'] ) ? $record['trigger'] : null,
 			'generation' => isset( $record['generation'] ) ? (int) $record['generation'] : 0,
 			'group'      => isset( $record['group'] ) && is_array( $record['group'] ) ? $record['group'] : null,
-			'written'    => isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
-			'copies'     => isset( $record['copies'] ) && is_array( $record['copies'] ) ? $record['copies'] : array(),
+			'written'    => $settled['written'],
+			'copies'     => $settled['copies'],
+			'pending'    => $settled['pending'],
 			'backups'    => isset( $record['backups'] ) && is_array( $record['backups'] ) ? array_values( array_map( 'strval', $record['backups'] ) ) : array(),
 			'result'     => isset( $record['result'] ) && is_array( $record['result'] ) ? $record['result'] : null,
 			'error'      => isset( $record['error'] ) && is_array( $record['error'] ) ? $record['error'] : null,

@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Admin\Folders_State;
+use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Cli;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Optimizer;
@@ -614,6 +615,75 @@ class FoldersTest extends WP_UnitTestCase {
 		$this->assertSame( array(), $put['kept'] );
 		$this->assertSame( 0, $put['skipped'] );
 		$this->assertSame( $webp, file_get_contents( $copy ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the written copy.
+	}
+
+	public function test_a_file_written_by_a_request_that_died_before_saving_its_row_is_still_the_plugins_own(): void {
+		$this->folder( array( 'photo.jpg' => 'canola.jpg' ) );
+		Folders::add( self::FOLDER );
+		Scanner::start();
+		Scanner::finish();
+
+		$id       = $this->ids()[ self::FOLDER . '/photo.jpg' ];
+		$file     = WP_CONTENT_DIR . '/' . self::FOLDER . '/photo.jpg';
+		$original = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a test image.
+
+		Optimizer::queue( $id );
+		Optimizer::optimize( $id, Media_Optimizer::MANUAL );
+		$this->finished( $id );
+
+		/* The request dies with the file and its copy in place, before the row naming them is saved. What they named is saved before the file took its place. */
+		$journaled = null;
+		$dies      = static function ( string $query ) use ( $file, &$journaled ): string {
+			if ( false === strpos( $query, Table::NAME ) || 0 !== strpos( ltrim( $query ), 'UPDATE' ) ) {
+				return $query;
+			}
+
+			/* The serialized record names a non-empty `pending`, its quotes escaped in the query. */
+			if ( 1 === preg_match( '/pending\\\\?";a:/', $query ) ) {
+				$journaled = file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file as the journal is saved.
+			}
+
+			if ( false !== strpos( $query, "`status` = '" . Records::OPTIMIZED . "'" ) ) {
+				throw new \RuntimeException( 'died' );
+			}
+
+			return $query;
+		};
+		add_filter( 'query', $dies );
+
+		try {
+			Optimizer::check( $id );
+			$this->fail( 'The row was saved.' );
+		} catch ( \RuntimeException $died ) {
+			$this->assertSame( 'died', $died->getMessage() );
+		} finally {
+			remove_filter( 'query', $dies );
+		}
+
+		$this->assertSame( $original, $journaled );
+		$this->assertNotSame( $original, file_get_contents( $file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file written.
+		$this->assertFileExists( $file . '.webp' );
+
+		/* Its output is never a source, and its WebP is its own. */
+		$this->assertSame( Optimizer::BACKUP, Optimizer::source( (array) Table::get( $id ) )['kind'] ?? null );
+		$this->assertSame( Records::ORIGIN, Table::get( $id )['copies'][ self::FOLDER . '/photo.jpg.webp' ]['origin'] ?? null );
+
+		/* The next try finds the file changed under its group, and it goes again from its backup. */
+		Optimizer::check( $id );
+		Optimizer::optimize( $id, Media_Optimizer::MANUAL );
+		$sent = $this->api->calls( 'POST', 'groups/' . self::GROUP . '/source' );
+
+		$this->assertCount( 2, $sent );
+		$this->assertSame( $original, file_get_contents( $sent[1]['args'][ Upload::ARGUMENT ]['path'] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads the file streamed.
+
+		/* Its WebP is written over like any of its own, never kept as another tool's. */
+		$this->finished( $id );
+		Optimizer::check( $id );
+		$row = (array) Table::get( $id );
+
+		$this->assertSame( Records::OPTIMIZED, $row['status'] );
+		$this->assertSame( 0, $row['result']['kept'] );
+		$this->assertNull( $row['pending'] );
 	}
 
 	public function test_the_shell_carries_on_a_scan_under_way_and_finishes_one_before_a_folders_run(): void {

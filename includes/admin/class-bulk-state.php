@@ -44,9 +44,12 @@ class Bulk_State {
 
 	/**
 	 * What carries a stalled run on from the shell: the plugin's command, which takes
-	 * it from here whatever it does, and Action Scheduler's own for the plugin's queue.
+	 * it from here whatever it does. Never Action Scheduler's `run --group=iminify`:
+	 * until its data migration has run, which takes the scheduled tasks a stalled site
+	 * lacks, Action Scheduler's hybrid store refuses a claim by group ("The group
+	 * "iminify" does not exist"), while the plugin's command claims by hook.
 	 */
-	const COMMANDS = array( 'wp iminify run', 'wp action-scheduler run --group=iminify' );
+	const COMMANDS = array( 'wp iminify run' );
 
 	/**
 	 * Builds the state.

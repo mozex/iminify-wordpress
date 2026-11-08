@@ -14,6 +14,7 @@ use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -126,7 +127,7 @@ class Folders_State {
 			'path'        => (string) $row['path'],
 			'size'        => (string) size_format( (int) $row['bytes'], 1 ),
 			'status'      => $status,
-			'reason'      => isset( $row['error']['message'] ) && is_string( $row['error']['message'] ) ? $row['error']['message'] : null,
+			'reason'      => Others::reason( $row['error'] ),
 			'saved'       => Records::OPTIMIZED === $status && $before > 0 && $after < $before ? number_format_i18n( ( $before - $after ) / $before * 100, 1 ) : null,
 			'formats'     => $formats,
 			'can_restore' => Records::OPTIMIZED === $status && Restorer::AVAILABLE === Restorer::availability( $row ),

@@ -34,6 +34,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * in another format than its files, so it is never put over them, and every later
  * send makes the files in their own format from it (`Originals::converted()`).
  *
+ * Right before a group's files are renamed into place, `pending` names them with
+ * the bytes they are about to have (`Writer::put()`), and the write's own save
+ * empties it. A request that dies between the two leaves it, and `get()` takes
+ * each file that has those bytes as the plugin's own (`Writer::settle()`).
+ *
  * An attachment that shares its files with another (a translation's, `Shared`)
  * keeps only `holder`, the id of the one whose record holds the work on them,
  * so `<picture>` finds that one's copies with no lookup by file name.
@@ -115,11 +120,21 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
 		$record = is_array( $record ) ? $record : array();
+
+		/* What a write that died before its save of the record left in place (`Writer::put()`). */
+		$settled = Writer::settle(
+			isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
+			isset( $record['copies'] ) && is_array( $record['copies'] ) ? $record['copies'] : array(),
+			$record['pending'] ?? null,
+			static function ( string $file ) use ( $attachment ): ?int {
+				return Offload_Media::bytes( $attachment, Paths::absolute( $file ) );
+			}
+		);
 
 		return array(
 			'status'     => isset( $record['status'] ) && is_string( $record['status'] ) ? $record['status'] : null,
@@ -130,8 +145,9 @@ class Records {
 			'priority'   => isset( $record['priority'] ) ? (int) $record['priority'] : null,
 			'generation' => isset( $record['generation'] ) ? (int) $record['generation'] : 0,
 			'group'      => isset( $record['group'] ) && is_array( $record['group'] ) ? $record['group'] : null,
-			'written'    => isset( $record['written'] ) && is_array( $record['written'] ) ? array_map( 'intval', $record['written'] ) : array(),
-			'copies'     => isset( $record['copies'] ) && is_array( $record['copies'] ) ? $record['copies'] : array(),
+			'written'    => $settled['written'],
+			'copies'     => $settled['copies'],
+			'pending'    => $settled['pending'],
 			'backups'    => isset( $record['backups'] ) && is_array( $record['backups'] ) ? array_values( array_map( 'strval', $record['backups'] ) ) : array(),
 			'fetched'    => isset( $record['fetched'] ) && is_array( $record['fetched'] ) ? array_filter( $record['fetched'], 'is_array' ) : array(),
 			'result'     => isset( $record['result'] ) && is_array( $record['result'] ) ? $record['result'] : null,
@@ -269,6 +285,7 @@ class Records {
 				'made'       => array(),
 				'priority'   => null,
 				'redo'       => false,
+				'pending'    => null,
 			)
 		);
 

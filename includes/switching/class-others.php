@@ -158,6 +158,28 @@ class Others {
 	}
 
 	/**
+	 * The reason a record gives for its image, as it reads now: a hold for another
+	 * optimizer (ACTING) names whichever acts at this moment, and gives none once
+	 * nothing does, since the image is no longer held back; any other reads as
+	 * recorded.
+	 *
+	 * @param mixed $error The record's `error`.
+	 */
+	public static function reason( $error ): ?string {
+		if ( ! is_array( $error ) || ! isset( $error['message'] ) || ! is_string( $error['message'] ) ) {
+			return null;
+		}
+
+		if ( self::ACTING !== ( $error['code'] ?? null ) ) {
+			return $error['message'];
+		}
+
+		$acting = self::acting();
+
+		return null === $acting ? null : self::acting_message( $acting );
+	}
+
+	/**
 	 * Why the plugin holds back while another optimizer can act, in words: who, and what to switch off.
 	 *
 	 * @param Reader $reader The optimizer that acts.

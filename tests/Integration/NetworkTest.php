@@ -216,6 +216,33 @@ class NetworkTest extends WP_UnitTestCase {
 
 		$this->assertIsInt( $wake );
 		$this->assertGreaterThanOrEqual( time() + 590, $wake );
+
+		/* The connection reads back meanwhile (the plugin turned on again for the network), which brings the wake forward; the run then finds no key yet, and puts the wake back at the wait's end. */
+		Queue::resume_soon();
+
+		$this->assertLessThanOrEqual( time(), as_next_scheduled_action( Queue::RESUME_HOOK, array( 0 ), Optimizer::GROUP ) );
+
+		$run = \ActionScheduler::store()->query_action(
+			array(
+				'hook'   => Queue::RESUME_HOOK,
+				'args'   => array( 0 ),
+				'status' => \ActionScheduler_Store::STATUS_PENDING,
+			)
+		);
+		\ActionScheduler::runner()->process_action( (int) $run );
+		$wake = as_next_scheduled_action( Queue::RESUME_HOOK, array( 0 ), Optimizer::GROUP );
+
+		$this->assertCount( 1, $this->api->calls( 'POST', 'site/sites' ) );
+		$this->assertIsInt( $wake );
+		$this->assertGreaterThanOrEqual( time() + 590, $wake );
+		$this->assertCount( 1, $this->wakes() );
+
+		/* The wait is over and the join is refused again: the refusal's own wake is the only one, so the parked images never go on in several runs at once. */
+		update_option( Network::JOIN_OPTION, array_merge( (array) get_option( Network::JOIN_OPTION ), array( 'retry_at' => time() - 1 ) ), false );
+		\ActionScheduler::runner()->process_action( $this->wakes()[0] );
+
+		$this->assertCount( 2, $this->api->calls( 'POST', 'site/sites' ) );
+		$this->assertCount( 1, $this->wakes() );
 	}
 
 	public function test_a_site_disconnected_on_its_own_page_or_on_iminify_doesnt_join_again_by_itself(): void {
@@ -576,6 +603,29 @@ class NetworkTest extends WP_UnitTestCase {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- one placeholder per option, built above.
 		return $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name IN ({$in})", Lifecycle::OPTIONS ) );
+	}
+
+	/**
+	 * The runs waiting to send this site's parked images on.
+	 *
+	 * @return list<int>
+	 */
+	protected function wakes(): array {
+		return array_values(
+			array_map(
+				'intval',
+				as_get_scheduled_actions(
+					array(
+						'hook'     => Queue::RESUME_HOOK,
+						'args'     => array( 0 ),
+						'group'    => Optimizer::GROUP,
+						'status'   => \ActionScheduler_Store::STATUS_PENDING,
+						'per_page' => -1,
+					),
+					'ids'
+				)
+			)
+		);
 	}
 
 	/**

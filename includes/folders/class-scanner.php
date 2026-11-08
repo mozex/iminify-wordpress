@@ -449,6 +449,7 @@ class Scanner {
 			'status'     => Records::NOT_OPTIMIZED,
 			'bytes'      => $bytes,
 			'generation' => $row['generation'] + 1,
+			'pending'    => null,
 			'attempts'   => 0,
 			'reopens'    => 0,
 			'error'      => null,

@@ -77,7 +77,19 @@ class Writer {
 		}
 
 		/* Every output is made in the attachment's files' format, which is the source's unless another optimizer converted them (`made`). */
-		$put = self::put( $declared, $answer, $zip, $record['written'], $record['copies'], Paths::uploads(), (string) ( $group['made'] ?? $group['type'] ?? '' ), Takeover::named( $attachment ) );
+		$put = self::put(
+			$declared,
+			$answer,
+			$zip,
+			$record['written'],
+			$record['copies'],
+			Paths::uploads(),
+			(string) ( $group['made'] ?? $group['type'] ?? '' ),
+			Takeover::named( $attachment ),
+			static function ( array $pending ) use ( $attachment ): void {
+				Records::update( $attachment, array( 'pending' => $pending ) );
+			}
+		);
 
 		if ( is_wp_error( $put ) ) {
 			return $put;
@@ -88,6 +100,7 @@ class Writer {
 			array(
 				'written' => $put['written'],
 				'copies'  => $put['copies'],
+				'pending' => null,
 			)
 		);
 
@@ -108,6 +121,12 @@ class Writer {
 	 * it wrote with the record's `written` and `copies` as they are now; saving
 	 * them is the caller's.
 	 *
+	 * Before the first file is renamed into place, `$journal` gets what is about to
+	 * be written (`pending()`), for the caller to save: a request that dies between
+	 * a rename and the caller's save of the record then still leaves proof of the
+	 * file it wrote (`settle()`), so the next try never takes that file for an
+	 * original, nor its copy for another tool's.
+	 *
 	 * @param array<string, array<string, mixed>> $declared The group's outputs as declared, each `file` relative to the root.
 	 * @param array<string, mixed>                $answer   The group as the service answered it.
 	 * @param string                              $zip      The group's downloaded zip.
@@ -116,9 +135,10 @@ class Writer {
 	 * @param string                              $root     The folder the paths are relative to, without a trailing slash.
 	 * @param string                              $type     The MIME type every output is made in, for a file not on the disk.
 	 * @param array<string, mixed>                $theirs   The copies another plugin's records name beside the files, by their paths relative to the root (`Takeover::named()`), which the plugin's own copy of the same name replaces (W133).
+	 * @param callable|null                       $journal  Saves the record's `pending` before anything is renamed: `function ( array $pending ): void`.
 	 * @return array{outputs: array<string, array<string, mixed>>, skipped: int, kept: list<string>, no_room: int, written: array<string, int>, copies: array<string, mixed>}|WP_Error
 	 */
-	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '', array $theirs = array() ) {
+	public static function put( array $declared, array $answer, string $zip, array $written, array $copies, string $root, string $type = '', array $theirs = array(), ?callable $journal = null ) {
 		foreach ( $declared as $output ) {
 			$path = Paths::under( $root, (string) $output['file'] );
 			clearstatcache( true, $path );
@@ -158,10 +178,10 @@ class Writer {
 
 		$recorded = Copies::own( $copies ) + Copies::taken( $copies );
 		$rewrote  = array();
+		$planned  = array();
 
 		foreach ( $writes as $write ) {
 			$target = Paths::under( $root, $write['file'] );
-			$size   = Zip::size( $archive, $write['entry'] );
 
 			/* A WebP or AVIF of that name that neither the record nor another optimizer's records name (another tool made it, or rewrote it since) stays as it is: written over, it would read as the plugin's and go with a restore. One another optimizer's records name is replaced in place, the one write W133 allows over another plugin's file. */
 			if ( 'original' !== $write['format'] && ( file_exists( $target ) || is_link( $target ) ) && ! self::still_recorded( $target, $recorded[ $write['file'] ] ?? null ) && ( is_link( $target ) || ! isset( $theirs[ $write['file'] ] ) ) ) {
@@ -169,10 +189,25 @@ class Writer {
 				continue;
 			}
 
+			$size = Zip::size( $archive, $write['entry'] );
+
 			if ( null === $size ) {
 				++$skipped;
 				continue;
 			}
+
+			$planned[] = $write + array( 'size' => $size );
+		}
+
+		$pending = self::pending( $planned, $declared );
+
+		if ( null !== $journal && null !== $pending ) {
+			$journal( $pending );
+		}
+
+		foreach ( $planned as $write ) {
+			$target = Paths::under( $root, $write['file'] );
+			$size   = $write['size'];
 
 			/* A replacement holds the old file and the new one at once while it is checked. */
 			if ( ! Disk::has_room_for( $size ) ) {
@@ -187,6 +222,13 @@ class Writer {
 					return Zip::extract( $archive, $write['entry'], $temporary );
 				},
 				static function ( string $temporary ) use ( $write ): bool {
+					clearstatcache( true, $temporary );
+
+					/* The journal names these bytes, so a file of any other size never takes the place. */
+					if ( (int) filesize( $temporary ) !== $write['size'] ) {
+						return false;
+					}
+
 					$size = wp_getimagesize( $temporary );
 
 					return is_array( $size )
@@ -259,6 +301,82 @@ class Writer {
 			'no_room' => $no_room,
 			'written' => $written,
 			'copies'  => $copies,
+		);
+	}
+
+	/**
+	 * What a write is about to put in place, as the record's `pending`: each file in
+	 * the source's format with its bytes, and each copy as the record will name it,
+	 * or null for nothing to write.
+	 *
+	 * @param list<array{output: string, format: string, file: string, size: int}> $planned  The writes, each with its bytes in the zip.
+	 * @param array<string, array<string, mixed>>                                 $declared The group's outputs as declared.
+	 * @return array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null
+	 */
+	protected static function pending( array $planned, array $declared ): ?array {
+		$pending = array(
+			'written' => array(),
+			'copies'  => array(),
+		);
+
+		foreach ( $planned as $write ) {
+			if ( 'original' === $write['format'] ) {
+				$pending['written'][ $write['file'] ] = $write['size'];
+				continue;
+			}
+
+			$pending['copies'][ $write['file'] ] = array(
+				'for'    => (string) $declared[ $write['output'] ]['file'],
+				'format' => $write['format'],
+				'bytes'  => $write['size'],
+				'origin' => Records::ORIGIN,
+			);
+		}
+
+		return array() === $pending['written'] && array() === $pending['copies'] ? null : $pending;
+	}
+
+	/**
+	 * A record's `written` and `copies` with what its `pending` names taken in, for
+	 * a request that died between a rename and its save of the record: each file
+	 * that has the bytes `pending` names is the plugin's output, never sent again
+	 * as an original, and each such copy its own, which the next write may
+	 * replace. A copy taken in this way is never served (`for_bytes` -1), since
+	 * nothing proves which bytes of its file it was made for. A file without them
+	 * was never written, so its entry stays in `pending` until the record's next
+	 * write.
+	 *
+	 * @param array<string, int>    $written The record's `written`.
+	 * @param array<string, mixed>  $copies  The record's `copies`.
+	 * @param mixed                 $pending The record's `pending`, as stored.
+	 * @param callable(string): ?int $bytes  A file's bytes now, by its path relative to the record's root, or null when it isn't there.
+	 * @return array{written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null}
+	 */
+	public static function settle( array $written, array $copies, $pending, callable $bytes ): array {
+		$files  = is_array( $pending ) && isset( $pending['written'] ) && is_array( $pending['written'] ) ? array_map( 'intval', $pending['written'] ) : array();
+		$making = is_array( $pending ) && isset( $pending['copies'] ) && is_array( $pending['copies'] ) ? array_filter( $pending['copies'], 'is_array' ) : array();
+
+		foreach ( $files as $file => $size ) {
+			if ( $bytes( (string) $file ) === $size ) {
+				$written[ $file ] = $size;
+				unset( $files[ $file ] );
+			}
+		}
+
+		foreach ( $making as $file => $copy ) {
+			if ( Records::ORIGIN === ( $copy['origin'] ?? null ) && $bytes( (string) $file ) === (int) ( $copy['bytes'] ?? -1 ) ) {
+				$copies[ $file ] = array( 'for_bytes' => -1 ) + $copy;
+				unset( $making[ $file ] );
+			}
+		}
+
+		return array(
+			'written' => $written,
+			'copies'  => $copies,
+			'pending' => array() === $files && array() === $making ? null : array(
+				'written' => $files,
+				'copies'  => $making,
+			),
 		);
 	}
 

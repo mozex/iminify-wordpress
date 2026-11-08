@@ -248,6 +248,7 @@ class SwitchingTest extends WP_UnitTestCase {
 		$this->assertSame( Records::NOT_OPTIMIZED, Records::get( $queued )['status'] );
 		$this->assertSame( Others::ACTING, Records::get( $queued )['error']['code'] );
 		$this->assertCount( $calls, $this->api->calls( 'POST', 'groups' ) );
+		$this->assertStringContainsString( 'Smush is active and optimizes your uploads itself', Media_View::panel( $queued ) );
 
 		/* The pages say which plugin, and what to switch off. */
 		$this->assertSame( 'Smush', Bulk_State::conflict()['name'] );
@@ -264,6 +265,7 @@ class SwitchingTest extends WP_UnitTestCase {
 
 		$this->assertNull( Others::acting() );
 		$this->assertNull( Bulk_State::conflict() );
+		$this->assertStringNotContainsString( 'optimizes your uploads itself', Media_View::panel( $queued ), 'The hold ended with it.' );
 		$this->assertIsArray( Bulk::start( Bulk::OPTIMIZE, Bulk::BACKGROUND ) );
 		delete_option( 'wp-smush-settings' );
 		set_current_screen( 'front' );
