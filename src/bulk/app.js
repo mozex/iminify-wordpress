@@ -535,7 +535,7 @@ function chipFor( run, queue ) {
 	if ( run.held && 'alt_text' === run.action ) {
 		return {
 			label:
-				'connection' === run.reason
+				'connection' === run.hold_reason
 					? __( 'Waiting for the site', 'iminify-image-optimizer' )
 					: __( 'Used up for today', 'iminify-image-optimizer' ),
 			tone: 'info',
@@ -927,7 +927,7 @@ function runStatus( run, queue ) {
 	if (
 		run.held &&
 		'alt_text' === run.action &&
-		'connection' === run.reason
+		'connection' === run.hold_reason
 	) {
 		return [
 			'alert',

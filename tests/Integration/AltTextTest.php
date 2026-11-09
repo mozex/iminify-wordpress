@@ -516,10 +516,101 @@ class AltTextTest extends WP_UnitTestCase {
 
 		$run = (array) Bulk::run();
 
-		$this->assertSame( Alt_Text::CONNECTION, $run['reason'] );
+		$this->assertSame( Alt_Text::CONNECTION, $run['hold_reason'] );
 		$this->assertGreaterThan( time(), $run['hold'] );
 		$this->assertSame( Alt_Text::QUEUED, Records::get( $id )['alt']['status'] );
 		$this->assertTrue( Optimizer::pending( Alt_Text::SEND_HOOK, array( $id ) ) );
+	}
+
+	public function test_a_key_the_service_stopped_holds_the_run_and_forgets_no_image(): void {
+		$one = $this->attachment();
+		$two = $this->attachment();
+
+		$this->api->on(
+			'POST',
+			'site/alt-text',
+			401,
+			array(
+				'message' => 'Unauthenticated.',
+				'code'    => 'unauthenticated',
+			)
+		);
+
+		Bulk::start( Bulk::ALT_TEXT, Bulk::BACKGROUND );
+		as_unschedule_all_actions( Alt_Text::SEND_HOOK );
+
+		Alt_Text::send( $one );
+
+		/* The stored key went with that refusal, and the site's record with it. */
+		$this->assertFalse( Plugin::connected() );
+
+		Alt_Text::send( $two );
+
+		foreach ( array( $one, $two ) as $id ) {
+			$this->assertSame( Alt_Text::QUEUED, Records::get( $id )['alt']['status'] );
+			$this->assertTrue( Optimizer::pending( Alt_Text::SEND_HOOK, array( $id ) ) );
+		}
+
+		$this->assertSame( Alt_Text::CONNECTION, Bulk::run()['hold_reason'] );
+
+		/* A Pause and a Resume leave what the hold is for. */
+		Bulk::pause();
+		Bulk::resume();
+		$this->assertSame( Alt_Text::CONNECTION, Bulk::run()['hold_reason'] );
+	}
+
+	/**
+	 * Runs alone, since a constant can't be undefined for the tests after it.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_a_key_in_wp_config_the_service_stopped_holds_the_run_rather_than_walking_the_library(): void {
+		define( 'IMINIFY_API_KEY', self::KEY );
+
+		$one = $this->attachment();
+		$two = $this->attachment();
+
+		$stopped = array(
+			'message' => 'Unauthenticated.',
+			'code'    => 'unauthenticated',
+		);
+
+		$this->api->on( 'POST', 'site/alt-text', 401, $stopped );
+		Bulk::start( Bulk::ALT_TEXT, Bulk::BACKGROUND );
+		as_unschedule_all_actions( Alt_Text::SEND_HOOK );
+		$this->api->on( 'GET', 'site', 401, $stopped );
+
+		Alt_Text::send( $one );
+		Alt_Text::send( $two );
+
+		$this->assertTrue( Plugin::connected() );
+		$this->assertSame( Alt_Text::QUEUED, Records::get( $one )['alt']['status'] );
+		$this->assertSame( Alt_Text::QUEUED, Records::get( $two )['alt']['status'] );
+		$this->assertSame( Alt_Text::CONNECTION, Bulk::run()['hold_reason'] );
+	}
+
+	public function test_a_full_window_of_lost_sends_is_picked_up_by_the_run_rather_than_stalling_it(): void {
+		$ids = array();
+
+		foreach ( range( 1, Bulk::ALT_WINDOW ) as $image ) {
+			$ids[] = $this->attachment();
+		}
+
+		Bulk::start( Bulk::ALT_TEXT, Bulk::BACKGROUND );
+		as_unschedule_all_actions( Alt_Text::SEND_HOOK );
+
+		foreach ( $ids as $id ) {
+			$alt          = Records::get( $id )['alt'];
+			$alt['since'] = time() - Bulk::STALL_SECONDS - 1;
+			Records::update( $id, array( 'alt' => $alt ) );
+		}
+
+		Bulk::feed();
+
+		foreach ( $ids as $id ) {
+			$this->assertTrue( Optimizer::pending( Alt_Text::SEND_HOOK, array( $id ) ) );
+		}
 	}
 
 	public function test_a_lost_send_is_picked_up_and_a_wait_that_outlived_its_checks_fails_so_the_page_stops_stepping(): void {
@@ -575,7 +666,24 @@ class AltTextTest extends WP_UnitTestCase {
 		$this->assertTrue( Optimizer::pending( Alt_Text::REQUEST_HOOK, array( $sent, self::REQUEST ) ) );
 	}
 
-	public function test_the_page_keeps_stepping_for_a_text_on_its_way_after_a_run_for_another_action(): void {
+	/**
+	 * Runs that have ended, which the page still steps for a text on its way.
+	 *
+	 * @return array<string, array{string}>
+	 */
+	public function ended_runs(): array {
+		return array(
+			'an optimize' => array( Bulk::OPTIMIZE ),
+			'a restore'   => array( Bulk::RESTORE ),
+		);
+	}
+
+	/**
+	 * @dataProvider ended_runs
+	 *
+	 * @param string $action The run that ended.
+	 */
+	public function test_the_page_keeps_stepping_for_a_text_on_its_way_after_a_run_for_another_action( string $action ): void {
 		$id = $this->attachment();
 
 		Alt_Text::ask( $id );
@@ -594,7 +702,7 @@ class AltTextTest extends WP_UnitTestCase {
 		update_option(
 			Bulk::OPTION,
 			array(
-				'action'  => Bulk::OPTIMIZE,
+				'action'  => $action,
 				'scope'   => Bulk::LIBRARY,
 				'mode'    => Bulk::PAGE,
 				'status'  => Bulk::DONE,

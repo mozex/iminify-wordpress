@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Cli;
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Optimizer;
@@ -260,6 +261,28 @@ class CliTest extends WP_UnitTestCase {
 		$this->assertSame( 'warning', end( WP_CLI::$lines )[0] );
 		$this->assertStringContainsString( 'AI alt texts for the day', end( WP_CLI::$lines )[1] );
 		$this->assertLessThan( 5, $this->cli->looks, 'It waited for nothing.' );
+	}
+
+	public function test_a_text_on_its_way_doesnt_keep_the_shell_through_a_spent_day_of_images(): void {
+		$image = $this->fresh();
+		$text  = $this->fresh();
+
+		Records::update(
+			$text,
+			array(
+				'alt' => array(
+					'status' => Alt_Text::WAITING,
+					'since'  => time(),
+				),
+			)
+		);
+		Pause::begin( time() + HOUR_IN_SECONDS, Pause::FROM_REFUSAL, 'free' );
+
+		$this->cli->optimize( array( (string) $image ), array() );
+
+		$this->assertSame( Bulk::BACKGROUND, Bulk::run()['mode'] );
+		$this->assertStringContainsString( 'next batch', end( WP_CLI::$lines )[1] );
+		$this->assertSame( 0, $this->cli->looks, 'It waited for nothing.' );
 	}
 
 	public function test_alt_text_needs_ids_or_all(): void {

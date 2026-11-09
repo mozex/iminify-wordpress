@@ -174,7 +174,7 @@ class Bulk {
 	/**
 	 * The run, or null when there has been none.
 	 *
-	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, rewind: bool, only: list<int>|null, cursor: int, seen: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
+	 * @return array{action: string, scope: string, mode: string, status: string, reason: string|null, hold_reason: string|null, rewind: bool, only: list<int>|null, cursor: int, seen: int, total: int, sent: int, failed: int, passed: int, window: int, hold: int, grown: int, started: int, updated: int}|null
 	 */
 	public static function run(): ?array {
 		$run = get_option( self::OPTION );
@@ -184,24 +184,25 @@ class Bulk {
 		}
 
 		return array(
-			'action'  => in_array( $run['action'], self::ACTIONS, true ) ? (string) $run['action'] : self::OPTIMIZE,
-			'scope'   => self::FOLDERS === ( $run['scope'] ?? null ) ? self::FOLDERS : self::LIBRARY,
-			'mode'    => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
-			'status'  => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
-			'reason'  => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
-			'rewind'  => ! empty( $run['rewind'] ),
-			'only'    => isset( $run['only'] ) && is_array( $run['only'] ) ? array_values( array_map( 'intval', $run['only'] ) ) : null,
-			'cursor'  => (int) ( $run['cursor'] ?? 0 ),
-			'seen'    => (int) ( $run['seen'] ?? 0 ),
-			'total'   => (int) ( $run['total'] ?? 0 ),
-			'sent'    => (int) ( $run['sent'] ?? 0 ),
-			'failed'  => (int) ( $run['failed'] ?? 0 ),
-			'passed'  => (int) ( $run['passed'] ?? 0 ),
-			'window'  => max( 1, (int) ( $run['window'] ?? self::START_FILES ) ),
-			'hold'    => (int) ( $run['hold'] ?? 0 ),
-			'grown'   => (int) ( $run['grown'] ?? 0 ),
-			'started' => (int) ( $run['started'] ?? 0 ),
-			'updated' => (int) ( $run['updated'] ?? 0 ),
+			'action'      => in_array( $run['action'], self::ACTIONS, true ) ? (string) $run['action'] : self::OPTIMIZE,
+			'scope'       => self::FOLDERS === ( $run['scope'] ?? null ) ? self::FOLDERS : self::LIBRARY,
+			'mode'        => self::PAGE === ( $run['mode'] ?? '' ) ? self::PAGE : self::BACKGROUND,
+			'status'      => in_array( $run['status'] ?? '', array( self::RUNNING, self::PAUSED, self::STOPPED, self::DONE ), true ) ? (string) $run['status'] : self::STOPPED,
+			'reason'      => isset( $run['reason'] ) && is_string( $run['reason'] ) ? $run['reason'] : null,
+			'hold_reason' => isset( $run['hold_reason'] ) && is_string( $run['hold_reason'] ) ? $run['hold_reason'] : null,
+			'rewind'      => ! empty( $run['rewind'] ),
+			'only'        => isset( $run['only'] ) && is_array( $run['only'] ) ? array_values( array_map( 'intval', $run['only'] ) ) : null,
+			'cursor'      => (int) ( $run['cursor'] ?? 0 ),
+			'seen'        => (int) ( $run['seen'] ?? 0 ),
+			'total'       => (int) ( $run['total'] ?? 0 ),
+			'sent'        => (int) ( $run['sent'] ?? 0 ),
+			'failed'      => (int) ( $run['failed'] ?? 0 ),
+			'passed'      => (int) ( $run['passed'] ?? 0 ),
+			'window'      => max( 1, (int) ( $run['window'] ?? self::START_FILES ) ),
+			'hold'        => (int) ( $run['hold'] ?? 0 ),
+			'grown'       => (int) ( $run['grown'] ?? 0 ),
+			'started'     => (int) ( $run['started'] ?? 0 ),
+			'updated'     => (int) ( $run['updated'] ?? 0 ),
 		);
 	}
 
@@ -590,6 +591,10 @@ class Bulk {
 			}
 
 			self::run_due( $deadline );
+		} elseif ( self::RUNNING !== $run['status'] ) {
+			/* A restore that has ended leaves a text on its way, which keeps the page stepping, to nothing else on a host whose cron doesn't run. */
+			self::heal_alt_texts();
+			self::run_due( $deadline, Alt_Text::HOOKS );
 		}
 
 		return self::until_due( $next );
@@ -639,8 +644,8 @@ class Bulk {
 		if ( $run['hold'] <= time() ) {
 			self::change(
 				array(
-					'hold'   => time() + $seconds,
-					'reason' => $reason,
+					'hold'        => time() + $seconds,
+					'hold_reason' => $reason,
 				)
 			);
 		}
@@ -1564,10 +1569,11 @@ class Bulk {
 	 * never runs twice. They are claimed by their hooks rather than their group:
 	 * Action Scheduler refuses a claim by a group whose id it hasn't cached.
 	 *
-	 * @param float $deadline When to stop, as microtime.
+	 * @param float        $deadline When to stop, as microtime.
+	 * @param list<string> $hooks    The actions to run.
 	 * @return int How many ran.
 	 */
-	protected static function run_due( float $deadline ): int {
+	protected static function run_due( float $deadline, array $hooks = self::PAGE_HOOKS ): int {
 		if ( ! class_exists( 'ActionScheduler' ) ) {
 			return 0;
 		}
@@ -1578,7 +1584,7 @@ class Bulk {
 
 		try {
 			while ( microtime( true ) < $deadline ) {
-				$claim   = $store->stake_claim( 5, null, self::PAGE_HOOKS );
+				$claim   = $store->stake_claim( 5, null, $hooks );
 				$actions = $claim->get_actions();
 
 				if ( array() === $actions ) {

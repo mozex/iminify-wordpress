@@ -224,19 +224,20 @@ class Bulk_State {
 		$stalled = Bulk::stalled();
 
 		return array(
-			'action'   => $run['action'],
-			'scope'    => $run['scope'],
-			'mode'     => $run['mode'],
-			'status'   => $run['status'],
-			'reason'   => $run['reason'],
-			'total'    => $run['total'],
-			'sent'     => $run['sent'],
-			'failed'   => $run['failed'],
-			'passed'   => $run['passed'],
-			'held'     => $run['hold'] > time() ? State::date( gmdate( 'c', $run['hold'] ) ) : null,
-			'stalled'  => $stalled,
-			'loopback' => $stalled ? self::loopback() : null,
-			'commands' => self::COMMANDS,
+			'action'      => $run['action'],
+			'scope'       => $run['scope'],
+			'mode'        => $run['mode'],
+			'status'      => $run['status'],
+			'reason'      => $run['reason'],
+			'hold_reason' => $run['hold_reason'],
+			'total'       => $run['total'],
+			'sent'        => $run['sent'],
+			'failed'      => $run['failed'],
+			'passed'      => $run['passed'],
+			'held'        => $run['hold'] > time() ? State::date( gmdate( 'c', $run['hold'] ) ) : null,
+			'stalled'     => $stalled,
+			'loopback'    => $stalled ? self::loopback() : null,
+			'commands'    => self::COMMANDS,
 		);
 	}
 

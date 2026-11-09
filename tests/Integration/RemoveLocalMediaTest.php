@@ -10,6 +10,7 @@ namespace Iminify\WordPress\Tests\Integration;
 use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
@@ -438,6 +439,29 @@ class RemoveLocalMediaTest extends WP_UnitTestCase {
 		$sizes = Missing::make_sizes( $id );
 
 		$this->assertSame( array( array(), true ), is_array( $sizes ) ? array( $sizes['only'], $sizes['lacking'] ) : null );
+	}
+
+	public function test_alt_text_for_an_image_only_in_the_bucket_puts_back_a_file_too_large_to_send(): void {
+		$site = Api_Stub::fixture( 'site' );
+
+		$site['data']['settings']['alt_text']         = true;
+		$site['data']['alt_text_source']['max_bytes'] = 10;
+
+		$this->api->on( 'GET', 'site', 200, $site );
+		Site_Record::forget();
+		Site_Record::fetch();
+
+		$id       = $this->offloaded();
+		$attached = (string) get_attached_file( $id, true );
+
+		$this->assertFileDoesNotExist( $attached );
+
+		Alt_Text::queue( $id );
+		Alt_Text::send( $id );
+
+		$this->assertFileDoesNotExist( $attached );
+		$this->assertSame( Alt_Text::FAILED, Records::get( $id )['alt']['status'] );
+		$this->assertSame( array(), $this->api->calls( 'POST', 'site/alt-text' ) );
 	}
 
 	public function test_a_file_that_cant_be_brought_back_opens_nothing_leaves_nothing_on_the_disk_and_is_tried_again(): void {

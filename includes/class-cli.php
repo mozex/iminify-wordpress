@@ -532,13 +532,14 @@ class Cli {
 				$shown = $now;
 			}
 
-			$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) ) + Records::count_waiting_for_alt_text();
+			$images  = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) );
+			$working = $images + Records::count_waiting_for_alt_text();
 
 			$restore = Bulk::RESTORE === $run['action'];
 			$held    = Bulk::ALT_TEXT === $run['action'] && $run['hold'] > time() + MINUTE_IN_SECONDS;
 
 			/* A restore needs neither the connection nor the day, and leaves an image's own run to it. A run holding for its alt texts' day leaves what is on its way to the background, since a shell can't wait a day. */
-			if ( ! $restore && Bulk::RUNNING === $run['status'] && ( $held || ( 0 === $working && $this->waits_long() ) ) ) {
+			if ( ! $restore && Bulk::RUNNING === $run['status'] && ( $held || ( 0 === $images && $this->waits_long() ) ) ) {
 				$bar->finish();
 				$this->hand_over();
 
@@ -596,20 +597,20 @@ class Cli {
 
 		$run = Bulk::run();
 
-		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] && Alt_Text::CONNECTION === $run['reason'] && $run['hold'] > time() ) {
+		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] ) {
+			if ( $run['hold'] > time() && Alt_Text::CONNECTION !== $run['hold_reason'] ) {
+				WP_CLI::warning(
+					sprintf(
+						/* translators: %s: the date and time the alt texts come back. */
+						__( 'The account\'s AI alt texts for the day are used up. The run goes on in the background when they come back on %s.', 'iminify-image-optimizer' ),
+						(string) Admin\State::date( gmdate( 'c', $run['hold'] ) )
+					)
+				);
+
+				return;
+			}
+
 			WP_CLI::warning( __( 'The run waits for this site\'s connection to Iminify, and goes on in the background once it works.', 'iminify-image-optimizer' ) );
-
-			return;
-		}
-
-		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] && $run['hold'] > time() ) {
-			WP_CLI::warning(
-				sprintf(
-					/* translators: %s: the date and time the alt texts come back. */
-					__( 'The account\'s AI alt texts for the day are used up. The run goes on in the background when they come back on %s.', 'iminify-image-optimizer' ),
-					(string) Admin\State::date( gmdate( 'c', $run['hold'] ) )
-				)
-			);
 
 			return;
 		}

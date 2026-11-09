@@ -90,9 +90,19 @@ class Alt_Text {
 	const SHARED = 'shared';
 
 	/**
-	 * Why a bulk run holds when the service turned its key away: the run's `reason`.
+	 * Why a bulk run holds when the service turned its key away: the run's `hold_reason`.
 	 */
 	const CONNECTION = 'connection';
+
+	/**
+	 * How long a run holds for that before it tries again.
+	 */
+	const CONNECTION_WAIT = 5 * MINUTE_IN_SECONDS;
+
+	/**
+	 * The actions that write an image's alt text, run by the bulk page for what is on its way.
+	 */
+	const HOOKS = array( self::CHECK_HOOK, self::SEND_HOOK, self::REQUEST_HOOK );
 
 	/**
 	 * What an image reads while its text is still to come.
@@ -281,8 +291,21 @@ class Alt_Text {
 
 		$client = Plugin::client();
 
-		/* Disconnected, the setting off since, a text someone wrote since, or a translation by now: nothing is asked, and nothing counted. */
-		if ( null === $client || ! self::on() || ! self::is_empty( $attachment ) || Shared::holder( $attachment, true ) !== $attachment ) {
+		/* A key the service stopped takes the site's record with it, so a run holds here rather than reading its setting as off and forgetting every image it queued. */
+		if ( null === $client || ( null === Site_Record::cached() && is_wp_error( Site_Record::fetch() ) ) ) {
+			if ( Bulk::hold_alt_texts( self::CONNECTION_WAIT, self::CONNECTION ) ) {
+				self::hold( $attachment, self::CONNECTION_WAIT );
+
+				return;
+			}
+
+			self::forget( $attachment );
+
+			return;
+		}
+
+		/* The setting off since, a text someone wrote since, or a translation by now: nothing is asked, and nothing counted. */
+		if ( ! self::on() || ! self::is_empty( $attachment ) || Shared::holder( $attachment, true ) !== $attachment ) {
 			self::forget( $attachment );
 
 			return;
@@ -567,8 +590,8 @@ class Alt_Text {
 		switch ( $why['then'] ) {
 			case Refusal::PARK:
 				/* A key the service stopped or a site that moved holds a run, which would otherwise walk the library forgetting each image. */
-				if ( Bulk::hold_alt_texts( 5 * MINUTE_IN_SECONDS, self::CONNECTION ) ) {
-					self::hold( $attachment, 5 * MINUTE_IN_SECONDS );
+				if ( Bulk::hold_alt_texts( self::CONNECTION_WAIT, self::CONNECTION ) ) {
+					self::hold( $attachment, self::CONNECTION_WAIT );
 
 					return;
 				}
