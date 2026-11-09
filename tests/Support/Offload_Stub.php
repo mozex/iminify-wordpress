@@ -79,6 +79,14 @@ class Offload_Stub {
 	protected $items = array();
 
 	/**
+	 * A folder WP Offload Media's object versioning puts between an item's
+	 * year and month folders and its files, or none.
+	 *
+	 * @var string
+	 */
+	public $version = '';
+
+	/**
 	 * A stand-in whose stream wrapper has recorded nothing yet.
 	 */
 	public function __construct() {
@@ -241,7 +249,13 @@ class Offload_Stub {
 	 * @return mixed
 	 */
 	public function url( $url, $attachment ) {
-		return isset( $this->items[ (int) $attachment ] ) ? str_replace( (string) wp_get_upload_dir()['baseurl'], self::HOST, (string) $url ) : $url;
+		if ( ! isset( $this->items[ (int) $attachment ] ) ) {
+			return $url;
+		}
+
+		$url = str_replace( (string) wp_get_upload_dir()['baseurl'], self::HOST, (string) $url );
+
+		return '' === $this->version ? $url : dirname( $url ) . '/' . $this->version . '/' . wp_basename( $url );
 	}
 
 	/**

@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
+use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -62,6 +63,22 @@ class Audit_Controller {
 			)
 		);
 		$this->route( '/(?P<id>' . self::ID . ')', WP_REST_Server::READABLE, 'audit' );
+
+		register_rest_route(
+			Rest_Controller::NAMESPACE,
+			'/audit/complete',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'complete' ),
+				'permission_callback' => array( $this, 'can_complete' ),
+				'args'                => array(
+					'audit' => array(
+						'type'    => 'string',
+						'pattern' => '^' . self::ID . '$',
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -69,6 +86,27 @@ class Audit_Controller {
 	 */
 	public function can_audit(): bool {
 		return Capabilities::can( Capabilities::AUDIT );
+	}
+
+	/**
+	 * Only someone who may also change the settings turns on filling in the
+	 * pages' images, since it changes the markup of every page.
+	 */
+	public function can_complete(): bool {
+		return $this->can_audit() && Capabilities::can( Capabilities::SETTINGS );
+	}
+
+	/**
+	 * Turns on filling in what the pages' images lack (`Delivery\Complete`), the
+	 * setting the settings page shows too, and answers the screen's state with
+	 * the audit `audit` names open.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function complete( WP_REST_Request $request ): WP_REST_Response {
+		Local_Settings::update( array( 'complete_images' => true ) );
+
+		return $this->state( $request );
 	}
 
 	/**

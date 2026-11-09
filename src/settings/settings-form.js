@@ -450,6 +450,21 @@ export default function SettingsForm( {
 				{ 'rules' === local.delivery &&
 					'rules' === state.local.delivery &&
 					state.rules && <RulesPanel rules={ state.rules } /> }
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ __(
+						'Add the width, height and alt text images lack',
+						'iminify-image-optimizer'
+					) }
+					help={ __(
+						'Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty.',
+						'iminify-image-optimizer'
+					) }
+					checked={ Boolean( local.complete_images ) }
+					onChange={ ( on ) =>
+						setLocal( { ...local, complete_images: on } )
+					}
+				/>
 				<fieldset className="iminify-fieldset iminify-box">
 					<legend className="iminify-sr">
 						{ __(

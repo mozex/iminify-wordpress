@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Audit;
 
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Delivery\Buffer;
 use Iminify\WordPress\Media\Picture;
 use Iminify\WordPress\Media\Shared;
@@ -27,9 +28,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * EWWW's (`photo.jpg.webp`), ShortPixel's (`photo.webp` beside `photo.jpg`)
  * and Modern Image Formats' (`photo-jpg.avif`); an attachment naming the
  * address's own file comes first, so a WebP upload beside a JPEG of the same
- * name is itself. An address outside the uploads folder (a theme's image, a
- * CDN's) has no attachment, and so has one WP Offload Media serves from its
- * bucket, whose address names no file here.
+ * name is itself. An address WP Offload Media serves from its bucket is an
+ * attachment's when WP Offload Media serves that attachment from the address's
+ * folder and the address carries one of its files' names, as `Picture` proves
+ * one; the attachment is looked for under the file the address's last folders
+ * and name suggest (`2026/11/photo.jpg`, past a version folder WP Offload Media
+ * may add), in the same query. A signed address names none, and any other
+ * address outside the uploads folder (a theme's image, a CDN's) has no
+ * attachment.
  */
 class Resolver {
 
@@ -46,12 +52,23 @@ class Resolver {
 	 */
 	public static function resolve( array $urls ): array {
 		$files   = array();
+		$away    = array();
 		$guesses = array();
 
 		foreach ( $urls as $url ) {
 			$file = Picture::uploaded_file( $url );
 
 			if ( null === $file ) {
+				$bucket = self::bucket( $url );
+
+				if ( null !== $bucket ) {
+					$away[ $url ] = $bucket;
+
+					foreach ( self::guesses( $bucket ) as $guess ) {
+						$guesses[ $guess['main'] ] = true;
+					}
+				}
+
 				continue;
 			}
 
@@ -68,10 +85,121 @@ class Resolver {
 		$resolved = array();
 
 		foreach ( $urls as $url ) {
-			$resolved[ $url ] = isset( $files[ $url ] ) ? self::match( $files[ $url ], $named ) : null;
+			if ( isset( $files[ $url ] ) ) {
+				$resolved[ $url ] = self::match( $files[ $url ], $named );
+			} else {
+				$resolved[ $url ] = isset( $away[ $url ] ) ? self::match_bucket( $away[ $url ], $named ) : null;
+			}
 		}
 
 		return $resolved;
+	}
+
+	/**
+	 * What an address may be in WP Offload Media's bucket: its folder, without
+	 * its scheme, the names it may stand for and the folders the attachment's
+	 * file may be in, or null while WP Offload Media isn't running, and for a
+	 * signed address, whose signature is for that one file.
+	 *
+	 * @param string $url The address.
+	 * @return array{folder: string, sources: array{files: list<string>, copy: string|null, own: string}, folders: list<string>}|null
+	 */
+	protected static function bucket( string $url ): ?array {
+		$end = strcspn( $url, '?#' );
+
+		if ( ! Offload_Media::active() || strlen( $url ) !== $end ) {
+			return null;
+		}
+
+		$bare = (string) preg_replace( '#^https?:#i', '', substr( $url, 0, $end ) );
+		$cut  = strrpos( $bare, '/' );
+		$name = false === $cut ? '' : rawurldecode( substr( $bare, $cut + 1 ) );
+
+		if ( false === $cut || '' === $name ) {
+			return null;
+		}
+
+		$parts   = explode( '/', trim( (string) wp_parse_url( $url, PHP_URL_PATH ), '/' ) );
+		$folders = array( '' );
+
+		array_pop( $parts );
+
+		/* The year and month folders, the last two, or the two before a version folder. */
+		foreach ( array( 2, 3 ) as $back ) {
+			$pair = array_slice( $parts, -$back, 2 );
+
+			if ( count( $parts ) >= $back && 2 === count( $pair ) && 1 === preg_match( '/^\d{4}$/', $pair[0] ) && 1 === preg_match( '/^\d{2}$/', $pair[1] ) ) {
+				array_unshift( $folders, implode( '/', $pair ) );
+			}
+		}
+
+		return array(
+			'folder'  => substr( $bare, 0, $cut + 1 ),
+			'sources' => self::sources( $name ),
+			'folders' => array_values( array_unique( $folders ) ),
+		);
+	}
+
+	/**
+	 * The files, relative to the uploads folder, a bucket's address may be, each
+	 * with the main file the attachment would name.
+	 *
+	 * @param array{folder: string, sources: array{files: list<string>, copy: string|null, own: string}, folders: list<string>} $bucket What the address may be.
+	 * @return list<array{file: string, main: string, name: string}>
+	 */
+	protected static function guesses( array $bucket ): array {
+		$guesses = array();
+
+		foreach ( $bucket['sources']['files'] as $name ) {
+			foreach ( $bucket['folders'] as $folder ) {
+				$file = '' === $folder ? $name : $folder . '/' . $name;
+
+				foreach ( Buffer::main_files( $file ) as $main ) {
+					$guesses[] = array(
+						'file' => $file,
+						'main' => $main,
+						'name' => $name,
+					);
+				}
+			}
+		}
+
+		return $guesses;
+	}
+
+	/**
+	 * The first attachment a bucket's address is one of the files of: one WP
+	 * Offload Media serves from the address's folder, with that file's size.
+	 *
+	 * @param array{folder: string, sources: array{files: list<string>, copy: string|null, own: string}, folders: list<string>} $bucket What the address may be.
+	 * @param array<string, list<int>>                                                                                           $named  The attachments naming each main file.
+	 * @return array{attachment: int, size: string, width: int, height: int, file: string, copy: string|null}|null
+	 */
+	protected static function match_bucket( array $bucket, array $named ): ?array {
+		$uploads = (string) preg_replace( '#^https?:#i', '', (string) wp_get_upload_dir()['baseurl'] );
+
+		foreach ( self::guesses( $bucket ) as $guess ) {
+			foreach ( $named[ $guess['main'] ] ?? array() as $attachment ) {
+				if ( Offload_Media::folder( $attachment, $uploads ) !== $bucket['folder'] ) {
+					continue;
+				}
+
+				$size = self::size( $attachment, $guess['file'] );
+
+				if ( null !== $size ) {
+					return array_merge(
+						$size,
+						array(
+							'attachment' => Shared::holder( $attachment ),
+							'file'       => $guess['file'],
+							'copy'       => $guess['name'] === $bucket['sources']['own'] ? null : $bucket['sources']['copy'],
+						)
+					);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**

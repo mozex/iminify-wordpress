@@ -132,16 +132,23 @@ class Rules {
 	 * The setting changed: a new way of serving puts the rules in or takes them
 	 * out, the pages a cache kept are emptied, since they print the old way's
 	 * markup (a `<picture>` naming copies the rules may now take off the disk), and
-	 * turning the rules on starts the pass over the copies already stale.
+	 * turning the rules on starts the pass over the copies already stale. Filling
+	 * in the images' markup (`Complete`) turned on or off empties them too.
 	 *
 	 * @param mixed $old   The settings before.
 	 * @param mixed $value The settings now.
 	 */
 	public static function setting_changed( $old, $value ): void {
-		$before = Local_Settings::sanitize( $old )['delivery'];
-		$now    = Local_Settings::sanitize( $value )['delivery'];
+		$old    = Local_Settings::sanitize( $old );
+		$value  = Local_Settings::sanitize( $value );
+		$before = $old['delivery'];
+		$now    = $value['delivery'];
 
 		if ( $before === $now ) {
+			if ( $old['complete_images'] !== $value['complete_images'] ) {
+				Caches::later( 'delivery' );
+			}
+
 			return;
 		}
 

@@ -733,7 +733,7 @@ class Alt_Text {
 	 *
 	 * @param int $attachment The attachment's id.
 	 */
-	protected static function lacks_alt( int $attachment ): bool {
+	public static function lacks_alt( int $attachment ): bool {
 		return '' === trim( (string) get_post_meta( $attachment, self::META, true ) );
 	}
 

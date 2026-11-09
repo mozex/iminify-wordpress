@@ -48,6 +48,7 @@ export default function App() {
 	const [ error, setError ] = useState( null );
 	const [ wait, setWait ] = useState( 0 );
 	const [ opening, setOpening ] = useState( null );
+	const [ doing, setDoing ] = useState( null );
 	const [ beat, setBeat ] = useState( 0 );
 	const { toasts, toast, dismiss } = useToasts();
 	const presses = useRef( 0 );
@@ -231,6 +232,44 @@ export default function App() {
 			.finally( () => setOpening( null ) );
 	};
 
+	/*
+	 * A fix pressed beside an image: the media library's own route, then the
+	 * state again with the audit kept open. The audit itself is what Iminify saw,
+	 * so the toast asks for another scan rather than hiding the finding.
+	 */
+	const fix = ( key, path, said ) => {
+		setDoing( key );
+		setError( null );
+
+		return call( path, 'POST' )
+			.then( () => {
+				toast( said );
+
+				return load( open?.id ?? null );
+			} )
+			.catch( refuse )
+			.finally( () => setDoing( null ) );
+	};
+
+	/* Turns on filling in what the pages' images lack, which answers the state. */
+	const complete = () => {
+		setDoing( 'complete' );
+		setError( null );
+
+		return call( '/audit/complete', 'POST', open ? { audit: open.id } : {} )
+			.then( ( next ) => {
+				setState( ( current ) => settle( current, next ) );
+				toast(
+					__(
+						'Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it.',
+						'iminify-image-optimizer'
+					)
+				);
+			} )
+			.catch( refuse )
+			.finally( () => setDoing( null ) );
+	};
+
 	return (
 		<>
 			{ error && (
@@ -247,7 +286,14 @@ export default function App() {
 			) }
 			<div className="iminify-grid">
 				<div className="iminify-col">
-					<Audit audit={ open } pages={ state.pages } />
+					<Audit
+						audit={ open }
+						pages={ state.pages }
+						settings={ state.links?.settings ?? null }
+						doing={ doing }
+						onFix={ fix }
+						onComplete={ complete }
+					/>
 				</div>
 				<div className="iminify-col">
 					<Scan
@@ -721,11 +767,15 @@ function History( { audits, pages, open, opening, onOpen } ) {
  * The audit showing: where it stands, why the page couldn't be read, or each
  * image the page showed, those with something to fix first.
  *
- * @param {Object}      props       The component's props.
- * @param {Object|null} props.audit The audit.
- * @param {Array}       props.pages The pages the site offers.
+ * @param {Object}                                            props            The component's props.
+ * @param {Object|null}                                       props.audit      The audit.
+ * @param {?string}                                           props.settings   The settings page.
+ * @param {?string}                                           props.doing      The press on its way, if any.
+ * @param {(key: string, path: string, said: string) => void} props.onFix      Presses a fix.
+ * @param {() => void}                                        props.onComplete Turns on filling in the pages' images.
+ * @param {Array}                                             props.pages      The pages the site offers.
  */
-function Audit( { audit, pages } ) {
+function Audit( { audit, pages, settings, doing, onFix, onComplete } ) {
 	const [ showAll, setShowAll ] = useState( false );
 
 	if ( ! audit ) {
@@ -748,6 +798,18 @@ function Audit( { audit, pages } ) {
 
 	const chip = auditChip( audit );
 	const images = audit.images ?? [];
+	const fill = audit.complete ?? { images: 0, on: false, can: false };
+	const shot = ( image, index ) => (
+		<Shot
+			key={ index }
+			image={ image }
+			edit={ audit.edit ?? null }
+			filled={ fill.on }
+			settings={ settings }
+			doing={ doing }
+			onFix={ onFix }
+		/>
+	);
 	const flagged = images.filter( ( image ) => image.findings.length > 0 );
 	const clean = images.filter( ( image ) => 0 === image.findings.length );
 
@@ -772,7 +834,7 @@ function Audit( { audit, pages } ) {
 			{ ! audit.done && (
 				<p className="iminify-text">
 					{ __(
-						'Iminify is opening the page and measuring its images. This takes a minute or so, and the page shows them as soon as they’re in.',
+						'Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in.',
 						'iminify-image-optimizer'
 					) }
 				</p>
@@ -807,6 +869,13 @@ function Audit( { audit, pages } ) {
 							formatNumber( flagged.length )
 						) }
 					</p>
+					{ fill.images > 0 && ! fill.on && (
+						<Fill
+							fill={ fill }
+							doing={ doing }
+							onComplete={ onComplete }
+						/>
+					) }
 					{ 0 === flagged.length && (
 						<Callout tone="success" icon="check">
 							<p>
@@ -819,9 +888,7 @@ function Audit( { audit, pages } ) {
 					) }
 					{ flagged.length > 0 && (
 						<ul className="iminify-shots">
-							{ flagged.map( ( image, index ) => (
-								<Shot key={ index } image={ image } />
-							) ) }
+							{ flagged.map( shot ) }
 						</ul>
 					) }
 					{ clean.length > 0 && flagged.length > 0 && (
@@ -853,9 +920,7 @@ function Audit( { audit, pages } ) {
 					{ clean.length > 0 &&
 						( showAll || 0 === flagged.length ) && (
 							<ul className="iminify-shots">
-								{ clean.map( ( image, index ) => (
-									<Shot key={ index } image={ image } />
-								) ) }
+								{ clean.map( shot ) }
 							</ul>
 						) }
 				</>
@@ -865,15 +930,227 @@ function Audit( { audit, pages } ) {
 }
 
 /**
- * One image the page showed: the attachment and size it is, or its address
- * when no image in the library has it, then each finding with its fix.
+ * Filling in what the pages' images lack, offered once for the page: the
+ * images of the media library it shows without their width and height, or
+ * without the alt text their attachment has, get them as each page is sent.
  *
- * @param {Object} props       The component's props.
- * @param {Object} props.image The image.
+ * @param {Object}     props            The component's props.
+ * @param {Object}     props.fill       How many images it would fill in, and whether the person may turn it on.
+ * @param {?string}    props.doing      The press on its way, if any.
+ * @param {() => void} props.onComplete Turns it on.
  */
-function Shot( { image } ) {
+function Fill( { fill, doing, onComplete } ) {
+	return (
+		<Callout tone="info" icon="image">
+			<p>
+				{ sprintf(
+					/* translators: %s: how many images. */
+					_n(
+						'%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library.',
+						'%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library.',
+						fill.images,
+						'iminify-image-optimizer'
+					),
+					formatNumber( fill.images )
+				) }
+			</p>
+			{ fill.can ? (
+				<div className="iminify-actions">
+					<Button
+						size="small"
+						busy={ 'complete' === doing }
+						disabled={ null !== doing }
+						onClick={ onComplete }
+					>
+						{ __(
+							'Fill them in on every page',
+							'iminify-image-optimizer'
+						) }
+					</Button>
+				</div>
+			) : (
+				<p>
+					{ __(
+						'Someone who can change the plugin’s settings can turn this on.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) }
+		</Callout>
+	);
+}
+
+/**
+ * What the plugin can do about one finding of an image in the media library,
+ * beside the words for its fix.
+ *
+ * @param {Object}                                            props          The component's props.
+ * @param {Object}                                            props.finding  The finding.
+ * @param {Object}                                            props.image    The image.
+ * @param {?string}                                           props.edit     Where the person edits the page, if they can.
+ * @param {boolean}                                           props.filled   Whether the site fills in what images' markup lacks.
+ * @param {?string}                                           props.settings The settings page.
+ * @param {?string}                                           props.doing    The press on its way, if any.
+ * @param {(key: string, path: string, said: string) => void} props.onFix    Presses a fix.
+ */
+function Remedy( { finding, image, edit, filled, settings, doing, onFix } ) {
+	const { attachment, fixes } = image;
+
+	if ( ! attachment || ! fixes ) {
+		return null;
+	}
+
+	const key = `alt:${ attachment.id }`;
+
+	if (
+		'oversized' === finding.code &&
+		fixes.smaller &&
+		! fixes.smaller.editor
+	) {
+		return (
+			<p className="iminify-findings__do">
+				{ sprintf(
+					/* translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels. */
+					__(
+						'Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there.',
+						'iminify-image-optimizer'
+					),
+					fixes.smaller.size_name,
+					formatNumber( fixes.smaller.width ),
+					formatNumber( fixes.smaller.height )
+				) }
+			</p>
+		);
+	}
+
+	if ( 'oversized' === finding.code && fixes.smaller ) {
+		return (
+			<p className="iminify-findings__do">
+				{ sprintf(
+					/* translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels. */
+					__(
+						'Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution.',
+						'iminify-image-optimizer'
+					),
+					fixes.smaller.size_name,
+					formatNumber( fixes.smaller.width ),
+					formatNumber( fixes.smaller.height )
+				) }{ ' ' }
+				{ edit && (
+					<a href={ edit } target="_blank" rel="noreferrer">
+						{ __( 'Edit the page', 'iminify-image-optimizer' ) }
+					</a>
+				) }
+			</p>
+		);
+	}
+
+	if ( 'without_dimensions' === finding.code ) {
+		return filled && fixes.fill ? (
+			<p className="iminify-findings__do">
+				{ __(
+					'The plugin adds them as the page is sent. Scan again to see it.',
+					'iminify-image-optimizer'
+				) }
+			</p>
+		) : null;
+	}
+
+	if ( 'missing_alt' !== finding.code || ! fixes.alt_text ) {
+		return null;
+	}
+
+	switch ( fixes.alt_text ) {
+		case 'write':
+			return (
+				<div className="iminify-actions">
+					<Button
+						size="small"
+						variant="secondary"
+						busy={ key === doing }
+						disabled={ null !== doing }
+						onClick={ () =>
+							onFix(
+								key,
+								`/media/${ attachment.id }/alt-text`,
+								__(
+									'Iminify is writing the image’s alt text. Scan again once it’s in.',
+									'iminify-image-optimizer'
+								)
+							)
+						}
+					>
+						{ __(
+							'Write alt text with AI',
+							'iminify-image-optimizer'
+						) }
+					</Button>
+				</div>
+			);
+		case 'settings':
+			return (
+				<p className="iminify-findings__do">
+					{ __(
+						'Iminify can write it once AI alt text is on for this site.',
+						'iminify-image-optimizer'
+					) }{ ' ' }
+					{ settings && (
+						<a href={ settings }>
+							{ __(
+								'Turn it on in the settings',
+								'iminify-image-optimizer'
+							) }
+						</a>
+					) }
+				</p>
+			);
+		case 'waiting':
+			return (
+				<p className="iminify-findings__do">
+					{ __(
+						'Its alt text is on its way. Scan again once it’s in.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			);
+		case 'translations':
+			return (
+				<p className="iminify-findings__do">
+					{ __(
+						'Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			);
+		default:
+			return filled && fixes.fill ? (
+				<p className="iminify-findings__do">
+					{ __(
+						'The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it.',
+						'iminify-image-optimizer'
+					) }
+				</p>
+			) : null;
+	}
+}
+
+/**
+ * One image the page showed: the attachment and size it is, or its address
+ * when no image in the library has it, then each finding with its fix, and a
+ * press to optimize an image the plugin hasn't.
+ *
+ * @param {Object}                                            props          The component's props.
+ * @param {Object}                                            props.image    The image.
+ * @param {?string}                                           props.edit     Where the person edits the page, if they can.
+ * @param {boolean}                                           props.filled   Whether the site fills in what images' markup lacks.
+ * @param {?string}                                           props.settings The settings page.
+ * @param {?string}                                           props.doing    The press on its way, if any.
+ * @param {(key: string, path: string, said: string) => void} props.onFix    Presses a fix.
+ */
+function Shot( { image, edit, filled, settings, doing, onFix } ) {
 	const { attachment } = image;
 	const status = attachment ? imageChip( attachment.status ) : null;
+	const optimize = attachment ? `optimize:${ attachment.id }` : null;
 
 	return (
 		<li className="iminify-shot">
@@ -966,9 +1243,40 @@ function Shot( { image } ) {
 										<span>{ finding.fix_text }</span>
 									</p>
 								) }
+								<Remedy
+									finding={ finding }
+									image={ image }
+									edit={ edit }
+									filled={ filled }
+									settings={ settings }
+									doing={ doing }
+									onFix={ onFix }
+								/>
 							</li>
 						) ) }
 					</ul>
+				) }
+				{ image.fixes?.optimize && (
+					<div className="iminify-actions">
+						<Button
+							size="small"
+							variant="secondary"
+							busy={ optimize === doing }
+							disabled={ null !== doing }
+							onClick={ () =>
+								onFix(
+									optimize,
+									`/media/${ attachment.id }/optimize`,
+									__(
+										'The image is on its way to Iminify.',
+										'iminify-image-optimizer'
+									)
+								)
+							}
+						>
+							{ __( 'Optimize', 'iminify-image-optimizer' ) }
+						</Button>
+					</div>
 				) }
 			</div>
 		</li>

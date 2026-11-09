@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Delivery\Complete;
 use Iminify\WordPress\Local_Settings;
 use WP_HTML_Tag_Processor;
 
@@ -89,11 +90,16 @@ class Picture {
 	 * @return mixed
 	 */
 	public static function content_image( $tag, $context, $attachment ) {
-		if ( ! is_string( $tag ) || ! is_numeric( $attachment ) || (int) $attachment <= 0 || ! self::serves() ) {
+		if ( ! is_string( $tag ) || ! is_numeric( $attachment ) || (int) $attachment <= 0 ) {
 			return $tag;
 		}
 
-		return self::wrap( $tag, (int) $attachment );
+		/* Filled in before it is wrapped: the page's buffer passes over an `<img>` inside a `<picture>`. */
+		if ( Complete::on() ) {
+			$tag = Complete::tag( $tag, (int) $attachment, true, is_string( $context ) ? $context : 'the_content' );
+		}
+
+		return self::serves() ? self::wrap( $tag, (int) $attachment ) : $tag;
 	}
 
 	/**
@@ -201,10 +207,15 @@ class Picture {
 	 * search) come through it, so wp-admin's own AJAX answers are too.
 	 */
 	public static function serves(): bool {
-		if ( ! in_array( Local_Settings::get()['delivery'], array( Local_Settings::DELIVERY_PICTURE, Local_Settings::DELIVERY_PAGE ), true ) ) {
-			return false;
-		}
+		return in_array( Local_Settings::get()['delivery'], array( Local_Settings::DELIVERY_PICTURE, Local_Settings::DELIVERY_PAGE ), true ) && self::front_end();
+	}
 
+	/**
+	 * Whether this request prints a page a visitor sees: never a wp-admin screen
+	 * (admin-ajax answers are, since a theme's front-end requests come through
+	 * it), a feed or an AMP page.
+	 */
+	public static function front_end(): bool {
 		if ( ( is_admin() && ! wp_doing_ajax() ) || is_feed() ) {
 			return false;
 		}

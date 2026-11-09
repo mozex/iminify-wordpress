@@ -40,6 +40,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * An image already wrapped (`Picture::MARKER`) or inside a `<picture>` someone
  * wrote is left as it is, so nothing is wrapped twice.
  *
+ * The same reading fills in what an `<img>` naming an attachment leaves out
+ * (`Complete`) when the site turns that on, whatever the delivery: the page is
+ * then read for that alone, and its images are matched to their attachment by
+ * class or address whether or not they have copies. The alt text is taken by
+ * address only from a file no translation shares.
+ *
  * A background named in a `style` attribute or a `<style>` element (a page
  * builder's hero, a theme's banner) gets its copies the same way, its address
  * looked up with the images' and proven the same way, as an `image-set()` in a
@@ -77,8 +83,9 @@ class Buffer {
 
 	/**
 	 * Asks core to buffer this page for the plugin, when the page gets picture
-	 * tags over the whole of it. Core starts its buffer right before the template
-	 * only when a filter is on it by then, so any other page streams as before.
+	 * tags over the whole of it or its images filled in. Core starts its buffer
+	 * right before the template only when a filter is on it by then, so any other
+	 * page streams as before.
 	 */
 	public static function start(): void {
 		if ( self::reads() ) {
@@ -88,18 +95,20 @@ class Buffer {
 
 	/**
 	 * Whether this request's page is read: in the whole-page mode, wherever
-	 * `Picture` serves (never a wp-admin screen, a feed or an AMP page), unless a
-	 * developer says otherwise for the page.
+	 * `Picture` serves (never a wp-admin screen, a feed or an AMP page), or to
+	 * fill in its images (`Complete::on()`), unless a developer says otherwise
+	 * for the page.
 	 */
 	public static function reads(): bool {
-		if ( Local_Settings::DELIVERY_PAGE !== Local_Settings::get()['delivery'] || ! Picture::serves() ) {
+		if ( ! self::serves() && ! Complete::on() ) {
 			return false;
 		}
 
 		/**
 		 * Whether to read this page as it is sent, to give the images WordPress's
-		 * own filters didn't reach their picture tags. It runs on
-		 * `template_redirect`, so conditional tags work.
+		 * own filters didn't reach their picture tags, or the width, height and
+		 * alt text their markup lacks. It runs on `template_redirect`, so
+		 * conditional tags work.
 		 *
 		 * @param bool $read Whether to read the page. Default true.
 		 */
@@ -107,19 +116,41 @@ class Buffer {
 	}
 
 	/**
+	 * Whether this request's page gets picture tags over the whole of it.
+	 */
+	protected static function serves(): bool {
+		return Local_Settings::DELIVERY_PAGE === Local_Settings::get()['delivery'] && Picture::serves();
+	}
+
+	/**
 	 * The `wp_template_enhancement_output_buffer` filter: the page with every
 	 * `<img>` that has proven copies wrapped, every background with proven copies
-	 * given them in an `image-set()`, and every other byte as it came.
+	 * given them in an `image-set()`, every `<img>` naming an attachment filled in
+	 * when that is on, and every other byte as it came.
 	 *
 	 * @param mixed $html The page.
 	 * @return mixed
 	 */
 	public static function rewrite( $html ) {
-		if ( ! is_string( $html ) || ( false === stripos( $html, '<img' ) && false === stripos( $html, 'url(' ) ) ) {
+		$serves = self::serves();
+		$fills  = Complete::on();
+
+		if ( ! is_string( $html ) || ( ! $serves && ! $fills ) || ( false === stripos( $html, '<img' ) && ( ! $serves || false === stripos( $html, 'url(' ) ) ) ) {
 			return $html;
 		}
 
 		$tags = self::tags( $html );
+
+		if ( ! $serves ) {
+			$tags = array_values(
+				array_filter(
+					$tags,
+					static function ( array $tag ): bool {
+						return $tag['image'];
+					}
+				)
+			);
+		}
 
 		if ( array() === $tags ) {
 			return $html;
@@ -133,11 +164,12 @@ class Buffer {
 			}
 		}
 
-		$urls        = array_map( 'strval', array_keys( $urls ) );
-		$attachments = self::attachments( $urls, array_column( $tags, 'attachment' ) );
-		$folders     = self::folders( $urls );
-		$parts       = array();
-		$at          = 0;
+		$urls                  = array_map( 'strval', array_keys( $urls ) );
+		list( $files, $named ) = self::lookup( $urls, array_column( $tags, 'attachment' ) );
+		$attachments           = $serves ? self::attachments( $files, $named ) : array();
+		$folders               = $serves ? self::folders( $urls ) : array();
+		$parts                 = array();
+		$at                    = 0;
 
 		$copies = static function ( string $url ) use ( $attachments, $folders ): array {
 			$set = isset( $attachments[ $url ] ) ? Picture::image_set( $url, $attachments[ $url ] ) : array();
@@ -149,9 +181,13 @@ class Buffer {
 			list( $start, $length ) = $tag['span'];
 
 			$original = substr( $html, $start, $length );
-			$changed  = array() === $tag['backgrounds'] ? $original : self::backgrounds( $original, $tag['element'], $copies );
+			$changed  = ! $serves || array() === $tag['backgrounds'] ? $original : self::backgrounds( $original, $tag['element'], $copies );
 
-			if ( $tag['image'] ) {
+			if ( $tag['image'] && $fills ) {
+				$changed = self::complete( $changed, $tag, $files, $named );
+			}
+
+			if ( $tag['image'] && $serves ) {
 				$changed = self::picture( $changed, $tag, $attachments, $folders );
 			}
 
@@ -171,6 +207,40 @@ class Buffer {
 		$parts[] = substr( $html, $at );
 
 		return implode( '', $parts );
+	}
+
+	/**
+	 * An `<img>` tag with what its markup lacks (`Complete`), from the attachment
+	 * its class names, else the one its own address names: the first attachment
+	 * naming the file, its alt text only when no other one does, since
+	 * translations sharing a file each keep an alt in their own language.
+	 *
+	 * @param string                                     $tag   The `<img>` tag.
+	 * @param array{attachment: int, src: string}        $image What the page says of it.
+	 * @param array<string, string>                      $files The file each address names, under the uploads folder.
+	 * @param array<string, list<int>>                   $named The attachments naming each main file.
+	 */
+	protected static function complete( string $tag, array $image, array $files, array $named ): string {
+		if ( $image['attachment'] > 0 ) {
+			return Complete::tag( $tag, $image['attachment'], true, 'iminify_page' );
+		}
+
+		/* Its `src` is the file core reads its width and height from. */
+		if ( ! isset( $files[ $image['src'] ] ) ) {
+			return $tag;
+		}
+
+		foreach ( self::main_files( $files[ $image['src'] ] ) as $main ) {
+			$attachments = $named[ $main ] ?? array();
+
+			if ( array() !== $attachments ) {
+				$alone = 1 === count( $attachments );
+
+				return Complete::tag( $tag, $attachments[0], $alone, 'iminify_page' );
+			}
+		}
+
+		return $tag;
 	}
 
 	/**
@@ -296,7 +366,7 @@ class Buffer {
 	 * covers its text and its closing tag.
 	 *
 	 * @param string $html The page.
-	 * @return list<array{span: array{0: int, 1: int}, image: bool, element: bool, attachment: int, urls: list<string>, backgrounds: list<string>}>
+	 * @return list<array{span: array{0: int, 1: int}, image: bool, element: bool, attachment: int, src: string, urls: list<string>, backgrounds: list<string>}>
 	 */
 	protected static function tags( string $html ): array {
 		$markup = new Markup( $html );
@@ -332,6 +402,7 @@ class Buffer {
 
 			$urls  = array();
 			$class = null;
+			$src   = null;
 
 			if ( $image ) {
 				$src    = $markup->get_attribute( 'src' );
@@ -349,6 +420,7 @@ class Buffer {
 				'image'       => $image,
 				'element'     => $element,
 				'attachment'  => is_string( $class ) && 1 === preg_match( '/(?:^|\s)wp-image-(\d+)(?:\s|$)/', $class, $id ) ? (int) $id[1] : 0,
+				'src'         => is_string( $src ) ? $src : '',
 				'urls'        => array_values( array_unique( $urls ) ),
 				'backgrounds' => $backgrounds,
 			);
@@ -358,16 +430,16 @@ class Buffer {
 	}
 
 	/**
-	 * The attachment each address names under the uploads folder: one that names
-	 * the file and has copies to serve, found with every other address's in one
-	 * query. Every attachment the page names is read here, by its class too, with
-	 * the holders their records point to (`Picture::prime()`).
+	 * The file each address names under the uploads folder, and the attachments
+	 * naming each of their possible main files, found with every other address's
+	 * in one query. Every attachment the page names is read here, by its class
+	 * too, with the holders their records point to (`Picture::prime()`).
 	 *
 	 * @param list<string> $urls    The page's images' and backgrounds' addresses.
 	 * @param list<int>    $classes The attachments its images' classes name, 0 for none.
-	 * @return array<string, int> The attachment's id by the address.
+	 * @return array{0: array<string, string>, 1: array<string, list<int>>} The files by address, and the attachments by main file.
 	 */
-	protected static function attachments( array $urls, array $classes ): array {
+	protected static function lookup( array $urls, array $classes ): array {
 		$files   = array();
 		$guesses = array();
 
@@ -389,6 +461,17 @@ class Buffer {
 
 		Picture::prime( array_map( 'intval', array_merge( $classes, ...array_values( $named ) ) ) );
 
+		return array( $files, $named );
+	}
+
+	/**
+	 * The attachment each address names that has copies to serve.
+	 *
+	 * @param array<string, string>    $files The file each address names, under the uploads folder.
+	 * @param array<string, list<int>> $named The attachments naming each main file.
+	 * @return array<string, int> The attachment's id by the address.
+	 */
+	protected static function attachments( array $files, array $named ): array {
 		$found = array();
 
 		foreach ( $files as $url => $file ) {

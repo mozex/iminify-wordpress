@@ -60,14 +60,16 @@ class Local_Settings {
 	/**
 	 * Backups on, and `<picture>` markup for the copies that exist: a site that
 	 * never opens the settings page gets both, and deleting the plugin keeps
-	 * every file it made.
+	 * every file it made. Filling in what an image's markup lacks (`Complete`)
+	 * changes every page's markup, so it waits for someone to turn it on.
 	 *
-	 * @return array{backups: bool, delivery: string, uninstall_copies: bool, uninstall_backups: bool}
+	 * @return array{backups: bool, delivery: string, complete_images: bool, uninstall_copies: bool, uninstall_backups: bool}
 	 */
 	public static function defaults(): array {
 		return array(
 			'backups'           => true,
 			'delivery'          => self::DELIVERY_PICTURE,
+			'complete_images'   => false,
 			'uninstall_copies'  => false,
 			'uninstall_backups' => false,
 		);
@@ -85,7 +87,7 @@ class Local_Settings {
 	/**
 	 * The settings, each one missing or unreadable taking its default.
 	 *
-	 * @return array{backups: bool, delivery: string, uninstall_copies: bool, uninstall_backups: bool}
+	 * @return array{backups: bool, delivery: string, complete_images: bool, uninstall_copies: bool, uninstall_backups: bool}
 	 */
 	public static function get(): array {
 		return self::sanitize( get_option( self::OPTION, array() ) );
@@ -95,7 +97,7 @@ class Local_Settings {
 	 * Changes some of the settings.
 	 *
 	 * @param array<string, mixed> $changes The settings to change.
-	 * @return array{backups: bool, delivery: string, uninstall_copies: bool, uninstall_backups: bool}
+	 * @return array{backups: bool, delivery: string, complete_images: bool, uninstall_copies: bool, uninstall_backups: bool}
 	 */
 	public static function update( array $changes ): array {
 		$settings = self::sanitize( array_merge( self::get(), array_intersect_key( $changes, self::defaults() ) ) );
@@ -109,7 +111,7 @@ class Local_Settings {
 	 * Keeps only the known settings, each as its type, and a delivery the plugin knows.
 	 *
 	 * @param mixed $value The value to store.
-	 * @return array{backups: bool, delivery: string, uninstall_copies: bool, uninstall_backups: bool}
+	 * @return array{backups: bool, delivery: string, complete_images: bool, uninstall_copies: bool, uninstall_backups: bool}
 	 */
 	public static function sanitize( $value ): array {
 		$value    = is_array( $value ) ? $value : array();
@@ -119,6 +121,7 @@ class Local_Settings {
 		return array(
 			'backups'           => self::flag( $value, 'backups', $defaults['backups'] ),
 			'delivery'          => in_array( $delivery, self::deliveries(), true ) ? $delivery : $defaults['delivery'],
+			'complete_images'   => self::flag( $value, 'complete_images', $defaults['complete_images'] ),
 			'uninstall_copies'  => self::flag( $value, 'uninstall_copies', $defaults['uninstall_copies'] ),
 			'uninstall_backups' => self::flag( $value, 'uninstall_backups', $defaults['uninstall_backups'] ),
 		);

@@ -419,6 +419,7 @@ class RestControllerTest extends WP_UnitTestCase {
 			array(
 				'backups'           => false,
 				'delivery'          => 'picture',
+				'complete_images'   => false,
 				'uninstall_copies'  => false,
 				'uninstall_backups' => false,
 			),

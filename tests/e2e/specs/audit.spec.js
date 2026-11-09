@@ -69,6 +69,34 @@ for ( const width of [ 1280, 390 ] ) {
 	} );
 }
 
+test( 'Beside the findings: the alt text setting, filling in what the markup lacks, and optimizing the image', async ( { page } ) => {
+	seed( 'audit-images' );
+	seed( 'state', { audited: true } );
+
+	await page.goto( auditPage );
+
+	const main = shot( page, 'Full Size, 800 × 500' );
+
+	/* The site's AI alt text is off, so the fix sends the person to turn it on. */
+	await expect( main ).toContainText( 'Iminify can write it once AI alt text is on for this site.' );
+	await expect( main.getByRole( 'link', { name: 'Turn it on in the settings' } ) ).toHaveAttribute( 'href', /page=iminify-image-optimizer/ );
+
+	const fill = page.locator( '.iminify-callout', { hasText: 'without its width and height' } );
+	await expect( fill ).toContainText( '1 image from your media library is on this page' );
+	await fill.getByRole( 'button', { name: 'Fill them in on every page' } ).click();
+
+	await expect( page.getByText( 'Your pages now get the missing width, height and alt text' ) ).toBeVisible();
+	await expect( fill ).toHaveCount( 0 );
+	await expect( main ).toContainText( 'The plugin adds them as the page is sent.' );
+	expect( JSON.parse( wp( 'option', 'get', 'iminify_settings', '--format=json' ) ).complete_images ).toBe( true );
+
+	await main.getByRole( 'button', { name: 'Optimize' } ).click();
+
+	await expect( page.getByText( 'The image is on its way to Iminify.' ) ).toBeVisible();
+	await expect( main ).toContainText( 'On its way' );
+	await expect( main.getByRole( 'button', { name: 'Optimize' } ) ).toHaveCount( 0 );
+} );
+
 test( 'Right to left, the page loads its right-to-left stylesheet', async ( { page } ) => {
 	seed( 'audit-images' );
 	seed( 'state', { audited: true, rtl: true } );

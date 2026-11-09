@@ -11,12 +11,15 @@ namespace Iminify\WordPress\Tests\Integration;
 use Iminify\WordPress\Admin\Audit_State;
 use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Audit\Findings;
+use Iminify\WordPress\Audit\Fixes;
 use Iminify\WordPress\Audit\Resolver;
+use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Tests\Support\Api_Stub;
+use Iminify\WordPress\Tests\Support\Offload_Stub;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_UnitTestCase;
@@ -117,6 +120,224 @@ class AuditTest extends WP_UnitTestCase {
 		$this->assertSame( array(), $images[3]['findings'] );
 	}
 
+	public function test_each_image_offers_what_the_plugin_can_do_about_it(): void {
+		$id    = $this->attachment();
+		$page  = self::factory()->post->create( array( 'post_type' => 'page' ) );
+		$audit = $this->audit_of_page( $id );
+
+		$audit['data']['url'] = (string) get_permalink( $page );
+		$this->api->on( 'GET', 'site/audits', 200, Api_Stub::fixture( 'site-audits' ) );
+
+		/* Its upload queued it; here it waits for someone to press. */
+		Records::update( $id, array( 'status' => Records::NOT_OPTIMIZED ) );
+		$this->api->on( 'GET', 'site/audits/' . self::AUDIT, 200, $audit );
+
+		$fixes = static function (): array {
+			return array_column( Audit_State::build()['audit']['images'], 'fixes' );
+		};
+
+		/* Not optimized, with no alt text while the site's AI alt text is off; the theme's image has nothing to offer. */
+		$state = Audit_State::build();
+		$this->assertSame(
+			array(
+				'optimize' => true,
+				'alt_text' => 'settings',
+				'fill'     => true,
+				'smaller'  => null,
+			),
+			$state['audit']['images'][0]['fixes']
+		);
+		$this->assertSame(
+			array(
+				'optimize' => false,
+				'alt_text' => null,
+				'fill'     => false,
+				'smaller'  => null,
+			),
+			$state['audit']['images'][3]['fixes']
+		);
+		/* The page shows three sizes of it, and one press optimizes them all, offered on the first with something to fix. */
+		$this->assertSame( array( true, false, false, false ), array_column( array_column( $state['audit']['images'], 'fixes' ), 'optimize' ) );
+		$clean                                  = $audit;
+		$clean['data']['images'][0]['findings'] = array();
+		$this->assertSame( array( false, true, false, false ), array_column( array_column( Audit_State::detail( $clean['data'] )['images'], 'fixes' ), 'optimize' ) );
+		$this->assertSame( get_edit_post_link( $page, 'raw' ), $state['audit']['edit'] );
+		$this->assertSame(
+			array(
+				'images' => 1,
+				'on'     => false,
+				'can'    => true,
+			),
+			$state['audit']['complete']
+		);
+
+		/* A type the service writes no alt text for gets nothing, whatever the setting. */
+		$avif = self::factory()->attachment->create( array( 'post_mime_type' => 'image/avif' ) );
+		$this->assertNull( Fixes::alt_text( $avif ) );
+
+		/* With the site's AI alt text on, it is written, and while its group is on its way, it comes with it. */
+		$this->writes_alt_text();
+		$this->assertNull( Fixes::alt_text( $avif ) );
+		$this->assertSame( 'write', $fixes()[0]['alt_text'] );
+		Records::update( $id, array( 'status' => Records::QUEUED ) );
+		$this->assertSame( 'waiting', $fixes()[0]['alt_text'] );
+		Records::update( $id, array( 'status' => Records::NOT_OPTIMIZED ) );
+
+		/* A smaller size, shown at 200: where the page's own content holds the image, the editor changes it. */
+		$audit['data']['images'][0]['serve_width'] = 400;
+		$this->api->on( 'GET', 'site/audits/' . self::AUDIT, 200, $audit );
+		$this->assertSame( array( 'medium', false ), array( $fixes()[0]['smaller']['size'], $fixes()[0]['smaller']['editor'] ) );
+		wp_update_post(
+			array(
+				'ID'           => $page,
+				'post_content' => '<!-- wp:image {"id":' . $id . ',"sizeSlug":"full"} --><figure class="wp-block-image"><img src="x.jpg" class="wp-image-' . $id . '"/></figure><!-- /wp:image -->',
+			)
+		);
+		$this->assertTrue( $fixes()[0]['smaller']['editor'] );
+		$this->assertFalse( Fixes::in_content( 'class="wp-image-' . $id . '1"', array( $id ) ), 'another id that starts the same' );
+
+		/* Once the image has an alt, the pages are given it. */
+		update_post_meta( $id, '_wp_attachment_image_alt', 'A field of yellow flowers' );
+		$this->assertSame( 'fill', $fixes()[0]['alt_text'] );
+
+		/* An image the plugin optimized, or one on its way, isn't offered again. */
+		foreach ( array( Records::OPTIMIZED, Records::QUEUED ) as $status ) {
+			Records::update( $id, array( 'status' => $status ) );
+			$this->assertFalse( $fixes()[0]['optimize'], $status );
+		}
+
+		/* A file translations share doesn't say which of them the page showed. */
+		$translation = self::factory()->attachment->create( array( 'post_mime_type' => 'image/jpeg' ) );
+		update_post_meta( $translation, '_wp_attached_file', get_post_meta( $id, '_wp_attached_file', true ) );
+		Shared::forget();
+		$this->assertSame( 'translations', $fixes()[0]['alt_text'] );
+
+		/* A translated page's content names its own translation of the image, which the editor holds too. */
+		wp_update_post(
+			array(
+				'ID'           => $page,
+				'post_content' => '<img src="x.jpg" class="wp-image-' . $translation . '"/>',
+			)
+		);
+		$this->assertTrue( $fixes()[0]['smaller']['editor'] );
+
+		/* Someone who may audit but not change the settings is told who can fill them in. */
+		add_filter(
+			'iminify_capability',
+			static function ( string $capability, string $context ): string {
+				return 'settings' === $context ? 'do_not_allow' : $capability;
+			},
+			10,
+			2
+		);
+		$this->assertFalse( Audit_State::build()['audit']['complete']['can'] );
+	}
+
+	public function test_the_smaller_size_is_the_largest_of_the_image_s_shape_within_twice_the_width_shown(): void {
+		$id = self::factory()->attachment->create( array( 'post_mime_type' => 'image/jpeg' ) );
+		wp_update_attachment_metadata(
+			$id,
+			array(
+				'width'  => 1920,
+				'height' => 1280,
+				'file'   => '2026/11/photo.jpg',
+				'sizes'  => array(
+					'thumbnail'    => array(
+						'width'  => 150,
+						'height' => 150,
+					),
+					'medium'       => array(
+						'width'  => 300,
+						'height' => 200,
+					),
+					'medium_large' => array(
+						'width'  => 768,
+						'height' => 512,
+					),
+					'large'        => array(
+						'width'  => 1024,
+						'height' => 683,
+					),
+					'square'       => array(
+						'width'  => 600,
+						'height' => 600,
+					),
+				),
+			)
+		);
+
+		$full = array(
+			'attachment' => $id,
+			'size'       => 'full',
+			'width'      => 1920,
+			'height'     => 1280,
+		);
+		$size = static function ( int $serve_width ) use ( $full ): ?string {
+			$choice = Fixes::smaller( $full, $serve_width );
+
+			return null === $choice ? null : $choice['size'];
+		};
+
+		/* Shown at 500: the editor offers no size between 500 and 1,000, so the narrowest above it. */
+		$this->assertSame( 'large', $size( 1000 ) );
+		/* A size a theme adds to the editor is offered too: 768 is within 1,000, where 1,024 would still be oversized. */
+		add_filter(
+			'image_size_names_choose',
+			static function ( array $names ): array {
+				return $names + array( 'medium_large' => 'Medium Large' );
+			}
+		);
+		$this->assertSame( 'medium_large', $size( 1000 ) );
+		remove_all_filters( 'image_size_names_choose' );
+		/* Shown at 160: 300 is within 320; the thumbnail, a square, is another picture. */
+		$this->assertSame( 'medium', $size( 320 ) );
+		/* Shown at 149: nothing fits within 298, so the narrowest above it. */
+		$this->assertSame( 'medium', $size( 298 ) );
+		/* Shown at 700: 1,024 is within 1,400 and sharp. */
+		$this->assertSame( 'large', $size( 1400 ) );
+		/* Shown at 1,200: every size narrower than the file is too small to stay sharp. */
+		$this->assertNull( $size( 2400 ) );
+		/* A size the page already shows is never offered for itself. */
+		$this->assertNull(
+			Fixes::smaller(
+				array(
+					'attachment' => $id,
+					'size'       => 'medium',
+					'width'      => 300,
+					'height'     => 200,
+				),
+				200
+			)
+		);
+	}
+
+	public function test_filling_in_the_pages_images_is_turned_on_from_the_screen_by_someone_who_may_change_the_settings(): void {
+		$this->api->on( 'GET', 'site/audits', 200, Api_Stub::fixture( 'site-audits' ) );
+		$this->api->on( 'GET', 'site/audits/' . self::AUDIT, 200, $this->audit_of_page( $this->attachment() ) );
+
+		foreach ( array( 'editor', 'author', '' ) as $role ) {
+			wp_set_current_user( '' === $role ? 0 : self::factory()->user->create( array( 'role' => $role ) ) );
+			$this->assertContains( $this->call( 'POST', '/complete' )->get_status(), array( 401, 403 ), $role );
+		}
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$settings = static function ( string $capability, string $context ): string {
+			return 'settings' === $context ? 'do_not_allow' : $capability;
+		};
+		add_filter( 'iminify_capability', $settings, 10, 2 );
+		$this->assertSame( 403, $this->call( 'POST', '/complete' )->get_status(), 'audits, but no settings' );
+		remove_filter( 'iminify_capability', $settings, 10 );
+
+		$this->assertFalse( Local_Settings::get()['complete_images'] );
+
+		$response = $this->call( 'POST', '/complete', array( 'audit' => self::AUDIT ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertTrue( Local_Settings::get()['complete_images'] );
+		$this->assertSame( self::AUDIT, $response->get_data()['audit']['id'] );
+		$this->assertTrue( $response->get_data()['audit']['complete']['on'] );
+	}
+
 	public function test_a_translation_sharing_the_files_resolves_to_the_attachment_holding_them(): void {
 		$id          = $this->attachment();
 		$attached    = (string) get_post_meta( $id, '_wp_attached_file', true );
@@ -183,6 +404,87 @@ class AuditTest extends WP_UnitTestCase {
 		$this->assertSame( array( $id, 'full', 'avif' ), $read( $urls['avif'] ) );
 		$this->assertSame( array( $id, 'medium', 'avif' ), $read( $urls['modern'] ) );
 		$this->assertSame( array( $webp, 'full', null ), $read( $namesake ) );
+	}
+
+	public function test_an_address_wp_offload_media_serves_from_its_bucket_resolves_to_its_attachment(): void {
+		$id      = $this->attachment();
+		$offload = ( new Offload_Stub() )->start();
+
+		try {
+			$offload->offload( $id );
+
+			$medium = (string) wp_get_attachment_image_url( $id, 'medium' );
+			$webp   = $medium . '.webp';
+			$signed = $medium . '?X-Amz-Signature=0f3a';
+			$other  = str_replace( Offload_Stub::HOST, 'https://bucket.example.com/another-site', $medium );
+			$found  = Resolver::resolve( array( $medium, $webp, $signed, $other ) );
+
+			$this->assertStringStartsWith( Offload_Stub::HOST, $medium );
+			$this->assertSame( array( $id, 'medium', null ), array( $found[ $medium ]['attachment'], $found[ $medium ]['size'], $found[ $medium ]['copy'] ) );
+			$this->assertSame( array( $id, 'medium', 'webp' ), array( $found[ $webp ]['attachment'], $found[ $webp ]['size'], $found[ $webp ]['copy'] ) );
+
+			/* Past a version folder WP Offload Media's object versioning adds. */
+			$offload->version = '09143012';
+			$versioned        = (string) wp_get_attachment_image_url( $id, 'medium' );
+			$this->assertStringContainsString( '/09143012/', $versioned );
+			$this->assertSame( $id, Resolver::resolve( array( $versioned ) )[ $versioned ]['attachment'] ?? null );
+			$offload->version = '';
+
+			/* A signed address is for one file, and the same name in another folder of the bucket is another item. */
+			$this->assertNull( $found[ $signed ] );
+			$this->assertNull( $found[ $other ] );
+
+			/* The page's buffer finds an image by its address only under the uploads folder, so the audit offers no fill for this one. */
+			$audit                          = Api_Stub::fixture( 'site-audit' )['data'];
+			$audit['images']                = array( $audit['images'][0] );
+			$audit['images'][0]['url']      = $medium;
+			$audit['images'][0]['findings'] = array(
+				array(
+					'code' => 'without_dimensions',
+					'fix'  => 'add_dimensions',
+				),
+			);
+			$detail                         = Audit_State::detail( $audit );
+
+			$this->assertSame( $id, $detail['images'][0]['attachment']['id'] );
+			$this->assertFalse( $detail['images'][0]['fixes']['fill'] );
+			$this->assertSame( 0, $detail['complete']['images'] );
+		} finally {
+			$offload->stop();
+		}
+
+		/* Without WP Offload Media, a bucket's address is no attachment. */
+		$this->assertNull( Resolver::resolve( array( $medium ) )[ $medium ] );
+	}
+
+	public function test_a_bucket_address_of_a_site_without_year_and_month_folders_resolves_too(): void {
+		$flat = static function ( array $dirs ): array {
+			return array_merge(
+				$dirs,
+				array(
+					'subdir' => '',
+					'path'   => $dirs['basedir'],
+					'url'    => $dirs['baseurl'],
+				)
+			);
+		};
+
+		add_filter( 'upload_dir', $flat );
+		$id = $this->attachment();
+		remove_filter( 'upload_dir', $flat );
+
+		$offload = ( new Offload_Stub() )->start();
+
+		try {
+			$offload->offload( $id );
+
+			$medium = (string) wp_get_attachment_image_url( $id, 'medium' );
+
+			$this->assertSame( Offload_Stub::HOST . '/' . wp_basename( $medium ), $medium );
+			$this->assertSame( array( $id, 'medium' ), array( Resolver::resolve( array( $medium ) )[ $medium ]['attachment'] ?? null, Resolver::resolve( array( $medium ) )[ $medium ]['size'] ?? null ) );
+		} finally {
+			$offload->stop();
+		}
 	}
 
 	public function test_metadata_another_plugin_wrote_wrong_reads_as_no_size(): void {
@@ -411,6 +713,19 @@ class AuditTest extends WP_UnitTestCase {
 		$this->assertSame( array( 200, false ), array( $start->get_status(), $start->get_data()['connected'] ) );
 		$this->assertSame( array( 200, false ), array( $poll->get_status(), $poll->get_data()['connected'] ) );
 		$this->assertSame( array(), $this->api->calls( 'POST', 'site/audits' ) );
+	}
+
+	/**
+	 * The site's record on the service, with its AI alt text on.
+	 */
+	protected function writes_alt_text(): void {
+		$site = Api_Stub::fixture( 'site' );
+
+		$site['data']['settings']['alt_text'] = true;
+
+		$this->api->on( 'GET', 'site', 200, $site );
+		Site_Record::forget();
+		Site_Record::fetch();
 	}
 
 	/**

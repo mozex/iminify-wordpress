@@ -868,3 +868,18 @@
 		color: var(--iminify-s600);
 	}
 }
+
+/* What the plugin can do about a finding, under the words for its fix: aligned with them, past the arrow. */
+.iminify-findings__do {
+	margin: 0;
+	padding-inline-start: 21px;
+	color: var(--iminify-z700);
+
+	a {
+		font-weight: 600;
+	}
+}
+
+.iminify-findings > li > .iminify-actions {
+	padding-inline-start: 21px;
+}

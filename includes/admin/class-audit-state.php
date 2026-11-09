@@ -9,9 +9,13 @@ namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Api\Client;
 use Iminify\WordPress\Audit\Findings;
+use Iminify\WordPress\Audit\Fixes;
 use Iminify\WordPress\Audit\Resolver;
+use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Media\Shared;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
@@ -149,13 +153,18 @@ class Audit_State {
 		$urls   = array_values( array_unique( array_filter( array_map( array( self::class, 'url_of' ), $images ) ) ) );
 		$found  = Resolver::resolve( $urls );
 		$rows   = array();
+		$post   = isset( $audit['url'] ) && is_string( $audit['url'] ) ? url_to_postid( $audit['url'] ) : 0;
+		$held   = $post > 0 ? (string) get_post_field( 'post_content', $post ) : '';
 
 		foreach ( $images as $image ) {
-			$url    = self::url_of( $image );
-			$wide   = self::number( $image['serve_width'] ?? null );
-			$rows[] = array(
+			$url      = self::url_of( $image );
+			$wide     = self::number( $image['serve_width'] ?? null );
+			$findings = self::findings( $image, $wide );
+			$fixes    = Fixes::of( $url, array_column( $findings, 'code' ), $found[ $url ] ?? null, $wide );
+			$rows[]   = array(
 				'url'             => $url,
-				'findings'        => self::findings( $image, $wide ),
+				'findings'        => $findings,
+				'fixes'           => self::named( $fixes, $held, isset( $found[ $url ] ) ? $found[ $url ]['attachment'] : 0 ),
 				'serve_width'     => $wide,
 				'rendered_width'  => self::number( $image['rendered_width'] ?? null ),
 				'rendered_height' => self::number( $image['rendered_height'] ?? null ),
@@ -167,8 +176,11 @@ class Audit_State {
 			);
 		}
 
+		$rows    = self::optimize_once( $rows );
+		$summary = (array) self::summary( $audit );
+
 		return array_merge(
-			(array) self::summary( $audit ),
+			$summary,
 			array(
 				'rendered' => true === ( $audit['rendered'] ?? false ),
 				'images'   => $rows,
@@ -180,7 +192,84 @@ class Audit_State {
 						}
 					)
 				),
+				'edit'     => Fixes::edit_link( $post ),
+				'complete' => self::complete( $rows ),
 			)
+		);
+	}
+
+	/**
+	 * Optimize offered once an attachment, since one press sends every size of
+	 * it: on its first image with something to fix, else its first image.
+	 *
+	 * @param list<array<string, mixed>> $rows The audit's images.
+	 * @return list<array<string, mixed>>
+	 */
+	protected static function optimize_once( array $rows ): array {
+		$offered = array();
+
+		foreach ( array( true, false ) as $flagged ) {
+			foreach ( $rows as $index => $row ) {
+				if ( ( array() !== $row['findings'] ) !== $flagged || ! $row['fixes']['optimize'] ) {
+					continue;
+				}
+
+				$attachment = $row['attachment']['id'];
+
+				if ( isset( $offered[ $attachment ] ) ) {
+					$rows[ $index ]['fixes']['optimize'] = false;
+				}
+
+				$offered[ $attachment ] = true;
+			}
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * A smaller size's fix with the size's name as the media screens show it,
+	 * and whether the page's own content holds the image, where the editor can
+	 * change its size.
+	 *
+	 * @param array{optimize: bool, alt_text: string|null, fill: bool, smaller: array{size: string, width: int, height: int}|null} $fixes   The image's fixes.
+	 * @param string                                                                                                             $content    The audited post's content, empty for a page that is none.
+	 * @param int                                                                                                                $attachment The attachment the image is.
+	 * @return array<string, mixed>
+	 */
+	protected static function named( array $fixes, string $content, int $attachment ): array {
+		if ( null !== $fixes['smaller'] ) {
+			$fixes['smaller']['size_name'] = self::size_name( $fixes['smaller']['size'] );
+			$fixes['smaller']['editor']    = '' !== $content && Fixes::in_content( $content, array_merge( array( $attachment ), Shared::others( $attachment ) ) );
+		}
+
+		return $fixes;
+	}
+
+	/**
+	 * Filling in what the page's markup lacks, as the screen offers it: how many
+	 * images of the media library the page shows without their width and height
+	 * or an alt text their attachment has, whether the site already fills them in,
+	 * and whether the person may turn that on.
+	 *
+	 * @param list<array<string, mixed>> $rows The audit's images.
+	 * @return array{images: int, on: bool, can: bool}
+	 */
+	protected static function complete( array $rows ): array {
+		$images = 0;
+
+		foreach ( $rows as $row ) {
+			$codes = array_column( $row['findings'], 'code' );
+
+			if ( null !== $row['attachment'] && $row['fixes']['fill'] && ( in_array( 'without_dimensions', $codes, true ) || 'fill' === $row['fixes']['alt_text'] ) ) {
+				++$images;
+			}
+		}
+
+		return array(
+			'images' => $images,
+			'on'     => Local_Settings::get()['complete_images'],
+			'can'    => Capabilities::can( Capabilities::SETTINGS ),
 		);
 	}
 
@@ -258,23 +347,12 @@ class Audit_State {
 	 *
 	 * @param string $size The size's name.
 	 */
-	protected static function size_name( string $size ): string {
+	public static function size_name( string $size ): string {
 		if ( 'original' === $size ) {
 			return __( 'Original upload', 'iminify-image-optimizer' );
 		}
 
-		/** This filter is documented in wp-admin/includes/media.php. */
-		$names = apply_filters(
-			'image_size_names_choose', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's own filter, so a size a theme names shows its name here as in the media library.
-			array(
-				'thumbnail' => __( 'Thumbnail', 'iminify-image-optimizer' ),
-				'medium'    => __( 'Medium', 'iminify-image-optimizer' ),
-				'large'     => __( 'Large', 'iminify-image-optimizer' ),
-				'full'      => __( 'Full Size', 'iminify-image-optimizer' ),
-			)
-		);
-
-		return is_array( $names ) && isset( $names[ $size ] ) && is_string( $names[ $size ] ) ? $names[ $size ] : $size;
+		return Fixes::editor_sizes()[ $size ] ?? $size;
 	}
 
 	/**
