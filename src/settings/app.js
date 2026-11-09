@@ -14,7 +14,7 @@ import { __, sprintf } from '@wordpress/i18n';
 
 import { call, openTab } from './api';
 import Account, { DisconnectConfirm, disconnecting } from './account';
-import { Connect, Pairing, PasteKey } from './connect';
+import { Connect, Pairing, PasteKey, Welcome } from './connect';
 import Imports from './imports';
 import { JoinNetwork, NetworkManaged, NetworkSites } from './network';
 import Leftovers, { shownLeftovers } from './leftovers';
@@ -401,6 +401,32 @@ export default function App( { scope } ) {
 						/>
 					) }
 
+					{ /* Rules another optimizer left serve old copies until removed, so they come before the settings. */ }
+					<Leftovers
+						leftovers={ shownLeftovers( state, networkPage ) }
+						network={ Boolean( state.network ) }
+						busy={ busy }
+						onRemove={ ( leftover ) =>
+							run( '/leftovers', 'DELETE', { id: leftover.id } )
+								.then( () => {
+									toast(
+										'nginx' === leftover.kind
+											? __(
+													'The lines are removed. Reload Nginx so it stops serving them.',
+													'iminify-image-optimizer'
+												)
+											: __(
+													'The lines are removed.',
+													'iminify-image-optimizer'
+												)
+									);
+
+									return true;
+								} )
+								.catch( () => false )
+						}
+					/>
+
 					{ ! networkPage && (
 						<SettingsForm
 							key={
@@ -438,31 +464,6 @@ export default function App( { scope } ) {
 							onDisconnect={ disconnect }
 						/>
 					) }
-
-					<Leftovers
-						leftovers={ shownLeftovers( state, networkPage ) }
-						network={ Boolean( state.network ) }
-						busy={ busy }
-						onRemove={ ( leftover ) =>
-							run( '/leftovers', 'DELETE', { id: leftover.id } )
-								.then( () => {
-									toast(
-										'nginx' === leftover.kind
-											? __(
-													'The lines are removed. Reload Nginx so it stops serving them.',
-													'iminify-image-optimizer'
-												)
-											: __(
-													'The lines are removed.',
-													'iminify-image-optimizer'
-												)
-									);
-
-									return true;
-								} )
-								.catch( () => false )
-						}
-					/>
 				</div>
 
 				<div className="iminify-col">
@@ -476,6 +477,13 @@ export default function App( { scope } ) {
 					) }
 
 					{ networkPage && <NetworkSites state={ state } /> }
+
+					{ /* Before a connection the side column says what one does, in place of the account. */ }
+					{ ! networkPage &&
+						! mainSite &&
+						( 'disconnected' === state.connection || pairing ) && (
+							<Welcome state={ state } />
+						) }
 
 					{ ! networkPage && (
 						<Queue
@@ -575,8 +583,9 @@ function revokedText( networkPage, mainSite, joinable ) {
 function Unreachable( { state, busy, what, onRetry, onDisconnect } ) {
 	const { asking, open, close, opener } = useAsk();
 
+	/* A warning, as the header's pill says: the service is out of reach, and nothing on the site is wrong. */
 	return (
-		<Callout tone="danger">
+		<Callout>
 			<p>{ state.error.message }</p>
 			{ asking ? (
 				<DisconnectConfirm

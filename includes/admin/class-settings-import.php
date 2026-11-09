@@ -244,7 +244,21 @@ class Settings_Import {
 					return __( 'Every size', 'iminify-image-optimizer' );
 				}
 
-				return array() === $value ? __( 'Only the full image', 'iminify-image-optimizer' ) : implode( ', ', array_map( 'strval', $value ) );
+				if ( array() === $value ) {
+					return __( 'Only the full image', 'iminify-image-optimizer' );
+				}
+
+				$names = State::size_names();
+
+				return implode(
+					wp_get_list_item_separator(),
+					array_map(
+						static function ( $size ) use ( $names ): string {
+							return $names[ (string) $size ] ?? (string) $size;
+						},
+						$value
+					)
+				);
 			default:
 				return $value ? __( 'On', 'iminify-image-optimizer' ) : __( 'Off', 'iminify-image-optimizer' );
 		}

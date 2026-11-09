@@ -82,9 +82,11 @@ test( 'Another optimizer’s settings are shown before they are used, then used'
 	} );
 
 	/* The form starts again from what was used, with nothing left unsaved. */
-	await expect( page.getByLabel( 'Compression level' ) ).toHaveValue(
-		'lossless'
-	);
+	await expect(
+		page
+			.getByRole( 'group', { name: 'Compression level' } )
+			.getByRole( 'radio', { name: 'Lossless' } )
+	).toBeChecked();
 	await expect( page.getByLabel( 'Maximum width, in pixels' ) ).toHaveValue(
 		'1920'
 	);

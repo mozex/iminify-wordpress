@@ -210,6 +210,7 @@ function Leftover( { leftover, network, busy, button, onRemove } ) {
 					<Confirm
 						question={ question( leftover ) }
 						yes={ __( 'Remove', 'iminify-image-optimizer' ) }
+						danger
 						busy={ busy }
 						onYes={ () =>
 							onRemove().then( ( removed ) => {

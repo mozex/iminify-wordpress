@@ -105,6 +105,20 @@ const PATHS = {
 			<path d="M8 7.75h.1M8 16.25h.1" />
 		</>
 	),
+	user: (
+		<>
+			<circle cx="12" cy="8.5" r="3.5" />
+			<path d="M5 19.5a7 7 0 0 1 14 0" />
+		</>
+	),
+	sites: (
+		<>
+			<circle cx="12" cy="5.5" r="2" />
+			<circle cx="5.5" cy="18" r="2" />
+			<circle cx="18.5" cy="18" r="2" />
+			<path d="M12 7.5v4M12 11.5l-5 5M12 11.5l5 5" />
+		</>
+	),
 };
 
 /**
@@ -492,6 +506,84 @@ export function CodeCopy( { command, block = false } ) {
 }
 
 /**
+ * A choice of one among a few, drawn as cards on real radio buttons, so the
+ * keyboard, the labels and a screen reader work as they do for core's radios.
+ * Each option has its title, a line on what it does, and an icon if it has one.
+ *
+ * @param {Object}                  props                 The component's props.
+ * @param {Element|string}          props.legend          What is chosen.
+ * @param {string}                  props.legendClassName The legend's look: the design's small label by default.
+ * @param {string}                  props.value           The option chosen.
+ * @param {Object[]}                props.options         Each with `value`, `title`, `about` and an optional `icon`.
+ * @param {(value: string) => void} props.onChange        Picks one.
+ * @param {string}                  props.className       More classes on the fieldset.
+ * @param {string}                  props.describedBy     The id of more words each radio is described by, such as a field's error.
+ * @param {Element|string}          props.children        What follows the cards, such as a field's error.
+ */
+export function Choices( {
+	legend,
+	legendClassName = 'iminify-label',
+	value,
+	options,
+	onChange,
+	className = '',
+	describedBy = '',
+	children,
+} ) {
+	const id = `iminify-mode-${ useId().replace( /[^a-z0-9]/gi, '' ) }`;
+
+	return (
+		<fieldset
+			className={ `iminify-modes${ className ? ` ${ className }` : '' }` }
+		>
+			<legend className={ legendClassName }>{ legend }</legend>
+			{ options.map( ( option ) => (
+				<label
+					key={ option.value }
+					htmlFor={ `${ id }-${ option.value }` }
+					className={ `iminify-mode${
+						value === option.value ? ' iminify-mode--on' : ''
+					}` }
+				>
+					<input
+						id={ `${ id }-${ option.value }` }
+						className="iminify-mode__input"
+						type="radio"
+						name={ id }
+						value={ option.value }
+						checked={ value === option.value }
+						onChange={ () => onChange( option.value ) }
+						aria-labelledby={ `${ id }-${ option.value }-title` }
+						aria-describedby={ [
+							`${ id }-${ option.value }-about`,
+							describedBy,
+						]
+							.filter( Boolean )
+							.join( ' ' ) }
+					/>
+					{ option.icon && (
+						<span className="iminify-mode__ico">
+							<Icon name={ option.icon } />
+						</span>
+					) }
+					{ /* The title alone names the radio, so its line is read once, as the description. */ }
+					<b id={ `${ id }-${ option.value }-title` }>
+						{ option.title }
+					</b>
+					<small id={ `${ id }-${ option.value }-about` }>
+						{ option.about }
+					</small>
+					<span className="iminify-mode__tick" aria-hidden="true">
+						<Icon name="check" />
+					</span>
+				</label>
+			) ) }
+			{ children }
+		</fieldset>
+	);
+}
+
+/**
  * A yes or no asked in the page rather than in the browser's dialog. It opens
  * with focus on Cancel, the button that changes nothing, and Escape closes it;
  * closing it gives focus back to the button that opened it (`useAsk()`).
@@ -499,11 +591,19 @@ export function CodeCopy( { command, block = false } ) {
  * @param {Object}     props          The component's props.
  * @param {string}     props.question What it asks.
  * @param {string}     props.yes      The words of the button that goes ahead.
+ * @param {boolean}    props.danger   Whether going ahead stops or deletes something, which draws its button red.
  * @param {boolean}    props.busy     Whether the yes is on its way.
  * @param {() => void} props.onYes    Goes ahead.
  * @param {() => void} props.onNo     Closes it.
  */
-export function Confirm( { question, yes, busy = false, onYes, onNo } ) {
+export function Confirm( {
+	question,
+	yes,
+	busy = false,
+	danger = false,
+	onYes,
+	onNo,
+} ) {
 	const cancel = useRef( null );
 	const escape = ( event ) => 'Escape' === event.key && onNo();
 
@@ -515,6 +615,7 @@ export function Confirm( { question, yes, busy = false, onYes, onNo } ) {
 			<div className="iminify-actions">
 				<Button
 					variant="primary"
+					danger={ danger }
 					busy={ busy }
 					disabled={ busy }
 					onClick={ onYes }

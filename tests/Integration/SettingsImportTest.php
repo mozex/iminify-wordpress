@@ -424,6 +424,8 @@ class SettingsImportTest extends WP_UnitTestCase {
 			),
 			$state['import']['rows'][1]
 		);
+		$sizes = array_values( wp_list_filter( $state['import']['rows'], array( 'label' => 'Sizes to optimize' ) ) );
+		$this->assertSame( 'Thumbnail, Medium', $sizes[0]['then'], 'The sizes read as the editor names them, not by their code names.' );
 		$this->assertFalse( Local_Settings::get()['backups'] );
 	}
 

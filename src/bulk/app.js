@@ -9,7 +9,6 @@ import {
 	createInterpolateElement,
 	useCallback,
 	useEffect,
-	useId,
 	useRef,
 	useState,
 } from '@wordpress/element';
@@ -20,6 +19,7 @@ import {
 	Button,
 	Callout,
 	Chip,
+	Choices,
 	CodeCopy,
 	Confirm,
 	Count,
@@ -1546,7 +1546,6 @@ function PutBack() {
  * @param {(mode: string) => void} props.onMode Picks one.
  */
 function Modes( { mode, onMode } ) {
-	const id = `iminify-mode-${ useId().replace( /[^a-z0-9]/gi, '' ) }`;
 	const modes = [
 		{
 			value: 'background',
@@ -1569,41 +1568,12 @@ function Modes( { mode, onMode } ) {
 	];
 
 	return (
-		<fieldset className="iminify-modes">
-			<legend className="iminify-label">
-				{ __( 'Run it', 'iminify-image-optimizer' ) }
-			</legend>
-			{ modes.map( ( option ) => (
-				<label
-					key={ option.value }
-					htmlFor={ `${ id }-${ option.value }` }
-					className={ `iminify-mode${
-						mode === option.value ? ' iminify-mode--on' : ''
-					}` }
-				>
-					<input
-						id={ `${ id }-${ option.value }` }
-						className="iminify-mode__input"
-						type="radio"
-						name={ id }
-						value={ option.value }
-						checked={ mode === option.value }
-						onChange={ () => onMode( option.value ) }
-						aria-describedby={ `${ id }-${ option.value }-about` }
-					/>
-					<span className="iminify-mode__ico">
-						<Icon name={ option.icon } />
-					</span>
-					<b>{ option.title }</b>
-					<small id={ `${ id }-${ option.value }-about` }>
-						{ option.about }
-					</small>
-					<span className="iminify-mode__tick" aria-hidden="true">
-						<Icon name="check" />
-					</span>
-				</label>
-			) ) }
-		</fieldset>
+		<Choices
+			legend={ __( 'Run it', 'iminify-image-optimizer' ) }
+			value={ mode }
+			options={ modes }
+			onChange={ onMode }
+		/>
 	);
 }
 

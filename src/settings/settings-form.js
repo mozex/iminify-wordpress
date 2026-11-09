@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { Button, Panel, PanelTitle } from '../ui';
+import { Button, Choices, Panel, PanelTitle } from '../ui';
 import RulesPanel from './rules';
 
 /**
@@ -108,9 +108,11 @@ function changesOf( connected, site, local ) {
 	return changes;
 }
 
-function FieldError( { errors, name } ) {
+function FieldError( { errors, name, id } ) {
 	return errors[ name ] ? (
-		<span className="iminify-field-error">{ errors[ name ] }</span>
+		<span id={ id } className="iminify-field-error">
+			{ errors[ name ] }
+		</span>
 	) : null;
 }
 
@@ -191,18 +193,30 @@ export default function SettingsForm( {
 						checked={ Boolean( site.optimize_on_upload ) }
 						onChange={ change( 'optimize_on_upload' ) }
 					/>
-					<SelectControl
-						__next40pxDefaultSize
-						__nextHasNoMarginBottom
-						label={ __(
+					<Choices
+						legend={ __(
 							'Compression level',
 							'iminify-image-optimizer'
 						) }
+						legendClassName="iminify-legend"
+						className="iminify-levels"
 						value={ site.level }
-						options={ state.levels }
+						options={ state.levels.map( ( level ) => ( {
+							value: level.value,
+							title: level.name,
+							about: level.about,
+						} ) ) }
 						onChange={ change( 'level' ) }
-						help={ <FieldError errors={ errors } name="level" /> }
-					/>
+						describedBy={
+							errors.level ? 'iminify-level-error' : ''
+						}
+					>
+						<FieldError
+							errors={ errors }
+							name="level"
+							id="iminify-level-error"
+						/>
+					</Choices>
 					<div className="iminify-pair">
 						<ToggleControl
 							__nextHasNoMarginBottom
@@ -241,6 +255,10 @@ export default function SettingsForm( {
 								'Maximum width, in pixels',
 								'iminify-image-optimizer'
 							) }
+							placeholder={ __(
+								'Any width',
+								'iminify-image-optimizer'
+							) }
 							value={ site.max_width }
 							onChange={ change( 'max_width' ) }
 							help={
@@ -263,6 +281,10 @@ export default function SettingsForm( {
 							min="1"
 							label={ __(
 								'Size limit, in KB',
+								'iminify-image-optimizer'
+							) }
+							placeholder={ __(
+								'No limit',
 								'iminify-image-optimizer'
 							) }
 							value={ site.size_limit }
@@ -511,7 +533,12 @@ export default function SettingsForm( {
 				</fieldset>
 			</Panel>
 
-			<div className="iminify-savebar">
+			{ /* Raised and kept at the window's foot only while something waits to be saved, so it never covers the form for nothing. */ }
+			<div
+				className={ `iminify-savebar${
+					changed ? ' iminify-savebar--changed' : ''
+				}` }
+			>
 				<Button
 					type="submit"
 					variant="primary"

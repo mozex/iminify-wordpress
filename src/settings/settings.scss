@@ -24,6 +24,30 @@
 		gap: 0 16px;
 	}
 
+	/* The compression level's cards, labelled as core labels the fields around them. */
+	.iminify-levels {
+		margin: 0 0 18px;
+
+		.iminify-mode {
+			gap: 3px;
+			padding-block: 12px;
+		}
+
+		.iminify-field-error {
+			grid-column: 1 / -1;
+			margin-top: 0;
+		}
+	}
+
+	.iminify-legend {
+		margin-bottom: 8px;
+		padding: 0;
+		color: var(--iminify-z900);
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
 	.iminify-links--inline {
 		margin-top: 0;
 	}

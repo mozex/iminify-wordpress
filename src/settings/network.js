@@ -84,7 +84,7 @@ export function NetworkSites( { state } ) {
 
 	return (
 		<Panel>
-			<PanelTitle icon="image">
+			<PanelTitle icon="sites">
 				{ __( "The network's sites", 'iminify-image-optimizer' ) }
 			</PanelTitle>
 			{ connected && ! site?.network && (

@@ -7,7 +7,7 @@ import { TextControl } from '@wordpress/components';
 import { createInterpolateElement, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { Button, ExternalLink, Panel, PanelTitle } from '../ui';
+import { Button, ExternalLink, Icon, Panel, PanelTitle } from '../ui';
 
 /**
  * The words of the Connect panel for what it connects.
@@ -82,9 +82,10 @@ export function Connect( { state, busy, onConnect, variant = 'site' } ) {
 				</p>
 			) }
 			<div className="iminify-actions">
+				{ /* Beside Join the network, connecting on its own is the other way, so it isn't drawn as the way on. */ }
 				<Button
-					variant="primary"
-					size="big"
+					variant={ 'own' === variant ? 'secondary' : 'primary' }
+					size={ 'own' === variant ? '' : 'big' }
 					iconEnd="arrow"
 					busy={ busy }
 					disabled={ busy }
@@ -166,6 +167,110 @@ function SiteKeyLead( { links } ) {
 			);
 }
 
+/**
+ * How an agency gives a network its key, in the same shape as a site's.
+ *
+ * @param {Object} props       The component's props.
+ * @param {Object} props.links The page's links.
+ */
+function NetworkKeyLead( { links } ) {
+	return links.sites
+		? createInterpolateElement(
+				__(
+					'An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
+					'iminify-image-optimizer'
+				),
+				{
+					a: <ExternalLink href={ links.sites } />,
+					code: <code />,
+				}
+			)
+		: createInterpolateElement(
+				__(
+					'An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>.',
+					'iminify-image-optimizer'
+				),
+				{
+					code: <code />,
+				}
+			);
+}
+
+/**
+ * What connecting does, beside Connect while the site isn't connected yet:
+ * what happens to uploads, how an upload counts, and the originals kept here.
+ *
+ * @param {Object} props       The component's props.
+ * @param {Object} props.state The page's state.
+ */
+export function Welcome( { state } ) {
+	const points = [
+		{
+			icon: 'image',
+			title: __(
+				'Each upload is optimized in the background',
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it.',
+				'iminify-image-optimizer'
+			),
+		},
+		{
+			icon: 'check',
+			title: __(
+				'An upload counts as one image',
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images.',
+				'iminify-image-optimizer'
+			),
+		},
+		state.local?.backups && {
+			icon: 'restore',
+			title: __(
+				'Your originals stay on this site',
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'A backup of each one is kept in the uploads folder, so any image can be put back as it was.',
+				'iminify-image-optimizer'
+			),
+		},
+		{
+			icon: 'folder',
+			title: __(
+				'Your library goes when you say so',
+				'iminify-image-optimizer'
+			),
+			text: __(
+				'Images already in the media library wait until you start them under Media, Bulk Optimization.',
+				'iminify-image-optimizer'
+			),
+		},
+	].filter( Boolean );
+
+	return (
+		<Panel>
+			<PanelTitle icon="send">
+				{ __( 'Once you connect', 'iminify-image-optimizer' ) }
+			</PanelTitle>
+			<ul className="iminify-welcome">
+				{ points.map( ( point ) => (
+					<li key={ point.icon }>
+						<span className="iminify-mode__ico">
+							<Icon name={ point.icon } />
+						</span>
+						<b>{ point.title }</b>
+						<span>{ point.text }</span>
+					</li>
+				) ) }
+			</ul>
+		</Panel>
+	);
+}
+
 export function PasteKey( { state, busy, onPaste, network = false } ) {
 	const [ key, setKey ] = useState( '' );
 
@@ -183,12 +288,11 @@ export function PasteKey( { state, busy, onPaste, network = false } ) {
 						) }
 			</PanelTitle>
 			<p className="iminify-lead">
-				{ network &&
-					__(
-						'An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as IMINIFY_API_KEY.',
-						'iminify-image-optimizer'
-					) }
-				{ ! network && <SiteKeyLead links={ state.links } /> }
+				{ network ? (
+					<NetworkKeyLead links={ state.links } />
+				) : (
+					<SiteKeyLead links={ state.links } />
+				) }
 			</p>
 			<form
 				onSubmit={ ( event ) => {

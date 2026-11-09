@@ -2,6 +2,7 @@
  * The connected site and its account: the plan, the day's counts as tiles
  * with a meter each, and the next batch, all as Iminify answered them.
  */
+import { createInterpolateElement } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
 
 import {
@@ -69,6 +70,7 @@ export function DisconnectConfirm( { busy, what = 'site', onYes, onNo } ) {
 		<Confirm
 			question={ disconnectQuestion( what ) }
 			yes={ __( 'Disconnect', 'iminify-image-optimizer' ) }
+			danger
 			busy={ busy }
 			onYes={ onYes }
 			onNo={ onNo }
@@ -193,7 +195,7 @@ export default function Account( {
 
 	return (
 		<Panel>
-			<PanelTitle icon="image">
+			<PanelTitle icon="user">
 				{ __( 'Your account', 'iminify-image-optimizer' ) }
 			</PanelTitle>
 			<p className="iminify-text">{ connectedSentence( state ) }</p>
@@ -268,63 +270,78 @@ export default function Account( {
 							<div key={ row.key }>
 								<dt>{ row.label }</dt>
 								<dd className="iminify-num">
-									{ sprintf(
-										/* translators: 1: how many images Iminify optimized, 2: the bytes it saved, such as 1.2 GB. */
-										_n(
-											'%1$s image, %2$s saved',
-											'%1$s images, %2$s saved',
-											row.count,
-											'iminify-image-optimizer'
-										),
-										row.images,
-										row.saved
-									) }
+									<bdi className="iminify-totals__saved">
+										{ sprintf(
+											/* translators: %s: the bytes Iminify saved, such as 1.2 GB. */
+											__(
+												'%s saved',
+												'iminify-image-optimizer'
+											),
+											row.saved
+										) }
+									</bdi>
+									<bdi className="iminify-totals__images">
+										{ sprintf(
+											/* translators: %s: how many images Iminify optimized. */
+											_n(
+												'%s image',
+												'%s images',
+												row.count,
+												'iminify-image-optimizer'
+											),
+											row.images
+										) }
+									</bdi>
 								</dd>
 							</div>
 						) ) }
 					</dl>
 				</div>
 			) }
-			{ state.hidden ? (
-				<p className="iminify-text">
-					{ __(
-						"This site's Iminify account is set in wp-config.php.",
-						'iminify-image-optimizer'
-					) }
-				</p>
-			) : (
-				( links.plan || links.plans ) && (
-					<p className="iminify-links">
-						{ links.plan && (
-							<ExternalLink href={ links.plan }>
-								{ __(
-									'Your plan on iminify.com',
-									'iminify-image-optimizer'
-								) }
-							</ExternalLink>
-						) }
-						{ links.plans && (
-							<ExternalLink href={ links.plans }>
-								{ __(
-									'Compare the plans',
-									'iminify-image-optimizer'
-								) }
-							</ExternalLink>
-						) }
-					</p>
-				)
-			) }
-			{ state.key_in_config && ! readOnly && (
-				<p className="iminify-text">
-					{ networkPage
-						? __(
-								"The network's key is set in wp-config.php as IMINIFY_API_KEY. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com.",
-								'iminify-image-optimizer'
-							)
-						: __(
-								"The site's key is set in wp-config.php as IMINIFY_API_KEY. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com.",
+			{ /* With the key itself in wp-config.php, the line below says so with how to disconnect. */ }
+			{ state.hidden
+				? ! state.key_in_config && (
+						<p className="iminify-text">
+							{ __(
+								"This site's Iminify account is set in wp-config.php.",
 								'iminify-image-optimizer'
 							) }
+						</p>
+					)
+				: ( links.plan || links.plans ) && (
+						<p className="iminify-links">
+							{ links.plan && (
+								<ExternalLink href={ links.plan }>
+									{ __(
+										'Your plan on iminify.com',
+										'iminify-image-optimizer'
+									) }
+								</ExternalLink>
+							) }
+							{ links.plans && (
+								<ExternalLink href={ links.plans }>
+									{ __(
+										'Compare the plans',
+										'iminify-image-optimizer'
+									) }
+								</ExternalLink>
+							) }
+						</p>
+					) }
+			{ state.key_in_config && ! readOnly && (
+				<p className="iminify-text">
+					{ createInterpolateElement(
+						networkPage
+							? __(
+									"The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com.",
+									'iminify-image-optimizer'
+								)
+							: __(
+									"The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com.",
+									'iminify-image-optimizer'
+								),
+						{ code: <code /> }
+					) }
 				</p>
 			) }
 			{ ! state.key_in_config &&

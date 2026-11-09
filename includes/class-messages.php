@@ -24,27 +24,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Messages {
 
 	/**
-	 * The service's compression levels, with a short name and a line saying what each does.
+	 * The service's compression levels: a short name, the name with what it does
+	 * for a menu (`label`), and what it does alone for a card under its name (`about`).
 	 *
-	 * @return array<string, array{name: string, label: string}>
+	 * @return array<string, array{name: string, label: string, about: string}>
 	 */
 	public static function levels(): array {
 		return array(
 			'smart'    => array(
 				'name'  => __( 'Smart', 'iminify-image-optimizer' ),
 				'label' => __( 'Smart: a balance between quality and size', 'iminify-image-optimizer' ),
+				'about' => __( 'A balance between quality and size.', 'iminify-image-optimizer' ),
 			),
 			'ultra'    => array(
 				'name'  => __( 'Ultra', 'iminify-image-optimizer' ),
 				'label' => __( 'Ultra: the smallest files, with some loss of quality', 'iminify-image-optimizer' ),
+				'about' => __( 'The smallest files, with some loss of quality.', 'iminify-image-optimizer' ),
 			),
 			'lossless' => array(
 				'name'  => __( 'Lossless', 'iminify-image-optimizer' ),
 				'label' => __( 'Lossless: no visible change in quality', 'iminify-image-optimizer' ),
+				'about' => __( 'No visible change in quality.', 'iminify-image-optimizer' ),
 			),
 			'none'     => array(
 				'name'  => __( 'None', 'iminify-image-optimizer' ),
 				'label' => __( 'None: no compression, only the other settings', 'iminify-image-optimizer' ),
+				'about' => __( 'No compression, only the other settings.', 'iminify-image-optimizer' ),
 			),
 		);
 	}

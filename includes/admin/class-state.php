@@ -372,9 +372,10 @@ class State {
 	}
 
 	/**
-	 * The compression levels, for the setting that picks one.
+	 * The compression levels, for the setting that picks one: each as a card
+	 * with its name and what it does.
 	 *
-	 * @return list<array{value: string, label: string}>
+	 * @return list<array{value: string, label: string, name: string, about: string}>
 	 */
 	protected static function levels(): array {
 		$levels = array();
@@ -383,6 +384,8 @@ class State {
 			$levels[] = array(
 				'value' => $value,
 				'label' => $level['label'],
+				'name'  => $level['name'],
+				'about' => $level['about'],
 			);
 		}
 
@@ -395,25 +398,40 @@ class State {
 	 * @return list<array{name: string, label: string}>
 	 */
 	protected static function sizes(): array {
+		$names = self::size_names();
+		$sizes = array();
+
+		foreach ( wp_get_registered_image_subsizes() as $name => $size ) {
+			$sizes[] = array(
+				'name'  => (string) $name,
+				'label' => self::size_label( $names[ $name ] ?? (string) $name, (int) $size['width'], (int) $size['height'] ),
+			);
+		}
+
+		return $sizes;
+	}
+
+	/**
+	 * What each registered size is called where WordPress names it to a person (the
+	 * editor's size menu), else its own name.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function size_names(): array {
 		$defaults = array(
 			'thumbnail' => __( 'Thumbnail', 'iminify-image-optimizer' ),
 			'medium'    => __( 'Medium', 'iminify-image-optimizer' ),
 			'large'     => __( 'Large', 'iminify-image-optimizer' ),
 		);
 		/** This filter is documented in wp-admin/includes/media.php */
-		$names = apply_filters( 'image_size_names_choose', $defaults ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, read for the names a site gives its sizes.
-		$sizes = array();
+		$given = apply_filters( 'image_size_names_choose', $defaults ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core's filter, read for the names a site gives its sizes.
+		$names = array();
 
-		foreach ( wp_get_registered_image_subsizes() as $name => $size ) {
-			$label = is_array( $names ) && isset( $names[ $name ] ) && is_string( $names[ $name ] ) ? $names[ $name ] : $name;
-
-			$sizes[] = array(
-				'name'  => (string) $name,
-				'label' => self::size_label( $label, (int) $size['width'], (int) $size['height'] ),
-			);
+		foreach ( array_keys( wp_get_registered_image_subsizes() ) as $name ) {
+			$names[ (string) $name ] = is_array( $given ) && isset( $given[ $name ] ) && is_string( $given[ $name ] ) ? $given[ $name ] : (string) $name;
 		}
 
-		return $sizes;
+		return $names;
 	}
 
 	/**
