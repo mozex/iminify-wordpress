@@ -8,12 +8,14 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
+use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
+use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Restorer;
@@ -56,6 +58,24 @@ class Media_View {
 	const FILTER_OTHER = 'other';
 
 	const IMAGE_TYPES = Declaration::MIME_TYPES;
+
+	/**
+	 * The names of the formats a main file can be in, by MIME type, for the compare.
+	 */
+	const FORMAT_NAMES = array(
+		'image/jpeg' => 'JPEG',
+		'image/png'  => 'PNG',
+		'image/webp' => 'WebP',
+		'image/gif'  => 'GIF',
+	);
+
+	/**
+	 * The names of the copies the plugin makes, by extension, for the compare.
+	 */
+	const COPY_NAMES = array(
+		'webp' => 'WebP',
+		'avif' => 'AVIF',
+	);
 
 	/**
 	 * Hooks the view into WordPress's admin.
@@ -122,7 +142,195 @@ class Media_View {
 	 * @param int $attachment The attachment's id.
 	 */
 	public static function panel( int $attachment ): string {
-		return self::wrap( $attachment, 'panel', self::summary( $attachment ) . self::sizes_table( $attachment ) . self::actions( $attachment ) );
+		return self::wrap( $attachment, 'panel', self::summary( $attachment ) . self::credentials_detail( $attachment ) . self::compare_button( $attachment ) . self::sizes_table( $attachment ) . self::actions( $attachment ) );
+	}
+
+	/**
+	 * What the panel's compare shows: the original the plugin made the image from
+	 * beside the main file while it still has the bytes the plugin wrote, and each
+	 * WebP or AVIF copy of it the plugin made while the copy and the main file both
+	 * have the bytes recorded for them (a copy of an older picture compares
+	 * nothing), each
+	 * with its address on the site, its dimensions and its bytes, and every word
+	 * the script puts on screen. Only for an optimized image whose original
+	 * (`Originals::find()`, never a file the plugin wrote) is on the disk under the
+	 * uploads folder: the untouched original WordPress kept beside a `-scaled`
+	 * copy, the plugin's backup, an original another optimizer kept, or the main
+	 * file itself where only copies were made of it. Null otherwise.
+	 *
+	 * @param int $attachment The attachment's id.
+	 * @return array{title: string, close: string, slider: string, formats: string, failed: string, note: string, before: array{label: string, url: string, width: int, height: int, bytes: int}, after: list<array{label: string, url: string, width: int, height: int, bytes: int}>}|null
+	 */
+	public static function compare( int $attachment ): ?array {
+		$record = Records::get( $attachment );
+
+		if ( ! self::comparable( $attachment, $record ) ) {
+			return null;
+		}
+
+		$metadata = wp_get_attachment_metadata( $attachment );
+		$source   = Originals::find( $attachment, is_array( $metadata ) ? $metadata : array(), null );
+		$attached = (string) get_attached_file( $attachment, true );
+		$main     = '' === $attached ? null : Paths::relative( $attached );
+
+		if ( null === $source || null === $main || ! is_file( $attached ) ) {
+			return null;
+		}
+
+		$before = self::compared( $source['path'], __( 'Original', 'iminify-image-optimizer' ), null );
+
+		if ( null === $before ) {
+			return null;
+		}
+
+		/* A main file the plugin didn't write (one the service's output didn't beat, or another tool wrote since) is no result of its. */
+		$after = array( Records::wrote( $attachment, $attached ) ? self::compared( $attached, self::format_name( $attached ), $before ) : null );
+
+		foreach ( Copies::own( $record['copies'] ) as $key => $copy ) {
+			$format = strtolower( (string) pathinfo( (string) $key, PATHINFO_EXTENSION ) );
+			$file   = Paths::absolute( (string) $key );
+
+			if ( $main . '.' . $format === (string) $key && isset( self::COPY_NAMES[ $format ] ) && is_file( $file ) && (int) filesize( $file ) === (int) ( $copy['bytes'] ?? -1 ) && (int) filesize( $attached ) === (int) ( $copy['for_bytes'] ?? -1 ) ) {
+				$after[] = self::compared( $file, self::COPY_NAMES[ $format ], $before );
+			}
+		}
+
+		$after = array_values( array_filter( $after ) );
+
+		if ( array() === $after ) {
+			return null;
+		}
+
+		$level = Messages::levels()[ (string) ( $record['result']['level'] ?? '' ) ]['label'] ?? '';
+
+		return array(
+			'title'   => __( 'Compare with the original', 'iminify-image-optimizer' ),
+			'close'   => __( 'Close', 'iminify-image-optimizer' ),
+			'slider'  => __( 'How much of the original shows', 'iminify-image-optimizer' ),
+			'formats' => __( 'The optimized file to compare', 'iminify-image-optimizer' ),
+			'failed'  => __( 'This image couldn\'t be loaded from the site.', 'iminify-image-optimizer' ),
+			'note'    => '' === $level
+				? __( 'Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other.', 'iminify-image-optimizer' )
+				: sprintf(
+					/* translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size". */
+					__( 'Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other.', 'iminify-image-optimizer' ),
+					$level
+				),
+			'before'  => $before,
+			'after'   => $after,
+		);
+	}
+
+	/**
+	 * One side of the compare: a file's address under the uploads folder, its
+	 * label with its size, its dimensions and its bytes; null for a file outside
+	 * the uploads folder or one that isn't an image.
+	 *
+	 * @param string                    $path   The file.
+	 * @param string                    $name   What it is.
+	 * @param array{bytes: int}|null    $before The original it is compared with, for the saving.
+	 * @return array{label: string, url: string, width: int, height: int, bytes: int}|null
+	 */
+	protected static function compared( string $path, string $name, ?array $before ): ?array {
+		$relative = Paths::relative( $path );
+		$size     = wp_getimagesize( $path );
+
+		if ( null === $relative || ! is_array( $size ) ) {
+			return null;
+		}
+
+		$bytes = (int) filesize( $path );
+		$label = sprintf(
+			/* translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB. */
+			__( '%1$s, %2$s', 'iminify-image-optimizer' ),
+			$name,
+			(string) size_format( $bytes, 1 )
+		);
+
+		if ( null !== $before && $bytes < $before['bytes'] ) {
+			$label = sprintf(
+				/* translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%. */
+				__( '%1$s, %2$s smaller', 'iminify-image-optimizer' ),
+				$label,
+				(int) round( 100 * ( $before['bytes'] - $bytes ) / max( 1, $before['bytes'] ) ) . '%'
+			);
+		}
+
+		return array(
+			'label'  => $label,
+			/* The file's own time keeps a browser from showing a copy it kept of the same address from before the image was optimized again. */
+			'url'    => add_query_arg( 'v', (string) filemtime( $path ), wp_get_upload_dir()['baseurl'] . '/' . implode( '/', array_map( 'rawurlencode', explode( '/', $relative ) ) ) ),
+			'width'  => (int) $size[0],
+			'height' => (int) $size[1],
+			'bytes'  => $bytes,
+		);
+	}
+
+	/**
+	 * A main file's format in words, read from its bytes.
+	 *
+	 * @param string $path The file.
+	 */
+	protected static function format_name( string $path ): string {
+		return self::FORMAT_NAMES[ (string) wp_get_image_mime( $path ) ] ?? __( 'Optimized', 'iminify-image-optimizer' );
+	}
+
+	/**
+	 * Whether an optimized image's record says the plugin wrote over a file of it
+	 * or made a copy of one.
+	 *
+	 * @param array<string, mixed> $record The record.
+	 */
+	protected static function made_any( array $record ): bool {
+		return Records::OPTIMIZED === $record['status'] && is_array( $record['result'] ) && ( self::saved( $record['result'] )['files'] > 0 || array() !== Copies::own( $record['copies'] ) );
+	}
+
+	/**
+	 * Whether the record and the metadata say there is something to compare: the
+	 * main file on the disk with the plugin's own file or a copy it made of it,
+	 * and, where the plugin wrote over the main file, an original kept beside it
+	 * (its backup, WordPress's original of a `-scaled` copy, or a converted
+	 * image's kept JPEG). Read without opening a file, since the panel draws for
+	 * every image a media library page lists; the route reads the files
+	 * (`compare()`), so a backup deleted by hand is said there.
+	 *
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $record     Its record.
+	 */
+	protected static function comparable( int $attachment, array $record ): bool {
+		$attached = (string) get_attached_file( $attachment, true );
+		$main     = '' === $attached ? null : Paths::relative( $attached );
+
+		if ( ! self::made_any( $record ) || null === $main || Offload_Media::only_in_bucket( $attachment, $attached ) ) {
+			return false;
+		}
+
+		$copies = Copies::own( $record['copies'] );
+
+		if ( ! isset( $record['written'][ $main ] ) ) {
+			return isset( $copies[ $main . '.webp' ] ) || isset( $copies[ $main . '.avif' ] );
+		}
+
+		$metadata = wp_get_attachment_metadata( $attachment );
+
+		return in_array( Paths::relative( Paths::backup( $main ) ), $record['backups'], true ) || ! empty( $metadata['original_image'] ) || null !== $record['converted'];
+	}
+
+	/**
+	 * The press that opens the compare, for an image that has one.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function compare_button( int $attachment ): string {
+		if ( ! self::comparable( $attachment, Records::get( $attachment ) ) ) {
+			return '';
+		}
+
+		return sprintf(
+			'<p class="iminify-actions"><button type="button" class="iminify-btn iminify-btn--secondary iminify-btn--small" data-iminify-compare="%1$d">%2$s</button></p>',
+			$attachment,
+			esc_html__( 'Compare with the original', 'iminify-image-optimizer' )
+		);
 	}
 
 	/**
@@ -711,6 +919,39 @@ class Media_View {
 		$status = Alt_Text::status( $record['alt'] );
 
 		return null === $status || ! isset( $labels[ $status ] ) ? '' : '<p class="iminify-detail iminify-alt-state">' . esc_html( $labels[ $status ] ) . '</p>';
+	}
+
+	/**
+	 * What became of the Content Credentials an optimized image carried, the signed
+	 * record of where it came from: a file the plugin wrote over and a copy it made
+	 * leave them out, since any new file breaks their signature, while a file it
+	 * left and the backup keep them. In the panel only: the column is too narrow.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function credentials_detail( int $attachment ): string {
+		$record = Records::get( $attachment );
+		$read   = $record['result']['credentials'] ?? null;
+
+		if ( Records::OPTIMIZED !== $record['status'] || ! is_array( $read ) ) {
+			return '';
+		}
+
+		$wrote = self::made_any( $record );
+
+		if ( ! $wrote ) {
+			$text = __( 'This image carries Content Credentials, a signed record of where it came from, and its files keep them.', 'iminify-image-optimizer' );
+		} elseif ( array() !== $record['backups'] ) {
+			$text = __( 'This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them.', 'iminify-image-optimizer' );
+		} else {
+			$text = __( 'This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature.', 'iminify-image-optimizer' );
+		}
+
+		if ( ! empty( $read['generative_ai'] ) ) {
+			$text .= ' ' . __( 'They say generative AI made it, wholly or in part.', 'iminify-image-optimizer' );
+		}
+
+		return '<p class="iminify-detail iminify-credentials">' . esc_html( $text ) . '</p>';
 	}
 
 	/**

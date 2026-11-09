@@ -2,7 +2,7 @@
  * The connected site and its account: the plan, the day's counts as tiles
  * with a meter each, and the next batch, all as Iminify answered them.
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 
 import {
 	Button,
@@ -256,6 +256,33 @@ export default function Account( {
 					{ site.usage.map( ( row ) => (
 						<Usage key={ row.key } row={ row } />
 					) ) }
+				</div>
+			) }
+			{ site.stats?.length > 0 && (
+				<div className="iminify-totals">
+					<span className="iminify-label">
+						{ __( 'Saved so far', 'iminify-image-optimizer' ) }
+					</span>
+					<dl className="iminify-facts">
+						{ site.stats.map( ( row ) => (
+							<div key={ row.key }>
+								<dt>{ row.label }</dt>
+								<dd className="iminify-num">
+									{ sprintf(
+										/* translators: 1: how many images Iminify optimized, 2: the bytes it saved, such as 1.2 GB. */
+										_n(
+											'%1$s image, %2$s saved',
+											'%1$s images, %2$s saved',
+											row.count,
+											'iminify-image-optimizer'
+										),
+										row.images,
+										row.saved
+									) }
+								</dd>
+							</div>
+						) ) }
+					</dl>
 				</div>
 			) }
 			{ state.hidden ? (

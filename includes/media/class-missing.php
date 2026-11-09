@@ -233,6 +233,11 @@ class Missing {
 		}
 
 		$added['outputs'] = $outputs;
+
+		/* The same source as before, so what it carried holds when this group's answer named none. */
+		if ( empty( $added['credentials'] ) && ! empty( $old['credentials'] ) ) {
+			$added['credentials'] = $old['credentials'];
+		}
 		$added['formats'] = array_values( array_unique( array_merge( isset( $old['formats'] ) && is_array( $old['formats'] ) ? $old['formats'] : array(), isset( $added['formats'] ) && is_array( $added['formats'] ) ? $added['formats'] : array() ) ) );
 
 		return $added;

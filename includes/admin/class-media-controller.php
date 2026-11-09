@@ -90,6 +90,7 @@ class Media_Controller {
 		$this->route( '/media/(?P<id>\d+)/restore', WP_REST_Server::CREATABLE, 'restore', $id );
 		$this->route( '/media/(?P<id>\d+)/alt-text', WP_REST_Server::CREATABLE, 'alt_text', $id );
 		$this->route( '/media/(?P<id>\d+)/copies', WP_REST_Server::DELETABLE, 'delete_copies', $id );
+		$this->route( '/media/(?P<id>\d+)/compare', WP_REST_Server::READABLE, 'compare', $id );
 	}
 
 	/**
@@ -189,6 +190,22 @@ class Media_Controller {
 		do_action( 'iminify_copies_deleted', $attachment );
 
 		return $this->answer( $attachment, true );
+	}
+
+	/**
+	 * The original and the files the plugin made of it, for the panel's compare.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function compare( WP_REST_Request $request ) {
+		$compare = Media_View::compare( (int) $request->get_param( 'id' ) );
+
+		if ( null === $compare ) {
+			return new WP_Error( 'no_compare', __( 'This image has no original on the site to compare it with.', 'iminify-image-optimizer' ), array( 'status' => 404 ) );
+		}
+
+		return new WP_REST_Response( $compare );
 	}
 
 	/**

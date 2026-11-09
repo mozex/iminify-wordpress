@@ -753,6 +753,15 @@
 	color: var(--iminify-z600);
 }
 
+/* What Iminify saved for the site and the account, under the day's counts. */
+.iminify-totals {
+	margin-top: 18px;
+
+	.iminify-facts {
+		margin-top: 6px;
+	}
+}
+
 .iminify-tiles {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));

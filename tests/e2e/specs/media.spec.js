@@ -110,6 +110,118 @@ test( 'The panel deletes the copies, then restores the original, each asked in t
 	expect( seedJson( 'record', { id } ).status ).toBe( 'not_optimized' );
 } );
 
+test( 'The panel compares the original with each file the plugin made, by drag or by keys, and Escape closes only the compare', async ( {
+	page,
+} ) => {
+	const { id } = seedJson( 'optimized' );
+
+	await page.goto( '/wp-admin/upload.php?mode=grid' );
+	await page.locator( `.attachment[data-id="${ id }"]` ).click();
+	const modal = page.locator( '.media-modal' );
+	const open = modal.getByRole( 'button', {
+		name: 'Compare with the original',
+	} );
+	await open.click();
+
+	const dialog = page.getByRole( 'dialog', {
+		name: 'Compare with the original',
+	} );
+	const slider = dialog.getByRole( 'slider', {
+		name: 'How much of the original shows',
+	} );
+	await expect( dialog ).toBeVisible();
+	await expect( slider ).toBeFocused();
+	await expect( slider ).toHaveAttribute( 'aria-valuenow', '50' );
+	await expect( dialog ).toContainText(
+		'Optimized at Smart: a balance between quality and size.'
+	);
+
+	/* Both pictures load from the site: the backup of the original and the main file. */
+	const loaded = () =>
+		dialog
+			.locator( 'img' )
+			.evaluateAll( ( images ) =>
+				images.map(
+					( image ) => image.complete && image.naturalWidth > 0
+				)
+			);
+	await expect.poll( loaded ).toEqual( [ true, true ] );
+	await expect(
+		dialog.locator( '.iminify-compare__before img' )
+	).toHaveAttribute(
+		'data-address',
+		/\/iminify-backup\/.+iminify-e2e-photo\.jpg\?v=\d+$/
+	);
+
+	/* Each file is fetched as itself and shown from memory, so a server rule can't hand the original's side a copy. */
+	await expect( dialog.locator( 'img' ).first() ).toHaveAttribute(
+		'src',
+		/^blob:/
+	);
+
+	/* The keys stay in the dialog: the media modal's own arrows would move it to another image. */
+	await page.evaluate( () => {
+		window.iminifyKeysOutside = 0;
+		document.body.addEventListener( 'keydown', () => {
+			window.iminifyKeysOutside++;
+		} );
+	} );
+	await page.keyboard.press( 'ArrowLeft' );
+	await expect( slider ).toHaveAttribute( 'aria-valuenow', '45' );
+	expect( await page.evaluate( () => window.iminifyKeysOutside ) ).toBe( 0 );
+	await page.keyboard.press( 'End' );
+	await expect( slider ).toHaveAttribute( 'aria-valuenow', '100' );
+
+	/* A press on the stage puts the line where it landed. */
+	const stage = await dialog
+		.locator( '.iminify-compare__stage' )
+		.boundingBox();
+	await page.mouse.click(
+		stage.x + stage.width / 4,
+		stage.y + stage.height / 2
+	);
+	await expect
+		.poll( async () =>
+			Number( await slider.getAttribute( 'aria-valuenow' ) )
+		)
+		.toBeGreaterThan( 20 );
+	await expect
+		.poll( async () =>
+			Number( await slider.getAttribute( 'aria-valuenow' ) )
+		)
+		.toBeLessThan( 30 );
+
+	/* After a press on the picture or on the dialog's words, the keys still stay inside it. */
+	const pressed = Number( await slider.getAttribute( 'aria-valuenow' ) );
+	await page.keyboard.press( 'ArrowRight' );
+	await expect( slider ).toHaveAttribute(
+		'aria-valuenow',
+		String( pressed + 5 )
+	);
+	await dialog.locator( 'p.iminify-detail' ).click();
+	await page.keyboard.press( 'ArrowLeft' );
+	expect( await page.evaluate( () => window.iminifyKeysOutside ) ).toBe( 0 );
+
+	const webp = dialog.getByRole( 'button', { name: /^WebP, / } );
+	await webp.click();
+	await expect( webp ).toHaveAttribute( 'aria-pressed', 'true' );
+	await expect( dialog.locator( '.iminify-compare__after' ) ).toHaveAttribute(
+		'data-address',
+		/iminify-e2e-photo\.jpg\.webp\?v=\d+$/
+	);
+	await expect.poll( loaded ).toEqual( [ true, true ] );
+
+	/* The panel drawn again meanwhile, as its poll does, still gets the focus back. */
+	await page.evaluate( () => {
+		const button = document.querySelector( '[data-iminify-compare]' );
+		button.replaceWith( button.cloneNode( true ) );
+	} );
+	await page.keyboard.press( 'Escape' );
+	await expect( dialog ).toHaveCount( 0 );
+	await expect( modal ).toBeVisible();
+	await expect( open ).toBeFocused();
+} );
+
 test( 'Start now sends the images waiting for the next batch', async ( { page } ) => {
 	const { id } = seedJson( 'optimized' );
 	seed( 'paused', { id } );

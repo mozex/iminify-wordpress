@@ -171,3 +171,141 @@
 .column-iminify {
 	width: 16em;
 }
+
+/* The compare, drawn over the media modal (z-index 160000) and over the whole edit screen. */
+.iminify-compare {
+	position: fixed;
+	inset: 0;
+	z-index: 170000;
+	display: grid;
+	place-items: center;
+	padding: 24px 16px;
+	background: rgb(15 23 42 / 0.6);
+}
+
+.iminify-compare__box {
+	display: grid;
+	gap: 12px;
+	width: min(960px, 100%);
+	max-height: 100%;
+	box-sizing: border-box;
+	overflow: auto;
+	padding: 16px 20px 20px;
+	border-radius: var(--iminify-radius-panel);
+	background: #fff;
+	box-shadow: var(--iminify-shadow-float);
+	animation: iminify-compare-in var(--iminify-fast) var(--iminify-ease);
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.iminify-compare__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.iminify-compare__title {
+	margin: 0;
+	color: var(--iminify-z900);
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.iminify-compare__formats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+
+	&[hidden] {
+		display: none;
+	}
+
+	[aria-pressed="true"] {
+		border-color: var(--iminify-s500);
+		background: var(--iminify-s50);
+		color: var(--iminify-s800);
+	}
+}
+
+.iminify-compare__figure {
+	display: grid;
+	gap: 8px;
+	width: 100%;
+	margin-inline: auto;
+}
+
+.iminify-compare__stage {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--iminify-radius-card);
+	background: repeating-conic-gradient(var(--iminify-z100) 0% 25%, #fff 0% 50%) 50% / 20px 20px;
+	cursor: ew-resize;
+	touch-action: none;
+	user-select: none;
+
+	img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		pointer-events: none;
+	}
+}
+
+.iminify-compare__before {
+	position: absolute;
+	inset: 0;
+}
+
+.iminify-compare__handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	margin-inline-start: -1px;
+	background: #fff;
+	box-shadow: 0 0 0 1px rgb(15 23 42 / 0.35);
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		inset-inline: -13px;
+		height: 28px;
+		margin-top: -14px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: var(--iminify-shadow-float), inset 0 0 0 2px var(--iminify-s500);
+	}
+
+	&:focus-visible {
+		outline: none;
+
+		&::after {
+			box-shadow: 0 0 0 3px var(--iminify-focus), inset 0 0 0 2px var(--iminify-s500);
+		}
+	}
+}
+
+.iminify-compare__tags {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.iminify-compare__tag {
+	color: var(--iminify-z700);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+@keyframes iminify-compare-in {
+	from {
+		opacity: 0;
+	}
+}

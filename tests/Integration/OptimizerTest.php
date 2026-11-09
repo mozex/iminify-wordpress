@@ -12,6 +12,7 @@ use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Hooks;
+use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
@@ -819,6 +820,49 @@ class OptimizerTest extends WP_UnitTestCase {
 		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
 		$this->assertStringEndsWith( '.jpg', (string) get_attached_file( $id ) );
 		$this->assertStringNotContainsString( 'chat-roux', (string) get_attached_file( $id ) );
+	}
+
+	public function test_the_content_credentials_the_source_carried_are_kept_with_the_result_and_a_later_group_keeps_them(): void {
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$answer                        = $this->finished( $id );
+		$answer['content_credentials'] = array( 'generative_ai' => true );
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( (string) get_attached_file( $id ), $answer )['bytes'] );
+		Optimizer::check( $id );
+
+		$result = Records::get( $id )['result'];
+		$this->assertSame( array( 'generative_ai' => true ), $result['credentials'] );
+
+		/* A group for what the image lacks names none of its own: what the source carried still holds. */
+		$this->assertSame(
+			array( 'generative_ai' => true ),
+			Missing::merged(
+				$result,
+				array(
+					'outputs'     => array(),
+					'credentials' => null,
+				)
+			)['credentials']
+		);
+		$this->assertSame(
+			array( 'generative_ai' => false ),
+			Missing::merged(
+				$result,
+				array(
+					'outputs'     => array(),
+					'credentials' => array( 'generative_ai' => false ),
+				)
+			)['credentials']
+		);
+
+		/* A source that carried none reads none. */
+		$other = $this->attachment();
+		Optimizer::optimize( $other, Optimizer::AUTOMATIC );
+		$this->answer( $other );
+		Optimizer::check( $other );
+		$this->assertNull( Records::get( $other )['result']['credentials'] );
 	}
 
 	public function test_a_text_that_came_with_the_files_is_saved_at_once(): void {

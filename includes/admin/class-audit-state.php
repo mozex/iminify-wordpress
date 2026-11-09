@@ -58,6 +58,7 @@ class Audit_State {
 			'revoked'   => false,
 			'links'     => array(
 				'settings' => Settings_Page::url(),
+				'weekly'   => self::weekly(),
 			),
 		);
 
@@ -391,6 +392,20 @@ class Audit_State {
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Where a weekly check of the whole site is set up on www.iminify.com: on the
+	 * website, from a crawl of the site, where every plan sees its controls and the
+	 * service says which plans have it. Null while the site isn't connected or the
+	 * account is kept out of sight (`Key_Store::hides_account()`).
+	 */
+	protected static function weekly(): ?string {
+		if ( ! Plugin::connected() || Plugin::keys()->hides_account() ) {
+			return null;
+		}
+
+		return Client::website( 'scan', array( 'utm_campaign' => 'audit' ) );
 	}
 
 	/**

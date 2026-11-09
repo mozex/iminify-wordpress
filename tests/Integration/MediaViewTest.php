@@ -312,6 +312,7 @@ class MediaViewTest extends WP_UnitTestCase {
 			array( 'POST', "/iminify/v1/media/{$id}/optimize" ),
 			array( 'POST', "/iminify/v1/media/{$id}/restore" ),
 			array( 'DELETE', "/iminify/v1/media/{$id}/copies" ),
+			array( 'GET', "/iminify/v1/media/{$id}/compare" ),
 		);
 
 		wp_set_current_user( 0 );
@@ -525,6 +526,197 @@ class MediaViewTest extends WP_UnitTestCase {
 		/* Nothing left to restore. */
 		$answer = rest_do_request( new WP_REST_Request( 'POST', "/iminify/v1/media/{$id}/restore" ) );
 		$this->assertSame( 'nothing_to_restore', $answer->as_error()->get_error_code() );
+	}
+
+	public function test_the_panel_compares_the_original_with_each_file_the_plugin_made_from_it(): void {
+		$id       = $this->attachment();
+		$attached = (string) get_attached_file( $id );
+		$relative = (string) Paths::relative( $attached );
+
+		$this->optimize_by_hand( $id );
+
+		$webp = wp_get_image_editor( $attached )->save( $attached . '.webp', 'image/webp' );
+		$this->assertIsArray( $webp, 'The test site makes WebP.' );
+		file_put_contents( $attached . '.avif', 'not an image' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a copy no browser could draw.
+		$backup = Paths::backup( $relative );
+
+		Records::update(
+			$id,
+			array(
+				'copies' => array(
+					$relative . '.webp' => array(
+						'for'       => $relative,
+						'format'    => 'webp',
+						'bytes'     => (int) filesize( $attached . '.webp' ),
+						'origin'    => Records::ORIGIN,
+						'for_bytes' => (int) filesize( $attached ),
+					),
+					$relative . '.avif' => array(
+						'for'       => $relative,
+						'format'    => 'avif',
+						'bytes'     => 12,
+						'origin'    => Records::ORIGIN,
+						'for_bytes' => (int) filesize( $attached ),
+					),
+				),
+				'result' => array(
+					'level'   => 'smart',
+					'formats' => array( 'webp', 'avif' ),
+					'outputs' => array(
+						'full' => array(
+							'before'  => (int) filesize( $backup ),
+							'after'   => (int) filesize( $attached ),
+							'width'   => 640,
+							'height'  => 480,
+							'formats' => array( 'webp', 'avif' ),
+						),
+					),
+				),
+			)
+		);
+
+		$compare = Media_View::compare( $id );
+		$uploads = wp_get_upload_dir()['baseurl'];
+
+		$this->assertIsArray( $compare );
+		$this->assertStringStartsWith( $uploads . '/' . Paths::BACKUP_FOLDER . '/' . $relative . '?v=', $compare['before']['url'] );
+		$this->assertSame( array( 640, 480 ), array( $compare['before']['width'], $compare['before']['height'] ) );
+		$this->assertStringStartsWith( 'Original, ', $compare['before']['label'] );
+		/* The main file, then its WebP copy; the AVIF at the copy's name is no image, so it isn't offered. */
+		$this->assertCount( 2, $compare['after'] );
+		$this->assertStringStartsWith( $uploads . '/' . $relative . '?v=', $compare['after'][0]['url'] );
+		$this->assertMatchesRegularExpression( '/^JPEG, .+, \d+% smaller$/', $compare['after'][0]['label'] );
+		$this->assertStringStartsWith( $uploads . '/' . $relative . '.webp?v=', $compare['after'][1]['url'] );
+		$this->assertStringStartsWith( 'WebP, ', $compare['after'][1]['label'] );
+		$this->assertStringContainsString( 'Optimized at Smart: a balance between quality and size.', $compare['note'] );
+		$this->assertStringContainsString( 'data-iminify-compare="' . $id . '"', Media_View::panel( $id ) );
+		$this->assertStringNotContainsString( 'data-iminify-compare', Media_View::cell( $id ), 'The column has no room for it.' );
+
+		$answer = rest_do_request( new WP_REST_Request( 'GET', "/iminify/v1/media/{$id}/compare" ) );
+		$this->assertSame( 200, $answer->get_status() );
+		$this->assertSame( $compare, $answer->get_data() );
+
+		/* The original went with the backup: the route finds nothing to compare with, though the panel, reading the record alone, offers it. */
+		$kept = $backup . '.kept';
+		rename( $backup, $kept ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a test moving the backup aside.
+		$this->assertNull( Media_View::compare( $id ) );
+		$this->assertStringContainsString( 'data-iminify-compare', Media_View::panel( $id ) );
+		$this->assertSame( 'no_compare', rest_do_request( new WP_REST_Request( 'GET', "/iminify/v1/media/{$id}/compare" ) )->as_error()->get_error_code() );
+		rename( $kept, $backup ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- putting it back.
+
+		/* A copy that changed since is no copy of the plugin's: only the main file is compared. */
+		$webp = (string) file_get_contents( $attached . '.webp' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- keeps the copy.
+		file_put_contents( $attached . '.webp', $webp . 'changed' ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- a copy another tool changed.
+		clearstatcache();
+		$this->assertSame( array( 'JPEG' ), $this->compared_names( $id ) );
+		file_put_contents( $attached . '.webp', $webp ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- putting it back.
+
+		/* A main file another tool wrote since is a new picture: neither it nor the copies made of the old one are the plugin's result. */
+		$wrote = (string) file_get_contents( $attached ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- keeps the file the plugin wrote.
+		copy( $backup, $attached );
+		clearstatcache();
+		$this->assertNull( Media_View::compare( $id ) );
+		file_put_contents( $attached, $wrote ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- putting it back.
+		clearstatcache();
+		$this->assertCount( 2, Media_View::compare( $id )['after'] );
+
+		/* With backups off, a main file the plugin wrote over has no original to compare with: no press. */
+		$backups = Records::get( $id )['backups'];
+		Records::update( $id, array( 'backups' => array() ) );
+		$this->assertNull( Media_View::compare( $id ) );
+		$this->assertStringNotContainsString( 'data-iminify-compare', Media_View::panel( $id ) );
+		Records::update( $id, array( 'backups' => $backups ) );
+
+		/* Nothing written over and no copy made, an image on its way, and one another plugin optimized have none, and no press. */
+		$result                             = Records::get( $id )['result'];
+		$copies                             = Records::get( $id )['copies'];
+		$result['outputs']['full']['after'] = $result['outputs']['full']['before'];
+		Records::update( $id, array( 'result' => $result ) );
+		$this->assertStringContainsString( 'data-iminify-compare', Media_View::panel( $id ), 'A copy it made is something to compare too.' );
+		Records::update( $id, array( 'copies' => array() ) );
+		$this->assertNull( Media_View::compare( $id ) );
+		$this->assertStringNotContainsString( 'data-iminify-compare', Media_View::panel( $id ) );
+
+		$result['outputs']['full']['after'] = (int) filesize( $attached );
+		Records::update(
+			$id,
+			array(
+				'result' => $result,
+				'copies' => $copies,
+			)
+		);
+		$this->assertIsArray( Media_View::compare( $id ) );
+
+		Records::update( $id, array( 'status' => Records::QUEUED ) );
+		$this->assertNull( Media_View::compare( $id ) );
+
+		Records::update( $id, array( 'status' => Records::OTHER ) );
+		$this->assertNull( Media_View::compare( $id ) );
+
+		wp_delete_file( $attached . '.webp' );
+		wp_delete_file( $attached . '.avif' );
+	}
+
+	public function test_the_panel_says_what_became_of_the_content_credentials_the_image_carried(): void {
+		$id = $this->attachment();
+
+		$this->optimize_by_hand( $id );
+
+		$result = array(
+			'outputs'     => array(
+				'full' => array(
+					'before'  => 2000,
+					'after'   => 1000,
+					'width'   => 640,
+					'height'  => 480,
+					'formats' => array(),
+				),
+			),
+			'credentials' => array( 'generative_ai' => false ),
+		);
+
+		Records::update( $id, array( 'result' => $result ) );
+		$panel = Media_View::panel( $id );
+		$this->assertStringContainsString( 'The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them.', $panel );
+		$this->assertStringNotContainsString( 'generative AI', $panel );
+
+		$result['credentials'] = array( 'generative_ai' => true );
+		Records::update( $id, array( 'result' => $result ) );
+		$this->assertStringContainsString( 'They say generative AI made it, wholly or in part.', Media_View::panel( $id ) );
+
+		/* No backup to keep them. */
+		Records::update( $id, array( 'backups' => array() ) );
+		$panel = Media_View::panel( $id );
+		$this->assertStringContainsString( 'The files and copies Iminify wrote leave them out, since a new file breaks their signature.', $panel );
+		$this->assertStringNotContainsString( 'kept as a backup still has them', $panel );
+
+		/* Nothing written over: the files are still the ones that carry them. */
+		$result['outputs']['full']['after'] = 2000;
+		Records::update( $id, array( 'result' => $result ) );
+		$this->assertStringContainsString( 'This image carries Content Credentials, a signed record of where it came from, and its files keep them.', Media_View::panel( $id ) );
+
+		Records::update( $id, array( 'status' => Records::QUEUED ) );
+		$this->assertStringNotContainsString( 'Content Credentials', Media_View::panel( $id ), 'Said only of an optimized image.' );
+		Records::update( $id, array( 'status' => Records::OPTIMIZED ) );
+
+		unset( $result['credentials'] );
+		Records::update( $id, array( 'result' => $result ) );
+		$this->assertStringNotContainsString( 'Content Credentials', Media_View::panel( $id ) );
+	}
+
+	/**
+	 * What each optimized file the compare offers is, by the first word of its label.
+	 *
+	 * @param int $id The attachment's id.
+	 * @return list<string>
+	 */
+	protected function compared_names( int $id ): array {
+		return array_map(
+			static function ( array $file ): string {
+				return (string) strtok( $file['label'], ',' );
+			},
+			Media_View::compare( $id )['after']
+		);
 	}
 
 	/**

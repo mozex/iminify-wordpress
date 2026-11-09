@@ -1062,12 +1062,13 @@ class Optimizer {
 		}
 
 		$result = array(
-			'level'   => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
-			'formats' => self::asked_formats( $answer, (string) ( $group['made'] ?? $group['type'] ?? '' ) ),
-			'outputs' => $written['outputs'],
-			'skipped' => $written['skipped'],
-			'kept'    => count( $written['kept'] ),
-			'at'      => time(),
+			'level'       => isset( $answer['settings']['level'] ) ? (string) $answer['settings']['level'] : null,
+			'formats'     => self::asked_formats( $answer, (string) ( $group['made'] ?? $group['type'] ?? '' ) ),
+			'outputs'     => $written['outputs'],
+			'skipped'     => $written['skipped'],
+			'kept'        => count( $written['kept'] ),
+			'credentials' => self::credentials( $answer ),
+			'at'          => time(),
 		);
 
 		if ( null !== $current['fill'] && null !== $current['result'] ) {
@@ -1113,6 +1114,20 @@ class Optimizer {
 		 * @param array<string, mixed> $result     What was written: `level`, `formats`, and each size's `before` and `after` bytes in `outputs`.
 		 */
 		do_action( 'iminify_image_optimized', $attachment, $result );
+	}
+
+	/**
+	 * Whether the image the group was made from carried Content Credentials, the
+	 * signed record of where it came from that every file made from it leaves out,
+	 * and whether they say generative AI made it; null when it carried none.
+	 *
+	 * @param array<string, mixed> $answer The group as the service answered it.
+	 * @return array{generative_ai: bool}|null
+	 */
+	protected static function credentials( array $answer ): ?array {
+		$read = $answer['content_credentials'] ?? null;
+
+		return is_array( $read ) ? array( 'generative_ai' => true === ( $read['generative_ai'] ?? null ) ) : null;
 	}
 
 	/**

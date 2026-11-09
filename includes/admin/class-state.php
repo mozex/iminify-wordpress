@@ -167,6 +167,7 @@ class State {
 					)
 				)
 			),
+			'stats'         => self::stats( $site['stats'] ?? null, $hidden ),
 			'next_batch_at' => self::date( $site['next_batch_at'] ?? null ),
 			'message'       => $message,
 			'network'       => self::site_network( $site['network'] ?? null ),
@@ -278,6 +279,42 @@ class State {
 			'remaining' => null === $remaining ? null : number_format_i18n( $remaining ),
 			'share'     => null === $remaining ? null : ( 0 === $used + $remaining ? 1.0 : round( $used / ( $used + $remaining ), 3 ) ),
 		);
+	}
+
+	/**
+	 * What Iminify has saved, as `GET /site` answered it: for this site, and for
+	 * the whole account through every way it uses Iminify, unless wp-config.php
+	 * keeps the account out of sight.
+	 *
+	 * @param mixed $stats  The record's `stats`.
+	 * @param bool  $hidden Whether wp-config.php keeps the account out of sight.
+	 * @return list<array{key: string, label: string, count: int, images: string, saved: string}>
+	 */
+	protected static function stats( $stats, bool $hidden ): array {
+		$rows   = array();
+		$labels = array(
+			'site'    => __( 'This site', 'iminify-image-optimizer' ),
+			'account' => __( 'Your whole account', 'iminify-image-optimizer' ),
+		);
+
+		foreach ( $labels as $key => $label ) {
+			$row = is_array( $stats ) && isset( $stats[ $key ] ) && is_array( $stats[ $key ] ) ? $stats[ $key ] : array();
+
+			if ( ( 'account' === $key && $hidden ) || ! is_numeric( $row['images'] ?? null ) || ! is_numeric( $row['bytes_saved'] ?? null ) ) {
+				continue;
+			}
+
+			$count  = max( 0, (int) $row['images'] );
+			$rows[] = array(
+				'key'    => $key,
+				'label'  => $label,
+				'count'  => $count,
+				'images' => number_format_i18n( $count ),
+				'saved'  => (string) size_format( max( 0, (int) $row['bytes_saved'] ), 1 ),
+			);
+		}
+
+		return $rows;
 	}
 
 	/**

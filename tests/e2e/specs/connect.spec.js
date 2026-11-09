@@ -48,6 +48,13 @@ test( 'Connect opens its tab before the server answers, and the page collects th
 	await expect( page.getByRole( 'heading', { name: 'Your account' } ) ).toBeVisible( { timeout: 30_000 } );
 	await expect( page.locator( '#iminify-conn' ) ).toHaveText( 'Connected' );
 	await expect( page.getByText( '3 used, 37 left' ) ).toBeVisible();
+
+	/* What Iminify saved, for the site and for the whole account, as the service counts it. */
+	const totals = page.locator( '.iminify-totals' );
+	await expect( totals ).toContainText( 'This site' );
+	await expect( totals ).toContainText( '1,204 images, 312.5 MB saved' );
+	await expect( totals ).toContainText( 'Your whole account' );
+	await expect( totals ).toContainText( '5,021 images, 1.2 GB saved' );
 } );
 
 test( 'A site setting goes to the service, and the local ones stay on the site', async ( { page } ) => {

@@ -15,6 +15,7 @@ import {
 	Chip,
 	Empty,
 	ErrorState,
+	ExternalLink,
 	formatNumber,
 	Icon,
 	Loading,
@@ -309,10 +310,44 @@ export default function App() {
 						opening={ opening }
 						onOpen={ show }
 					/>
+					<Weekly link={ state.links?.weekly ?? null } />
 				</div>
 			</div>
 			<Toasts toasts={ toasts } onDismiss={ dismiss } />
 		</>
+	);
+}
+
+/**
+ * A weekly check of the whole site, which iminify.com sets up from a crawl of
+ * it: shown on every plan, without naming any, since the website shows its
+ * controls to every plan and says there which ones have it.
+ *
+ * @param {Object}      props      The component's props.
+ * @param {string|null} props.link Where it is set up, or null while the account is kept out of sight.
+ */
+function Weekly( { link } ) {
+	if ( ! link ) {
+		return null;
+	}
+
+	return (
+		<Panel>
+			<PanelTitle icon="clock">
+				{ __( 'Every page, every week', 'iminify-image-optimizer' ) }
+			</PanelTitle>
+			<p className="iminify-text">
+				{ __(
+					"A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it.",
+					'iminify-image-optimizer'
+				) }
+			</p>
+			<p className="iminify-links">
+				<ExternalLink href={ link }>
+					{ __( 'Set up a weekly check', 'iminify-image-optimizer' ) }
+				</ExternalLink>
+			</p>
+		</Panel>
 	);
 }
 

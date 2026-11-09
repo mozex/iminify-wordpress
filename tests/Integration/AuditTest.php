@@ -101,6 +101,7 @@ class AuditTest extends WP_UnitTestCase {
 			array_column( $images[0]['findings'], 'fix_text' )
 		);
 		$this->assertSame( Settings_Page::url(), $state['links']['settings'] );
+		$this->assertSame( 'https://www.iminify.com/scan?utm_source=wordpress&utm_medium=plugin&utm_campaign=audit', $state['links']['weekly'] );
 
 		/* A WebP copy the page loaded through a picture tag stands for the size it was made from. */
 		$medium = wp_get_attachment_metadata( $id )['sizes']['medium'];
@@ -704,6 +705,7 @@ class AuditTest extends WP_UnitTestCase {
 
 		$this->assertFalse( $state['connected'] );
 		$this->assertSame( array(), $state['audits'] );
+		$this->assertNull( $state['links']['weekly'] );
 		$this->assertSame( array(), $this->api->calls( 'GET', 'site/audits' ) );
 
 		/* A start or a poll answers the state that says so, which the screen draws in place of the audit. */

@@ -10,6 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 import domReady from '@wordpress/dom-ready';
 import { __ } from '@wordpress/i18n';
 
+import openCompare from './compare';
 import './media.scss';
 
 const BASE = '/iminify/v1/media';
@@ -200,6 +201,15 @@ function send( button ) {
 }
 
 function press( event ) {
+	const compare = event.target.closest( '[data-iminify-compare]' );
+
+	if ( compare ) {
+		event.preventDefault();
+		openCompare( compare, refuse );
+
+		return;
+	}
+
 	const button = event.target.closest( '[data-iminify-action]' );
 
 	if ( ! button ) {

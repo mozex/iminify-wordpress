@@ -157,6 +157,25 @@ class RestControllerTest extends WP_UnitTestCase {
 			),
 			$state['site']['languages'][1]
 		);
+		$this->assertSame(
+			array(
+				array(
+					'key'    => 'site',
+					'label'  => 'This site',
+					'count'  => 1204,
+					'images' => '1,204',
+					'saved'  => '312.5 MB',
+				),
+				array(
+					'key'    => 'account',
+					'label'  => 'Your whole account',
+					'count'  => 5021,
+					'images' => '5,021',
+					'saved'  => '1.2 GB',
+				),
+			),
+			$state['site']['stats']
+		);
 		$this->assertNull( $state['site']['message'] );
 		$this->assertStringNotContainsString( 'Zx9vQe3LwR7tYp2mKd8sNf5hJc1bGa6uVo4iEy0r', (string) wp_json_encode( $state ) );
 	}
@@ -524,6 +543,7 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertTrue( $state['hidden'] );
 		$this->assertNull( $state['site']['plan'] );
 		$this->assertNull( $state['site']['usage'] );
+		$this->assertSame( array( 'site' ), array_column( $state['site']['stats'], 'key' ), 'The site\'s own figures stay; the account\'s go.' );
 		$this->assertSame( 'day_spent', $state['site']['message']['code'] );
 		$this->assertSame( Messages::for_site( array( 'code' => 'day_spent' ), true ), $state['site']['message'] );
 		$this->assertStringNotContainsString( 'Your account\'s uploads for the day are used up.', $state['site']['message']['text'] );

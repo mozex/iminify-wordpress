@@ -41,6 +41,10 @@
                 "resets_at": null
             }
         },
+        "stats": {
+            "site": { "images": 1204, "bytes_saved": 327680000 },
+            "account": { "images": 5021, "bytes_saved": 1288490188 }
+        },
         "next_batch_at": null,
         "estimate": null,
         "minimum_version": "1.0.0",

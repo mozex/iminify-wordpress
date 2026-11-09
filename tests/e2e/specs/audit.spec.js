@@ -60,6 +60,7 @@ for ( const width of [ 1280, 390 ] ) {
 		await expect( shot( page, 'logo.png' ).locator( 'img' ) ).toHaveCount( 0 );
 
 		await expect( page.getByText( '2 of 3 page scans left today.' ) ).toBeVisible();
+		await expect( page.getByRole( 'link', { name: /Set up a weekly check/ } ) ).toHaveAttribute( 'href', 'https://www.iminify.com/scan?utm_source=wordpress&utm_medium=plugin&utm_campaign=audit' );
 		await expect( page.locator( '.iminify-audits__item' ) ).toHaveCount( 1 );
 		await expect( page.locator( '.iminify-audits__item' ) ).toHaveAttribute( 'aria-current', 'true' );
 
