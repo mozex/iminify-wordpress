@@ -1,0 +1,121 @@
+{
+    "data": {
+        "id": "9c2b3c4d-1111-4a2b-9c3d-000000000001",
+        "url": "https://example.org/",
+        "status": "completed",
+        "done": true,
+        "problem": null,
+        "images_found": 4,
+        "created_at": "2026-11-09T12:00:00+00:00",
+        "rendered": true,
+        "findings": {
+            "oversized": 1,
+            "without_dimensions": 1,
+            "lazy_above_fold": 1,
+            "eager_below_fold": 1,
+            "missing_alt": 1,
+            "lcp_not_prioritized": 1
+        },
+        "images": [
+            {
+                "url": "https://example.org/wp-content/uploads/hero.jpg",
+                "format": "jpg",
+                "bytes": 412000,
+                "natural_width": 1920,
+                "natural_height": 1440,
+                "rendered_width": 640,
+                "rendered_height": 480,
+                "above_fold": true,
+                "largest_paint": true,
+                "alt": "missing",
+                "wasted_bytes": 228889,
+                "serve_width": 1280,
+                "findings": [
+                    {
+                        "code": "oversized",
+                        "fix": "smaller_size",
+                        "label": "Oversized",
+                        "message": "The file is more than twice as wide and twice as tall as the space it is shown in. Resize it to twice its shown size, which still looks sharp on high density screens."
+                    },
+                    {
+                        "code": "lcp_not_prioritized",
+                        "fix": "prioritize",
+                        "label": "Not prioritized",
+                        "message": "This is the largest thing in the first screen, so the page feels loaded when it arrives. Add fetchpriority=\"high\" so the browser fetches it first."
+                    },
+                    {
+                        "code": "without_dimensions",
+                        "fix": "add_dimensions",
+                        "label": "No width and height",
+                        "message": "The image has no width and height attributes, so the browser cannot hold its space and the page moves when it arrives. Add both attributes."
+                    },
+                    {
+                        "code": "missing_alt",
+                        "fix": "write_alt_text",
+                        "label": "No alt text",
+                        "message": "The image has no alt text for screen readers and search engines. Describe it, or use alt=\"\" if it is only decoration."
+                    }
+                ]
+            },
+            {
+                "url": "https://example.org/wp-content/uploads/size.jpg.webp",
+                "format": "webp",
+                "bytes": 18000,
+                "natural_width": 300,
+                "natural_height": 225,
+                "rendered_width": 300,
+                "rendered_height": 225,
+                "above_fold": false,
+                "largest_paint": false,
+                "alt": "present",
+                "wasted_bytes": null,
+                "serve_width": null,
+                "findings": [
+                    {
+                        "code": "eager_below_fold",
+                        "fix": "load_lazily",
+                        "label": "Loads too early",
+                        "message": "The image is below the first screen and loads straight away, competing with what visitors see first. Add loading=\"lazy\"."
+                    }
+                ]
+            },
+            {
+                "url": "https://example.org/wp-content/uploads/full.jpg",
+                "format": "jpg",
+                "bytes": 90000,
+                "natural_width": 640,
+                "natural_height": 480,
+                "rendered_width": 640,
+                "rendered_height": 480,
+                "above_fold": true,
+                "largest_paint": false,
+                "alt": "present",
+                "wasted_bytes": null,
+                "serve_width": null,
+                "findings": [
+                    {
+                        "code": "lazy_above_fold",
+                        "fix": "load_at_once",
+                        "label": "Lazy in the first screen",
+                        "message": "The image is in the first screen but has loading=\"lazy\", which delays it. Remove the attribute."
+                    }
+                ]
+            },
+            {
+                "url": "https://example.org/wp-content/themes/twentytwentyfive/assets/logo.png",
+                "format": "png",
+                "bytes": 4000,
+                "natural_width": 120,
+                "natural_height": 40,
+                "rendered_width": 120,
+                "rendered_height": 40,
+                "above_fold": true,
+                "largest_paint": false,
+                "alt": "present",
+                "wasted_bytes": null,
+                "serve_width": null,
+                "findings": []
+            }
+        ]
+    }
+}

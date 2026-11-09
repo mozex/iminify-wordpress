@@ -309,6 +309,36 @@ class Client {
 	}
 
 	/**
+	 * The site's latest page audits, newest first, without their images: a list.
+	 *
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function audits() {
+		return $this->data( $this->request( 'GET', 'site/audits' ) );
+	}
+
+	/**
+	 * Asks Iminify to audit one of the site's own pages, which spends one of
+	 * the account's page scans for the day. Iminify refuses a page on another host.
+	 *
+	 * @param string $url The page's address.
+	 * @return array<string, mixed>|WP_Error The audit to poll.
+	 */
+	public function start_audit( string $url ) {
+		return $this->data( $this->request( 'POST', 'site/audits', array( 'json' => array( 'url' => $url ) ) ) );
+	}
+
+	/**
+	 * One of the site's audits, with every image address its page had.
+	 *
+	 * @param string $id The audit's id.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function audit( string $id ) {
+		return $this->data( $this->request( 'GET', 'site/audits/' . rawurlencode( $id ) ) );
+	}
+
+	/**
 	 * Downloads a finished group's zip into a file on this server.
 	 *
 	 * @param string $group       The group's id.

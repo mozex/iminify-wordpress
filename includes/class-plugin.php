@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress;
 
+use Iminify\WordPress\Admin\Audit_Controller;
 use Iminify\WordPress\Admin\Bulk_Controller;
 use Iminify\WordPress\Admin\Bulk_Page;
 use Iminify\WordPress\Admin\Folders_Controller;
@@ -87,6 +88,7 @@ class Plugin {
 		( new Media_Controller() )->register_routes();
 		( new Bulk_Controller() )->register_routes();
 		( new Folders_Controller() )->register_routes();
+		( new Audit_Controller() )->register_routes();
 	}
 
 	/**
