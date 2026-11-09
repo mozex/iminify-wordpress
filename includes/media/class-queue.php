@@ -167,6 +167,7 @@ class Queue {
 
 		return array(
 			'working'    => Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) ),
+			'alt_texts'  => Records::count_waiting_for_alt_text(),
 			'paused'     => $paused,
 			'parked'     => Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ),
 			'next_batch' => null === $pause ? null : State::date( gmdate( 'c', $pause['until'] ) ),

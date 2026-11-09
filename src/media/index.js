@@ -18,7 +18,7 @@ const POLL_EVERY_MS = 10000;
 /**
  * Puts an attachment's new markup in each place it shows.
  *
- * @param {{id: number, cell: string, panel: string}} answer The route's answer.
+ * @param {{id: number, cell: string, panel: string, alt: string}} answer The route's answer.
  */
 function draw( answer ) {
 	document
@@ -29,6 +29,14 @@ function draw( answer ) {
 					? answer.panel
 					: answer.cell;
 		} );
+
+	/* The edit screen's form holds the alt it loaded with, and its Update would save that empty field over a text written meanwhile. */
+	const form = document.querySelector( `#post_ID[value="${ answer.id }"]` );
+	const field = form && document.querySelector( '#attachment_alt' );
+
+	if ( field && answer.alt && '' === field.value.trim() ) {
+		field.value = answer.alt;
+	}
 }
 
 /**

@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Optimizer;
@@ -87,6 +88,7 @@ class Media_Controller {
 			)
 		);
 		$this->route( '/media/(?P<id>\d+)/restore', WP_REST_Server::CREATABLE, 'restore', $id );
+		$this->route( '/media/(?P<id>\d+)/alt-text', WP_REST_Server::CREATABLE, 'alt_text', $id );
 		$this->route( '/media/(?P<id>\d+)/copies', WP_REST_Server::DELETABLE, 'delete_copies', $id );
 	}
 
@@ -158,6 +160,16 @@ class Media_Controller {
 	}
 
 	/**
+	 * Asks for an attachment's AI alt text, from a small copy of it.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function alt_text( WP_REST_Request $request ) {
+		return $this->answer( (int) $request->get_param( 'id' ), Alt_Text::ask( (int) $request->get_param( 'id' ) ) );
+	}
+
+	/**
 	 * Deletes an attachment's WebP and AVIF copies.
 	 *
 	 * @param WP_REST_Request $request The request.
@@ -201,7 +213,7 @@ class Media_Controller {
 	 * An attachment's markup, for the script to put back.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{id: int, busy: bool, cell: string, panel: string}
+	 * @return array{id: int, busy: bool, cell: string, panel: string, alt: string}
 	 */
 	protected static function view( int $attachment ): array {
 		return array(
@@ -209,6 +221,7 @@ class Media_Controller {
 			'busy'  => Media_View::is_busy( $attachment ),
 			'cell'  => Media_View::cell( $attachment ),
 			'panel' => Media_View::panel( $attachment ),
+			'alt'   => (string) get_post_meta( $attachment, Alt_Text::META, true ),
 		);
 	}
 

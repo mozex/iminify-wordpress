@@ -79,9 +79,14 @@ class Bulk {
 	const REDO = 'redo';
 
 	/**
+	 * The images with an empty alt, whose alt text is written from a small copy of each (Alt_Text): nothing happens to their files.
+	 */
+	const ALT_TEXT = 'alt_text';
+
+	/**
 	 * Every action a run can have.
 	 */
-	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES, self::REDO );
+	const ACTIONS = array( self::OPTIMIZE, self::RETRY, self::RESTORE, self::FORMATS, self::SIZES, self::REDO, self::ALT_TEXT );
 
 	/**
 	 * What a run takes: the media library's images, or the files in the chosen folders.
@@ -123,6 +128,11 @@ class Bulk {
 	const MAX_FILES = 150;
 
 	/**
+	 * The alt texts a run keeps on their way at once: the service writes an account's one at a time, so more would only wait there.
+	 */
+	const ALT_WINDOW = 10;
+
+	/**
 	 * Images one look restores: WordPress makes every size again for each, which is heavy.
 	 */
 	const RESTORE_BATCH = 5;
@@ -159,7 +169,7 @@ class Bulk {
 	 * The actions the bulk page runs itself, claimed by hook: an image's steps and
 	 * the queue's own, never another plugin's.
 	 */
-	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Alt_Text::CHECK_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK, Folder_Optimizer::OPTIMIZE_HOOK, Folder_Optimizer::CHECK_HOOK, Folder_Optimizer::RESUME_HOOK );
+	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Alt_Text::CHECK_HOOK, Alt_Text::SEND_HOOK, Alt_Text::REQUEST_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK, Folder_Optimizer::OPTIMIZE_HOOK, Folder_Optimizer::CHECK_HOOK, Folder_Optimizer::RESUME_HOOK );
 
 	/**
 	 * The run, or null when there has been none.
@@ -223,7 +233,9 @@ class Bulk {
 		}
 
 		if ( self::RESTORE !== $action ) {
-			$acting = Others::acting();
+			/* Writing alt text changes no file, so neither another optimizer nor the disk stands in its way. */
+			$touches_files = self::ALT_TEXT !== $action;
+			$acting        = $touches_files ? Others::acting() : null;
 
 			if ( null !== $acting ) {
 				return new WP_Error( Others::ACTING, Others::acting_message( $acting ), array( 'status' => 409 ) );
@@ -233,8 +245,20 @@ class Bulk {
 				return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 			}
 
-			if ( ! Disk::has_room_for( 0 ) ) {
+			if ( $touches_files && ! Disk::has_room_for( 0 ) ) {
 				return new WP_Error( 'disk_full', __( 'The server is low on disk space. Free some up, then start again.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			}
+		}
+
+		if ( self::ALT_TEXT === $action ) {
+			$site = Site_Record::fetch();
+
+			if ( is_wp_error( $site ) ) {
+				return $site;
+			}
+
+			if ( ! Alt_Text::on() ) {
+				return new WP_Error( Alt_Text::OFF, __( 'AI alt text is off for this site. Turn it on in the plugin\'s settings first.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
 			}
 		}
 
@@ -373,6 +397,8 @@ class Bulk {
 
 		if ( self::FOLDERS === $run['scope'] ) {
 			self::take_back_files();
+		} elseif ( self::ALT_TEXT === $run['action'] ) {
+			Alt_Text::take_back();
 		} else {
 			self::take_back_images();
 		}
@@ -558,6 +584,11 @@ class Bulk {
 		}
 
 		if ( self::RESTORE !== $run['action'] ) {
+			/* A run writing alt texts heals its own; any other leaves a lost text waiting here, which would keep the page stepping for ever. */
+			if ( self::ALT_TEXT !== $run['action'] || self::RUNNING !== $run['status'] ) {
+				self::heal_alt_texts();
+			}
+
 			self::run_due( $deadline );
 		}
 
@@ -586,6 +617,35 @@ class Bulk {
 				'window' => max( self::files_per_image( $run['scope'] ), intdiv( $run['window'], 2 ) ),
 			)
 		);
+	}
+
+	/**
+	 * The account's AI alt texts for the day are spent, or the service turned the key
+	 * away: a run writing them holds, and goes on by itself. Answers whether one is
+	 * running to hold.
+	 *
+	 * @param int         $seconds How long it holds.
+	 * @param string|null $reason  Why, when it isn't the spent day.
+	 */
+	public static function hold_alt_texts( int $seconds, ?string $reason = null ): bool {
+		wp_cache_delete( self::OPTION, 'options' );
+
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] || self::ALT_TEXT !== $run['action'] ) {
+			return false;
+		}
+
+		if ( $run['hold'] <= time() ) {
+			self::change(
+				array(
+					'hold'   => time() + $seconds,
+					'reason' => $reason,
+				)
+			);
+		}
+
+		return true;
 	}
 
 	/**
@@ -651,7 +711,7 @@ class Bulk {
 	/**
 	 * The images the bulk page counts.
 	 *
-	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int, redo: int, missing_formats: int, missing_sizes: int}
+	 * @return array{images: int, optimized: int, not_optimized: int, waiting: int, failed: int, skipped: int, restored: int, other: int, redo: int, missing_formats: int, missing_sizes: int, alt_text: int}
 	 */
 	public static function counts(): array {
 		return array(
@@ -666,6 +726,7 @@ class Bulk {
 			'redo'            => self::count_candidates( self::REDO ),
 			'missing_formats' => Missing::count( Missing::FORMATS ),
 			'missing_sizes'   => Missing::count( Missing::SIZES ),
+			'alt_text'        => Alt_Text::on() ? self::count_candidates( self::ALT_TEXT ) : 0,
 		);
 	}
 
@@ -702,6 +763,8 @@ class Bulk {
 				return Missing::count( $action );
 			case self::REDO:
 				return Others::count_with_original();
+			case self::ALT_TEXT:
+				return Records::count_lacking_alt();
 			default:
 				return self::count_images( true );
 		}
@@ -832,6 +895,10 @@ class Bulk {
 
 		if ( null === $run ) {
 			return null;
+		}
+
+		if ( self::ALT_TEXT === $run['action'] ) {
+			return self::send_alt_texts( $run );
 		}
 
 		/* While another optimizer acts on uploads nothing is sent; the run holds, saying why, and goes on once it is switched off. */
@@ -1024,6 +1091,77 @@ class Bulk {
 	}
 
 	/**
+	 * Sends the next images' small copies, up to the window on their way. Answers
+	 * the seconds until the next look, or null when the run ended.
+	 *
+	 * @param array<string, mixed> $run The run.
+	 */
+	protected static function send_alt_texts( array $run ): ?int {
+		/* The images it sent wait for the connection on their own, and go on with it. */
+		if ( ! Plugin::connected() ) {
+			return 5 * MINUTE_IN_SECONDS;
+		}
+
+		if ( $run['hold'] > time() ) {
+			return $run['hold'] - time() + 1;
+		}
+
+		self::heal_alt_texts();
+
+		$room = self::ALT_WINDOW - Records::count_waiting_for_alt_text();
+
+		if ( $room <= 0 ) {
+			return self::TICK;
+		}
+
+		$next   = self::candidates( self::ALT_TEXT, $room, $run['cursor'], $run['only'] );
+		$total  = $run['total'];
+		$passed = $run['passed'];
+
+		foreach ( $next['passed'] as $id ) {
+			Alt_Text::pass_over( $id );
+
+			if ( $id > $run['seen'] ) {
+				--$total;
+				++$passed;
+			}
+		}
+
+		foreach ( $next['ids'] as $id ) {
+			Alt_Text::queue( $id );
+		}
+
+		$changes = array(
+			'cursor' => $next['cursor'],
+			'seen'   => max( $run['seen'], $next['cursor'] ),
+			'sent'   => $run['sent'] + count( $next['ids'] ),
+			'total'  => max( 0, $total ),
+			'passed' => $passed,
+		);
+
+		if ( $next['exhausted'] && array() === $next['ids'] && 0 === Records::count_waiting_for_alt_text() ) {
+			$changes['status'] = self::DONE;
+		}
+
+		self::change( $changes );
+
+		if ( self::DONE === ( $changes['status'] ?? null ) ) {
+			self::finished();
+
+			return null;
+		}
+
+		return self::TICK;
+	}
+
+	/**
+	 * Picks up the alt texts whose run died with its request, or that outlived their wait.
+	 */
+	protected static function heal_alt_texts(): void {
+		array_map( array( Alt_Text::class, 'heal' ), Records::waiting_for_alt_text( self::PAGE_SIZE ) );
+	}
+
+	/**
 	 * The statuses of the files a run of this kind takes.
 	 *
 	 * @param string $action The run's action.
@@ -1047,7 +1185,7 @@ class Bulk {
 		/**
 		 * A bulk run went through every image it had to, and nothing it sent is still on its way.
 		 *
-		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats`, `sizes` or `redo`), `scope` (`library`, or `folders` for the files in other folders), `total`, `sent`, `failed` and `passed`.
+		 * @param array<string, mixed> $run The run: `action` (`optimize`, `retry`, `restore`, `formats`, `sizes`, `redo` or `alt_text`), `scope` (`library`, or `folders` for the files in other folders), `total`, `sent`, `failed` and `passed`.
 		 */
 		do_action( 'iminify_bulk_finished', (array) self::run() );
 	}
@@ -1091,6 +1229,10 @@ class Bulk {
 			return __( 'No image another plugin optimized has an original left to optimize it again from.', 'iminify-image-optimizer' );
 		}
 
+		if ( self::ALT_TEXT === $action ) {
+			return __( 'Every image already has alt text, or its text is on the way.', 'iminify-image-optimizer' );
+		}
+
 		return self::is_fill( $action ) ? __( 'No optimized image lacks anything your site asks for now.', 'iminify-image-optimizer' ) : __( 'Every image is already optimized or on its way.', 'iminify-image-optimizer' );
 	}
 
@@ -1124,6 +1266,8 @@ class Bulk {
 				return Missing::images( $action, self::PAGE_SIZE, $after );
 			case self::REDO:
 				return Others::with_original( self::PAGE_SIZE, $after );
+			case self::ALT_TEXT:
+				return Records::lacking_alt( self::PAGE_SIZE, $after );
 			default:
 				return self::not_optimized( self::PAGE_SIZE, $after );
 		}
@@ -1150,6 +1294,8 @@ class Bulk {
 				return Records::OPTIMIZED === $status;
 			case self::REDO:
 				return Records::OTHER === $status;
+			case self::ALT_TEXT:
+				return Alt_Text::can_ask( $id, true );
 			default:
 				return ! in_array( $status, array( Records::OPTIMIZED, Records::QUEUED, Records::WAITING, Records::PAUSED, Records::PARKED ), true );
 		}
@@ -1164,6 +1310,10 @@ class Bulk {
 	protected static function can_send( string $action, int $id ): bool {
 		if ( self::REDO === $action ) {
 			return Optimizer::redoable( $id );
+		}
+
+		if ( self::ALT_TEXT === $action ) {
+			return Alt_Text::can_ask( $id, true );
 		}
 
 		if ( ! self::is_fill( $action ) ) {

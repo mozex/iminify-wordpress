@@ -35,6 +35,8 @@ class Site_Record {
 
 	const SIZES_OPTION = 'iminify_site_sizes';
 
+	const ALT_TEXT_OPTION = 'iminify_site_alt_text';
+
 	const TTL = 300;
 
 	/**
@@ -92,6 +94,7 @@ class Site_Record {
 
 		update_option( self::FORMATS_OPTION, array_keys( array_filter( array_intersect_key( $settings, array_flip( array( 'webp', 'avif' ) ) ) ) ), false );
 		update_option( self::SIZES_OPTION, isset( $settings['sizes'] ) && is_array( $settings['sizes'] ) ? $settings['sizes'] : '', false );
+		update_option( self::ALT_TEXT_OPTION, ! empty( $settings['alt_text'] ), false );
 
 		$message = $site['message'] ?? null;
 
@@ -155,6 +158,13 @@ class Site_Record {
 	}
 
 	/**
+	 * Whether the site writes AI alt texts, as the last record read said.
+	 */
+	public static function writes_alt_text(): bool {
+		return (bool) get_option( self::ALT_TEXT_OPTION );
+	}
+
+	/**
 	 * Drops the kept record.
 	 */
 	public static function forget(): void {
@@ -162,5 +172,6 @@ class Site_Record {
 		delete_option( self::MESSAGE_OPTION );
 		delete_option( self::FORMATS_OPTION );
 		delete_option( self::SIZES_OPTION );
+		delete_option( self::ALT_TEXT_OPTION );
 	}
 }

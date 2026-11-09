@@ -11,6 +11,7 @@ use Iminify\WordPress\Admin\Bulk_State;
 use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Missing;
 use Iminify\WordPress\Media\Pause;
@@ -228,6 +229,46 @@ class Cli {
 		}
 
 		$this->begin( $what, array() === $args ? null : $this->ids( $args ), $assoc );
+	}
+
+	/**
+	 * Writes AI alt text for images in the media library that have none.
+	 *
+	 * Each counts as one of the account's AI alt texts for the day; a small copy of
+	 * each is sent, and an alt text anyone wrote is never replaced. The site's AI alt
+	 * text setting has to be on. Once the day's are used up the run goes on by itself
+	 * in the background when they come back.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<id>...]
+	 * : The attachments to write it for.
+	 *
+	 * [--all]
+	 * : Write it for every image with no alt text.
+	 *
+	 * [--background]
+	 * : Start the run and return, leaving it to the site's scheduled tasks.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     $ wp iminify alt-text --all
+	 *     $ wp iminify alt-text 12 34
+	 *
+	 * @subcommand alt-text
+	 *
+	 * @param list<string>         $args  The attachments' ids.
+	 * @param array<string, mixed> $assoc The flags.
+	 */
+	public function alt_text( array $args, array $assoc ): void {
+		$all   = ! empty( $assoc['all'] );
+		$named = array() !== $args;
+
+		if ( $all === $named ) {
+			WP_CLI::error( __( 'Name the attachments, or pass --all.', 'iminify-image-optimizer' ) );
+		}
+
+		$this->begin( Bulk::ALT_TEXT, $all ? null : $this->ids( $args ), $assoc );
 	}
 
 	/**
@@ -491,12 +532,13 @@ class Cli {
 				$shown = $now;
 			}
 
-			$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) );
+			$working = Records::count_with_status( array( Records::QUEUED, Records::WAITING ) ) + Table::count_anywhere( array( Records::QUEUED, Records::WAITING ) ) + Records::count_waiting_for_alt_text();
 
 			$restore = Bulk::RESTORE === $run['action'];
+			$held    = Bulk::ALT_TEXT === $run['action'] && $run['hold'] > time() + MINUTE_IN_SECONDS;
 
-			/* A restore needs neither the connection nor the day, and leaves an image's own run to it. */
-			if ( ! $restore && 0 === $working && Bulk::RUNNING === $run['status'] && $this->waits_long() ) {
+			/* A restore needs neither the connection nor the day, and leaves an image's own run to it. A run holding for its alt texts' day leaves what is on its way to the background, since a shell can't wait a day. */
+			if ( ! $restore && Bulk::RUNNING === $run['status'] && ( $held || ( 0 === $working && $this->waits_long() ) ) ) {
 				$bar->finish();
 				$this->hand_over();
 
@@ -536,6 +578,13 @@ class Cli {
 	 * Whether the run waits on something no shell should sit through.
 	 */
 	protected function waits_long(): bool {
+		$run = Bulk::run();
+
+		/* Writing alt text waits for neither the images' day nor another optimizer. */
+		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] ) {
+			return ! Plugin::connected();
+		}
+
 		return null !== Pause::until() || ! Plugin::connected() || null !== Others::acting() || Records::count_with_status( array( Records::PARKED ) ) + Table::count_anywhere( array( Records::PARKED ) ) > 0;
 	}
 
@@ -544,6 +593,26 @@ class Cli {
 	 */
 	protected function hand_over(): void {
 		Bulk::switch_mode( Bulk::BACKGROUND );
+
+		$run = Bulk::run();
+
+		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] && Alt_Text::CONNECTION === $run['reason'] && $run['hold'] > time() ) {
+			WP_CLI::warning( __( 'The run waits for this site\'s connection to Iminify, and goes on in the background once it works.', 'iminify-image-optimizer' ) );
+
+			return;
+		}
+
+		if ( null !== $run && Bulk::ALT_TEXT === $run['action'] && $run['hold'] > time() ) {
+			WP_CLI::warning(
+				sprintf(
+					/* translators: %s: the date and time the alt texts come back. */
+					__( 'The account\'s AI alt texts for the day are used up. The run goes on in the background when they come back on %s.', 'iminify-image-optimizer' ),
+					(string) Admin\State::date( gmdate( 'c', $run['hold'] ) )
+				)
+			);
+
+			return;
+		}
 
 		$acting = Others::acting();
 
@@ -619,6 +688,14 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.', '%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.', $run['passed'], 'iminify-image-optimizer' ),
+					number_format_i18n( $run['passed'] )
+				)
+			);
+		} elseif ( $run['passed'] > 0 && Bulk::ALT_TEXT === $run['action'] ) {
+			WP_CLI::warning(
+				sprintf(
+					/* translators: %s: how many images. */
+					_n( '%s image was left as it is: it shares its files with another attachment, or has alt text by now.', '%s images were left as they are: they share their files with another attachment, or have alt text by now.', $run['passed'], 'iminify-image-optimizer' ),
 					number_format_i18n( $run['passed'] )
 				)
 			);

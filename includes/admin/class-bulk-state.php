@@ -13,6 +13,7 @@ use Iminify\WordPress\Folders\Folders;
 use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Queue;
@@ -84,6 +85,7 @@ class Bulk_State {
 				'before'  => size_format( $saved['before'], 1 ),
 				'percent' => number_format_i18n( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
 			) : null,
+			'alt_text'      => self::alt_text(),
 			'others'        => self::others(),
 			'conflict'      => self::conflict(),
 			'putback'       => self::puts_back(),
@@ -143,6 +145,21 @@ class Bulk_State {
 		$state['queue'] = Queue::summary();
 
 		return $state;
+	}
+
+	/**
+	 * Whether the site writes alt texts, and how many are left of the day, as the service last said.
+	 *
+	 * @return array{on: bool, remaining: string|null}
+	 */
+	protected static function alt_text(): array {
+		$site = Site_Record::cached();
+		$left = is_array( $site ) ? ( $site['usage']['alt_texts']['remaining'] ?? null ) : null;
+
+		return array(
+			'on'        => Alt_Text::on(),
+			'remaining' => null === $left ? null : number_format_i18n( (int) $left ),
+		);
 	}
 
 	/**

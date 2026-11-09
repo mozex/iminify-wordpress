@@ -66,6 +66,7 @@ Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes or the server's memory can send), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
 * when you turn on "Write alt text with AI" in the settings, a request for an alt text with each image that has none, and the language you chose. Iminify makes a copy of the image at most 768 pixels on its longest side, and sends it to Anthropic, whose model writes the text;
+* when you ask for alt text for images already in the media library (in an image's panel, on the bulk page or with WP-CLI), a small copy of each image that has no alt text, which Iminify sends on to Anthropic the same way;
 * each image in the folders you choose under Media, Other Folders, with its file name, dimensions and file size, the same way. The folders' paths and the other files in them never leave your site;
 * your site's home address and the plugin's version, with every call;
 * on a multisite network connected as one, each site's home address and name, with the network's key, the first time that site needs Iminify, so it gets a key of its own;

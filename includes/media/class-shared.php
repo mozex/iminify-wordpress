@@ -212,6 +212,11 @@ class Shared {
 					)
 				);
 			}
+
+			/* Set aside as another's translation, it may now hold the files itself. */
+			if ( Alt_Text::SHARED === ( $record['alt']['status'] ?? null ) ) {
+				Records::update( $other, array( 'alt' => null ) );
+			}
 		}
 
 		$next = self::first_holder( $others );

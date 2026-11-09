@@ -276,6 +276,39 @@ class Client {
 	}
 
 	/**
+	 * Asks for an alt text from a small copy of an image the site optimized earlier.
+	 *
+	 * @param string $path The file on this server.
+	 * @param string $type Its MIME type.
+	 * @return array<string, mixed>|WP_Error The record to poll, or the text.
+	 */
+	public function write_alt_text( string $path, string $type ) {
+		return $this->data(
+			$this->request(
+				'POST',
+				'site/alt-text',
+				array(
+					'file'    => array(
+						'path' => $path,
+						'type' => $type,
+					),
+					'timeout' => self::TRANSFER_TIMEOUT,
+				)
+			)
+		);
+	}
+
+	/**
+	 * Reads the record of a small copy's alt text.
+	 *
+	 * @param string $id The record's id.
+	 * @return array<string, mixed>|WP_Error
+	 */
+	public function alt_text( string $id ) {
+		return $this->data( $this->request( 'GET', 'site/alt-text/' . rawurlencode( $id ) ) );
+	}
+
+	/**
 	 * Downloads a finished group's zip into a file on this server.
 	 *
 	 * @param string $group       The group's id.

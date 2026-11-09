@@ -135,6 +135,15 @@ class Media_View {
 	}
 
 	/**
+	 * Whether the script keeps asking after an attachment: it is on its way, or its AI alt text is.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function is_awaited( int $attachment ): bool {
+		return self::is_busy( $attachment ) || in_array( Alt_Text::status( Records::get( $attachment )['alt'] ), Alt_Text::ON_ITS_WAY, true );
+	}
+
+	/**
 	 * Adds the actions an attachment has to its row in the list view.
 	 *
 	 * @param array<string, string> $actions The row's actions.
@@ -424,7 +433,7 @@ class Media_View {
 			'<div class="iminify-media" data-iminify-media="%d" data-iminify-view="%s"%s>%s</div>',
 			$attachment,
 			esc_attr( $view ),
-			self::is_busy( $attachment ) ? ' data-iminify-busy="1"' : '',
+			self::is_awaited( $attachment ) ? ' data-iminify-busy="1"' : '',
 			$content
 		);
 	}
@@ -439,7 +448,7 @@ class Media_View {
 		$other  = self::other( $attachment );
 
 		if ( null !== $other ) {
-			return self::other_summary( $other ) . self::taken_detail( $record );
+			return self::other_summary( $other ) . self::alt_detail( $record ) . self::taken_detail( $record );
 		}
 
 		$away = Others::away( $attachment );
@@ -692,6 +701,7 @@ class Media_View {
 	 */
 	protected static function alt_detail( array $record ): string {
 		$labels = array(
+			Alt_Text::QUEUED  => __( 'Alt text: being written.', 'iminify-image-optimizer' ),
 			Alt_Text::WAITING => __( 'Alt text: being written.', 'iminify-image-optimizer' ),
 			Alt_Text::WRITTEN => __( 'Alt text: written by Iminify.', 'iminify-image-optimizer' ),
 			Alt_Text::KEPT    => __( 'Alt text: yours was kept.', 'iminify-image-optimizer' ),
@@ -830,6 +840,28 @@ class Media_View {
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function actions( int $attachment ): string {
+		return self::file_actions( $attachment ) . self::alt_action( $attachment );
+	}
+
+	/**
+	 * The press that asks for an AI alt text, for an image with none.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function alt_action( int $attachment ): string {
+		if ( ! Plugin::connected() || ! Alt_Text::on() || ! Alt_Text::can_ask( $attachment ) ) {
+			return '';
+		}
+
+		return '<p class="iminify-actions">' . self::button( $attachment, 'alt-text', __( 'Write alt text with AI', 'iminify-image-optimizer' ), __( 'Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day.', 'iminify-image-optimizer' ), '', __( 'Write alt text', 'iminify-image-optimizer' ) ) . '</p>';
+	}
+
+	/**
+	 * The presses that work on an attachment's files.
+	 *
+	 * @param int $attachment The attachment's id.
+	 */
+	protected static function file_actions( int $attachment ): string {
 		if ( self::is_busy( $attachment ) ) {
 			return '';
 		}

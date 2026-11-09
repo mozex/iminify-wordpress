@@ -126,7 +126,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, alt: array{status: string, group: string|null, since: int, language: string|null}|null, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, alt: array{status: string, group: string|null, request: string|null, since: int, language: string|null, tries: int}|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -192,7 +192,7 @@ class Records {
 	 * Where an AI alt text stands, as a record keeps it, or null when none was asked for (`Alt_Text`).
 	 *
 	 * @param mixed $alt The record's `alt`.
-	 * @return array{status: string, group: string|null, since: int, language: string|null}|null
+	 * @return array{status: string, group: string|null, request: string|null, since: int, language: string|null, tries: int}|null
 	 */
 	protected static function alt( $alt ): ?array {
 		if ( ! is_array( $alt ) || empty( $alt['status'] ) || ! is_string( $alt['status'] ) ) {
@@ -202,8 +202,10 @@ class Records {
 		return array(
 			'status'   => $alt['status'],
 			'group'    => isset( $alt['group'] ) && is_string( $alt['group'] ) ? $alt['group'] : null,
+			'request'  => isset( $alt['request'] ) && is_string( $alt['request'] ) ? $alt['request'] : null,
 			'since'    => (int) ( $alt['since'] ?? 0 ),
 			'language' => isset( $alt['language'] ) && is_string( $alt['language'] ) ? $alt['language'] : null,
+			'tries'    => (int) ( $alt['tries'] ?? 0 ),
 		);
 	}
 
@@ -424,7 +426,7 @@ class Records {
 	}
 
 	/**
-	 * The attachments whose AI alt text is on its way, in the order of their ids.
+	 * The attachments whose AI alt text is on its way, waiting to go out or to come back, in the order of their ids.
 	 *
 	 * @param int $limit How many at most.
 	 * @param int $after The id to start after.
@@ -434,9 +436,55 @@ class Records {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a background read by the meta_key index.
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s AND post_id > %d ORDER BY post_id ASC LIMIT %d", self::ALT_META, Alt_Text::WAITING, $after, $limit ) );
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN (%s, %s) AND post_id > %d ORDER BY post_id ASC LIMIT %d", self::ALT_META, Alt_Text::QUEUED, Alt_Text::WAITING, $after, $limit ) );
 
 		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * How many attachments' AI alt text is on its way, for a page's poll.
+	 */
+	public static function count_waiting_for_alt_text(): int {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a count by the meta_key index.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN (%s, %s)", self::ALT_META, Alt_Text::QUEUED, Alt_Text::WAITING ) );
+	}
+
+	/**
+	 * A page of the images a bulk run could ask an alt text for, in the order of their
+	 * ids: those with an empty alt, leaving out what is on its way already (a text being
+	 * written, a translation set aside, or the image's own optimization, whose group
+	 * will ask for one by itself). A translation still reads here until a run has
+	 * looked at it, since only that finds out which attachment holds the files.
+	 *
+	 * @param int $limit How many at most.
+	 * @param int $after The id to start after.
+	 * @return list<int>
+	 */
+	public static function lacking_alt( int $limit, int $after = 0 ): array {
+		global $wpdb;
+
+		$types = Declaration::MIME_TYPES;
+		$in    = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a background read by the primary key; one placeholder per type, built above.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} a ON a.post_id = p.ID AND a.meta_key = %s LEFT JOIN {$wpdb->postmeta} s ON s.post_id = p.ID AND s.meta_key = %s LEFT JOIN {$wpdb->postmeta} r ON r.post_id = p.ID AND r.meta_key = %s WHERE p.post_type = 'attachment' AND p.post_status <> 'trash' AND p.post_mime_type IN ({$in}) AND ( a.meta_id IS NULL OR TRIM(a.meta_value) = '' ) AND ( s.meta_id IS NULL OR s.meta_value NOT IN (%s, %s, %s) ) AND ( r.meta_id IS NULL OR r.meta_value NOT IN (%s, %s, %s, %s) ) AND p.ID > %d ORDER BY p.ID ASC LIMIT %d", array_merge( array( Alt_Text::META, self::ALT_META, self::STATUS_META ), $types, array( Alt_Text::QUEUED, Alt_Text::WAITING, Alt_Text::SHARED ), array( self::QUEUED, self::WAITING, self::PAUSED, self::PARKED ), array( $after, $limit ) ) ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * How many images `lacking_alt()` finds.
+	 */
+	public static function count_lacking_alt(): int {
+		global $wpdb;
+
+		$types = Declaration::MIME_TYPES;
+		$in    = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a count on the plugin's own page; one placeholder per type, built above.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} a ON a.post_id = p.ID AND a.meta_key = %s LEFT JOIN {$wpdb->postmeta} s ON s.post_id = p.ID AND s.meta_key = %s LEFT JOIN {$wpdb->postmeta} r ON r.post_id = p.ID AND r.meta_key = %s WHERE p.post_type = 'attachment' AND p.post_status <> 'trash' AND p.post_mime_type IN ({$in}) AND ( a.meta_id IS NULL OR TRIM(a.meta_value) = '' ) AND ( s.meta_id IS NULL OR s.meta_value NOT IN (%s, %s, %s) ) AND ( r.meta_id IS NULL OR r.meta_value NOT IN (%s, %s, %s, %s) )", array_merge( array( Alt_Text::META, self::ALT_META, self::STATUS_META ), $types, array( Alt_Text::QUEUED, Alt_Text::WAITING, Alt_Text::SHARED ), array( self::QUEUED, self::WAITING, self::PAUSED, self::PARKED ) ) ) );
 	}
 
 	/**

@@ -230,6 +230,44 @@ class CliTest extends WP_UnitTestCase {
 		$this->assertFalse( Optimizer::has_run( $one ), 'Nothing was queued only to wait.' );
 	}
 
+	public function test_alt_text_sends_the_images_named_and_leaves_a_spent_day_to_the_sites_tasks(): void {
+		$site = Api_Stub::fixture( 'site' );
+
+		$site['data']['settings']['alt_text']           = true;
+		$site['data']['settings']['optimize_on_upload'] = false;
+
+		$this->api->on( 'GET', 'site', 200, $site );
+		Site_Record::forget();
+		Site_Record::fetch();
+		$this->api->on(
+			'POST',
+			'site/alt-text',
+			429,
+			array(
+				'message' => 'Spent.',
+				'code'    => 'daily_limit_reached',
+			),
+			array( 'Retry-After' => '3600' )
+		);
+
+		$id = $this->fresh();
+
+		$this->cli->alt_text( array( (string) $id ), array() );
+
+		$this->assertSame( Bulk::ALT_TEXT, Bulk::run()['action'] );
+		$this->assertSame( Bulk::BACKGROUND, Bulk::run()['mode'] );
+		$this->assertCount( 1, $this->api->calls( 'POST', 'site/alt-text' ), 'The page\'s step ran the send.' );
+		$this->assertSame( 'warning', end( WP_CLI::$lines )[0] );
+		$this->assertStringContainsString( 'AI alt texts for the day', end( WP_CLI::$lines )[1] );
+		$this->assertLessThan( 5, $this->cli->looks, 'It waited for nothing.' );
+	}
+
+	public function test_alt_text_needs_ids_or_all(): void {
+		$this->expectException( RuntimeException::class );
+
+		$this->cli->alt_text( array(), array() );
+	}
+
 	public function test_a_run_stopped_from_the_page_while_a_look_is_under_way_is_never_written_back_as_running(): void {
 		$one = $this->fresh();
 

@@ -86,7 +86,9 @@ export default function App() {
 	const going = state?.run?.status === 'running';
 	const pageMode = state?.run?.mode === 'page';
 	/* A run in this page's mode is driven from here while it goes on, and after a pause or a stop until what it sent is back. */
-	const driving = pageMode && ( going || state?.queue?.working > 0 );
+	const driving =
+		pageMode &&
+		( going || state?.queue?.working > 0 || state?.queue?.alt_texts > 0 );
 	const reading = going && ! pageMode;
 
 	useEffect( () => {
@@ -118,7 +120,8 @@ export default function App() {
 						const goesOn =
 							now?.mode === 'page'
 								? now.status === 'running' ||
-									answer.queue?.working > 0
+									answer.queue?.working > 0 ||
+									answer.queue?.alt_texts > 0
 								: now?.status === 'running';
 
 						if ( ! goesOn ) {
@@ -235,6 +238,13 @@ export default function App() {
 					) }
 					{ ! active && state.connected && (
 						<Lacking
+							state={ state }
+							busy={ busy }
+							onStart={ start }
+						/>
+					) }
+					{ ! active && state.connected && (
+						<AltTexts
 							state={ state }
 							busy={ busy }
 							onStart={ start }
@@ -444,6 +454,17 @@ function othersLine( other ) {
 }
 
 /**
+ * Whether a run goes on through the account's images being spent: restoring needs
+ * no day, and alt texts have a day of their own.
+ *
+ * @param {Object} run The run.
+ * @return {boolean} Whether it does.
+ */
+function ignoresDay( run ) {
+	return 'restore' === run.action || 'alt_text' === run.action;
+}
+
+/**
  * The run's chip: its state in a word or two, with a tone and an icon.
  *
  * @param {Object} run   The run.
@@ -500,12 +521,23 @@ function chipFor( run, queue ) {
 		};
 	}
 
-	if ( queue.next_batch && 'restore' !== run.action ) {
+	if ( queue.next_batch && ! ignoresDay( run ) ) {
 		return {
 			label: __(
 				'Waiting for the next batch',
 				'iminify-image-optimizer'
 			),
+			tone: 'info',
+			icon: 'clock',
+		};
+	}
+
+	if ( run.held && 'alt_text' === run.action ) {
+		return {
+			label:
+				'connection' === run.reason
+					? __( 'Waiting for the site', 'iminify-image-optimizer' )
+					: __( 'Used up for today', 'iminify-image-optimizer' ),
 			tone: 'info',
 			icon: 'clock',
 		};
@@ -554,6 +586,8 @@ function runTitle( action, scope ) {
 	switch ( action ) {
 		case 'restore':
 			return __( 'Restoring', 'iminify-image-optimizer' );
+		case 'alt_text':
+			return __( 'Writing alt text', 'iminify-image-optimizer' );
 		case 'formats':
 			return __(
 				'Making the missing formats',
@@ -591,7 +625,7 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 		'running' === run.status &&
 		! run.stalled &&
 		! run.held &&
-		! ( queue.next_batch && ! restore );
+		! ( queue.next_batch && ! ignoresDay( run ) );
 	const percent = run.total
 		? Math.min( 100, Math.round( ( run.sent / run.total ) * 100 ) )
 		: 0;
@@ -792,6 +826,16 @@ function runStatus( run, queue ) {
 			];
 		}
 
+		if ( 'alt_text' === run.action ) {
+			return [
+				'check',
+				__(
+					'Finished: each image shows how its alt text came out in the media library.',
+					'iminify-image-optimizer'
+				),
+			];
+		}
+
 		return [
 			'check',
 			0 === run.sent
@@ -866,7 +910,7 @@ function runStatus( run, queue ) {
 		];
 	}
 
-	if ( queue.next_batch && 'restore' !== run.action ) {
+	if ( queue.next_batch && ! ignoresDay( run ) ) {
 		return [
 			'clock',
 			sprintf(
@@ -876,6 +920,34 @@ function runStatus( run, queue ) {
 					'iminify-image-optimizer'
 				),
 				queue.next_batch
+			),
+		];
+	}
+
+	if (
+		run.held &&
+		'alt_text' === run.action &&
+		'connection' === run.reason
+	) {
+		return [
+			'alert',
+			__(
+				"Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works.",
+				'iminify-image-optimizer'
+			),
+		];
+	}
+
+	if ( run.held && 'alt_text' === run.action ) {
+		return [
+			'clock',
+			sprintf(
+				/* translators: %s: the date and time the alt texts come back. */
+				__(
+					"Your account's AI alt texts for the day are used up. The run goes on by itself at %s.",
+					'iminify-image-optimizer'
+				),
+				run.held
 			),
 		];
 	}
@@ -1213,16 +1285,75 @@ function Lacking( { state, busy, onStart } ) {
 }
 
 /**
- * One thing the optimized images lack.
+ * The images with no alt text, written from a small copy of each. A panel only
+ * while the site writes them and some have none.
  *
  * @param {Object}                   props         The component's props.
- * @param {string}                   props.action  The run that makes it.
- * @param {boolean}                  props.busy    Whether the press is off.
- * @param {string}                   props.text    What is lacking.
- * @param {string}                   props.label   The press's words.
+ * @param {Object}                   props.state   The page's state.
+ * @param {boolean}                  props.busy    Whether a press is on its way.
  * @param {(action: string) => void} props.onStart Starts the run.
  */
-function LackingRow( { action, busy, text, label, onStart } ) {
+function AltTexts( { state, busy, onStart } ) {
+	const { counts, numbers, alt_text: altText } = state;
+
+	if ( ! altText?.on || 0 === counts.alt_text ) {
+		return null;
+	}
+
+	return (
+		<Panel>
+			<h2>{ __( 'Alt text', 'iminify-image-optimizer' ) }</h2>
+			<LackingRow
+				action="alt_text"
+				busy={ busy }
+				text={ sprintf(
+					/* translators: %s: how many images. */
+					_n(
+						'%s image has no alt text.',
+						'%s images have no alt text.',
+						counts.alt_text,
+						'iminify-image-optimizer'
+					),
+					numbers.alt_text
+				) }
+				label={ __(
+					'Write alt text with AI',
+					'iminify-image-optimizer'
+				) }
+				question={ __(
+					'Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced.',
+					'iminify-image-optimizer'
+				) }
+				onStart={ onStart }
+			/>
+			{ null !== altText.remaining && (
+				<p className="iminify-text">
+					{ sprintf(
+						/* translators: %s: how many AI alt texts are left today. */
+						__(
+							'%s AI alt texts left today.',
+							'iminify-image-optimizer'
+						),
+						altText.remaining
+					) }
+				</p>
+			) }
+		</Panel>
+	);
+}
+
+/**
+ * One thing the optimized images lack.
+ *
+ * @param {Object}                   props            The component's props.
+ * @param {string}                   props.action     The run that makes it.
+ * @param {boolean}                  props.busy       Whether the press is off.
+ * @param {string}                   props.text       What is lacking.
+ * @param {string}                   props.label      The press's words.
+ * @param {string}                   [props.question] What to ask first, in place of the question about sending images again.
+ * @param {(action: string) => void} props.onStart    Starts the run.
+ */
+function LackingRow( { action, busy, text, label, question, onStart } ) {
 	const { asking, open, close, opener } = useAsk();
 
 	return (
@@ -1230,10 +1361,13 @@ function LackingRow( { action, busy, text, label, onStart } ) {
 			<p className="iminify-text">{ text }</p>
 			{ asking ? (
 				<Confirm
-					question={ __(
-						'Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller.',
-						'iminify-image-optimizer'
-					) }
+					question={
+						question ??
+						__(
+							'Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller.',
+							'iminify-image-optimizer'
+						)
+					}
 					yes={ label }
 					busy={ busy }
 					onYes={ () => {
@@ -1271,6 +1405,19 @@ function passedOver( run ) {
 			_n(
 				'%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back.',
 				'%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back.',
+				run.passed,
+				'iminify-image-optimizer'
+			),
+			formatNumber( run.passed )
+		);
+	}
+
+	if ( 'alt_text' === run.action ) {
+		return sprintf(
+			/* translators: %s: how many images. */
+			_n(
+				'%s image was left as it is: it shares its files with another attachment, or has alt text by now.',
+				'%s images were left as they are: they share their files with another attachment, or have alt text by now.',
 				run.passed,
 				'iminify-image-optimizer'
 			),

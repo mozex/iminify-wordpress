@@ -20,6 +20,7 @@
             { "code": "en", "name": "English" },
             { "code": "fr", "name": "French" }
         ],
+        "alt_text_source": { "side": 768, "max_bytes": 5242880, "max_side": 4096 },
         "plan": "free",
         "plan_ends_at": null,
         "max_file_size": 16777216,

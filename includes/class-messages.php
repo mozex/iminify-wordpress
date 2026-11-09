@@ -103,6 +103,8 @@ class Messages {
 					: __( 'Iminify asked the plugin to wait. Try again later.', 'iminify-image-optimizer' );
 			case 'pairing_closed':
 				return __( 'The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again.', 'iminify-image-optimizer' );
+			case 'site_alt_text_off':
+				return __( 'AI alt text is off for this site. Turn it on in the plugin\'s settings first.', 'iminify-image-optimizer' );
 			case 'network_required':
 				return __( 'The network\'s key was made for a single site, so the network\'s sites can\'t join with it. A super admin connects the network again from the network admin.', 'iminify-image-optimizer' );
 			case 'network_full':
