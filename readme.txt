@@ -19,9 +19,11 @@ If you turn AVIF on after optimizing your library, or a theme adds an image size
 
 Images outside the media library, such as your theme's, go through Media, Other Folders. Choose the active theme, its parent, or any folder in wp-content by its path, and the plugin lists the images in it. Each is optimized where it is, keeping its width and height whatever your maximum width says, with its original kept under uploads/iminify-backup-folders. The bulk page optimizes or restores them all in a run of their own. The plugin looks through the folders again after a theme or plugin update, so a changed file reads as not optimized and is never restored over. On a network, the main site chooses the folders for every site.
 
+Media, Page Audit has Iminify open one of your pages as a visitor would and list every image it shows, each beside the image and size in your media library it is. It names what slows the page down, such as an image twice as wide as the space it fills, one with no width and height, no alt text, or loaded lazily in the first screen, with the fix for each. When a firewall or a bot check turns the scanner away, the page says how to let it through. Each audit counts as one of your account's page scans for the day.
+
 For large libraries and hosts whose scheduled tasks don't run, `wp iminify optimize --all` runs the same bulk run from the shell, with a progress bar, and `wp iminify optimize --folders` does it for the folders you chose with `wp iminify folders add`. `wp help iminify` lists the rest: restore, missing, folders, status, run and stop.
 
-Administrators reach the settings, the bulk page and the other folders (on a network, super admins choose the folders). Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
+Administrators reach the settings, the bulk page, the page audit and the other folders (on a network, super admins choose the folders). Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
 
 On a multisite network, activate the plugin for the network and a super admin connects the whole network once, under Network Admin, Settings, Iminify. Each site then joins by itself the first time it needs Iminify, with a key of its own, and keeps its own settings, bulk page and backups. A site can connect to an account of its own instead, and a site disconnected on its own page stays out until someone presses Join the network there. Turning the plugin off for the network, or deleting it, does it on every site.
 
@@ -39,7 +41,7 @@ Where WordPress sends over cURL, as nearly every host does, originals go to Imin
 
 The plugin has sixteen hooks:
 
-* `iminify_capability` (filter): the capability each part asks for.
+* `iminify_capability` (filter): the capability each part asks for, given `settings`, `bulk`, `media`, `folders`, `audit` or `network`.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
 * `iminify_optimize_file` (filter): return false to keep a file in another folder from ever being sent; it gets the file's path in wp-content.
 * `iminify_disk_free_space` (filter): the free bytes the plugin reads, for a host whose real limit is a quota.
@@ -70,6 +72,7 @@ Once the site is connected, the plugin sends Iminify, from your site's server:
 * each image in the folders you choose under Media, Other Folders, with its file name, dimensions and file size, the same way. The folders' paths and the other files in them never leave your site;
 * your site's home address and the plugin's version, with every call;
 * on a multisite network connected as one, each site's home address and name, with the network's key, the first time that site needs Iminify, so it gets a key of its own;
+* the address of each page you scan under Media, Page Audit. Iminify opens that page as any visitor could, measures the images it shows and keeps what it found with your site's connection;
 * how many images on your site aren't optimized yet, and how many files they make, when you open the bulk page or start or stop a run there, so Iminify can say how long they take on your plan;
 * the settings you choose on the plugin's settings page, which Iminify keeps for your site;
 * when you press "Use <plugin>'s settings" on the settings page, the settings another image optimizer kept on your site (only those Iminify has a match for, never that optimizer's own keys or tokens), that optimizer's name and the names of the image sizes your site makes. Iminify answers with the settings they match and keeps none of it, and nothing changes until you confirm them;

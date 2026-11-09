@@ -38,7 +38,17 @@ class Audit_Controller {
 	 * Registers the routes.
 	 */
 	public function register_routes(): void {
-		$this->route( '', WP_REST_Server::READABLE, 'state' );
+		$this->route(
+			'',
+			WP_REST_Server::READABLE,
+			'state',
+			array(
+				'audit' => array(
+					'type'    => 'string',
+					'pattern' => '^' . self::ID . '$',
+				),
+			)
+		);
 		$this->route(
 			'',
 			WP_REST_Server::CREATABLE,
@@ -62,15 +72,21 @@ class Audit_Controller {
 	}
 
 	/**
-	 * The screen's state, with the site's newest audit open.
+	 * The screen's state, with the audit `audit` names open, else the site's newest.
+	 *
+	 * @param WP_REST_Request $request The request.
 	 */
-	public function state(): WP_REST_Response {
-		return new WP_REST_Response( Audit_State::build() );
+	public function state( WP_REST_Request $request ): WP_REST_Response {
+		$audit = $request->get_param( 'audit' );
+
+		return new WP_REST_Response( Audit_State::build( is_string( $audit ) && '' !== $audit ? $audit : null ) );
 	}
 
 	/**
 	 * Asks Iminify to audit a page of the site, and answers the state with
-	 * that audit open.
+	 * that audit open. A site no longer connected (its key forgotten by
+	 * another request, or one Iminify stopped) answers the state that says
+	 * so, which the screen draws in place of the audit.
 	 *
 	 * @param WP_REST_Request $request The request.
 	 * @return WP_REST_Response|WP_Error
@@ -79,7 +95,7 @@ class Audit_Controller {
 		$client = Plugin::client();
 
 		if ( null === $client ) {
-			return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			return new WP_REST_Response( Audit_State::build() );
 		}
 
 		$audit = $client->start_audit( (string) $request->get_param( 'url' ) );
@@ -95,7 +111,8 @@ class Audit_Controller {
 	}
 
 	/**
-	 * One audit, for the screen to poll while it runs.
+	 * One audit, for the screen to poll while it runs, or the screen's whole
+	 * state once the site is no longer connected, as for a start.
 	 *
 	 * @param WP_REST_Request $request The request.
 	 * @return WP_REST_Response|WP_Error
@@ -104,7 +121,7 @@ class Audit_Controller {
 		$client = Plugin::client();
 
 		if ( null === $client ) {
-			return new WP_Error( 'not_connected', __( 'This site isn\'t connected to Iminify.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+			return new WP_REST_Response( Audit_State::build() );
 		}
 
 		$audit = Audit_State::audit( $client, (string) $request->get_param( 'id' ) );

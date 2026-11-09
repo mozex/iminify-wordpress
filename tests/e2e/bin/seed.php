@@ -11,6 +11,7 @@
  *   optimized  adds an image the plugin optimized, with WebP copies, a post showing it and one showing it in raw HTML; prints its id and the posts' addresses
  *   paused     marks the image given in the JSON (`{"id": N}`) as waiting for the next batch, with the pause a refusal starts
  *   record     prints the record of the image given in the JSON
+ *   audit-images  adds an image the plugin hasn't handled and points the stubbed audit's first three images at its main file, its medium size's WebP copy and its thumbnail; prints its id
  *   fresh      adds images the plugin hasn't handled (`{"count": N}`, 2 by default); prints their ids
  *   folder     makes a folder in wp-content with images the plugin hasn't handled (`{"count": N}`, 2 by default); prints its path there
  *   files      prints the rows of the files in the chosen folders, as JSON
@@ -201,6 +202,62 @@ switch ( $command ) {
 		Records::wait( (int) $given['id'], Records::PAUSED, 'daily_limit_reached', 'Waiting for the next batch.' );
 		Pause::begin( time() + HOUR_IN_SECONDS, Pause::FROM_REFUSAL, 'free' );
 		echo "paused\n";
+		break;
+
+	case 'audit-images':
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+
+		$canvas = imagecreatetruecolor( 800, 500 );
+
+		for ( $row = 0; $row < 500; $row++ ) {
+			imageline( $canvas, 0, $row, 799, $row, (int) imagecolorallocate( $canvas, 60 + (int) ( $row / 4 ), 150, 230 - (int) ( $row / 4 ) ) );
+		}
+
+		$source = get_temp_dir() . 'iminify-e2e-audited.jpg';
+		imagejpeg( $canvas, $source, 90 );
+
+		$audited = media_handle_sideload(
+			array(
+				'name'     => 'iminify-e2e-audited.jpg',
+				'tmp_name' => $source,
+			)
+		);
+
+		if ( is_wp_error( $audited ) ) {
+			echo 'error: ' . esc_html( $audited->get_error_message() ) . '
+';
+			break;
+		}
+
+		Optimizer::cancel( $audited );
+
+		foreach ( Records::ALL_META as $key ) {
+			delete_post_meta( $audited, $key );
+		}
+
+		$sizes = wp_get_attachment_metadata( $audited )['sizes'];
+		$base  = dirname( (string) wp_get_attachment_url( $audited ) );
+
+		update_option(
+			'iminify_e2e_state',
+			array_merge(
+				(array) get_option( 'iminify_e2e_state', array() ),
+				array(
+					'audit_images' => array(
+						(string) wp_get_attachment_url( $audited ),
+						$base . '/' . $sizes['medium']['file'] . '.webp',
+						$base . '/' . $sizes['thumbnail']['file'],
+						home_url( '/wp-content/themes/twentytwentyfive/assets/logo.png' ),
+					),
+				)
+			),
+			false
+		);
+
+		echo (int) $audited . '
+';
 		break;
 
 	case 'fresh':

@@ -41,6 +41,35 @@ class Findings {
 	}
 
 	/**
+	 * What to do about a finding, in the plugin's words for the fix Iminify
+	 * suggests, or null for a fix it doesn't know.
+	 *
+	 * @param string   $fix         The fix's code.
+	 * @param int|null $serve_width For a smaller size, the width it should be, twice the width it is shown at.
+	 */
+	public static function fix( string $fix, ?int $serve_width = null ): ?string {
+		switch ( $fix ) {
+			case 'smaller_size':
+				return null === $serve_width
+					? __( 'Show a smaller size of the image here.', 'iminify-image-optimizer' )
+					/* translators: %s: a width in pixels, such as 1,280. */
+					: sprintf( __( 'Show a size about %s pixels wide here, twice the width it takes on the page.', 'iminify-image-optimizer' ), number_format_i18n( $serve_width ) );
+			case 'add_dimensions':
+				return __( 'Give the image its width and height in the page.', 'iminify-image-optimizer' );
+			case 'write_alt_text':
+				return __( 'Write alt text for the image.', 'iminify-image-optimizer' );
+			case 'load_at_once':
+				return __( 'Load the image straight away, not lazily.', 'iminify-image-optimizer' );
+			case 'load_lazily':
+				return __( 'Load the image lazily, once a visitor scrolls near it.', 'iminify-image-optimizer' );
+			case 'prioritize':
+				return __( 'Have the browser fetch the image first.', 'iminify-image-optimizer' );
+			default:
+				return null;
+		}
+	}
+
+	/**
 	 * Why a page could not be read, with the plugin's words for a code it knows.
 	 *
 	 * @param mixed $problem The audit's `problem`.

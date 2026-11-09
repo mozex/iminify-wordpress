@@ -7,7 +7,9 @@ import apiFetch from '@wordpress/api-fetch';
 const BASE = '/iminify/v1';
 
 /**
- * Calls one of the routes and answers its JSON, or throws `{ message, errors }`.
+ * Calls one of the routes and answers its JSON, or throws `{ code, message,
+ * errors, retryAfter }`, `retryAfter` being the seconds Iminify asked to wait,
+ * or null.
  *
  * @param {string} path   The route under the plugin's namespace.
  * @param {string} method The HTTP method.
@@ -16,10 +18,13 @@ const BASE = '/iminify/v1';
  */
 export function call( path, method = 'GET', data = undefined ) {
 	return apiFetch( { path: BASE + path, method, data } ).catch( ( error ) => {
+		const wait = Number( error?.data?.retry_after );
+
 		throw {
 			code: error?.code ?? 'unknown',
 			message: error?.message ?? '',
 			errors: error?.data?.errors ?? {},
+			retryAfter: wait > 0 ? wait : null,
 		};
 	} );
 }

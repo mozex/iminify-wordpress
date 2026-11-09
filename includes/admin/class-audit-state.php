@@ -52,6 +52,9 @@ class Audit_State {
 			'audit'     => null,
 			'error'     => null,
 			'revoked'   => false,
+			'links'     => array(
+				'settings' => Settings_Page::url(),
+			),
 		);
 
 		$client = Plugin::client();
@@ -149,10 +152,11 @@ class Audit_State {
 
 		foreach ( $images as $image ) {
 			$url    = self::url_of( $image );
+			$wide   = self::number( $image['serve_width'] ?? null );
 			$rows[] = array(
 				'url'             => $url,
-				'findings'        => array_values( array_filter( array_map( array( Findings::class, 'finding' ), isset( $image['findings'] ) && is_array( $image['findings'] ) ? $image['findings'] : array() ) ) ),
-				'serve_width'     => self::number( $image['serve_width'] ?? null ),
+				'findings'        => self::findings( $image, $wide ),
+				'serve_width'     => $wide,
 				'rendered_width'  => self::number( $image['rendered_width'] ?? null ),
 				'rendered_height' => self::number( $image['rendered_height'] ?? null ),
 				'natural_width'   => self::number( $image['natural_width'] ?? null ),
@@ -178,6 +182,27 @@ class Audit_State {
 				),
 			)
 		);
+	}
+
+	/**
+	 * An image's findings in the plugin's words, each with the words for its fix.
+	 *
+	 * @param array<string, mixed> $image       An image of the audit.
+	 * @param int|null             $serve_width For an oversized image, the width to show.
+	 * @return list<array{code: string, fix: string, label: string, message: string, fix_text: string|null}>
+	 */
+	protected static function findings( array $image, ?int $serve_width ): array {
+		$rows = array();
+
+		foreach ( isset( $image['findings'] ) && is_array( $image['findings'] ) ? $image['findings'] : array() as $finding ) {
+			$finding = Findings::finding( $finding );
+
+			if ( null !== $finding ) {
+				$rows[] = array_merge( $finding, array( 'fix_text' => Findings::fix( $finding['fix'], $serve_width ) ) );
+			}
+		}
+
+		return $rows;
 	}
 
 	/**

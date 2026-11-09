@@ -600,3 +600,271 @@
 .iminify-file--one .iminify-file__actions {
 	grid-row: 1;
 }
+
+/* A select of the design's own, keeping core's arrow. The class twice outweighs core's `select`. */
+.iminify-select.iminify-select {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	min-height: 36px;
+	margin: 0;
+	padding-inline-start: 11px;
+	border: 1px solid var(--iminify-z300);
+	border-radius: var(--iminify-radius-small);
+	color: var(--iminify-z900);
+	font-size: 13px;
+	line-height: 1.5;
+	box-shadow: none;
+	transition: border-color var(--iminify-fast) var(--iminify-ease), box-shadow var(--iminify-fast) var(--iminify-ease);
+
+	&:hover {
+		color: var(--iminify-z900);
+	}
+
+	&:focus {
+		border-color: var(--iminify-focus);
+		outline: 0;
+		box-shadow: 0 0 0 1px var(--iminify-focus);
+	}
+
+	+ .iminify-label {
+		display: block;
+		margin-top: 14px;
+	}
+}
+
+/* A quiet line under a panel's controls, such as what an action spends, with its icon. */
+.iminify-meta-line {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	margin: 18px 0 0;
+	color: var(--iminify-z600);
+	font-size: 12px;
+	line-height: 1.5;
+
+	.iminify-icon {
+		width: 15px;
+		height: 15px;
+		margin-top: 1px;
+		color: var(--iminify-z400);
+	}
+}
+
+/* A list to pick one from, each a whole-row button, the one showing marked. */
+.iminify-audits {
+	display: grid;
+	gap: 4px;
+	margin: 14px 0 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		margin: 0;
+	}
+}
+
+.iminify-audits__item {
+	display: grid;
+	gap: 6px;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 10px 12px;
+	border: 1px solid transparent;
+	border-radius: var(--iminify-radius-small);
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+	transition: background var(--iminify-fast) var(--iminify-ease), border-color var(--iminify-fast) var(--iminify-ease);
+
+	&:hover {
+		background: var(--iminify-z50);
+	}
+
+	&:focus-visible {
+		outline: 0;
+		box-shadow: var(--iminify-ring-focus);
+	}
+
+	&[aria-current="true"] {
+		border-color: var(--iminify-s200);
+		background: var(--iminify-s50);
+	}
+
+	&[aria-disabled="true"] {
+		cursor: progress;
+	}
+}
+
+.iminify-audits__page {
+	min-width: 0;
+	color: var(--iminify-z900);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.iminify-audits__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 10px;
+	align-items: center;
+	color: var(--iminify-z500);
+	font-size: 12px;
+
+	.iminify-spinner {
+		color: var(--iminify-s600);
+	}
+}
+
+/* An address under a panel's title, kept left to right. */
+.iminify-audit__address {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 12px;
+	margin: 10px 0 0;
+	color: var(--iminify-z500);
+	font-size: 12px;
+
+	bdi {
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+}
+
+/* Images a page showed, one row each: a thumbnail, what the image is, and what is worth fixing. */
+.iminify-shots {
+	margin: 16px 0 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--iminify-z100);
+}
+
+.iminify-shot {
+	display: grid;
+	grid-template-columns: 56px minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+	margin: 0;
+	padding-block: 16px;
+	border-bottom: 1px solid var(--iminify-z100);
+}
+
+.iminify-thumb {
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	overflow: hidden;
+	border-radius: var(--iminify-radius-small);
+	background: var(--iminify-z100);
+	color: var(--iminify-z400);
+	box-shadow: inset 0 0 0 1px var(--iminify-z200);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.iminify-icon {
+		width: 22px;
+		height: 22px;
+	}
+}
+
+.iminify-shot__body {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+
+.iminify-shot__name {
+	margin: 0;
+	color: var(--iminify-z900);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			color: var(--iminify-s700);
+			text-decoration: underline;
+		}
+
+		&:focus {
+			border-radius: 4px;
+			outline: 2px solid transparent;
+			box-shadow: var(--iminify-ring-focus);
+		}
+	}
+}
+
+.iminify-shot__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 12px;
+	align-items: center;
+	margin: 0;
+	color: var(--iminify-z500);
+	font-size: 12px;
+}
+
+/* What is worth fixing about an image, each with the fix. */
+.iminify-findings {
+	display: grid;
+	gap: 8px;
+	margin: 6px 0 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		display: grid;
+		gap: 4px;
+		margin: 0;
+		padding: 10px 12px;
+		border-radius: var(--iminify-radius-small);
+		background: var(--iminify-z50);
+		box-shadow: inset 0 0 0 1px var(--iminify-z200);
+		color: var(--iminify-z700);
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	p {
+		margin: 0;
+	}
+}
+
+.iminify-findings__what {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	color: var(--iminify-z900);
+
+	.iminify-icon {
+		width: 15px;
+		height: 15px;
+		color: var(--iminify-warning-icon);
+	}
+}
+
+.iminify-findings__fix {
+	display: flex;
+	gap: 6px;
+	align-items: flex-start;
+	color: var(--iminify-s800);
+	font-weight: 600;
+
+	.iminify-icon {
+		width: 15px;
+		height: 15px;
+		margin-top: 2px;
+		color: var(--iminify-s600);
+	}
+}

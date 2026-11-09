@@ -8,6 +8,7 @@
 namespace Iminify\WordPress;
 
 use Iminify\WordPress\Admin\Audit_Controller;
+use Iminify\WordPress\Admin\Audit_Page;
 use Iminify\WordPress\Admin\Bulk_Controller;
 use Iminify\WordPress\Admin\Bulk_Page;
 use Iminify\WordPress\Admin\Folders_Controller;
@@ -68,10 +69,12 @@ class Plugin {
 			add_action( 'admin_menu', array( Settings_Page::class, 'register' ) );
 			add_action( 'admin_menu', array( Bulk_Page::class, 'register' ) );
 			add_action( 'admin_menu', array( Folders_Page::class, 'register' ) );
+			add_action( 'admin_menu', array( Audit_Page::class, 'register' ) );
 			add_action( 'network_admin_menu', array( Settings_Page::class, 'register_network' ) );
 			add_action( 'admin_enqueue_scripts', array( Settings_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Bulk_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Folders_Page::class, 'enqueue' ) );
+			add_action( 'admin_enqueue_scripts', array( Audit_Page::class, 'enqueue' ) );
 			add_action( 'admin_enqueue_scripts', array( Notice::class, 'enqueue' ) );
 			add_action( 'admin_notices', array( Notice::class, 'render' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( IMINIFY_FILE ), array( Settings_Page::class, 'action_links' ) );

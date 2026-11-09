@@ -9,6 +9,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Admin\Audit_State;
+use Iminify\WordPress\Admin\Settings_Page;
 use Iminify\WordPress\Audit\Findings;
 use Iminify\WordPress\Audit\Resolver;
 use Iminify\WordPress\Media\Records;
@@ -87,6 +88,16 @@ class AuditTest extends WP_UnitTestCase {
 		);
 		$this->assertSame( 'No alt text', $images[0]['findings'][3]['label'] );
 		$this->assertSame( 'The image has no alt text for screen readers and search engines.', $images[0]['findings'][3]['message'] );
+		$this->assertSame(
+			array(
+				'Show a size about 1,280 pixels wide here, twice the width it takes on the page.',
+				'Have the browser fetch the image first.',
+				'Give the image its width and height in the page.',
+				'Write alt text for the image.',
+			),
+			array_column( $images[0]['findings'], 'fix_text' )
+		);
+		$this->assertSame( Settings_Page::url(), $state['links']['settings'] );
 
 		/* A WebP copy the page loaded through a picture tag stands for the size it was made from. */
 		$medium = wp_get_attachment_metadata( $id )['sizes']['medium'];
@@ -98,6 +109,8 @@ class AuditTest extends WP_UnitTestCase {
 
 		$this->assertSame( 'thumbnail', $images[2]['attachment']['size'] );
 		$this->assertSame( 'load_at_once', $images[2]['findings'][0]['fix'] );
+		$this->assertSame( 'Load the image straight away, not lazily.', $images[2]['findings'][0]['fix_text'] );
+		$this->assertSame( 'Load the image lazily, once a visitor scrolls near it.', $images[1]['findings'][0]['fix_text'] );
 
 		/* A theme's image is no attachment. */
 		$this->assertNull( $images[3]['attachment'] );
@@ -252,6 +265,8 @@ class AuditTest extends WP_UnitTestCase {
 			)
 		);
 
+		$this->assertSame( 'Show a smaller size of the image here.', Findings::fix( 'smaller_size' ) );
+		$this->assertNull( Findings::fix( 'later' ) );
 		$this->assertStringContainsString( 'answered 451', (string) $answered['message'] );
 		$this->assertStringContainsString( 'didn\'t answer', (string) $silent['message'] );
 		$this->assertSame( array( 'A label.', 'A message.', 'later' ), array( $finding['label'], $finding['message'], $finding['fix'] ) );
@@ -310,6 +325,29 @@ class AuditTest extends WP_UnitTestCase {
 		$this->assertSame( array( 'url' => home_url( '/about/' ) ), json_decode( (string) $this->api->calls( 'POST', 'site/audits' )[0]['args']['body'], true ) );
 	}
 
+	public function test_the_state_opens_the_audit_it_names_rather_than_the_newest(): void {
+		$older                   = Api_Stub::fixture( 'site-audit' );
+		$older_id                = '9c2b3c4d-1111-4a2b-9c3d-000000000002';
+		$list                    = Api_Stub::fixture( 'site-audits' );
+		$entry                   = $list['data'][0];
+		$entry['id']             = $older_id;
+		$list['data'][]          = $entry;
+		$older['data']['id']     = $older_id;
+		$older['data']['images'] = array();
+
+		$this->api->on( 'GET', 'site/audits', 200, $list );
+		$this->api->on( 'GET', 'site/audits/' . self::AUDIT, 200, Api_Stub::fixture( 'site-audit' ) );
+		$this->api->on( 'GET', 'site/audits/' . $older_id, 200, $older );
+
+		$named  = $this->call( 'GET', '?audit=' . $older_id );
+		$newest = $this->call( 'GET', '' );
+
+		$this->assertSame( $older_id, $named->get_data()['audit']['id'] );
+		$this->assertCount( 1, $this->api->calls( 'GET', 'site/audits/' . $older_id ) );
+		$this->assertSame( self::AUDIT, $newest->get_data()['audit']['id'] );
+		$this->assertSame( 400, $this->call( 'GET', '?audit=../site' )->get_status() );
+	}
+
 	public function test_a_refusal_keeps_its_code_and_how_long_to_wait(): void {
 		$this->api->on(
 			'POST',
@@ -365,7 +403,14 @@ class AuditTest extends WP_UnitTestCase {
 		$this->assertFalse( $state['connected'] );
 		$this->assertSame( array(), $state['audits'] );
 		$this->assertSame( array(), $this->api->calls( 'GET', 'site/audits' ) );
-		$this->assertSame( 409, $this->call( 'POST', '', array( 'url' => home_url( '/' ) ) )->get_status() );
+
+		/* A start or a poll answers the state that says so, which the screen draws in place of the audit. */
+		$start = $this->call( 'POST', '', array( 'url' => home_url( '/' ) ) );
+		$poll  = $this->call( 'GET', '/' . self::AUDIT );
+
+		$this->assertSame( array( 200, false ), array( $start->get_status(), $start->get_data()['connected'] ) );
+		$this->assertSame( array( 200, false ), array( $poll->get_status(), $poll->get_data()['connected'] ) );
+		$this->assertSame( array(), $this->api->calls( 'POST', 'site/audits' ) );
 	}
 
 	/**
@@ -401,7 +446,13 @@ class AuditTest extends WP_UnitTestCase {
 	 * @param array<string, mixed> $body   The JSON body.
 	 */
 	protected function call( string $method, string $path, array $body = array() ): WP_REST_Response {
-		$request = new WP_REST_Request( $method, '/iminify/v1/audit' . $path );
+		$parts   = explode( '?', $path, 2 );
+		$request = new WP_REST_Request( $method, '/iminify/v1/audit' . $parts[0] );
+
+		if ( isset( $parts[1] ) ) {
+			parse_str( $parts[1], $query );
+			$request->set_query_params( $query );
+		}
 
 		if ( array() !== $body ) {
 			$request->set_header( 'Content-Type', 'application/json' );
