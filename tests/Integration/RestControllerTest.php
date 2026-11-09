@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Admin\Notice;
+use Iminify\WordPress\Admin\State;
 use Iminify\WordPress\Connection;
 use Iminify\WordPress\Key_Store;
 use Iminify\WordPress\Local_Settings;
@@ -87,6 +88,33 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertSame( array(), $this->api->requests );
 	}
 
+	public function test_the_language_alt_text_starts_on_is_the_sites_where_the_service_writes_it(): void {
+		$languages = array(
+			array(
+				'value' => 'en',
+				'label' => 'English',
+			),
+			array(
+				'value' => 'pt',
+				'label' => 'Portuguese',
+			),
+			array(
+				'value' => 'zh-Hans',
+				'label' => 'Simplified Chinese',
+			),
+			array(
+				'value' => 'zh-Hant',
+				'label' => 'Traditional Chinese',
+			),
+		);
+
+		$this->assertSame( 'pt', State::alt_language( $languages, 'pt_BR' ) );
+		$this->assertSame( 'en', State::alt_language( $languages, 'en_GB' ) );
+		$this->assertSame( 'zh-Hans', State::alt_language( $languages, 'zh_CN' ) );
+		$this->assertSame( 'zh-Hant', State::alt_language( $languages, 'zh_TW' ) );
+		$this->assertNull( State::alt_language( $languages, 'sw' ) );
+	}
+
 	public function test_a_site_that_isnt_connected_calls_nothing(): void {
 		$state = $this->call( 'GET', '/state' )->get_data();
 
@@ -122,6 +150,13 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertSame( '1,476', $state['site']['usage'][1]['remaining'] );
 		$this->assertCount( 2, $state['site']['usage'] );
 		$this->assertSame( 'smart', $state['site']['settings']['level'] );
+		$this->assertSame(
+			array(
+				'value' => 'fr',
+				'label' => 'French',
+			),
+			$state['site']['languages'][1]
+		);
 		$this->assertNull( $state['site']['message'] );
 		$this->assertStringNotContainsString( 'Zx9vQe3LwR7tYp2mKd8sNf5hJc1bGa6uVo4iEy0r', (string) wp_json_encode( $state ) );
 	}
@@ -345,11 +380,13 @@ class RestControllerTest extends WP_UnitTestCase {
 			'/settings',
 			array(
 				'site'  => array(
-					'level'      => 'ultra',
-					'max_width'  => null,
-					'sizes'      => array( 'thumbnail', '1536x1536' ),
-					'name'       => 'Renamed',
-					'unexpected' => true,
+					'level'             => 'ultra',
+					'max_width'         => null,
+					'sizes'             => array( 'thumbnail', '1536x1536' ),
+					'alt_text'          => true,
+					'alt_text_language' => 'fr',
+					'name'              => 'Renamed',
+					'unexpected'        => true,
 				),
 				'local' => array(
 					'backups'  => false,
@@ -370,9 +407,11 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertSame( 200, $response->get_status() );
 		$this->assertSame(
 			array(
-				'level'     => 'ultra',
-				'max_width' => null,
-				'sizes'     => array( 'thumbnail', '1536x1536' ),
+				'level'             => 'ultra',
+				'max_width'         => null,
+				'sizes'             => array( 'thumbnail', '1536x1536' ),
+				'alt_text'          => true,
+				'alt_text_language' => 'fr',
 			),
 			json_decode( $patch[0]['args']['body'], true )
 		);

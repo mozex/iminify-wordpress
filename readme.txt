@@ -37,7 +37,7 @@ Where WordPress sends over cURL, as nearly every host does, originals go to Imin
 
 = For developers =
 
-The plugin has fifteen hooks:
+The plugin has sixteen hooks:
 
 * `iminify_capability` (filter): the capability each part asks for.
 * `iminify_optimize_image` (filter): return false to keep an image from ever being sent.
@@ -48,6 +48,7 @@ The plugin has fifteen hooks:
 * `iminify_page_buffer` (filter): return false to leave a page as WordPress printed it when "Serve them on the whole page" is chosen in the settings.
 * `iminify_image_optimized` (action): an image's files were written.
 * `iminify_image_restored` (action): an image's original is back.
+* `iminify_alt_text_written` (action): an image's AI alt text was written, in a field that had none.
 * `iminify_file_optimized` (action): a file in another folder was written, with its path in wp-content.
 * `iminify_file_restored` (action): a file in another folder has its original back.
 * `iminify_copies_deleted` (action): an image's WebP and AVIF copies were deleted from its panel, or by a restore that couldn't finish.
@@ -64,6 +65,7 @@ When you press Connect, your site's server sends Iminify your site's home addres
 Once the site is connected, the plugin sends Iminify, from your site's server:
 
 * each image it optimizes (the original you uploaded, or WordPress's scaled copy when the original is larger than your plan takes or the server's memory can send), with the dimensions and file sizes of the sizes WordPress keeps of it, to be compressed and sent back. Iminify deletes it once the plugin has saved the files;
+* when you turn on "Write alt text with AI" in the settings, a request for an alt text with each image that has none, and the language you chose. Iminify makes a copy of the image at most 768 pixels on its longest side, and sends it to Anthropic, whose model writes the text;
 * each image in the folders you choose under Media, Other Folders, with its file name, dimensions and file size, the same way. The folders' paths and the other files in them never leave your site;
 * your site's home address and the plugin's version, with every call;
 * on a multisite network connected as one, each site's home address and name, with the network's key, the first time that site needs Iminify, so it gets a key of its own;

@@ -228,6 +228,8 @@ class Shared {
 					array(
 						'group'  => null,
 						'status' => $send ? Records::NOT_OPTIMIZED : $record['status'],
+						/* A translation keeps its own alt, in its own language, and the check for a text on its way is the deleted one's. */
+						'alt'    => null,
 					)
 				)
 			);

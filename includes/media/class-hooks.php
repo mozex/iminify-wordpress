@@ -47,6 +47,7 @@ class Hooks {
 		add_action( Queue::OPENS_HOOK, array( Queue::class, 'batch_opens' ) );
 		add_action( Queue::RESUME_HOOK, array( Queue::class, 'resume' ) );
 		add_action( Bulk::FEED_HOOK, array( Bulk::class, 'feed' ) );
+		Alt_Text::register();
 	}
 
 	/**

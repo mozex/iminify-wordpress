@@ -17,6 +17,7 @@ use Iminify\WordPress\Folders\Optimizer as Folder_Optimizer;
 use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
 use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Copies;
@@ -97,6 +98,7 @@ class Lifecycle {
 		Optimizer::OPTIMIZE_HOOK,
 		Optimizer::CHECK_HOOK,
 		Optimizer::DELETE_GROUP_HOOK,
+		Alt_Text::CHECK_HOOK,
 		Queue::OPENS_HOOK,
 		Queue::RESUME_HOOK,
 		Bulk::FEED_HOOK,
@@ -173,6 +175,17 @@ class Lifecycle {
 				if ( ! Optimizer::has_run( $id ) ) {
 					self::park( $id );
 				}
+			}
+		} while ( array() !== $ids );
+
+		$after = 0;
+
+		do {
+			$ids = Records::waiting_for_alt_text( 200, $after );
+
+			foreach ( $ids as $id ) {
+				$after = $id;
+				Alt_Text::resume( $id );
 			}
 		} while ( array() !== $ids );
 

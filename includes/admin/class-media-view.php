@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Declaration;
 use Iminify\WordPress\Media\Missing;
@@ -471,7 +472,7 @@ class Media_View {
 		}
 
 		if ( Records::OPTIMIZED !== $record['status'] || null === $record['result'] ) {
-			return $html . self::taken_detail( $record );
+			return $html . self::alt_detail( $record ) . self::taken_detail( $record );
 		}
 
 		$saved = self::saved( $record['result'] );
@@ -507,7 +508,7 @@ class Media_View {
 			) . '</p>';
 		}
 
-		$html .= self::taken_detail( $record );
+		$html .= self::alt_detail( $record ) . self::taken_detail( $record );
 
 		$lacks = Missing::of( $attachment, Missing::FORMATS );
 
@@ -682,6 +683,24 @@ class Media_View {
 
 		/* An optimized image has a reason only when what it lacked couldn't be made. */
 		return (string) Others::reason( $record['error'] );
+	}
+
+	/**
+	 * The line saying where an image's AI alt text stands, empty when none was asked for.
+	 *
+	 * @param array<string, mixed> $record The attachment's record.
+	 */
+	protected static function alt_detail( array $record ): string {
+		$labels = array(
+			Alt_Text::WAITING => __( 'Alt text: being written.', 'iminify-image-optimizer' ),
+			Alt_Text::WRITTEN => __( 'Alt text: written by Iminify.', 'iminify-image-optimizer' ),
+			Alt_Text::KEPT    => __( 'Alt text: yours was kept.', 'iminify-image-optimizer' ),
+			Alt_Text::FAILED  => __( 'Alt text: Iminify couldn\'t write one for this image.', 'iminify-image-optimizer' ),
+			Alt_Text::SKIPPED => __( 'Alt text: not written, as the day\'s AI alt texts were used up.', 'iminify-image-optimizer' ),
+		);
+		$status = Alt_Text::status( $record['alt'] );
+
+		return null === $status || ! isset( $labels[ $status ] ) ? '' : '<p class="iminify-detail iminify-alt-state">' . esc_html( $labels[ $status ] ) . '</p>';
 	}
 
 	/**

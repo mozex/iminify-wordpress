@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Tests\Integration;
 
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Optimizer;
@@ -276,6 +277,15 @@ class SharedTest extends WP_UnitTestCase {
 
 		Optimizer::optimize( $holder, Optimizer::AUTOMATIC );
 		$this->finish( $holder, $attached );
+		Records::update(
+			$holder,
+			array(
+				'alt' => array(
+					'status' => Alt_Text::WRITTEN,
+					'since'  => time(),
+				),
+			)
+		);
 		$record = Records::get( $holder );
 
 		$first  = $this->translation( $holder );
@@ -291,6 +301,7 @@ class SharedTest extends WP_UnitTestCase {
 		$this->assertSame( $record['copies'], $taken['copies'] );
 		$this->assertSame( $record['backups'], $taken['backups'] );
 		$this->assertSame( Records::OPTIMIZED, $taken['status'] );
+		$this->assertNull( $taken['alt'] );
 		$this->assertSame( Records::OPTIMIZED, get_post_meta( $first, Records::STATUS_META, true ) );
 		$this->assertSame( $first, Shared::holder( $second ) );
 		$this->assertNull( Optimizer::why_not( $first ) );

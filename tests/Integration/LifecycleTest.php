@@ -12,6 +12,7 @@ use Iminify\WordPress\Connection;
 use Iminify\WordPress\Key_Store;
 use Iminify\WordPress\Lifecycle;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Paths;
@@ -138,6 +139,30 @@ class LifecycleTest extends WP_UnitTestCase {
 		$this->assertSame( Records::PARKED, Records::get( $lost )['status'] );
 		$this->assertSame( Records::WAITING, Records::get( $running )['status'] );
 		$this->assertTrue( Optimizer::pending( Queue::RESUME_HOOK, array( 0 ) ) );
+	}
+
+	public function test_turning_it_on_again_looks_again_at_a_group_kept_for_its_alt_text(): void {
+		$id   = $this->attachment();
+		$args = array( $id, 'kept-group' );
+
+		Plugin::keys()->save( '7|site-key' );
+		Records::update(
+			$id,
+			array(
+				'status' => Records::OPTIMIZED,
+				'alt'    => array(
+					'status' => Alt_Text::WAITING,
+					'group'  => 'kept-group',
+					'since'  => time(),
+				),
+			)
+		);
+
+		Lifecycle::activate();
+		Lifecycle::resume();
+
+		$this->assertTrue( Optimizer::pending( Alt_Text::CHECK_HOOK, $args ) );
+		$this->assertSame( Alt_Text::WAITING, get_post_meta( $id, Records::ALT_META, true ) );
 	}
 
 	public function test_turning_it_off_ends_even_when_a_status_cant_be_written(): void {

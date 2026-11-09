@@ -155,12 +155,15 @@ class State {
 			'name'          => isset( $site['name'] ) && is_string( $site['name'] ) ? $site['name'] : '',
 			'url'           => isset( $site['url'] ) && is_string( $site['url'] ) ? $site['url'] : '',
 			'settings'      => isset( $site['settings'] ) && is_array( $site['settings'] ) ? $site['settings'] : array(),
+			'languages'     => self::alt_languages( $site['alt_text_languages'] ?? null ),
+			'language'      => self::alt_language( self::alt_languages( $site['alt_text_languages'] ?? null ), (string) get_locale() ),
 			'plan'          => $hidden ? null : self::plan( $site ),
 			'usage'         => $hidden ? null : array_values(
 				array_filter(
 					array(
 						self::usage( 'images', __( 'Images today', 'iminify-image-optimizer' ), $usage['images'] ?? null ),
 						self::usage( 'files', __( 'Files today', 'iminify-image-optimizer' ), $usage['files'] ?? null ),
+						empty( $site['settings']['alt_text'] ) ? null : self::usage( 'alt_texts', __( 'AI alt texts today', 'iminify-image-optimizer' ), $usage['alt_texts'] ?? null ),
 					)
 				)
 			),
@@ -292,6 +295,43 @@ class State {
 		$formatted = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time );
 
 		return is_string( $formatted ) ? $formatted : null;
+	}
+
+	/**
+	 * The languages the service writes alt text in, for the setting that picks one,
+	 * as `GET /site` answered them, so a language it adds needs no change here.
+	 *
+	 * @param mixed $languages The answer's `alt_text_languages`.
+	 * @return list<array{value: string, label: string}>
+	 */
+	protected static function alt_languages( $languages ): array {
+		$options = array();
+
+		foreach ( is_array( $languages ) ? $languages : array() as $language ) {
+			if ( is_array( $language ) && isset( $language['code'], $language['name'] ) ) {
+				$options[] = array(
+					'value' => (string) $language['code'],
+					'label' => (string) $language['name'],
+				);
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * The language alt text starts on the first time it is turned on: the site's,
+	 * where the service writes it, or null.
+	 *
+	 * @param list<array{value: string, label: string}> $languages The languages the service writes.
+	 * @param string                                    $locale    The site's WordPress locale, such as `pt_BR`.
+	 */
+	public static function alt_language( array $languages, string $locale ): ?string {
+		$codes = array_column( $languages, 'value' );
+		$base  = strtolower( substr( $locale, 0, 2 ) );
+		$code  = 'zh' === $base ? ( in_array( $locale, array( 'zh_TW', 'zh_HK' ), true ) ? 'zh-Hant' : 'zh-Hans' ) : $base;
+
+		return in_array( $code, $codes, true ) ? $code : null;
 	}
 
 	/**

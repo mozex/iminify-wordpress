@@ -716,6 +716,10 @@ class Optimizer {
 			}
 		}
 
+		if ( Alt_Text::wanted( $attachment, $settings ) ) {
+			$declaration['body']['alt_text'] = true;
+		}
+
 		/* A size no group can take (a file in another format, one another size shares) leaves nothing to send but the main file, which would count an image for nothing. */
 		if ( null !== $only && array() === array_diff( array_keys( $declaration['outputs'] ), array( Declaration::MAIN ) ) ) {
 			Missing::settle( $attachment );
@@ -1094,7 +1098,10 @@ class Optimizer {
 			)
 		);
 
-		self::delete_group( (string) $group['id'] );
+		/* A group whose alt text is still being written stays until it comes (`Alt_Text`). */
+		if ( Alt_Text::settle( $attachment, (string) $group['id'], $answer ) ) {
+			self::delete_group( (string) $group['id'] );
+		}
 
 		/* Translations sharing the files serve these copies through their own pages, so each is pointed here, asked afresh. */
 		Shared::point( $attachment, Shared::others( $attachment, true ) );

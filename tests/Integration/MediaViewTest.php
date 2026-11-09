@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Admin\Media_View;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Backups;
 use Iminify\WordPress\Media\Optimizer;
 use Iminify\WordPress\Media\Paths;
@@ -155,6 +156,50 @@ class MediaViewTest extends WP_UnitTestCase {
 		ob_start();
 		Media_View::print_column( Media_View::COLUMN, $pdf );
 		$this->assertSame( '', ob_get_clean() );
+	}
+
+	public function test_the_panel_says_where_an_alt_text_stands_and_says_nothing_when_none_was_asked_for(): void {
+		$id = $this->attachment();
+
+		Records::update( $id, array( 'status' => Records::NOT_OPTIMIZED ) );
+		$this->assertStringNotContainsString( 'iminify-alt-state', Media_View::panel( $id ) );
+
+		$lines = array(
+			Alt_Text::WAITING => 'being written',
+			Alt_Text::WRITTEN => 'written by Iminify',
+			Alt_Text::KEPT    => 'yours was kept',
+			Alt_Text::FAILED  => 'write one for this image',
+			Alt_Text::SKIPPED => 'used up',
+		);
+
+		foreach ( array( Records::NOT_OPTIMIZED, Records::OPTIMIZED ) as $standing ) {
+			foreach ( $lines as $status => $line ) {
+				Records::update(
+					$id,
+					array(
+						'status' => $standing,
+						'result' => array(
+							'level'   => 'smart',
+							'formats' => array(),
+							'outputs' => array(
+								'full' => array(
+									'width'  => 10,
+									'height' => 10,
+									'before' => 10,
+									'after'  => 5,
+								),
+							),
+						),
+						'alt'    => array(
+							'status' => $status,
+							'since'  => time(),
+						),
+					)
+				);
+
+				$this->assertStringContainsString( $line, Media_View::panel( $id ) );
+			}
+		}
 	}
 
 	public function test_each_filter_lists_its_own_images(): void {

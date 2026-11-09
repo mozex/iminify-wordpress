@@ -12,8 +12,14 @@
             "max_width": null,
             "size_limit": null,
             "keep_metadata": false,
-            "sizes": null
+            "sizes": null,
+            "alt_text": false,
+            "alt_text_language": "en"
         },
+        "alt_text_languages": [
+            { "code": "en", "name": "English" },
+            { "code": "fr", "name": "French" }
+        ],
         "plan": "free",
         "plan_ends_at": null,
         "max_file_size": 16777216,

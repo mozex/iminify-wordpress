@@ -159,7 +159,7 @@ class Bulk {
 	 * The actions the bulk page runs itself, claimed by hook: an image's steps and
 	 * the queue's own, never another plugin's.
 	 */
-	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK, Folder_Optimizer::OPTIMIZE_HOOK, Folder_Optimizer::CHECK_HOOK, Folder_Optimizer::RESUME_HOOK );
+	const PAGE_HOOKS = array( Optimizer::OPTIMIZE_HOOK, Optimizer::CHECK_HOOK, Optimizer::DELETE_GROUP_HOOK, Alt_Text::CHECK_HOOK, Queue::OPENS_HOOK, Queue::RESUME_HOOK, Folder_Optimizer::OPTIMIZE_HOOK, Folder_Optimizer::CHECK_HOOK, Folder_Optimizer::RESUME_HOOK );
 
 	/**
 	 * The run, or null when there has been none.

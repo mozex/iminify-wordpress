@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Tests\Integration;
 
 use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Local_Settings;
+use Iminify\WordPress\Media\Alt_Text;
 use Iminify\WordPress\Media\Disk;
 use Iminify\WordPress\Media\Hooks;
 use Iminify\WordPress\Media\Optimizer;
@@ -742,6 +743,354 @@ class OptimizerTest extends WP_UnitTestCase {
 	 */
 	public function scale_at_500(): int {
 		return 500;
+	}
+
+	public function test_a_group_asks_for_alt_text_only_while_the_site_writes_them_and_the_image_has_none(): void {
+		$sent = array();
+
+		foreach ( array(
+			'off'     => false,
+			'on'      => true,
+			'has one' => true,
+		) as $case => $on ) {
+			$this->writes_alt_text( $on );
+			$id = $this->attachment();
+
+			if ( 'has one' === $case ) {
+				update_post_meta( $id, Alt_Text::META, 'Written by hand' );
+			}
+
+			as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
+			Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+
+			$calls         = $this->api->calls( 'POST', 'groups' );
+			$sent[ $case ] = json_decode( end( $calls )['args']['body'], true )['alt_text'] ?? null;
+		}
+
+		$this->assertNull( $sent['off'] );
+		$this->assertTrue( $sent['on'] );
+		$this->assertNull( $sent['has one'] );
+	}
+
+	public function test_a_group_is_kept_until_its_alt_text_comes_and_only_then_deleted(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text(
+			$id,
+			array(
+				'status'   => 'pending',
+				'text'     => null,
+				'language' => 'fr',
+			)
+		);
+		Optimizer::check( $id );
+
+		$record = Records::get( $id );
+		$args   = array( $id, self::GROUP );
+
+		/* The files are written and the image reads optimized, while the group waits for its text. */
+		$this->assertSame( Records::OPTIMIZED, $record['status'] );
+		$this->assertNull( $record['group'] );
+		$this->assertSame( Alt_Text::WAITING, $record['alt']['status'] );
+		$this->assertSame( array(), $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertNotFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, $args, Optimizer::GROUP ) );
+		$this->assertSame( '', get_post_meta( $id, Alt_Text::META, true ) );
+
+		/* Still on its way: it looks again. */
+		as_unschedule_all_actions( Alt_Text::CHECK_HOOK );
+		Alt_Text::check( $id, self::GROUP );
+		$this->assertNotFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, $args, Optimizer::GROUP ) );
+		$this->assertSame( array(), $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+
+		$this->group_says(
+			array(
+				'status'         => 'written',
+				'text'           => "Un chat roux, assis \\ sur l'herbe.",
+				'language'       => 'fr',
+				'suggested_name' => 'chat-roux',
+			)
+		);
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( "Un chat roux, assis \\ sur l'herbe.", get_post_meta( $id, Alt_Text::META, true ) );
+		$this->assertSame( Alt_Text::WRITTEN, Records::get( $id )['alt']['status'] );
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertStringEndsWith( '.jpg', (string) get_attached_file( $id ) );
+		$this->assertStringNotContainsString( 'chat-roux', (string) get_attached_file( $id ) );
+	}
+
+	public function test_a_text_that_came_with_the_files_is_saved_at_once(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text(
+			$id,
+			array(
+				'status'   => 'written',
+				'text'     => 'A red cat',
+				'language' => 'en',
+			)
+		);
+		Optimizer::check( $id );
+
+		$this->assertSame( 'A red cat', get_post_meta( $id, Alt_Text::META, true ) );
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, array( $id, self::GROUP ), Optimizer::GROUP ) );
+	}
+
+	public function test_an_alt_text_someone_wrote_meanwhile_is_never_replaced(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text( $id, array( 'status' => 'pending' ) );
+		Optimizer::check( $id );
+
+		/* Written by another request, past this one's cache of the meta. */
+		global $wpdb;
+		get_post_meta( $id, Alt_Text::META, true );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.SlowDBQuery -- stands in for another request's save, past the object cache.
+		$wpdb->insert(
+			$wpdb->postmeta,
+			array(
+				'post_id'    => $id,
+				'meta_key'   => Alt_Text::META,
+				'meta_value' => 'Written by hand',
+			)
+		);
+
+		$this->group_says(
+			array(
+				'status' => 'written',
+				'text'   => 'What the model wrote',
+			)
+		);
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( 'Written by hand', get_post_meta( $id, Alt_Text::META, true ) );
+		$this->assertSame( Alt_Text::KEPT, Records::get( $id )['alt']['status'] );
+	}
+
+	/**
+	 * What a finished group can say of an alt text that won't come.
+	 *
+	 * @return array<string, array{array<string, mixed>|null, string|null}>
+	 */
+	public function alt_text_endings(): array {
+		return array(
+			'none was asked for, or the service writes none now' => array( null, null ),
+			'the day\'s were used up'  => array( array( 'status' => 'skipped' ), Alt_Text::SKIPPED ),
+			'the model gave no answer' => array( array( 'status' => 'failed' ), Alt_Text::FAILED ),
+			'an answer of tags alone'  => array(
+				array(
+					'status' => 'written',
+					'text'   => '<b></b>',
+				),
+				Alt_Text::FAILED,
+			),
+			'an answer with no words'  => array(
+				array(
+					'status' => 'written',
+					'text'   => '   ',
+				),
+				Alt_Text::FAILED,
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider alt_text_endings
+	 *
+	 * @param array<string, mixed>|null $alt      The group's `alt_text`.
+	 * @param string|null               $expected Where the record's should stand.
+	 */
+	public function test_an_alt_text_that_is_not_coming_ends_with_the_group_deleted( ?array $alt, ?string $expected ): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text( $id, $alt );
+		Optimizer::check( $id );
+
+		$this->assertSame( $expected, Records::get( $id )['alt']['status'] ?? null );
+		$this->assertSame( '', get_post_meta( $id, Alt_Text::META, true ) );
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, array( $id, self::GROUP ), Optimizer::GROUP ) );
+	}
+
+	public function test_a_percent_sign_in_a_text_is_kept_and_its_tags_are_not(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text(
+			$id,
+			array(
+				'status' => 'written',
+				'text'   => '%50 indirim <b>yazan</b> afiş',
+			)
+		);
+		Optimizer::check( $id );
+
+		$this->assertSame( '%50 indirim yazan afiş', get_post_meta( $id, Alt_Text::META, true ) );
+	}
+
+	public function test_a_main_output_that_failed_is_not_waited_on_for_its_text(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+
+		$answer                         = $this->finished( $id );
+		$answer['alt_text']             = array( 'status' => 'pending' );
+		$answer['outputs'][0]['status'] = 'failed';
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( (string) get_attached_file( $id ), $answer )['bytes'] );
+		Optimizer::check( $id );
+
+		$this->assertSame( Alt_Text::FAILED, Records::get( $id )['alt']['status'] );
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, array( $id, self::GROUP ), Optimizer::GROUP ) );
+	}
+
+	public function test_a_check_for_a_text_no_longer_waited_on_only_lets_the_group_go(): void {
+		$this->writes_alt_text( true );
+		$id    = $this->attachment();
+		$other = '9d3c5c02-4e1f-4a6b-8d2c-3f5a7b9c1e25';
+
+		$this->api->on( 'DELETE', 'groups/' . $other, 204, '' );
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text( $id, array( 'status' => 'pending' ) );
+		Optimizer::check( $id );
+
+		Alt_Text::check( $id, $other );
+
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . $other ) );
+		$this->assertSame( Alt_Text::WAITING, Records::get( $id )['alt']['status'] );
+		$this->assertSame( array(), $this->api->calls( 'GET', 'groups/' . $other ) );
+	}
+
+	public function test_a_service_out_of_reach_is_tried_again_and_a_disconnected_site_stops_waiting(): void {
+		$this->writes_alt_text( true );
+		$id   = $this->attachment();
+		$args = array( $id, self::GROUP );
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text( $id, array( 'status' => 'pending' ) );
+		Optimizer::check( $id );
+
+		as_unschedule_all_actions( Alt_Text::CHECK_HOOK );
+		$this->api->fail( 'GET', 'groups/' . self::GROUP );
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( Alt_Text::WAITING, Records::get( $id )['alt']['status'] );
+		$this->assertNotFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, $args, Optimizer::GROUP ) );
+
+		as_unschedule_all_actions( Alt_Text::CHECK_HOOK );
+		Plugin::keys()->forget();
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( Alt_Text::FAILED, Records::get( $id )['alt']['status'] );
+		$this->assertFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, $args, Optimizer::GROUP ) );
+		$this->assertSame( array(), $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+	}
+
+	public function test_a_wait_ends_when_its_group_is_gone_or_its_time_runs_out_and_never_asks_twice(): void {
+		$this->writes_alt_text( true );
+		$id = $this->attachment();
+
+		Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+		$this->finish_with_alt_text( $id, array( 'status' => 'pending' ) );
+		Optimizer::check( $id );
+
+		/* A text on its way isn't asked for again, whatever sends the image next. */
+		$settings = array( 'alt_text' => true );
+		$this->assertFalse( Alt_Text::wanted( $id, $settings ) );
+
+		/* A group the service lost has nothing left to delete. */
+		as_unschedule_all_actions( Alt_Text::CHECK_HOOK );
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 404, array( 'code' => 'not_found' ) );
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( Alt_Text::FAILED, Records::get( $id )['alt']['status'] );
+		$this->assertSame( array(), $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertTrue( Alt_Text::wanted( $id, $settings ) );
+
+		/* A text that outlives its wait is given up on, and the group goes. */
+		Records::update(
+			$id,
+			array(
+				'alt' => array(
+					'status' => Alt_Text::WAITING,
+					'group'  => self::GROUP,
+					'since'  => time() - Alt_Text::MAX_WAIT - 1,
+				),
+			)
+		);
+		$this->group_says( array( 'status' => 'pending' ) );
+		Alt_Text::check( $id, self::GROUP );
+
+		$this->assertSame( Alt_Text::FAILED, Records::get( $id )['alt']['status'] );
+		$this->assertCount( 1, $this->api->calls( 'DELETE', 'groups/' . self::GROUP ) );
+		$this->assertFalse( as_next_scheduled_action( Alt_Text::CHECK_HOOK, array( $id, self::GROUP ), Optimizer::GROUP ) );
+
+		/* A wait whose checks went with the plugin being turned off reads as failed once it is long past. */
+		Records::update(
+			$id,
+			array(
+				'alt' => array(
+					'status' => Alt_Text::WAITING,
+					'group'  => self::GROUP,
+					'since'  => time() - Alt_Text::MAX_WAIT - 2 * HOUR_IN_SECONDS,
+				),
+			)
+		);
+		$this->assertSame( Alt_Text::FAILED, Alt_Text::status( Records::get( $id )['alt'] ) );
+	}
+
+	/**
+	 * The site's record on the service, with its alt text setting as given.
+	 *
+	 * @param bool $on Whether the site writes alt text.
+	 */
+	protected function writes_alt_text( bool $on ): void {
+		$site = Api_Stub::fixture( 'site' );
+
+		$site['data']['settings']['alt_text']          = $on;
+		$site['data']['settings']['alt_text_language'] = 'fr';
+
+		$this->api->on( 'GET', 'site', 200, $site );
+		Site_Record::forget();
+	}
+
+	/**
+	 * Answers the attachment's open group as finished, with this alt text.
+	 *
+	 * @param int                       $id  The attachment's id.
+	 * @param array<string, mixed>|null $alt The group's `alt_text`.
+	 */
+	protected function finish_with_alt_text( int $id, ?array $alt ): void {
+		$answer             = $this->finished( $id );
+		$answer['alt_text'] = $alt;
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
+		$this->api->on( 'GET', 'groups/' . self::GROUP . '/download', 200, $this->zip( (string) get_attached_file( $id ), $answer )['bytes'] );
+	}
+
+	/**
+	 * Answers the group with this alt text, its files long written.
+	 *
+	 * @param array<string, mixed> $alt The group's `alt_text`.
+	 */
+	protected function group_says( array $alt ): void {
+		$answer             = Api_Stub::fixture( 'group' )['data'];
+		$answer['alt_text'] = $alt;
+
+		$this->api->on( 'GET', 'groups/' . self::GROUP, 200, array( 'data' => $answer ) );
 	}
 
 	/**

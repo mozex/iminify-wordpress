@@ -43,7 +43,7 @@ class Rest_Controller {
 	/**
 	 * The site settings the page may change on www.iminify.com, which checks each value.
 	 */
-	const SITE_SETTINGS = array( 'optimize_on_upload', 'level', 'webp', 'avif', 'max_width', 'size_limit', 'keep_metadata', 'sizes' );
+	const SITE_SETTINGS = array( 'optimize_on_upload', 'level', 'webp', 'avif', 'max_width', 'size_limit', 'keep_metadata', 'sizes', 'alt_text', 'alt_text_language' );
 
 	/**
 	 * Registers the routes.

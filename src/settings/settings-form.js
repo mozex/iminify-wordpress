@@ -100,6 +100,8 @@ function changesOf( connected, site, local ) {
 			size_limit: whole( site.size_limit ),
 			keep_metadata: site.keep_metadata,
 			sizes: site.sizes ?? null,
+			alt_text: Boolean( site.alt_text ),
+			alt_text_language: site.alt_text_language,
 		};
 	}
 
@@ -144,6 +146,19 @@ export default function SettingsForm( {
 
 	const change = ( name ) => ( value ) =>
 		setSite( ( current ) => ( { ...current, [ name ]: value } ) );
+
+	const languages = state.site?.languages ?? [];
+
+	/* The first time it is turned on, a site in another language starts on it, where the service writes it. */
+	const changeAltText = ( on ) =>
+		setSite( ( current ) => ( {
+			...current,
+			alt_text: on,
+			alt_text_language:
+				on && 'en' === current.alt_text_language && state.site?.language
+					? state.site.language
+					: current.alt_text_language,
+		} ) );
 
 	const save = ( event ) => {
 		event.preventDefault();
@@ -279,6 +294,38 @@ export default function SettingsForm( {
 						checked={ Boolean( site.keep_metadata ) }
 						onChange={ change( 'keep_metadata' ) }
 					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Write alt text with AI',
+							'iminify-image-optimizer'
+						) }
+						help={ __(
+							"Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day.",
+							'iminify-image-optimizer'
+						) }
+						checked={ Boolean( site.alt_text ) }
+						onChange={ changeAltText }
+					/>
+					{ Boolean( site.alt_text ) && languages.length > 0 && (
+						<SelectControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __(
+								'Language of the alt text',
+								'iminify-image-optimizer'
+							) }
+							value={ site.alt_text_language }
+							options={ languages }
+							onChange={ change( 'alt_text_language' ) }
+							help={
+								<FieldError
+									errors={ errors }
+									name="alt_text_language"
+								/>
+							}
+						/>
+					) }
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __(

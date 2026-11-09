@@ -75,9 +75,15 @@ class Records {
 	const OTHER_META = '_iminify_other';
 
 	/**
+	 * Where an AI alt text stands (`Alt_Text`), which a query has to find: the ones
+	 * still waiting, once the plugin comes back on.
+	 */
+	const ALT_META = '_iminify_alt';
+
+	/**
 	 * Every post meta key of a record.
 	 */
-	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::SIZES_META, self::BEFORE_META, self::AFTER_META, self::OTHER_META );
+	const ALL_META = array( self::META, self::STATUS_META, self::FORMATS_META, self::SIZES_META, self::BEFORE_META, self::AFTER_META, self::OTHER_META, self::ALT_META );
 
 	const ORIGIN = 'iminify';
 
@@ -120,7 +126,7 @@ class Records {
 	 * An attachment's record, every key present.
 	 *
 	 * @param int $attachment The attachment's id.
-	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, updated: int}
+	 * @return array{status: string|null, trigger: string|null, level: string|null, fill: string|null, made: list<string>, priority: int|null, generation: int, group: array<string, mixed>|null, written: array<string, int>, copies: array<string, mixed>, pending: array{written: array<string, int>, copies: array<string, array<string, mixed>>}|null, backups: list<string>, fetched: array<string, array<string, mixed>>, result: array<string, mixed>|null, error: array<string, mixed>|null, attempts: int, reopens: int, holder: int|null, other: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}|null, redo: bool, converted: array{file: string, plugin: string, type: string}|null, alt: array{status: string, group: string|null, since: int, language: string|null}|null, updated: int}
 	 */
 	public static function get( int $attachment ): array {
 		$record = get_post_meta( $attachment, self::META, true );
@@ -158,6 +164,7 @@ class Records {
 			'other'      => self::other( $record['other'] ?? null ),
 			'redo'       => ! empty( $record['redo'] ),
 			'converted'  => self::converted( $record['converted'] ?? null ),
+			'alt'        => self::alt( $record['alt'] ?? null ),
 			'updated'    => isset( $record['updated'] ) ? (int) $record['updated'] : 0,
 		);
 	}
@@ -178,6 +185,25 @@ class Records {
 			'file'   => $converted['file'],
 			'plugin' => sanitize_key( $converted['plugin'] ),
 			'type'   => $converted['type'],
+		);
+	}
+
+	/**
+	 * Where an AI alt text stands, as a record keeps it, or null when none was asked for (`Alt_Text`).
+	 *
+	 * @param mixed $alt The record's `alt`.
+	 * @return array{status: string, group: string|null, since: int, language: string|null}|null
+	 */
+	protected static function alt( $alt ): ?array {
+		if ( ! is_array( $alt ) || empty( $alt['status'] ) || ! is_string( $alt['status'] ) ) {
+			return null;
+		}
+
+		return array(
+			'status'   => $alt['status'],
+			'group'    => isset( $alt['group'] ) && is_string( $alt['group'] ) ? $alt['group'] : null,
+			'since'    => (int) ( $alt['since'] ?? 0 ),
+			'language' => isset( $alt['language'] ) && is_string( $alt['language'] ) ? $alt['language'] : null,
 		);
 	}
 
@@ -205,6 +231,14 @@ class Records {
 			update_post_meta( $attachment, self::OTHER_META, $other['plugin'] . ':' . ( $other['original'] ? '1' : '0' ) );
 		} else {
 			delete_post_meta( $attachment, self::OTHER_META );
+		}
+
+		$alt = self::alt( $record['alt'] ?? null );
+
+		if ( null !== $alt ) {
+			update_post_meta( $attachment, self::ALT_META, $alt['status'] );
+		} else {
+			delete_post_meta( $attachment, self::ALT_META );
 		}
 
 		if ( is_string( $record['status'] ) ) {
@@ -385,6 +419,22 @@ class Records {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- a background read by the meta_key index; the placeholders are built above, one per status.
 		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value IN ({$in}) AND post_id > %d ORDER BY post_id ASC LIMIT %d", array_merge( array( self::STATUS_META ), $statuses, array( $after, $limit ) ) ) );
+
+		return array_values( array_map( 'intval', $ids ) );
+	}
+
+	/**
+	 * The attachments whose AI alt text is on its way, in the order of their ids.
+	 *
+	 * @param int $limit How many at most.
+	 * @param int $after The id to start after.
+	 * @return list<int>
+	 */
+	public static function waiting_for_alt_text( int $limit, int $after = 0 ): array {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- a background read by the meta_key index.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s AND post_id > %d ORDER BY post_id ASC LIMIT %d", self::ALT_META, Alt_Text::WAITING, $after, $limit ) );
 
 		return array_values( array_map( 'intval', $ids ) );
 	}
