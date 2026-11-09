@@ -268,7 +268,15 @@ export default function Account( {
 					<dl className="iminify-facts">
 						{ site.stats.map( ( row ) => (
 							<div key={ row.key }>
-								<dt>{ row.label }</dt>
+								<dt>
+									{ /* The network's key sends the main site's images, the other sites having keys of their own. */ }
+									{ networkPage && 'site' === row.key
+										? __(
+												'The main site',
+												'iminify-image-optimizer'
+											)
+										: row.label }
+								</dt>
 								<dd className="iminify-num">
 									<bdi className="iminify-totals__saved">
 										{ sprintf(
