@@ -475,7 +475,7 @@ class BulkTest extends WP_UnitTestCase {
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
 
-		foreach ( array( array( 'GET', '' ), array( 'POST', '/start' ), array( 'POST', '/stop' ), array( 'POST', '/step' ), array( 'POST', '/mode' ) ) as $route ) {
+		foreach ( array( array( 'GET', '' ), array( 'POST', '/start' ), array( 'POST', '/stop' ), array( 'POST', '/step' ), array( 'POST', '/mode' ), array( 'POST', '/start-now' ) ) as $route ) {
 			$this->assertSame(
 				403,
 				$this->call(
@@ -640,6 +640,51 @@ class BulkTest extends WP_UnitTestCase {
 		);
 		$this->api->on( 'GET', 'site', 200, $site );
 		Site_Record::forget();
+	}
+
+	public function test_start_now_asks_the_service_again_and_sends_what_waits_only_once_the_day_came_back(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$id   = $this->fresh( Records::PAUSED, 'day_spent' );
+		$site = Api_Stub::fixture( 'site' );
+
+		$site['data']['next_batch_at'] = gmdate( 'c', time() + 3600 );
+		$site['data']['message']       = array(
+			'code' => 'day_spent',
+			'text' => "Your account's uploads for the day are used up.",
+		);
+		$this->api->on( 'GET', 'site', 200, $site );
+		Site_Record::fetch();
+
+		/* A background run looks again only when the batch opens, as its feeder schedules itself during a spent day. */
+		$this->fresh();
+		Bulk::start( Bulk::OPTIMIZE, Bulk::BACKGROUND );
+		as_unschedule_all_actions( Bulk::FEED_HOOK, array(), Optimizer::GROUP );
+		as_schedule_single_action( time() + 3600, Bulk::FEED_HOOK, array(), Optimizer::GROUP );
+
+		$spent = $this->call( 'POST', '/start-now' )->get_data();
+
+		$this->assertFalse( $spent['started'] );
+		$this->assertNotNull( $spent['queue']['next_batch'] );
+		$this->assertSame( Records::PAUSED, Records::get( $id )['status'] );
+		$this->assertGreaterThan( time() + 60, as_next_scheduled_action( Bulk::FEED_HOOK, array(), Optimizer::GROUP ) );
+
+		/* A plan bought since: the service's next answer has the day back. */
+		$this->api->on( 'GET', 'site', 200, Api_Stub::fixture( 'site' ) );
+		$asked = count( $this->api->calls( 'GET', 'site' ) );
+
+		$back = $this->call( 'POST', '/start-now' )->get_data();
+
+		$this->assertTrue( $back['started'] );
+		$this->assertCount( $asked + 1, $this->api->calls( 'GET', 'site' ) );
+		$this->assertNull( $back['queue']['next_batch'] );
+		$this->assertSame( Records::QUEUED, Records::get( $id )['status'] );
+		$this->assertLessThanOrEqual( time(), as_next_scheduled_action( Bulk::FEED_HOOK, array(), Optimizer::GROUP ) );
+
+		Plugin::keys()->forget();
+		$refused = $this->call( 'POST', '/start-now' );
+
+		$this->assertSame( 409, $refused->get_status() );
+		$this->assertSame( 'not_connected', $refused->get_data()['code'] );
 	}
 
 	/**

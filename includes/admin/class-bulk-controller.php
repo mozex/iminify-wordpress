@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Admin;
 
 use Iminify\WordPress\Capabilities;
 use Iminify\WordPress\Media\Bulk;
+use Iminify\WordPress\Media\Queue;
 use Iminify\WordPress\Messages;
 use WP_Error;
 use WP_REST_Request;
@@ -79,6 +80,7 @@ class Bulk_Controller {
 			)
 		);
 		$this->route( '/step', WP_REST_Server::CREATABLE, 'step' );
+		$this->route( '/start-now', WP_REST_Server::CREATABLE, 'start_now' );
 	}
 
 	/**
@@ -166,6 +168,22 @@ class Bulk_Controller {
 		$next = Bulk::step();
 
 		return new WP_REST_Response( array_merge( Bulk_State::build(), array( 'next_step' => $next ) ) );
+	}
+
+	/**
+	 * Sends on what waits for the next batch, after asking Iminify afresh whether
+	 * the day came back (a plan bought since), answering in `started` whether it did.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function start_now() {
+		$started = Queue::start_now();
+
+		if ( is_wp_error( $started ) ) {
+			return new WP_Error( (string) $started->get_error_code(), Messages::for_error( $started ), array( 'status' => 409 ) );
+		}
+
+		return new WP_REST_Response( array_merge( Bulk_State::build(), array( 'started' => $started ) ) );
 	}
 
 	/**

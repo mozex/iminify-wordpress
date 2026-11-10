@@ -300,6 +300,12 @@
 	color: #059669;
 }
 
+/* Nothing waits, but not every image is optimized: no tick. */
+.iminify-done__badge--quiet {
+	background: var(--iminify-z100);
+	color: var(--iminify-z500);
+}
+
 .iminify-count {
 	display: flex;
 	flex-wrap: wrap;

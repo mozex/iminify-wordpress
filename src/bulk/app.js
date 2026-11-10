@@ -25,6 +25,7 @@ import {
 	Count,
 	Empty,
 	ErrorState,
+	ExternalLink,
 	formatNumber,
 	Icon,
 	Loading,
@@ -212,6 +213,12 @@ export default function App() {
 					<p>{ state.error }</p>
 				</Callout>
 			) }
+			{ /* Above everything, since it holds a run that is going as well as one about to start. */ }
+			{ state.conflict && (
+				<Callout tone="warning" role="status">
+					<p>{ state.conflict.message }</p>
+				</Callout>
+			) }
 			<div className="iminify-grid">
 				<div className="iminify-col">
 					{ state.run && (
@@ -223,6 +230,19 @@ export default function App() {
 							onStop={ () => run( '/bulk/stop', 'POST' ) }
 							onMode={ ( next ) =>
 								run( '/bulk/mode', 'POST', { mode: next } )
+							}
+							onStartNow={ () =>
+								run( '/bulk/start-now', 'POST' ).then(
+									( next ) =>
+										next &&
+										! next.started &&
+										setError( {
+											message: __(
+												"Iminify says your account's images for the day are still used up.",
+												'iminify-image-optimizer'
+											),
+										} )
+								)
 							}
 						/>
 					) }
@@ -268,14 +288,19 @@ export default function App() {
 							onRestore={ () => start( 'restore' ) }
 						/>
 					) }
-					{ ! active && state.folders && (
-						<OtherFolders
-							folders={ state.folders }
-							connected={ state.connected }
-							busy={ busy }
-							onStart={ ( action ) => start( action, 'folders' ) }
-						/>
-					) }
+					{ /* A run over the folders keeps their counts in sight, without the presses that start another. */ }
+					{ state.folders &&
+						( ! active || 'folders' === state.run.scope ) && (
+							<OtherFolders
+								folders={ state.folders }
+								connected={ state.connected }
+								busy={ busy }
+								going={ active }
+								onStart={ ( action ) =>
+									start( action, 'folders' )
+								}
+							/>
+						) }
 				</div>
 			</div>
 		</>
@@ -385,7 +410,7 @@ function Library( { state } ) {
 								) }
 							</span>
 							<span className="iminify-saved__amount">
-								{ saved.bytes }
+								<bdi>{ saved.bytes }</bdi>
 							</span>
 							<span className="iminify-saved__of">
 								{ sprintf(
@@ -570,36 +595,54 @@ function chipFor( run, queue ) {
 }
 
 /**
- * What a run does, in a few words, for its heading.
+ * What a run does, in a few words, for its heading: what it is doing while it
+ * goes, and what it did once it is done.
  *
- * @param {string} action The run's action.
- * @param {string} scope  What it takes: `library`, or `folders` for the images in other folders.
+ * @param {Object} run The run.
  * @return {string} The words.
  */
-function runTitle( action, scope ) {
-	if ( 'folders' === scope ) {
-		return 'restore' === action
-			? __( 'Restoring other folders', 'iminify-image-optimizer' )
+function runTitle( run ) {
+	const done = 'done' === run.status;
+
+	if ( 'folders' === run.scope ) {
+		if ( 'restore' === run.action ) {
+			return done
+				? __( 'Other folders restored', 'iminify-image-optimizer' )
+				: __( 'Restoring other folders', 'iminify-image-optimizer' );
+		}
+
+		return done
+			? __( 'Other folders optimized', 'iminify-image-optimizer' )
 			: __( 'Optimizing other folders', 'iminify-image-optimizer' );
 	}
 
-	switch ( action ) {
+	switch ( run.action ) {
 		case 'restore':
-			return __( 'Restoring', 'iminify-image-optimizer' );
+			return done
+				? __( 'Library restored', 'iminify-image-optimizer' )
+				: __( 'Restoring', 'iminify-image-optimizer' );
 		case 'alt_text':
-			return __( 'Writing alt text', 'iminify-image-optimizer' );
+			return done
+				? __( 'Alt text written', 'iminify-image-optimizer' )
+				: __( 'Writing alt text', 'iminify-image-optimizer' );
 		case 'formats':
-			return __(
-				'Making the missing formats',
-				'iminify-image-optimizer'
-			);
+			return done
+				? __( 'Missing formats made', 'iminify-image-optimizer' )
+				: __( 'Making the missing formats', 'iminify-image-optimizer' );
 		case 'sizes':
-			return __( 'Making the missing sizes', 'iminify-image-optimizer' );
+			return done
+				? __( 'Missing sizes made', 'iminify-image-optimizer' )
+				: __( 'Making the missing sizes', 'iminify-image-optimizer' );
 		case 'redo':
-			return __(
-				'Optimizing again from the originals',
-				'iminify-image-optimizer'
-			);
+			return done
+				? __(
+						'Optimized again from the originals',
+						'iminify-image-optimizer'
+					)
+				: __(
+						'Optimizing again from the originals',
+						'iminify-image-optimizer'
+					);
 		default:
 			return __( 'Bulk optimization', 'iminify-image-optimizer' );
 	}
@@ -608,95 +651,134 @@ function runTitle( action, scope ) {
 /**
  * The run: how far it got, why it waits, and its controls.
  *
- * @param {Object}                 props          The component's props.
- * @param {Object}                 props.state    The page's state.
- * @param {boolean}                props.busy     Whether a press is on its way.
- * @param {() => void}             props.onPause  Holds the run.
- * @param {() => void}             props.onResume Goes on with the run.
- * @param {() => void}             props.onStop   Ends the run.
- * @param {(mode: string) => void} props.onMode   Moves the run to the background or to this page.
+ * @param {Object}                 props            The component's props.
+ * @param {Object}                 props.state      The page's state.
+ * @param {boolean}                props.busy       Whether a press is on its way.
+ * @param {() => void}             props.onPause    Holds the run.
+ * @param {() => void}             props.onResume   Goes on with the run.
+ * @param {() => void}             props.onStop     Ends the run.
+ * @param {(mode: string) => void} props.onMode     Moves the run to the background or to this page.
+ * @param {() => void}             props.onStartNow Asks Iminify whether the day came back, and sends on what waits if it did.
  */
-function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
-	const { run, queue } = state;
+function Run( { state, busy, onPause, onResume, onStop, onMode, onStartNow } ) {
+	const { run, queue, links } = state;
 	const restore = 'restore' === run.action;
 	const active = [ 'running', 'paused' ].includes( run.status );
 	const chip = chipFor( run, queue );
+	const waitingForDay = Boolean( queue.next_batch ) && ! ignoresDay( run );
 	const moving =
 		'running' === run.status &&
 		! run.stalled &&
 		! run.held &&
-		! ( queue.next_batch && ! ignoresDay( run ) );
+		! waitingForDay;
 	const percent = run.total
 		? Math.min( 100, Math.round( ( run.sent / run.total ) * 100 ) )
 		: 0;
+	/* What the counter says, for screen readers, since the counter itself is drawn for the eye. */
+	const told = restore
+		? sprintf(
+				/* translators: 1: how many images were restored, 2: how many there were to restore. */
+				_n(
+					'Restored %1$s of %2$s image.',
+					'Restored %1$s of %2$s images.',
+					run.total,
+					'iminify-image-optimizer'
+				),
+				formatNumber( run.sent ),
+				formatNumber( run.total )
+			)
+		: sprintf(
+				/* translators: 1: how many images were sent, 2: how many there were to send. */
+				_n(
+					'Sent %1$s of %2$s image to Iminify.',
+					'Sent %1$s of %2$s images to Iminify.',
+					run.total,
+					'iminify-image-optimizer'
+				),
+				formatNumber( run.sent ),
+				formatNumber( run.total )
+			);
+	/* What the counter can't show: what is with Iminify right now, the texts for an alt text run. */
+	let withIminify = '';
+
+	if ( 'running' === run.status && 'alt_text' === run.action ) {
+		withIminify =
+			queue.alt_texts > 0
+				? sprintf(
+						/* translators: %s: how many alt texts. */
+						_n(
+							'%s alt text on its way',
+							'%s alt texts on their way',
+							queue.alt_texts,
+							'iminify-image-optimizer'
+						),
+						formatNumber( queue.alt_texts )
+					)
+				: '';
+	} else if ( 'running' === run.status && ! restore && queue.working > 0 ) {
+		withIminify = sprintf(
+			/* translators: %s: how many images. */
+			_n(
+				'%s image with Iminify now',
+				'%s images with Iminify now',
+				queue.working,
+				'iminify-image-optimizer'
+			),
+			formatNumber( queue.working )
+		);
+	}
 
 	return (
 		<Panel>
 			<div className="iminify-panel__head">
-				<h2>{ runTitle( run.action, run.scope ) }</h2>
+				<h2>{ runTitle( run ) }</h2>
 				<Chip tone={ chip.tone } icon={ chip.icon } moving={ moving }>
 					{ chip.label }
 				</Chip>
 			</div>
-			<div className="iminify-count" aria-hidden="true">
-				<span className="iminify-count__big">
-					<Count value={ run.sent } />
-				</span>
-				<span className="iminify-count__of">
-					/ <Count value={ run.total } />
-				</span>
-				<span className="iminify-count__what">
-					{ restore
-						? _n(
-								'image restored',
-								'images restored',
-								run.total,
-								'iminify-image-optimizer'
-							)
-						: _n(
-								'image sent to Iminify',
-								'images sent to Iminify',
-								run.total,
-								'iminify-image-optimizer'
-							) }
-				</span>
-			</div>
-			<ProgressBar
-				value={ percent }
-				moving={ moving }
-				restore={ restore }
-				label={ runTitle( run.action, run.scope ) }
-			/>
-			<div className="iminify-progress__row">
-				<span>
-					{ restore
-						? sprintf(
-								/* translators: 1: how many images were restored, 2: how many there were to restore. */
-								_n(
-									'Restored %1$s of %2$s image.',
-									'Restored %1$s of %2$s images.',
-									run.total,
-									'iminify-image-optimizer'
-								),
-								formatNumber( run.sent ),
-								formatNumber( run.total )
-							)
-						: sprintf(
-								/* translators: 1: how many images were sent, 2: how many there were to send. */
-								_n(
-									'Sent %1$s of %2$s image to Iminify.',
-									'Sent %1$s of %2$s images to Iminify.',
-									run.total,
-									'iminify-image-optimizer'
-								),
-								formatNumber( run.sent ),
-								formatNumber( run.total )
-							) }
-				</span>
-				<span className="iminify-num" aria-hidden="true">
-					{ percent }%
-				</span>
-			</div>
+			{ /* A run that found nothing to do has no count to show. */ }
+			{ run.total > 0 && (
+				<>
+					<div className="iminify-count" aria-hidden="true">
+						<span className="iminify-count__big">
+							<Count value={ run.sent } />
+						</span>
+						<span className="iminify-count__of">
+							/ <Count value={ run.total } />
+						</span>
+						<span className="iminify-count__what">
+							{ restore
+								? _n(
+										'image restored',
+										'images restored',
+										run.total,
+										'iminify-image-optimizer'
+									)
+								: _n(
+										'image sent to Iminify',
+										'images sent to Iminify',
+										run.total,
+										'iminify-image-optimizer'
+									) }
+						</span>
+					</div>
+					<ProgressBar
+						value={ percent }
+						moving={ moving }
+						restore={ restore }
+						label={ runTitle( run ) }
+					/>
+					<div className="iminify-progress__row">
+						<span>
+							<span className="iminify-sr">{ told }</span>
+							{ withIminify }
+						</span>
+						<span className="iminify-num" aria-hidden="true">
+							{ percent }%
+						</span>
+					</div>
+				</>
+			) }
 			{ restore && run.failed > 0 && (
 				<div className="iminify-status-gap">
 					<Callout>
@@ -734,6 +816,9 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 				</div>
 			) }
 			<RunStatus run={ run } queue={ queue } />
+			{ waitingForDay && 'running' === run.status && links.plans && (
+				<NextBatch plans={ links.plans } />
+			) }
 			{ run.stalled && (
 				<Stalled
 					run={ run }
@@ -743,6 +828,20 @@ function Run( { state, busy, onPause, onResume, onStop, onMode } ) {
 			) }
 			{ active && (
 				<div className="iminify-actions">
+					{ /* Asks Iminify again, for someone who bought a plan with more images a day while the run waits. */ }
+					{ waitingForDay &&
+						'running' === run.status &&
+						state.connected && (
+							<Button
+								variant="primary"
+								icon="play"
+								busy={ busy }
+								disabled={ busy }
+								onClick={ onStartNow }
+							>
+								{ __( 'Start now', 'iminify-image-optimizer' ) }
+							</Button>
+						) }
 					{ 'running' === run.status ? (
 						<Button
 							icon="pause"
@@ -910,6 +1009,16 @@ function runStatus( run, queue ) {
 		];
 	}
 
+	if ( run.stalled ) {
+		return [
+			'alert',
+			__(
+				"The run hasn't moved for a while: this site's scheduled tasks don't seem to run.",
+				'iminify-image-optimizer'
+			),
+		];
+	}
+
 	if ( queue.next_batch && ! ignoresDay( run ) ) {
 		return [
 			'clock',
@@ -996,14 +1105,6 @@ function Stalled( { run, busy, onPageMode } ) {
 	return (
 		<div className="iminify-status-gap">
 			<Callout>
-				<p>
-					<strong>
-						{ __(
-							"The run hasn't moved for a while: this site's scheduled tasks don't seem to run.",
-							'iminify-image-optimizer'
-						) }
-					</strong>
-				</p>
 				{ run.loopback && ! run.loopback.ok && (
 					<p>
 						{ sprintf(
@@ -1055,6 +1156,24 @@ function Stalled( { run, busy, onPageMode } ) {
 }
 
 /**
+ * A run waiting for the account's next batch: the plans, without a claim about
+ * them, since which plan has more is the service's to say (Max has none above
+ * it). Left out while wp-config.php keeps the account out of sight.
+ *
+ * @param {Object} props       The component's props.
+ * @param {string} props.plans The plans' address.
+ */
+function NextBatch( { plans } ) {
+	return (
+		<p className="iminify-links iminify-status-gap">
+			<ExternalLink href={ plans }>
+				{ __( 'Compare the plans', 'iminify-image-optimizer' ) }
+			</ExternalLink>
+		</p>
+	);
+}
+
+/**
  * Starting a run: what is left, the service's estimate, the disk the backups
  * need, and how the run goes, which a restore takes too.
  *
@@ -1074,11 +1193,6 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 
 	return (
 		<Panel>
-			{ conflict && (
-				<Callout tone="warning">
-					<p>{ conflict.message }</p>
-				</Callout>
-			) }
 			{ ! connected && (
 				<Callout icon="plug">
 					<p>
@@ -1132,22 +1246,7 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 					) }
 				</p>
 			) : (
-				<div className="iminify-done">
-					<span className="iminify-done__badge">
-						<Icon name={ counts.images > 0 ? 'check' : 'image' } />
-					</span>
-					<p className="iminify-hero">
-						{ counts.images > 0
-							? __(
-									'Every image is optimized or on its way.',
-									'iminify-image-optimizer'
-								)
-							: __(
-									'Your media library has no images yet.',
-									'iminify-image-optimizer'
-								) }
-					</p>
-				</div>
+				<Settled counts={ counts } numbers={ numbers } />
 			) }
 			{ estimate && left > 0 && (
 				<Estimate estimate={ estimate } links={ links } />
@@ -1216,6 +1315,65 @@ function Optimize( { state, busy, mode, onMode, onStart, onRetry } ) {
 				</div>
 			) }
 		</Panel>
+	);
+}
+
+/**
+ * The Optimize panel with nothing left for a run to send: every image optimized
+ * or on its way, or else what keeps the rest from it. A run never takes an image
+ * someone restored, so those are named with where each is optimized again.
+ *
+ * @param {Object} props         The component's props.
+ * @param {Object} props.counts  The library's counts.
+ * @param {Object} props.numbers The same, formatted.
+ */
+function Settled( { counts, numbers } ) {
+	const whole =
+		counts.images > 0 &&
+		0 === counts.failed &&
+		0 === counts.skipped &&
+		0 === counts.restored;
+	let hero = __( 'Nothing to optimize yet.', 'iminify-image-optimizer' );
+
+	if ( whole ) {
+		hero = __(
+			'Every image is optimized or on its way.',
+			'iminify-image-optimizer'
+		);
+	} else if ( counts.images > 0 ) {
+		hero = __(
+			'No image is waiting to be optimized.',
+			'iminify-image-optimizer'
+		);
+	}
+
+	return (
+		<>
+			<div className="iminify-done">
+				<span
+					className={ `iminify-done__badge${
+						whole ? '' : ' iminify-done__badge--quiet'
+					}` }
+				>
+					<Icon name={ whole ? 'check' : 'image' } />
+				</span>
+				<p className="iminify-hero">{ hero }</p>
+			</div>
+			{ counts.restored > 0 && (
+				<p className="iminify-text">
+					{ sprintf(
+						/* translators: %s: how many images. */
+						_n(
+							'%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library.',
+							'%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library.',
+							counts.restored,
+							'iminify-image-optimizer'
+						),
+						numbers.restored
+					) }
+				</p>
+			) }
+		</>
 	);
 }
 
@@ -1668,9 +1826,10 @@ function Estimate( { estimate, links } ) {
  * @param {Object}                   props.folders   What the page's state says of them.
  * @param {boolean}                  props.connected Whether the site is connected.
  * @param {boolean}                  props.busy      Whether a press is on its way.
+ * @param {boolean}                  props.going     Whether a run over them is going, which leaves only their counts.
  * @param {(action: string) => void} props.onStart   Starts a run over them.
  */
-function OtherFolders( { folders, connected, busy, onStart } ) {
+function OtherFolders( { folders, connected, busy, going, onStart } ) {
 	const { asking, open, close, opener } = useAsk();
 	const { counts, numbers, listed, scanning, link } = folders;
 
@@ -1710,13 +1869,14 @@ function OtherFolders( { folders, connected, busy, onStart } ) {
 					) }
 				</p>
 			) }
-			{ asking ? (
+			{ asking && ! going && (
 				<Confirm
 					question={ __(
 						'Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay.',
 						'iminify-image-optimizer'
 					) }
 					yes={ __( 'Restore all', 'iminify-image-optimizer' ) }
+					danger
 					busy={ busy }
 					onYes={ () => {
 						close();
@@ -1724,7 +1884,16 @@ function OtherFolders( { folders, connected, busy, onStart } ) {
 					} }
 					onNo={ close }
 				/>
-			) : (
+			) }
+			{ going && (
+				<div className="iminify-actions">
+					<a className="iminify-btn iminify-btn--ghost" href={ link }>
+						{ __( 'See the images', 'iminify-image-optimizer' ) }
+						<Icon name="arrow" flip />
+					</a>
+				</div>
+			) }
+			{ ! asking && ! going && (
 				<div className="iminify-actions">
 					{ connected && counts.not_optimized > 0 && (
 						<Button
@@ -1800,6 +1969,7 @@ function Restore( { state, busy, onRestore } ) {
 						'iminify-image-optimizer'
 					) }
 					yes={ __( 'Restore all', 'iminify-image-optimizer' ) }
+					danger
 					busy={ busy }
 					onYes={ () => {
 						close();

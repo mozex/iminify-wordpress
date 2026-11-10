@@ -775,6 +775,31 @@ class FoldersTest extends WP_UnitTestCase {
 		$this->assertSame( array( self::FOLDER . '/photo.jpg' ), array_column( Folders_State::build()['files']['rows'], 'path' ) );
 	}
 
+	public function test_each_file_shows_its_picture_from_its_own_address_and_none_once_it_is_gone(): void {
+		$this->folder( array( 'my photo.jpg' => 'canola.jpg' ) );
+		Folders::add( self::FOLDER );
+		Scanner::start();
+		Scanner::finish();
+
+		$file = WP_CONTENT_DIR . '/' . self::FOLDER . '/my photo.jpg';
+
+		$this->assertSame(
+			add_query_arg( 'v', (int) filesize( $file ), content_url( self::FOLDER . '/my%20photo.jpg' ) ),
+			Folders_State::build()['files']['rows'][0]['thumb']
+		);
+
+		/* A row is only data: a link put where the file was is refused as the guard refuses it everywhere, and a file gone has no picture. */
+		unlink( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- what the test made.
+		$this->link( self::FOLDER . '/my photo.jpg', DIR_TESTDATA . '/images/canola.jpg' );
+
+		$this->assertTrue( is_file( $file ) );
+		$this->assertNull( Folders_State::build()['files']['rows'][0]['thumb'] );
+
+		unlink( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- the link the test made.
+
+		$this->assertNull( Folders_State::build()['files']['rows'][0]['thumb'] );
+	}
+
 	/**
 	 * Deletes a file, a link or a folder with everything in it, never following a link.
 	 *

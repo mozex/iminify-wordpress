@@ -295,34 +295,57 @@ function Folders( { state, busy, onAdd, onRemove, onScan } ) {
 				</ul>
 			) }
 			{ choices.length > 0 && (
-				<div className="iminify-actions">
+				<ul className="iminify-files iminify-files--offered">
 					{ choices.map( ( folder ) => (
-						<Button
+						<li
 							key={ folder.path }
-							icon="folder"
-							disabled={ busy }
-							onClick={ () => onAdd( folder.path ) }
+							className="iminify-file iminify-file--one"
 						>
-							{ 'theme' === folder.kind
-								? sprintf(
-										/* translators: %s: the theme's name. */
-										__(
-											'Add your theme, %s',
-											'iminify-image-optimizer'
-										),
-										folder.name
-									)
-								: sprintf(
-										/* translators: %s: the parent theme's name. */
-										__(
-											'Add its parent theme, %s',
-											'iminify-image-optimizer'
-										),
-										folder.name
-									) }
-						</Button>
+							<span className="iminify-file__path">
+								{ folder.name }
+								<small className="iminify-file__kind">
+									{ 'theme' === folder.kind
+										? __(
+												'Your theme',
+												'iminify-image-optimizer'
+											)
+										: __(
+												'Its parent theme',
+												'iminify-image-optimizer'
+											) }
+								</small>
+							</span>
+							<div className="iminify-file__actions">
+								<Button
+									size="small"
+									disabled={ busy }
+									aria-label={
+										'theme' === folder.kind
+											? sprintf(
+													/* translators: %s: the theme's name. */
+													__(
+														'Add your theme, %s',
+														'iminify-image-optimizer'
+													),
+													folder.name
+												)
+											: sprintf(
+													/* translators: %s: the parent theme's name. */
+													__(
+														'Add its parent theme, %s',
+														'iminify-image-optimizer'
+													),
+													folder.name
+												)
+									}
+									onClick={ () => onAdd( folder.path ) }
+								>
+									{ __( 'Add', 'iminify-image-optimizer' ) }
+								</Button>
+							</div>
+						</li>
 					) ) }
-				</div>
+				</ul>
 			) }
 			<form className="iminify-section" onSubmit={ add }>
 				<label className="iminify-label" htmlFor="iminify-folder">
@@ -459,7 +482,7 @@ function Summary( { state } ) {
 						{ __( 'Saved so far', 'iminify-image-optimizer' ) }
 					</span>
 					<span className="iminify-saved__amount">
-						{ saved.bytes }
+						<bdi>{ saved.bytes }</bdi>
 					</span>
 					<span className="iminify-saved__of">
 						{ sprintf(
@@ -557,12 +580,10 @@ function chipFor( file ) {
 			};
 		case 'other':
 			return {
-				label:
-					file.reason ||
-					__(
-						'Optimized by another plugin',
-						'iminify-image-optimizer'
-					),
+				label: __(
+					'Optimized by another plugin',
+					'iminify-image-optimizer'
+				),
 				tone: 'success',
 				moving: false,
 			};
@@ -573,6 +594,26 @@ function chipFor( file ) {
 				moving: false,
 			};
 	}
+}
+
+/**
+ * A path's folder, with its last slash, or nothing for a file at the top.
+ *
+ * @param {string} path The file's path.
+ * @return {string} Its folder.
+ */
+function folderOf( path ) {
+	return path.slice( 0, path.lastIndexOf( '/' ) + 1 );
+}
+
+/**
+ * A path's file name.
+ *
+ * @param {string} path The file's path.
+ * @return {string} Its name.
+ */
+function nameOf( path ) {
+	return path.slice( path.lastIndexOf( '/' ) + 1 );
 }
 
 /**
@@ -609,6 +650,15 @@ function Files( {
 				'iminify-image-optimizer'
 			),
 		} ),
+	};
+	/* What each filter shows, as the server's filters group the statuses. */
+	const shown = {
+		all: counts.files,
+		optimized: counts.optimized,
+		not_optimized: counts.not_optimized + counts.restored,
+		waiting: counts.waiting,
+		failed: counts.failed + counts.skipped,
+		other: counts.other,
 	};
 
 	if ( 0 === listed.length ) {
@@ -654,7 +704,10 @@ function Files( {
 							aria-pressed={ key === filter }
 							onClick={ () => onFilter( key ) }
 						>
-							{ filters[ key ] }
+							{ filters[ key ] }{ ' ' }
+							<span className="iminify-tab__count">
+								{ formatNumber( shown[ key ] ) }
+							</span>
 						</button>
 					) ) }
 				</div>
@@ -744,15 +797,36 @@ function FileRow( { file, connected, busy, onOptimize, onRestore } ) {
 		! [ 'skipped', 'other' ].includes( file.status );
 
 	return (
-		<li className="iminify-file">
+		<li className="iminify-file iminify-file--image">
+			{ file.thumb ? (
+				<img
+					className="iminify-file__thumb"
+					src={ file.thumb }
+					alt=""
+					width="44"
+					height="44"
+					loading="lazy"
+					decoding="async"
+				/>
+			) : (
+				<span className="iminify-file__thumb" aria-hidden="true">
+					<Icon name="image" />
+				</span>
+			) }
 			<span className="iminify-file__path">
-				<bdi dir="ltr">{ file.path }</bdi>
+				{ /* The folder comes first, so the path reads whole; the name is drawn above it. Each part reads left to right in any language. */ }
+				<bdi dir="ltr" className="iminify-file__dir">
+					{ folderOf( file.path ) }
+				</bdi>
+				<bdi dir="ltr" className="iminify-file__name">
+					{ nameOf( file.path ) }
+				</bdi>
 			</span>
 			<span className="iminify-file__meta">
 				<Chip tone={ chip.tone } moving={ chip.moving }>
 					{ chip.label }
 				</Chip>
-				<span>{ file.size }</span>
+				<bdi>{ file.size }</bdi>
 				{ file.saved && (
 					<span>
 						{ sprintf(

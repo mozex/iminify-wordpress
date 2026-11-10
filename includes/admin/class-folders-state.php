@@ -110,6 +110,26 @@ class Folders_State {
 	}
 
 	/**
+	 * The address the list shows a file's picture from, or null when the file is
+	 * gone or its row names one outside the folders the plugin may read (a row is
+	 * data anyone with the database could have written). The file's bytes mark the
+	 * address, so a file written over since shows as it is now.
+	 *
+	 * @param array<string, mixed> $row The file's row.
+	 */
+	protected static function thumb( array $row ): ?string {
+		$relative = (string) $row['path'];
+
+		if ( null === Folders::guard( $relative ) ) {
+			return null;
+		}
+
+		$address = content_url( implode( '/', array_map( 'rawurlencode', explode( '/', trim( wp_normalize_path( $relative ), '/' ) ) ) ) );
+
+		return add_query_arg( 'v', (int) $row['bytes'], $address );
+	}
+
+	/**
 	 * One file as the list shows it.
 	 *
 	 * @param array<string, mixed> $row The file's row.
@@ -125,6 +145,7 @@ class Folders_State {
 		return array(
 			'id'          => (int) $row['id'],
 			'path'        => (string) $row['path'],
+			'thumb'       => self::thumb( $row ),
 			'size'        => (string) size_format( (int) $row['bytes'], 1 ),
 			'status'      => $status,
 			'reason'      => Others::reason( $row['error'] ),

@@ -103,11 +103,12 @@ class Pause {
 	}
 
 	/**
-	 * Ends the pause.
+	 * Ends the pause, and wakes a background bulk run that would sleep until it ended.
 	 */
 	public static function lift(): void {
 		delete_option( self::OPTION );
 		as_unschedule_all_actions( Queue::OPENS_HOOK );
+		Bulk::wake();
 	}
 
 	/**

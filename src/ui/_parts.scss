@@ -514,7 +514,11 @@
 	list-style: none;
 }
 
+/* A gap rather than a margin before its count, so the count keeps its side in a right-to-left admin. */
 .iminify-tab {
+	display: inline-flex;
+	gap: 6px;
+	align-items: baseline;
 	margin: 0;
 	padding-block: 5px;
 	padding-inline: 11px;
@@ -624,6 +628,90 @@
 /* A row with nothing under its path, such as a chosen folder, keeps its actions beside the path. */
 .iminify-file--one .iminify-file__actions {
 	grid-row: 1;
+}
+
+/* An image's row: its picture, its name over its folder and what it weighs, then what it can do. */
+.iminify-file--image {
+	grid-template-columns: 44px minmax(0, 1fr) auto;
+
+	.iminify-file__path,
+	.iminify-file__meta {
+		grid-column: 2;
+	}
+
+	.iminify-file__actions {
+		grid-column: 3;
+	}
+
+	.iminify-file__why,
+	.iminify-confirm {
+		grid-column: 2 / -1;
+	}
+}
+
+.iminify-file__thumb {
+	display: grid;
+	place-items: center;
+	grid-row: 1 / span 2;
+	grid-column: 1;
+	align-self: start;
+	box-sizing: border-box;
+	width: 44px;
+	height: 44px;
+	border: 1px solid var(--iminify-z200);
+	border-radius: var(--iminify-radius-small);
+	background: var(--iminify-z50);
+	color: var(--iminify-z400);
+	object-fit: cover;
+}
+
+/* The folder is first in the markup, so the path reads whole, and drawn under the name, both at the line's start in either direction. */
+.iminify-file--image .iminify-file__path {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.iminify-file__name {
+	order: 1;
+}
+
+.iminify-file__dir {
+	order: 2;
+	color: var(--iminify-z500);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.iminify-file__kind {
+	display: block;
+	color: var(--iminify-z500);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+/* Below a list of chosen folders, the ones offered carry on as the same list. */
+.iminify-files + .iminify-files--offered {
+	border-top: 0;
+}
+
+.iminify-tab__count {
+	color: var(--iminify-z500);
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+}
+
+.iminify-tab[aria-pressed="true"] .iminify-tab__count {
+	color: inherit;
+}
+
+/* In a narrow column, an image's presses go under its name rather than squeeze it. */
+@container iminify-app (max-width: 600px) {
+	.iminify-file--image .iminify-file__actions {
+		grid-row: auto;
+		grid-column: 2 / -1;
+		justify-content: flex-start;
+	}
 }
 
 /* A select of the design's own, keeping core's arrow. The class twice outweighs core's `select`. */

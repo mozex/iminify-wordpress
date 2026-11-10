@@ -33,7 +33,9 @@ test( 'A run sends the images not optimized, and stopping it takes back what wai
 	await expect( page.getByText( 'Saved so far' ) ).toBeVisible();
 
 	await page.getByRole( 'button', { name: 'Optimize the library' } ).click();
-	await expect( page.getByText( 'Sent 2 of 2 images to Iminify.' ) ).toBeVisible( { timeout: 15_000 } );
+	/* The counter is drawn for the eye, and the same in a sentence for screen readers alone. */
+	await expect( page.locator( '.iminify-count' ) ).toHaveText( /^2\s*\/\s*2\s*images sent to Iminify$/, { timeout: 15_000 } );
+	await expect( page.locator( '.iminify-progress__row .iminify-sr' ) ).toHaveText( 'Sent 2 of 2 images to Iminify.' );
 	await expect( count( page, 'On their way' ) ).toHaveText( '2' );
 
 	for ( const id of fresh ) {
@@ -66,7 +68,8 @@ test( 'What the optimized images lack is asked for in the page, sent as a run, a
 	await button.click();
 	await page.locator( '.iminify-confirm' ).getByRole( 'button', { name: 'Make the missing formats' } ).click();
 	await expect( page.getByRole( 'heading', { name: 'Making the missing formats' } ) ).toBeVisible( { timeout: 15_000 } );
-	await expect( page.getByText( 'Sent 1 of 1 image to Iminify.' ) ).toBeVisible();
+	await expect( page.locator( '.iminify-count' ) ).toHaveText( /^1\s*\/\s*1\s*image sent to Iminify$/ );
+	await expect( page.locator( '.iminify-progress__row .iminify-sr' ) ).toHaveText( 'Sent 1 of 1 image to Iminify.' );
 
 	const sent = seedJson( 'record', { id } );
 	expect( sent.status ).toBe( 'queued' );
@@ -101,10 +104,20 @@ test( 'Restore all asks in the page first, then puts the optimized images back w
 	expect( seedJson( 'record', { id } ).status ).toBe( 'optimized' );
 
 	await page.getByRole( 'button', { name: 'Restore all' } ).click();
-	await page.locator( '.iminify-confirm' ).getByRole( 'button', { name: 'Restore all' } ).click();
+
+	/* Undoing a whole library's work costs the account's images to do again, so its yes is red. */
+	const yes = page.locator( '.iminify-confirm' ).getByRole( 'button', { name: 'Restore all' } );
+	await expect( yes ).toHaveClass( /iminify-btn--danger/ );
+	await yes.click();
 
 	/* WordPress makes every size again from the backup, which takes a few seconds. */
 	await expect( page.getByText( 'Finished: the images are back as they were uploaded.' ) ).toBeVisible( { timeout: 20_000 } );
+	await expect( page.getByRole( 'heading', { name: 'Library restored' } ) ).toBeVisible();
 	await expect( count( page, 'Restored' ) ).toHaveText( '1' );
 	expect( seedJson( 'record', { id } ).status ).toBe( 'not_optimized' );
+
+	/* A run never takes an image someone put back, so the page doesn't call the library optimized. */
+	await expect( page.getByText( 'No image is waiting to be optimized.' ) ).toBeVisible();
+	await expect( page.getByText( 'Every image is optimized or on its way.' ) ).toBeHidden();
+	await expect( page.getByText( '1 image was restored, and stays as it is' ) ).toBeVisible();
 } );

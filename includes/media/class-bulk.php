@@ -559,6 +559,23 @@ class Bulk {
 	}
 
 	/**
+	 * Brings a background run's next look forward to now. While the account's day
+	 * is spent, a look schedules the next one for when the batch opens, so a pause
+	 * lifted sooner (a plan bought, Start now) would otherwise leave the run asleep
+	 * until then; a run driven by its page looks again within a minute by itself.
+	 */
+	public static function wake(): void {
+		$run = self::run();
+
+		if ( null === $run || self::RUNNING !== $run['status'] || self::BACKGROUND !== $run['mode'] ) {
+			return;
+		}
+
+		as_unschedule_all_actions( self::FEED_HOOK, array(), Optimizer::GROUP );
+		as_schedule_single_action( time(), self::FEED_HOOK, array(), Optimizer::GROUP );
+	}
+
+	/**
 	 * A request from the bulk page for a run in its mode: a look while the run goes
 	 * on, then the plugin's due actions run here for as long as the request's budget
 	 * lasts. A run paused, stopped or done still has its images on their way

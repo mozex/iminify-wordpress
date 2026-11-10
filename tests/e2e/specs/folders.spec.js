@@ -30,6 +30,10 @@ test( 'A folder is chosen by its path and looked through, the library is refused
 	await expect( page.locator( '.iminify-file__path', { hasText: `${ folder }/picture-1.jpg` } ) ).toBeVisible();
 	await expect( page.getByText( 'Last looked on' ) ).toContainText( '2 images, 2 new, 0 changed' );
 
+	/* Each row shows its picture from the file's own address, and each filter what it holds. */
+	await expect( page.locator( '.iminify-file', { hasText: 'picture-0.jpg' } ).locator( 'img.iminify-file__thumb' ) ).toHaveAttribute( 'src', new RegExp( `/wp-content/${ folder }/picture-0\\.jpg\\?v=\\d+$` ) );
+	await expect( page.getByRole( 'button', { name: 'Not optimized' } ) ).toContainText( '2' );
+
 	const row = page.locator( '.iminify-file', { hasText: 'picture-0.jpg' } );
 	await row.getByRole( 'button', { name: 'Optimize' } ).click();
 	await expect( page.getByText( 'Sent to Iminify.' ) ).toBeVisible();
