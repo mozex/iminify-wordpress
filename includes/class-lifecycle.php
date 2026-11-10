@@ -303,7 +303,7 @@ class Lifecycle {
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function park( int $attachment ): void {
-		Records::wait( $attachment, Records::PARKED, 'deactivated', __( 'Waiting to go on: the plugin was turned off while this image was on its way.', 'iminify-image-optimizer' ) );
+		Records::wait( $attachment, Records::PARKED, Reasons::of( 'deactivated' ) );
 	}
 
 	/**

@@ -388,20 +388,16 @@ class Records {
 	 * Records why an attachment waits, keeping an open group: its image is already
 	 * counted, so it is finished rather than opened again once the wait is over.
 	 *
-	 * @param int    $attachment The attachment's id.
-	 * @param string $status     What it waits for: PAUSED or PARKED.
-	 * @param string $code       The reason's code.
-	 * @param string $message    The reason, in words.
+	 * @param int                  $attachment The attachment's id.
+	 * @param string               $status     What it waits for: PAUSED or PARKED.
+	 * @param array<string, mixed> $reason     Why, as `Reasons` makes it.
 	 */
-	public static function wait( int $attachment, string $status, string $code, string $message ): void {
+	public static function wait( int $attachment, string $status, array $reason ): void {
 		self::update(
 			$attachment,
 			array(
 				'status' => $status,
-				'error'  => array(
-					'code'    => $code,
-					'message' => $message,
-				),
+				'error'  => $reason,
 			)
 		);
 	}
@@ -601,12 +597,11 @@ class Records {
 	 * its copies and its savings are all as they were, so it reads optimized, and
 	 * Restore all still takes it, with the reason beside it.
 	 *
-	 * @param int    $attachment The attachment's id.
-	 * @param string $status     Where it stands now.
-	 * @param string $code       The reason's code.
-	 * @param string $message    The reason, in words.
+	 * @param int                  $attachment The attachment's id.
+	 * @param string               $status     Where it stands now.
+	 * @param array<string, mixed> $reason     Why, as `Reasons` makes it.
 	 */
-	public static function fail( int $attachment, string $status, string $code, string $message ): void {
+	public static function fail( int $attachment, string $status, array $reason ): void {
 		$filling = null !== self::get( $attachment )['fill'];
 
 		self::update(
@@ -615,10 +610,7 @@ class Records {
 				array(
 					'status' => $filling ? self::OPTIMIZED : $status,
 					'group'  => null,
-					'error'  => array(
-						'code'    => $code,
-						'message' => $message,
-					),
+					'error'  => $reason,
 				),
 				$filling ? array(
 					'fill'  => null,

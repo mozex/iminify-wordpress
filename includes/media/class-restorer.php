@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Switching\Others;
 use WP_Error;
 
@@ -151,7 +152,7 @@ class Restorer {
 		$source = Originals::fetch( $attachment, $metadata, null );
 
 		if ( $source instanceof WP_Error ) {
-			return new WP_Error( 'restore_failed', __( 'The original couldn\'t be copied back from WP Offload Media\'s bucket, so the image stays as it was. Try again.', 'iminify-image-optimizer' ), array( 'status' => 503 ) );
+			return Reasons::error( 'restore_failed', 'restore_bucket', array(), array( 'status' => 503 ) );
 		}
 
 		if ( null === $source ) {
@@ -170,7 +171,7 @@ class Restorer {
 
 		/* Another plugin's backup is copied, never moved: its own restore still needs it where it is. */
 		if ( in_array( $source['kind'], array( Originals::BACKUP, Originals::OTHER ), true ) && ( ! Files::copy( $source['path'], $target ) || ! Backups::same( $source['path'], $target ) ) ) {
-			Records::fail( $attachment, Records::ERROR, 'restore_failed', __( 'The original couldn\'t be put back, so the image stays as it was.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::ERROR, Reasons::of( 'restore_failed', 'restore_put_back' ) );
 
 			return self::failed();
 		}
@@ -187,7 +188,7 @@ class Restorer {
 		$fresh    = self::make_sizes( $attachment, $target, $attached );
 
 		if ( null === $fresh ) {
-			Records::fail( $attachment, Records::ERROR, 'restore_failed', __( 'WordPress couldn\'t read the original, so the image\'s sizes stay as they were. Try again.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::ERROR, Reasons::of( 'restore_failed', 'restore_unreadable' ) );
 
 			/** This action is documented in includes/admin/class-media-controller.php */
 			do_action( 'iminify_copies_deleted', $attachment );
@@ -209,10 +210,7 @@ class Restorer {
 			array(
 				'fill'    => null,
 				'status'  => Records::NOT_OPTIMIZED,
-				'error'   => array(
-					'code'    => 'restored',
-					'message' => __( 'Restored: the original is back.', 'iminify-image-optimizer' ),
-				),
+				'error'   => Reasons::of( Records::RESTORED ),
 				'group'   => null,
 				/* Only what this restore replaced: a file it didn't touch is still the plugin's output, and must never pass for an original. */
 				'written' => array_diff_key( $written, array_flip( self::files_of( (string) get_attached_file( $attachment, true ), $fresh ) ) ),
@@ -451,30 +449,22 @@ class Restorer {
 	protected static function refusal( string $availability, int $attachment ): WP_Error {
 		/* Said from the plugin's own record too once it optimized a converted image again, which no reader claims any more. */
 		if ( self::THEIRS === $availability ) {
-			return new WP_Error( 'restore_elsewhere', Others::elsewhere( $attachment ), array( 'status' => 409 ) );
+			return Reasons::error( 'restore_elsewhere', '', array( $attachment ), array( 'status' => 409 ) );
 		}
 
 		$verdict = self::NO_ORIGINAL === $availability ? Others::verdict( $attachment ) : null;
 
 		if ( null !== $verdict ) {
-			return new WP_Error(
-				'no_original',
-				sprintf(
-					/* translators: %s: another image optimizer's name, such as Imagify. */
-					__( '%s kept no original of this image that Iminify can check, so it can\'t be restored here.', 'iminify-image-optimizer' ),
-					Others::name( $verdict['plugin'] )
-				),
-				array( 'status' => 409 )
-			);
+			return Reasons::error( 'no_original', 'no_original_theirs', array( $verdict['plugin'] ), array( 'status' => 409 ) );
 		}
 
 		switch ( $availability ) {
 			case self::NOTHING:
-				return new WP_Error( 'nothing_to_restore', __( 'Iminify hasn\'t changed this image, so there\'s nothing to restore.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'nothing_to_restore', '', array(), array( 'status' => 409 ) );
 			case self::CHANGED:
-				return new WP_Error( 'image_changed', __( 'This image has changed since Iminify optimized it, so restoring it would overwrite the new one.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'image_changed', 'changed_restore', array(), array( 'status' => 409 ) );
 			default:
-				return new WP_Error( 'no_original', __( 'No original of this image was kept, so it can\'t be restored. Backups were off when it was optimized, or the backup was deleted.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'no_original', 'no_original_restore', array(), array( 'status' => 409 ) );
 		}
 	}
 
@@ -482,6 +472,6 @@ class Restorer {
 	 * The refusal for a restore that failed on the way.
 	 */
 	protected static function failed(): WP_Error {
-		return new WP_Error( 'restore_failed', __( 'The image couldn\'t be restored.', 'iminify-image-optimizer' ), array( 'status' => 500 ) );
+		return Reasons::error( 'restore_failed', '', array(), array( 'status' => 500 ) );
 	}
 }

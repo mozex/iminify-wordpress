@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Connection;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use WP_Error;
 
@@ -56,18 +57,18 @@ class Refusal {
 	 * @param WP_Error|null $error    What went wrong, or null for no answer at all.
 	 * @param bool          $opening  Whether the refused call opened a group, the only call a spent day refuses.
 	 * @param int           $attempts The image's failed tries so far.
-	 * @return array{then: string, code: string, message: string, seconds: int, throttled: bool} What the image does, why, how long it waits, and whether a bulk group was turned away for the work already waiting on the service.
+	 * @return array{then: string, code: string, reason: array<string, mixed>, seconds: int, throttled: bool} What the image does, why (its code, and the reason to keep, `Reasons`), how long it waits, and whether a bulk group was turned away for the work already waiting on the service.
 	 */
 	public static function decide( ?WP_Error $error, bool $opening, int $attempts ): array {
-		$code    = null === $error ? 'unexpected_response' : (string) $error->get_error_code();
-		$message = null === $error ? __( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ) : $error->get_error_message();
-		$data    = null === $error ? array() : $error->get_error_data();
-		$data    = is_array( $data ) ? $data : array();
-		$status  = (int) ( $data['status'] ?? 0 );
-		$then    = array(
+		$reason = Reasons::from( $error );
+		$code   = $reason['code'];
+		$data   = null === $error ? array() : $error->get_error_data();
+		$data   = is_array( $data ) ? $data : array();
+		$status = (int) ( $data['status'] ?? 0 );
+		$then   = array(
 			'then'      => self::FAIL,
 			'code'      => $code,
-			'message'   => $message,
+			'reason'    => $reason,
 			'seconds'   => 0,
 			'throttled' => false,
 		);

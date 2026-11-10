@@ -3,7 +3,7 @@
  * before the grid is drawn, so core's browser is extended as this script loads; the
  * choice travels as a query property, which `Media_View::apply_grid_filter()` reads.
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 
 const media = window.wp?.media;
 
@@ -17,10 +17,21 @@ if ( media?.view?.AttachmentsBrowser && media?.view?.AttachmentFilters ) {
 					'all',
 					__( 'All Iminify statuses', 'iminify-image-optimizer' ),
 				],
-				[ 'optimized', __( 'Optimized', 'iminify-image-optimizer' ) ],
+				[
+					'optimized',
+					_x(
+						'Optimized',
+						'images, over a count or as a filter',
+						'iminify-image-optimizer'
+					),
+				],
 				[
 					'not_optimized',
-					__( 'Not optimized', 'iminify-image-optimizer' ),
+					_x(
+						'Not optimized',
+						'images, over a count or as a filter',
+						'iminify-image-optimizer'
+					),
 				],
 				[ 'errors', __( 'Errors', 'iminify-image-optimizer' ) ],
 				[

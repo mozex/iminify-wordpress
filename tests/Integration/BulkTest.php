@@ -448,6 +448,7 @@ class BulkTest extends WP_UnitTestCase {
 			array(
 				'ok'      => false,
 				'message' => 'The loopback request to your site failed.',
+				'locale'  => determine_locale(),
 			)
 		);
 

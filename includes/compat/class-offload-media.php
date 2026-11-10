@@ -13,6 +13,7 @@ use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Writer;
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -376,7 +377,7 @@ class Offload_Media {
 	 * the optimizer tries again later as it does an outage.
 	 */
 	public static function unreachable(): WP_Error {
-		return new WP_Error( 'bucket_unreachable', __( 'The image couldn\'t be copied back from WP Offload Media\'s bucket to send it.', 'iminify-image-optimizer' ), array( 'status' => 503 ) );
+		return Reasons::error( 'bucket_unreachable', '', array(), array( 'status' => 503 ) );
 	}
 
 	/**

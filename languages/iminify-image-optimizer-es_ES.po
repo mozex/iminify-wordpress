@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T02:17:25+00:00\n"
-"PO-Revision-Date: 2026-11-10 02:17+0000\n"
+"POT-Creation-Date: 2026-11-10T03:10:50+00:00\n"
+"PO-Revision-Date: 2026-11-10 03:13+0000\n"
 "Language: es_ES\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: iminify-image-optimizer\n"
@@ -37,8 +37,8 @@ msgstr "Comprime, convierte y redimensiona las imágenes de tu biblioteca de med
 
 #. Author of the plugin
 #: iminify-image-optimizer.php
-#: includes/admin/class-media-view.php:103
-#: includes/admin/class-media-view.php:425
+#: includes/admin/class-media-view.php:104
+#: includes/admin/class-media-view.php:426
 #: includes/admin/class-page-header.php:39
 #: includes/admin/class-settings-page.php:56
 #: includes/admin/class-settings-page.php:77
@@ -101,7 +101,7 @@ msgid "That folder isn't in the list."
 msgstr "Esa carpeta no está en la lista."
 
 #: includes/admin/class-folders-controller.php:191
-#: includes/folders/class-restorer.php:94
+#: includes/folders/class-restorer.php:95
 msgid "That image isn't in the list."
 msgstr "Esa imagen no está en la lista."
 
@@ -119,169 +119,171 @@ msgstr "Las imágenes de tu tema y de otras carpetas fuera de la biblioteca de m
 msgid "This image has no original on the site to compare it with."
 msgstr "Esta imagen no tiene un original en el sitio con el que compararla."
 
-#: includes/admin/class-media-view.php:180
+#: includes/admin/class-media-view.php:181
 msgid "Original"
 msgstr "Original"
 
-#: includes/admin/class-media-view.php:207
-#: includes/admin/class-media-view.php:332
+#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:333
 msgid "Compare with the original"
 msgstr "Comparar con el original"
 
-#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:209
 msgid "Close"
 msgstr "Cerrar"
 
-#: includes/admin/class-media-view.php:209
+#: includes/admin/class-media-view.php:210
 msgid "How much of the original shows"
 msgstr "Cuánto se ve del original"
 
-#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:211
 msgid "The optimized file to compare"
 msgstr "El archivo optimizado que comparar"
 
-#: includes/admin/class-media-view.php:211
+#: includes/admin/class-media-view.php:212
 msgid "This image couldn't be loaded from the site."
 msgstr "No se pudo cargar esta imagen desde el sitio."
 
-#: includes/admin/class-media-view.php:213
+#: includes/admin/class-media-view.php:214
 msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "Arrastra la línea, o usa las teclas de flecha, para ver más del original en un lado y del archivo optimizado en el otro."
 
 #. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
-#: includes/admin/class-media-view.php:216
+#: includes/admin/class-media-view.php:217
 #, php-format
 msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "Optimizada con el nivel %s. Arrastra la línea, o usa las teclas de flecha, para ver más del original en un lado y del archivo optimizado en el otro."
 
 #. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
-#: includes/admin/class-media-view.php:245
+#: includes/admin/class-media-view.php:246
 #, php-format
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
 
 #. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
-#: includes/admin/class-media-view.php:253
+#: includes/admin/class-media-view.php:254
 #, php-format
 msgid "%1$s, %2$s smaller"
 msgstr "%1$s, un %2$s más pequeño"
 
-#: includes/admin/class-media-view.php:275
-#: includes/admin/class-media-view.php:571
-#: includes/admin/class-media-view.php:836
+#: includes/admin/class-media-view.php:276
+#: includes/admin/class-media-view.php:837
 #: assets/build/audit.js:11
-#: assets/build/bulk.js:2
-#: assets/build/bulk.js:3
-#: assets/build/folders.js:4
-#: assets/build/folders.js:6
 #: assets/build/folders.js:8
-#: assets/build/media-grid.js:1
+msgctxt "the status of one image"
 msgid "Optimized"
 msgstr "Optimizada"
 
-#: includes/admin/class-media-view.php:372
+#: includes/admin/class-media-view.php:373
 msgid "Optimize again from the original"
 msgstr "Optimizar de nuevo desde el original"
 
-#: includes/admin/class-media-view.php:376
-#: includes/admin/class-media-view.php:403
-#: includes/admin/class-media-view.php:1167
-#: includes/admin/class-media-view.php:1211
+#: includes/admin/class-media-view.php:377
+#: includes/admin/class-media-view.php:404
+#: includes/admin/class-media-view.php:1168
+#: includes/admin/class-media-view.php:1212
 msgid "Restore original"
 msgstr "Restaurar el original"
 
-#: includes/admin/class-media-view.php:397
-#: includes/admin/class-media-view.php:1159
-#: includes/admin/class-media-view.php:1191
+#: includes/admin/class-media-view.php:398
+#: includes/admin/class-media-view.php:1160
+#: includes/admin/class-media-view.php:1192
 #: assets/build/folders.js:9
 msgid "Optimize again"
 msgstr "Optimizar de nuevo"
 
-#: includes/admin/class-media-view.php:397
+#: includes/admin/class-media-view.php:398
 #: assets/build/audit.js:14
 #: assets/build/folders.js:9
 msgid "Optimize"
 msgstr "Optimizar"
 
-#: includes/admin/class-media-view.php:450
+#: includes/admin/class-media-view.php:451
 #: assets/build/media-grid.js:1
 msgid "Filter by Iminify status"
 msgstr "Filtrar por estado de Iminify"
 
-#: includes/admin/class-media-view.php:452
+#: includes/admin/class-media-view.php:453
 #: assets/build/media-grid.js:1
 msgid "All Iminify statuses"
 msgstr "Todos los estados de Iminify"
 
 #: includes/admin/class-media-view.php:572
-#: includes/admin/class-media-view.php:850
-#: assets/build/audit.js:11
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Optimizadas"
+
+#: includes/admin/class-media-view.php:573
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
 #: assets/build/folders.js:6
-#: assets/build/folders.js:8
 #: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
 msgid "Not optimized"
 msgstr "Sin optimizar"
 
-#: includes/admin/class-media-view.php:573
+#: includes/admin/class-media-view.php:574
 #: assets/build/media-grid.js:1
 msgid "Errors"
 msgstr "Errores"
 
-#: includes/admin/class-media-view.php:574
+#: includes/admin/class-media-view.php:575
 #: assets/build/media-grid.js:1
 msgid "Missing formats"
 msgstr "Faltan formatos"
 
-#: includes/admin/class-media-view.php:575
-#: assets/build/audit.js:11
+#: includes/admin/class-media-view.php:576
 #: assets/build/bulk.js:2
 #: assets/build/bulk.js:30
 #: assets/build/folders.js:4
 #: assets/build/folders.js:6
-#: assets/build/folders.js:8
+msgctxt "images, over a count or as a filter"
 msgid "Optimized by another plugin"
-msgstr "Optimizada por otro plugin"
+msgstr "Optimizadas por otro plugin"
 
 #. translators: %s: another image optimizer's name, such as Optimole.
-#: includes/admin/class-media-view.php:670
+#: includes/admin/class-media-view.php:671
 #, php-format
 msgid "Offloaded by %s"
 msgstr "En la nube de %s"
 
 #. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
-#: includes/admin/class-media-view.php:704
+#: includes/admin/class-media-view.php:705
 #, php-format
 msgid "Saved %1$s (%2$s) across %3$s file."
 msgid_plural "Saved %1$s (%2$s) across %3$s files."
 msgstr[0] "Se ahorró un %1$s (%2$s) en %3$s archivo."
 msgstr[1] "Se ahorró un %1$s (%2$s) en %3$s archivos."
 
-#: includes/admin/class-media-view.php:711
+#: includes/admin/class-media-view.php:712
 msgid "The originals were already smaller, so they were kept."
 msgstr "Los originales ya eran más pequeños, así que se conservaron."
 
 #. translators: %s: the formats made, such as "WebP, AVIF".
-#: includes/admin/class-media-view.php:720
+#: includes/admin/class-media-view.php:721
 #, php-format
 msgid "Copies: %s"
 msgstr "Copias: %s"
 
 #. translators: %s: the formats missing, such as "AVIF".
-#: includes/admin/class-media-view.php:734
+#: includes/admin/class-media-view.php:735
 #, php-format
 msgid "Missing formats: %s"
 msgstr "Faltan formatos: %s"
 
 #. translators: %s: the sizes missing, by their names.
-#: includes/admin/class-media-view.php:746
+#: includes/admin/class-media-view.php:747
 #, php-format
 msgid "Missing sizes: %s"
 msgstr "Faltan tamaños: %s"
 
 #. translators: %s: how many copies.
-#: includes/admin/class-media-view.php:758
+#: includes/admin/class-media-view.php:759
 #, php-format
 msgid "%s WebP or AVIF copy another tool made was kept as it is."
 msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
@@ -289,7 +291,7 @@ msgstr[0] "%s copia WebP o AVIF hecha por otra herramienta se ha mantenido tal c
 msgstr[1] "%s copias WebP o AVIF hechas por otra herramienta se han mantenido tal cual."
 
 #. translators: %s: how many files.
-#: includes/admin/class-media-view.php:768
+#: includes/admin/class-media-view.php:769
 #, php-format
 msgid "%s file couldn't be written."
 msgid_plural "%s files couldn't be written."
@@ -297,226 +299,233 @@ msgstr[0] "No se pudo escribir %s archivo."
 msgstr[1] "No se pudieron escribir %s archivos."
 
 #. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
-#: includes/admin/class-media-view.php:812
+#: includes/admin/class-media-view.php:813
 #, php-format
 msgid "%1$s saved %2$s (%3$s), as it recorded it."
 msgstr "%1$s ahorró un %2$s (%3$s), según lo que registró."
 
-#: includes/admin/class-media-view.php:821
+#: includes/admin/class-media-view.php:822
 msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
 msgstr "Su original se conserva. Iminify deja la imagen tal como está, y no cuesta nada."
 
-#: includes/admin/class-media-view.php:822
+#: includes/admin/class-media-view.php:823
 msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
 msgstr "No se conservó ningún original suyo, así que Iminify la deja tal como está en lugar de comprimirla por segunda vez."
 
-#: includes/admin/class-media-view.php:838
+#: includes/admin/class-media-view.php:839
 msgid "Queued"
 msgstr "En cola"
 
-#: includes/admin/class-media-view.php:840
+#: includes/admin/class-media-view.php:841
 msgid "Being optimized"
 msgstr "Optimizándose"
 
-#: includes/admin/class-media-view.php:842
+#: includes/admin/class-media-view.php:843
 #: assets/build/bulk.js:7
 #: assets/build/folders.js:8
 msgid "Waiting for the next batch"
 msgstr "Esperando al siguiente lote"
 
-#: includes/admin/class-media-view.php:844
+#: includes/admin/class-media-view.php:845
 msgid "Waiting for the connection"
 msgstr "Esperando la conexión"
 
-#: includes/admin/class-media-view.php:846
+#: includes/admin/class-media-view.php:847
 msgid "Not sent"
 msgstr "Sin enviar"
 
-#: includes/admin/class-media-view.php:848
+#: includes/admin/class-media-view.php:849
 msgid "Error"
 msgstr "Error"
 
-#: includes/admin/class-media-view.php:886
+#: includes/admin/class-media-view.php:851
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Sin optimizar"
+
+#: includes/admin/class-media-view.php:887
 msgid "The next batch is open, so it goes out shortly."
 msgstr "El siguiente lote está abierto, así que saldrá en breve."
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/admin/class-media-view.php:888
+#: includes/admin/class-media-view.php:889
 #, php-format
 msgid "It goes out by itself on %s."
 msgstr "Se enviará automáticamente el %s."
 
-#: includes/admin/class-media-view.php:908
 #: includes/admin/class-media-view.php:909
+#: includes/admin/class-media-view.php:910
 msgid "Alt text: being written."
 msgstr "Texto alternativo: se está escribiendo."
 
-#: includes/admin/class-media-view.php:910
+#: includes/admin/class-media-view.php:911
 msgid "Alt text: written by Iminify."
 msgstr "Texto alternativo: escrito por Iminify."
 
-#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
 msgid "Alt text: yours was kept."
 msgstr "Texto alternativo: se conservó el tuyo."
 
-#: includes/admin/class-media-view.php:912
+#: includes/admin/class-media-view.php:913
 msgid "Alt text: Iminify couldn't write one for this image."
 msgstr "Texto alternativo: Iminify no pudo escribir uno para esta imagen."
 
-#: includes/admin/class-media-view.php:913
+#: includes/admin/class-media-view.php:914
 msgid "Alt text: not written, as the day's AI alt texts were used up."
 msgstr "Texto alternativo: no se escribió, porque se agotaron los textos alternativos con IA del día."
 
-#: includes/admin/class-media-view.php:939
+#: includes/admin/class-media-view.php:940
 msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
 msgstr "Esta imagen lleva Credenciales de contenido, un registro firmado de su procedencia, y sus archivos las conservan."
 
-#: includes/admin/class-media-view.php:941
+#: includes/admin/class-media-view.php:942
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
 msgstr "Esta imagen llevaba Credenciales de contenido, un registro firmado de su procedencia. Los archivos y copias que escribió Iminify no las incluyen, ya que un archivo nuevo rompe su firma, y el original guardado como copia de seguridad todavía las tiene."
 
-#: includes/admin/class-media-view.php:943
+#: includes/admin/class-media-view.php:944
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
 msgstr "Esta imagen llevaba Credenciales de contenido, un registro firmado de su procedencia. Los archivos y copias que escribió Iminify no las incluyen, ya que un archivo nuevo rompe su firma."
 
-#: includes/admin/class-media-view.php:947
+#: includes/admin/class-media-view.php:948
 msgid "They say generative AI made it, wholly or in part."
 msgstr "Indican que la creó una IA generativa, total o parcialmente."
 
-#: includes/admin/class-media-view.php:982
-#: includes/admin/class-media-view.php:1002
+#: includes/admin/class-media-view.php:983
+#: includes/admin/class-media-view.php:1003
 msgid "WebP"
 msgstr "WebP"
 
-#: includes/admin/class-media-view.php:983
-#: includes/admin/class-media-view.php:1003
+#: includes/admin/class-media-view.php:984
+#: includes/admin/class-media-view.php:1004
 msgid "AVIF"
 msgstr "AVIF"
 
 #. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
-#: includes/admin/class-media-view.php:1020
+#: includes/admin/class-media-view.php:1021
 #, php-format
 msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
 msgstr "Sus páginas sirven las copias %1$s que hizo %2$s, hasta que Iminify haga las suyas."
 
-#: includes/admin/class-media-view.php:1050
+#: includes/admin/class-media-view.php:1051
 #: includes/audit/class-fixes.php:149
 msgid "Full Size"
 msgstr "Tamaño completo"
 
 #. translators: %s: the compression level, such as Smart.
-#: includes/admin/class-media-view.php:1079
+#: includes/admin/class-media-view.php:1080
 #, php-format
 msgid "Level: %s"
 msgstr "Nivel: %s"
 
-#: includes/admin/class-media-view.php:1087
+#: includes/admin/class-media-view.php:1088
 msgid "Size"
 msgstr "Tamaño"
 
-#: includes/admin/class-media-view.php:1088
+#: includes/admin/class-media-view.php:1089
 msgid "Before"
 msgstr "Antes"
 
-#: includes/admin/class-media-view.php:1089
+#: includes/admin/class-media-view.php:1090
 msgid "After"
 msgstr "Después"
 
-#: includes/admin/class-media-view.php:1090
+#: includes/admin/class-media-view.php:1091
 msgid "Copies"
 msgstr "Copias"
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 #: assets/build/audit.js:11
 #: assets/build/bulk.js:25
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Write alt text with AI"
 msgstr "Escribir texto alternativo con IA"
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
 msgstr "¿Enviar una copia reducida de esta imagen para escribir su texto alternativo? Cuenta como uno de tus textos alternativos con IA del día."
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 msgid "Write alt text"
 msgstr "Escribir texto alternativo"
 
-#: includes/admin/class-media-view.php:1155
+#: includes/admin/class-media-view.php:1156
 msgid "Optimize again from the original at"
 msgstr "Optimizar de nuevo desde el original con"
 
-#: includes/admin/class-media-view.php:1183
+#: includes/admin/class-media-view.php:1184
 msgid "Connect the site to Iminify to optimize this image."
 msgstr "Conecta el sitio a Iminify para optimizar esta imagen."
 
-#: includes/admin/class-media-view.php:1185
+#: includes/admin/class-media-view.php:1186
 msgid "No original of this image was kept, so it can't be optimized again or restored."
 msgstr "No se conservó ningún original de esta imagen, así que no se puede optimizar de nuevo ni restaurar."
 
-#: includes/admin/class-media-view.php:1187
+#: includes/admin/class-media-view.php:1188
 msgid "Optimize again at"
 msgstr "Optimizar de nuevo con"
 
-#: includes/admin/class-media-view.php:1187
+#: includes/admin/class-media-view.php:1188
 msgid "Optimize at"
 msgstr "Optimizar con"
 
-#: includes/admin/class-media-view.php:1204
+#: includes/admin/class-media-view.php:1205
 msgid "Make what it lacks"
 msgstr "Crear lo que le falta"
 
-#: includes/admin/class-media-view.php:1213
+#: includes/admin/class-media-view.php:1214
 msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
 msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que no hay nada que restaurar."
 
-#: includes/admin/class-media-view.php:1220
+#: includes/admin/class-media-view.php:1221
 msgid "Delete the copies"
 msgstr "Eliminar las copias"
 
-#: includes/admin/class-media-view.php:1220
+#: includes/admin/class-media-view.php:1221
 msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
 msgstr "¿Eliminar las copias WebP y AVIF de esta imagen? Sus páginas volverán a servir el JPEG o el PNG."
 
-#: includes/admin/class-media-view.php:1285
+#: includes/admin/class-media-view.php:1286
 #: assets/build/bulk.js:23
 msgid "Make the missing formats"
 msgstr "Crear los formatos que faltan"
 
-#: includes/admin/class-media-view.php:1289
+#: includes/admin/class-media-view.php:1290
 #: assets/build/bulk.js:24
 msgid "Make the missing sizes"
 msgstr "Crear los tamaños que faltan"
 
-#: includes/admin/class-media-view.php:1300
+#: includes/admin/class-media-view.php:1301
 msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
 msgstr "¿Enviar de nuevo esta imagen para crear lo que le falta? Cuenta como una imagen más, y sus demás archivos se quedan como están salvo que Iminify los haga más pequeños."
 
-#: includes/admin/class-media-view.php:1308
+#: includes/admin/class-media-view.php:1309
 msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
 msgstr "¿Optimizar de nuevo esta imagen? Iminify vuelve a crear sus archivos a partir de su original, manteniendo su formato y sus nombres, y esto cuenta como una imagen más."
 
-#: includes/admin/class-media-view.php:1311
+#: includes/admin/class-media-view.php:1312
 msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
 msgstr "¿Optimizar de nuevo esta imagen? Primero se restaura su original, y esto cuenta como una imagen más."
 
-#: includes/admin/class-media-view.php:1318
+#: includes/admin/class-media-view.php:1319
 msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
 msgstr "¿Restaurar el original de esta imagen? WordPress vuelve a crear sus tamaños, y se eliminan sus copias WebP y AVIF."
 
 #. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
-#: includes/admin/class-media-view.php:1333
+#: includes/admin/class-media-view.php:1334
 #, php-format
 msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
 msgstr "¿Optimizar de nuevo esta imagen desde el original que conservó %s? Iminify vuelve a crear sus archivos a partir de él, manteniendo su formato y sus nombres para que tus entradas sigan enlazándolos, y guarda su propia copia de seguridad del original. Cuenta como una imagen más."
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1340
+#: includes/admin/class-media-view.php:1341
 #, php-format
 msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
 msgstr "¿Optimizar de nuevo esta imagen desde el original que conservó %s? Primero se restaura el original y WordPress vuelve a crear sus tamaños; después Iminify la optimiza y guarda su propia copia de seguridad del original. Cuenta como una imagen más."
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1355
+#: includes/admin/class-media-view.php:1356
 #, php-format
 msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
 msgstr "¿Restaurar el original de esta imagen a partir de lo que conservó %s? WordPress vuelve a crear sus tamaños, y las copias de seguridad y las copias de ese plugin se quedan donde están."
@@ -534,7 +543,7 @@ msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to s
 msgstr "Iminify Image Optimizer está listo. Conéctalo a tu cuenta de Iminify para empezar a optimizar tus imágenes."
 
 #: includes/admin/class-notice.php:138
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect"
 msgstr "Conectar"
 
@@ -547,7 +556,7 @@ msgstr "Abrir los ajustes de Iminify"
 #: assets/build/audit.js:2
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:1
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Connected"
 msgstr "Conectado"
 
@@ -555,7 +564,7 @@ msgstr "Conectado"
 #: assets/build/audit.js:2
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:1
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Not connected"
 msgstr "No conectado"
 
@@ -607,12 +616,12 @@ msgstr "Solo un sitio de una red en la que el plugin está activo puede unirse a
 
 #: includes/admin/class-rest-controller.php:284
 #: includes/admin/class-settings-import.php:271
-#: includes/api/class-client.php:385
+#: includes/api/class-client.php:386
 #: includes/class-connection.php:529
-#: includes/folders/class-optimizer.php:142
+#: includes/folders/class-optimizer.php:143
 #: includes/media/class-alt-text.php:238
-#: includes/media/class-bulk.php:246
-#: includes/media/class-optimizer.php:289
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
 #: includes/media/class-queue.php:137
 msgid "This site isn't connected to Iminify."
 msgstr "Este sitio no está conectado a Iminify."
@@ -626,52 +635,52 @@ msgid "Those settings changed since they were shown. Look at them again before u
 msgstr "Esos ajustes cambiaron desde que se mostraron. Revísalos de nuevo antes de usarlos."
 
 #: includes/admin/class-settings-import.php:207
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimize new uploads"
 msgstr "Optimizar las nuevas subidas"
 
 #: includes/admin/class-settings-import.php:209
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Compression level"
 msgstr "Nivel de compresión"
 
 #: includes/admin/class-settings-import.php:211
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Make WebP copies"
 msgstr "Crear copias WebP"
 
 #: includes/admin/class-settings-import.php:213
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Make AVIF copies"
 msgstr "Crear copias AVIF"
 
 #: includes/admin/class-settings-import.php:215
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Maximum width, in pixels"
 msgstr "Ancho máximo, en píxeles"
 
 #: includes/admin/class-settings-import.php:217
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Size limit, in KB"
 msgstr "Límite de tamaño, en KB"
 
 #: includes/admin/class-settings-import.php:219
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keep metadata"
 msgstr "Conservar los metadatos"
 
 #: includes/admin/class-settings-import.php:221
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Sizes to optimize"
 msgstr "Tamaños que optimizar"
 
 #: includes/admin/class-settings-import.php:223
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keep a backup of each original"
 msgstr "Guardar una copia de seguridad de cada original"
 
 #: includes/admin/class-settings-import.php:241
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "No limit"
 msgstr "Sin límite"
 
@@ -744,73 +753,127 @@ msgstr "Pro"
 msgid "Max"
 msgstr "Max"
 
-#: includes/admin/class-state.php:296
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:301
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s usado, sin límite diario"
+msgstr[1] "%s usados, sin límite diario"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:303
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s usado"
+msgstr[1] "%s usados"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:305
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s restante"
+msgstr[1] "%s restantes"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:309
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s usado, sin límite diario"
+msgstr[1] "%s usados, sin límite diario"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:311
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s usado"
+msgstr[1] "%s usados"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:313
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s restante"
+msgstr[1] "%s restantes"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:317
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s usada, sin límite diario"
+msgstr[1] "%s usadas, sin límite diario"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:319
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s usada"
+msgstr[1] "%s usadas"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:321
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s restante"
+msgstr[1] "%s restantes"
+
+#: includes/admin/class-state.php:343
 msgid "This site"
 msgstr "Este sitio"
 
-#: includes/admin/class-state.php:297
+#: includes/admin/class-state.php:344
 msgid "Your whole account"
 msgstr "Toda tu cuenta"
 
-#: includes/admin/class-state.php:423
+#: includes/admin/class-state.php:470
 #: includes/audit/class-fixes.php:146
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: includes/admin/class-state.php:424
+#: includes/admin/class-state.php:471
 #: includes/audit/class-fixes.php:147
 msgid "Medium"
 msgstr "Medio"
 
-#: includes/admin/class-state.php:425
+#: includes/admin/class-state.php:472
 #: includes/audit/class-fixes.php:148
 msgid "Large"
 msgstr "Grande"
 
 #. translators: 1: the size's name, 2: its width in pixels.
-#: includes/admin/class-state.php:448
+#: includes/admin/class-state.php:495
 #, php-format
 msgid "%1$s (%2$d wide)"
 msgstr "%1$s (%2$d de ancho)"
 
 #. translators: 1: the size's name, 2: its height in pixels.
-#: includes/admin/class-state.php:453
+#: includes/admin/class-state.php:500
 #, php-format
 msgid "%1$s (%2$d high)"
 msgstr "%1$s (%2$d de alto)"
 
 #. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
-#: includes/admin/class-state.php:457
+#: includes/admin/class-state.php:504
 #, php-format
 msgid "%1$s (%2$d × %3$d)"
 msgstr "%1$s (%2$d × %3$d)"
-
-#. translators: %s: the reason the connection failed.
-#: includes/api/class-client.php:444
-#: includes/api/class-client.php:467
-#, php-format
-msgid "Iminify couldn't be reached: %s"
-msgstr "No se pudo contactar con Iminify: %s"
-
-#. translators: %d: the HTTP status Iminify answered.
-#: includes/api/class-client.php:511
-#, php-format
-msgid "Iminify answered with an error (HTTP %d)."
-msgstr "Iminify respondió con un error (HTTP %d)."
-
-#: includes/api/class-client.php:541
-#: includes/class-connection.php:96
-#: includes/media/class-refusal.php:63
-msgid "Iminify sent an answer this version of the plugin can't read."
-msgstr "Iminify envió una respuesta que esta versión del plugin no puede leer."
-
-#: includes/api/class-upload.php:117
-msgid "This server doesn't have the memory to send an image this large."
-msgstr "Este servidor no tiene memoria suficiente para enviar una imagen tan grande."
-
-#: includes/api/class-upload.php:186
-msgid "The image couldn't be read from the uploads folder."
-msgstr "No se pudo leer la imagen desde la carpeta de subidas."
 
 #: includes/audit/class-findings.php:54
 msgid "Show a smaller size of the image here."
@@ -966,8 +1029,10 @@ msgstr "Indica la carpeta, relativa a wp-content."
 #. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
 #: includes/class-cli.php:354
 #, php-format
-msgid "Found %1$s images: %2$s new, %3$s changed."
-msgstr "Se encontraron %1$s imágenes: %2$s nuevas, %3$s modificadas."
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "Se encontró %1$s imagen (nuevas: %2$s, modificadas: %3$s)."
+msgstr[1] "Se encontraron %1$s imágenes (nuevas: %2$s, modificadas: %3$s)."
 
 #: includes/class-cli.php:392
 #: includes/class-cli.php:421
@@ -1082,8 +1147,10 @@ msgstr[1] "%s archivos enviados a Iminify."
 #. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
 #: includes/class-cli.php:724
 #, php-format
-msgid "Your folders have %1$s of %2$s files optimized, %3$s failed."
-msgstr "Tus carpetas tienen %1$s de %2$s archivos optimizados, %3$s con error."
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "Tus carpetas tienen %1$s de %2$s archivo optimizado, %3$s con error."
+msgstr[1] "Tus carpetas tienen %1$s de %2$s archivos optimizados, %3$s con error."
 
 #. translators: %s: how many images.
 #: includes/class-cli.php:737
@@ -1104,8 +1171,10 @@ msgstr[1] "%s imágenes enviadas a Iminify."
 #. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
 #: includes/class-cli.php:744
 #, php-format
-msgid "The library has %1$s of %2$s images optimized, %3$s failed."
-msgstr "La biblioteca tiene %1$s de %2$s imágenes optimizadas, %3$s con error."
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "La biblioteca tiene %1$s de %2$s imagen optimizada, %3$s con error."
+msgstr[1] "La biblioteca tiene %1$s de %2$s imágenes optimizadas, %3$s con error."
 
 #. translators: %s: what was given as an attachment's id.
 #: includes/class-cli.php:791
@@ -1117,6 +1186,11 @@ msgstr "%s no es un adjunto."
 msgid "This account can't run bulk commands."
 msgstr "Esta cuenta no puede ejecutar comandos masivos."
 
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify envió una respuesta que esta versión del plugin no puede leer."
+
 #: includes/class-connection.php:244
 msgid "Paste the site key first."
 msgstr "Primero pega la clave del sitio."
@@ -1125,14 +1199,13 @@ msgstr "Primero pega la clave del sitio."
 msgid "This site's key is set in wp-config.php. Change or remove it there."
 msgstr "La clave de este sitio está definida en wp-config.php. Cámbiala o quítala allí."
 
-#: includes/class-connection.php:536
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress no pudo guardar la clave de la red. Pulsa «Conectar la red» para volver a intentarlo."
+
+#: includes/class-connection.php:539
 msgid "WordPress couldn't store the site key. Press Connect to try again."
 msgstr "WordPress no pudo guardar la clave del sitio. Pulsa «Conectar» para volver a intentarlo."
-
-#: includes/class-lifecycle.php:306
-#: includes/folders/class-optimizer.php:868
-msgid "Waiting to go on: the plugin was turned off while this image was on its way."
-msgstr "Esperando para continuar: el plugin se desactivó mientras esta imagen estaba en camino."
 
 #: includes/class-messages.php:35
 msgid "Smart"
@@ -1297,81 +1370,290 @@ msgctxt "a language alt text is written in"
 msgid "Traditional Chinese"
 msgstr "Chino tradicional"
 
-#: includes/class-messages.php:134
+#: includes/class-messages.php:149
 msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
 msgstr "Iminify no reconoce esta clave. Comprueba que la copiaste entera, o crea una nueva."
 
-#: includes/class-messages.php:136
+#: includes/class-messages.php:151
 msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
 msgstr "Esa es una clave de API. Un sitio necesita una clave de sitio: crea una en Settings, Sites de iminify.com, o pulsa «Conectar» en su lugar."
 
-#: includes/class-messages.php:138
+#: includes/class-messages.php:153
 msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
 msgstr "Esta clave pertenece al sitio de otra dirección, así que esta copia del sitio no puede usarla. Conecta esta copia como un sitio propio, o mueve la conexión aquí."
 
 #. translators: %s: how long to wait, such as "10 minutes".
-#: includes/class-messages.php:145
+#: includes/class-messages.php:157
 #, php-format
 msgid "Iminify asked the plugin to wait. Try again in %s."
 msgstr "Iminify pidió al plugin que espere. Vuelve a intentarlo dentro de %s."
 
-#: includes/class-messages.php:146
+#: includes/class-messages.php:158
 msgid "Iminify asked the plugin to wait. Try again later."
 msgstr "Iminify pidió al plugin que espere. Vuelve a intentarlo más tarde."
 
-#: includes/class-messages.php:148
+#: includes/class-messages.php:160
 msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
 msgstr "La conexión ya no se puede usar: caducó, se rechazó o ya se usó. Pulsa «Conectar» para empezar de nuevo."
 
-#: includes/class-messages.php:150
+#: includes/class-messages.php:162
 #: includes/media/class-alt-text.php:242
-#: includes/media/class-bulk.php:262
+#: includes/media/class-bulk.php:263
 msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
 msgstr "El texto alternativo con IA está desactivado para este sitio. Actívalo primero en los ajustes del plugin."
 
-#: includes/class-messages.php:152
+#: includes/class-messages.php:164
 msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
 msgstr "La auditoría solo escanea las páginas de este sitio. Introduce la dirección de una página de este sitio."
 
-#: includes/class-messages.php:154
+#: includes/class-messages.php:166
 msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
 msgstr "La clave de la red se creó para un solo sitio, así que los sitios de la red no pueden unirse con ella. Un super administrador vuelve a conectar la red desde el administrador de la red."
 
-#: includes/class-messages.php:156
+#: includes/class-messages.php:168
 msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
 msgstr "La red ya tiene tantos sitios como puede tener una red. Quita un sitio que ya no uses en Settings, Sites de iminify.com, o conecta este sitio por separado."
 
-#: includes/class-messages.php:158
+#: includes/class-messages.php:170
 msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
 msgstr "Este sitio ya está conectado a la cuenta por separado, o en otra red. Desconéctalo en Settings, Sites de iminify.com para añadirlo a esta red, o conéctalo aquí por separado."
 
-#: includes/class-messages.php:172
+#: includes/class-messages.php:184
 msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
 msgstr "Esta versión de Iminify Image Optimizer es demasiado antigua para seguir optimizando imágenes. Actualízala desde la página de plugins."
 
-#: includes/class-messages.php:174
+#: includes/class-messages.php:186
 msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
 msgstr "Se agotaron las imágenes del día de tu cuenta. Las nuevas subidas esperan y se envían solas cuando se abre el siguiente lote."
 
-#: includes/class-messages.php:176
+#: includes/class-messages.php:188
 msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
 msgstr "Este sitio ya tuvo su prueba gratuita de Pro en otra cuenta de Iminify, así que aquí sus subidas reciben los límites del plan gratuito."
 
-#: includes/class-network.php:218
+#: includes/class-network.php:213
 msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
 msgstr "La red no está conectada a Iminify. Un super administrador la conecta desde el administrador de la red."
 
-#: includes/class-network.php:228
+#: includes/class-network.php:223
 msgid "This site is joining the network already. Wait a moment and look again."
 msgstr "Este sitio ya se está uniendo a la red. Espera un momento y vuelve a mirar."
 
-#: includes/class-network.php:249
-msgid "WordPress couldn't store the site key. Press Join the network to try again."
-msgstr "WordPress no pudo guardar la clave del sitio. Pulsa «Unirse a la red» para volver a intentarlo."
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Esperando para continuar: el plugin se desactivó mientras esta imagen estaba en camino."
 
-#: includes/compat/class-offload-media.php:379
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "Esperando al siguiente lote."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Esperando a que el sitio se conecte a Iminify."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Sin optimizar: el proceso masivo se detuvo."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Sin optimizar: el sitio no está conectado a Iminify."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Sin optimizar: primero actualiza el plugin de Iminify."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Sin optimizar: el sitio no optimiza las subidas."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Sin optimizar: el servidor tiene poco espacio en disco. Libera algo de espacio y después optimiza esta imagen."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Sin enviar: el PHP de este servidor no puede abrir archivos zip. Pide a tu proveedor de alojamiento que active la extensión zip de PHP."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "El PHP de este servidor no puede abrir archivos zip: pide a tu proveedor de alojamiento que active la extensión zip de PHP."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "No se pudo abrir la descarga de Iminify."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Sin enviar: el original de esta imagen es demasiado grande para enviarlo, ya que supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Sin enviar: esta imagen supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Sin enviar: ya no queda ningún original de esta imagen a partir del que crear los archivos optimizados."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Sin enviar: ya no queda ningún original de esta imagen a partir del que crear el archivo optimizado."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress no pudo crear los tamaños que faltan de esta imagen."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Se dejó como se subió: Iminify optimiza imágenes JPEG, PNG, WebP y GIF."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Se dejó tal cual: Iminify optimiza imágenes JPEG, PNG, WebP y GIF."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Se dejó como se subió: este sitio deja fuera esta imagen."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Se dejó tal cual: este sitio deja fuera esta imagen."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "No se pudo leer la imagen."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "La imagen no está en la carpeta de subidas."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Sin enviar: el archivo de la imagen no está en la carpeta de subidas."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Sin enviar: el archivo de la imagen no está, o es un enlace a otro lugar."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "El archivo de la imagen o su copia de seguridad desapareció mientras estaba en camino."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Sin enviar: la imagen ya no está en una carpeta que Iminify optimice."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Sin escribir: la imagen ya no está en una carpeta que Iminify optimice."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Ha cambiado desde que Iminify la optimizó, así que se puede optimizar de nuevo."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "La imagen cambió mientras Iminify la optimizaba, así que se vuelve a enviar."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "Sus archivos son los del adjunto #%d, como ocurre con los de una traducción, así que Iminify los optimiza allí."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "No se pudo guardar la copia de seguridad de esta imagen, así que no se optimizó. Comprueba que WordPress puede escribir en la carpeta de subidas, o desactiva las copias de seguridad en los ajustes de Iminify."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "La imagen cambió desde que se hizo su copia de seguridad, y no se pudo apartar la copia de seguridad antigua, así que no se optimizó."
+
+#: includes/class-reasons.php:228
 msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
 msgstr "No se pudo copiar de vuelta la imagen desde el bucket de WP Offload Media para enviarla."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify no pudo terminar esta imagen tras varios intentos."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Se restauró: el original está de vuelta."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "No se pudo restaurar la imagen."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "No se pudo copiar de vuelta el original desde el bucket de WP Offload Media, así que la imagen se queda como estaba. Vuelve a intentarlo."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "No se pudo restaurar el original, así que la imagen se queda como estaba."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress no pudo leer el original, así que los tamaños de la imagen se quedan como estaban. Vuelve a intentarlo."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify no ha cambiado esta imagen, así que no hay nada que restaurar."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify no cambió nada en esta imagen, así que ya está como estaba."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que restaurarla sobrescribiría la nueva."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que su copia de seguridad ya no es su original."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "El archivo de la imagen ya no está, o no está en una carpeta que Iminify optimice."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "No se conservó ningún original de esta imagen, así que no se puede restaurar. Las copias de seguridad estaban desactivadas cuando se optimizó, o se eliminó la copia de seguridad."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "No se conservó ningún original de esta imagen, así que no se puede restaurar."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s no conservó ningún original de esta imagen que Iminify pueda comprobar, así que no se puede restaurar aquí."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "No se pudo contactar con Iminify: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify respondió con un error (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "Este servidor no tiene memoria suficiente para enviar una imagen tan grande."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "No se pudo leer la imagen desde la carpeta de subidas."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress no pudo guardar la clave del sitio. Pulsa «Unirse a la red» para volver a intentarlo."
 
 #: includes/delivery/class-rules.php:412
 msgid "The uploads folder"
@@ -1423,301 +1705,100 @@ msgstr "Esa carpeta ya está en la lista, dentro de %s."
 msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
 msgstr "La lista tiene tantas carpetas como admite. Quita una, o elige la carpeta que contiene varias de ellas."
 
-#: includes/folders/class-optimizer.php:150
-#: includes/media/class-optimizer.php:297
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
 msgid "Update the Iminify plugin first."
 msgstr "Primero actualiza el plugin de Iminify."
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/folders/class-optimizer.php:160
-#: includes/media/class-optimizer.php:307
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
 #, php-format
 msgid "Your account's images for the day are used up. The next batch opens on %s."
 msgstr "Se agotaron las imágenes del día de tu cuenta. El siguiente lote se abre el %s."
 
-#: includes/folders/class-optimizer.php:168
-#: includes/media/class-optimizer.php:319
-#: includes/media/class-optimizer.php:334
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
 msgid "The server is low on disk space. Free some up, then optimize this image."
 msgstr "El servidor tiene poco espacio en disco. Libera algo de espacio y después optimiza esta imagen."
 
-#: includes/folders/class-optimizer.php:175
-#: includes/media/class-optimizer.php:315
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
 msgid "No original of this image was kept, so it can't be optimized again."
 msgstr "No se conservó ningún original de esta imagen, así que no se puede optimizar de nuevo."
 
-#: includes/folders/class-optimizer.php:181
+#: includes/folders/class-optimizer.php:182
 msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
 msgstr "Esta imagen es demasiado grande para enviarla: supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
-
-#: includes/folders/class-optimizer.php:272
-#: includes/media/class-optimizer.php:576
-msgid "Not optimized: update the Iminify plugin first."
-msgstr "Sin optimizar: primero actualiza el plugin de Iminify."
-
-#: includes/folders/class-optimizer.php:283
-#: includes/media/class-optimizer.php:339
-#: includes/media/class-optimizer.php:593
-msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
-msgstr "Sin enviar: el PHP de este servidor no puede abrir archivos zip. Pide a tu proveedor de alojamiento que active la extensión zip de PHP."
-
-#: includes/folders/class-optimizer.php:298
-msgid "Not sent: no original of this image is left to make the optimized file from."
-msgstr "Sin enviar: ya no queda ningún original de esta imagen a partir del que crear el archivo optimizado."
-
-#: includes/folders/class-optimizer.php:306
-msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
-msgstr "Sin enviar: esta imagen supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
-
-#: includes/folders/class-optimizer.php:461
-msgid "The image's file or its backup went missing while it was on its way."
-msgstr "El archivo de la imagen o su copia de seguridad desapareció mientras estaba en camino."
-
-#: includes/folders/class-optimizer.php:507
-msgid "Not written: the image is no longer in a folder Iminify optimizes."
-msgstr "Sin escribir: la imagen ya no está en una carpeta que Iminify optimice."
-
-#: includes/folders/class-optimizer.php:654
-#: includes/folders/class-optimizer.php:732
-#: includes/media/class-bulk.php:1004
-msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
-msgstr "Se dejó tal cual: Iminify optimiza imágenes JPEG, PNG, WebP y GIF."
-
-#: includes/folders/class-optimizer.php:661
-#: includes/media/class-declaration.php:103
-msgid "The image couldn't be read."
-msgstr "No se pudo leer la imagen."
-
-#: includes/folders/class-optimizer.php:714
-msgid "Not sent: the image is no longer in a folder Iminify optimizes."
-msgstr "Sin enviar: la imagen ya no está en una carpeta que Iminify optimice."
-
-#: includes/folders/class-optimizer.php:723
-msgid "Not sent: the image's file isn't there, or is a link to another place."
-msgstr "Sin enviar: el archivo de la imagen no está, o es un enlace a otro lugar."
-
-#: includes/folders/class-optimizer.php:756
-msgid "Kept as it is: this site leaves this image out."
-msgstr "Se dejó tal cual: este sitio deja fuera esta imagen."
-
-#: includes/folders/class-optimizer.php:851
-#: includes/media/class-optimizer.php:1209
-msgid "Waiting for the next batch."
-msgstr "Esperando al siguiente lote."
-
-#: includes/folders/class-optimizer.php:869
-#: includes/media/class-optimizer.php:1221
-msgid "Waiting for the site to be connected to Iminify."
-msgstr "Esperando a que el sitio se conecte a Iminify."
-
-#: includes/folders/class-optimizer.php:900
-#: includes/media/class-optimizer.php:1230
-msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
-msgstr "Sin optimizar: el servidor tiene poco espacio en disco. Libera algo de espacio y después optimiza esta imagen."
-
-#: includes/folders/class-optimizer.php:994
-#: includes/media/class-optimizer.php:1284
-msgid "Iminify couldn't finish this image after several tries."
-msgstr "Iminify no pudo terminar esta imagen tras varios intentos."
-
-#: includes/folders/class-restorer.php:112
-#: includes/folders/class-restorer.php:114
-#: includes/media/class-restorer.php:173
-msgid "The original couldn't be put back, so the image stays as it was."
-msgstr "No se pudo restaurar el original, así que la imagen se queda como estaba."
-
-#: includes/folders/class-restorer.php:192
-msgid "Iminify changed nothing in this image, so it already is as it was."
-msgstr "Iminify no cambió nada en esta imagen, así que ya está como estaba."
-
-#: includes/folders/class-restorer.php:194
-msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
-msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que su copia de seguridad ya no es su original."
-
-#: includes/folders/class-restorer.php:196
-msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
-msgstr "El archivo de la imagen ya no está, o no está en una carpeta que Iminify optimice."
-
-#: includes/folders/class-restorer.php:198
-msgid "No original of this image was kept, so it can't be restored."
-msgstr "No se conservó ningún original de esta imagen, así que no se puede restaurar."
-
-#: includes/folders/class-scanner.php:465
-msgid "Changed since Iminify optimized it, so it can be optimized again."
-msgstr "Ha cambiado desde que Iminify la optimizó, así que se puede optimizar de nuevo."
 
 #: includes/media/class-alt-text.php:246
 msgid "This image already has alt text, or its text is on the way."
 msgstr "Esta imagen ya tiene texto alternativo, o su texto está en camino."
 
-#: includes/media/class-backups.php:54
-msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
-msgstr "No se pudo guardar la copia de seguridad de esta imagen, así que no se optimizó. Comprueba que WordPress puede escribir en la carpeta de subidas, o desactiva las copias de seguridad en los ajustes de Iminify."
-
-#: includes/media/class-backups.php:83
-msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
-msgstr "La imagen cambió desde que se hizo su copia de seguridad, y no se pudo apartar la copia de seguridad antigua, así que no se optimizó."
-
-#: includes/media/class-bulk.php:223
+#: includes/media/class-bulk.php:224
 msgid "A bulk run is already going. Stop it first."
 msgstr "Ya hay un proceso masivo en marcha. Detenlo primero."
 
-#: includes/media/class-bulk.php:228
+#: includes/media/class-bulk.php:229
 msgid "The files in other folders are optimized, sent again or restored, all of them at once."
 msgstr "Los archivos de otras carpetas se optimizan, se vuelven a enviar o se restauran, todos a la vez."
 
-#: includes/media/class-bulk.php:232
+#: includes/media/class-bulk.php:233
 msgid "Iminify is still looking through your folders. Start again once it has finished."
 msgstr "Iminify todavía está revisando tus carpetas. Vuelve a empezar cuando haya terminado."
 
-#: includes/media/class-bulk.php:250
+#: includes/media/class-bulk.php:251
 msgid "The server is low on disk space. Free some up, then start again."
 msgstr "El servidor tiene poco espacio en disco. Libera algo de espacio y después vuelve a empezar."
 
-#: includes/media/class-bulk.php:454
-#: includes/media/class-bulk.php:478
-msgid "Not optimized: the bulk run was stopped."
-msgstr "Sin optimizar: el proceso masivo se detuvo."
-
-#: includes/media/class-bulk.php:1027
-#: includes/media/class-declaration.php:84
-#: includes/media/class-declaration.php:94
-#: includes/media/class-optimizer.php:1370
-msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
-msgstr "Se dejó como se subió: Iminify optimiza imágenes JPEG, PNG, WebP y GIF."
-
-#: includes/media/class-bulk.php:1233
+#: includes/media/class-bulk.php:1228
 msgid "Choose a folder first."
 msgstr "Primero elige una carpeta."
 
-#: includes/media/class-bulk.php:1238
+#: includes/media/class-bulk.php:1233
 msgid "No optimized file is left to restore in your folders."
 msgstr "No queda ningún archivo optimizado que restaurar en tus carpetas."
 
-#: includes/media/class-bulk.php:1240
+#: includes/media/class-bulk.php:1235
 msgid "No file in your folders failed."
 msgstr "Ningún archivo de tus carpetas falló."
 
-#: includes/media/class-bulk.php:1242
+#: includes/media/class-bulk.php:1237
 msgid "Every file in your folders is already optimized or on its way."
 msgstr "Todos los archivos de tus carpetas ya están optimizados o en camino."
 
-#: includes/media/class-bulk.php:1247
+#: includes/media/class-bulk.php:1242
 msgid "No optimized image is left to restore."
 msgstr "No queda ninguna imagen optimizada que restaurar."
 
-#: includes/media/class-bulk.php:1251
+#: includes/media/class-bulk.php:1246
 msgid "No image another plugin optimized has an original left to optimize it again from."
 msgstr "Ninguna imagen optimizada por otro plugin tiene un original a partir del que volver a optimizarla."
 
-#: includes/media/class-bulk.php:1255
+#: includes/media/class-bulk.php:1250
 msgid "Every image already has alt text, or its text is on the way."
 msgstr "Todas las imágenes ya tienen texto alternativo, o su texto está en camino."
 
-#: includes/media/class-bulk.php:1258
+#: includes/media/class-bulk.php:1253
 msgid "No optimized image lacks anything your site asks for now."
 msgstr "A ninguna imagen optimizada le falta nada de lo que tu sitio pide ahora."
 
-#: includes/media/class-bulk.php:1258
+#: includes/media/class-bulk.php:1253
 msgid "Every image is already optimized or on its way."
 msgstr "Todas las imágenes ya están optimizadas o en camino."
 
-#: includes/media/class-bulk.php:1511
-#: includes/media/class-restorer.php:214
-msgid "Restored: the original is back."
-msgstr "Se restauró: el original está de vuelta."
-
-#: includes/media/class-declaration.php:109
-msgid "The image isn't in the uploads folder."
-msgstr "La imagen no está en la carpeta de subidas."
-
-#: includes/media/class-hooks.php:177
-msgid "Not optimized: the site isn't connected to Iminify."
-msgstr "Sin optimizar: el sitio no está conectado a Iminify."
-
-#: includes/media/class-optimizer.php:218
+#: includes/media/class-optimizer.php:219
 msgid "This image has changed since Iminify optimized it, so optimize it again instead."
 msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que optimízala de nuevo en su lugar."
 
-#: includes/media/class-optimizer.php:222
+#: includes/media/class-optimizer.php:223
 msgid "This image lacks nothing your site asks for now."
 msgstr "A esta imagen no le falta nada de lo que tu sitio pide ahora."
 
-#: includes/media/class-optimizer.php:329
+#: includes/media/class-optimizer.php:330
 msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
 msgstr "El original de esta imagen es demasiado grande para enviarlo: supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
-
-#: includes/media/class-optimizer.php:582
-msgid "Not optimized: the site doesn't optimize uploads."
-msgstr "Sin optimizar: el sitio no optimiza las subidas."
-
-#: includes/media/class-optimizer.php:636
-msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
-msgstr "Sin enviar: el original de esta imagen es demasiado grande para enviarlo, ya que supera el tamaño de archivo de tu plan o lo que la memoria de este servidor puede manejar."
-
-#: includes/media/class-optimizer.php:641
-msgid "Not sent: no original of this image is left to make the optimized files from."
-msgstr "Sin enviar: ya no queda ningún original de esta imagen a partir del que crear los archivos optimizados."
-
-#: includes/media/class-optimizer.php:671
-msgid "WordPress couldn't make the missing sizes of this image."
-msgstr "WordPress no pudo crear los tamaños que faltan de esta imagen."
-
-#: includes/media/class-optimizer.php:1385
-msgid "Not sent: the image's file isn't in the uploads folder."
-msgstr "Sin enviar: el archivo de la imagen no está en la carpeta de subidas."
-
-#. translators: %d: the id of the attachment whose files this one shares.
-#: includes/media/class-optimizer.php:1403
-#, php-format
-msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
-msgstr "Sus archivos son los del adjunto #%d, como ocurre con los de una traducción, así que Iminify los optimiza allí."
-
-#: includes/media/class-optimizer.php:1426
-msgid "Kept as uploaded: this site leaves this image out."
-msgstr "Se dejó como se subió: este sitio deja fuera esta imagen."
-
-#: includes/media/class-restorer.php:154
-msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
-msgstr "No se pudo copiar de vuelta el original desde el bucket de WP Offload Media, así que la imagen se queda como estaba. Vuelve a intentarlo."
-
-#: includes/media/class-restorer.php:190
-msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
-msgstr "WordPress no pudo leer el original, así que los tamaños de la imagen se quedan como estaban. Vuelve a intentarlo."
-
-#. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/media/class-restorer.php:464
-#, php-format
-msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
-msgstr "%s no conservó ningún original de esta imagen que Iminify pueda comprobar, así que no se puede restaurar aquí."
-
-#: includes/media/class-restorer.php:473
-msgid "Iminify hasn't changed this image, so there's nothing to restore."
-msgstr "Iminify no ha cambiado esta imagen, así que no hay nada que restaurar."
-
-#: includes/media/class-restorer.php:475
-msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
-msgstr "Esta imagen ha cambiado desde que Iminify la optimizó, así que restaurarla sobrescribiría la nueva."
-
-#: includes/media/class-restorer.php:477
-msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
-msgstr "No se conservó ningún original de esta imagen, así que no se puede restaurar. Las copias de seguridad estaban desactivadas cuando se optimizó, o se eliminó la copia de seguridad."
-
-#: includes/media/class-restorer.php:485
-msgid "The image couldn't be restored."
-msgstr "No se pudo restaurar la imagen."
-
-#: includes/media/class-writer.php:387
-msgid "The image changed while Iminify was optimizing it, so it's sent again."
-msgstr "La imagen cambió mientras Iminify la optimizaba, así que se vuelve a enviar."
-
-#: includes/media/class-zip.php:44
-msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
-msgstr "El PHP de este servidor no puede abrir archivos zip: pide a tu proveedor de alojamiento que active la extensión zip de PHP."
-
-#: includes/media/class-zip.php:51
-msgid "Iminify's download couldn't be opened."
-msgstr "No se pudo abrir la descarga de Iminify."
 
 #: includes/switching/class-converter.php:52
 msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
@@ -1796,13 +1877,13 @@ msgid "Optimole moved this image to its cloud and deleted its files here. Roll i
 msgstr "Optimole movió esta imagen a su nube y eliminó sus archivos de aquí. Recupérala primero en Optimole (necesita que Optimole esté activo y conectado), y entonces Iminify podrá optimizarla."
 
 #. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
-#: includes/switching/class-others.php:190
+#: includes/switching/class-others.php:169
 #, php-format
 msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
 msgstr "%1$s está activo y optimiza tus subidas por su cuenta, así que Iminify no optimiza nada mientras lo haga, para evitar que una imagen se comprima dos veces. %2$s"
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/switching/class-others.php:510
+#: includes/switching/class-others.php:485
 #, php-format
 msgid "Optimized by %s"
 msgstr "Optimizada por %s"
@@ -1818,6 +1899,34 @@ msgstr "Desactiva Smush, o desactiva la opción «Automatic compression» en sus
 #: includes/switching/class-tinypng.php:47
 msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
 msgstr "Desactiva TinyPNG, o configúralo en sus ajustes para comprimir las imágenes nuevas manualmente."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(abre en una nueva pestaña)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Volver a intentarlo"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Descartar"
 
 #: assets/build/audit.js:2
 msgid "Iminify is scanning the page."
@@ -1865,22 +1974,9 @@ msgid "Stopped"
 msgstr "Detenido"
 
 #: assets/build/audit.js:2
-#: assets/build/audit.js:11
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:4
-#: assets/build/folders.js:6
-#: assets/build/folders.js:8
+msgctxt "the status of a page audit"
 msgid "Failed"
-msgstr "Con error"
-
-#: assets/build/audit.js:11
-#: assets/build/folders.js:8
-msgid "On its way"
-msgstr "En camino"
-
-#: assets/build/audit.js:11
-msgid "Waiting"
-msgstr "En espera"
+msgstr "Fallido"
 
 #: assets/build/audit.js:2
 msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
@@ -2058,6 +2154,27 @@ msgid "The plugin adds the alt text the image has in the media library as the pa
 msgstr "El plugin añade el texto alternativo que la imagen tiene en la biblioteca de medios al enviar la página. Vuelve a escanear para verlo."
 
 #: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "En camino"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "En espera"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Con error"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Optimizada por otro plugin"
+
+#: assets/build/audit.js:11
 msgid "(no title)"
 msgstr "(sin título)"
 
@@ -2101,38 +2218,10 @@ msgstr "Copiar"
 #: assets/build/folders.js:1
 #: assets/build/media.js:1
 #: assets/build/settings.js:1
-#: assets/build/settings.js:11
-#: assets/build/settings.js:18
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. translators: said by screen readers after a link's words.
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/settings.js:2
-msgid "(opens in a new tab)"
-msgstr "(abre en una nueva pestaña)"
-
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-msgid "Loading…"
-msgstr "Cargando…"
-
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-#: assets/build/settings.js:40
-msgid "Try again"
-msgstr "Volver a intentarlo"
-
-#: assets/build/audit.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-msgid "Dismiss"
-msgstr "Descartar"
 
 #: assets/build/bulk.js:2
 msgid "Iminify says your account's images for the day are still used up."
@@ -2146,15 +2235,22 @@ msgstr "En camino"
 
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
-#: assets/build/folders.js:8
-msgid "Skipped"
-msgstr "Omitida"
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Con error"
 
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
-#: assets/build/folders.js:8
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Omitidas"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
 msgid "Restored"
-msgstr "Restaurada"
+msgstr "Restauradas"
 
 #: assets/build/bulk.js:2
 msgid "Your library"
@@ -2167,7 +2263,7 @@ msgstr "Tu biblioteca"
 #: assets/build/bulk.js:3
 #: assets/build/folders.js:5
 #: assets/build/folders.js:7
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 #, js-format
 msgid "%s image"
 msgid_plural "%s images"
@@ -2184,7 +2280,7 @@ msgstr "optimizada"
 
 #: assets/build/bulk.js:3
 #: assets/build/folders.js:5
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 msgid "Saved so far"
 msgstr "Ahorrado hasta ahora"
 
@@ -2211,55 +2307,13 @@ msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify 
 msgstr[0] "%1$s optimizó %2$s imagen y no conservó su original. Iminify la deja tal como está."
 msgstr[1] "%1$s optimizó %2$s imágenes y no conservó sus originales. Iminify las deja tal como están."
 
-#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept.
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
 #: assets/build/bulk.js:7
 #, js-format
-msgid "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
-msgstr "%1$s optimizó %2$s imágenes, %3$s de ellas con su original conservado. Iminify las deja tal como están."
-
-#: assets/build/bulk.js:7
-msgid "Finished"
-msgstr "Finalizado"
-
-#: assets/build/bulk.js:7
-msgid "Paused: low disk"
-msgstr "En pausa: poco espacio"
-
-#: assets/build/bulk.js:7
-msgid "Paused"
-msgstr "En pausa"
-
-#: assets/build/bulk.js:7
-msgid "Waiting for another optimizer"
-msgstr "Esperando a otro optimizador"
-
-#: assets/build/bulk.js:7
-msgid "Not moving"
-msgstr "Sin avanzar"
-
-#: assets/build/bulk.js:7
-msgid "Waiting for the site"
-msgstr "Esperando al sitio"
-
-#: assets/build/bulk.js:7
-msgid "Used up for today"
-msgstr "Agotado por hoy"
-
-#: assets/build/bulk.js:7
-msgid "Iminify is busy"
-msgstr "Iminify está ocupado"
-
-#: assets/build/bulk.js:7
-msgid "Restoring"
-msgstr "Restaurando"
-
-#: assets/build/bulk.js:7
-msgid "Running on this page"
-msgstr "En marcha en esta página"
-
-#: assets/build/bulk.js:7
-msgid "Running"
-msgstr "En marcha"
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s optimizó %2$s imagen, %3$s con su original conservado. Iminify la deja tal como está."
+msgstr[1] "%1$s optimizó %2$s imágenes, %3$s de ellas con su original conservado. Iminify las deja tal como están."
 
 #: assets/build/bulk.js:7
 msgid "Other folders restored"
@@ -2280,6 +2334,10 @@ msgstr "Optimizando otras carpetas"
 #: assets/build/bulk.js:7
 msgid "Library restored"
 msgstr "Biblioteca restaurada"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Restaurando"
 
 #: assets/build/bulk.js:7
 msgid "Alt text written"
@@ -2316,6 +2374,46 @@ msgstr "Optimizando de nuevo desde los originales"
 #: assets/build/bulk.js:7
 msgid "Bulk optimization"
 msgstr "Optimización masiva"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Finalizado"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "En pausa: poco espacio"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "En pausa"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Esperando a otro optimizador"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "Sin avanzar"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "Esperando al sitio"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Agotado por hoy"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify está ocupado"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "En marcha en esta página"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "En marcha"
 
 #. translators: 1: how many images were restored, 2: how many there were to restore.
 #: assets/build/bulk.js:8
@@ -2378,7 +2476,7 @@ msgstr[0] "No se pudo restaurar %d imagen. Su panel en la biblioteca de medios i
 msgstr[1] "No se pudieron restaurar %d imágenes. Sus paneles en la biblioteca de medios indican el motivo."
 
 #: assets/build/bulk.js:13
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Start now"
 msgstr "Empezar ahora"
 
@@ -2495,7 +2593,7 @@ msgid "Run it while this page is open"
 msgstr "Ejecutarlo mientras esta página esté abierta"
 
 #: assets/build/bulk.js:17
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Compare the plans"
 msgstr "Comparar los planes"
 
@@ -2599,8 +2697,10 @@ msgstr "¿Enviar una copia reducida de cada una de estas imágenes para escribir
 #. translators: %s: how many AI alt texts are left today.
 #: assets/build/bulk.js:26
 #, js-format
-msgid "%s AI alt texts left today."
-msgstr "Te quedan %s textos alternativos con IA hoy."
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "Te queda %s texto alternativo con IA hoy."
+msgstr[1] "Te quedan %s textos alternativos con IA hoy."
 
 #: assets/build/bulk.js:26
 msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
@@ -2751,7 +2851,7 @@ msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the 
 msgstr "Elige tu tema o cualquier carpeta de wp-content, e Iminify optimiza las imágenes que contiene donde están, guardando una copia de seguridad de cada una."
 
 #: assets/build/folders.js:1
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "Remove"
 msgstr "Quitar"
 
@@ -2786,8 +2886,10 @@ msgstr "Otra carpeta de wp-content"
 #. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
 #: assets/build/folders.js:4
 #, js-format
-msgid "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
-msgstr "Última búsqueda el %1$s: %2$s imágenes, %3$s nuevas, %4$s modificadas."
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Última búsqueda el %1$s: %2$s imagen (nuevas: %3$s, modificadas: %4$s)."
+msgstr[1] "Última búsqueda el %1$s: %2$s imágenes (nuevas: %3$s, modificadas: %4$s)."
 
 #: assets/build/folders.js:4
 msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
@@ -2812,10 +2914,6 @@ msgstr "Optimízalas o restáuralas todas en la página de optimización masiva.
 #: assets/build/folders.js:6
 msgid "Go to Bulk Optimization"
 msgstr "Ir a Optimización masiva"
-
-#: assets/build/folders.js:8
-msgid "Waiting to connect"
-msgstr "Esperando conexión"
 
 #: assets/build/folders.js:6
 msgid "All"
@@ -2851,6 +2949,20 @@ msgstr "Página %1$s de %2$s"
 msgid "Next"
 msgstr "Siguiente"
 
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Esperando conexión"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Omitida"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Restaurada"
+
 #. translators: %s: the share saved, such as "38.2".
 #: assets/build/folders.js:9
 #, js-format
@@ -2878,497 +2990,407 @@ msgid "Disconnect this site from Iminify? New uploads stop being optimized. Imag
 msgstr "¿Desconectar este sitio de Iminify? Las nuevas subidas dejan de optimizarse. Las imágenes ya optimizadas se quedan como están."
 
 #: assets/build/settings.js:2
-#: assets/build/settings.js:11
-#: assets/build/settings.js:40
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#. translators: 1: how many were used today, 2: how many are left.
-#: assets/build/settings.js:3
-#, js-format
-msgid "%1$s used, %2$s left"
-msgstr "Llevas %1$s, quedan %2$s"
-
-#. translators: %s: how many were used today.
-#: assets/build/settings.js:4
-#, js-format
-msgid "%s used, no daily limit"
-msgstr "Llevas %s, sin límite diario"
-
 #. translators: 1: the network's name, 2: its address.
-#: assets/build/settings.js:5
+#: assets/build/settings.js:3
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
 msgstr "%1$s, en %2$s, está conectada a Iminify como red multisitio."
 
 #. translators: 1: the site's name, 2: its address.
-#: assets/build/settings.js:6
+#: assets/build/settings.js:4
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify through its network."
 msgstr "%1$s, en %2$s, está conectado a Iminify a través de su red."
 
 #. translators: 1: the site's name, 2: its address.
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify."
 msgstr "%1$s, en %2$s, está conectado a Iminify."
 
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 msgid "Your account"
 msgstr "Tu cuenta"
 
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 msgid "Plan"
 msgstr "Plan"
 
 #. translators: 1: the plan's name, 2: the date it ends or renews.
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 #, js-format
 msgid "%1$s, until %2$s"
 msgstr "%1$s, hasta el %2$s"
 
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 msgid "Next batch"
 msgstr "Siguiente lote"
 
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 msgid "Network's sites"
 msgstr "Sitios de la red"
 
 #. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 #, js-format
 msgid "%1$s of %2$s"
 msgstr "%1$s de %2$s"
 
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 msgid "The main site"
 msgstr "El sitio principal"
 
 #. translators: %s: the bytes Iminify saved, such as 1.2 GB.
-#: assets/build/settings.js:10
+#: assets/build/settings.js:8
 #, js-format
 msgid "%s saved"
 msgstr "%s ahorrados"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "This site's Iminify account is set in wp-config.php."
 msgstr "La cuenta de Iminify de este sitio está definida en wp-config.php."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your plan on iminify.com"
 msgstr "Tu plan en iminify.com"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
 msgstr "La clave de la red está definida en wp-config.php como <code>IMINIFY_API_KEY</code>. Para desconectarla, quítala de allí y desconecta la red en Settings, Sites de iminify.com."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
 msgstr "La clave del sitio está definida en wp-config.php como <code>IMINIFY_API_KEY</code>. Para desconectarlo, quítala de allí y desconecta el sitio en Settings, Sites de iminify.com."
 
-#: assets/build/settings.js:11
-#: assets/build/settings.js:39
-msgid "Waiting for your approval"
-msgstr "Esperando tu aprobación"
-
-#: assets/build/settings.js:39
-msgid "Needs attention"
-msgstr "Requiere atención"
-
-#: assets/build/settings.js:39
-msgid "The network is connected."
-msgstr "La red está conectada."
-
-#: assets/build/settings.js:39
-msgid "The site is connected."
-msgstr "El sitio está conectado."
-
-#: assets/build/settings.js:39
-msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
-msgstr "La conexión no se aprobó a tiempo, o se rechazó. Pulsa «Conectar» para volver a intentarlo."
-
-#: assets/build/settings.js:39
-msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
-msgstr "La red está desconectada aquí, pero su clave no se pudo desactivar en Iminify. Desconéctala también en Settings, Sites de iminify.com."
-
-#: assets/build/settings.js:39
-msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
-msgstr "El sitio está desconectado aquí, pero su clave no se pudo desactivar en Iminify. Desconéctalo también en Settings, Sites de iminify.com."
-
-#. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:40
-#, js-format
-msgid "This site now uses %s’s settings."
-msgstr "Este sitio ahora usa los ajustes de %s."
-
-#: assets/build/settings.js:39
-msgid "The site joined the network."
-msgstr "El sitio se unió a la red."
-
-#: assets/build/settings.js:39
-msgid "Move the connection here"
-msgstr "Mover la conexión aquí"
-
-#: assets/build/settings.js:39
-msgid "Connect this copy as its own site"
-msgstr "Conectar esta copia como un sitio propio"
-
-#: assets/build/settings.js:40
-msgid "The lines are removed. Reload Nginx so it stops serving them."
-msgstr "Se han quitado las líneas. Recarga Nginx para que deje de servirlas."
-
-#: assets/build/settings.js:40
-msgid "The lines are removed."
-msgstr "Se han quitado las líneas."
-
-#: assets/build/settings.js:40
-msgid "Settings saved."
-msgstr "Ajustes guardados."
-
-#: assets/build/settings.js:40
-msgid "The images waiting are on their way."
-msgstr "Las imágenes en espera están en camino."
-
-#: assets/build/settings.js:40
-msgid "Your account's images for the day are still used up."
-msgstr "Las imágenes del día de tu cuenta siguen agotadas."
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
-msgstr "Iminify desconectó la red, así que las nuevas subidas de sus sitios no se optimizan. Vuelve a conectarla para continuar."
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
-msgstr "Iminify desconectó la red, así que las nuevas subidas no se optimizan. Un super administrador vuelve a conectarla en el administrador de la red."
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
-msgstr "Iminify desconectó este sitio, así que las nuevas subidas no se optimizan. Vuelve a unir el sitio a la red, o conéctalo por separado, para continuar."
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
-msgstr "Iminify desconectó este sitio, así que las nuevas subidas no se optimizan. Vuelve a conectarlo para continuar."
-
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect your network"
 msgstr "Conecta tu red"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
 msgstr "Iminify comprime las imágenes que se suben a cada sitio de esta red y crea copias WebP y AVIF de ellas. Conecta la red a tu cuenta de Iminify una vez, o crea una cuenta gratuita por el camino, y cada sitio se une por sí solo la primera vez que necesita Iminify."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
 msgstr "No se envía nada a Iminify hasta que conectes la red. «Conectar» abre iminify.com en una nueva pestaña, donde apruebas la red."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect the network"
 msgstr "Conectar la red"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect this site on its own"
 msgstr "Conectar este sitio por separado"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
 msgstr "Este sitio puede conectarse a una cuenta de Iminify propia, y entonces nunca usa la conexión de la red."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect opens iminify.com in a new tab, where you approve this site."
 msgstr "«Conectar» abre iminify.com en una nueva pestaña, donde apruebas este sitio."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect your site"
 msgstr "Conecta tu sitio"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
 msgstr "Iminify comprime las imágenes que subes y crea copias WebP y AVIF de ellas. Conecta este sitio a tu cuenta de Iminify, o crea una cuenta gratuita por el camino, para empezar."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
 msgstr "No se envía nada a Iminify hasta que conectes el sitio. «Conectar» abre iminify.com en una nueva pestaña, donde apruebas este sitio."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
 msgstr "Un super administrador puede conectar toda la red desde el administrador de la red, y cada sitio se une a ella por sí solo."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "How connecting works"
 msgstr "Cómo funciona la conexión"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Esperando tu aprobación"
+
+#: assets/build/settings.js:9
 msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
 msgstr "Aprueba la conexión en iminify.com, en la pestaña que se abrió. Esta página se conecta por sí sola en cuanto lo hagas, y el sitio sigue conectándose aunque la cierres."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Open the page on iminify.com again"
 msgstr "Abrir de nuevo la página en iminify.com"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "Una agencia puede añadir el sitio en <a>Settings, Sites</a> de iminify.com y pegar aquí su clave, o definirla en wp-config.php como <code>IMINIFY_API_KEY</code>."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "Una agencia puede añadir el sitio en Settings, Sites de iminify.com y pegar aquí su clave, o definirla en wp-config.php como <code>IMINIFY_API_KEY</code>."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "Una agencia añade la red en <a>Settings, Sites</a> de iminify.com, con la casilla «This is a multisite network» marcada, y pega aquí su clave, o la define en wp-config.php como <code>IMINIFY_API_KEY</code>."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "Una agencia añade la red en Settings, Sites de iminify.com, con la casilla «This is a multisite network» marcada, y pega aquí su clave, o la define en wp-config.php como <code>IMINIFY_API_KEY</code>."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Each upload is optimized in the background"
 msgstr "Cada subida se optimiza en segundo plano"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
 msgstr "WordPress termina primero la subida, y después Iminify comprime la imagen y cada tamaño que WordPress creó de ella."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An upload counts as one image"
 msgstr "Una subida cuenta como una imagen"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
 msgstr "Los tamaños que WordPress creó de ella y sus copias WebP y AVIF van con ella como archivos, nunca como imágenes adicionales."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your originals stay on this site"
 msgstr "Tus originales se quedan en este sitio"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
 msgstr "Se guarda una copia de seguridad de cada uno en la carpeta de subidas, así que cualquier imagen puede volver a estar como estaba."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your library goes when you say so"
 msgstr "Tu biblioteca se optimiza cuando tú lo digas"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
 msgstr "Las imágenes que ya están en la biblioteca de medios esperan hasta que las inicies en Medios, Optimización masiva."
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Once you connect"
 msgstr "Cuando conectes el sitio"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with the network's key"
 msgstr "Conectar con la clave de la red"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with a site key"
 msgstr "Conectar con una clave de sitio"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Network key"
 msgstr "Clave de la red"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Site key"
 msgstr "Clave del sitio"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with this key"
 msgstr "Conectar con esta clave"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "becomes"
 msgstr "pasa a"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "no change"
 msgstr "sin cambios"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:12
+#: assets/build/settings.js:10
 #, js-format
 msgid "%s’s settings"
 msgstr "Ajustes de %s"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:13
+#: assets/build/settings.js:11
 #, js-format
 msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
 msgstr "Iminify encontró los ajustes de %s en este sitio. Puede configurar los ajustes de este sitio para que coincidan con ellos, en la medida en que Iminify tenga los mismos ajustes: el nivel de compresión, el ancho máximo, los metadatos, las copias WebP y AVIF, los tamaños y las copias de seguridad. Verás qué cambia antes de que cambie nada."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:14
+#: assets/build/settings.js:12
 #, js-format
 msgid "Use %s’s settings"
 msgstr "Usar los ajustes de %s"
 
-#: assets/build/settings.js:14
+#: assets/build/settings.js:12
 msgid "No thanks"
 msgstr "No, gracias"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:15
+#: assets/build/settings.js:13
 #, js-format
 msgid "This site already uses what %s’s settings match."
 msgstr "Este sitio ya usa lo que equivale a los ajustes de %s."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:16
+#: assets/build/settings.js:14
 #, js-format
 msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
 msgstr "A partir de los ajustes de %s, Iminify configuraría esto. No cambia nada hasta que los uses, y usarlos reemplaza los cambios que no hayas guardado en los ajustes de abajo."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:17
+#: assets/build/settings.js:15
 #, js-format
 msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
 msgstr "A partir de los ajustes de %s, Iminify configuraría esto. No cambia nada hasta que los uses."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 #, js-format
 msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
 msgstr "Ninguno de los ajustes de %s tiene equivalente en Iminify, así que este sitio mantiene los suyos."
 
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 msgid "Use these settings"
 msgstr "Usar estos ajustes"
 
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 msgid "OK"
 msgstr "Aceptar"
 
-#: assets/build/settings.js:19
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "Abrir los ajustes de Iminify de la red"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "La conexión de la red"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Este es el sitio principal de la red, así que usa la conexión de la red a Iminify. Un super administrador conecta y desconecta la red en el administrador de la red."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Este es el sitio principal de la red, así que usa la conexión de la red a Iminify, que aún no existe. Un super administrador conecta la red en el administrador de la red, y cada sitio se une a ella por sí solo."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "Los sitios de la red"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Esta clave se creó para un solo sitio, así que los sitios de la red no pueden unirse con ella. Desconecta y vuelve a conectar la red, o crea una clave en Settings, Sites de iminify.com con la casilla «This is a multisite network» marcada."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "Cada sitio de la red se une por sí solo la primera vez que necesita Iminify, con una clave propia, y empieza con los ajustes del sitio principal. Cada uno cuenta como un sitio independiente en tu cuenta. Un sitio desconectado en su propia página, o en Settings, Sites de iminify.com, no vuelve a unirse por sí solo."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Los ajustes de cada sitio están en su propia página Ajustes, Iminify. Las imágenes de los temas y otras carpetas las optimiza el sitio principal, una sola vez para toda la red."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "Los ajustes del sitio principal"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "Las otras carpetas del sitio principal"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Cómo se conecta una red"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Unirse a la red"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "La red %s está conectada a Iminify. Este sitio puede unirse a ella con una clave propia, y cuenta como un sitio independiente en la cuenta."
+
+#: assets/build/settings.js:17
 msgid "In WordPress’s rewrite rules:"
 msgstr "En las reglas de reescritura de WordPress:"
 
-#: assets/build/settings.js:19
+#: assets/build/settings.js:17
 msgid "In <file />:"
 msgstr "En <file />:"
 
-#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
-#: assets/build/settings.js:23
-#, js-format
-msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
-msgstr "<file /> contiene la línea %s, pero el bloque que empieza no tiene un final propio, o se cruza con otro bloque, así que el plugin no toca el archivo. Quita a mano las líneas del bloque."
-
-#: assets/build/settings.js:23
-msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
-msgstr "El plugin no puede escribir en <file />. Quita estas líneas a mano y después recarga Nginx."
-
-#: assets/build/settings.js:23
-msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
-msgstr "El plugin no puede escribir en <file />. Quita estas líneas a mano."
-
-#: assets/build/settings.js:23
-msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
-msgstr "Todos los sitios de la red comparten estas líneas, así que las quita alguien que pueda gestionar la red, desde los ajustes de Iminify del administrador de la red."
-
-#: assets/build/settings.js:23
-msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
-msgstr "Todos los sitios de la red comparten estas líneas, así que las quita un super administrador, en esta página."
-
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:20
+#: assets/build/settings.js:18
 #, js-format
 msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
 msgstr "¿Quitar la regla de %s de las reglas de reescritura de WordPress? Todas las demás reglas se mantienen."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:21
+#: assets/build/settings.js:19
 #, js-format
 msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
 msgstr "¿Quitar las líneas de %s de este archivo? Todo lo demás se queda como está. Nginx las mantiene hasta que se recarga, así que recárgalo después."
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:22
+#: assets/build/settings.js:20
 #, js-format
 msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
 msgstr "¿Quitar las líneas de %s de este archivo? Todo lo demás se queda como está."
 
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> contiene la línea %s, pero el bloque que empieza no tiene un final propio, o se cruza con otro bloque, así que el plugin no toca el archivo. Quita a mano las líneas del bloque."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "El plugin no puede escribir en <file />. Quita estas líneas a mano y después recarga Nginx."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "El plugin no puede escribir en <file />. Quita estas líneas a mano."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "Todos los sitios de la red comparten estas líneas, así que las quita alguien que pueda gestionar la red, desde los ajustes de Iminify del administrador de la red."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "Todos los sitios de la red comparten estas líneas, así que las quita un super administrador, en esta página."
+
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:24
+#: assets/build/settings.js:22
 #, js-format
 msgid "%s’s rewrite rule"
 msgstr "Regla de reescritura de %s"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 #, js-format
 msgid "%s’s rules"
 msgstr "Reglas de %s"
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "Rules another optimizer left"
 msgstr "Reglas que dejó otro optimizador"
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "The rules another optimizer left are gone."
 msgstr "Las reglas que dejó otro optimizador ya no están."
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
 msgstr "Un optimizador de imágenes que tenías antes dejó estas reglas al desactivarse. Iminify nunca quita por su cuenta las reglas de otro plugin."
 
-#: assets/build/settings.js:18
-msgid "Open the network's Iminify settings"
-msgstr "Abrir los ajustes de Iminify de la red"
-
-#: assets/build/settings.js:18
-msgid "The network's connection"
-msgstr "La conexión de la red"
-
-#: assets/build/settings.js:18
-msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
-msgstr "Este es el sitio principal de la red, así que usa la conexión de la red a Iminify. Un super administrador conecta y desconecta la red en el administrador de la red."
-
-#: assets/build/settings.js:18
-msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
-msgstr "Este es el sitio principal de la red, así que usa la conexión de la red a Iminify, que aún no existe. Un super administrador conecta la red en el administrador de la red, y cada sitio se une a ella por sí solo."
-
-#: assets/build/settings.js:18
-msgid "The network's sites"
-msgstr "Los sitios de la red"
-
-#: assets/build/settings.js:18
-msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
-msgstr "Esta clave se creó para un solo sitio, así que los sitios de la red no pueden unirse con ella. Desconecta y vuelve a conectar la red, o crea una clave en Settings, Sites de iminify.com con la casilla «This is a multisite network» marcada."
-
-#: assets/build/settings.js:18
-msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
-msgstr "Cada sitio de la red se une por sí solo la primera vez que necesita Iminify, con una clave propia, y empieza con los ajustes del sitio principal. Cada uno cuenta como un sitio independiente en tu cuenta. Un sitio desconectado en su propia página, o en Settings, Sites de iminify.com, no vuelve a unirse por sí solo."
-
-#: assets/build/settings.js:18
-msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
-msgstr "Los ajustes de cada sitio están en su propia página Ajustes, Iminify. Las imágenes de los temas y otras carpetas las optimiza el sitio principal, una sola vez para toda la red."
-
-#: assets/build/settings.js:18
-msgid "The main site's settings"
-msgstr "Los ajustes del sitio principal"
-
-#: assets/build/settings.js:18
-msgid "The main site's other folders"
-msgstr "Las otras carpetas del sitio principal"
-
-#: assets/build/settings.js:18
-msgid "How a network connects"
-msgstr "Cómo se conecta una red"
-
-#: assets/build/settings.js:18
-#: assets/build/settings.js:19
-msgid "Join the network"
-msgstr "Unirse a la red"
-
-#. translators: %s: the network's name.
-#: assets/build/settings.js:19
-#, js-format
-msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
-msgstr "La red %s está conectada a Iminify. Este sitio puede unirse a ella con una clave propia, y cuenta como un sitio independiente en la cuenta."
-
 #. translators: %d: how many images.
-#: assets/build/settings.js:26
+#: assets/build/settings.js:24
 #, js-format
 msgid "%d image is being optimized."
 msgid_plural "%d images are being optimized."
@@ -3376,7 +3398,7 @@ msgstr[0] "Se está optimizando %d imagen."
 msgstr[1] "Se están optimizando %d imágenes."
 
 #. translators: %d: how many images.
-#: assets/build/settings.js:27
+#: assets/build/settings.js:25
 #, js-format
 msgid "%d image is waiting for the next batch."
 msgid_plural "%d images are waiting for the next batch."
@@ -3384,7 +3406,7 @@ msgstr[0] "%d imagen está esperando al siguiente lote."
 msgstr[1] "%d imágenes están esperando al siguiente lote."
 
 #. translators: %d: how many images.
-#: assets/build/settings.js:28
+#: assets/build/settings.js:26
 #, js-format
 msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
 msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
@@ -3392,240 +3414,322 @@ msgstr[0] "%d imagen está esperando a que el sitio se conecte. Se enviará sola
 msgstr[1] "%d imágenes están esperando a que el sitio se conecte. Se enviarán solas en cuanto lo esté."
 
 #. translators: %s: the date and time the next batch opens.
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 #, js-format
 msgid "The next batch opens on %s. New uploads go first, by themselves."
 msgstr "El siguiente lote se abre el %s. Las nuevas subidas van primero, por sí solas."
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Queue"
 msgstr "Cola"
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
 msgstr "El servidor tiene poco espacio en disco, así que Iminify ha dejado de optimizar imágenes aquí. Libera algo de espacio y después optimiza las imágenes marcadas como «Sin optimizar»."
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
 msgstr "Tu servidor respondió con un error al añadir las reglas, así que el plugin las volvió a quitar y tus imágenes se cargan como antes. Pregunta a tu proveedor de alojamiento si los archivos .htaccess pueden definir reglas de reescritura y tipos de archivo, o elige las etiquetas picture."
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:30
+#: assets/build/settings.js:28
 #, js-format
 msgid "Your server sends the WebP and AVIF copies. Checked %s."
 msgstr "Tu servidor envía las copias WebP y AVIF. Comprobado el %s."
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:32
+#: assets/build/settings.js:30
 #, js-format
 msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
 msgstr "Tu servidor sigue enviando los originales: algo responde a las peticiones de imágenes antes de que se lean estas reglas, a menudo Nginx delante de Apache. Añade las líneas de Nginx de abajo a su configuración, o elige las etiquetas picture. Comprobado el %s."
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:34
+#: assets/build/settings.js:32
 #, js-format
 msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
 msgstr "Tu servidor sigue enviando los originales. Añade las líneas de abajo a su configuración y recarga Nginx; después vuelve a guardar. Comprobado el %s."
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:36
+#: assets/build/settings.js:34
 #, js-format
 msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
 msgstr "Cloudflare respondió con el original, así que puede que un visitante nunca reciba una copia mediante estas reglas. Elige las etiquetas picture, que funcionan detrás de Cloudflare. Comprobado el %s."
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:37
+#: assets/build/settings.js:35
 #, js-format
 msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
 msgstr "El plugin no pudo pedir a tu sitio una imagen para ver si las reglas funcionan, algo que ocurre cuando un sitio no puede acceder a su propia dirección. Abre una de tus imágenes con las herramientas de desarrollo de un navegador: su tipo debería ser image/avif o image/webp. Intentado el %s."
 
-#: assets/build/settings.js:37
+#: assets/build/settings.js:35
 msgid "The rules are in <file />."
 msgstr "Las reglas están en <file />."
 
 #. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
 msgstr "<file /> contiene la línea <begin /> sin su línea <end />, así que el plugin no toca el archivo. Vuelve a poner la línea <end /> después del último <closing /> del bloque, o borra todas las líneas del bloque; después vuelve a guardar."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
 msgstr "Tu carpeta de subidas no está dentro de la carpeta que contiene el archivo .htaccess del sitio, así que ninguna regla de ese archivo puede nombrarla. Elige las etiquetas picture."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "There’s no <file /> yet. Create it with these lines, then save again."
 msgstr "Aún no existe <file />. Créalo con estas líneas y después vuelve a guardar."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
 msgstr "<file /> no activa la reescritura, así que el plugin no lo toca. Si tu servidor lee reglas de reescritura ahí, pega estas líneas en él y después vuelve a guardar."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
 msgstr "El plugin no puede escribir en <file />. Pega estas líneas en él, encima de las reglas que WordPress dio para la red, y después vuelve a guardar."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
 msgstr "El plugin no puede escribir en <file />. Pega estas líneas al final y después vuelve a guardar."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
 msgstr "Tu servidor no lee ni los archivos .htaccess ni la configuración de Nginx, así que el plugin no tiene reglas que darle. Elige las etiquetas picture."
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
 msgstr "Tu sitio funciona con Nginx, que no lee .htaccess. Pon las primeras líneas al principio del bloque server del sitio, antes de cualquier if o rewrite, y el bloque location por encima de cualquier otro location para imágenes; después recarga Nginx. Copia dentro del location las líneas expires, Cache-Control o add_header que necesiten tus imágenes, ya que su add_header reemplaza los del bloque server:"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
 msgstr "Para Nginx, pon las primeras líneas al principio del bloque server del sitio, antes de cualquier if o rewrite, y el bloque location por encima de cualquier otro location para imágenes; después recarga Nginx. Copia dentro del location las líneas expires, Cache-Control o add_header que necesiten tus imágenes, ya que su add_header reemplaza los del bloque server:"
 
 #. translators: %s: the folders the rules cover, separated by commas.
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 #, js-format
 msgid "They cover: %s."
 msgstr "Cubren: %s."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
 msgstr "Sirven cualquier copia WebP o AVIF que lleve el nombre de una imagen y esté junto a ella, así que también se sirve una copia que haya dejado ahí otro optimizador hasta que Iminify haga la suya. Iminify nunca elimina las copias de otro plugin."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
 msgstr "Cloudflare responde por tu sitio. Guarda una sola versión de cada imagen, lea lo que lea el navegador, así que un navegador que no puede mostrar AVIF podría recibir la copia AVIF. Elige las etiquetas picture, que funcionan detrás de cualquier CDN."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
 msgstr "WP Offload Media sirve tus imágenes desde su bucket, al que estas reglas nunca llegan, así que esas imágenes mantienen sus originales. Con su opción «Remove Local Media» activada, las reglas no sirven nada."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
 msgstr "También llega a las imágenes del HTML en bruto, de los constructores de páginas y del propio código de tu tema, a los fondos definidos en la propia página y a las imágenes de las carpetas que elegiste, leyendo cada página al enviarse. Un fondo definido en un archivo de hoja de estilos mantiene su original. Una página que tu caché no ha guardado tarda un poco más."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
 msgstr "Tus páginas se quedan como están, y tu servidor envía la copia WebP o AVIF en lugar de la imagen a cada navegador que la lee. Eso llega a todas las imágenes de la carpeta de subidas y de las carpetas que elegiste, también a los fondos de los archivos de hojas de estilos. Necesita reglas en la configuración de tu servidor, que el plugin escribe por ti en Apache, y, detrás de una CDN, una que guarde una versión de cada imagen por formato."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Your pages stay as they are: the copies are made, but no page names them."
 msgstr "Tus páginas se quedan como están: las copias se crean, pero ninguna página las nombra."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
 msgstr "Para las imágenes de tus entradas y las que tu tema muestra a través de WordPress. Cada página es igual para todos los visitantes, así que las cachés de página y las CDN siguen funcionando, y un navegador que no lee ninguno de los dos formatos recibe el original."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimization"
 msgstr "Optimización"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
 msgstr "Estos ajustes se guardan con el sitio en iminify.com, que los aplica a cada imagen que envía el sitio."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Send each image to Iminify as it is uploaded."
 msgstr "Enviar cada imagen a Iminify al subirla."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
 msgstr "Una copia WebP de cada tamaño, servida a los navegadores que la leen. No se conserva una copia que sea más grande que su imagen."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
 msgstr "También una copia AVIF de cada tamaño: suele ser más pequeña que WebP, y más lenta de crear."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Any width"
 msgstr "Cualquier ancho"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
 msgstr "Reduce a este ancho una imagen principal más ancha. Déjalo vacío para mantener el ancho de cada imagen."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Fits the main image under this size. Leave it empty for no limit."
 msgstr "Ajusta la imagen principal por debajo de este tamaño. Déjalo vacío para no poner límite."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
 msgstr "Conserva los datos EXIF de cada imagen, como la cámara y el lugar donde se tomó. Si lo desactivas, se eliminan."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
 msgstr "Describe cada imagen que no tiene texto alternativo. Nunca se reemplaza un texto alternativo que hayas escrito tú. Una copia reducida de la imagen va a la IA de Anthropic, y cada una cuenta para tus textos alternativos con IA del día."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Language of the alt text"
 msgstr "Idioma del texto alternativo"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimize every size"
 msgstr "Optimizar todos los tamaños"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
 msgstr "Todos los tamaños que WordPress crea de una subida. Desactívalo para elegir los tamaños."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "On this site"
 msgstr "En este sitio"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
 msgstr "Se guardan en la carpeta de subidas, en iminify-backup, para que cualquier imagen se pueda restaurar como estaba."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "WebP and AVIF on your pages"
 msgstr "WebP y AVIF en tus páginas"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them with picture tags"
 msgstr "Servirlas con etiquetas picture"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them on the whole page"
 msgstr "Servirlas en toda la página"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them through server rules"
 msgstr "Servirlas mediante reglas del servidor"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Don't change the pages"
 msgstr "No cambiar las páginas"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Add the width, height and alt text images lack"
 msgstr "Añadir el ancho, el alto y el texto alternativo que les faltan a las imágenes"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
 msgstr "Cuando el código de una página los omite en una imagen de tu biblioteca de medios, el plugin añade su ancho y su alto, para que la página no salte al cargarse, y el texto alternativo que tiene en la biblioteca, al enviarse cada página. Un texto alternativo que se dejó vacío a propósito se queda vacío."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "When you delete the plugin"
 msgstr "Al eliminar el plugin"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also delete the WebP and AVIF copies"
 msgstr "Eliminar también las copias WebP y AVIF"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
 msgstr "Una página que tu caché guardó con etiquetas picture mostraría una imagen rota hasta que se vacíe la caché."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also delete the backups"
 msgstr "Eliminar también las copias de seguridad"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
 msgstr "Son los únicos originales de las imágenes que optimizó Iminify, así que esas imágenes no se podrán restaurar después. Si también se eliminan las copias, volver a instalar el plugin optimizaría esas imágenes por segunda vez."
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Save changes"
 msgstr "Guardar cambios"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Unsaved changes"
 msgstr "Cambios sin guardar"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Requiere atención"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "La red está conectada."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "El sitio está conectado."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "La conexión no se aprobó a tiempo, o se rechazó. Pulsa «Conectar la red» para volver a intentarlo."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "La conexión no se aprobó a tiempo, o se rechazó. Pulsa «Conectar» para volver a intentarlo."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "La red está desconectada aquí, pero su clave no se pudo desactivar en Iminify. Desconéctala también en Settings, Sites de iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "El sitio está desconectado aquí, pero su clave no se pudo desactivar en Iminify. Desconéctalo también en Settings, Sites de iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "El sitio se unió a la red."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "Mover la conexión aquí"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "Conectar esta copia como un sitio propio"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "Este sitio ahora usa los ajustes de %s."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "Se han quitado las líneas. Recarga Nginx para que deje de servirlas."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "Se han quitado las líneas."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Ajustes guardados."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "Las imágenes en espera están en camino."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "Las imágenes del día de tu cuenta siguen agotadas."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify desconectó la red, así que las nuevas subidas de sus sitios no se optimizan. Vuelve a conectarla para continuar."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify desconectó la red, así que las nuevas subidas no se optimizan. Un super administrador vuelve a conectarla en el administrador de la red."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify desconectó este sitio, así que las nuevas subidas no se optimizan. Vuelve a unir el sitio a la red, o conéctalo por separado, para continuar."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify desconectó este sitio, así que las nuevas subidas no se optimizan. Vuelve a conectarlo para continuar."

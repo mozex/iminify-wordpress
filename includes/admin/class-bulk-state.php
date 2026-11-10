@@ -150,7 +150,7 @@ class Bulk_State {
 	/**
 	 * Whether the site writes alt texts, and how many are left of the day, as the service last said.
 	 *
-	 * @return array{on: bool, remaining: string|null}
+	 * @return array{on: bool, remaining: string|null, left: int|null} `remaining` formatted, `left` the number its words agree with.
 	 */
 	protected static function alt_text(): array {
 		$site = Site_Record::cached();
@@ -159,6 +159,7 @@ class Bulk_State {
 		return array(
 			'on'        => Alt_Text::on(),
 			'remaining' => null === $left ? null : number_format_i18n( (int) $left ),
+			'left'      => null === $left ? null : (int) $left,
 		);
 	}
 
@@ -299,9 +300,11 @@ class Bulk_State {
 	 * @return array{ok: bool, message: string}|null Null when the check can't run here.
 	 */
 	protected static function loopback(): ?array {
-		$kept = get_transient( self::LOOPBACK_TRANSIENT );
+		$kept   = get_transient( self::LOOPBACK_TRANSIENT );
+		$locale = determine_locale();
 
-		if ( is_array( $kept ) && isset( $kept['ok'], $kept['message'] ) ) {
+		/* Site Health words its result in the language of the request that ran it, so another reader's language runs it again. */
+		if ( is_array( $kept ) && isset( $kept['ok'], $kept['message'] ) && ( $kept['locale'] ?? '' ) === $locale ) {
 			return array(
 				'ok'      => (bool) $kept['ok'],
 				'message' => (string) $kept['message'],
@@ -324,7 +327,7 @@ class Bulk_State {
 			'message' => wp_strip_all_tags( (string) ( $result->message ?? '' ) ),
 		);
 
-		set_transient( self::LOOPBACK_TRANSIENT, $view, 10 * MINUTE_IN_SECONDS );
+		set_transient( self::LOOPBACK_TRANSIENT, array_merge( $view, array( 'locale' => $locale ) ), 10 * MINUTE_IN_SECONDS );
 
 		return $view;
 	}

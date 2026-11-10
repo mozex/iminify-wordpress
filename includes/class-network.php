@@ -184,15 +184,10 @@ class Network {
 
 		$wait = isset( $state['retry_at'] ) ? max( 0, (int) $state['retry_at'] - time() ) : 0;
 
+		/* A refusal kept before reasons kept their key was the service's text. */
 		return array(
 			'code'    => $state['code'],
-			'message' => Messages::for_error(
-				new WP_Error(
-					$state['code'],
-					isset( $state['message'] ) && is_string( $state['message'] ) ? $state['message'] : '',
-					array( 'retry_after' => $wait )
-				)
-			),
+			'message' => (string) Reasons::text( array_merge( array( 'say' => Reasons::SERVICE ), $state ), $wait ),
 		);
 	}
 
@@ -246,7 +241,7 @@ class Network {
 			$key = isset( $answer['key'] ) && is_string( $answer['key'] ) ? $answer['key'] : '';
 
 			if ( '' === $key || ! Plugin::keys()->save( $key ) ) {
-				$error = new WP_Error( 'key_not_saved', __( 'WordPress couldn\'t store the site key. Press Join the network to try again.', 'iminify-image-optimizer' ), array( 'status' => 500 ) );
+				$error = Reasons::error( 'key_not_saved', 'join_key_not_saved', array(), array( 'status' => 500 ) );
 				self::refused( $error, $network );
 
 				return $error;
@@ -312,10 +307,7 @@ class Network {
 		$code   = (string) $error->get_error_code();
 		$data   = (array) $error->get_error_data();
 		$status = (int) ( $data['status'] ?? 0 );
-		$state  = array(
-			'code'    => $code,
-			'message' => $error->get_error_message(),
-		);
+		$state  = Reasons::from( $error );
 
 		if ( 'unauthenticated' === $code && ! Key_Store::constant_set() ) {
 			self::network_revoked( $network );

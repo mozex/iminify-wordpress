@@ -108,7 +108,14 @@ class LifecycleTest extends WP_UnitTestCase {
 
 	public function test_turning_it_on_again_gives_a_pause_its_timer_back_and_sends_the_parked_images_on(): void {
 		$parked = $this->attachment();
-		Records::wait( $parked, Records::PARKED, 'deactivated', 'Waiting.' );
+		Records::wait(
+			$parked,
+			Records::PARKED,
+			array(
+				'code'    => 'deactivated',
+				'message' => 'Waiting.',
+			)
+		);
 		Plugin::keys()->save( '7|site-key' );
 		Pause::begin( time() + HOUR_IN_SECONDS, Pause::FROM_SITE, 'free' );
 		as_unschedule_all_actions( Queue::OPENS_HOOK );

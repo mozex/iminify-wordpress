@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Api;
 
 use Iminify\WordPress\Network;
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -438,12 +439,7 @@ class Client {
 		}
 
 		if ( is_wp_error( $response ) ) {
-			return new WP_Error(
-				'unreachable',
-				/* translators: %s: the reason the connection failed. */
-				sprintf( __( 'Iminify couldn\'t be reached: %s', 'iminify-image-optimizer' ), $response->get_error_message() ),
-				array( 'status' => 0 )
-			);
+			return Reasons::error( 'unreachable', '', array( $response->get_error_message() ), array( 'status' => 0 ) );
 		}
 
 		return $this->read( $response );
@@ -461,12 +457,7 @@ class Client {
 		if ( is_wp_error( $response ) ) {
 			wp_delete_file( $file );
 
-			return new WP_Error(
-				'unreachable',
-				/* translators: %s: the reason the connection failed. */
-				sprintf( __( 'Iminify couldn\'t be reached: %s', 'iminify-image-optimizer' ), $response->get_error_message() ),
-				array( 'status' => 0 )
-			);
+			return Reasons::error( 'unreachable', '', array( $response->get_error_message() ), array( 'status' => 0 ) );
 		}
 
 		$status = (int) wp_remote_retrieve_response_code( $response );
@@ -504,23 +495,18 @@ class Client {
 			);
 		}
 
-		$code    = isset( $body['code'] ) && is_string( $body['code'] ) && '' !== $body['code'] ? $body['code'] : 'http_' . $status;
-		$message = isset( $body['message'] ) && is_string( $body['message'] ) && '' !== $body['message']
-			? $body['message']
-			/* translators: %d: the HTTP status Iminify answered. */
-			: sprintf( __( 'Iminify answered with an error (HTTP %d).', 'iminify-image-optimizer' ), $status );
-
-		return new WP_Error(
-			$code,
-			$message,
-			array(
-				'status'      => $status,
-				'retry_after' => self::retry_after( wp_remote_retrieve_header( $response, 'retry-after' ) ),
-				'errors'      => self::field_errors( $body['errors'] ?? null ),
-				/* Which key was refused, so a refusal of a key another request has since replaced stops nothing (`Connection::revoked_by_service()`). */
-				'key'         => Network::fingerprint( $this->key ),
-			)
+		$code = isset( $body['code'] ) && is_string( $body['code'] ) && '' !== $body['code'] ? $body['code'] : 'http_' . $status;
+		$data = array(
+			'status'      => $status,
+			'retry_after' => self::retry_after( wp_remote_retrieve_header( $response, 'retry-after' ) ),
+			'errors'      => self::field_errors( $body['errors'] ?? null ),
+			/* Which key was refused, so a refusal of a key another request has since replaced stops nothing (`Connection::revoked_by_service()`). */
+			'key'         => Network::fingerprint( $this->key ),
 		);
+
+		return isset( $body['message'] ) && is_string( $body['message'] ) && '' !== $body['message']
+			? new WP_Error( $code, $body['message'], $data )
+			: Reasons::error( $code, 'http_error', array( $status ), $data );
 	}
 
 	/**
@@ -536,11 +522,7 @@ class Client {
 
 		$data = $response['body']['data'] ?? null;
 
-		return is_array( $data ) ? $data : new WP_Error(
-			'unexpected_response',
-			__( 'Iminify sent an answer this version of the plugin can\'t read.', 'iminify-image-optimizer' ),
-			array( 'status' => $response['status'] )
-		);
+		return is_array( $data ) ? $data : Reasons::error( 'unexpected_response', '', array(), array( 'status' => $response['status'] ) );
 	}
 
 	/**

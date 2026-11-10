@@ -22,6 +22,7 @@ use Iminify\WordPress\Media\Refusal;
 use Iminify\WordPress\Media\Writer;
 use Iminify\WordPress\Media\Zip;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
 use WP_Error;
@@ -251,7 +252,7 @@ class Optimizer {
 		$acting = Others::acting();
 
 		if ( null !== $acting ) {
-			self::stop( $id, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+			self::stop( $id, Records::NOT_OPTIMIZED, Reasons::of( Others::ACTING, 'other_optimizer', array( $acting->slug() ) ) );
 
 			return;
 		}
@@ -269,7 +270,7 @@ class Optimizer {
 		}
 
 		if ( 'update_required' === ( isset( $site['message']['code'] ) ? (string) $site['message']['code'] : '' ) ) {
-			self::stop( $id, Records::NOT_OPTIMIZED, 'update_required', __( 'Not optimized: update the Iminify plugin first.', 'iminify-image-optimizer' ) );
+			self::stop( $id, Records::NOT_OPTIMIZED, Reasons::of( 'update_required' ) );
 
 			return;
 		}
@@ -280,7 +281,7 @@ class Optimizer {
 		}
 
 		if ( ! Zip::available() ) {
-			self::stop( $id, Records::SKIPPED, 'zip_unavailable', __( 'Not sent: this server\'s PHP can\'t open zip files. Ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ) );
+			self::stop( $id, Records::SKIPPED, Reasons::of( 'zip_unavailable' ) );
 
 			return;
 		}
@@ -295,7 +296,7 @@ class Optimizer {
 		$source = self::source( $row );
 
 		if ( null === $source ) {
-			self::stop( $id, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized file from.', 'iminify-image-optimizer' ) );
+			self::stop( $id, Records::SKIPPED, Reasons::of( 'no_original', 'no_original_left_file' ) );
 
 			return;
 		}
@@ -303,7 +304,7 @@ class Optimizer {
 		$max = Media_Optimizer::max_source( $site );
 
 		if ( null !== $max && (int) filesize( $source['path'] ) > $max ) {
-			self::stop( $id, Records::SKIPPED, 'file_too_large', __( 'Not sent: this image is past your plan\'s file size, or more than this server\'s memory can hold.', 'iminify-image-optimizer' ) );
+			self::stop( $id, Records::SKIPPED, Reasons::of( 'file_too_large', 'file_too_large_file' ) );
 
 			return;
 		}
@@ -311,7 +312,7 @@ class Optimizer {
 		$declaration = self::declaration( $row, $source, Media_Optimizer::BULK === $trigger );
 
 		if ( is_wp_error( $declaration ) ) {
-			self::stop( $id, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
+			self::stop( $id, Records::SKIPPED, Reasons::from( $declaration ) );
 
 			return;
 		}
@@ -333,7 +334,7 @@ class Optimizer {
 				: Backups::retire( $source['path'], $row['path'], $backups, Paths::FOLDERS_BACKUP_FOLDER );
 
 			if ( is_wp_error( $backups ) ) {
-				self::stop( $id, Records::ERROR, (string) $backups->get_error_code(), $backups->get_error_message() );
+				self::stop( $id, Records::ERROR, Reasons::from( $backups ) );
 
 				return;
 			}
@@ -458,7 +459,7 @@ class Optimizer {
 		$source = self::source_path( $row, (string) $group['source'] );
 
 		if ( null === $source ) {
-			self::fail( $id, 'no_original', __( 'The image\'s file or its backup went missing while it was on its way.', 'iminify-image-optimizer' ) );
+			self::fail( $id, Reasons::of( 'no_original', 'file_gone' ) );
 
 			return;
 		}
@@ -504,7 +505,7 @@ class Optimizer {
 			wp_delete_file( $zip );
 
 			if ( null !== $row && null === $file && (string) ( $row['group']['id'] ?? '' ) === (string) $group['id'] ) {
-				self::fail( $id, 'outside_folders', __( 'Not written: the image is no longer in a folder Iminify optimizes.', 'iminify-image-optimizer' ) );
+				self::fail( $id, Reasons::of( 'outside_folders', 'outside_folders_written' ) );
 			}
 
 			return;
@@ -536,7 +537,7 @@ class Optimizer {
 				return;
 			}
 
-			self::fail( $id, (string) $put->get_error_code(), $put->get_error_message() );
+			self::fail( $id, Reasons::from( $put ) );
 
 			return;
 		}
@@ -651,14 +652,14 @@ class Optimizer {
 		$type = wp_get_image_mime( $source['path'] );
 
 		if ( null === $file || ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
-			return new WP_Error( 'unsupported_format', __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'unsupported_format', 'unsupported_file' );
 		}
 
 		$source_size = Declaration::displayed( $source['path'], $type );
 		$file_size   = Declaration::displayed( $file, (string) wp_get_image_mime( $file ) );
 
 		if ( null === $source_size || null === $file_size ) {
-			return new WP_Error( 'unreadable_image', __( 'The image couldn\'t be read.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'unreadable_image' );
 		}
 
 		$name = wp_check_invalid_utf8( (string) pathinfo( $file, PATHINFO_FILENAME ), true );
@@ -709,39 +710,26 @@ class Optimizer {
 		$row = Table::get( $id );
 
 		if ( null === $row || ! Folders::contains( $row['path'] ) ) {
-			return array(
-				'code'    => 'outside_folders',
-				'message' => __( 'Not sent: the image is no longer in a folder Iminify optimizes.', 'iminify-image-optimizer' ),
-			);
+			return Reasons::of( 'outside_folders' );
 		}
 
 		$file = Folders::guard( $row['path'] );
 
 		if ( null === $file ) {
-			return array(
-				'code'    => 'file_missing',
-				'message' => __( 'Not sent: the image\'s file isn\'t there, or is a link to another place.', 'iminify-image-optimizer' ),
-			);
+			return Reasons::of( 'file_missing', 'file_missing_folder' );
 		}
 
 		$type = wp_get_image_mime( $file );
 
 		if ( ! is_string( $type ) || ! isset( Declaration::FORMATS[ $type ] ) ) {
-			return array(
-				'code'    => 'unsupported_format',
-				'message' => __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
-			);
+			return Reasons::of( 'unsupported_format', 'unsupported_file' );
 		}
 
 		/* A file another plugin optimized in a folder of its own is never sent for a second lossy pass. */
 		$owner = Others::file_owner( $file );
 
 		if ( null !== $owner ) {
-			return array(
-				'code'    => Others::CODE,
-				'message' => Others::label( $owner ),
-				'other'   => $owner,
-			);
+			return array_merge( Reasons::of( Others::CODE, 'other_plugin', array( $owner ) ), array( 'other' => $owner ) );
 		}
 
 		/**
@@ -751,10 +739,7 @@ class Optimizer {
 		 * @param string $path     The file's path relative to `wp-content`.
 		 */
 		if ( ! apply_filters( 'iminify_optimize_file', true, $row['path'] ) ) {
-			return array(
-				'code'    => 'left_out',
-				'message' => __( 'Kept as it is: this site leaves this image out.', 'iminify-image-optimizer' ),
-			);
+			return Reasons::of( 'left_out', 'left_out_file' );
 		}
 
 		return null;
@@ -831,7 +816,7 @@ class Optimizer {
 				self::later( $id, $hook, $args, $refusal['seconds'], true, $error );
 				return;
 			default:
-				self::fail( $id, $refusal['code'], $refusal['message'] );
+				self::fail( $id, $refusal['reason'] );
 		}
 	}
 
@@ -848,7 +833,7 @@ class Optimizer {
 			return false;
 		}
 
-		self::wait( $id, Records::PAUSED, 'day_spent', __( 'Waiting for the next batch.', 'iminify-image-optimizer' ) );
+		self::wait( $id, Records::PAUSED, Reasons::of( 'day_spent' ) );
 
 		return true;
 	}
@@ -860,33 +845,22 @@ class Optimizer {
 	 * @param string $code Why the service can't be reached with this key.
 	 */
 	public static function park( int $id, string $code ): void {
-		self::wait(
-			$id,
-			Records::PARKED,
-			$code,
-			'deactivated' === $code
-				? __( 'Waiting to go on: the plugin was turned off while this image was on its way.', 'iminify-image-optimizer' )
-				: __( 'Waiting for the site to be connected to Iminify.', 'iminify-image-optimizer' )
-		);
+		self::wait( $id, Records::PARKED, Reasons::of( $code, 'deactivated' === $code ? 'deactivated' : 'parked' ) );
 	}
 
 	/**
 	 * Records why a file waits, keeping an open group.
 	 *
-	 * @param int    $id      The file's row id.
-	 * @param string $status  PAUSED or PARKED.
-	 * @param string $code    The reason's code.
-	 * @param string $message The reason, in words.
+	 * @param int                  $id     The file's row id.
+	 * @param string               $status PAUSED or PARKED.
+	 * @param array<string, mixed> $reason Why, as `Reasons` makes it.
 	 */
-	protected static function wait( int $id, string $status, string $code, string $message ): void {
+	protected static function wait( int $id, string $status, array $reason ): void {
 		Table::update(
 			$id,
 			array(
 				'status' => $status,
-				'error'  => array(
-					'code'    => $code,
-					'message' => $message,
-				),
+				'error'  => $reason,
 			)
 		);
 	}
@@ -897,7 +871,7 @@ class Optimizer {
 	 * @param int $id The file's row id.
 	 */
 	protected static function no_room( int $id ): void {
-		self::stop( $id, Records::NOT_OPTIMIZED, 'disk_full', __( 'Not optimized: the server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ) );
+		self::stop( $id, Records::NOT_OPTIMIZED, Reasons::of( 'disk_full' ) );
 	}
 
 	/**
@@ -908,27 +882,23 @@ class Optimizer {
 	 * @param array{code: string, message: string, other?: string} $why Why, as `why_not()` answers.
 	 */
 	public static function set_aside( int $id, array $why ): void {
-		self::stop( $id, isset( $why['other'] ) ? Records::OTHER : Records::SKIPPED, $why['code'], $why['message'] );
+		self::stop( $id, isset( $why['other'] ) ? Records::OTHER : Records::SKIPPED, array_diff_key( $why, array( 'other' => true ) ) );
 	}
 
 	/**
 	 * Records where a file stops, with the reason to show.
 	 *
-	 * @param int    $id      The file's row id.
-	 * @param string $status  Where it stands now.
-	 * @param string $code    The reason's code.
-	 * @param string $message The reason, in words.
+	 * @param int                  $id     The file's row id.
+	 * @param string               $status Where it stands now.
+	 * @param array<string, mixed> $reason Why, as `Reasons` makes it.
 	 */
-	public static function stop( int $id, string $status, string $code, string $message ): void {
+	public static function stop( int $id, string $status, array $reason ): void {
 		Table::update(
 			$id,
 			array(
 				'status' => $status,
 				'group'  => null,
-				'error'  => array(
-					'code'    => $code,
-					'message' => $message,
-				),
+				'error'  => $reason,
 			)
 		);
 	}
@@ -953,7 +923,7 @@ class Optimizer {
 		$attempts = $row['attempts'] + ( $counts ? 1 : 0 );
 
 		if ( $counts && $attempts > Media_Optimizer::MAX_ATTEMPTS ) {
-			self::fail( $id, null === $error ? 'unreachable' : (string) $error->get_error_code(), null === $error ? '' : $error->get_error_message() );
+			self::fail( $id, Reasons::from( $error ) );
 
 			return;
 		}
@@ -963,10 +933,7 @@ class Optimizer {
 			array(
 				'status'   => self::CHECK_HOOK === $hook ? Records::WAITING : Records::QUEUED,
 				'attempts' => $attempts,
-				'error'    => null === $error ? null : array(
-					'code'    => (string) $error->get_error_code(),
-					'message' => $error->get_error_message(),
-				),
+				'error'    => null === $error ? null : Reasons::from( $error ),
 			)
 		);
 
@@ -991,7 +958,7 @@ class Optimizer {
 		$reopens = $row['reopens'] + ( $counts ? 1 : 0 );
 
 		if ( $reopens > Media_Optimizer::MAX_REOPENS ) {
-			self::fail( $id, 'reopened', __( 'Iminify couldn\'t finish this image after several tries.', 'iminify-image-optimizer' ) );
+			self::fail( $id, Reasons::of( 'reopened' ) );
 
 			return;
 		}
@@ -1003,18 +970,17 @@ class Optimizer {
 	/**
 	 * Shows an error for the file, deleting any group it had open from Iminify.
 	 *
-	 * @param int    $id      The file's row id.
-	 * @param string $code    The reason's code.
-	 * @param string $message The reason, in words.
+	 * @param int                  $id     The file's row id.
+	 * @param array<string, mixed> $reason Why, as `Reasons` makes it.
 	 */
-	protected static function fail( int $id, string $code, string $message ): void {
+	protected static function fail( int $id, array $reason ): void {
 		$row = Table::get( $id );
 
 		if ( null !== $row && null !== $row['group'] ) {
 			self::drop_group( $id, (string) ( $row['group']['id'] ?? '' ) );
 		}
 
-		self::stop( $id, Records::ERROR, $code, $message );
+		self::stop( $id, Records::ERROR, $reason );
 	}
 
 	/**

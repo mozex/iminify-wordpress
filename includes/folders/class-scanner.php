@@ -12,6 +12,7 @@ use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Optimizer as Media_Optimizer;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Switching\Others;
 use WP_Upgrader;
 
@@ -404,14 +405,7 @@ class Scanner {
 			$row = $rows[ $absolute[ $file ] ] ?? null;
 
 			if ( null !== $row ) {
-				Optimizer::set_aside(
-					(int) $row['id'],
-					array(
-						'code'    => Others::CODE,
-						'message' => Others::label( $owner ),
-						'other'   => $owner,
-					)
-				);
+				Optimizer::set_aside( (int) $row['id'], array_merge( Reasons::of( Others::CODE, 'other_plugin', array( $owner ) ), array( 'other' => $owner ) ) );
 			}
 		}
 	}
@@ -460,10 +454,7 @@ class Scanner {
 
 			$changes['written'] = $written;
 			$changes['result']  = null;
-			$changes['error']   = array(
-				'code'    => 'changed',
-				'message' => __( 'Changed since Iminify optimized it, so it can be optimized again.', 'iminify-image-optimizer' ),
-			);
+			$changes['error']   = Reasons::of( 'changed', 'changed_since' );
 		}
 
 		return $changes;

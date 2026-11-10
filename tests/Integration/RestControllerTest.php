@@ -143,6 +143,7 @@ class RestControllerTest extends WP_UnitTestCase {
 				'label'     => 'Images today',
 				'used'      => '3',
 				'remaining' => '37',
+				'note'      => '3 used, 37 left',
 				'share'     => 0.075,
 			),
 			$state['site']['usage'][0]

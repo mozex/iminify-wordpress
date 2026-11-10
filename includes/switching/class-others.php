@@ -15,6 +15,7 @@ use Iminify\WordPress\Media\Originals;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Shared;
+use Iminify\WordPress\Reasons;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -155,28 +156,6 @@ class Others {
 		}
 
 		return null;
-	}
-
-	/**
-	 * The reason a record gives for its image, as it reads now: a hold for another
-	 * optimizer (ACTING) names whichever acts at this moment, and gives none once
-	 * nothing does, since the image is no longer held back; any other reads as
-	 * recorded.
-	 *
-	 * @param mixed $error The record's `error`.
-	 */
-	public static function reason( $error ): ?string {
-		if ( ! is_array( $error ) || ! isset( $error['message'] ) || ! is_string( $error['message'] ) ) {
-			return null;
-		}
-
-		if ( self::ACTING !== ( $error['code'] ?? null ) ) {
-			return $error['message'];
-		}
-
-		$acting = self::acting();
-
-		return null === $acting ? null : self::acting_message( $acting );
 	}
 
 	/**
@@ -492,11 +471,7 @@ class Others {
 			return null;
 		}
 
-		return array(
-			'code'    => self::CODE,
-			'message' => self::label( $verdict['plugin'] ),
-			'other'   => $verdict,
-		);
+		return array_merge( Reasons::of( self::CODE, 'other_plugin', array( $verdict['plugin'] ) ), array( 'other' => $verdict ) );
 	}
 
 	/**

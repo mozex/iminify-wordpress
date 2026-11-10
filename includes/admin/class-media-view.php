@@ -21,6 +21,7 @@ use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Media\Restorer;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
 use WP_Post;
@@ -272,7 +273,7 @@ class Media_View {
 	 * @param string $path The file.
 	 */
 	protected static function format_name( string $path ): string {
-		return self::FORMAT_NAMES[ (string) wp_get_image_mime( $path ) ] ?? __( 'Optimized', 'iminify-image-optimizer' );
+		return self::FORMAT_NAMES[ (string) wp_get_image_mime( $path ) ] ?? _x( 'Optimized', 'the status of one image', 'iminify-image-optimizer' );
 	}
 
 	/**
@@ -568,11 +569,11 @@ class Media_View {
 	 */
 	protected static function filters(): array {
 		return array(
-			self::FILTER_OPTIMIZED     => __( 'Optimized', 'iminify-image-optimizer' ),
-			self::FILTER_NOT_OPTIMIZED => __( 'Not optimized', 'iminify-image-optimizer' ),
+			self::FILTER_OPTIMIZED     => _x( 'Optimized', 'images, over a count or as a filter', 'iminify-image-optimizer' ),
+			self::FILTER_NOT_OPTIMIZED => _x( 'Not optimized', 'images, over a count or as a filter', 'iminify-image-optimizer' ),
 			self::FILTER_ERRORS        => __( 'Errors', 'iminify-image-optimizer' ),
 			self::FILTER_MISSING       => __( 'Missing formats', 'iminify-image-optimizer' ),
-			self::FILTER_OTHER         => __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
+			self::FILTER_OTHER         => _x( 'Optimized by another plugin', 'images, over a count or as a filter', 'iminify-image-optimizer' ),
 		);
 	}
 
@@ -833,7 +834,7 @@ class Media_View {
 	protected static function status_label( ?string $status ): string {
 		switch ( $status ) {
 			case Records::OPTIMIZED:
-				return __( 'Optimized', 'iminify-image-optimizer' );
+				return _x( 'Optimized', 'the status of one image', 'iminify-image-optimizer' );
 			case Records::QUEUED:
 				return __( 'Queued', 'iminify-image-optimizer' );
 			case Records::WAITING:
@@ -847,7 +848,7 @@ class Media_View {
 			case Records::ERROR:
 				return __( 'Error', 'iminify-image-optimizer' );
 			default:
-				return __( 'Not optimized', 'iminify-image-optimizer' );
+				return _x( 'Not optimized', 'the status of one image', 'iminify-image-optimizer' );
 		}
 	}
 
@@ -895,7 +896,7 @@ class Media_View {
 		}
 
 		/* An optimized image has a reason only when what it lacked couldn't be made. */
-		return (string) Others::reason( $record['error'] );
+		return (string) Reasons::text( $record['error'] );
 	}
 
 	/**

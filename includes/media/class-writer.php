@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Switching\Takeover;
 use WP_Error;
 
@@ -384,7 +385,7 @@ class Writer {
 	 * The refusal for a file that changed under an open group.
 	 */
 	protected static function changed(): WP_Error {
-		return new WP_Error( 'changed', __( 'The image changed while Iminify was optimizing it, so it\'s sent again.', 'iminify-image-optimizer' ) );
+		return Reasons::error( 'changed' );
 	}
 
 	/**

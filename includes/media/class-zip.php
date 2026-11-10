@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,14 +42,14 @@ class Zip {
 	 */
 	public static function open( string $zip ) {
 		if ( ! self::available() ) {
-			return new WP_Error( 'zip_unavailable', __( 'This server\'s PHP can\'t open zip files: ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'zip_unavailable', 'zip_extension' );
 		}
 
 		$archive = new \ZipArchive();
 
 		/* No flags: ZipArchive::RDONLY needs PHP 7.4.3 and a recent libzip, and an archive opened this way is never written unless it is changed. */
 		if ( true !== $archive->open( $zip ) ) {
-			return new WP_Error( 'zip_unreadable', __( 'Iminify\'s download couldn\'t be opened.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'zip_unreadable' );
 		}
 
 		return $archive;

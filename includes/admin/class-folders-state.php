@@ -14,7 +14,7 @@ use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
-use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Reasons;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -66,6 +66,7 @@ class Folders_State {
 			'scan'      => null === $scan ? null : array(
 				'running' => null === $scan['finished'],
 				'found'   => number_format_i18n( $scan['found'] ),
+				'count'   => $scan['found'],
 				'added'   => $scan['added'],
 				'changed' => $scan['changed'],
 				'at'      => null === $scan['finished'] ? null : State::date( gmdate( 'c', $scan['finished'] ) ),
@@ -148,7 +149,7 @@ class Folders_State {
 			'thumb'       => self::thumb( $row ),
 			'size'        => (string) size_format( (int) $row['bytes'], 1 ),
 			'status'      => $status,
-			'reason'      => Others::reason( $row['error'] ),
+			'reason'      => Reasons::text( $row['error'] ),
 			'saved'       => Records::OPTIMIZED === $status && $before > 0 && $after < $before ? number_format_i18n( ( $before - $after ) / $before * 100, 1 ) : null,
 			'formats'     => $formats,
 			'can_restore' => Records::OPTIMIZED === $status && Restorer::AVAILABLE === Restorer::availability( $row ),

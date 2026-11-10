@@ -7,7 +7,14 @@
 
 namespace Iminify\WordPress\Tests\Integration;
 
+use Iminify\WordPress\Admin\Media_View;
+use Iminify\WordPress\Media\Optimizer;
+use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Messages;
+use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
+use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Tests\Support\Api_Stub;
 use Iminify\WordPress\Tests\Support\Translation_Rules;
 use Iminify\WordPress\Translations;
 use PO;
@@ -230,6 +237,69 @@ class TranslationsTest extends WP_UnitTestCase {
 		$this->assertSame( IMINIFY_DIR . '/languages/', Translations::folder( false, Translations::DOMAIN, $locale ) );
 		$this->assertFalse( Translations::folder( false, 'another-plugin', $locale ), 'Another text domain is left alone.' );
 		$this->assertSame( '/packs/', Translations::folder( '/packs/', Translations::DOMAIN, $locale ), 'A folder WordPress found is kept.' );
+	}
+
+	public function test_a_reason_kept_on_a_record_reads_in_the_language_of_whoever_reads_it(): void {
+		$api = ( new Api_Stub() )->start();
+		Plugin::keys()->save( '41|Zx9vQe3LwR7tYp2mKd8sNf5hJc1bGa6uVo4iEy0r' );
+		Site_Record::forget();
+		$api->on( 'GET', 'site', 200, Api_Stub::fixture( 'site' ) );
+		$api->on( 'POST', 'groups', 503, '' );
+
+		$english = 'Iminify answered with an error (HTTP 503).';
+		$german  = 'Iminify hat mit einem Fehler geantwortet (HTTP 503).';
+		$locale  = 'de_DE';
+
+		add_filter(
+			'determine_locale',
+			static function () use ( &$locale ): string {
+				return $locale;
+			}
+		);
+
+		try {
+			$id = (int) self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg' );
+			as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
+			Records::update(
+				$id,
+				array(
+					'status'   => null,
+					'attempts' => Optimizer::MAX_ATTEMPTS,
+				)
+			);
+
+			/* A background run on a site in German, past its last try. */
+			$this->fresh();
+			Optimizer::optimize( $id, Optimizer::AUTOMATIC );
+			$error = Records::get( $id )['error'];
+
+			$this->assertSame( array( Records::ERROR, 'http_503', $german ), array( Records::get( $id )['status'], $error['code'] ?? null, $error['message'] ?? null ), 'The run wrote its reason in the site\'s language.' );
+
+			$locale = 'en_US';
+			$this->fresh();
+			$this->assertSame( $english, Reasons::text( $error ) );
+			$this->assertStringContainsString( esc_html( $english ), Media_View::cell( $id ), 'An admin reading in English reads it in English.' );
+
+			$locale = 'de_DE';
+			$this->fresh();
+			$this->assertStringContainsString( esc_html( $german ), Media_View::cell( $id ), 'An admin reading in German reads it in German.' );
+
+			/* A record kept before reasons kept their key reads as it was written. */
+			Records::update(
+				$id,
+				array(
+					'error' => array(
+						'code'    => 'reopened',
+						'message' => 'Written by an older version.',
+					),
+				)
+			);
+			$this->assertStringContainsString( 'Written by an older version.', Media_View::cell( $id ) );
+		} finally {
+			$api->stop();
+			Plugin::keys()->forget();
+			Site_Record::forget();
+		}
 	}
 
 	/**

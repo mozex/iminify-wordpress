@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Api;
 
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -114,7 +115,7 @@ class Upload {
 		$max = self::max_bytes( $path );
 
 		if ( null !== $max && (int) filesize( $path ) > $max ) {
-			return new WP_Error( 'source_too_large', __( 'This server doesn\'t have the memory to send an image this large.', 'iminify-image-optimizer' ), array( 'status' => 0 ) );
+			return Reasons::error( 'source_too_large', '', array(), array( 'status' => 0 ) );
 		}
 
 		$bytes = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reads a local image into the request body where it can't be streamed.
@@ -183,6 +184,6 @@ class Upload {
 	 * The error for a source that can't be read.
 	 */
 	protected static function unreadable(): WP_Error {
-		return new WP_Error( 'source_unreadable', __( 'The image couldn\'t be read from the uploads folder.', 'iminify-image-optimizer' ), array( 'status' => 0 ) );
+		return Reasons::error( 'source_unreadable', '', array(), array( 'status' => 0 ) );
 	}
 }

@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T02:17:25+00:00\n"
-"PO-Revision-Date: 2026-11-10 02:17+0000\n"
+"POT-Creation-Date: 2026-11-10T03:10:50+00:00\n"
+"PO-Revision-Date: 2026-11-10 03:13+0000\n"
 "Language: ja\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: iminify-image-optimizer\n"
@@ -37,8 +37,8 @@ msgstr "Iminify でメディアライブラリの画像を圧縮、変換、リ�
 
 #. Author of the plugin
 #: iminify-image-optimizer.php
-#: includes/admin/class-media-view.php:103
-#: includes/admin/class-media-view.php:425
+#: includes/admin/class-media-view.php:104
+#: includes/admin/class-media-view.php:426
 #: includes/admin/class-page-header.php:39
 #: includes/admin/class-settings-page.php:56
 #: includes/admin/class-settings-page.php:77
@@ -101,7 +101,7 @@ msgid "That folder isn't in the list."
 msgstr "そのフォルダーはリストにありません。"
 
 #: includes/admin/class-folders-controller.php:191
-#: includes/folders/class-restorer.php:94
+#: includes/folders/class-restorer.php:95
 msgid "That image isn't in the list."
 msgstr "その画像はリストにありません。"
 
@@ -119,401 +119,410 @@ msgstr "テーマや、メディアライブラリ外のその他のフォルダ
 msgid "This image has no original on the site to compare it with."
 msgstr "この画像には、比較に使える元の画像がサイト上にありません。"
 
-#: includes/admin/class-media-view.php:180
+#: includes/admin/class-media-view.php:181
 msgid "Original"
 msgstr "元の画像"
 
-#: includes/admin/class-media-view.php:207
-#: includes/admin/class-media-view.php:332
+#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:333
 msgid "Compare with the original"
 msgstr "元の画像と比較"
 
-#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:209
 msgid "Close"
 msgstr "閉じる"
 
-#: includes/admin/class-media-view.php:209
+#: includes/admin/class-media-view.php:210
 msgid "How much of the original shows"
 msgstr "元の画像を表示する範囲"
 
-#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:211
 msgid "The optimized file to compare"
 msgstr "比較する最適化後のファイル"
 
-#: includes/admin/class-media-view.php:211
+#: includes/admin/class-media-view.php:212
 msgid "This image couldn't be loaded from the site."
 msgstr "この画像をサイトから読み込めませんでした。"
 
-#: includes/admin/class-media-view.php:213
+#: includes/admin/class-media-view.php:214
 msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "線をドラッグするか矢印キーを使うと、一方に元の画像、もう一方に最適化後のファイルを広く表示できます。"
 
 #. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
-#: includes/admin/class-media-view.php:216
+#: includes/admin/class-media-view.php:217
 #, php-format
 msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "%s で最適化済み。線をドラッグするか矢印キーを使うと、一方に元の画像、もう一方に最適化後のファイルを広く表示できます。"
 
 #. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
-#: includes/admin/class-media-view.php:245
+#: includes/admin/class-media-view.php:246
 #, php-format
 msgid "%1$s, %2$s"
 msgstr "%1$s、%2$s"
 
 #. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
-#: includes/admin/class-media-view.php:253
+#: includes/admin/class-media-view.php:254
 #, php-format
 msgid "%1$s, %2$s smaller"
 msgstr "%1$s、%2$s 削減"
 
-#: includes/admin/class-media-view.php:275
-#: includes/admin/class-media-view.php:571
-#: includes/admin/class-media-view.php:836
+#: includes/admin/class-media-view.php:276
+#: includes/admin/class-media-view.php:837
 #: assets/build/audit.js:11
-#: assets/build/bulk.js:2
-#: assets/build/bulk.js:3
-#: assets/build/folders.js:4
-#: assets/build/folders.js:6
 #: assets/build/folders.js:8
-#: assets/build/media-grid.js:1
+msgctxt "the status of one image"
 msgid "Optimized"
 msgstr "最適化済み"
 
-#: includes/admin/class-media-view.php:372
+#: includes/admin/class-media-view.php:373
 msgid "Optimize again from the original"
 msgstr "元の画像から再最適化"
 
-#: includes/admin/class-media-view.php:376
-#: includes/admin/class-media-view.php:403
-#: includes/admin/class-media-view.php:1167
-#: includes/admin/class-media-view.php:1211
+#: includes/admin/class-media-view.php:377
+#: includes/admin/class-media-view.php:404
+#: includes/admin/class-media-view.php:1168
+#: includes/admin/class-media-view.php:1212
 msgid "Restore original"
 msgstr "元の画像を復元"
 
-#: includes/admin/class-media-view.php:397
-#: includes/admin/class-media-view.php:1159
-#: includes/admin/class-media-view.php:1191
+#: includes/admin/class-media-view.php:398
+#: includes/admin/class-media-view.php:1160
+#: includes/admin/class-media-view.php:1192
 #: assets/build/folders.js:9
 msgid "Optimize again"
 msgstr "再最適化"
 
-#: includes/admin/class-media-view.php:397
+#: includes/admin/class-media-view.php:398
 #: assets/build/audit.js:14
 #: assets/build/folders.js:9
 msgid "Optimize"
 msgstr "最適化"
 
-#: includes/admin/class-media-view.php:450
+#: includes/admin/class-media-view.php:451
 #: assets/build/media-grid.js:1
 msgid "Filter by Iminify status"
 msgstr "Iminify のステータスで絞り込み"
 
-#: includes/admin/class-media-view.php:452
+#: includes/admin/class-media-view.php:453
 #: assets/build/media-grid.js:1
 msgid "All Iminify statuses"
 msgstr "Iminify のすべてのステータス"
 
 #: includes/admin/class-media-view.php:572
-#: includes/admin/class-media-view.php:850
-#: assets/build/audit.js:11
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "最適化済み"
+
+#: includes/admin/class-media-view.php:573
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
 #: assets/build/folders.js:6
-#: assets/build/folders.js:8
 #: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
 msgid "Not optimized"
 msgstr "未最適化"
 
-#: includes/admin/class-media-view.php:573
+#: includes/admin/class-media-view.php:574
 #: assets/build/media-grid.js:1
 msgid "Errors"
 msgstr "エラー"
 
-#: includes/admin/class-media-view.php:574
+#: includes/admin/class-media-view.php:575
 #: assets/build/media-grid.js:1
 msgid "Missing formats"
 msgstr "不足している形式"
 
-#: includes/admin/class-media-view.php:575
-#: assets/build/audit.js:11
+#: includes/admin/class-media-view.php:576
 #: assets/build/bulk.js:2
 #: assets/build/bulk.js:30
 #: assets/build/folders.js:4
 #: assets/build/folders.js:6
-#: assets/build/folders.js:8
+msgctxt "images, over a count or as a filter"
 msgid "Optimized by another plugin"
 msgstr "他のプラグインで最適化済み"
 
 #. translators: %s: another image optimizer's name, such as Optimole.
-#: includes/admin/class-media-view.php:670
+#: includes/admin/class-media-view.php:671
 #, php-format
 msgid "Offloaded by %s"
 msgstr "%s によりオフロード済み"
 
 #. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
-#: includes/admin/class-media-view.php:704
+#: includes/admin/class-media-view.php:705
 #, php-format
 msgid "Saved %1$s (%2$s) across %3$s file."
 msgid_plural "Saved %1$s (%2$s) across %3$s files."
 msgstr[0] "%3$s 個のファイルで %1$s (%2$s) 削減しました。"
 
-#: includes/admin/class-media-view.php:711
+#: includes/admin/class-media-view.php:712
 msgid "The originals were already smaller, so they were kept."
 msgstr "元の画像のほうがすでに小さかったため、元の画像をそのまま残しました。"
 
 #. translators: %s: the formats made, such as "WebP, AVIF".
-#: includes/admin/class-media-view.php:720
+#: includes/admin/class-media-view.php:721
 #, php-format
 msgid "Copies: %s"
 msgstr "コピー: %s"
 
 #. translators: %s: the formats missing, such as "AVIF".
-#: includes/admin/class-media-view.php:734
+#: includes/admin/class-media-view.php:735
 #, php-format
 msgid "Missing formats: %s"
 msgstr "不足している形式: %s"
 
 #. translators: %s: the sizes missing, by their names.
-#: includes/admin/class-media-view.php:746
+#: includes/admin/class-media-view.php:747
 #, php-format
 msgid "Missing sizes: %s"
 msgstr "不足しているサイズ: %s"
 
 #. translators: %s: how many copies.
-#: includes/admin/class-media-view.php:758
+#: includes/admin/class-media-view.php:759
 #, php-format
 msgid "%s WebP or AVIF copy another tool made was kept as it is."
 msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
 msgstr[0] "他のツールが作成した WebP または AVIF のコピー %s 個は、そのまま残しました。"
 
 #. translators: %s: how many files.
-#: includes/admin/class-media-view.php:768
+#: includes/admin/class-media-view.php:769
 #, php-format
 msgid "%s file couldn't be written."
 msgid_plural "%s files couldn't be written."
 msgstr[0] "%s 個のファイルを書き込めませんでした。"
 
 #. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
-#: includes/admin/class-media-view.php:812
+#: includes/admin/class-media-view.php:813
 #, php-format
 msgid "%1$s saved %2$s (%3$s), as it recorded it."
 msgstr "%1$s の記録によると、%2$s (%3$s) 削減されています。"
 
-#: includes/admin/class-media-view.php:821
+#: includes/admin/class-media-view.php:822
 msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
 msgstr "元の画像は保持されています。Iminify はこの画像をそのままにするため、枠は消費されません。"
 
-#: includes/admin/class-media-view.php:822
+#: includes/admin/class-media-view.php:823
 msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
 msgstr "元の画像が保持されていないため、Iminify は二重に圧縮せず、この画像をそのままにします。"
 
-#: includes/admin/class-media-view.php:838
+#: includes/admin/class-media-view.php:839
 msgid "Queued"
 msgstr "キュー待ち"
 
-#: includes/admin/class-media-view.php:840
+#: includes/admin/class-media-view.php:841
 msgid "Being optimized"
 msgstr "最適化中"
 
-#: includes/admin/class-media-view.php:842
+#: includes/admin/class-media-view.php:843
 #: assets/build/bulk.js:7
 #: assets/build/folders.js:8
 msgid "Waiting for the next batch"
 msgstr "次の枠を待機中"
 
-#: includes/admin/class-media-view.php:844
+#: includes/admin/class-media-view.php:845
 msgid "Waiting for the connection"
 msgstr "接続待ち"
 
-#: includes/admin/class-media-view.php:846
+#: includes/admin/class-media-view.php:847
 msgid "Not sent"
 msgstr "未送信"
 
-#: includes/admin/class-media-view.php:848
+#: includes/admin/class-media-view.php:849
 msgid "Error"
 msgstr "エラー"
 
-#: includes/admin/class-media-view.php:886
+#: includes/admin/class-media-view.php:851
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "未最適化"
+
+#: includes/admin/class-media-view.php:887
 msgid "The next batch is open, so it goes out shortly."
 msgstr "次の枠が開いているため、まもなく送信されます。"
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/admin/class-media-view.php:888
+#: includes/admin/class-media-view.php:889
 #, php-format
 msgid "It goes out by itself on %s."
 msgstr "%s に自動で送信されます。"
 
-#: includes/admin/class-media-view.php:908
 #: includes/admin/class-media-view.php:909
+#: includes/admin/class-media-view.php:910
 msgid "Alt text: being written."
 msgstr "代替テキスト: 作成中です。"
 
-#: includes/admin/class-media-view.php:910
+#: includes/admin/class-media-view.php:911
 msgid "Alt text: written by Iminify."
 msgstr "代替テキスト: Iminify が作成しました。"
 
-#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
 msgid "Alt text: yours was kept."
 msgstr "代替テキスト: 既存のテキストを残しました。"
 
-#: includes/admin/class-media-view.php:912
+#: includes/admin/class-media-view.php:913
 msgid "Alt text: Iminify couldn't write one for this image."
 msgstr "代替テキスト: Iminify はこの画像の代替テキストを作成できませんでした。"
 
-#: includes/admin/class-media-view.php:913
+#: includes/admin/class-media-view.php:914
 msgid "Alt text: not written, as the day's AI alt texts were used up."
 msgstr "代替テキスト: 本日の AI 代替テキストを使い切ったため、作成されませんでした。"
 
-#: includes/admin/class-media-view.php:939
+#: includes/admin/class-media-view.php:940
 msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
 msgstr "この画像には、出所を示す署名付きの記録であるコンテンツ認証情報 (Content Credentials) が含まれており、各ファイルにも保持されています。"
 
-#: includes/admin/class-media-view.php:941
+#: includes/admin/class-media-view.php:942
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
 msgstr "この画像には、出所を示す署名付きの記録であるコンテンツ認証情報 (Content Credentials) が含まれていました。新しいファイルでは署名が無効になるため、Iminify が書き出したファイルとコピーには含まれていませんが、バックアップとして保持している元の画像には残っています。"
 
-#: includes/admin/class-media-view.php:943
+#: includes/admin/class-media-view.php:944
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
 msgstr "この画像には、出所を示す署名付きの記録であるコンテンツ認証情報 (Content Credentials) が含まれていました。新しいファイルでは署名が無効になるため、Iminify が書き出したファイルとコピーには含まれていません。"
 
-#: includes/admin/class-media-view.php:947
+#: includes/admin/class-media-view.php:948
 msgid "They say generative AI made it, wholly or in part."
 msgstr "その記録によると、この画像の全体または一部は生成 AI によって作成されています。"
 
-#: includes/admin/class-media-view.php:982
-#: includes/admin/class-media-view.php:1002
+#: includes/admin/class-media-view.php:983
+#: includes/admin/class-media-view.php:1003
 msgid "WebP"
 msgstr "WebP"
 
-#: includes/admin/class-media-view.php:983
-#: includes/admin/class-media-view.php:1003
+#: includes/admin/class-media-view.php:984
+#: includes/admin/class-media-view.php:1004
 msgid "AVIF"
 msgstr "AVIF"
 
 #. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
-#: includes/admin/class-media-view.php:1020
+#: includes/admin/class-media-view.php:1021
 #, php-format
 msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
 msgstr "Iminify が独自のコピーを作成するまで、この画像を表示するページには %2$s が作成した %1$s のコピーが配信されます。"
 
-#: includes/admin/class-media-view.php:1050
+#: includes/admin/class-media-view.php:1051
 #: includes/audit/class-fixes.php:149
 msgid "Full Size"
 msgstr "フルサイズ"
 
 #. translators: %s: the compression level, such as Smart.
-#: includes/admin/class-media-view.php:1079
+#: includes/admin/class-media-view.php:1080
 #, php-format
 msgid "Level: %s"
 msgstr "レベル: %s"
 
-#: includes/admin/class-media-view.php:1087
+#: includes/admin/class-media-view.php:1088
 msgid "Size"
 msgstr "サイズ"
 
-#: includes/admin/class-media-view.php:1088
+#: includes/admin/class-media-view.php:1089
 msgid "Before"
 msgstr "最適化前"
 
-#: includes/admin/class-media-view.php:1089
+#: includes/admin/class-media-view.php:1090
 msgid "After"
 msgstr "最適化後"
 
-#: includes/admin/class-media-view.php:1090
+#: includes/admin/class-media-view.php:1091
 msgid "Copies"
 msgstr "コピー"
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 #: assets/build/audit.js:11
 #: assets/build/bulk.js:25
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Write alt text with AI"
 msgstr "AI で代替テキストを作成"
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
 msgstr "代替テキストを作成するため、この画像の縮小コピーを送信しますか ? 本日の AI 代替テキストを1回分使用します。"
 
-#: includes/admin/class-media-view.php:1136
+#: includes/admin/class-media-view.php:1137
 msgid "Write alt text"
 msgstr "代替テキストを作成"
 
-#: includes/admin/class-media-view.php:1155
+#: includes/admin/class-media-view.php:1156
 msgid "Optimize again from the original at"
 msgstr "元の画像から再最適化するレベル:"
 
-#: includes/admin/class-media-view.php:1183
+#: includes/admin/class-media-view.php:1184
 msgid "Connect the site to Iminify to optimize this image."
 msgstr "この画像を最適化するには、サイトを Iminify に接続してください。"
 
-#: includes/admin/class-media-view.php:1185
+#: includes/admin/class-media-view.php:1186
 msgid "No original of this image was kept, so it can't be optimized again or restored."
 msgstr "元の画像が保持されていないため、この画像は再最適化も復元もできません。"
 
-#: includes/admin/class-media-view.php:1187
+#: includes/admin/class-media-view.php:1188
 msgid "Optimize again at"
 msgstr "再最適化するレベル:"
 
-#: includes/admin/class-media-view.php:1187
+#: includes/admin/class-media-view.php:1188
 msgid "Optimize at"
 msgstr "最適化するレベル:"
 
-#: includes/admin/class-media-view.php:1204
+#: includes/admin/class-media-view.php:1205
 msgid "Make what it lacks"
 msgstr "不足分を作成"
 
-#: includes/admin/class-media-view.php:1213
+#: includes/admin/class-media-view.php:1214
 msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
 msgstr "この画像は Iminify が最適化した後に変更されているため、復元するものはありません。"
 
-#: includes/admin/class-media-view.php:1220
+#: includes/admin/class-media-view.php:1221
 msgid "Delete the copies"
 msgstr "コピーを削除"
 
-#: includes/admin/class-media-view.php:1220
+#: includes/admin/class-media-view.php:1221
 msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
 msgstr "この画像の WebP と AVIF のコピーを削除しますか ? この画像を表示するページでは、JPEG または PNG の配信に戻ります。"
 
-#: includes/admin/class-media-view.php:1285
+#: includes/admin/class-media-view.php:1286
 #: assets/build/bulk.js:23
 msgid "Make the missing formats"
 msgstr "不足している形式を作成"
 
-#: includes/admin/class-media-view.php:1289
+#: includes/admin/class-media-view.php:1290
 #: assets/build/bulk.js:24
 msgid "Make the missing sizes"
 msgstr "不足しているサイズを作成"
 
-#: includes/admin/class-media-view.php:1300
+#: includes/admin/class-media-view.php:1301
 msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
 msgstr "不足分を作成するため、この画像をもう一度送信しますか ? 画像1枚分としてカウントされます。その他のファイルは、Iminify がより小さくできる場合を除き、そのまま残ります。"
 
-#: includes/admin/class-media-view.php:1308
+#: includes/admin/class-media-view.php:1309
 msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
 msgstr "この画像を再最適化しますか ? Iminify は元の画像からファイルを作り直し、形式と名前はそのまま維持します。画像1枚分としてカウントされます。"
 
-#: includes/admin/class-media-view.php:1311
+#: includes/admin/class-media-view.php:1312
 msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
 msgstr "この画像を再最適化しますか ? 先に元の画像に戻してから処理します。画像1枚分としてカウントされます。"
 
-#: includes/admin/class-media-view.php:1318
+#: includes/admin/class-media-view.php:1319
 msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
 msgstr "この画像を元の画像に復元しますか ? WordPress がサイズを作り直し、WebP と AVIF のコピーは削除されます。"
 
 #. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
-#: includes/admin/class-media-view.php:1333
+#: includes/admin/class-media-view.php:1334
 #, php-format
 msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
 msgstr "%s が保持していた元の画像から、この画像を再最適化しますか ? Iminify はその元の画像からファイルを作り直し、投稿からのリンクが切れないよう形式と名前はそのまま維持し、元の画像のバックアップを独自に保持します。画像1枚分としてカウントされます。"
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1340
+#: includes/admin/class-media-view.php:1341
 #, php-format
 msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
 msgstr "%s が保持していた元の画像から、この画像を再最適化しますか ? 先に元の画像に戻して WordPress がサイズを作り直し、その後 Iminify が最適化して、元の画像のバックアップを独自に保持します。画像1枚分としてカウントされます。"
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1355
+#: includes/admin/class-media-view.php:1356
 #, php-format
 msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
 msgstr "%s が保持していた元の画像で、この画像を復元しますか ? WordPress がサイズを作り直します。そのプラグインのバックアップとコピーはそのまま残ります。"
@@ -531,7 +540,7 @@ msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to s
 msgstr "Iminify Image Optimizer の準備ができました。画像の最適化を始めるには、Iminify アカウントに接続してください。"
 
 #: includes/admin/class-notice.php:138
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect"
 msgstr "接続"
 
@@ -544,7 +553,7 @@ msgstr "Iminify の設定を開く"
 #: assets/build/audit.js:2
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:1
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Connected"
 msgstr "接続済み"
 
@@ -552,7 +561,7 @@ msgstr "接続済み"
 #: assets/build/audit.js:2
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:1
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Not connected"
 msgstr "未接続"
 
@@ -604,12 +613,12 @@ msgstr "参加できるのは、プラグインが有効化されているサイ
 
 #: includes/admin/class-rest-controller.php:284
 #: includes/admin/class-settings-import.php:271
-#: includes/api/class-client.php:385
+#: includes/api/class-client.php:386
 #: includes/class-connection.php:529
-#: includes/folders/class-optimizer.php:142
+#: includes/folders/class-optimizer.php:143
 #: includes/media/class-alt-text.php:238
-#: includes/media/class-bulk.php:246
-#: includes/media/class-optimizer.php:289
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
 #: includes/media/class-queue.php:137
 msgid "This site isn't connected to Iminify."
 msgstr "このサイトは Iminify に接続されていません。"
@@ -623,52 +632,52 @@ msgid "Those settings changed since they were shown. Look at them again before u
 msgstr "表示された後に設定が変更されました。使用する前にもう一度確認してください。"
 
 #: includes/admin/class-settings-import.php:207
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimize new uploads"
 msgstr "新しいアップロードを最適化"
 
 #: includes/admin/class-settings-import.php:209
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Compression level"
 msgstr "圧縮レベル"
 
 #: includes/admin/class-settings-import.php:211
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Make WebP copies"
 msgstr "WebP のコピーを作成"
 
 #: includes/admin/class-settings-import.php:213
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Make AVIF copies"
 msgstr "AVIF のコピーを作成"
 
 #: includes/admin/class-settings-import.php:215
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Maximum width, in pixels"
 msgstr "最大幅 (ピクセル)"
 
 #: includes/admin/class-settings-import.php:217
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Size limit, in KB"
 msgstr "サイズ上限 (KB)"
 
 #: includes/admin/class-settings-import.php:219
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keep metadata"
 msgstr "メタデータを保持"
 
 #: includes/admin/class-settings-import.php:221
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Sizes to optimize"
 msgstr "最適化するサイズ"
 
 #: includes/admin/class-settings-import.php:223
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keep a backup of each original"
 msgstr "元の画像のバックアップを保持"
 
 #: includes/admin/class-settings-import.php:241
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "No limit"
 msgstr "上限なし"
 
@@ -741,73 +750,118 @@ msgstr "Pro"
 msgid "Max"
 msgstr "Max"
 
-#: includes/admin/class-state.php:296
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:301
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "使用 %s 個、1日の上限なし"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:303
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "使用 %s 個"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:305
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "残り %s 個"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:309
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "使用 %s 回、1日の上限なし"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:311
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "使用 %s 回"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:313
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "残り %s 回"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:317
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "使用 %s 枚、1日の上限なし"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:319
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "使用 %s 枚"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:321
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "残り %s 枚"
+
+#: includes/admin/class-state.php:343
 msgid "This site"
 msgstr "このサイト"
 
-#: includes/admin/class-state.php:297
+#: includes/admin/class-state.php:344
 msgid "Your whole account"
 msgstr "アカウント全体"
 
-#: includes/admin/class-state.php:423
+#: includes/admin/class-state.php:470
 #: includes/audit/class-fixes.php:146
 msgid "Thumbnail"
 msgstr "サムネイル"
 
-#: includes/admin/class-state.php:424
+#: includes/admin/class-state.php:471
 #: includes/audit/class-fixes.php:147
 msgid "Medium"
 msgstr "中"
 
-#: includes/admin/class-state.php:425
+#: includes/admin/class-state.php:472
 #: includes/audit/class-fixes.php:148
 msgid "Large"
 msgstr "大"
 
 #. translators: 1: the size's name, 2: its width in pixels.
-#: includes/admin/class-state.php:448
+#: includes/admin/class-state.php:495
 #, php-format
 msgid "%1$s (%2$d wide)"
 msgstr "%1$s (幅 %2$d)"
 
 #. translators: 1: the size's name, 2: its height in pixels.
-#: includes/admin/class-state.php:453
+#: includes/admin/class-state.php:500
 #, php-format
 msgid "%1$s (%2$d high)"
 msgstr "%1$s (高さ %2$d)"
 
 #. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
-#: includes/admin/class-state.php:457
+#: includes/admin/class-state.php:504
 #, php-format
 msgid "%1$s (%2$d × %3$d)"
 msgstr "%1$s (%2$d × %3$d)"
-
-#. translators: %s: the reason the connection failed.
-#: includes/api/class-client.php:444
-#: includes/api/class-client.php:467
-#, php-format
-msgid "Iminify couldn't be reached: %s"
-msgstr "Iminify に接続できませんでした: %s"
-
-#. translators: %d: the HTTP status Iminify answered.
-#: includes/api/class-client.php:511
-#, php-format
-msgid "Iminify answered with an error (HTTP %d)."
-msgstr "Iminify がエラーを返しました (HTTP %d)。"
-
-#: includes/api/class-client.php:541
-#: includes/class-connection.php:96
-#: includes/media/class-refusal.php:63
-msgid "Iminify sent an answer this version of the plugin can't read."
-msgstr "Iminify から、このバージョンのプラグインでは読み取れない応答が返されました。"
-
-#: includes/api/class-upload.php:117
-msgid "This server doesn't have the memory to send an image this large."
-msgstr "このサーバーには、これほど大きな画像を送信するためのメモリがありません。"
-
-#: includes/api/class-upload.php:186
-msgid "The image couldn't be read from the uploads folder."
-msgstr "アップロードフォルダーから画像を読み込めませんでした。"
 
 #: includes/audit/class-findings.php:54
 msgid "Show a smaller size of the image here."
@@ -963,8 +1017,9 @@ msgstr "wp-content からの相対パスでフォルダーを指定してくだ�
 #. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
 #: includes/class-cli.php:354
 #, php-format
-msgid "Found %1$s images: %2$s new, %3$s changed."
-msgstr "%1$s 枚の画像が見つかりました: 新規 %2$s 枚、変更 %3$s 枚。"
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "%1$s 枚の画像が見つかりました: 新規 %2$s 枚、変更 %3$s 枚。"
 
 #: includes/class-cli.php:392
 #: includes/class-cli.php:421
@@ -1072,8 +1127,9 @@ msgstr[0] "%s 個のファイルを Iminify に送信しました。"
 #. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
 #: includes/class-cli.php:724
 #, php-format
-msgid "Your folders have %1$s of %2$s files optimized, %3$s failed."
-msgstr "フォルダー内のファイル %2$s 個のうち、%1$s 個が最適化済み、%3$s 個が失敗しています。"
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "フォルダー内のファイル %2$s 個のうち、%1$s 個が最適化済み、%3$s 個が失敗しています。"
 
 #. translators: %s: how many images.
 #: includes/class-cli.php:737
@@ -1092,8 +1148,9 @@ msgstr[0] "%s 枚の画像を Iminify に送信しました。"
 #. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
 #: includes/class-cli.php:744
 #, php-format
-msgid "The library has %1$s of %2$s images optimized, %3$s failed."
-msgstr "ライブラリの画像 %2$s 枚のうち、%1$s 枚が最適化済み、%3$s 枚が失敗しています。"
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "ライブラリの画像 %2$s 枚のうち、%1$s 枚が最適化済み、%3$s 枚が失敗しています。"
 
 #. translators: %s: what was given as an attachment's id.
 #: includes/class-cli.php:791
@@ -1105,6 +1162,11 @@ msgstr "%s は添付ファイルではありません。"
 msgid "This account can't run bulk commands."
 msgstr "このアカウントでは一括コマンドを実行できません。"
 
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify から、このバージョンのプラグインでは読み取れない応答が返されました。"
+
 #: includes/class-connection.php:244
 msgid "Paste the site key first."
 msgstr "先にサイトキーを貼り付けてください。"
@@ -1113,14 +1175,13 @@ msgstr "先にサイトキーを貼り付けてください。"
 msgid "This site's key is set in wp-config.php. Change or remove it there."
 msgstr "このサイトのキーは wp-config.php で設定されています。変更または削除はそちらで行ってください。"
 
-#: includes/class-connection.php:536
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress がサイトネットワークのキーを保存できませんでした。もう一度試すには「サイトネットワークを接続」を押してください。"
+
+#: includes/class-connection.php:539
 msgid "WordPress couldn't store the site key. Press Connect to try again."
 msgstr "WordPress がサイトキーを保存できませんでした。もう一度試すには「接続」を押してください。"
-
-#: includes/class-lifecycle.php:306
-#: includes/folders/class-optimizer.php:868
-msgid "Waiting to go on: the plugin was turned off while this image was on its way."
-msgstr "続行待ち: この画像の処理中にプラグインが無効化されました。"
 
 #: includes/class-messages.php:35
 msgid "Smart"
@@ -1285,81 +1346,290 @@ msgctxt "a language alt text is written in"
 msgid "Traditional Chinese"
 msgstr "繁体字中国語"
 
-#: includes/class-messages.php:134
+#: includes/class-messages.php:149
 msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
 msgstr "Iminify はこのキーを認識できません。すべてコピーしたか確認するか、新しいキーを作成してください。"
 
-#: includes/class-messages.php:136
+#: includes/class-messages.php:151
 msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
 msgstr "これは API キーです。サイトにはサイトキーが必要です。iminify.com の「Settings」→「Sites」で作成するか、代わりに「接続」を押してください。"
 
-#: includes/class-messages.php:138
+#: includes/class-messages.php:153
 msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
 msgstr "このキーは別のアドレスにあるサイトのものなので、このサイトのコピーでは使用できません。このコピーを独立したサイトとして接続するか、接続をこちらに移動してください。"
 
 #. translators: %s: how long to wait, such as "10 minutes".
-#: includes/class-messages.php:145
+#: includes/class-messages.php:157
 #, php-format
 msgid "Iminify asked the plugin to wait. Try again in %s."
 msgstr "Iminify からプラグインに待機するよう求められました。%s 後にもう一度お試しください。"
 
-#: includes/class-messages.php:146
+#: includes/class-messages.php:158
 msgid "Iminify asked the plugin to wait. Try again later."
 msgstr "Iminify からプラグインに待機するよう求められました。しばらくしてからもう一度お試しください。"
 
-#: includes/class-messages.php:148
+#: includes/class-messages.php:160
 msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
 msgstr "この接続はもう使用できません。期限切れ、拒否済み、または使用済みです。最初からやり直すには「接続」を押してください。"
 
-#: includes/class-messages.php:150
+#: includes/class-messages.php:162
 #: includes/media/class-alt-text.php:242
-#: includes/media/class-bulk.php:262
+#: includes/media/class-bulk.php:263
 msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
 msgstr "このサイトでは AI 代替テキストがオフになっています。先にプラグインの設定でオンにしてください。"
 
-#: includes/class-messages.php:152
+#: includes/class-messages.php:164
 msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
 msgstr "診断できるのはこのサイト自身のページのみです。このサイト上のページのアドレスを入力してください。"
 
-#: includes/class-messages.php:154
+#: includes/class-messages.php:166
 msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
 msgstr "このサイトネットワークのキーは単一サイト用に作成されたため、サイトネットワークのサイトはこのキーで参加できません。特権管理者がサイトネットワーク管理画面からサイトネットワークを再接続してください。"
 
-#: includes/class-messages.php:156
+#: includes/class-messages.php:168
 msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
 msgstr "このサイトネットワークには、1つのサイトネットワークに登録できる上限数のサイトがすでにあります。iminify.com の「Settings」→「Sites」で使っていないサイトを削除するか、このサイトを単独で接続してください。"
 
-#: includes/class-messages.php:158
+#: includes/class-messages.php:170
 msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
 msgstr "このサイトは、単独で、または別のサイトネットワーク内で、すでにアカウントに接続されています。このサイトネットワークに追加するには iminify.com の「Settings」→「Sites」で接続を解除するか、ここで単独で接続してください。"
 
-#: includes/class-messages.php:172
+#: includes/class-messages.php:184
 msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
 msgstr "このバージョンの Iminify Image Optimizer は古すぎるため、画像の最適化を続けられません。「プラグイン」ページから更新してください。"
 
-#: includes/class-messages.php:174
+#: includes/class-messages.php:186
 msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
 msgstr "アカウントの本日の画像枠を使い切りました。新しいアップロードは待機し、次の枠が開くと自動的に送信されます。"
 
-#: includes/class-messages.php:176
+#: includes/class-messages.php:188
 msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
 msgstr "このサイトは別の Iminify アカウントで Pro の無料トライアルを利用済みのため、ここでのアップロードには無料プランの上限が適用されます。"
 
-#: includes/class-network.php:218
+#: includes/class-network.php:213
 msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
 msgstr "このサイトネットワークは Iminify に接続されていません。特権管理者がサイトネットワーク管理画面から接続してください。"
 
-#: includes/class-network.php:228
+#: includes/class-network.php:223
 msgid "This site is joining the network already. Wait a moment and look again."
 msgstr "このサイトはすでにサイトネットワークに参加中です。しばらく待ってから、もう一度確認してください。"
 
-#: includes/class-network.php:249
-msgid "WordPress couldn't store the site key. Press Join the network to try again."
-msgstr "WordPress がサイトキーを保存できませんでした。もう一度試すには「サイトネットワークに参加」を押してください。"
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "続行待ち: この画像の処理中にプラグインが無効化されました。"
 
-#: includes/compat/class-offload-media.php:379
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "次の枠を待機中です。"
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "サイトが Iminify に接続されるのを待っています。"
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "未最適化: 一括処理が停止されました。"
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "未最適化: サイトが Iminify に接続されていません。"
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "未最適化: 先に Iminify プラグインを更新してください。"
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "未最適化: このサイトはアップロードを最適化しない設定です。"
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "未最適化: サーバーのディスク容量が不足しています。空き容量を確保してから、この画像を最適化してください。"
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "未送信: このサーバーの PHP は zip ファイルを開けません。PHP の zip 拡張機能を有効にするよう、ホスティング会社に依頼してください。"
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "このサーバーの PHP は zip ファイルを開けません。PHP の zip 拡張機能を有効にするよう、ホスティング会社に依頼してください。"
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Iminify からのダウンロードを開けませんでした。"
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "未送信: 元の画像が大きすぎて送信できません。プランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "未送信: この画像はプランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "未送信: 最適化後のファイルを作成するための元の画像が残っていません。"
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "未送信: 最適化後のファイルを作成するための元の画像が残っていません。"
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress はこの画像の不足しているサイズを作成できませんでした。"
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "アップロード時のまま保持: Iminify が最適化するのは JPEG、PNG、WebP、GIF 画像です。"
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "そのまま保持: Iminify が最適化するのは JPEG、PNG、WebP、GIF 画像です。"
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "アップロード時のまま保持: このサイトはこの画像を対象外にしています。"
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "そのまま保持: このサイトはこの画像を対象外にしています。"
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "画像を読み込めませんでした。"
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "画像がアップロードフォルダーにありません。"
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "未送信: 画像のファイルがアップロードフォルダーにありません。"
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "未送信: 画像のファイルが存在しないか、別の場所へのリンクです。"
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "処理中に、画像のファイルまたはそのバックアップが見つからなくなりました。"
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "未送信: この画像は、Iminify が最適化するフォルダーにもうありません。"
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "未書き込み: この画像は、Iminify が最適化するフォルダーにもうありません。"
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Iminify が最適化した後に変更されたため、再最適化できます。"
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "Iminify の最適化中に画像が変更されたため、もう一度送信します。"
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "翻訳の場合と同様に、このファイルは添付ファイル #%d のものであるため、Iminify はそちらで最適化します。"
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "この画像のバックアップを保存できなかったため、最適化しませんでした。WordPress がアップロードフォルダーに書き込めるか確認するか、Iminify の設定でバックアップをオフにしてください。"
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "バックアップの作成後に画像が変更され、古いバックアップを移動できなかったため、最適化しませんでした。"
+
+#: includes/class-reasons.php:228
 msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
 msgstr "送信するために WP Offload Media のバケットから画像をコピーし直すことができませんでした。"
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify は何度か試行しましたが、この画像の処理を完了できませんでした。"
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "復元済み: 元の画像に戻りました。"
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "画像を復元できませんでした。"
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "WP Offload Media のバケットから元の画像をコピーし直せなかったため、画像は以前の状態のままです。もう一度お試しください。"
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "元の画像を戻せなかったため、画像は以前の状態のままです。"
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress が元の画像を読み込めなかったため、画像のサイズは以前のままです。もう一度お試しください。"
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify はこの画像を変更していないため、復元するものはありません。"
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify はこの画像を何も変更していないため、すでに元の状態です。"
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "この画像は Iminify が最適化した後に変更されているため、復元すると新しい画像が上書きされます。"
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "この画像は Iminify が最適化した後に変更されているため、バックアップはもう元の画像ではありません。"
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "画像のファイルがもう存在しないか、Iminify が最適化するフォルダーにありません。"
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "元の画像が保持されていないため、この画像は復元できません。最適化時にバックアップがオフだったか、バックアップが削除されています。"
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "元の画像が保持されていないため、この画像は復元できません。"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s は Iminify が確認できる元の画像を保持していないため、この画像はここでは復元できません。"
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Iminify に接続できませんでした: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify がエラーを返しました (HTTP %d)。"
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "このサーバーには、これほど大きな画像を送信するためのメモリがありません。"
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "アップロードフォルダーから画像を読み込めませんでした。"
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress がサイトキーを保存できませんでした。もう一度試すには「サイトネットワークに参加」を押してください。"
 
 #: includes/delivery/class-rules.php:412
 msgid "The uploads folder"
@@ -1411,301 +1681,100 @@ msgstr "そのフォルダーはすでにリストにあります (%s 内)。"
 msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
 msgstr "リストに追加できるフォルダーの上限に達しています。いずれかを削除するか、複数のフォルダーを含む上位のフォルダーを選択してください。"
 
-#: includes/folders/class-optimizer.php:150
-#: includes/media/class-optimizer.php:297
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
 msgid "Update the Iminify plugin first."
 msgstr "先に Iminify プラグインを更新してください。"
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/folders/class-optimizer.php:160
-#: includes/media/class-optimizer.php:307
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
 #, php-format
 msgid "Your account's images for the day are used up. The next batch opens on %s."
 msgstr "アカウントの本日の画像枠を使い切りました。次の枠は %s に開きます。"
 
-#: includes/folders/class-optimizer.php:168
-#: includes/media/class-optimizer.php:319
-#: includes/media/class-optimizer.php:334
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
 msgid "The server is low on disk space. Free some up, then optimize this image."
 msgstr "サーバーのディスク容量が不足しています。空き容量を確保してから、この画像を最適化してください。"
 
-#: includes/folders/class-optimizer.php:175
-#: includes/media/class-optimizer.php:315
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
 msgid "No original of this image was kept, so it can't be optimized again."
 msgstr "元の画像が保持されていないため、この画像は再最適化できません。"
 
-#: includes/folders/class-optimizer.php:181
+#: includes/folders/class-optimizer.php:182
 msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
 msgstr "この画像は大きすぎて送信できません。プランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
-
-#: includes/folders/class-optimizer.php:272
-#: includes/media/class-optimizer.php:576
-msgid "Not optimized: update the Iminify plugin first."
-msgstr "未最適化: 先に Iminify プラグインを更新してください。"
-
-#: includes/folders/class-optimizer.php:283
-#: includes/media/class-optimizer.php:339
-#: includes/media/class-optimizer.php:593
-msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
-msgstr "未送信: このサーバーの PHP は zip ファイルを開けません。PHP の zip 拡張機能を有効にするよう、ホスティング会社に依頼してください。"
-
-#: includes/folders/class-optimizer.php:298
-msgid "Not sent: no original of this image is left to make the optimized file from."
-msgstr "未送信: 最適化後のファイルを作成するための元の画像が残っていません。"
-
-#: includes/folders/class-optimizer.php:306
-msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
-msgstr "未送信: この画像はプランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
-
-#: includes/folders/class-optimizer.php:461
-msgid "The image's file or its backup went missing while it was on its way."
-msgstr "処理中に、画像のファイルまたはそのバックアップが見つからなくなりました。"
-
-#: includes/folders/class-optimizer.php:507
-msgid "Not written: the image is no longer in a folder Iminify optimizes."
-msgstr "未書き込み: この画像は、Iminify が最適化するフォルダーにもうありません。"
-
-#: includes/folders/class-optimizer.php:654
-#: includes/folders/class-optimizer.php:732
-#: includes/media/class-bulk.php:1004
-msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
-msgstr "そのまま保持: Iminify が最適化するのは JPEG、PNG、WebP、GIF 画像です。"
-
-#: includes/folders/class-optimizer.php:661
-#: includes/media/class-declaration.php:103
-msgid "The image couldn't be read."
-msgstr "画像を読み込めませんでした。"
-
-#: includes/folders/class-optimizer.php:714
-msgid "Not sent: the image is no longer in a folder Iminify optimizes."
-msgstr "未送信: この画像は、Iminify が最適化するフォルダーにもうありません。"
-
-#: includes/folders/class-optimizer.php:723
-msgid "Not sent: the image's file isn't there, or is a link to another place."
-msgstr "未送信: 画像のファイルが存在しないか、別の場所へのリンクです。"
-
-#: includes/folders/class-optimizer.php:756
-msgid "Kept as it is: this site leaves this image out."
-msgstr "そのまま保持: このサイトはこの画像を対象外にしています。"
-
-#: includes/folders/class-optimizer.php:851
-#: includes/media/class-optimizer.php:1209
-msgid "Waiting for the next batch."
-msgstr "次の枠を待機中です。"
-
-#: includes/folders/class-optimizer.php:869
-#: includes/media/class-optimizer.php:1221
-msgid "Waiting for the site to be connected to Iminify."
-msgstr "サイトが Iminify に接続されるのを待っています。"
-
-#: includes/folders/class-optimizer.php:900
-#: includes/media/class-optimizer.php:1230
-msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
-msgstr "未最適化: サーバーのディスク容量が不足しています。空き容量を確保してから、この画像を最適化してください。"
-
-#: includes/folders/class-optimizer.php:994
-#: includes/media/class-optimizer.php:1284
-msgid "Iminify couldn't finish this image after several tries."
-msgstr "Iminify は何度か試行しましたが、この画像の処理を完了できませんでした。"
-
-#: includes/folders/class-restorer.php:112
-#: includes/folders/class-restorer.php:114
-#: includes/media/class-restorer.php:173
-msgid "The original couldn't be put back, so the image stays as it was."
-msgstr "元の画像を戻せなかったため、画像は以前の状態のままです。"
-
-#: includes/folders/class-restorer.php:192
-msgid "Iminify changed nothing in this image, so it already is as it was."
-msgstr "Iminify はこの画像を何も変更していないため、すでに元の状態です。"
-
-#: includes/folders/class-restorer.php:194
-msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
-msgstr "この画像は Iminify が最適化した後に変更されているため、バックアップはもう元の画像ではありません。"
-
-#: includes/folders/class-restorer.php:196
-msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
-msgstr "画像のファイルがもう存在しないか、Iminify が最適化するフォルダーにありません。"
-
-#: includes/folders/class-restorer.php:198
-msgid "No original of this image was kept, so it can't be restored."
-msgstr "元の画像が保持されていないため、この画像は復元できません。"
-
-#: includes/folders/class-scanner.php:465
-msgid "Changed since Iminify optimized it, so it can be optimized again."
-msgstr "Iminify が最適化した後に変更されたため、再最適化できます。"
 
 #: includes/media/class-alt-text.php:246
 msgid "This image already has alt text, or its text is on the way."
 msgstr "この画像にはすでに代替テキストがあるか、作成中です。"
 
-#: includes/media/class-backups.php:54
-msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
-msgstr "この画像のバックアップを保存できなかったため、最適化しませんでした。WordPress がアップロードフォルダーに書き込めるか確認するか、Iminify の設定でバックアップをオフにしてください。"
-
-#: includes/media/class-backups.php:83
-msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
-msgstr "バックアップの作成後に画像が変更され、古いバックアップを移動できなかったため、最適化しませんでした。"
-
-#: includes/media/class-bulk.php:223
+#: includes/media/class-bulk.php:224
 msgid "A bulk run is already going. Stop it first."
 msgstr "一括処理がすでに実行中です。先に停止してください。"
 
-#: includes/media/class-bulk.php:228
+#: includes/media/class-bulk.php:229
 msgid "The files in other folders are optimized, sent again or restored, all of them at once."
 msgstr "その他のフォルダーのファイルは、最適化、再送信、復元のいずれも、すべて一度に処理されます。"
 
-#: includes/media/class-bulk.php:232
+#: includes/media/class-bulk.php:233
 msgid "Iminify is still looking through your folders. Start again once it has finished."
 msgstr "Iminify はまだフォルダーを確認中です。完了してから、もう一度開始してください。"
 
-#: includes/media/class-bulk.php:250
+#: includes/media/class-bulk.php:251
 msgid "The server is low on disk space. Free some up, then start again."
 msgstr "サーバーのディスク容量が不足しています。空き容量を確保してから、もう一度開始してください。"
 
-#: includes/media/class-bulk.php:454
-#: includes/media/class-bulk.php:478
-msgid "Not optimized: the bulk run was stopped."
-msgstr "未最適化: 一括処理が停止されました。"
-
-#: includes/media/class-bulk.php:1027
-#: includes/media/class-declaration.php:84
-#: includes/media/class-declaration.php:94
-#: includes/media/class-optimizer.php:1370
-msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
-msgstr "アップロード時のまま保持: Iminify が最適化するのは JPEG、PNG、WebP、GIF 画像です。"
-
-#: includes/media/class-bulk.php:1233
+#: includes/media/class-bulk.php:1228
 msgid "Choose a folder first."
 msgstr "先にフォルダーを選択してください。"
 
-#: includes/media/class-bulk.php:1238
+#: includes/media/class-bulk.php:1233
 msgid "No optimized file is left to restore in your folders."
 msgstr "フォルダー内に、復元できる最適化済みファイルは残っていません。"
 
-#: includes/media/class-bulk.php:1240
+#: includes/media/class-bulk.php:1235
 msgid "No file in your folders failed."
 msgstr "フォルダー内に失敗したファイルはありません。"
 
-#: includes/media/class-bulk.php:1242
+#: includes/media/class-bulk.php:1237
 msgid "Every file in your folders is already optimized or on its way."
 msgstr "フォルダー内のすべてのファイルが、すでに最適化済みか処理中です。"
 
-#: includes/media/class-bulk.php:1247
+#: includes/media/class-bulk.php:1242
 msgid "No optimized image is left to restore."
 msgstr "復元できる最適化済みの画像は残っていません。"
 
-#: includes/media/class-bulk.php:1251
+#: includes/media/class-bulk.php:1246
 msgid "No image another plugin optimized has an original left to optimize it again from."
 msgstr "他のプラグインが最適化した画像のうち、再最適化に使える元の画像が残っているものはありません。"
 
-#: includes/media/class-bulk.php:1255
+#: includes/media/class-bulk.php:1250
 msgid "Every image already has alt text, or its text is on the way."
 msgstr "すべての画像にすでに代替テキストがあるか、作成中です。"
 
-#: includes/media/class-bulk.php:1258
+#: includes/media/class-bulk.php:1253
 msgid "No optimized image lacks anything your site asks for now."
 msgstr "最適化済みの画像で、現在のサイトの設定に対して不足しているものはありません。"
 
-#: includes/media/class-bulk.php:1258
+#: includes/media/class-bulk.php:1253
 msgid "Every image is already optimized or on its way."
 msgstr "すべての画像がすでに最適化済みか処理中です。"
 
-#: includes/media/class-bulk.php:1511
-#: includes/media/class-restorer.php:214
-msgid "Restored: the original is back."
-msgstr "復元済み: 元の画像に戻りました。"
-
-#: includes/media/class-declaration.php:109
-msgid "The image isn't in the uploads folder."
-msgstr "画像がアップロードフォルダーにありません。"
-
-#: includes/media/class-hooks.php:177
-msgid "Not optimized: the site isn't connected to Iminify."
-msgstr "未最適化: サイトが Iminify に接続されていません。"
-
-#: includes/media/class-optimizer.php:218
+#: includes/media/class-optimizer.php:219
 msgid "This image has changed since Iminify optimized it, so optimize it again instead."
 msgstr "この画像は Iminify が最適化した後に変更されているため、代わりに再最適化してください。"
 
-#: includes/media/class-optimizer.php:222
+#: includes/media/class-optimizer.php:223
 msgid "This image lacks nothing your site asks for now."
 msgstr "この画像には、現在のサイトの設定に対して不足しているものはありません。"
 
-#: includes/media/class-optimizer.php:329
+#: includes/media/class-optimizer.php:330
 msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
 msgstr "この画像は元の画像が大きすぎて送信できません。プランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
-
-#: includes/media/class-optimizer.php:582
-msgid "Not optimized: the site doesn't optimize uploads."
-msgstr "未最適化: このサイトはアップロードを最適化しない設定です。"
-
-#: includes/media/class-optimizer.php:636
-msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
-msgstr "未送信: 元の画像が大きすぎて送信できません。プランのファイルサイズ上限を超えているか、このサーバーのメモリに収まりません。"
-
-#: includes/media/class-optimizer.php:641
-msgid "Not sent: no original of this image is left to make the optimized files from."
-msgstr "未送信: 最適化後のファイルを作成するための元の画像が残っていません。"
-
-#: includes/media/class-optimizer.php:671
-msgid "WordPress couldn't make the missing sizes of this image."
-msgstr "WordPress はこの画像の不足しているサイズを作成できませんでした。"
-
-#: includes/media/class-optimizer.php:1385
-msgid "Not sent: the image's file isn't in the uploads folder."
-msgstr "未送信: 画像のファイルがアップロードフォルダーにありません。"
-
-#. translators: %d: the id of the attachment whose files this one shares.
-#: includes/media/class-optimizer.php:1403
-#, php-format
-msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
-msgstr "翻訳の場合と同様に、このファイルは添付ファイル #%d のものであるため、Iminify はそちらで最適化します。"
-
-#: includes/media/class-optimizer.php:1426
-msgid "Kept as uploaded: this site leaves this image out."
-msgstr "アップロード時のまま保持: このサイトはこの画像を対象外にしています。"
-
-#: includes/media/class-restorer.php:154
-msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
-msgstr "WP Offload Media のバケットから元の画像をコピーし直せなかったため、画像は以前の状態のままです。もう一度お試しください。"
-
-#: includes/media/class-restorer.php:190
-msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
-msgstr "WordPress が元の画像を読み込めなかったため、画像のサイズは以前のままです。もう一度お試しください。"
-
-#. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/media/class-restorer.php:464
-#, php-format
-msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
-msgstr "%s は Iminify が確認できる元の画像を保持していないため、この画像はここでは復元できません。"
-
-#: includes/media/class-restorer.php:473
-msgid "Iminify hasn't changed this image, so there's nothing to restore."
-msgstr "Iminify はこの画像を変更していないため、復元するものはありません。"
-
-#: includes/media/class-restorer.php:475
-msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
-msgstr "この画像は Iminify が最適化した後に変更されているため、復元すると新しい画像が上書きされます。"
-
-#: includes/media/class-restorer.php:477
-msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
-msgstr "元の画像が保持されていないため、この画像は復元できません。最適化時にバックアップがオフだったか、バックアップが削除されています。"
-
-#: includes/media/class-restorer.php:485
-msgid "The image couldn't be restored."
-msgstr "画像を復元できませんでした。"
-
-#: includes/media/class-writer.php:387
-msgid "The image changed while Iminify was optimizing it, so it's sent again."
-msgstr "Iminify の最適化中に画像が変更されたため、もう一度送信します。"
-
-#: includes/media/class-zip.php:44
-msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
-msgstr "このサーバーの PHP は zip ファイルを開けません。PHP の zip 拡張機能を有効にするよう、ホスティング会社に依頼してください。"
-
-#: includes/media/class-zip.php:51
-msgid "Iminify's download couldn't be opened."
-msgstr "Iminify からのダウンロードを開けませんでした。"
 
 #: includes/switching/class-converter.php:52
 msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
@@ -1784,13 +1853,13 @@ msgid "Optimole moved this image to its cloud and deleted its files here. Roll i
 msgstr "Optimole はこの画像をクラウドに移動し、このサイト上のファイルを削除しました。まず Optimole で元に戻してください (Optimole が有効で、接続されている必要があります)。その後、Iminify で最適化できます。"
 
 #. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
-#: includes/switching/class-others.php:190
+#: includes/switching/class-others.php:169
 #, php-format
 msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
 msgstr "%1$s が有効で、アップロードを自身で最適化しているため、画像が二重に圧縮されないよう、その間 Iminify は何も最適化しません。%2$s"
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/switching/class-others.php:510
+#: includes/switching/class-others.php:485
 #, php-format
 msgid "Optimized by %s"
 msgstr "%s で最適化済み"
@@ -1806,6 +1875,34 @@ msgstr "Smush を無効化するか、設定で「Automatic compression」をオ
 #: includes/switching/class-tinypng.php:47
 msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
 msgstr "TinyPNG を無効化するか、設定で新しい画像を手動で圧縮するように変更してください。"
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(新しいタブで開く)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "読み込み中…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "再試行"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "非表示"
 
 #: assets/build/audit.js:2
 msgid "Iminify is scanning the page."
@@ -1853,22 +1950,9 @@ msgid "Stopped"
 msgstr "停止"
 
 #: assets/build/audit.js:2
-#: assets/build/audit.js:11
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:4
-#: assets/build/folders.js:6
-#: assets/build/folders.js:8
+msgctxt "the status of a page audit"
 msgid "Failed"
 msgstr "失敗"
-
-#: assets/build/audit.js:11
-#: assets/build/folders.js:8
-msgid "On its way"
-msgstr "処理中"
-
-#: assets/build/audit.js:11
-msgid "Waiting"
-msgstr "待機中"
 
 #: assets/build/audit.js:2
 msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
@@ -2040,6 +2124,27 @@ msgid "The plugin adds the alt text the image has in the media library as the pa
 msgstr "プラグインは、ページの送信時に、メディアライブラリにあるこの画像の代替テキストを追加します。確認するには、もう一度スキャンしてください。"
 
 #: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "処理中"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "待機中"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "失敗"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "他のプラグインで最適化済み"
+
+#: assets/build/audit.js:11
 msgid "(no title)"
 msgstr "(タイトルなし)"
 
@@ -2083,38 +2188,10 @@ msgstr "コピー"
 #: assets/build/folders.js:1
 #: assets/build/media.js:1
 #: assets/build/settings.js:1
-#: assets/build/settings.js:11
-#: assets/build/settings.js:18
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
 msgid "Cancel"
 msgstr "キャンセル"
-
-#. translators: said by screen readers after a link's words.
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/settings.js:2
-msgid "(opens in a new tab)"
-msgstr "(新しいタブで開く)"
-
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-msgid "Loading…"
-msgstr "読み込み中…"
-
-#: assets/build/audit.js:2
-#: assets/build/bulk.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-#: assets/build/settings.js:40
-msgid "Try again"
-msgstr "再試行"
-
-#: assets/build/audit.js:2
-#: assets/build/folders.js:1
-#: assets/build/settings.js:2
-msgid "Dismiss"
-msgstr "非表示"
 
 #: assets/build/bulk.js:2
 msgid "Iminify says your account's images for the day are still used up."
@@ -2128,13 +2205,20 @@ msgstr "処理中"
 
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
-#: assets/build/folders.js:8
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "失敗"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
 msgid "Skipped"
 msgstr "スキップ"
 
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
-#: assets/build/folders.js:8
+msgctxt "images, over a count or as a filter"
 msgid "Restored"
 msgstr "復元済み"
 
@@ -2149,7 +2233,7 @@ msgstr "ライブラリ"
 #: assets/build/bulk.js:3
 #: assets/build/folders.js:5
 #: assets/build/folders.js:7
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 #, js-format
 msgid "%s image"
 msgid_plural "%s images"
@@ -2165,7 +2249,7 @@ msgstr "最適化済み"
 
 #: assets/build/bulk.js:3
 #: assets/build/folders.js:5
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 msgid "Saved so far"
 msgstr "これまでの削減量"
 
@@ -2190,55 +2274,12 @@ msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it 
 msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
 msgstr[0] "%1$s が %2$s 枚の画像を最適化しましたが、元の画像は保持していません。Iminify はそのままにします。"
 
-#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept.
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
 #: assets/build/bulk.js:7
 #, js-format
-msgid "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
-msgstr "%1$s が %2$s 枚の画像を最適化し、そのうち %3$s 枚は元の画像を保持しています。Iminify はそのままにします。"
-
-#: assets/build/bulk.js:7
-msgid "Finished"
-msgstr "完了"
-
-#: assets/build/bulk.js:7
-msgid "Paused: low disk"
-msgstr "一時停止: ディスク不足"
-
-#: assets/build/bulk.js:7
-msgid "Paused"
-msgstr "一時停止中"
-
-#: assets/build/bulk.js:7
-msgid "Waiting for another optimizer"
-msgstr "他の最適化プラグインを待機中"
-
-#: assets/build/bulk.js:7
-msgid "Not moving"
-msgstr "進行なし"
-
-#: assets/build/bulk.js:7
-msgid "Waiting for the site"
-msgstr "サイトを待機中"
-
-#: assets/build/bulk.js:7
-msgid "Used up for today"
-msgstr "本日分は使用済み"
-
-#: assets/build/bulk.js:7
-msgid "Iminify is busy"
-msgstr "Iminify が処理中"
-
-#: assets/build/bulk.js:7
-msgid "Restoring"
-msgstr "復元中"
-
-#: assets/build/bulk.js:7
-msgid "Running on this page"
-msgstr "このページで実行中"
-
-#: assets/build/bulk.js:7
-msgid "Running"
-msgstr "実行中"
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s が %2$s 枚の画像を最適化し、そのうち %3$s 枚は元の画像を保持しています。Iminify はそのままにします。"
 
 #: assets/build/bulk.js:7
 msgid "Other folders restored"
@@ -2259,6 +2300,10 @@ msgstr "その他のフォルダーを最適化中"
 #: assets/build/bulk.js:7
 msgid "Library restored"
 msgstr "ライブラリを復元しました"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "復元中"
 
 #: assets/build/bulk.js:7
 msgid "Alt text written"
@@ -2295,6 +2340,46 @@ msgstr "元の画像から再最適化中"
 #: assets/build/bulk.js:7
 msgid "Bulk optimization"
 msgstr "一括最適化"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "完了"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "一時停止: ディスク不足"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "一時停止中"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "他の最適化プラグインを待機中"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "進行なし"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "サイトを待機中"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "本日分は使用済み"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify が処理中"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "このページで実行中"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "実行中"
 
 #. translators: 1: how many images were restored, 2: how many there were to restore.
 #: assets/build/bulk.js:8
@@ -2349,7 +2434,7 @@ msgid_plural "%d images couldn't be restored. Their panels in the media library 
 msgstr[0] "%d 枚の画像を復元できませんでした。理由はメディアライブラリの各画像のパネルに表示されています。"
 
 #: assets/build/bulk.js:13
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Start now"
 msgstr "今すぐ開始"
 
@@ -2466,7 +2551,7 @@ msgid "Run it while this page is open"
 msgstr "このページを開いたまま実行"
 
 #: assets/build/bulk.js:17
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Compare the plans"
 msgstr "プランを比較"
 
@@ -2564,8 +2649,9 @@ msgstr "代替テキストを作成するため、これらの各画像の縮小
 #. translators: %s: how many AI alt texts are left today.
 #: assets/build/bulk.js:26
 #, js-format
-msgid "%s AI alt texts left today."
-msgstr "本日の AI 代替テキストは残り %s 回です。"
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "本日の AI 代替テキストは残り %s 回です。"
 
 #: assets/build/bulk.js:26
 msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
@@ -2713,7 +2799,7 @@ msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the 
 msgstr "テーマまたは wp-content 内の任意のフォルダーを選択すると、Iminify がその中の画像を、その場所のまま、それぞれのバックアップを保持して最適化します。"
 
 #: assets/build/folders.js:1
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "Remove"
 msgstr "削除"
 
@@ -2748,8 +2834,9 @@ msgstr "wp-content 内の別のフォルダー"
 #. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
 #: assets/build/folders.js:4
 #, js-format
-msgid "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
-msgstr "前回の確認 (%1$s): 画像 %2$s 枚、新規 %3$s 枚、変更 %4$s 枚。"
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "前回の確認 (%1$s): 画像 %2$s 枚、新規 %3$s 枚、変更 %4$s 枚。"
 
 #: assets/build/folders.js:4
 msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
@@ -2774,10 +2861,6 @@ msgstr "一括最適化ページで、すべて最適化または復元できま
 #: assets/build/folders.js:6
 msgid "Go to Bulk Optimization"
 msgstr "一括最適化へ移動"
-
-#: assets/build/folders.js:8
-msgid "Waiting to connect"
-msgstr "接続待ち"
 
 #: assets/build/folders.js:6
 msgid "All"
@@ -2813,6 +2896,20 @@ msgstr "%1$s / %2$s ページ"
 msgid "Next"
 msgstr "次へ"
 
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "接続待ち"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "スキップ"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "復元済み"
+
 #. translators: %s: the share saved, such as "38.2".
 #: assets/build/folders.js:9
 #, js-format
@@ -2840,751 +2937,743 @@ msgid "Disconnect this site from Iminify? New uploads stop being optimized. Imag
 msgstr "このサイトと Iminify の接続を解除しますか ? 新しいアップロードは最適化されなくなります。最適化済みの画像はそのまま残ります。"
 
 #: assets/build/settings.js:2
-#: assets/build/settings.js:11
-#: assets/build/settings.js:40
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
 msgid "Disconnect"
 msgstr "接続解除"
 
-#. translators: 1: how many were used today, 2: how many are left.
-#: assets/build/settings.js:3
-#, js-format
-msgid "%1$s used, %2$s left"
-msgstr "%1$s 使用、残り %2$s"
-
-#. translators: %s: how many were used today.
-#: assets/build/settings.js:4
-#, js-format
-msgid "%s used, no daily limit"
-msgstr "%s 使用、1日の上限なし"
-
 #. translators: 1: the network's name, 2: its address.
-#: assets/build/settings.js:5
+#: assets/build/settings.js:3
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
 msgstr "%1$s (%2$s) は、マルチサイトのサイトネットワークとして Iminify に接続されています。"
 
 #. translators: 1: the site's name, 2: its address.
-#: assets/build/settings.js:6
+#: assets/build/settings.js:4
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify through its network."
 msgstr "%1$s (%2$s) は、サイトネットワークを通じて Iminify に接続されています。"
 
 #. translators: 1: the site's name, 2: its address.
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 #, js-format
 msgid "%1$s, at %2$s, is connected to Iminify."
 msgstr "%1$s (%2$s) は Iminify に接続されています。"
 
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 msgid "Your account"
 msgstr "アカウント"
 
-#: assets/build/settings.js:7
+#: assets/build/settings.js:5
 msgid "Plan"
 msgstr "プラン"
 
 #. translators: 1: the plan's name, 2: the date it ends or renews.
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 #, js-format
 msgid "%1$s, until %2$s"
 msgstr "%1$s (%2$s まで)"
 
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 msgid "Next batch"
 msgstr "次の枠"
 
-#: assets/build/settings.js:8
+#: assets/build/settings.js:6
 msgid "Network's sites"
 msgstr "サイトネットワークのサイト"
 
 #. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 #, js-format
 msgid "%1$s of %2$s"
 msgstr "%1$s / %2$s"
 
-#: assets/build/settings.js:9
+#: assets/build/settings.js:7
 msgid "The main site"
 msgstr "メインサイト"
 
 #. translators: %s: the bytes Iminify saved, such as 1.2 GB.
-#: assets/build/settings.js:10
+#: assets/build/settings.js:8
 #, js-format
 msgid "%s saved"
 msgstr "%s 削減"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "This site's Iminify account is set in wp-config.php."
 msgstr "このサイトの Iminify アカウントは wp-config.php で設定されています。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your plan on iminify.com"
 msgstr "iminify.com のプラン"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
 msgstr "サイトネットワークのキーは wp-config.php で <code>IMINIFY_API_KEY</code> として設定されています。接続を解除するには、そこから削除し、iminify.com の「Settings」→「Sites」でサイトネットワークの接続を解除してください。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
 msgstr "サイトのキーは wp-config.php で <code>IMINIFY_API_KEY</code> として設定されています。接続を解除するには、そこから削除し、iminify.com の「Settings」→「Sites」でサイトの接続を解除してください。"
 
-#: assets/build/settings.js:11
-#: assets/build/settings.js:39
-msgid "Waiting for your approval"
-msgstr "承認待ち"
-
-#: assets/build/settings.js:39
-msgid "Needs attention"
-msgstr "要対応"
-
-#: assets/build/settings.js:39
-msgid "The network is connected."
-msgstr "サイトネットワークは接続されています。"
-
-#: assets/build/settings.js:39
-msgid "The site is connected."
-msgstr "サイトは接続されています。"
-
-#: assets/build/settings.js:39
-msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
-msgstr "接続が時間内に承認されなかったか、拒否されました。もう一度試すには「接続」を押してください。"
-
-#: assets/build/settings.js:39
-msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
-msgstr "サイトネットワークの接続はここでは解除されましたが、Iminify 側でキーを停止できませんでした。iminify.com の「Settings」→「Sites」でも接続を解除してください。"
-
-#: assets/build/settings.js:39
-msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
-msgstr "サイトの接続はここでは解除されましたが、Iminify 側でキーを停止できませんでした。iminify.com の「Settings」→「Sites」でも接続を解除してください。"
-
-#. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:40
-#, js-format
-msgid "This site now uses %s’s settings."
-msgstr "このサイトは %s の設定を使用するようになりました。"
-
-#: assets/build/settings.js:39
-msgid "The site joined the network."
-msgstr "サイトがサイトネットワークに参加しました。"
-
-#: assets/build/settings.js:39
-msgid "Move the connection here"
-msgstr "接続をこちらに移動"
-
-#: assets/build/settings.js:39
-msgid "Connect this copy as its own site"
-msgstr "このコピーを独立したサイトとして接続"
-
-#: assets/build/settings.js:40
-msgid "The lines are removed. Reload Nginx so it stops serving them."
-msgstr "行を削除しました。それらの配信を止めるため、Nginx を再読み込みしてください。"
-
-#: assets/build/settings.js:40
-msgid "The lines are removed."
-msgstr "行を削除しました。"
-
-#: assets/build/settings.js:40
-msgid "Settings saved."
-msgstr "設定を保存しました。"
-
-#: assets/build/settings.js:40
-msgid "The images waiting are on their way."
-msgstr "待機中の画像を送信しています。"
-
-#: assets/build/settings.js:40
-msgid "Your account's images for the day are still used up."
-msgstr "アカウントの本日の画像枠はまだ使い切ったままです。"
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
-msgstr "Iminify がサイトネットワークの接続を解除したため、そのサイトの新しいアップロードは最適化されません。続けるには再接続してください。"
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
-msgstr "Iminify がサイトネットワークの接続を解除したため、新しいアップロードは最適化されません。特権管理者がサイトネットワーク管理画面で再接続してください。"
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
-msgstr "Iminify がこのサイトの接続を解除したため、新しいアップロードは最適化されません。続けるには、サイトネットワークに再参加するか、サイトを単独で接続してください。"
-
-#: assets/build/settings.js:40
-msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
-msgstr "Iminify がこのサイトの接続を解除したため、新しいアップロードは最適化されません。続けるには再接続してください。"
-
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect your network"
 msgstr "サイトネットワークを接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
 msgstr "Iminify は、このサイトネットワークのすべてのサイトにアップロードされた画像を圧縮し、その WebP と AVIF のコピーを作成します。サイトネットワークを Iminify アカウントに一度接続すると (その過程で無料アカウントも作成できます)、各サイトは初めて Iminify が必要になったときに自動的に参加します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
 msgstr "接続するまで、Iminify には何も送信されません。「サイトネットワークを接続」を押すと新しいタブで iminify.com が開き、そこでサイトネットワークを承認します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect the network"
 msgstr "サイトネットワークを接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect this site on its own"
 msgstr "このサイトを単独で接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
 msgstr "このサイトは、代わりに独自の Iminify アカウントに接続することもできます。その場合、サイトネットワークの接続は使用しません。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect opens iminify.com in a new tab, where you approve this site."
 msgstr "「接続」を押すと新しいタブで iminify.com が開き、そこでこのサイトを承認します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect your site"
 msgstr "サイトを接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
 msgstr "Iminify は、アップロードした画像を圧縮し、その WebP と AVIF のコピーを作成します。始めるには、このサイトを Iminify アカウントに接続してください (その過程で無料アカウントも作成できます)。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
 msgstr "接続するまで、Iminify には何も送信されません。「接続」を押すと新しいタブで iminify.com が開き、そこでこのサイトを承認します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
 msgstr "代わりに、特権管理者がサイトネットワーク管理画面からサイトネットワーク全体を接続することもできます。その場合、各サイトは自動的に参加します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "How connecting works"
 msgstr "接続のしくみ"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "承認待ち"
+
+#: assets/build/settings.js:9
 msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
 msgstr "開いたタブで、iminify.com 上の接続を承認してください。承認すると、このページは自動的に接続されます。このページを閉じても、サイトの接続処理は続行します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Open the page on iminify.com again"
 msgstr "iminify.com のページをもう一度開く"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "制作会社の場合は、iminify.com の<a>「Settings」→「Sites」</a>でサイトを追加してそのキーをここに貼り付けるか、wp-config.php で <code>IMINIFY_API_KEY</code> として設定することもできます。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "制作会社の場合は、iminify.com の「Settings」→「Sites」でサイトを追加してそのキーをここに貼り付けるか、wp-config.php で <code>IMINIFY_API_KEY</code> として設定することもできます。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "制作会社の場合は、iminify.com の<a>「Settings」→「Sites」</a>で「This is a multisite network」にチェックを入れてサイトネットワークを追加し、そのキーをここに貼り付けるか、wp-config.php で <code>IMINIFY_API_KEY</code> として設定します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
 msgstr "制作会社の場合は、iminify.com の「Settings」→「Sites」で「This is a multisite network」にチェックを入れてサイトネットワークを追加し、そのキーをここに貼り付けるか、wp-config.php で <code>IMINIFY_API_KEY</code> として設定します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Each upload is optimized in the background"
 msgstr "各アップロードはバックグラウンドで最適化されます"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
 msgstr "WordPress がまずアップロードを完了し、その後 Iminify が画像と、WordPress が作成したすべてのサイズを圧縮します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "An upload counts as one image"
 msgstr "1回のアップロードは画像1枚としてカウントされます"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
 msgstr "WordPress が作成したサイズや WebP と AVIF のコピーはファイルとして扱われ、別の画像としてカウントされることはありません。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your originals stay on this site"
 msgstr "元の画像はこのサイトに残ります"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
 msgstr "それぞれのバックアップがアップロードフォルダーに保持されるため、どの画像も元の状態に戻せます。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Your library goes when you say so"
 msgstr "ライブラリは指示するまで処理されません"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
 msgstr "メディアライブラリにある既存の画像は、「メディア」→「一括最適化」で開始するまで待機します。"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Once you connect"
 msgstr "接続後"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with the network's key"
 msgstr "サイトネットワークのキーで接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with a site key"
 msgstr "サイトキーで接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Network key"
 msgstr "サイトネットワークキー"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Site key"
 msgstr "サイトキー"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "Connect with this key"
 msgstr "このキーで接続"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "becomes"
 msgstr "変更後:"
 
-#: assets/build/settings.js:11
+#: assets/build/settings.js:9
 msgid "no change"
 msgstr "変更なし"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:12
+#: assets/build/settings.js:10
 #, js-format
 msgid "%s’s settings"
 msgstr "%s の設定"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:13
+#: assets/build/settings.js:11
 #, js-format
 msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
 msgstr "Iminify は、このサイトで %s の設定を見つけました。Iminify に同じ設定がある範囲で、このサイトの設定をそれに合わせることができます: 圧縮レベル、最大幅、メタデータ、WebP と AVIF のコピー、サイズ、バックアップ。実際に変更される前に、変更内容を確認できます。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:14
+#: assets/build/settings.js:12
 #, js-format
 msgid "Use %s’s settings"
 msgstr "%s の設定を使用"
 
-#: assets/build/settings.js:14
+#: assets/build/settings.js:12
 msgid "No thanks"
 msgstr "使用しない"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:15
+#: assets/build/settings.js:13
 #, js-format
 msgid "This site already uses what %s’s settings match."
 msgstr "このサイトはすでに、%s の設定に対応する内容を使用しています。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:16
+#: assets/build/settings.js:14
 #, js-format
 msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
 msgstr "%s の設定から、Iminify は次の内容を設定します。使用するまで何も変更されません。使用すると、以下の設定で保存していない変更は置き換えられます。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:17
+#: assets/build/settings.js:15
 #, js-format
 msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
 msgstr "%s の設定から、Iminify は次の内容を設定します。使用するまで何も変更されません。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 #, js-format
 msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
 msgstr "%s の設定には Iminify で対応するものがないため、このサイトは現在の設定を維持します。"
 
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 msgid "Use these settings"
 msgstr "これらの設定を使用"
 
-#: assets/build/settings.js:18
+#: assets/build/settings.js:16
 msgid "OK"
 msgstr "OK"
 
-#: assets/build/settings.js:19
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "サイトネットワークの Iminify 設定を開く"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "サイトネットワークの接続"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "これはサイトネットワークのメインサイトのため、サイトネットワークの Iminify への接続を使用します。サイトネットワークの接続と接続解除は、特権管理者がサイトネットワーク管理画面で行います。"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "これはサイトネットワークのメインサイトのため、サイトネットワークの Iminify への接続を使用しますが、その接続はまだ行われていません。特権管理者がサイトネットワーク管理画面でサイトネットワークを接続すると、各サイトが自動的に参加します。"
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "サイトネットワークのサイト"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "このキーは単一サイト用に作成されたため、サイトネットワークのサイトはこのキーで参加できません。接続を解除してからサイトネットワークを再接続するか、iminify.com の「Settings」→「Sites」で「This is a multisite network」にチェックを入れてキーを作成してください。"
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "サイトネットワークの各サイトは、初めて Iminify が必要になったときに独自のキーで自動的に参加し、メインサイトの設定で開始します。各サイトは、アカウント上でそれぞれ独立した1サイトとしてカウントされます。サイト自身のページ、または iminify.com の「Settings」→「Sites」で接続を解除したサイトは、自動的に再参加しません。"
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "各サイトの設定は、それぞれの「設定」→「Iminify」ページにあります。テーマやその他のフォルダーの画像は、メインサイトがサイトネットワーク全体に対して一度だけ最適化します。"
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "メインサイトの設定"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "メインサイトのその他のフォルダー"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "サイトネットワークの接続のしくみ"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "サイトネットワークに参加"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s は Iminify に接続されています。このサイトは独自のキーで参加でき、アカウント上で独立した1サイトとしてカウントされます。"
+
+#: assets/build/settings.js:17
 msgid "In WordPress’s rewrite rules:"
 msgstr "WordPress のリライトルール内:"
 
-#: assets/build/settings.js:19
+#: assets/build/settings.js:17
 msgid "In <file />:"
 msgstr "<file /> 内:"
 
-#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
-#: assets/build/settings.js:23
-#, js-format
-msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
-msgstr "<file /> には %s という行がありますが、それで始まるブロックに終わりの行がないか、別のブロックとまたがっているため、プラグインはこのファイルを変更しません。ブロックの行を手動で削除してください。"
-
-#: assets/build/settings.js:23
-msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
-msgstr "プラグインは <file /> に書き込めません。これらの行を手動で削除してから、Nginx を再読み込みしてください。"
-
-#: assets/build/settings.js:23
-msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
-msgstr "プラグインは <file /> に書き込めません。これらの行を手動で削除してください。"
-
-#: assets/build/settings.js:23
-msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
-msgstr "これらの行はサイトネットワークのすべてのサイトで共有されているため、サイトネットワークを管理できるユーザーが、サイトネットワーク管理画面の Iminify 設定から削除します。"
-
-#: assets/build/settings.js:23
-msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
-msgstr "これらの行はサイトネットワークのすべてのサイトで共有されているため、特権管理者がこのページで削除します。"
-
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:20
+#: assets/build/settings.js:18
 #, js-format
 msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
 msgstr "WordPress のリライトルールから %s のルールを削除しますか ? その他のルールはすべて残ります。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:21
+#: assets/build/settings.js:19
 #, js-format
 msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
 msgstr "このファイルから %s の行を削除しますか ? ファイル内のその他の内容はそのまま残ります。Nginx は再読み込みされるまでこれらの行を保持するため、削除後に再読み込みしてください。"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:22
+#: assets/build/settings.js:20
 #, js-format
 msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
 msgstr "このファイルから %s の行を削除しますか ? ファイル内のその他の内容はそのまま残ります。"
 
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> には %s という行がありますが、それで始まるブロックに終わりの行がないか、別のブロックとまたがっているため、プラグインはこのファイルを変更しません。ブロックの行を手動で削除してください。"
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "プラグインは <file /> に書き込めません。これらの行を手動で削除してから、Nginx を再読み込みしてください。"
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "プラグインは <file /> に書き込めません。これらの行を手動で削除してください。"
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "これらの行はサイトネットワークのすべてのサイトで共有されているため、サイトネットワークを管理できるユーザーが、サイトネットワーク管理画面の Iminify 設定から削除します。"
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "これらの行はサイトネットワークのすべてのサイトで共有されているため、特権管理者がこのページで削除します。"
+
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:24
+#: assets/build/settings.js:22
 #, js-format
 msgid "%s’s rewrite rule"
 msgstr "%s のリライトルール"
 
 #. translators: %s: another image optimizer's name.
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 #, js-format
 msgid "%s’s rules"
 msgstr "%s のルール"
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "Rules another optimizer left"
 msgstr "他の最適化プラグインが残したルール"
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "The rules another optimizer left are gone."
 msgstr "他の最適化プラグインが残したルールは削除されました。"
 
-#: assets/build/settings.js:25
+#: assets/build/settings.js:23
 msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
 msgstr "以前使用していた画像最適化プラグインが、無効化されたときにこれらのルールを残しました。Iminify が他のプラグインのルールを自動で削除することはありません。"
 
-#: assets/build/settings.js:18
-msgid "Open the network's Iminify settings"
-msgstr "サイトネットワークの Iminify 設定を開く"
-
-#: assets/build/settings.js:18
-msgid "The network's connection"
-msgstr "サイトネットワークの接続"
-
-#: assets/build/settings.js:18
-msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
-msgstr "これはサイトネットワークのメインサイトのため、サイトネットワークの Iminify への接続を使用します。サイトネットワークの接続と接続解除は、特権管理者がサイトネットワーク管理画面で行います。"
-
-#: assets/build/settings.js:18
-msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
-msgstr "これはサイトネットワークのメインサイトのため、サイトネットワークの Iminify への接続を使用しますが、その接続はまだ行われていません。特権管理者がサイトネットワーク管理画面でサイトネットワークを接続すると、各サイトが自動的に参加します。"
-
-#: assets/build/settings.js:18
-msgid "The network's sites"
-msgstr "サイトネットワークのサイト"
-
-#: assets/build/settings.js:18
-msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
-msgstr "このキーは単一サイト用に作成されたため、サイトネットワークのサイトはこのキーで参加できません。接続を解除してからサイトネットワークを再接続するか、iminify.com の「Settings」→「Sites」で「This is a multisite network」にチェックを入れてキーを作成してください。"
-
-#: assets/build/settings.js:18
-msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
-msgstr "サイトネットワークの各サイトは、初めて Iminify が必要になったときに独自のキーで自動的に参加し、メインサイトの設定で開始します。各サイトは、アカウント上でそれぞれ独立した1サイトとしてカウントされます。サイト自身のページ、または iminify.com の「Settings」→「Sites」で接続を解除したサイトは、自動的に再参加しません。"
-
-#: assets/build/settings.js:18
-msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
-msgstr "各サイトの設定は、それぞれの「設定」→「Iminify」ページにあります。テーマやその他のフォルダーの画像は、メインサイトがサイトネットワーク全体に対して一度だけ最適化します。"
-
-#: assets/build/settings.js:18
-msgid "The main site's settings"
-msgstr "メインサイトの設定"
-
-#: assets/build/settings.js:18
-msgid "The main site's other folders"
-msgstr "メインサイトのその他のフォルダー"
-
-#: assets/build/settings.js:18
-msgid "How a network connects"
-msgstr "サイトネットワークの接続のしくみ"
-
-#: assets/build/settings.js:18
-#: assets/build/settings.js:19
-msgid "Join the network"
-msgstr "サイトネットワークに参加"
-
-#. translators: %s: the network's name.
-#: assets/build/settings.js:19
-#, js-format
-msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
-msgstr "%s は Iminify に接続されています。このサイトは独自のキーで参加でき、アカウント上で独立した1サイトとしてカウントされます。"
-
 #. translators: %d: how many images.
-#: assets/build/settings.js:26
+#: assets/build/settings.js:24
 #, js-format
 msgid "%d image is being optimized."
 msgid_plural "%d images are being optimized."
 msgstr[0] "%d 枚の画像を最適化中です。"
 
 #. translators: %d: how many images.
-#: assets/build/settings.js:27
+#: assets/build/settings.js:25
 #, js-format
 msgid "%d image is waiting for the next batch."
 msgid_plural "%d images are waiting for the next batch."
 msgstr[0] "%d 枚の画像が次の枠を待っています。"
 
 #. translators: %d: how many images.
-#: assets/build/settings.js:28
+#: assets/build/settings.js:26
 #, js-format
 msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
 msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
 msgstr[0] "%d 枚の画像がサイトの接続を待っています。接続されると自動的に送信されます。"
 
 #. translators: %s: the date and time the next batch opens.
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 #, js-format
 msgid "The next batch opens on %s. New uploads go first, by themselves."
 msgstr "次の枠は %s に開きます。新しいアップロードが自動的に優先されます。"
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Queue"
 msgstr "キュー"
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
 msgstr "サーバーのディスク容量が不足しているため、Iminify はここでの画像の最適化を停止しました。空き容量を確保してから、「未最適化」と表示されている画像を最適化してください。"
 
-#: assets/build/settings.js:29
+#: assets/build/settings.js:27
 msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
 msgstr "ルールを追加したところサーバーがエラーを返したため、プラグインはルールを削除しました。画像は以前と同じように読み込まれます。.htaccess ファイルでリライトルールとファイルタイプを設定できるかホスティング会社に確認するか、picture タグを選択してください。"
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:30
+#: assets/build/settings.js:28
 #, js-format
 msgid "Your server sends the WebP and AVIF copies. Checked %s."
 msgstr "サーバーは WebP と AVIF のコピーを配信しています。確認日時: %s。"
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:32
+#: assets/build/settings.js:30
 #, js-format
 msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
 msgstr "サーバーはまだ元の画像を配信しています。これらのルールが読み込まれる前に、別のものが画像に応答しています。多くの場合、Apache の前段にある Nginx です。以下の Nginx の行をその設定に追加するか、picture タグを選択してください。確認日時: %s。"
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:34
+#: assets/build/settings.js:32
 #, js-format
 msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
 msgstr "サーバーはまだ元の画像を配信しています。以下の行を設定に追加して Nginx を再読み込みしてから、もう一度保存してください。確認日時: %s。"
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:36
+#: assets/build/settings.js:34
 #, js-format
 msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
 msgstr "Cloudflare が元の画像を返したため、これらのルールでは訪問者がコピーを受け取れない可能性があります。Cloudflare の背後でも機能する picture タグを選択してください。確認日時: %s。"
 
 #. translators: %s: the date and time of the last check.
-#: assets/build/settings.js:37
+#: assets/build/settings.js:35
 #, js-format
 msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
 msgstr "プラグインは、ルールが機能しているか確認するための画像をサイトにリクエストできませんでした。これは、サイトが自身のアドレスにアクセスできない場合に起こります。ブラウザーの開発者ツールで画像を開き、タイプが image/avif または image/webp になっているか確認してください。試行日時: %s。"
 
-#: assets/build/settings.js:37
+#: assets/build/settings.js:35
 msgid "The rules are in <file />."
 msgstr "ルールは <file /> にあります。"
 
 #. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
 msgstr "<file /> には <begin /> の行がありますが、対応する <end /> の行がないため、プラグインはこのファイルを変更しません。ブロックの最後の <closing /> の後に <end /> の行を戻すか、ブロックの行をすべて削除してから、もう一度保存してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
 msgstr "アップロードフォルダーが、サイトの .htaccess ファイルがあるフォルダーの中にないため、そこに書いたルールでは対象にできません。picture タグを選択してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "There’s no <file /> yet. Create it with these lines, then save again."
 msgstr "<file /> はまだありません。これらの行で作成してから、もう一度保存してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
 msgstr "<file /> でリライトが有効になっていないため、プラグインはこのファイルを変更しません。サーバーがそこにあるリライトルールを読み込む場合は、これらの行を貼り付けてから、もう一度保存してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
 msgstr "プラグインは <file /> に書き込めません。WordPress がサイトネットワーク用に出力したルールの上に、これらの行を貼り付けてから、もう一度保存してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
 msgstr "プラグインは <file /> に書き込めません。これらの行をファイルの末尾に貼り付けてから、もう一度保存してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
 msgstr "サーバーは .htaccess ファイルも Nginx の設定も読み込まないため、プラグインが提供できるルールはありません。picture タグを選択してください。"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
 msgstr "サイトは Nginx で動作しており、Nginx は .htaccess を読み込みません。最初の行をサイトの server ブロックの先頭、if や rewrite より前に置き、location を画像用の他の location より上に置いてから、Nginx を再読み込みしてください。location 内の add_header は server ブロックのものを置き換えるため、画像に必要な expires、Cache-Control、add_header の行を location 内にコピーしてください:"
 
-#: assets/build/settings.js:38
+#: assets/build/settings.js:36
 msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
 msgstr "Nginx の場合は、最初の行をサイトの server ブロックの先頭、if や rewrite より前に置き、location を画像用の他の location より上に置いてから、Nginx を再読み込みしてください。location 内の add_header は server ブロックのものを置き換えるため、画像に必要な expires、Cache-Control、add_header の行を location 内にコピーしてください:"
 
 #. translators: %s: the folders the rules cover, separated by commas.
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 #, js-format
 msgid "They cover: %s."
 msgstr "対象: %s。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
 msgstr "これらのルールは、画像の横にあるその画像の名前を持つ WebP や AVIF のコピーを配信するため、他の最適化プラグインがそこに残したコピーも、Iminify が独自のコピーを作成するまで配信されます。Iminify が他のプラグインのコピーを削除することはありません。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
 msgstr "サイトは Cloudflare を経由しています。Cloudflare はブラウザーの対応形式に関係なく各画像を1種類だけ保持するため、AVIF を表示できないブラウザーに AVIF のコピーが届く可能性があります。どの CDN の背後でも機能する picture タグを選択してください。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
 msgstr "WP Offload Media は画像をバケットから配信しており、これらのルールはそこに届かないため、それらの画像は元の画像のままになります。「Remove Local Media」がオンの場合、これらのルールは何も配信しません。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
 msgstr "各ページを送信時に読み取ることで、生の HTML、ページビルダー、テーマ独自のマークアップ内の画像、ページ自体で設定された背景、選択したフォルダー内の画像にも適用されます。スタイルシートファイルで設定された背景は元の画像のままです。キャッシュされていないページは、表示に少し時間がかかります。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
 msgstr "ページはそのままで、サーバーが、WebP や AVIF を読み込める各ブラウザーに画像の代わりにそのコピーを配信します。アップロードフォルダーと選択したフォルダー内のすべての画像、スタイルシートファイル内の背景にも適用されます。サーバーの設定にルールが必要で、Apache では自動で書き込まれます。CDN の背後では、形式ごとに画像を別々に保持する CDN が必要です。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Your pages stay as they are: the copies are made, but no page names them."
 msgstr "ページはそのままです。コピーは作成されますが、どのページもそれを参照しません。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
 msgstr "投稿内の画像と、テーマが WordPress を通じて表示する画像が対象です。各ページはすべての訪問者に同じ内容になるため、ページキャッシュや CDN はそのまま機能し、どちらの形式も読み込めないブラウザーには元の画像が配信されます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimization"
 msgstr "最適化"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
 msgstr "これらの設定はサイトとともに iminify.com に保存され、サイトが送信するすべての画像に適用されます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Send each image to Iminify as it is uploaded."
 msgstr "画像がアップロードされるたびに Iminify に送信します。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
 msgstr "すべてのサイズの WebP のコピーを作成し、対応するブラウザーに配信します。元の画像より大きいコピーは保持しません。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
 msgstr "すべてのサイズの AVIF のコピーも作成します。通常は WebP より小さくなりますが、作成に時間がかかります。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Any width"
 msgstr "幅の制限なし"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
 msgstr "メイン画像がこの幅より広い場合は、この幅に縮小します。各画像の幅を維持するには空欄のままにしてください。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Fits the main image under this size. Leave it empty for no limit."
 msgstr "メイン画像をこのサイズ以下に収めます。上限なしにするには空欄のままにしてください。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
 msgstr "カメラや撮影場所など、各画像の EXIF データを保持します。オフにすると削除されます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
 msgstr "代替テキストのない各画像の説明を作成します。入力済みの代替テキストが置き換えられることはありません。画像の縮小コピーが Anthropic の AI に送信され、1枚ごとに本日の AI 代替テキストを1回分使用します。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Language of the alt text"
 msgstr "代替テキストの言語"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Optimize every size"
 msgstr "すべてのサイズを最適化"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
 msgstr "WordPress がアップロードから作成するすべてのサイズです。サイズを選ぶにはオフにしてください。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "On this site"
 msgstr "このサイトの設定"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
 msgstr "アップロードフォルダーの iminify-backup 内に保持され、どの画像も元の状態に復元できます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "WebP and AVIF on your pages"
 msgstr "ページでの WebP と AVIF"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them with picture tags"
 msgstr "picture タグで配信"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them on the whole page"
 msgstr "ページ全体で配信"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Serve them through server rules"
 msgstr "サーバールールで配信"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Don't change the pages"
 msgstr "ページを変更しない"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Add the width, height and alt text images lack"
 msgstr "画像に不足している幅、高さ、代替テキストを追加"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
 msgstr "ページのマークアップでメディアライブラリの画像に幅と高さが指定されていない場合、プラグインは各ページの送信時に幅と高さを追加して読み込み中のページのずれを防ぎ、ライブラリにある代替テキストも追加します。意図的に空にした代替テキストは空のままです。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "When you delete the plugin"
 msgstr "プラグインを削除するとき"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also delete the WebP and AVIF copies"
 msgstr "WebP と AVIF のコピーも削除"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
 msgstr "キャッシュに picture タグ付きで保存されたページは、キャッシュがクリアされるまで画像が壊れて表示されます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Also delete the backups"
 msgstr "バックアップも削除"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
 msgstr "バックアップは Iminify が最適化した画像の唯一の元の画像のため、削除後はそれらの画像を復元できなくなります。コピーも削除した場合、プラグインを再インストールすると、それらの画像がもう一度最適化されます。"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Save changes"
 msgstr "変更を保存"
 
-#: assets/build/settings.js:39
+#: assets/build/settings.js:37
 msgid "Unsaved changes"
 msgstr "未保存の変更"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "要対応"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "サイトネットワークは接続されています。"
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "サイトは接続されています。"
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "接続が時間内に承認されなかったか、拒否されました。もう一度試すには「サイトネットワークを接続」を押してください。"
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "接続が時間内に承認されなかったか、拒否されました。もう一度試すには「接続」を押してください。"
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "サイトネットワークの接続はここでは解除されましたが、Iminify 側でキーを停止できませんでした。iminify.com の「Settings」→「Sites」でも接続を解除してください。"
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "サイトの接続はここでは解除されましたが、Iminify 側でキーを停止できませんでした。iminify.com の「Settings」→「Sites」でも接続を解除してください。"
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "サイトがサイトネットワークに参加しました。"
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "接続をこちらに移動"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "このコピーを独立したサイトとして接続"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "このサイトは %s の設定を使用するようになりました。"
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "行を削除しました。それらの配信を止めるため、Nginx を再読み込みしてください。"
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "行を削除しました。"
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "設定を保存しました。"
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "待機中の画像を送信しています。"
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "アカウントの本日の画像枠はまだ使い切ったままです。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify がサイトネットワークの接続を解除したため、そのサイトの新しいアップロードは最適化されません。続けるには再接続してください。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify がサイトネットワークの接続を解除したため、新しいアップロードは最適化されません。特権管理者がサイトネットワーク管理画面で再接続してください。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify がこのサイトの接続を解除したため、新しいアップロードは最適化されません。続けるには、サイトネットワークに再参加するか、サイトを単独で接続してください。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify がこのサイトの接続を解除したため、新しいアップロードは最適化されません。続けるには再接続してください。"

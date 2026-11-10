@@ -8,6 +8,7 @@
 namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Compat\Offload_Media;
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,7 +82,7 @@ class Declaration {
 		$type = wp_get_image_mime( $source['path'] );
 
 		if ( ! is_string( $type ) || ! isset( self::FORMATS[ $type ] ) ) {
-			return new WP_Error( 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'unsupported_format', 'unsupported_upload' );
 		}
 
 		$attached = (string) get_attached_file( $attachment, true );
@@ -91,7 +92,7 @@ class Declaration {
 
 		/* A source in another format than the files is made in theirs only as WebP or AVIF, the formats another optimizer converts to. */
 		if ( false === $in ) {
-			return new WP_Error( 'unsupported_format', __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'unsupported_format', 'unsupported_upload' );
 		}
 
 		$source_size = self::displayed( $source['path'], $type );
@@ -100,13 +101,13 @@ class Declaration {
 		$main_size   = '' === $attached ? null : ( $bucket ? self::measured( $metadata ) : self::displayed( $attached, (string) wp_get_image_mime( $attached ) ) );
 
 		if ( null === $source_size || null === $main_size ) {
-			return new WP_Error( 'unreadable_image', __( 'The image couldn\'t be read.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'unreadable_image' );
 		}
 
 		$main_file = Paths::relative( $attached );
 
 		if ( null === $main_file ) {
-			return new WP_Error( 'outside_uploads', __( 'The image isn\'t in the uploads folder.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'outside_uploads' );
 		}
 
 		$main_bytes = Offload_Media::bytes( $attachment, $attached );

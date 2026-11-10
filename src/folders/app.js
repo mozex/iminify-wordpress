@@ -7,7 +7,7 @@
  * system's parts (`src/ui`).
  */
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 
 import { call } from '../settings/api';
 import {
@@ -379,8 +379,10 @@ function Folders( { state, busy, onAdd, onRemove, onScan } ) {
 						{ scan && ! scan.running && scan.at
 							? sprintf(
 									/* translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed. */
-									__(
+									_n(
+										'Last looked on %1$s: %2$s image, %3$s new, %4$s changed.',
 										'Last looked on %1$s: %2$s images, %3$s new, %4$s changed.',
+										scan.count,
 										'iminify-image-optimizer'
 									),
 									scan.at,
@@ -421,13 +423,37 @@ function Folders( { state, busy, onAdd, onRemove, onScan } ) {
 function Summary( { state } ) {
 	const { counts, numbers, saved, links, run } = state;
 	const labels = {
-		optimized: __( 'Optimized', 'iminify-image-optimizer' ),
-		not_optimized: __( 'Not optimized', 'iminify-image-optimizer' ),
+		optimized: _x(
+			'Optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		not_optimized: _x(
+			'Not optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 		waiting: __( 'On their way', 'iminify-image-optimizer' ),
-		failed: __( 'Failed', 'iminify-image-optimizer' ),
-		skipped: __( 'Skipped', 'iminify-image-optimizer' ),
-		restored: __( 'Restored', 'iminify-image-optimizer' ),
-		other: __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
+		failed: _x(
+			'Failed',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		skipped: _x(
+			'Skipped',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		restored: _x(
+			'Restored',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		other: _x(
+			'Optimized by another plugin',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 	};
 
 	if ( 0 === counts.files ) {
@@ -534,7 +560,11 @@ function chipFor( file ) {
 	switch ( file.status ) {
 		case 'optimized':
 			return {
-				label: __( 'Optimized', 'iminify-image-optimizer' ),
+				label: _x(
+					'Optimized',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'success',
 				moving: false,
 			};
@@ -562,26 +592,39 @@ function chipFor( file ) {
 			};
 		case 'error':
 			return {
-				label: __( 'Failed', 'iminify-image-optimizer' ),
+				label: _x(
+					'Failed',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'danger',
 				moving: false,
 			};
 		case 'skipped':
 			return {
-				label: __( 'Skipped', 'iminify-image-optimizer' ),
+				label: _x(
+					'Skipped',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'neutral',
 				moving: false,
 			};
 		case 'restored':
 			return {
-				label: __( 'Restored', 'iminify-image-optimizer' ),
+				label: _x(
+					'Restored',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'neutral',
 				moving: false,
 			};
 		case 'other':
 			return {
-				label: __(
+				label: _x(
 					'Optimized by another plugin',
+					'the status of one image',
 					'iminify-image-optimizer'
 				),
 				tone: 'success',
@@ -589,7 +632,11 @@ function chipFor( file ) {
 			};
 		default:
 			return {
-				label: __( 'Not optimized', 'iminify-image-optimizer' ),
+				label: _x(
+					'Not optimized',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'neutral',
 				moving: false,
 			};
@@ -640,13 +687,26 @@ function Files( {
 	const { files, counts, connected, listed } = state;
 	const filters = {
 		all: __( 'All', 'iminify-image-optimizer' ),
-		optimized: __( 'Optimized', 'iminify-image-optimizer' ),
-		not_optimized: __( 'Not optimized', 'iminify-image-optimizer' ),
+		optimized: _x(
+			'Optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		not_optimized: _x(
+			'Not optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 		waiting: __( 'On their way', 'iminify-image-optimizer' ),
-		failed: __( 'Failed', 'iminify-image-optimizer' ),
+		failed: _x(
+			'Failed',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 		...( counts.other > 0 && {
-			other: __(
+			other: _x(
 				'Optimized by another plugin',
+				'images, over a count or as a filter',
 				'iminify-image-optimizer'
 			),
 		} ),

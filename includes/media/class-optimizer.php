@@ -13,6 +13,7 @@ use Iminify\WordPress\Api\Upload;
 use Iminify\WordPress\Compat\Offload_Media;
 use Iminify\WordPress\Local_Settings;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
 use WP_Error;
@@ -545,7 +546,7 @@ class Optimizer {
 				Records::update( $attachment, array( 'redo' => false ) );
 				Others::mark( $attachment, $theirs['other'] );
 			} else {
-				Records::fail( $attachment, Records::NOT_OPTIMIZED, Others::ACTING, Others::acting_message( $acting ) );
+				Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( Others::ACTING, 'other_optimizer', array( $acting->slug() ) ) );
 			}
 
 			/* The run sends it again once the other optimizer stops, so it doesn't count as sent twice. */
@@ -573,13 +574,13 @@ class Optimizer {
 		$message  = isset( $site['message']['code'] ) ? (string) $site['message']['code'] : '';
 
 		if ( 'update_required' === $message ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'update_required', __( 'Not optimized: update the Iminify plugin first.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( 'update_required' ) );
 
 			return;
 		}
 
 		if ( self::AUTOMATIC === $trigger && empty( $settings['optimize_on_upload'] ) ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'off', __( 'Not optimized: the site doesn\'t optimize uploads.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( 'off' ) );
 
 			return;
 		}
@@ -590,7 +591,7 @@ class Optimizer {
 		}
 
 		if ( ! Zip::available() ) {
-			Records::fail( $attachment, Records::SKIPPED, 'zip_unavailable', __( 'Not sent: this server\'s PHP can\'t open zip files. Ask your host to turn on PHP\'s zip extension.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::SKIPPED, Reasons::of( 'zip_unavailable' ) );
 
 			return;
 		}
@@ -633,12 +634,12 @@ class Optimizer {
 		if ( null === $source ) {
 			/* An image another optimizer converted has only the original it kept, which can be past what the site sends. */
 			if ( null !== Originals::converted( $attachment ) ) {
-				Records::fail( $attachment, Records::SKIPPED, 'file_too_large', __( 'Not sent: this image\'s original is too large to send, past your plan\'s file size or more than this server\'s memory can hold.', 'iminify-image-optimizer' ) );
+				Records::fail( $attachment, Records::SKIPPED, Reasons::of( 'file_too_large' ) );
 
 				return;
 			}
 
-			Records::fail( $attachment, Records::SKIPPED, 'no_original', __( 'Not sent: no original of this image is left to make the optimized files from.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::SKIPPED, Reasons::of( 'no_original', 'no_original_left' ) );
 
 			return;
 		}
@@ -668,7 +669,7 @@ class Optimizer {
 
 			if ( array() === $sizes['only'] ) {
 				if ( $sizes['lacking'] ) {
-					Records::fail( $attachment, Records::NOT_OPTIMIZED, 'sizes_failed', __( 'WordPress couldn\'t make the missing sizes of this image.', 'iminify-image-optimizer' ) );
+					Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( 'sizes_failed' ) );
 				} else {
 					Missing::settle( $attachment );
 					Records::end_fill( $attachment );
@@ -704,7 +705,7 @@ class Optimizer {
 		$declaration = Declaration::build( $attachment, $metadata, $source, $record['level'], self::BULK === $trigger || ( self::AUTOMATIC === $trigger && self::PRIORITY_LATER === self::priority( $attachment ) ), $only, $fresh );
 
 		if ( is_wp_error( $declaration ) ) {
-			Records::fail( $attachment, Records::SKIPPED, (string) $declaration->get_error_code(), $declaration->get_error_message() );
+			Records::fail( $attachment, Records::SKIPPED, Reasons::from( $declaration ) );
 
 			return;
 		}
@@ -743,7 +744,7 @@ class Optimizer {
 			$backups = $keep ? Backups::keep( $source['path'], $source['file'], $backups ) : Backups::retire( $source['path'], $source['file'], $backups );
 
 			if ( is_wp_error( $backups ) ) {
-				Records::fail( $attachment, Records::ERROR, (string) $backups->get_error_code(), $backups->get_error_message() );
+				Records::fail( $attachment, Records::ERROR, Reasons::from( $backups ) );
 
 				return;
 			}
@@ -843,7 +844,7 @@ class Optimizer {
 		$restored = $converted ? true : Restorer::restore( $attachment );
 
 		if ( is_wp_error( $restored ) ) {
-			Records::fail( $attachment, Records::ERROR, (string) $restored->get_error_code(), $restored->get_error_message() );
+			Records::fail( $attachment, Records::ERROR, Reasons::from( $restored ) );
 
 			return false;
 		}
@@ -1048,7 +1049,7 @@ class Optimizer {
 				return;
 			}
 
-			Records::fail( $attachment, Records::ERROR, (string) $written->get_error_code(), $written->get_error_message() );
+			Records::fail( $attachment, Records::ERROR, Reasons::from( $written ) );
 
 			return;
 		}
@@ -1189,7 +1190,7 @@ class Optimizer {
 				self::later( $attachment, $hook, $args, $refusal['seconds'], true, $error );
 				return;
 			default:
-				self::fail( $attachment, $refusal['code'], $refusal['message'] );
+				self::fail( $attachment, $refusal['reason'] );
 		}
 	}
 
@@ -1206,7 +1207,7 @@ class Optimizer {
 			return false;
 		}
 
-		Records::wait( $attachment, Records::PAUSED, 'day_spent', __( 'Waiting for the next batch.', 'iminify-image-optimizer' ) );
+		Records::wait( $attachment, Records::PAUSED, Reasons::of( 'day_spent' ) );
 
 		return true;
 	}
@@ -1218,7 +1219,7 @@ class Optimizer {
 	 * @param string $code       Why the service can't be reached with this key.
 	 */
 	protected static function park( int $attachment, string $code ): void {
-		Records::wait( $attachment, Records::PARKED, $code, __( 'Waiting for the site to be connected to Iminify.', 'iminify-image-optimizer' ) );
+		Records::wait( $attachment, Records::PARKED, Reasons::of( $code, 'parked' ) );
 	}
 
 	/**
@@ -1227,7 +1228,7 @@ class Optimizer {
 	 * @param int $attachment The attachment's id.
 	 */
 	protected static function no_room( int $attachment ): void {
-		Records::fail( $attachment, Records::NOT_OPTIMIZED, 'disk_full', __( 'Not optimized: the server is low on disk space. Free some up, then optimize this image.', 'iminify-image-optimizer' ) );
+		Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( 'disk_full' ) );
 	}
 
 	/**
@@ -1246,7 +1247,7 @@ class Optimizer {
 		$attempts = Records::get( $attachment )['attempts'] + ( $counts ? 1 : 0 );
 
 		if ( $counts && $attempts > self::MAX_ATTEMPTS ) {
-			self::fail( $attachment, null === $error ? 'unreachable' : (string) $error->get_error_code(), null === $error ? '' : $error->get_error_message() );
+			self::fail( $attachment, Reasons::from( $error ) );
 
 			return;
 		}
@@ -1256,10 +1257,7 @@ class Optimizer {
 			array(
 				'status'   => self::CHECK_HOOK === $hook ? Records::WAITING : Records::QUEUED,
 				'attempts' => $attempts,
-				'error'    => null === $error ? null : array(
-					'code'    => (string) $error->get_error_code(),
-					'message' => $error->get_error_message(),
-				),
+				'error'    => null === $error ? null : Reasons::from( $error ),
 			)
 		);
 
@@ -1281,7 +1279,7 @@ class Optimizer {
 		$reopens = $record['reopens'] + ( $counts ? 1 : 0 );
 
 		if ( $reopens > self::MAX_REOPENS ) {
-			self::fail( $attachment, 'reopened', __( 'Iminify couldn\'t finish this image after several tries.', 'iminify-image-optimizer' ) );
+			self::fail( $attachment, Reasons::of( 'reopened' ) );
 
 			return;
 		}
@@ -1293,18 +1291,17 @@ class Optimizer {
 	/**
 	 * Shows an error for the attachment, deleting any group it had open from Iminify.
 	 *
-	 * @param int    $attachment The attachment's id.
-	 * @param string $code       The reason's code.
-	 * @param string $message    The reason, in words.
+	 * @param int                  $attachment The attachment's id.
+	 * @param array<string, mixed> $reason     Why, as `Reasons` makes it.
 	 */
-	protected static function fail( int $attachment, string $code, string $message ): void {
+	protected static function fail( int $attachment, array $reason ): void {
 		$group = Records::get( $attachment )['group'];
 
 		if ( null !== $group ) {
 			self::drop_group( $attachment, (string) ( $group['id'] ?? '' ) );
 		}
 
-		Records::fail( $attachment, Records::ERROR, $code, $message );
+		Records::fail( $attachment, Records::ERROR, $reason );
 	}
 
 	/**
@@ -1349,7 +1346,7 @@ class Optimizer {
 			return;
 		}
 
-		Records::fail( $attachment, Records::SKIPPED, $why['code'], $why['message'] );
+		Records::fail( $attachment, Records::SKIPPED, array_diff_key( $why, array( 'holder' => true ) ) );
 
 		if ( isset( $why['holder'] ) ) {
 			Shared::point( $why['holder'], array( $attachment ) );
@@ -1365,10 +1362,7 @@ class Optimizer {
 	 * @return array{code: string, message: string, holder?: int, other?: array{plugin: string, before: int, after: int, files: int, original: bool, outputs: array<string, int>}}|null
 	 */
 	public static function why_not( int $attachment, bool $fresh = false, bool $redo = false ): ?array {
-		$unsupported = array(
-			'code'    => 'unsupported_format',
-			'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
-		);
+		$unsupported = Reasons::of( 'unsupported_format', 'unsupported_upload' );
 
 		if ( 'attachment' !== get_post_type( $attachment ) || ! wp_attachment_is_image( $attachment ) ) {
 			return $unsupported;
@@ -1380,10 +1374,7 @@ class Optimizer {
 		if ( '' === $file || ( ! is_file( $file ) && ! Offload_Media::only_in_bucket( $attachment, $file ) ) ) {
 			$away = Others::away( $attachment );
 
-			return array(
-				'code'    => 'file_missing',
-				'message' => null === $away ? __( 'Not sent: the image\'s file isn\'t in the uploads folder.', 'iminify-image-optimizer' ) : $away->away_message(),
-			);
+			return null === $away ? Reasons::of( 'file_missing', 'file_missing_upload' ) : Reasons::of( 'file_missing', 'away', array( $away->slug() ) );
 		}
 
 		$type = Originals::type( $attachment, $file );
@@ -1396,15 +1387,7 @@ class Optimizer {
 		$holder = Shared::holder( $attachment, $fresh );
 
 		if ( $holder !== $attachment ) {
-			return array(
-				'code'    => 'shared',
-				'message' => sprintf(
-					/* translators: %d: the id of the attachment whose files this one shares. */
-					__( 'Its files are attachment #%d\'s, as a translation\'s are, so Iminify optimizes them there.', 'iminify-image-optimizer' ),
-					$holder
-				),
-				'holder'  => $holder,
-			);
+			return array_merge( Reasons::of( 'shared', 'shared', array( $holder ) ), array( 'holder' => $holder ) );
 		}
 
 		/* Another plugin's output is never sent for a second lossy pass, so it is read afresh here, where every send asks; an image put back from that plugin's original before it is sent is no longer its output. */
@@ -1421,10 +1404,7 @@ class Optimizer {
 		 * @param int  $attachment The attachment's id.
 		 */
 		if ( ! apply_filters( 'iminify_optimize_image', true, $attachment ) ) {
-			return array(
-				'code'    => 'left_out',
-				'message' => __( 'Kept as uploaded: this site leaves this image out.', 'iminify-image-optimizer' ),
-			);
+			return Reasons::of( 'left_out', 'left_out_upload' );
 		}
 
 		return null;

@@ -142,10 +142,16 @@ export default function App( { scope } ) {
 							'expired' === status
 						) {
 							setError( {
-								message: __(
-									"The connection wasn't approved in time, or was turned down. Press Connect to try again.",
-									'iminify-image-optimizer'
-								),
+								message:
+									'network' === scope
+										? __(
+												"The connection wasn't approved in time, or was turned down. Press Connect the network to try again.",
+												'iminify-image-optimizer'
+											)
+										: __(
+												"The connection wasn't approved in time, or was turned down. Press Connect to try again.",
+												'iminify-image-optimizer'
+											),
 							} );
 						} else if ( 'failed' === status ) {
 							setError( { message: next.claim.message } );

@@ -15,6 +15,7 @@ use Iminify\WordPress\Folders\Restorer as Folder_Restorer;
 use Iminify\WordPress\Folders\Scanner;
 use Iminify\WordPress\Folders\Table;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
 use WP_Error;
@@ -451,7 +452,7 @@ class Bulk {
 					continue;
 				}
 
-				Records::fail( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
+				Records::fail( $id, Records::NOT_OPTIMIZED, Reasons::of( 'stopped' ) );
 			}
 		} while ( array() !== $ids );
 	}
@@ -475,7 +476,7 @@ class Bulk {
 				}
 
 				as_unschedule_all_actions( Folder_Optimizer::OPTIMIZE_HOOK, array( $id, Optimizer::BULK ), Optimizer::GROUP );
-				Folder_Optimizer::stop( $id, Records::NOT_OPTIMIZED, 'stopped', __( 'Not optimized: the bulk run was stopped.', 'iminify-image-optimizer' ) );
+				Folder_Optimizer::stop( $id, Records::NOT_OPTIMIZED, Reasons::of( 'stopped' ) );
 			}
 		} while ( array() !== $ids );
 	}
@@ -999,10 +1000,7 @@ class Bulk {
 
 		foreach ( $files ? $next['passed'] : array() as $id ) {
 			/* A file the service can't take, or one no longer in a chosen folder, is set aside like an image. */
-			$why = Folder_Optimizer::why_not( $id ) ?? array(
-				'code'    => 'unsupported_format',
-				'message' => __( 'Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
-			);
+			$why = Folder_Optimizer::why_not( $id ) ?? Reasons::of( 'unsupported_format', 'unsupported_file' );
 
 			Folder_Optimizer::set_aside( $id, $why );
 		}
@@ -1022,10 +1020,7 @@ class Bulk {
 			$why = Optimizer::why_not( $id );
 
 			if ( ! self::is_fill( $run['action'] ) ) {
-				$why = $why ?? array(
-					'code'    => 'unsupported_format',
-					'message' => __( 'Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images.', 'iminify-image-optimizer' ),
-				);
+				$why = $why ?? Reasons::of( 'unsupported_format', 'unsupported_upload' );
 
 				Optimizer::skip( $id, $why );
 				continue;
@@ -1506,10 +1501,7 @@ class Bulk {
 			array(
 				'status' => Records::NOT_OPTIMIZED,
 				'result' => null,
-				'error'  => array(
-					'code'    => Records::RESTORED,
-					'message' => __( 'Restored: the original is back.', 'iminify-image-optimizer' ),
-				),
+				'error'  => Reasons::of( Records::RESTORED ),
 			)
 		);
 
@@ -1535,10 +1527,7 @@ class Bulk {
 			Table::update(
 				$id,
 				array(
-					'error' => array(
-						'code'    => (string) $why->get_error_code(),
-						'message' => $why->get_error_message(),
-					),
+					'error' => Reasons::from( $why ),
 				)
 			);
 

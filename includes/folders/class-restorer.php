@@ -12,6 +12,7 @@ use Iminify\WordPress\Media\Copies;
 use Iminify\WordPress\Media\Files;
 use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Records;
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -109,9 +110,9 @@ class Restorer {
 			$backup = (string) self::backup( $row );
 
 			if ( ! Files::copy( $backup, $file ) || ! Backups::same( $backup, $file ) ) {
-				Optimizer::stop( $id, Records::ERROR, 'restore_failed', __( 'The original couldn\'t be put back, so the image stays as it was.', 'iminify-image-optimizer' ) );
+				Optimizer::stop( $id, Records::ERROR, Reasons::of( 'restore_failed', 'restore_put_back' ) );
 
-				return new WP_Error( 'restore_failed', __( 'The original couldn\'t be put back, so the image stays as it was.', 'iminify-image-optimizer' ), array( 'status' => 500 ) );
+				return Reasons::error( 'restore_failed', 'restore_put_back', array(), array( 'status' => 500 ) );
 			}
 
 			unset( $written[ $row['path'] ] );
@@ -189,13 +190,13 @@ class Restorer {
 	public static function refusal( string $availability ): WP_Error {
 		switch ( $availability ) {
 			case self::NOTHING:
-				return new WP_Error( 'nothing_to_restore', __( 'Iminify changed nothing in this image, so it already is as it was.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'nothing_to_restore', 'nothing_to_restore_file', array(), array( 'status' => 409 ) );
 			case self::CHANGED:
-				return new WP_Error( 'image_changed', __( 'This image has changed since Iminify optimized it, so its backup is no longer its original.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'image_changed', 'changed_restore_file', array(), array( 'status' => 409 ) );
 			case self::GONE:
-				return new WP_Error( 'file_missing', __( 'The image\'s file isn\'t there any more, or isn\'t in a folder Iminify optimizes.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'file_missing', 'gone_restore_file', array(), array( 'status' => 409 ) );
 			default:
-				return new WP_Error( 'no_original', __( 'No original of this image was kept, so it can\'t be restored.', 'iminify-image-optimizer' ), array( 'status' => 409 ) );
+				return Reasons::error( 'no_original', 'no_original_restore_file', array(), array( 'status' => 409 ) );
 		}
 	}
 }

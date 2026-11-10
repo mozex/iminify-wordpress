@@ -129,7 +129,22 @@ class Messages {
 	 * @param WP_Error $error The refusal.
 	 */
 	public static function for_error( WP_Error $error ): string {
-		switch ( $error->get_error_code() ) {
+		$data = (array) $error->get_error_data();
+
+		return self::for_code( (string) $error->get_error_code(), $error->get_error_message(), isset( $data['retry_after'] ) ? (int) $data['retry_after'] : 0 );
+	}
+
+	/**
+	 * A refusal by its code and the service's text, in the plugin's words for the
+	 * codes a person can act on, and the text for any other: what `for_error()`
+	 * says, and what a reason kept from the service says when it is read later.
+	 *
+	 * @param string $code The refusal's code.
+	 * @param string $text The service's text.
+	 * @param int    $wait Seconds left of the wait the service asked for, or 0 when unknown.
+	 */
+	public static function for_code( string $code, string $text, int $wait = 0 ): string {
+		switch ( $code ) {
 			case 'unauthenticated':
 				return __( 'Iminify doesn\'t know this key. Check that you copied all of it, or make a new one.', 'iminify-image-optimizer' );
 			case 'site_key_required':
@@ -137,9 +152,6 @@ class Messages {
 			case 'site_moved':
 				return __( 'This key belongs to the site at another address, so this copy of the site can\'t use it. Connect this copy as a site of its own, or move the connection here.', 'iminify-image-optimizer' );
 			case 'rate_limited':
-				$data = (array) $error->get_error_data();
-				$wait = isset( $data['retry_after'] ) ? (int) $data['retry_after'] : 0;
-
 				return $wait > 0
 					/* translators: %s: how long to wait, such as "10 minutes". */
 					? sprintf( __( 'Iminify asked the plugin to wait. Try again in %s.', 'iminify-image-optimizer' ), human_time_diff( time(), time() + $wait ) )
@@ -157,7 +169,7 @@ class Messages {
 			case 'site_connected_elsewhere':
 				return __( 'This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own.', 'iminify-image-optimizer' );
 			default:
-				return $error->get_error_message();
+				return $text;
 		}
 	}
 

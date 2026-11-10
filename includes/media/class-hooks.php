@@ -9,6 +9,7 @@ namespace Iminify\WordPress\Media;
 
 use Iminify\WordPress\Delivery\Rules;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Switching\Others;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -174,7 +175,7 @@ class Hooks {
 		Records::bump( $attachment );
 
 		if ( ! Plugin::connected() ) {
-			Records::fail( $attachment, Records::NOT_OPTIMIZED, 'not_connected', __( 'Not optimized: the site isn\'t connected to Iminify.', 'iminify-image-optimizer' ) );
+			Records::fail( $attachment, Records::NOT_OPTIMIZED, Reasons::of( 'not_connected' ) );
 
 			return;
 		}

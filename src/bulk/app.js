@@ -12,7 +12,7 @@ import {
 	useRef,
 	useState,
 } from '@wordpress/element';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 
 import { call } from '../settings/api';
 import {
@@ -319,13 +319,37 @@ function Library( { state } ) {
 		? Math.floor( ( counts.optimized / counts.images ) * 100 )
 		: 0;
 	const labels = {
-		optimized: __( 'Optimized', 'iminify-image-optimizer' ),
-		not_optimized: __( 'Not optimized', 'iminify-image-optimizer' ),
+		optimized: _x(
+			'Optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		not_optimized: _x(
+			'Not optimized',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 		waiting: __( 'On their way', 'iminify-image-optimizer' ),
-		failed: __( 'Failed', 'iminify-image-optimizer' ),
-		skipped: __( 'Skipped', 'iminify-image-optimizer' ),
-		restored: __( 'Restored', 'iminify-image-optimizer' ),
-		other: __( 'Optimized by another plugin', 'iminify-image-optimizer' ),
+		failed: _x(
+			'Failed',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		skipped: _x(
+			'Skipped',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		restored: _x(
+			'Restored',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
+		other: _x(
+			'Optimized by another plugin',
+			'images, over a count or as a filter',
+			'iminify-image-optimizer'
+		),
 	};
 	/* The four that always show, then those that only matter once they happen. */
 	const rows = Object.keys( labels ).filter(
@@ -364,7 +388,11 @@ function Library( { state } ) {
 				<div className="iminify-library">
 					<Ring
 						value={ share }
-						label={ __( 'Optimized', 'iminify-image-optimizer' ) }
+						label={ _x(
+							'Optimized',
+							'images, over a count or as a filter',
+							'iminify-image-optimizer'
+						) }
 						caption={ __( 'optimized', 'iminify-image-optimizer' ) }
 					/>
 					<ul className="iminify-rows">
@@ -467,9 +495,11 @@ function othersLine( other ) {
 	}
 
 	return sprintf(
-		/* translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. */
-		__(
+		/* translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more. */
+		_n(
+			'%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are.',
 			'%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are.',
+			other.count,
 			'iminify-image-optimizer'
 		),
 		other.name,
@@ -1488,8 +1518,10 @@ function AltTexts( { state, busy, onStart } ) {
 				<p className="iminify-text">
 					{ sprintf(
 						/* translators: %s: how many AI alt texts are left today. */
-						__(
+						_n(
+							'%s AI alt text left today.',
 							'%s AI alt texts left today.',
+							altText.left,
 							'iminify-image-optimizer'
 						),
 						altText.remaining
@@ -1631,8 +1663,9 @@ function Redo( { state, busy, onStart } ) {
 	return (
 		<Panel>
 			<h2>
-				{ __(
+				{ _x(
 					'Optimized by another plugin',
+					'images, over a count or as a filter',
 					'iminify-image-optimizer'
 				) }
 			</h2>

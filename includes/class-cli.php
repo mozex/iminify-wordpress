@@ -351,7 +351,7 @@ class Cli {
 			WP_CLI::success(
 				sprintf(
 					/* translators: 1: how many images were found, 2: how many are new, 3: how many changed. */
-					__( 'Found %1$s images: %2$s new, %3$s changed.', 'iminify-image-optimizer' ),
+					_n( 'Found %1$s image: %2$s new, %3$s changed.', 'Found %1$s images: %2$s new, %3$s changed.', (int) $scan['found'], 'iminify-image-optimizer' ),
 					number_format_i18n( (int) $scan['found'] ),
 					number_format_i18n( (int) $scan['added'] ),
 					number_format_i18n( (int) $scan['changed'] )
@@ -721,7 +721,7 @@ class Cli {
 			WP_CLI::success(
 				sprintf( $done, number_format_i18n( $run['sent'] ) ) . ' ' . sprintf(
 					/* translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed. */
-					__( 'Your folders have %1$s of %2$s files optimized, %3$s failed.', 'iminify-image-optimizer' ),
+					_n( 'Your folders have %1$s of %2$s file optimized, %3$s failed.', 'Your folders have %1$s of %2$s files optimized, %3$s failed.', $files['files'], 'iminify-image-optimizer' ),
 					number_format_i18n( $files['optimized'] ),
 					number_format_i18n( $files['files'] ),
 					number_format_i18n( $files['failed'] )
@@ -741,7 +741,7 @@ class Cli {
 		WP_CLI::success(
 			sprintf( $done, number_format_i18n( $run['sent'] ) ) . ' ' . sprintf(
 				/* translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed. */
-				__( 'The library has %1$s of %2$s images optimized, %3$s failed.', 'iminify-image-optimizer' ),
+				_n( 'The library has %1$s of %2$s image optimized, %3$s failed.', 'The library has %1$s of %2$s images optimized, %3$s failed.', $counts['images'], 'iminify-image-optimizer' ),
 				number_format_i18n( $counts['optimized'] ),
 				number_format_i18n( $counts['images'] ),
 				number_format_i18n( $counts['failed'] )

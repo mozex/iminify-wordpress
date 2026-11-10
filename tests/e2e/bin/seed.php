@@ -41,6 +41,7 @@ use Iminify\WordPress\Media\Paths;
 use Iminify\WordPress\Media\Pause;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
+use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Leftovers;
 use Iminify\WordPress\Switching\Others;
@@ -199,7 +200,7 @@ switch ( $command ) {
 		break;
 
 	case 'paused':
-		Records::wait( (int) $given['id'], Records::PAUSED, 'daily_limit_reached', 'Waiting for the next batch.' );
+		Records::wait( (int) $given['id'], Records::PAUSED, Reasons::of( 'daily_limit_reached', 'day_spent' ) );
 		Pause::begin( time() + HOUR_IN_SECONDS, Pause::FROM_REFUSAL, 'free' );
 		echo "paused\n";
 		break;

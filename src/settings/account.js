@@ -104,26 +104,7 @@ function Usage( { row } ) {
 					<i style={ { width: `${ Math.round( share * 100 ) }%` } } />
 				</span>
 			) }
-			<span className="iminify-tile__note">
-				{ limited
-					? sprintf(
-							/* translators: 1: how many were used today, 2: how many are left. */
-							__(
-								'%1$s used, %2$s left',
-								'iminify-image-optimizer'
-							),
-							row.used,
-							row.remaining
-						)
-					: sprintf(
-							/* translators: %s: how many were used today. */
-							__(
-								'%s used, no daily limit',
-								'iminify-image-optimizer'
-							),
-							row.used
-						) }
-			</span>
+			<span className="iminify-tile__note">{ row.note }</span>
 		</div>
 	);
 }

@@ -262,7 +262,7 @@ class State {
 	 * @param string $key   The count's name.
 	 * @param string $label What the page calls it.
 	 * @param mixed  $count The record's count.
-	 * @return array{key: string, label: string, used: string, remaining: string|null, share: float|null}|null
+	 * @return array{key: string, label: string, used: string, remaining: string|null, note: string, share: float|null}|null
 	 */
 	protected static function usage( string $key, string $label, $count ): ?array {
 		if ( ! is_array( $count ) || ! isset( $count['used'] ) || ! is_numeric( $count['used'] ) ) {
@@ -277,8 +277,55 @@ class State {
 			'label'     => $label,
 			'used'      => number_format_i18n( $used ),
 			'remaining' => null === $remaining ? null : number_format_i18n( $remaining ),
+			'note'      => self::usage_note( $key, $used, $remaining ),
 			'share'     => null === $remaining ? null : ( 0 === $used + $remaining ? 1.0 : round( $used / ( $used + $remaining ), 3 ) ),
 		);
+	}
+
+	/**
+	 * The line under one of the day's counts: what was used and what is left, or
+	 * that the plan sets no limit. Each number has words of its own, since many
+	 * languages word "used" and "left" by the number and by what is counted.
+	 *
+	 * @param string   $key       The count's name: `images`, `files` or `alt_texts`.
+	 * @param int      $used      How many were used today.
+	 * @param int|null $remaining How many are left, or null with no daily limit.
+	 */
+	protected static function usage_note( string $key, int $used, ?int $remaining ): string {
+		$used_words = number_format_i18n( $used );
+		$left_words = number_format_i18n( (int) $remaining );
+
+		switch ( $key ) {
+			case 'files':
+				/* translators: %s: how many files Iminify made today. */
+				$unlimited = _nx( '%s used, no daily limit', '%s used, no daily limit', $used, 'files today', 'iminify-image-optimizer' );
+				/* translators: %s: how many files Iminify made today. */
+				$spent = _nx( '%s used', '%s used', $used, 'files today', 'iminify-image-optimizer' );
+				/* translators: %s: how many files are left today. */
+				$left = _nx( '%s left', '%s left', (int) $remaining, 'files today', 'iminify-image-optimizer' );
+				break;
+			case 'alt_texts':
+				/* translators: %s: how many AI alt texts were written today. */
+				$unlimited = _nx( '%s used, no daily limit', '%s used, no daily limit', $used, 'AI alt texts today', 'iminify-image-optimizer' );
+				/* translators: %s: how many AI alt texts were written today. */
+				$spent = _nx( '%s used', '%s used', $used, 'AI alt texts today', 'iminify-image-optimizer' );
+				/* translators: %s: how many AI alt texts are left today. */
+				$left = _nx( '%s left', '%s left', (int) $remaining, 'AI alt texts today', 'iminify-image-optimizer' );
+				break;
+			default:
+				/* translators: %s: how many images were optimized today. */
+				$unlimited = _nx( '%s used, no daily limit', '%s used, no daily limit', $used, 'images today', 'iminify-image-optimizer' );
+				/* translators: %s: how many images were optimized today. */
+				$spent = _nx( '%s used', '%s used', $used, 'images today', 'iminify-image-optimizer' );
+				/* translators: %s: how many images are left today. */
+				$left = _nx( '%s left', '%s left', (int) $remaining, 'images today', 'iminify-image-optimizer' );
+		}
+
+		if ( null === $remaining ) {
+			return sprintf( $unlimited, $used_words );
+		}
+
+		return sprintf( $spent, $used_words ) . wp_get_list_item_separator() . sprintf( $left, $left_words );
 	}
 
 	/**

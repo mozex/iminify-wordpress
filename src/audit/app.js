@@ -6,7 +6,7 @@
  * audit routes answer; every call to Iminify happens behind them.
  */
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
-import { __, _n, sprintf } from '@wordpress/i18n';
+import { __, _n, _x, sprintf } from '@wordpress/i18n';
 
 import { call } from '../settings/api';
 import {
@@ -483,7 +483,11 @@ function auditChip( audit ) {
 			};
 		default:
 			return {
-				label: __( 'Failed', 'iminify-image-optimizer' ),
+				label: _x(
+					'Failed',
+					'the status of a page audit',
+					'iminify-image-optimizer'
+				),
 				tone: 'danger',
 				moving: false,
 			};
@@ -500,7 +504,11 @@ function imageChip( status ) {
 	switch ( status ) {
 		case 'optimized':
 			return {
-				label: __( 'Optimized', 'iminify-image-optimizer' ),
+				label: _x(
+					'Optimized',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'success',
 			};
 		case 'queued':
@@ -517,20 +525,29 @@ function imageChip( status ) {
 			};
 		case 'error':
 			return {
-				label: __( 'Failed', 'iminify-image-optimizer' ),
+				label: _x(
+					'Failed',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'danger',
 			};
 		case 'other':
 			return {
-				label: __(
+				label: _x(
 					'Optimized by another plugin',
+					'the status of one image',
 					'iminify-image-optimizer'
 				),
 				tone: 'success',
 			};
 		default:
 			return {
-				label: __( 'Not optimized', 'iminify-image-optimizer' ),
+				label: _x(
+					'Not optimized',
+					'the status of one image',
+					'iminify-image-optimizer'
+				),
 				tone: 'neutral',
 			};
 	}

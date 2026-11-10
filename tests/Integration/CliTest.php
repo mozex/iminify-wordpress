@@ -315,7 +315,14 @@ class CliTest extends WP_UnitTestCase {
 		/* The Stop's own request takes the image back. */
 		$this->cli->between = static function () use ( $one ): void {
 			Optimizer::cancel( $one );
-			Records::fail( $one, Records::NOT_OPTIMIZED, 'stopped', 'Stopped.' );
+			Records::fail(
+				$one,
+				Records::NOT_OPTIMIZED,
+				array(
+					'code'    => 'stopped',
+					'message' => 'Stopped.',
+				)
+			);
 		};
 
 		$this->cli->optimize( array(), array( 'all' => true ) );
@@ -343,7 +350,14 @@ class CliTest extends WP_UnitTestCase {
 		$parked = $this->fresh();
 
 		/* A restore never waits for the connection: a parked image and no key would hand any other run to the background. */
-		Records::wait( $parked, Records::PARKED, 'not_connected', 'Waiting.' );
+		Records::wait(
+			$parked,
+			Records::PARKED,
+			array(
+				'code'    => 'not_connected',
+				'message' => 'Waiting.',
+			)
+		);
 		Plugin::keys()->forget();
 		$this->cli->idle = 2;
 

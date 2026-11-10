@@ -533,6 +533,11 @@ class Connection {
 	 * The error for a key WordPress couldn't store.
 	 */
 	protected static function not_saved(): WP_Error {
-		return new WP_Error( 'key_not_saved', __( 'WordPress couldn\'t store the site key. Press Connect to try again.', 'iminify-image-optimizer' ), array( 'status' => 500 ) );
+		/* The network's page names its button "Connect the network". */
+		$words = Network::is_main()
+			? __( 'WordPress couldn\'t store the network\'s key. Press Connect the network to try again.', 'iminify-image-optimizer' )
+			: __( 'WordPress couldn\'t store the site key. Press Connect to try again.', 'iminify-image-optimizer' );
+
+		return new WP_Error( 'key_not_saved', $words, array( 'status' => 500 ) );
 	}
 }

@@ -243,7 +243,14 @@ class QueueTest extends WP_UnitTestCase {
 		sort( $ids );
 
 		foreach ( $ids as $id ) {
-			Records::wait( $id, Records::PAUSED, 'day_spent', '' );
+			Records::wait(
+				$id,
+				Records::PAUSED,
+				array(
+					'code'    => 'day_spent',
+					'message' => '',
+				)
+			);
 		}
 
 		$this->assertSame( Queue::PAGE + 1, Records::count_with_status( array( Records::PAUSED ) ) );
@@ -262,7 +269,14 @@ class QueueTest extends WP_UnitTestCase {
 		$this->assertFalse( as_next_scheduled_action( Queue::RESUME_HOOK, null, Optimizer::GROUP ) );
 
 		/* A row a run already queued isn't read again, so images that go straight back to waiting never loop. */
-		Records::wait( $ids[0], Records::PAUSED, 'day_spent', '' );
+		Records::wait(
+			$ids[0],
+			Records::PAUSED,
+			array(
+				'code'    => 'day_spent',
+				'message' => '',
+			)
+		);
 		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
 		Queue::resume( $last );
 
@@ -273,7 +287,14 @@ class QueueTest extends WP_UnitTestCase {
 		$id = $this->attachment();
 
 		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
-		Records::wait( $id, Records::PAUSED, 'day_spent', '' );
+		Records::wait(
+			$id,
+			Records::PAUSED,
+			array(
+				'code'    => 'day_spent',
+				'message' => '',
+			)
+		);
 		Plugin::keys()->forget();
 
 		Queue::batch_opens();
@@ -295,7 +316,14 @@ class QueueTest extends WP_UnitTestCase {
 
 	public function test_start_now_refuses_while_the_day_is_spent_and_sends_what_waits_once_a_batch_can_start(): void {
 		$id = $this->attachment();
-		Records::wait( $id, Records::PAUSED, 'day_spent', '' );
+		Records::wait(
+			$id,
+			Records::PAUSED,
+			array(
+				'code'    => 'day_spent',
+				'message' => '',
+			)
+		);
 		as_unschedule_all_actions( Optimizer::OPTIMIZE_HOOK );
 		$until = $this->spent_site( 3600 );
 

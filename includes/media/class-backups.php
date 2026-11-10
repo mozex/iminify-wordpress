@@ -7,6 +7,7 @@
 
 namespace Iminify\WordPress\Media;
 
+use Iminify\WordPress\Reasons;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -51,7 +52,7 @@ class Backups {
 		self::guard( $folder );
 
 		if ( ! is_file( $backup ) && ! Files::copy( $path, $backup ) ) {
-			return new WP_Error( 'backup_failed', __( 'The backup of this image couldn\'t be saved, so it wasn\'t optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'backup_failed' );
 		}
 
 		$kept = Paths::relative( $backup );
@@ -80,7 +81,7 @@ class Backups {
 		$aside = self::aside( $backup );
 
 		if ( null === $aside || ! Files::move( $backup, $aside ) ) {
-			return new WP_Error( 'backup_stale', __( 'The image changed since its backup was made, and the old backup couldn\'t be moved aside, so it wasn\'t optimized.', 'iminify-image-optimizer' ) );
+			return Reasons::error( 'backup_stale' );
 		}
 
 		$backups[] = (string) Paths::relative( $aside );

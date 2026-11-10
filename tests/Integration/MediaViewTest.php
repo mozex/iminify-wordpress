@@ -151,14 +151,28 @@ class MediaViewTest extends WP_UnitTestCase {
 
 		/* Waiting, with when it goes out and that the script should ask after it. */
 		Pause::refused( 3600, 'free' );
-		Records::wait( $id, Records::PAUSED, 'day_spent', 'Waiting for the next batch.' );
+		Records::wait(
+			$id,
+			Records::PAUSED,
+			array(
+				'code'    => 'day_spent',
+				'message' => 'Waiting for the next batch.',
+			)
+		);
 		$this->assertStringContainsString( 'Waiting for the next batch', Media_View::cell( $id ) );
 		$this->assertStringContainsString( 'goes out by itself on', Media_View::cell( $id ) );
 
 		Records::update( $id, array( 'status' => Records::QUEUED ) );
 		$this->assertStringContainsString( 'data-iminify-busy="1"', Media_View::cell( $id ) );
 
-		Records::fail( $id, Records::ERROR, 'outputs_refused', 'A group makes at most 30 outputs.' );
+		Records::fail(
+			$id,
+			Records::ERROR,
+			array(
+				'code'    => 'outputs_refused',
+				'message' => 'A group makes at most 30 outputs.',
+			)
+		);
 		$this->assertStringContainsString( 'A group makes at most 30 outputs.', Media_View::cell( $id ) );
 
 		/* A PDF has nothing to do with the plugin. */
@@ -225,8 +239,22 @@ class MediaViewTest extends WP_UnitTestCase {
 		$unknown   = $this->attachment();
 		$pdf       = self::factory()->attachment->create( array( 'post_mime_type' => 'application/pdf' ) );
 
-		Records::wait( $parked, Records::PARKED, 'unauthenticated', '' );
-		Records::fail( $refused, Records::NOT_OPTIMIZED, 'disk_full', '' );
+		Records::wait(
+			$parked,
+			Records::PARKED,
+			array(
+				'code'    => 'unauthenticated',
+				'message' => '',
+			)
+		);
+		Records::fail(
+			$refused,
+			Records::NOT_OPTIMIZED,
+			array(
+				'code'    => 'disk_full',
+				'message' => '',
+			)
+		);
 		Records::update( $queued, array( 'status' => Records::WAITING ) );
 
 		delete_post_meta( $unknown, Records::META );
@@ -246,9 +274,30 @@ class MediaViewTest extends WP_UnitTestCase {
 				'result' => array( 'formats' => array( 'webp' ) ),
 			)
 		);
-		Records::fail( $failed, Records::ERROR, 'x', 'x' );
-		Records::fail( $skipped, Records::SKIPPED, 'x', 'x' );
-		Records::wait( $paused, Records::PAUSED, 'day_spent', '' );
+		Records::fail(
+			$failed,
+			Records::ERROR,
+			array(
+				'code'    => 'x',
+				'message' => 'x',
+			)
+		);
+		Records::fail(
+			$skipped,
+			Records::SKIPPED,
+			array(
+				'code'    => 'x',
+				'message' => 'x',
+			)
+		);
+		Records::wait(
+			$paused,
+			Records::PAUSED,
+			array(
+				'code'    => 'day_spent',
+				'message' => '',
+			)
+		);
 
 		$this->assertEqualSets( array( $optimized, $missing ), $this->listed( Media_View::FILTER_OPTIMIZED ) );
 		$this->assertEqualSets( array( $failed, $skipped ), $this->listed( Media_View::FILTER_ERRORS ) );
