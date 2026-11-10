@@ -8,6 +8,7 @@ parameters:
         max: 80599
     paths:
         - iminify-image-optimizer.php
+        - bin/check-build.php
         - includes
         - dev/mu-plugins
         - tests

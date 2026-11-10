@@ -31,3 +31,5 @@
 /test-results
 /playwright-report
 /languages/GLOSSARY.md
+/.wordpress-org
+/composer.lock

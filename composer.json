@@ -3,7 +3,7 @@
     "description": "Compress, convert and resize the images in the WordPress media library with Iminify.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.iminify.com",
+    "homepage": "https://www.iminify.com/wordpress-plugin",
     "require": {
         "php": ">=7.4",
         "woocommerce/action-scheduler": "^4.2"

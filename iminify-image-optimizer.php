@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Iminify Image Optimizer
- * Plugin URI:        https://www.iminify.com
+ * Plugin URI:        https://www.iminify.com/wordpress-plugin
  * Description:       Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF.
  * Version:           1.0.0
  * Requires at least: 6.9

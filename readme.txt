@@ -7,41 +7,86 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF.
+Compress your images and serve WebP and AVIF copies. One upload counts as one image, every size included. Backups, bulk and page audits.
 
 == Description ==
 
-Iminify Image Optimizer sends the images you upload to Iminify, which compresses them, makes WebP and AVIF copies, and sends the smaller files back to your site. An upload counts as one image, however many sizes WordPress keeps of it.
+Iminify Image Optimizer sends the images you upload to Iminify, which compresses them and the sizes WordPress keeps of them, makes WebP copies (AVIF ones too, once you turn them on), and sends the smaller files back under the same names. Your visitors get the copies through picture tags, and a browser that reads neither format gets the original.
 
-Images already in your library go through Media, Bulk Optimization. It shows how many are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page restores every optimized image at once, on any plan and without a connection.
+Iminify counts what you upload, not what WordPress makes of it. A photo WordPress keeps in six sizes comes back as 18 files with WebP and AVIF on, and counts as one image. Connect the site to a free Iminify account in one click, or create one on the way.
 
-An image's panel in the media library compares the original with the file Iminify wrote and with each WebP and AVIF copy, on one picture with a line you drag, each with its size. It also says when an image carried Content Credentials, the signed record of where it came from, which the files Iminify writes leave out and the backup keeps. The settings page shows how many images Iminify has optimized and how many bytes it saved, for the site and for your whole account.
+= What sets it apart =
 
-If you turn AVIF on after optimizing your library, or a theme adds an image size, that page also makes what the optimized images lack. Each one goes again from its original and counts as one more image, and it keeps its other files unless Iminify makes them smaller. The media library shows what each image lacks, with a button for that one image.
+* **One upload, one image.** Iminify makes the sizes from your original, rather than compressing the copies WordPress already shrank, and counts the set once. Optimizers that charge per file count every thumbnail and every copy, so a free allowance runs out after a few uploads.
+* **Quality picked per image.** Iminify searches each image for the lowest quality that still looks as good as your level promises, measured on that image, rather than one quality number for every file. A detailed photo and a flat graphic each get what they need.
+* **A size limit in KB.** Set one, and the main image is fitted under it: the quality goes down first, and the dimensions only when that isn't enough.
+* **Page Audit, matched to your library.** Iminify opens one of your pages as a visitor would and lists each image that slows it down beside its media library item, with the fix next to it.
+* **AI alt text where there is none.** Turn it on, and each image with an empty alt gets a description in the language you pick. An alt you wrote is never replaced.
+* **Originals you can get back.** Backups are on from the first upload, so you can restore one image or the whole library on any plan, after the day's images are spent, even with the site disconnected.
+* **Switching keeps your old optimizer's work.** Its compressed images, originals, copies and settings carry over (below).
 
-Images outside the media library, such as your theme's, go through Media, Other Folders. Choose the active theme, its parent, or any folder in wp-content by its path, and the plugin lists the images in it. Each is optimized where it is, keeping its width and height whatever your maximum width says, with its original kept under uploads/iminify-backup-folders. The bulk page optimizes or restores them all in a run of their own. The plugin looks through the folders again after a theme or plugin update, so a changed file reads as not optimized and is never restored over. On a network, the main site chooses the folders for every site.
+= Your library, in bulk =
 
-Media, Page Audit has Iminify open one of your pages as a visitor would and list every image it shows, each beside the image and size in your media library it is. It names what slows the page down, such as an image twice as wide as the space it fills, one with no width and height, no alt text, or loaded lazily in the first screen, with the fix for each. When a firewall or a bot check turns the scanner away, the page says how to let it through. Each audit counts as one of your account's page scans for the day.
+Media, Bulk Optimization shows how many images are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page restores every optimized image at once.
 
-Beside each finding the page offers what fixes it: Optimize for an image the plugin hasn't optimized yet, AI alt text for an image that has none (once AI alt text is on), and for an image shown far smaller than its file, the size to pick in the editor with a link to edit the page, or where your theme shows it, the size to set there. A page that leaves out an image's width and height, or the alt text it has in your library, gets them once you turn on the setting that adds them as each page is sent. Scan the page again to see what changed. To have every page of your site checked each week, the page links to the weekly site check on iminify.com.
+If you turn AVIF on after optimizing your library, or a theme adds an image size, the page also makes what the optimized images lack. Each image goes again from its original, counts as one more image, and keeps its other files unless Iminify makes them smaller.
 
-For large libraries and hosts whose scheduled tasks don't run, `wp iminify optimize --all` runs the same bulk run from the shell, with a progress bar, and `wp iminify optimize --folders` does it for the folders you chose with `wp iminify folders add`. `wp help iminify` lists the rest: restore, missing, folders, status, run and stop.
+From the shell, `wp iminify optimize --all` runs the same bulk run with a progress bar. `wp help iminify` lists the rest: restore, missing, alt-text, folders, status, run and stop.
+
+= Every image's state in the media library =
+
+A column says whether each image is optimized, how much its files lost and which copies it has. An image's panel lists every size before and after, offers to optimize it again at another level, and compares the original with the file Iminify wrote and each WebP and AVIF copy, on one picture with a line you drag. It also says when an image carried Content Credentials, the signed record of where it came from, which Iminify's files leave out and the backup keeps.
+
+= Page Audit =
+
+Media, Page Audit has Iminify open one of your pages and list every image it shows, each beside the image and size in your media library it is. It names what slows the page down, such as an image twice as wide as the space it fills, one with no width and height or no alt text, or one loaded lazily in the first screen.
+
+Beside each finding is what fixes it: Optimize for an image the plugin hasn't optimized yet, AI alt text for one that has none, and the size to pick in the editor for an image shown far smaller than its file. A setting adds, as each page is sent, the width, height and alt text a page's markup leaves out of an image from your media library. When a firewall or a bot check turns the scanner away, the page says how to let it through. Each audit counts as one of your account's page scans for the day.
+
+= Serving WebP and AVIF =
+
+By default the copies reach visitors through picture tags in your pages, which work with page caches and CDNs. For images WordPress doesn't print itself, such as a page builder's or a theme's own markup, the settings offer to serve the copies across the whole page, background images in the page's own markup included.
+
+A fourth choice leaves your pages as they are and has your server send the copy in place of each image. On Apache and LiteSpeed the plugin writes the rules into your .htaccess, and on Nginx the settings show the lines to add. Behind a CDN this needs one that keeps a version of each image per format, which Cloudflare doesn't, so the settings warn when Cloudflare answers.
+
+= Switching from another optimizer =
+
+The plugin reads what Imagify, ShortPixel, EWWW Image Optimizer, Smush, TinyPNG, Converter for Media, Modern Image Formats, Optimole, Image Optimizer by Elementor and LiteSpeed Cache's image optimization leave on a site, active or not.
+
+* Images that plugin compressed show as optimized by it, with what it saved, and cost nothing. Iminify compresses them again from their originals only when you ask, in the media library or on the bulk page.
+* Restore puts back the original that plugin kept, once Iminify has checked it is one.
+* The WebP and AVIF copies its records name keep being served until Iminify makes its own.
+* A button on the settings page named after that plugin ("Use Imagify's settings") shows what your site's settings would become, and changes nothing until you confirm.
+* Rules it left in your .htaccess are listed, and removed only when you press Remove.
+
+While another optimizer still optimizes your uploads, this plugin sends nothing, so no image is compressed twice, and its pages say what to switch off.
+
+= Images outside the media library =
+
+Media, Other Folders optimizes the images your theme and plugins ship, where they are, keeping their width and height. Choose the active theme, its parent, or any folder in wp-content. Each original is kept under uploads/iminify-backup-folders, and the plugin looks through the folders again after a theme or plugin update, so a changed file reads as not optimized and is never restored over.
+
+= Works with =
+
+* **WooCommerce:** product galleries keep their zoom, lightbox and variation images with the picture tags.
+* **WP Offload Media:** the copies go up to your bucket with each image, "Remove Local Media" included.
+* **WPML and Polylang:** a translated image's files are optimized once, through the image they translate.
+* **Page caches:** LiteSpeed Cache, WP Rocket, W3 Total Cache and Cloudflare's plugin are emptied when a bulk run ends or an image is restored.
+* **Regenerate Thumbnails and `wp media regenerate`:** with backups on, sizes made again are made from the original, never from a compressed file.
+* **Enable Media Replace:** a replaced file goes as a new original.
+* **Multisite:** activate the plugin for the network and connect the network once under Network Admin, Settings, Iminify. Each site joins by itself the first time it needs Iminify and keeps its own settings, bulk page and backups.
+* **Sites behind a password:** the background runs reach the site with the password the page was opened with, or with `IMINIFY_AUTH_USER` and `IMINIFY_AUTH_PASSWORD` in wp-config.php.
+
+= Plans =
+
+The plugin is free, and so is an Iminify account. Every plan gets WebP, AVIF, backups, page audits and AI alt text, and a new account starts with a free trial of Pro. Connect as many sites as you like: they share your account's daily images. When the day's images are spent, uploads keep working as WordPress always does and wait their turn, and the plugin picks up by itself when the next batch opens. The plans and their limits: https://www.iminify.com/pricing
+
+= In your language =
+
+The plugin carries its own translations into 28 languages besides English, 31 locales in all with Spanish for Spain and Mexico, Portuguese for Brazil and Portugal, and Chinese in Simplified and Traditional script. Its screens follow the language of the site or of each user's profile, right to left where the language reads that way. When translate.wordpress.org has a translation of the plugin for your language, WordPress loads that one instead.
+
+= Who can do what =
 
 Administrators reach the settings, the bulk page, the page audit and the other folders (on a network, super admins choose the folders). Anyone who can upload files can optimize or restore an image they can edit, so an author gets their own images and an editor everyone's.
-
-On a multisite network, activate the plugin for the network and a super admin connects the whole network once, under Network Admin, Settings, Iminify. Each site then joins by itself the first time it needs Iminify, with a key of its own, and keeps its own settings, bulk page and backups. A site can connect to an account of its own instead, and a site disconnected on its own page stays out until someone presses Join the network there. Turning the plugin off for the network, or deleting it, does it on every site.
-
-The WebP and AVIF copies reach your visitors through picture tags in your pages, which work with page caches and CDNs, and a browser that reads neither format gets the original. For images WordPress doesn't print itself, such as those in raw HTML, a page builder's or a theme's own markup, and the folders you chose, the settings offer to serve the copies on the whole page: each page is read as it's sent, which takes a little longer on a page your cache hasn't kept (on a network, the folders' copies show on the main site's pages). That mode also gives the background images a page sets in its own markup, such as a page builder's hero, their copies in an image-set(), while a background in a stylesheet file, or one set through a CSS variable, keeps its original. A fourth choice leaves your pages as they are and has your server send the copy in place of each image to a browser that reads it, backgrounds in stylesheet files included: on Apache and LiteSpeed the plugin writes the rules into your site's .htaccess, and on Nginx the settings show the lines to add. Behind a CDN, it needs one that keeps a version of each image per format, which Cloudflare doesn't, so the settings warn when Cloudflare answers. A separate setting, off until you turn it on in the settings or the page audit, adds to each page as it's sent the width and height an image from your media library lacks in the page's markup, read from its metadata through WordPress's own function, and the alt text it has in the library where the markup has no alt at all; an alt left empty on purpose stays empty. With backups on (the default), the original of each image is kept under uploads/iminify-backup, so any image can be restored.
-
-WooCommerce's product galleries keep their zoom, lightbox and variation images with the picture tags. With WP Offload Media serving your library from a bucket, the copies go up with each image and are served from the bucket as well, whether it keeps the files on the server too (its default) or removes them ("Remove Local Media"). With them removed, only the file the plugin needs (the image's original, or the file WordPress makes a new size from) comes back to the server, for as long as that takes. Once a bulk run ends, an image is restored, an update replaces a theme or plugin holding a folder you chose, you change how the copies are served, or you delete another image optimizer whose copies your pages served, the plugin empties the page caches of LiteSpeed Cache, WP Rocket, W3 Total Cache and Cloudflare's plugin, so no cached page keeps pointing at a copy that has gone.
-
-When you delete the plugin, it removes its settings and stops the site's key, and keeps the WebP and AVIF copies and the backups unless you ticked otherwise in its settings.
-
-Translations WPML or Polylang make of an image share its files, so the plugin optimizes those files once, through the image they translate, and never sends a translation on its own, while each translation's page shows the image's WebP and AVIF copies. Regenerate Thumbnails and `wp media regenerate` send the image again from its backup, so no size is made from an already compressed file, and a file Enable Media Replace puts in place goes as a new original. A theme or plugin with more image sizes than Iminify makes for one image gets the first ones it lists, and the rest stay as WordPress made them.
-
-Where WordPress sends over cURL, as nearly every host does, originals go to Iminify straight from the disk, so a file as large as your plan takes goes through on a 128 MB memory limit. Elsewhere, an original too large for the server's memory goes as WordPress's scaled copy. On a site behind a password (HTTP basic auth), the background runs reach the site with the password the page was opened with, or with `IMINIFY_AUTH_USER` and `IMINIFY_AUTH_PASSWORD` set in wp-config.php.
-
-The plugin carries its own translations into 28 languages besides English, 31 locales in all with Spanish for Spain and Mexico, Portuguese for Brazil and Portugal, and Chinese in Simplified and Traditional script. Its screens follow the language of the site or of each user's profile, right to left where the language reads that way, and its WP-CLI output follows the site's. When translate.wordpress.org has a translation of the plugin for your language, WordPress loads that one instead.
 
 = For developers =
 
@@ -88,3 +133,58 @@ Nothing about your site's visitors is sent: the images on your pages, and their 
 
 Iminify Terms of Service: https://www.iminify.com/terms-of-service
 Iminify Privacy Policy: https://www.iminify.com/privacy-policy
+
+== Installation ==
+
+1. Install the plugin from Plugins, Add New, and activate it.
+2. Open Settings, Iminify and press Connect. iminify.com opens in a new tab, where you sign in or create a free account and approve the site.
+3. New uploads are optimized from then on. For the images already in your library, open Media, Bulk Optimization and press Optimize the library.
+
+An agency can paste a site key on the settings page instead, or set it as `IMINIFY_API_KEY` in wp-config.php.
+
+== Frequently Asked Questions ==
+
+= Do I need an Iminify account? =
+
+Yes. Iminify does the compressing, so the plugin works with a free Iminify account, which you can create while connecting. Nothing is sent to Iminify before you press Connect or give the plugin a site key.
+
+= How are my images counted? =
+
+One upload counts as one image, with every size WordPress keeps of it and every WebP and AVIF copy. Iminify makes them all from the original you uploaded. The files it makes have a daily allowance of their own, which the plans list. A theme or plugin with more image sizes than Iminify makes for one image gets the first ones it lists, and the rest stay as WordPress made them.
+
+= What happens when my day's images are spent? =
+
+Nothing breaks. Uploads keep working as they always do and wait their turn, and the plugin's pages say when the next batch opens, in your site's time zone. When it opens, the plugin picks up by itself, new uploads first and then the library. Start now on the settings page asks again at once, say right after you change plans.
+
+= Can I get my original images back? =
+
+Yes, while backups are on, which they are by default. The original of each image is kept under uploads/iminify-backup. Restore one image from the media library or the whole library from the bulk page, on any plan and without a connection.
+
+= Does it rename my files or change their addresses? =
+
+No. Each file is replaced under its own name, so every post and page that shows it keeps working. The copies sit beside it as photo.jpg.webp and photo.jpg.avif.
+
+= I use another image optimizer. Can I switch? =
+
+Yes. The plugin reads what Imagify, ShortPixel, EWWW Image Optimizer, Smush, TinyPNG, Converter for Media, Modern Image Formats, Optimole, Image Optimizer by Elementor and LiteSpeed Cache's image optimization left on your site. Their compressed images stay as they are and cost nothing, the originals they kept can be restored, the WebP and AVIF copies their records name keep being served, and their settings can become yours. While the other plugin still optimizes your uploads, this one sends nothing, so turn that off first.
+
+= Does it work behind Cloudflare or another CDN? =
+
+Yes. The default picture tags are plain HTML, so caches and CDNs keep them. Only the server rules need a CDN that keeps a version of each image per format, and the settings warn when Cloudflare answers.
+
+= Does it work on a multisite network? =
+
+Yes. Activate it for the network and connect the network once, or connect each site to an account of its own. Each site keeps its own settings, bulk page and backups.
+
+= What happens when I delete the plugin? =
+
+It removes its settings and stops the site's key on Iminify (a key set in wp-config.php stays). The WebP and AVIF copies and the backups stay unless you ticked otherwise in its settings, since a cached page may still point at a copy.
+
+= What does the plugin send, and where? =
+
+The External services section above lists everything the plugin sends to Iminify and when. Nothing about your site's visitors is sent, and the plugin suggests text for your privacy policy under Settings, Privacy.
+
+== Changelog ==
+
+= 1.0.0 =
+* First release: optimizing on upload and in bulk, WebP and AVIF copies served through picture tags, backups and restore, Page Audit, AI alt text, other folders, WP-CLI, multisite networks, switching from ten other image optimizers, and translations into 28 languages.

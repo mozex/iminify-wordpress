@@ -132,8 +132,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
 
-  plugin-check:
-    name: Plugin Check
+  package:
+    name: The zip, Plugin Check and the Live Preview
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -153,7 +153,25 @@ jobs:
       - run: npm run build
       - run: php bin/build.php
 
+      - name: Unpack the zip, so every check reads what wordpress.org would get
+        run: |
+          mkdir -p build/zip
+          unzip -q build/iminify-image-optimizer.zip -d build/zip
+
+      - run: php bin/check-build.php build/zip/iminify-image-optimizer
+
       - uses: WordPress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
         with:
-          build-dir: build/iminify-image-optimizer
+          build-dir: build/zip/iminify-image-optimizer
           strict: true
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Boot the Live Preview's blueprint in WordPress Playground
+        run: node tests/playground/smoke.js build/zip/iminify-image-optimizer
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: iminify-image-optimizer
+          path: build/iminify-image-optimizer.zip
+          if-no-files-found: error

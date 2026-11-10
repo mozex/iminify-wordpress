@@ -2,7 +2,8 @@
 /**
  * Copies what ships into build/iminify-image-optimizer: the tracked files
  * .distignore doesn't exclude, the admin scripts `npm run build` made from
- * `src/` (which ships beside them), and Action Scheduler's runtime files.
+ * `src/` (which ships beside them), and Action Scheduler's runtime files;
+ * then zips that folder into build/iminify-image-optimizer.zip.
  *
  * Usage: php bin/build.php
  *
@@ -116,4 +117,34 @@ foreach ( $iminify_entries as $iminify_entry ) {
 	iminify_build_copy( $iminify_entry->getPathname(), $iminify_target . '/' . $iminify_relative );
 }
 
-echo 'Built ' . $iminify_target . "\n";
+/*
+ * The zip wordpress.org takes on submission, with the plugin's folder at its
+ * top, as the directory's own zips have it.
+ */
+$iminify_zip_path = $iminify_root . '/build/iminify-image-optimizer.zip';
+$iminify_zip      = new ZipArchive();
+
+if ( true !== $iminify_zip->open( $iminify_zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
+	fwrite( STDERR, "Can't write " . $iminify_zip_path . "\n" );
+	exit( 1 );
+}
+
+$iminify_built = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $iminify_target, FilesystemIterator::SKIP_DOTS ) );
+$iminify_names = array();
+
+foreach ( $iminify_built as $iminify_entry ) {
+	$iminify_names[ substr( str_replace( '\\', '/', $iminify_entry->getPathname() ), strlen( str_replace( '\\', '/', $iminify_root . '/build/' ) ) ) ] = $iminify_entry->getPathname();
+}
+
+ksort( $iminify_names );
+
+foreach ( $iminify_names as $iminify_name => $iminify_path ) {
+	$iminify_zip->addFile( $iminify_path, $iminify_name );
+}
+
+if ( ! $iminify_zip->close() ) {
+	fwrite( STDERR, "Can't write " . $iminify_zip_path . "\n" );
+	exit( 1 );
+}
+
+echo 'Built ' . $iminify_target . ' and ' . $iminify_zip_path . "\n";

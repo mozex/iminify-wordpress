@@ -1,0 +1,46 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"meta": {
+		"title": "Iminify Image Optimizer",
+		"description": "The plugin's screens with three sample photos in the media library, before the site is connected.",
+		"author": "Iminify"
+	},
+	"landingPage": "/wp-admin/options-general.php?page=iminify-image-optimizer",
+	"preferredVersions": {
+		"php": "8.3",
+		"wp": "latest"
+	},
+	"features": {
+		"networking": false
+	},
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin"
+		},
+		{
+			"step": "mkdir",
+			"path": "/wordpress/wp-content/mu-plugins"
+		},
+		{
+			"step": "writeFile",
+			"path": "/wordpress/wp-content/mu-plugins/iminify-preview.php",
+			"data": "<?php\n/**\n * Plugin Name: Iminify preview\n * Description: Keeps this preview from connecting to Iminify. It runs in your browser, and a connection belongs to your own site.\n */\n\nadd_filter(\n\t'pre_http_request',\n\tstatic function ( $pre, $args, $url ) {\n\t\tif ( class_exists( 'Iminify\\WordPress\\Api\\Client' ) && 0 === strpos( (string) $url, \\Iminify\\WordPress\\Api\\Client::base() ) ) {\n\t\t\treturn new WP_Error( 'iminify_preview', 'this preview runs in your browser, so it connects to nothing. Install the plugin on your own site to connect it.' );\n\t\t}\n\n\t\treturn $pre;\n\t},\n\t1,\n\t3\n);\n"
+		},
+		{
+			"step": "installPlugin",
+			"pluginData": {
+				"resource": "wordpress.org/plugins",
+				"slug": "iminify-image-optimizer"
+			},
+			"ifAlreadyInstalled": "skip",
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php\nrequire '/wordpress/wp-load.php';\nrequire_once ABSPATH . 'wp-admin/includes/image.php';\n\n$photos = array(\n\tarray( 'Harbour at dawn', array( 255, 196, 150 ), array( 92, 132, 188 ), array( 38, 64, 96 ) ),\n\tarray( 'Hills after rain', array( 190, 220, 240 ), array( 120, 170, 210 ), array( 66, 112, 70 ) ),\n\tarray( 'Desert evening', array( 250, 150, 90 ), array( 120, 70, 120 ), array( 150, 100, 60 ) ),\n);\n\nforeach ( $photos as $photo ) {\n\tlist( $title, $top, $bottom, $ground ) = $photo;\n\t$width  = 1600;\n\t$height = 1067;\n\t$image  = imagecreatetruecolor( $width, $height );\n\n\tfor ( $y = 0; $y < $height; $y++ ) {\n\t\t$share = $y / $height;\n\t\t$color = imagecolorallocate( $image, (int) ( $top[0] + ( $bottom[0] - $top[0] ) * $share ), (int) ( $top[1] + ( $bottom[1] - $top[1] ) * $share ), (int) ( $top[2] + ( $bottom[2] - $top[2] ) * $share ) );\n\t\timageline( $image, 0, $y, $width, $y, $color );\n\t}\n\n\timagefilledellipse( $image, 1180, 330, 220, 220, imagecolorallocate( $image, 255, 236, 200 ) );\n\timagefilledpolygon( $image, array( 0, 760, 420, 560, 860, 720, 1240, 600, 1600, 700, 1600, 1067, 0, 1067 ), imagecolorallocate( $image, $ground[0], $ground[1], $ground[2] ) );\n\n\tob_start();\n\timagejpeg( $image, null, 92 );\n\t$upload = wp_upload_bits( sanitize_title( $title ) . '.jpg', null, ob_get_clean() );\n\n\t$id = wp_insert_attachment(\n\t\tarray(\n\t\t\t'post_title'     => $title,\n\t\t\t'post_mime_type' => 'image/jpeg',\n\t\t\t'post_status'    => 'inherit',\n\t\t),\n\t\t$upload['file']\n\t);\n\n\twp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );\n}\n"
+		}
+	]
+}
