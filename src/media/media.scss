@@ -164,12 +164,16 @@
 
 /* The media modal's sidebar gives a field 65% of its width beside its label and cuts off what runs past it, so the panel takes the whole width under its label. */
 .compat-item .compat-field-iminify {
-
 	.label {
 		float: none;
 		min-width: 0;
 		margin: 0 0 4px;
 		text-align: start;
+
+		span {
+			float: none;
+			text-align: start;
+		}
 	}
 
 	.field {
