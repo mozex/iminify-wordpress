@@ -441,14 +441,17 @@ function Library( { state } ) {
 								<bdi>{ saved.bytes }</bdi>
 							</span>
 							<span className="iminify-saved__of">
-								{ sprintf(
-									/* translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2". */
-									__(
-										'of %1$s, %2$s%% less',
-										'iminify-image-optimizer'
+								{ createInterpolateElement(
+									sprintf(
+										/* translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2". */
+										__(
+											'of %1$s, %2$s%% less',
+											'iminify-image-optimizer'
+										),
+										'<before />',
+										saved.percent
 									),
-									saved.before,
-									saved.percent
+									{ before: <bdi>{ saved.before }</bdi> }
 								) }
 							</span>
 						</div>

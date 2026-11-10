@@ -1,0 +1,3737 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
+"Language: hu_HU\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "A médiatár képeinek tömörítése, átalakítása és átméretezése az Iminify segítségével, valamint kiszolgálásuk WebP és AVIF formátumban."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "Oldalelemzés"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "Keressük meg, mely képek lassítják az oldalakat, mindegyiket a médiatárbeli megfelelője mellett."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Az oldal szkriptje hiányzik a bővítmény mappájából. Telepítsük újra a bővítményt, hogy visszakerüljön."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "Ehhez az oldalhoz JavaScript szükséges."
+
+#: includes/admin/class-audit-state.php:354
+msgid "Original upload"
+msgstr "Eredeti feltöltés"
+
+#: includes/admin/class-audit-state.php:368
+msgid "Home page"
+msgstr "Kezdőlap"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "Sajnáljuk, nem engedélyezett a kívánt művelet."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "Tömeges optimalizálás"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "A médiatár összes meglévő képe, egyetlen futtatásban."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "A Tömeges optimalizálás oldal szkriptje hiányzik a bővítmény mappájából. Telepítsük újra a bővítményt, hogy visszakerüljön."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "A Tömeges optimalizálás oldalhoz JavaScript szükséges."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:342
+msgid "That folder isn't in the list."
+msgstr "Ez a mappa nincs a listában."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "Ez a kép nincs a listában."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "Egyéb mappák"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "A sablon és más, a médiatáron kívüli mappák képei."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "Ennek a képnek nincs eredetije a webhelyen, amellyel össze lehetne hasonlítani."
+
+#: includes/admin/class-media-view.php:183
+msgid "Original"
+msgstr "Eredeti"
+
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
+msgid "Compare with the original"
+msgstr "Összehasonlítás az eredetivel"
+
+#: includes/admin/class-media-view.php:211
+msgid "Close"
+msgstr "Bezárás"
+
+#: includes/admin/class-media-view.php:212
+msgid "How much of the original shows"
+msgstr "Mennyi látszik az eredetiből"
+
+#: includes/admin/class-media-view.php:213
+msgid "The optimized file to compare"
+msgstr "Az összehasonlítandó optimalizált fájl"
+
+#: includes/admin/class-media-view.php:214
+msgid "This image couldn't be loaded from the site."
+msgstr "Ezt a képet nem sikerült betölteni a webhelyről."
+
+#: includes/admin/class-media-view.php:216
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Húzzuk el a vonalat, vagy használjuk a nyílbillentyűket, hogy az egyik oldalon az eredetiből, a másikon az optimalizált fájlból lássunk többet."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:219
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Optimalizálva ezen a szinten: %s. Húzzuk el a vonalat, vagy használjuk a nyílbillentyűket, hogy az egyik oldalon az eredetiből, a másikon az optimalizált fájlból lássunk többet."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:248
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:256
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s-kal kisebb"
+
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "Optimalizálva"
+
+#: includes/admin/class-media-view.php:375
+msgid "Optimize again from the original"
+msgstr "Újraoptimalizálás az eredetiből"
+
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
+msgid "Restore original"
+msgstr "Eredeti visszaállítása"
+
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "Újraoptimalizálás"
+
+#: includes/admin/class-media-view.php:400
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "Optimalizálás"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "Szűrés Iminify-állapot szerint"
+
+#: includes/admin/class-media-view.php:455
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "Minden Iminify-állapot"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Optimalizált"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "Nem optimalizált"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "Hibák"
+
+#: includes/admin/class-media-view.php:577
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "Hiányzó formátumok"
+
+#: includes/admin/class-media-view.php:578
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "Más bővítmény által optimalizált"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:673
+#, php-format
+msgid "Offloaded by %s"
+msgstr "Felhőbe helyezte: %s"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:707
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "Megtakarítás: %1$s (%2$s), %3$s fájlon."
+msgstr[1] "Megtakarítás: %1$s (%2$s), %3$s fájlon."
+
+#: includes/admin/class-media-view.php:714
+msgid "The originals were already smaller, so they were kept."
+msgstr "Az eredetiek már eleve kisebbek voltak, ezért megmaradtak."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:723
+#, php-format
+msgid "Copies: %s"
+msgstr "Változatok: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:737
+#, php-format
+msgid "Missing formats: %s"
+msgstr "Hiányzó formátumok: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:749
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "Hiányzó méretek: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:761
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "%s WebP- vagy AVIF-változat, amelyet egy másik eszköz készített, érintetlen maradt."
+msgstr[1] "%s WebP- vagy AVIF-változat, amelyet egy másik eszköz készített, érintetlen maradt."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:771
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "%s fájlt nem sikerült kiírni."
+msgstr[1] "%s fájlt nem sikerült kiírni."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:815
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "%1$s nyilvántartása szerint a megtakarítás %2$s (%3$s)."
+
+#: includes/admin/class-media-view.php:824
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "Az eredetije megmaradt. Az Iminify érintetlenül hagyja a képet, és ez semmibe sem kerül."
+
+#: includes/admin/class-media-view.php:825
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "Nem maradt meg az eredetije, ezért az Iminify érintetlenül hagyja, ahelyett hogy másodszor is tömörítené."
+
+#: includes/admin/class-media-view.php:841
+msgid "Queued"
+msgstr "Sorban áll"
+
+#: includes/admin/class-media-view.php:843
+msgid "Being optimized"
+msgstr "Optimalizálás alatt"
+
+#: includes/admin/class-media-view.php:845
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "A következő keretre vár"
+
+#: includes/admin/class-media-view.php:847
+msgid "Waiting for the connection"
+msgstr "Kapcsolatra vár"
+
+#: includes/admin/class-media-view.php:849
+msgid "Not sent"
+msgstr "Nincs elküldve"
+
+#: includes/admin/class-media-view.php:851
+msgid "Error"
+msgstr "Hiba"
+
+#: includes/admin/class-media-view.php:853
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Nincs optimalizálva"
+
+#: includes/admin/class-media-view.php:889
+msgid "The next batch is open, so it goes out shortly."
+msgstr "A következő keret már megnyílt, így a kép hamarosan elindul."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:891
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "Magától elindul ebben az időpontban: %s."
+
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: being written."
+msgstr "Alternatív szöveg: írás folyamatban."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: written by Iminify."
+msgstr "Alternatív szöveg: az Iminify írta."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: yours was kept."
+msgstr "Alternatív szöveg: a meglévő megmaradt."
+
+#: includes/admin/class-media-view.php:915
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "Alternatív szöveg: az Iminify nem tudott írni ehhez a képhez."
+
+#: includes/admin/class-media-view.php:916
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "Alternatív szöveg: nem készült el, mert elfogytak a mai AI-alapú alternatív szövegek."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "Ez a kép Content Credentials adatokat hordoz, vagyis aláírt igazolást a származásáról, és a fájljai megőrzik ezeket."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "Ez a kép Content Credentials adatokat hordozott, vagyis aláírt igazolást a származásáról. Az Iminify által írt fájlokból és változatokból ezek kimaradnak, mert egy új fájl érvényteleníti az aláírásukat, a biztonsági mentésként megőrzött eredeti azonban még tartalmazza őket."
+
+#: includes/admin/class-media-view.php:946
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "Ez a kép Content Credentials adatokat hordozott, vagyis aláírt igazolást a származásáról. Az Iminify által írt fájlokból és változatokból ezek kimaradnak, mert egy új fájl érvényteleníti az aláírásukat."
+
+#: includes/admin/class-media-view.php:950
+msgid "They say generative AI made it, wholly or in part."
+msgstr "Ezek szerint a képet egészben vagy részben generatív AI készítette."
+
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1023
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "Amíg az Iminify el nem készíti a sajátjait, az oldalak azokat a %1$s formátumú változatokat kapják, amelyeket %2$s készített."
+
+#: includes/admin/class-media-view.php:1053
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "Teljes méret"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1082
+#, php-format
+msgid "Level: %s"
+msgstr "Szint: %s"
+
+#: includes/admin/class-media-view.php:1090
+msgid "Size"
+msgstr "Méret"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Before"
+msgstr "Előtte"
+
+#: includes/admin/class-media-view.php:1092
+msgid "After"
+msgstr "Utána"
+
+#: includes/admin/class-media-view.php:1093
+msgid "Copies"
+msgstr "Változatok"
+
+#: includes/admin/class-media-view.php:1139
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "Alternatív szöveg írása AI segítségével"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "Elküldjük a kép egy kicsinyített másolatát az alternatív szöveg megírásához? Ez a mai AI-alapú alternatív szövegek közül egynek számít."
+
+#: includes/admin/class-media-view.php:1139
+msgid "Write alt text"
+msgstr "Alternatív szöveg írása"
+
+#: includes/admin/class-media-view.php:1158
+msgid "Optimize again from the original at"
+msgstr "Újraoptimalizálás az eredetiből ezen a szinten:"
+
+#: includes/admin/class-media-view.php:1186
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "Kapcsoljuk össze a webhelyet az Iminify-jal a kép optimalizálásához."
+
+#: includes/admin/class-media-view.php:1188
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "Ennek a képnek nem maradt meg az eredetije, ezért nem lehet újraoptimalizálni vagy visszaállítani."
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize again at"
+msgstr "Újraoptimalizálás ezen a szinten:"
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize at"
+msgstr "Optimalizálás ezen a szinten:"
+
+#: includes/admin/class-media-view.php:1207
+msgid "Make what it lacks"
+msgstr "A hiányzók pótlása:"
+
+#: includes/admin/class-media-view.php:1216
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "Ez a kép megváltozott, mióta az Iminify optimalizálta, így nincs mit visszaállítani."
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete the copies"
+msgstr "Változatok törlése"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "Töröljük a kép WebP- és AVIF-változatait? Az oldalak ismét a JPEG- vagy PNG-fájlt kapják."
+
+#: includes/admin/class-media-view.php:1288
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "Hiányzó formátumok elkészítése"
+
+#: includes/admin/class-media-view.php:1292
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "Hiányzó méretek elkészítése"
+
+#: includes/admin/class-media-view.php:1303
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "Elküldjük újra a képet a hiányzók pótlásához? Ez egy újabb képnek számít, a többi fájlja pedig marad, ahogy van, hacsak az Iminify nem készít belőlük kisebbet."
+
+#: includes/admin/class-media-view.php:1311
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "Újraoptimalizáljuk a képet? Az Iminify az eredetiből újra elkészíti a fájljait, megtartva a formátumukat és a nevüket, és ez egy újabb képnek számít."
+
+#: includes/admin/class-media-view.php:1314
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "Újraoptimalizáljuk a képet? Előbb visszakerül az eredetije, és ez egy újabb képnek számít."
+
+#: includes/admin/class-media-view.php:1321
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "Visszaállítjuk a kép eredetijét? A WordPress újra elkészíti a méreteit, a WebP- és AVIF-változatai pedig törlődnek."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1336
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "Újraoptimalizáljuk a képet abból az eredetiből, amelyet %s megőrzött? Az Iminify abból készíti el újra a fájljait, megtartva a formátumukat és a nevüket, hogy a bejegyzések továbbra is rájuk mutassanak, és saját biztonsági mentést is tart az eredetiről. Ez egy újabb képnek számít."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1343
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "Újraoptimalizáljuk a képet abból az eredetiből, amelyet %s megőrzött? Előbb visszakerül az eredeti, és a WordPress újra elkészíti a méreteit, majd az Iminify optimalizálja a képet, és saját biztonsági mentést tart az eredetiről. Ez egy újabb képnek számít."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1358
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "Visszaállítjuk a kép eredetijét abból, amit %s megőrzött? A WordPress újra elkészíti a méreteit, annak a bővítménynek a biztonsági mentései és változatai pedig a helyükön maradnak."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Az Iminify bontotta a webhely kapcsolatát, ezért az új feltöltéseket nem optimalizálja."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "Újbóli összekapcsolás"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Az Iminify Image Optimizer használatra kész. Kapcsoljuk össze az Iminify-fiókunkkal, és kezdődhet a képek optimalizálása."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "Összekapcsolás"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "Iminify-beállítások megnyitása"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "Összekapcsolva"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "Nincs összekapcsolva"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Az Iminify Image Optimizer a webhelyre feltöltött képeket elküldi az Iminify képoptimalizáló szolgáltatásnak, miután a webhelyet összekapcsoltuk vele. Az alábbi szöveget bemásolhatjuk az adatkezelési tájékoztatónk azon részébe, amely a közzétett médiatartalmakról szól."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "Javasolt szöveg:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "Ez a webhely az Iminify (www.iminify.com) szolgáltatását használja arra, hogy kisebbé tegye a képeit, és WebP- és AVIF-változatokat készítsen róluk. Amikor ide feltöltenek egy képet, vagy optimalizáljuk a már itt lévő képeket a médiatárban, illetve a sablonunkban és más mappákban, a szerverünk a webhely címével együtt elküldi a képet az Iminify-nak, az Iminify pedig visszaküldi a kisebb fájlokat. Az Iminify törli a képet, miután elmentettük a fájlokat."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "Egy fénykép tartalmazhat a fényképezőgép által beleírt adatokat, például hogy mikor és hol készült. Ezek az adatok a képpel együtt eljutnak az Iminify-hoz, az Iminify pedig kihagyja őket a visszaküldött fájlokból, hacsak nem döntöttünk a megtartásuk mellett."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "Ha a bővítmény beállításaiban bekapcsoltuk az AI-alapú alternatív szövegeket, az Iminify minden alternatív szöveg nélküli képről kicsinyített másolatot is készít, és elküldi az Anthropicnak, amelynek modellje leírást ír a képről. Ha a médiatárban már meglévő képekhez kérünk alternatív szöveget, ugyanerre a célra mindegyikükről egy kicsinyített másolat jut el az Iminify-hoz."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "Ha a webhely valamelyik oldalának képeit elemezzük, a szerverünk elküldi az Iminify-nak az oldal címét. Az Iminify úgy nyitja meg az oldalt, ahogy bármely látogató megnyithatná, megméri a rajta megjelenő képeket, és amit talált, a webhely Iminify-kapcsolatához rendelve megőrzi."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "Ha ez a webhely egy olyan multisite hálózat része, amelyet egységesen kapcsoltak össze az Iminify-jal, a szerverünk a webhely címét és nevét is elküldi az Iminify-nak, amikor a webhelynek először szüksége van rá."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "Ha úgy döntünk, hogy egy másik képoptimalizáló által ezen a webhelyen hagyott beállításokat használjuk, a szerverünk elküldi az Iminify-nak ezeket a beállításokat, az optimalizáló nevét és a webhely által készített képméretek nevét. Az Iminify a nekik megfelelő beállításokkal válaszol, és semmit sem őriz meg belőlük."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "A webhely látogatóiról semmilyen adat nem jut el az Iminify-hoz: az oldalainkon lévő képeket és azok WebP- és AVIF-változatait erről a webhelyről szolgáljuk ki."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Az Iminify adatkezelési tájékoztatója: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "A hálózathoz csak olyan webhely csatlakozhat, amelynek a hálózatán a bővítmény aktív."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:272
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "Ez a webhely nincs összekapcsolva az Iminify-jal."
+
+#: includes/admin/class-settings-import.php:57
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "A bővítmény nem találta annak az optimalizálónak a beállításait ezen a webhelyen."
+
+#: includes/admin/class-settings-import.php:107
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "Ezek a beállítások megváltoztak, mióta megjelentek. Használat előtt nézzük meg őket újra."
+
+#: includes/admin/class-settings-import.php:208
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "Új feltöltések optimalizálása"
+
+#: includes/admin/class-settings-import.php:210
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "Tömörítési szint"
+
+#: includes/admin/class-settings-import.php:212
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "WebP-változatok készítése"
+
+#: includes/admin/class-settings-import.php:214
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "AVIF-változatok készítése"
+
+#: includes/admin/class-settings-import.php:216
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "Maximális szélesség, pixelben"
+
+#: includes/admin/class-settings-import.php:218
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "Fájlméret-korlát, KB-ban"
+
+#: includes/admin/class-settings-import.php:220
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "Metaadatok megtartása"
+
+#: includes/admin/class-settings-import.php:222
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "Optimalizálandó méretek"
+
+#: includes/admin/class-settings-import.php:224
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "Biztonsági mentés minden eredetiről"
+
+#: includes/admin/class-settings-import.php:242
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "Nincs korlát"
+
+#: includes/admin/class-settings-import.php:245
+msgid "Every size"
+msgstr "Minden méret"
+
+#: includes/admin/class-settings-import.php:249
+msgid "Only the full image"
+msgstr "Csak a teljes kép"
+
+#: includes/admin/class-settings-import.php:264
+msgid "On"
+msgstr "Bekapcsolva"
+
+#: includes/admin/class-settings-import.php:264
+msgid "Off"
+msgstr "Kikapcsolva"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "Beállítások"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "Kapcsoljuk össze a webhelyet, és válasszuk ki, hogyan optimalizálja a képeit."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "Kapcsoljuk össze egyszer a hálózatot, és minden webhelye magától csatlakozik hozzá."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "A beállítások oldal szkriptje hiányzik a bővítmény mappájából. Telepítsük újra a bővítményt, hogy visszakerüljön."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "A beállítások oldalhoz JavaScript szükséges."
+
+#: includes/admin/class-state.php:165
+msgid "Images today"
+msgstr "Mai képek"
+
+#: includes/admin/class-state.php:166
+msgid "Files today"
+msgstr "Mai fájlok"
+
+#: includes/admin/class-state.php:167
+msgid "AI alt texts today"
+msgstr "Mai AI-alapú alternatív szövegek"
+
+#: includes/admin/class-state.php:248
+msgid "Guest"
+msgstr "Vendég"
+
+#: includes/admin/class-state.php:249
+msgid "Free"
+msgstr "Ingyenes"
+
+#: includes/admin/class-state.php:250
+msgid "Pro trial"
+msgstr "Pro próbaidőszak"
+
+#: includes/admin/class-state.php:251
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:252
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:302
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s felhasználva, nincs napi korlát"
+msgstr[1] "%s felhasználva, nincs napi korlát"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:304
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s felhasználva"
+msgstr[1] "%s felhasználva"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:306
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s maradt"
+msgstr[1] "%s maradt"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:310
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s felhasználva, nincs napi korlát"
+msgstr[1] "%s felhasználva, nincs napi korlát"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:312
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s felhasználva"
+msgstr[1] "%s felhasználva"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:314
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s maradt"
+msgstr[1] "%s maradt"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:318
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s felhasználva, nincs napi korlát"
+msgstr[1] "%s felhasználva, nincs napi korlát"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:320
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s felhasználva"
+msgstr[1] "%s felhasználva"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:322
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s maradt"
+msgstr[1] "%s maradt"
+
+#: includes/admin/class-state.php:344
+msgid "This site"
+msgstr "Ez a webhely"
+
+#: includes/admin/class-state.php:345
+msgid "Your whole account"
+msgstr "A teljes fiók"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "Bélyegkép"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "Közepes"
+
+#: includes/admin/class-state.php:473
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "Nagy"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:496
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (szélesség: %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:501
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (magasság: %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:505
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:56
+msgid "Show a smaller size of the image here."
+msgstr "Jelenítsük meg itt a kép egy kisebb méretét."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:58
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "Jelenítsünk meg itt egy nagyjából %s pixel széles méretet, az oldalon elfoglalt szélesség kétszeresét."
+
+#: includes/audit/class-findings.php:60
+msgid "Give the image its width and height in the page."
+msgstr "Adjuk meg az oldalon a kép szélességét és magasságát."
+
+#: includes/audit/class-findings.php:62
+msgid "Write alt text for the image."
+msgstr "Írjunk alternatív szöveget a képhez."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image straight away, not lazily."
+msgstr "Töltsük be a képet azonnal, ne késleltetve."
+
+#: includes/audit/class-findings.php:66
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "Töltsük be a képet késleltetve, amikor a látogató a közelébe görget."
+
+#: includes/audit/class-findings.php:68
+msgid "Have the browser fetch the image first."
+msgstr "Érjük el, hogy a böngésző elsőként ezt a képet töltse le."
+
+#: includes/audit/class-findings.php:105
+msgid "Oversized"
+msgstr "Túl nagy"
+
+#: includes/audit/class-findings.php:106
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "A fájl több mint kétszer olyan széles és kétszer olyan magas, mint a hely, ahol megjelenik. Ugyanannak a képnek egy kisebb mérete ugyanolyan élesnek látszana."
+
+#: includes/audit/class-findings.php:110
+msgid "No width and height"
+msgstr "Nincs szélesség és magasság"
+
+#: includes/audit/class-findings.php:111
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "A képnek nincs width és height attribútuma, így a böngésző nem tudja előre lefoglalni a helyét, és az oldal elmozdul, amikor a kép megérkezik."
+
+#: includes/audit/class-findings.php:115
+msgid "Lazy in the first screen"
+msgstr "Késleltetve az első képernyőn"
+
+#: includes/audit/class-findings.php:116
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "A kép az első képernyőn van, mégis késleltetve töltődik be, ami lassítja a megjelenését."
+
+#: includes/audit/class-findings.php:120
+msgid "Loads too early"
+msgstr "Túl korán töltődik be"
+
+#: includes/audit/class-findings.php:121
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "A kép az első képernyő alatt van, mégis azonnal betöltődik, és versenyez azzal, amit a látogatók először látnak."
+
+#: includes/audit/class-findings.php:125
+msgid "No alt text"
+msgstr "Nincs alternatív szöveg"
+
+#: includes/audit/class-findings.php:126
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "A képnek nincs alternatív szövege a képernyőolvasók és a keresőmotorok számára."
+
+#: includes/audit/class-findings.php:130
+msgid "Not prioritized"
+msgstr "Nincs prioritása"
+
+#: includes/audit/class-findings.php:131
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "Ez a legnagyobb elem az első képernyőn, így az oldal akkor tűnik betöltöttnek, amikor ez megérkezik. Ha elsőként töltődne le, az oldal hamarabb megjelenne."
+
+#: includes/audit/class-findings.php:148
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "A webhely elutasította az Iminify vizsgálatát, ezért az oldalt nem sikerült beolvasni. Ezt egy tűzfal vagy egy botszűrő okozza, gyakran a Cloudflare-é. Engedjük át egy időre a vizsgálatot: a Cloudflare-ben kapcsoljuk ki a Bot Fight Mode-ot, vagy állítsuk a Security Level értékét „Essentially off” állásra; biztonsági bővítmény esetén szüneteltessük a tűzfalát vagy a botblokkolását. Vizsgáljuk meg újra az oldalt, majd kapcsoljuk vissza őket."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:150
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "A webhely elutasította az Iminify vizsgálatát (válaszkód: %d), ezért az oldalt nem sikerült beolvasni. Ezt egy tűzfal vagy egy botszűrő okozza, gyakran a Cloudflare-é. Engedjük át egy időre a vizsgálatot: a Cloudflare-ben kapcsoljuk ki a Bot Fight Mode-ot, vagy állítsuk a Security Level értékét „Essentially off” állásra; biztonsági bővítmény esetén szüneteltessük a tűzfalát vagy a botblokkolását. Vizsgáljuk meg újra az oldalt, majd kapcsoljuk vissza őket."
+
+#: includes/audit/class-findings.php:152
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "Ezen a címen nincs oldal. Ellenőrizzük a címet, és vizsgáljuk meg újra."
+
+#: includes/audit/class-findings.php:154
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "Az oldal szerveroldali hibával válaszolt, ezért nem sikerült beolvasni. Vizsgáljuk meg újra néhány perc múlva."
+
+#: includes/audit/class-findings.php:156
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "Az oldal egy másik webhelyre irányította át a vizsgálatot, ezt pedig az elemzés nem követi. Vizsgáljuk meg azt a címet, ahová az oldal végül vezet, ha az ezen a webhelyen van."
+
+#: includes/audit/class-findings.php:159
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "Az oldalt nem sikerült beolvasni: a webhely nem válaszolt a vizsgálatra. Ellenőrizzük a címet, és vizsgáljuk meg újra."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:161
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "Az oldal a tartalma helyett %d kóddal válaszolt, ezért nem sikerült beolvasni. Ellenőrizzük a címet, és vizsgáljuk meg újra."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "A --others kapcsolót önmagában adjuk meg, vagy az újraoptimalizálandó csatolmányokkal együtt."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "A mappák fájljai egyszerre mennek: a --folders kapcsolót önmagában adjuk meg, vagy a --failed kapcsolóval együtt."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "Adjuk meg a csatolmányokat, vagy használjuk a --all vagy a --failed kapcsolót."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "A mappák fájljai egyszerre mennek: a --folders kapcsolót önmagában adjuk meg."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "Visszaállítjuk a mappák összes optimalizált fájlját a korábbi állapotára?"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:275
+msgid "Name the attachments, or pass --all."
+msgstr "Adjuk meg a csatolmányokat, vagy használjuk a --all kapcsolót."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "Visszaállítjuk az összes optimalizált képet a feltöltéskori állapotára?"
+
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "Adjuk meg, mit készítsen: %1$s (formátumok) vagy %2$s (méretek)."
+
+#: includes/class-cli.php:321
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "Hálózaton az egyéb mappákat a fő webhelyen kell kiválasztani: adjuk hozzá a --url kapcsolót a fő webhely címével."
+
+#: includes/class-cli.php:328
+msgid "Name the folder, relative to wp-content."
+msgstr "Adjuk meg a mappát a wp-content mappához viszonyítva."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:361
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "%1$s képet találtunk: %2$s új, %3$s módosult."
+msgstr[1] "%1$s képet találtunk: %2$s új, %3$s módosult."
+
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
+msgid "No bulk run is going."
+msgstr "Jelenleg nincs folyamatban tömeges futtatás."
+
+#: includes/class-cli.php:432
+msgid "Stopped."
+msgstr "Leállítva."
+
+#: includes/class-cli.php:497
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "A futtatás a háttérben folytatódik. Az állását így nézhetjük meg: wp iminify status"
+
+#: includes/class-cli.php:518
+msgid "Bulk run"
+msgstr "Tömeges futtatás"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:612
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "A fiók mára elhasználta az összes AI-alapú alternatív szöveget. A futtatás a háttérben folytatódik, amint újra elérhetők: %s."
+
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "A futtatás vár a webhely és az Iminify közötti kapcsolatra, és a háttérben folytatódik, amint a kapcsolat működik."
+
+#: includes/class-cli.php:628
+msgid "The run goes on in the background once it stops."
+msgstr "A futtatás a háttérben folytatódik, amint az a bővítmény leáll."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:639
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "Elfogytak a fiók mára jutó képei. A futtatás a háttérben folytatódik, amikor megnyílik a következő keret: %s."
+
+#: includes/class-cli.php:661
+msgid "The run was stopped."
+msgstr "A futtatást leállították."
+
+#: includes/class-cli.php:668
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "A futtatás szünetel: a szerveren kevés a szabad lemezterület. Szabadítsunk fel helyet, majd futtassuk: wp iminify run"
+
+#: includes/class-cli.php:671
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "A futtatást szüneteltették. Így folytathatjuk: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:680
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%s képet nem sikerült visszaállítani. Az okát a kép panelje mutatja a médiatárban."
+msgstr[1] "%s képet nem sikerült visszaállítani. Az okát a képek panelje mutatja a médiatárban."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:690
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s kép érintetlen maradt: egy másik bővítmény WebP vagy AVIF formátumra alakította, és csak az a bővítmény tudja visszaállítani az eredetijét."
+msgstr[1] "%s kép érintetlen maradt: más bővítmények WebP vagy AVIF formátumra alakították őket, és csak azok a bővítmények tudják visszaállítani az eredetijüket."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:698
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s kép úgy maradt, ahogy a másik bővítmény elkészítette: az eredetije elveszett, túl nagy az elküldéshez, vagy csak az a bővítmény tudja visszaállítani. Hogy melyik, azt a kép panelje mutatja a médiatárban."
+msgstr[1] "%s kép úgy maradt, ahogy más bővítmények elkészítették: az eredetijük elveszett, túl nagy az elküldéshez, vagy csak azok a bővítmények tudják visszaállítani. Hogy melyik, azt a képek panelje mutatja a médiatárban."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:706
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s kép érintetlen maradt: egy másik csatolmánnyal közösek a fájljai, vagy időközben alternatív szöveget kapott."
+msgstr[1] "%s kép érintetlen maradt: más csatolmányokkal közösek a fájljaik, vagy időközben alternatív szöveget kaptak."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:714
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s képnek nincs eredetije, amelyből ki lehetne indulni, vagy megváltozott az optimalizálása óta, ezért semmi sem készült hozzá."
+msgstr[1] "%s képnek nincs eredetije, amelyből ki lehetne indulni, vagy megváltozott az optimalizálása óta, ezért semmi sem készült hozzá."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:724
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s fájl visszaállítva."
+msgstr[1] "%s fájl visszaállítva."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:726
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s fájl elküldve az Iminify-nak."
+msgstr[1] "%s fájl elküldve az Iminify-nak."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:731
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "A mappákban %2$s fájlból %1$s optimalizálva, %3$s sikertelen."
+msgstr[1] "A mappákban %2$s fájlból %1$s optimalizálva, %3$s sikertelen."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:744
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s kép visszaállítva."
+msgstr[1] "%s kép visszaállítva."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:746
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s kép elküldve az Iminify-nak."
+msgstr[1] "%s kép elküldve az Iminify-nak."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:751
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "A médiatárban %2$s képből %1$s optimalizálva, %3$s sikertelen."
+msgstr[1] "A médiatárban %2$s képből %1$s optimalizálva, %3$s sikertelen."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:798
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s nem csatolmány."
+
+#: includes/class-cli.php:819
+msgid "This account can't run bulk commands."
+msgstr "Ez a fiók nem futtathat tömeges parancsokat."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Az Iminify olyan választ küldött, amelyet a bővítmény ezen verziója nem tud értelmezni."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "Előbb illesszük be a webhelykulcsot."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "A webhely kulcsa a wp-config.php fájlban van megadva. Ott módosíthatjuk vagy távolíthatjuk el."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "A WordPress nem tudta eltárolni a hálózat kulcsát. Az újrapróbáláshoz nyomjuk meg a Hálózat összekapcsolása gombot."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "A WordPress nem tudta eltárolni a webhelykulcsot. Az újrapróbáláshoz nyomjuk meg az Összekapcsolás gombot."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "Intelligens"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "Intelligens: egyensúly a minőség és a fájlméret között"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "Egyensúly a minőség és a fájlméret között."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "Ultra"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "Ultra: a legkisebb fájlok, némi minőségromlással"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "A legkisebb fájlok, némi minőségromlással."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "Veszteségmentes"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "Veszteségmentes: nincs látható minőségváltozás"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "Nincs látható minőségváltozás."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "Nincs"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "Nincs: tömörítés nélkül, csak a többi beállítás"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "Tömörítés nélkül, csak a többi beállítás."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "Angol"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "Spanyol"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "Francia"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "Német"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "Olasz"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "Portugál"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "Holland"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "Lengyel"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "Svéd"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "Török"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "Orosz"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "Ukrán"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "Arab"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "Perzsa"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "Héber"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "Hindi"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "Indonéz"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "Vietnámi"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "Thai"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "Japán"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "Koreai"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "Egyszerűsített kínai"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "Hagyományos kínai"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Az Iminify nem ismeri ezt a kulcsot. Ellenőrizzük, hogy a teljes kulcsot átmásoltuk-e, vagy készítsünk újat."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "Ez egy API-kulcs. Egy webhelynek webhelykulcs kell: készítsünk egyet az iminify.com Settings, Sites oldalán, vagy inkább nyomjuk meg az Összekapcsolás gombot."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "Ez a kulcs egy másik címen lévő webhelyhez tartozik, ezért a webhely ezen példánya nem használhatja. Kapcsoljuk össze ezt a példányt önálló webhelyként, vagy helyezzük át ide a kapcsolatot."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Az Iminify várakozást kért a bővítménytől. Próbáljuk újra %s múlva."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Az Iminify várakozást kért a bővítménytől. Próbáljuk újra később."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "A kapcsolat már nem használható: lejárt, elutasították, vagy már felhasználták. Az újrakezdéshez nyomjuk meg az Összekapcsolás gombot."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "Az AI-alapú alternatív szöveg ki van kapcsolva ezen a webhelyen. Előbb kapcsoljuk be a bővítmény beállításaiban."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "Az elemzés csak a webhely saját oldalait vizsgálja. Adjuk meg egy ezen a webhelyen lévő oldal címét."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "A hálózat kulcsa egyetlen webhelyhez készült, ezért a hálózat webhelyei nem csatlakozhatnak vele. A hálózatot egy szuper adminnak újra össze kell kapcsolnia a Hálózat kezelőből."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "A hálózatban már annyi webhely van, amennyit egy hálózat befogadhat. Távolítsunk el egy már nem használt webhelyet az iminify.com Settings, Sites oldalán, vagy kapcsoljuk össze ezt a webhelyet önállóan."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "Ez a webhely már össze van kapcsolva a fiókkal, önállóan vagy egy másik hálózatban. Bontsuk a kapcsolatát az iminify.com Settings, Sites oldalán, hogy hozzáadhassuk ehhez a hálózathoz, vagy kapcsoljuk össze itt önállóan."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "Az Iminify Image Optimizer ezen verziója túl régi ahhoz, hogy tovább optimalizálja a képeket. Frissítsük a Bővítmények oldalon."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "Elfogytak a fiók mára jutó képei. Az új feltöltések várnak, és automatikusan elindulnak, amikor megnyílik a következő keret."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "Ez a webhely egy másik Iminify-fiókban már igénybe vette a Pro ingyenes próbaidőszakát, ezért itt a feltöltéseire az ingyenes csomag korlátai érvényesek."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "A hálózat nincs összekapcsolva az Iminify-jal. Egy szuper adminnak kell összekapcsolnia a Hálózat kezelőből."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "A webhely csatlakozása a hálózathoz már folyamatban van. Várjunk egy kicsit, majd nézzük meg újra."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Folytatásra vár: a bővítményt kikapcsolták, miközben a kép úton volt."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "A következő keretre vár."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Arra vár, hogy a webhelyet összekapcsolják az Iminify-jal."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Nincs optimalizálva: a tömeges futtatást leállították."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Nincs optimalizálva: a webhely nincs összekapcsolva az Iminify-jal."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Nincs optimalizálva: előbb frissítsük az Iminify bővítményt."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Nincs optimalizálva: a webhely nem optimalizálja a feltöltéseket."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Nincs optimalizálva: a szerveren kevés a szabad lemezterület. Szabadítsunk fel helyet, majd optimalizáljuk ezt a képet."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Nincs elküldve: a szerver PHP-ja nem tud zip fájlokat megnyitni. Kérjük meg a tárhelyszolgáltatót, hogy kapcsolja be a PHP zip kiterjesztését."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "A szerver PHP-ja nem tud zip fájlokat megnyitni: kérjük meg a tárhelyszolgáltatót, hogy kapcsolja be a PHP zip kiterjesztését."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Az Iminify letöltését nem sikerült megnyitni."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Nincs elküldve: a kép eredetije túl nagy az elküldéshez, mert nagyobb a csomagunkban megengedett fájlméretnél, vagy a szerver memóriája nem bírja el."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Nincs elküldve: a kép nagyobb a csomagunkban megengedett fájlméretnél, vagy a szerver memóriája nem bírja el."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Nincs elküldve: a képnek nem maradt eredetije, amelyből az optimalizált fájlok elkészülhetnének."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Nincs elküldve: a képnek nem maradt eredetije, amelyből az optimalizált fájl elkészülhetne."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "A WordPress nem tudta elkészíteni a kép hiányzó méreteit."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Feltöltött állapotában maradt: az Iminify JPEG, PNG, WebP és GIF képeket optimalizál."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Érintetlen maradt: az Iminify JPEG, PNG, WebP és GIF képeket optimalizál."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Feltöltött állapotában maradt: ez a webhely kihagyja ezt a képet."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Érintetlen maradt: ez a webhely kihagyja ezt a képet."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "A képet nem sikerült beolvasni."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "A kép nincs a feltöltési mappában."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Nincs elküldve: a kép fájlja nincs a feltöltési mappában."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Nincs elküldve: a kép fájlja nincs meg, vagy egy máshová mutató hivatkozás."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "A kép fájlja vagy a biztonsági mentése eltűnt, miközben úton volt."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Nincs elküldve: a kép már nincs olyan mappában, amelyet az Iminify optimalizál."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Nincs kiírva: a kép már nincs olyan mappában, amelyet az Iminify optimalizál."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Megváltozott, mióta az Iminify optimalizálta, ezért újraoptimalizálható."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "A kép megváltozott, miközben az Iminify optimalizálta, ezért a bővítmény újra elküldi."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "A fájljai egy másik csatolmányéi (#%d), ahogy egy fordítás esetében is, ezért az Iminify ott optimalizálja őket."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "A kép biztonsági mentését nem sikerült elmenteni, ezért nem lett optimalizálva. Ellenőrizzük, hogy a WordPress tud-e írni a feltöltési mappába, vagy kapcsoljuk ki a biztonsági mentéseket az Iminify beállításaiban."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "A kép megváltozott a biztonsági mentés elkészülte óta, és a régi biztonsági mentést nem sikerült félretenni, ezért nem lett optimalizálva."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "A képet nem sikerült visszamásolni a WP Offload Media tárolójából az elküldéshez."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Az Iminify több próbálkozás után sem tudta befejezni ezt a képet."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Visszaállítva: az eredeti visszakerült."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "A képet nem sikerült visszaállítani."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "Az eredetit nem sikerült visszamásolni a WP Offload Media tárolójából, ezért a kép a korábbi állapotában maradt. Próbáljuk újra."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "Az eredetit nem sikerült visszatenni, ezért a kép a korábbi állapotában maradt."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "A WordPress nem tudta beolvasni az eredetit, ezért a kép méretei a korábbi állapotukban maradtak. Próbáljuk újra."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Az Iminify nem módosította ezt a képet, így nincs mit visszaállítani."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Az Iminify semmit sem módosított ezen a képen, így az már eleve a korábbi állapotában van."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Ez a kép megváltozott, mióta az Iminify optimalizálta, így a visszaállítása felülírná az újat."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Ez a kép megváltozott, mióta az Iminify optimalizálta, így a biztonsági mentése már nem az eredetije."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "A kép fájlja már nincs meg, vagy nincs olyan mappában, amelyet az Iminify optimalizál."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "Ennek a képnek nem maradt meg az eredetije, ezért nem állítható vissza. Az optimalizálásakor ki voltak kapcsolva a biztonsági mentések, vagy a biztonsági mentést törölték."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "Ennek a képnek nem maradt meg az eredetije, ezért nem állítható vissza."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s nem őrzött meg ennek a képnek olyan eredetijét, amelyet az Iminify ellenőrizni tudna, ezért itt nem állítható vissza."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Az Iminify nem érhető el: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Az Iminify hibával válaszolt (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "A szerver memóriája nem elég egy ekkora kép elküldéséhez."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "A képet nem sikerült beolvasni a feltöltési mappából."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "A WordPress nem tudta eltárolni a webhelykulcsot. Az újrapróbáláshoz nyomjuk meg a Csatlakozás a hálózathoz gombot."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "A feltöltési mappa"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "Adjunk meg egy mappát a wp-content mappán belül, például: themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "A wp-content mappán belül ezen az útvonalon nincs mappa."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "Ez a mappa egy máshová mutató hivatkozás, ezért az Iminify kihagyja."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "Ez a médiatár mappája: a képei a médiatárból optimalizálhatók."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "Ez az Iminify bővítmény saját mappája, amelyet minden frissítés lecserél."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "Ebben a mappában más eszközök tárolnak másolatokat, gyorsítótárakat vagy biztonsági mentéseket, ezért a benne lévő képek nem a webhely saját képei."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "Ez a mappa a médiatár fájljait vagy azok biztonsági mentéseit tartalmazza, ezeket az Iminify a médiatárból kezeli."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "Ez a mappa rejtett fájlokat vagy egy projekt függőségeit tartalmazza, ezekhez az Iminify nem nyúl."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "Hálózaton az egyéb mappákat a fő webhelyen kell kiválasztani."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "Ez a mappa már szerepel a listában, ezen belül: %s."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "A lista már annyi mappát tartalmaz, amennyit csak lehet. Távolítsunk el egyet, vagy válasszuk azt a mappát, amely többet is magában foglal közülük."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "Előbb frissítsük az Iminify bővítményt."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "Elfogytak a fiók mára jutó képei. A következő keret ekkor nyílik meg: %s."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "A szerveren kevés a szabad lemezterület. Szabadítsunk fel helyet, majd optimalizáljuk ezt a képet."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "Ennek a képnek nem maradt meg az eredetije, ezért nem lehet újraoptimalizálni."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Ez a kép túl nagy az elküldéshez: nagyobb a csomagunkban megengedett fájlméretnél, vagy a szerver memóriája nem bírja el."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "Ennek a képnek már van alternatív szövege, vagy a szövege úton van."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "Már fut egy tömeges futtatás. Előbb állítsuk le."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "Az egyéb mappák fájljait csak egyszerre, mind együtt lehet optimalizálni, újraküldeni vagy visszaállítani."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Az Iminify még átnézi a mappákat. Ha végzett, indítsuk újra."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "A szerveren kevés a szabad lemezterület. Szabadítsunk fel helyet, majd indítsuk újra."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "Előbb válasszunk egy mappát."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "A mappákban nem maradt visszaállítható optimalizált fájl."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "A mappákban egyetlen fájl optimalizálása sem volt sikertelen."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "A mappák minden fájlja már optimalizálva van vagy úton van."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "Nem maradt visszaállítható optimalizált kép."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "A más bővítmények által optimalizált képek egyikének sem maradt meg az eredetije, amelyből újraoptimalizálni lehetne."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "Már minden képnek van alternatív szövege, vagy a szövege úton van."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "Egyetlen optimalizált képből sem hiányzik semmi abból, amit a webhely most megkövetel."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "Minden kép már optimalizálva van vagy úton van."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "Ez a kép megváltozott, mióta az Iminify optimalizálta, ezért inkább optimalizáljuk újra."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "Ebből a képből semmi sem hiányzik abból, amit a webhely most megkövetel."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "A kép eredetije túl nagy az elküldéshez: nagyobb a csomagunkban megengedett fájlméretnél, vagy a szerver memóriája nem bírja el."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "Kapcsoljuk ki a Converter for Media bővítményt, vagy kapcsoljuk ki benne a „Conversion of new images” lehetőséget a General Settings lapon, a Beállítások, Converter for Media menüpontban."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "Kapcsoljuk ki az Image Optimizer by Elementor bővítményt, vagy kapcsoljuk ki az „Optimize new uploads” lehetőséget az Elementor, Image Optimization, Settings menüpontban."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Az Image Optimizer by Elementor átalakította ezt a képet, és új címet adott neki, amelyre most a bejegyzések hivatkoznak, az eredetijét pedig mellette megőrizte. Az eredetit a címével együtt a saját Restore funkciója teszi vissza, amíg az a bővítmény telepítve van; az Iminify nem írja át a bejegyzéseket, ezért ezt a képet nem állítja vissza."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "Kapcsoljuk ki az EWWW Image Optimizer bővítményt."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "Az EWWW Image Optimizer a saját szerverein őrizte meg a kép eredetijét, 30 napig. Állítsuk vissza az EWWW Image Optimizer bővítményben, amíg a kulcsa érvényes és a 30 nap le nem telik; az Iminify nem tudja lekérni."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "Kapcsoljuk ki az Imagify bővítményt, vagy kapcsoljuk ki a beállításaiban az „Auto-Optimize images on upload” lehetőséget."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "Ezek a sorok már eltűntek, vagy a bővítményük ismét be van kapcsolva."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "A minden webhely által közösen használt sorokat csak az távolíthatja el, aki kezelheti a hálózatot."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "A bővítmény nem tudja kivenni ezeket a sorokat. Távolítsuk el őket kézzel."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s már nem használja őket, de a WebP vagy AVIF formátumot támogató böngészőknek továbbra is a saját mappájában készített változattal válaszolnak a kép helyett, így a látogató olyan változatot kaphat, amely még azelőtt készült, hogy az Iminify optimalizálta volna a képet."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s már nem használja őket, de a WebP vagy AVIF formátumot támogató böngészőknek továbbra is bármilyen, a kép nevét viselő WebP- vagy AVIF-fájllal válaszolnak a kép helyett, akármilyen régi is, így a látogató olyan változatot kaphat, amely még azelőtt készült, hogy az Iminify optimalizálta volna a képet."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Az Nginx addig megtartja őket, amíg újra nem töltjük, ezért miután eltűntek, töltsük újra."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "A Smush ezt a szabályt azokhoz a PNG képekhez adta hozzá, amelyeket JPEG formátumra alakított, és a szabály még mindig ott van a WordPress átírási szabályai között: egy ilyen, már nem létező PNG kérése a kezdőlapon köt ki a „nem található” válasz helyett."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "Kapcsoljuk ki az „Auto Request Cron” lehetőséget a LiteSpeed Cache, Image Optimization menüpontban és az „Auto Rescale Original Images” lehetőséget a Page Optimization, Media Settings menüpontban, és várjuk meg, hogy a már elküldött képek visszaérkezzenek, vagy kapcsoljuk ki a LiteSpeed Cache bővítményt."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "Kapcsoljuk ki a Modern Image Formats bővítményt: nincs olyan saját beállítása, amely leállítaná."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "A Modern Image Formats a kép fájljait modern formátumúakra cserélte, amelyeket az eredetiből készített, az eredetit pedig a WordPress megőrzi. Az eredeti visszatétele megváltoztatná a kép címeit, és tönkretenné a rájuk hivatkozó bejegyzéseket, ezért az Iminify nem állítja vissza."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "Kapcsoljuk ki az Optimole bővítményt, vagy válasszuk az „Optimole Cloud and your website” lehetőséget az Optimole, Settings, Image Storage menüpontban."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Az Optimole a felhőjébe helyezte ezt a képet, és törölte az itteni fájljait. Előbb vonjuk vissza ezt az Optimole-ban (ehhez az Optimole-nak aktívnak és összekapcsoltnak kell lennie), utána az Iminify már optimalizálhatja."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "%1$s aktív, és maga optimalizálja a feltöltéseket, ezért amíg ez így van, az Iminify semmit sem optimalizál, nehogy egy kép kétszer legyen tömörítve. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "Optimalizálta: %s"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "Kapcsoljuk ki a ShortPixel bővítményt, vagy kapcsoljuk ki az „Optimize media on upload” lehetőséget a beállításaiban, a Processing részen."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "Kapcsoljuk ki a Smush bővítményt, vagy kapcsoljuk ki az „Automatic compression” lehetőséget a beállításaiban."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "Kapcsoljuk ki a TinyPNG bővítményt, vagy állítsuk be a beállításaiban, hogy az új képeket kézzel tömörítse."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(megnyitás új fülön)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Betöltés…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Újrapróbálás"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Bezárás"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Az Iminify vizsgálja az oldalt."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "Az oldalak mostantól kiszolgáláskor megkapják a hiányzó szélességet, magasságot és alternatív szöveget. Vizsgáljuk meg újra az oldalt, hogy lássuk."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "Minden oldal, minden héten"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "A heti ellenőrzés hetente egyszer elemzi a webhely oldaltérképében szereplő összes oldalt, tömöríti az új vagy módosult képeket, és e-mailben elküldi, mit talált. A webhely bejárása alapján az iminify.com oldalon állíthatjuk be, ahol azt is láthatjuk, mely csomagok tartalmazzák."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "Heti ellenőrzés beállítása"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "Nem sikerült beolvasni az oldalt"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "Vizsgálatra vár"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "Vizsgálat folyamatban"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "Kész"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "Nincsenek képek"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "Leállítva"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "Sikertelen"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Az Iminify bontotta a webhely kapcsolatát, ezért az oldalai nem elemezhetők. A folytatáshoz kapcsoljuk össze újra."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "Az oldalak elemzéséhez kapcsoljuk össze a webhelyet az Iminify-jal."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "Ugrás a beállításokhoz"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "Oldal vizsgálata"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Az Iminify úgy nyitja meg az oldalt, ahogy egy látogató, és megméri minden rajta megjelenő képet."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "Oldal"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "Egy másik cím ezen a webhelyen"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "Cím"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "Vizsgálat"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "Újra vizsgálhatunk %s másodperc múlva."
+msgstr[1] "Újra vizsgálhatunk %s másodperc múlva."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "Ma %s oldalvizsgálat felhasználva. Minden elemzés egynek számít."
+msgstr[1] "Ma %s oldalvizsgálat felhasználva. Minden elemzés egynek számít."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "%2$s napi oldalvizsgálatból ma még %1$s maradt. Minden elemzés egynek számít."
+msgstr[1] "%2$s napi oldalvizsgálatból ma még %1$s maradt. Minden elemzés egynek számít."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "A mai oldalvizsgálatok elfogytak. Újabbak ekkor érkeznek: %s."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "A mai oldalvizsgálatok elfogytak."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "Legutóbbi elemzések"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "Képek az oldalon"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "Válasszunk egy oldalt, és nyomjuk meg a Vizsgálat gombot. Az Iminify felsorolja az összes rajta lévő képet, mindegyiket a médiatárbeli megfelelője mellett, azzal együtt, amit érdemes javítani."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Az Iminify megnyitja az oldalt, és megméri a képeit. Ez általában egy percnél rövidebb ideig tart, és a képek azonnal megjelennek, amint megérkeznek."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "Az oldalon nem jelent meg kép."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "%1$s kép az oldalon, ebből %2$s javítandó."
+msgstr[1] "%1$s kép az oldalon, ebből %2$s javítandó."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "Nincs mit javítani: az oldal minden képe megfelelő méretű, jól töltődik be, és van leírása."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "A javítást nem igénylő képek elrejtése"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "%s javítást nem igénylő kép megjelenítése"
+msgstr[1] "%s javítást nem igénylő kép megjelenítése"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "%s kép a médiatárból szélesség és magasság nélkül, vagy a médiatárban megadott alternatív szövege nélkül szerepel ezen az oldalon. A bővítmény kiszolgáláskor, a médiatárból pótolni tudja a hiányzókat az oldalakon."
+msgstr[1] "%s kép a médiatárból szélesség és magasság nélkül, vagy a médiatárban megadott alternatív szövege nélkül szerepel ezen az oldalon. A bővítmény kiszolgáláskor, a médiatárból pótolni tudja a hiányzókat az oldalakon."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "Pótlás minden oldalon"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "Ezt az kapcsolhatja be, aki módosíthatja a bővítmény beállításait."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "Használjuk ezt a méretet ott, ahol ez a kép el van helyezve: %1$s (%2$s × %3$s). Nem az oldal szerkesztőjében található: a sablon, egy sablonminta vagy egy widget jeleníti meg, és a méretet ott kell kiválasztani."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "Használjuk itt ezt a méretet: %1$s (%2$s × %3$s). A szerkesztőben jelöljük ki a képet, és válasszuk ki a Felbontás beállításnál."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "Oldal szerkesztése"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "A bővítmény kiszolgáláskor hozzáadja őket az oldalhoz. Vizsgáljuk meg újra, hogy lássuk."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Az Iminify most írja a kép alternatív szövegét. Vizsgáljuk meg újra, ha elkészült."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Az Iminify meg tudja írni, ha a webhelyen bekapcsoljuk az AI-alapú alternatív szöveget."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "Bekapcsolás a beállításokban"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "Az alternatív szövege úton van. Vizsgáljuk meg újra, ha elkészült."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "Ezen a képen fordítások osztoznak, mindegyik saját nyelvű alternatív szöveggel: írjuk meg annál, amelyiket ez az oldal megjeleníti, a szerkesztőképernyőjén."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "A bővítmény kiszolgáláskor hozzáadja az oldalhoz a kép médiatárban megadott alternatív szövegét. Vizsgáljuk meg újra, hogy lássuk."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "Úton van"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "Várakozik"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Sikertelen"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Más bővítmény optimalizálta"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(nincs cím)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "%s-változat"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "A legnagyobb az első képernyőn"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "megjelenítve: %1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "A kép úton van az Iminify-hoz."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "Másolva"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "Másolás"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Az Iminify szerint a fiók mára jutó képei továbbra is elfogytak."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "Úton"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Sikertelen"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Kihagyott"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "Visszaállított"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "Médiatár"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s kép"
+msgstr[1] "%s kép"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "A médiatárban még nincsenek képek."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "optimalizálva"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "Eddigi megtakarítás"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "eredetileg %1$s, %2$s%%-kal kevesebb"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s optimalizált %2$s képet, és megőrizte az eredetijét. Az Iminify érintetlenül hagyja."
+msgstr[1] "%1$s optimalizált %2$s képet, mindegyiknek megőrizve az eredetijét. Az Iminify érintetlenül hagyja őket."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "%1$s optimalizált %2$s képet, de nem őrizte meg az eredetijét. Az Iminify érintetlenül hagyja."
+msgstr[1] "%1$s optimalizált %2$s képet, de egyiknek sem őrizte meg az eredetijét. Az Iminify érintetlenül hagyja őket."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s optimalizált %2$s képet, közülük %3$s esetében megőrizte az eredetit. Az Iminify érintetlenül hagyja őket."
+msgstr[1] "%1$s optimalizált %2$s képet, közülük %3$s esetében megőrizte az eredetit. Az Iminify érintetlenül hagyja őket."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "Egyéb mappák visszaállítva"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "Egyéb mappák visszaállítása"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "Egyéb mappák optimalizálva"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "Egyéb mappák optimalizálása"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "Médiatár visszaállítva"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Visszaállítás folyamatban"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "Alternatív szövegek megírva"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "Alternatív szövegek írása"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "Hiányzó formátumok elkészítve"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "Hiányzó formátumok elkészítése"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "Hiányzó méretek elkészítve"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "Hiányzó méretek elkészítése"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "Újraoptimalizálva az eredetiekből"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "Újraoptimalizálás az eredetiekből"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "Tömeges optimalizálás"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Befejezve"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "Szünetel: kevés a lemezterület"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "Szünetel"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Másik optimalizálóra vár"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "Nem halad"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "A webhelyre vár"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Mára elfogyott"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Az Iminify foglalt"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "Ezen az oldalon fut"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "Fut"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "%2$s képből %1$s visszaállítva."
+msgstr[1] "%2$s képből %1$s visszaállítva."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "%2$s képből %1$s elküldve az Iminify-nak."
+msgstr[1] "%2$s képből %1$s elküldve az Iminify-nak."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s alternatív szöveg úton van"
+msgstr[1] "%s alternatív szöveg úton van"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s kép most az Iminify-nál van"
+msgstr[1] "%s kép most az Iminify-nál van"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "kép visszaállítva"
+msgstr[1] "kép visszaállítva"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "kép elküldve az Iminify-nak"
+msgstr[1] "kép elküldve az Iminify-nak"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "%d képet nem sikerült visszaállítani. Az okát a kép sora mutatja a Média, Egyéb mappák oldalon."
+msgstr[1] "%d képet nem sikerült visszaállítani. Az okát a képek sora mutatja a Média, Egyéb mappák oldalon."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%d képet nem sikerült visszaállítani. Az okát a kép panelje mutatja a médiatárban."
+msgstr[1] "%d képet nem sikerült visszaállítani. Az okát a képek panelje mutatja a médiatárban."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "Indítás most"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "Szüneteltetés"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "Folytatás"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "Leállítás"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "Inkább fusson a háttérben"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "Befejezve: a képek visszakerültek a feltöltéskori állapotukba."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "Befejezve: a médiatárban minden képnél látható, hogyan sikerült az alternatív szövege."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "Befejezve: egyetlen képet sem kellett elküldeni."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "Befejezve: minden kép elküldve. A médiatárban mindegyiknél látható, hogyan sikerült."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "Leállítva. Az Iminify-nál már lévő képek elkészülnek, amíg ez az oldal nyitva van; a többi marad, ahogy van."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "Leállítva. Az Iminify-nál már lévő képek elkészülnek; a többi marad, ahogy van."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "Szünetel: a szerveren kevés a szabad lemezterület. Szabadítsunk fel helyet, majd folytassuk."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "Szünetelt, amíg a bővítmény ki volt kapcsolva."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "Szünetel. Az Iminify-nál már lévő képek elkészülnek, amíg ez az oldal nyitva van."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "Szünetel. Az Iminify-nál már lévő képek elkészülnek."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "Felfüggesztve, amíg egy másik képoptimalizáló dolgozik a feltöltéseken. A futtatás magától folytatódik, amint azt kikapcsolják."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "A futtatás egy ideje nem halad: úgy tűnik, a webhely ütemezett feladatai nem futnak."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "Elfogytak a fiók mára jutó képei. A futtatás magától folytatódik, amikor megnyílik a következő keret: %s."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "Felfüggesztve: az Iminify nem fogadja el a webhely kulcsát. A futtatás magától folytatódik, amint a kapcsolat működik."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "A fiók mára elhasználta az összes AI-alapú alternatív szöveget. A futtatás magától folytatódik ekkor: %s."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Az Iminify a már elküldött képekkel van elfoglalva. A futtatás ekkor küld többet: %s."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "Tartsuk nyitva ezt az oldalt: a képek addig mennek, amíg nyitva van."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "A futtatás a háttérben folytatódik, így elhagyhatjuk ezt az oldalt."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "A Webhely Egészség szerint: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "Ha a webhely megnyitás előtt jelszót kér, adjuk meg ezt a felhasználónevet és jelszót a wp-config.php fájlban, hogy az ütemezett feladatai elérhessék:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "Futtassuk inkább úgy, hogy ez az oldal nyitva van, vagy folytassuk a parancssorból:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "Futtatás, amíg ez az oldal nyitva van"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "Csomagok összehasonlítása"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "A képei optimalizálásához kapcsoljuk össze a webhelyet az Iminify-jal."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "A szerveren kevés a szabad lemezterület, ezért semmi sem lesz optimalizálva, amíg fel nem szabadul hely."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "Médiatár optimalizálása"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s kép még nincs optimalizálva."
+msgstr[1] "%s kép még nincs optimalizálva."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "A biztonsági mentéseikhez nagyjából %1$s lemezterület kell (%2$s szabad)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "A biztonsági mentéseikhez nagyjából %s lemezterület kell."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "%s sikertelen kép újraküldése"
+msgstr[1] "%s sikertelen kép újraküldése"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "Még nincs mit optimalizálni."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "Minden kép optimalizálva van vagy úton van."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "Egyetlen kép sem vár optimalizálásra."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s képet visszaállítottak, és úgy is marad: egy futtatás soha nem nyúl olyan képhez, amelyet valaki visszaállított. A médiatárban, a kép paneljéről optimalizálhatjuk újra."
+msgstr[1] "%s képet visszaállítottak, és ezek úgy is maradnak: egy futtatás soha nem nyúl olyan képhez, amelyet valaki visszaállított. Bármelyiket újraoptimalizálhatjuk a médiatárban, a kép paneljéről."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "Hiányzó fájlok"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "%s optimalizált képből hiányzik egy olyan formátum, amelyet a webhely most megkövetel."
+msgstr[1] "%s optimalizált képből hiányzik egy olyan formátum, amelyet a webhely most megkövetel."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "%s optimalizált képből hiányozhat egy olyan méret, amelyet a webhely most készít."
+msgstr[1] "%s optimalizált képből hiányozhat egy olyan méret, amelyet a webhely most készít."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "Alternatív szöveg"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s képnek nincs alternatív szövege."
+msgstr[1] "%s képnek nincs alternatív szövege."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "Elküldjük ezeknek a képeknek egy-egy kicsinyített másolatát az alternatív szövegük megírásához? Mindegyik egynek számít a mai AI-alapú alternatív szövegek közül, és a valaki által írt alternatív szöveg soha nem cserélődik le."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "Ma még %s AI-alapú alternatív szöveg maradt."
+msgstr[1] "Ma még %s AI-alapú alternatív szöveg maradt."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "Elküldjük újra ezeket a képeket a hiányzók pótlásához? Mindegyik egy újabb képnek számít, és a többi fájlja marad, ahogy van, hacsak az Iminify nem készít belőlük kisebbet."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "Újraoptimalizálás az eredetijükből"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "%s kép, amelyet egy másik bővítmény optimalizált, megőrizte az eredetijét. Az Iminify újraoptimalizálhatja ebből az eredetiből, és saját biztonsági mentést tarthat róla. Előbb az eredeti kerül vissza, kivéve, ha a képet WebP vagy AVIF formátumra alakították: ekkor a fájljai abban a formátumban készülnek el újra, ugyanazokkal a nevekkel."
+msgstr[1] "%s kép, amelyet más bővítmények optimalizáltak, megőrizte az eredetijét. Az Iminify újraoptimalizálhatja őket ezekből az eredetiekből, és mindegyikről saját biztonsági mentést tarthat. Előbb minden eredeti visszakerül, kivéve, ha a képet WebP vagy AVIF formátumra alakították: ekkor a fájljai abban a formátumban készülnek el újra, ugyanazokkal a nevekkel."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "Újraoptimalizáljuk ezeket a képeket az eredetijükből? Mindegyik egy újabb képnek számít, és amelyiknek az eredetijét csak a saját bővítménye tudja visszaállítani, az érintetlen marad."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "A LiteSpeed Cache aktív. Valahányszor a WordPress újra elkészíti egy kép méreteit (Regenerate Thumbnails vagy egy kép cseréje esetén), törli a mellette lévő WebP- és AVIF-változatokat, és visszateszi azokat a régi fájlokat, amelyeket egy általa optimalizált képből megőrzött, így az Iminify módosultnak látja a képet. A LiteSpeed Cache, Image Optimization alatti „Remove Original Image Backups” lehetőség megakadályozza, hogy visszategye a régi fájlokat."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "A háttérben"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "Így elhagyhatjuk ezt az oldalt."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "Amíg ez az oldal nyitva van"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "Olyan tárhelyszolgáltatónál, ahol nem futnak az ütemezett feladatok."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "Futtatás"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "Jelenlegi csomag"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "ma mind elkészül"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "nagyjából %d nap"
+msgstr[1] "nagyjából %d nap"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "A csomagunk mai keretébe mind belefér."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "A futtatás minden nap magától folytatódik."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "Csomagok megtekintése"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "Egyéb mappák"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "Optimalizáljuk a sablon és más, a médiatáron kívüli mappák képeit ott, ahol vannak, mindegyikről biztonsági mentést készítve."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "%1$s kép a mappákban: %2$s optimalizálva, %3$s még nem."
+msgstr[1] "%1$s kép a mappákban: %2$s optimalizálva, %3$s még nem."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Az Iminify még átnézi őket."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Visszaállítjuk a mappákban lévő összes optimalizált képet a korábbi állapotára? A WebP- és AVIF-változataik törlődnek, a biztonsági mentések megmaradnak."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "Összes visszaállítása"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "Képek megtekintése"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "Optimalizálás"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "Sikertelenek újraküldése"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "Mappák kiválasztása"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "Médiatár visszaállítása"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "Minden optimalizált képet visszaállít a feltöltéskori állapotára a biztonsági mentéséből, a méreteit pedig a WordPress újra elkészíti. Ezt a bővítmény eltávolítása előtt tegyük meg, ha vissza szeretnénk kapni az eredetieket a helyükre. Az a kép, amelyet egy másik bővítmény WebP vagy AVIF formátumra alakított, érintetlen marad, mert az eredetijét csak az a bővítmény tudja visszaállítani."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Visszaállítjuk az összes optimalizált képet a feltöltéskori állapotára? A WebP- és AVIF-változataik törlődnek, a biztonsági mentések megmaradnak."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "Elküldve az Iminify-nak."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "Az eredeti visszakerült."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "Átnézés folyamatban"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "Mappák"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "Válasszuk ki a sablont vagy bármely mappát a wp-content mappán belül, és az Iminify a helyükön optimalizálja a benne lévő képeket, mindegyikről biztonsági mentést készítve."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "Jelenlegi sablon"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "Szülő sablon"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "A jelenlegi sablon hozzáadása: %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "A szülő sablon hozzáadása: %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "Egy másik mappa a wp-content mappán belül"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Utoljára átnézve: %1$s, %2$s kép, %3$s új, %4$s módosult."
+msgstr[1] "Utoljára átnézve: %1$s, %2$s kép, %3$s új, %4$s módosult."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Az Iminify egy sablon- vagy bővítményfrissítés után újra átnézi őket. Ha kézzel módosítottunk képeket, nézzük át őket most."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "Új és módosult képek keresése"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "A mappákban"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "A Tömeges optimalizálás oldalon már fut egy tömeges futtatás ezekre a képekre."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "Mindet optimalizálhatjuk vagy visszaállíthatjuk a Tömeges optimalizálás oldalon."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "Ugrás a Tömeges optimalizálás oldalra"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "Összes"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "Képek"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "Adjunk hozzá egy mappát, hogy itt lássuk a képeit."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "Ezekben a mappákban nem találhatók képek."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "Itt nincs kép."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "Előző"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "Oldal: %1$s / %2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "Következő"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Összekapcsolásra vár"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Kihagyva"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Visszaállítva"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%s%%-kal kisebb"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "Visszaállítás"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "Visszaállítjuk az eredetit? A WebP- és AVIF-változatai törlődnek, a biztonsági mentés megmarad."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "Bontjuk a hálózat kapcsolatát az Iminify-jal? A webhelyei csatlakozási kulcsai is megszűnnek, és ezeken a webhelyeken leáll az új feltöltések optimalizálása. A már optimalizált képek maradnak, ahogy vannak."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "Bontjuk a webhely kapcsolatát az Iminify-jal? Leáll az új feltöltések optimalizálása, és a webhely nem csatlakozik magától újra a hálózathoz: a visszacsatlakozáshoz nyomjuk meg a Csatlakozás a hálózathoz gombot. A már optimalizált képek maradnak, ahogy vannak."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "Bontjuk a webhely kapcsolatát az Iminify-jal? Leáll az új feltöltések optimalizálása. A már optimalizált képek maradnak, ahogy vannak."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "Kapcsolat bontása"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s (%2$s) multisite hálózatként össze van kapcsolva az Iminify-jal."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s (%2$s) a hálózatán keresztül össze van kapcsolva az Iminify-jal."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s (%2$s) össze van kapcsolva az Iminify-jal."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "Iminify-fiók"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "Csomag"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, érvényes eddig: %2$s"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "Következő keret"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "A hálózat webhelyei"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s / %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "A fő webhely"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "%s megtakarítva"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "A webhely Iminify-fiókja a wp-config.php fájlban van megadva."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "A csomagunk az iminify.com oldalon"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "A hálózat kulcsa a wp-config.php fájlban van megadva <code>IMINIFY_API_KEY</code> néven. A kapcsolat bontásához távolítsuk el onnan, és bontsuk a hálózat kapcsolatát az iminify.com Settings, Sites oldalán is."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "A webhely kulcsa a wp-config.php fájlban van megadva <code>IMINIFY_API_KEY</code> néven. A kapcsolat bontásához távolítsuk el onnan, és bontsuk a webhely kapcsolatát az iminify.com Settings, Sites oldalán is."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "A hálózat összekapcsolása"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Az Iminify tömöríti a hálózat összes webhelyére feltöltött képeket, és WebP- és AVIF-változatokat készít róluk. Kapcsoljuk össze egyszer a hálózatot az Iminify-fiókunkkal, vagy közben hozzunk létre egy ingyenes fiókot, és minden webhely magától csatlakozik, amikor először szüksége van az Iminify-ra."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "Amíg össze nem kapcsoljuk, semmi sem jut el az Iminify-hoz. Az Összekapcsolás új fülön nyitja meg az iminify.com oldalt, ahol jóváhagyhatjuk a hálózatot."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "Hálózat összekapcsolása"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "A webhely önálló összekapcsolása"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "Ez a webhely ehelyett egy saját Iminify-fiókkal is összekapcsolható, és akkor soha nem használja a hálózat kapcsolatát."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Az Összekapcsolás új fülön nyitja meg az iminify.com oldalt, ahol jóváhagyhatjuk ezt a webhelyet."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "A webhely összekapcsolása"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Az Iminify tömöríti a feltöltött képeket, és WebP- és AVIF-változatokat készít róluk. A kezdéshez kapcsoljuk össze ezt a webhelyet az Iminify-fiókunkkal, vagy közben hozzunk létre egy ingyenes fiókot."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Amíg össze nem kapcsoljuk, semmi sem jut el az Iminify-hoz. Az Összekapcsolás új fülön nyitja meg az iminify.com oldalt, ahol jóváhagyhatjuk ezt a webhelyet."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "Ehelyett egy szuper admin a Hálózat kezelőből az egész hálózatot összekapcsolhatja, és akkor minden webhely magától csatlakozik hozzá."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "Hogyan működik az összekapcsolás"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Jóváhagyásra vár"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "Hagyjuk jóvá a kapcsolatot az iminify.com oldalon, a megnyílt fülön. Ha megtettük, ez az oldal magától befejezi az összekapcsolást, és ha bezárjuk, a webhely akkor is folytatja."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "Az iminify.com oldal újbóli megnyitása"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Egy ügynökség hozzáadhatja a webhelyet az iminify.com <a>Settings, Sites</a> oldalán, és ide illesztheti be a kulcsát, vagy megadhatja a wp-config.php fájlban <code>IMINIFY_API_KEY</code> néven."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Egy ügynökség hozzáadhatja a webhelyet az iminify.com Settings, Sites oldalán, és ide illesztheti be a kulcsát, vagy megadhatja a wp-config.php fájlban <code>IMINIFY_API_KEY</code> néven."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Egy ügynökség az iminify.com <a>Settings, Sites</a> oldalán adja hozzá a hálózatot, bejelölve a This is a multisite network lehetőséget, majd ide illeszti be a kulcsát, vagy megadja a wp-config.php fájlban <code>IMINIFY_API_KEY</code> néven."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Egy ügynökség az iminify.com Settings, Sites oldalán adja hozzá a hálózatot, bejelölve a This is a multisite network lehetőséget, majd ide illeszti be a kulcsát, vagy megadja a wp-config.php fájlban <code>IMINIFY_API_KEY</code> néven."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "Minden feltöltés optimalizálása a háttérben történik"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "Előbb a WordPress befejezi a feltöltést, majd az Iminify tömöríti a képet és a WordPress által belőle készített összes méretet."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "Egy feltöltés egy képnek számít"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "A WordPress által belőle készített méretek, valamint a WebP- és AVIF-változatai fájlként tartoznak hozzá, sosem külön képként."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "Az eredetiek ezen a webhelyen maradnak"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "Mindegyikről biztonsági mentés készül a feltöltési mappában, így bármelyik kép visszaállítható a korábbi állapotára."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "A médiatár akkor kerül sorra, amikor mi szólunk"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "A médiatárban már meglévő képek addig várnak, amíg el nem indítjuk őket a Média, Tömeges optimalizálás menüpontban."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "Az összekapcsolás után"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "Összekapcsolás a hálózat kulcsával"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "Összekapcsolás webhelykulccsal"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "Hálózati kulcs"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "Webhelykulcs"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "Összekapcsolás ezzel a kulccsal"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "új érték:"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "nincs módosítás"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "%s beállításai"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "%s beállításait megtalálta az Iminify ezen a webhelyen. Ezek alapján be tudja állítani a webhely beállításait, amennyiben az Iminify is rendelkezik ugyanazokkal a beállításokkal: a tömörítési szint, a maximális szélesség, a metaadatok, a WebP- és AVIF-változatok, a méretek és a biztonsági mentések. Mielőtt bármi megváltozna, láthatjuk, mi fog változni."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "%s beállításainak használata"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "Köszönjük, nem"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "%s beállításai szerint nincs mit módosítani ezen a webhelyen."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "%s beállításai alapján az Iminify ezeket állítaná be. Semmi sem változik, amíg nem használjuk őket, és a használatuk felülírja a lenti beállításokban végzett, még nem mentett módosításokat."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "%s beállításai alapján az Iminify ezeket állítaná be. Semmi sem változik, amíg nem használjuk őket."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "%s beállításai közül egyiknek sincs megfelelője az Iminify-ban, ezért ez a webhely megtartja a sajátjait."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "Beállítások használata"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "OK"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "A hálózat Iminify-beállításainak megnyitása"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "A hálózat kapcsolata"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Ez a hálózat fő webhelye, ezért a hálózat Iminify-kapcsolatát használja. A hálózat összekapcsolását és a kapcsolat bontását egy szuper admin végzi a Hálózat kezelőben."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Ez a hálózat fő webhelye, ezért a hálózat Iminify-kapcsolatát használja, amely még nem jött létre. A hálózatot egy szuper admin kapcsolja össze a Hálózat kezelőben, és ezután minden webhely magától csatlakozik hozzá."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "A hálózat webhelyei"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Ez a kulcs egyetlen webhelyhez készült, ezért a hálózat webhelyei nem csatlakozhatnak vele. Bontsuk a kapcsolatot, majd kapcsoljuk össze újra a hálózatot, vagy készítsünk kulcsot az iminify.com Settings, Sites oldalán, bejelölve a This is a multisite network lehetőséget."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "A hálózat minden webhelye magától csatlakozik, amikor először szüksége van az Iminify-ra, saját kulccsal, és a fő webhely beállításaival indul. Mindegyik külön webhelynek számít a fiókban. Az a webhely, amelynek a kapcsolatát a saját oldalán vagy az iminify.com Settings, Sites oldalán bontották, nem csatlakozik magától újra."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Minden webhely beállításai a saját Beállítások, Iminify oldalán találhatók. A sablonokban és más mappákban lévő képek optimalizálása a fő webhely feladata, egyszer, az egész hálózatra."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "A fő webhely beállításai"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "A fő webhely egyéb mappái"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Hogyan működik a hálózat összekapcsolása"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Csatlakozás a hálózathoz"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s össze van kapcsolva az Iminify-jal. Ez a webhely saját kulccsal csatlakozhat hozzá, és külön webhelynek számít a fiókban."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "A WordPress átírási szabályaiban:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "Ebben a fájlban (<file />):"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "Kivesszük a WordPress átírási szabályai közül azt, amelyet %s hozott létre? Minden más szabály megmarad."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "Eltávolítjuk ebből a fájlból azokat a sorokat, amelyeket %s írt bele? Minden más marad, ahogy van. Az Nginx addig megtartja őket, amíg újra nem töltjük, ezért utána töltsük újra."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "Eltávolítjuk ebből a fájlból azokat a sorokat, amelyeket %s írt bele? Minden más marad, ahogy van."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> tartalmazza ezt a sort: %s, de az általa kezdett blokknak nincs saját vége, vagy átnyúlik egy másik blokkba, ezért a bővítmény nem nyúl a fájlhoz. Távolítsuk el a blokk sorait kézzel."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "A bővítmény nem tud írni ebbe a fájlba: <file />. Távolítsuk el belőle kézzel ezeket a sorokat, majd töltsük újra az Nginxet."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "A bővítmény nem tud írni ebbe a fájlba: <file />. Távolítsuk el belőle kézzel ezeket a sorokat."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "A hálózat minden webhelye közösen használja ezeket a sorokat, ezért az távolíthatja el őket, aki kezelheti a hálózatot, a Hálózat kezelő Iminify-beállításaiban."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "A hálózat minden webhelye közösen használja ezeket a sorokat, ezért egy szuper admin távolítja el őket ezen az oldalon."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "%s átírási szabálya"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "%s szabályai"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "Egy másik optimalizáló által hátrahagyott szabályok"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "A másik optimalizáló által hátrahagyott szabályok eltűntek."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "Egy korábban használt képoptimalizáló a kikapcsolásakor hátrahagyta ezeket a szabályokat. Az Iminify soha nem távolítja el magától más bővítmények szabályait."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d kép optimalizálás alatt áll."
+msgstr[1] "%d kép optimalizálás alatt áll."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d kép a következő keretre vár."
+msgstr[1] "%d kép a következő keretre vár."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d kép arra vár, hogy a webhelyet összekapcsolják. Amint ez megtörténik, magától elindul."
+msgstr[1] "%d kép arra vár, hogy a webhelyet összekapcsolják. Amint ez megtörténik, maguktól elindulnak."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "A következő keret ekkor nyílik meg: %s. Az új feltöltések maguktól mennek elsőként."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "Várakozási sor"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "A szerveren kevés a szabad lemezterület, ezért az Iminify leállította itt a képek optimalizálását. Szabadítsunk fel helyet, majd optimalizáljuk a „Nincs optimalizálva” jelölésű képeket."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "A szerver hibával válaszolt, miután a szabályok bekerültek, ezért a bővítmény újra kivette őket, és a képek a korábbiak szerint töltődnek be. Kérdezzük meg a tárhelyszolgáltatót, hogy a .htaccess fájlok beállíthatnak-e átírási szabályokat és fájltípusokat, vagy válasszuk a picture elemeket."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "A szerver kiszolgálja a WebP- és AVIF-változatokat. Ellenőrizve: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "A szerver még mindig az eredetieket küldi: valami azelőtt válaszol a képekre, hogy ezeket a szabályokat beolvasná, gyakran az Apache előtt álló Nginx. Adjuk hozzá a lenti Nginx-sorokat a konfigurációjához, vagy válasszuk a picture elemeket. Ellenőrizve: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "A szerver még mindig az eredetieket küldi. Adjuk hozzá a lenti sorokat a konfigurációjához, töltsük újra az Nginxet, majd mentsünk újra. Ellenőrizve: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "A Cloudflare az eredetivel válaszolt, így a látogatók ezeken a szabályokon keresztül talán soha nem kapnak változatot. Válasszuk a picture elemeket, amelyek a Cloudflare mögött is működnek. Ellenőrizve: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "A bővítmény nem tudott képet kérni a webhelytől, hogy ellenőrizze, működnek-e a szabályok; ez akkor fordul elő, ha a webhely nem éri el a saját címét. Nyissuk meg az egyik képet a böngésző fejlesztői eszközeivel: a típusának image/avif vagy image/webp értéket kell mutatnia. Próbálkozás: %s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "A szabályok ebben a fájlban vannak: <file />."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "<file /> tartalmazza ezt a sort: <begin />, de a hozzá tartozó <end /> sor nélkül, ezért a bővítmény nem nyúl a fájlhoz. Tegyük vissza a következő sort a blokk utolsó <closing /> sora után: <end />, vagy töröljük a blokk minden sorát, majd mentsünk újra."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "A feltöltési mappa nincs azon a mappán belül, amely a webhely .htaccess fájlját tartalmazza, így az ottani szabályok nem hivatkozhatnak rá. Válasszuk a picture elemeket."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "Még nincs ilyen fájl: <file />. Hozzuk létre ezekkel a sorokkal, majd mentsünk újra."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "<file /> nem kapcsolja be az átírást, ezért a bővítmény nem nyúl hozzá. Ha a szerver onnan olvassa az átírási szabályokat, illesszük be ezeket a sorokat, majd mentsünk újra."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "A bővítmény nem tud írni ebbe a fájlba: <file />. Illesszük be bele ezeket a sorokat a WordPress által a hálózatnak adott szabályok fölé, majd mentsünk újra."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "A bővítmény nem tud írni ebbe a fájlba: <file />. Illesszük be ezeket a sorokat a végére, majd mentsünk újra."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "A szerver sem a .htaccess fájlokat, sem az Nginx konfigurációját nem olvassa, így a bővítmény nem tud neki szabályokat adni. Válasszuk a picture elemeket."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "A webhely Nginxen fut, amely nem olvassa a .htaccess fájlt. Tegyük az első sorokat a webhely server blokkjának elejére, minden if vagy rewrite elé, a location blokkot pedig minden más, képekre vonatkozó location fölé, majd töltsük újra az Nginxet. Másoljuk a location blokkba azokat az expires, Cache-Control vagy add_header sorokat, amelyekre a képeknek szükségük van, mert az ottani add_header felülírja a server blokkét:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Nginx esetén tegyük az első sorokat a webhely server blokkjának elejére, minden if vagy rewrite elé, a location blokkot pedig minden más, képekre vonatkozó location fölé, majd töltsük újra az Nginxet. Másoljuk a location blokkba azokat az expires, Cache-Control vagy add_header sorokat, amelyekre a képeknek szükségük van, mert az ottani add_header felülírja a server blokkét:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "Ezekre vonatkoznak: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "Bármely WebP- vagy AVIF-változatot kiszolgálnak, amely egy mellette lévő kép nevét viseli, így egy másik optimalizáló által ott hagyott változatot is kiszolgálnak, amíg az Iminify el nem készíti a sajátját. Az Iminify soha nem törli más bővítmények változatait."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "A webhely helyett a Cloudflare válaszol. Minden képből egyetlen verziót tárol, függetlenül attól, hogy a böngésző mit támogat, így egy AVIF formátumot nem támogató böngésző is megkaphatja az AVIF-változatot. Válasszuk a picture elemeket, amelyek bármilyen CDN mögött működnek."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "A WP Offload Media a saját tárolójából szolgálja ki a képeket, ahová ezek a szabályok nem érnek el, így azoknál az eredetiek maradnak. Ha a „Remove Local Media” be van kapcsolva, a szabályok semmit sem szolgálnak ki."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "Eléri a nyers HTML-ben, az oldalépítőkben és a sablon saját jelölőkódjában lévő képeket, az oldalban magában beállított háttereket, valamint a kiválasztott mappák képeit is, mivel minden oldalt kiszolgáláskor beolvas. A stíluslapfájlban beállított háttér megtartja az eredetijét. Az az oldal, amelyet a gyorsítótár nem tárolt el, kicsit lassabban töltődik be."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "Az oldalak maradnak, ahogy vannak, és a szerver minden olyan böngészőnek, amely támogatja, a kép helyett a WebP- vagy AVIF-változatot küldi. Ez a feltöltési mappa és a kiválasztott mappák minden képére kiterjed, a stíluslapfájlokban lévő hátterekre is. Szabályokat igényel a szerver konfigurációjában, amelyeket Apache esetén a bővítmény megír, CDN mögött pedig olyan CDN kell, amely formátumonként külön verziót tárol minden képből."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "Az oldalak maradnak, ahogy vannak: a változatok elkészülnek, de egyetlen oldal sem hivatkozik rájuk."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "A bejegyzésekben lévő és a sablon által a WordPressen keresztül megjelenített képekhez. Minden oldal minden látogatónak ugyanaz, így az oldalgyorsítótárak és a CDN-ek továbbra is működnek, és az a böngésző, amely egyik formátumot sem támogatja, az eredetit kapja."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "Optimalizálás"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "Ezeket a beállításokat az iminify.com a webhellyel együtt tárolja, és a webhely által küldött minden képre alkalmazza."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "Minden képet elküld az Iminify-nak, amint feltöltik."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "Minden méretről WebP-változat, amelyet a WebP-t támogató böngészők kapnak meg. A képénél nagyobb változat nem marad meg."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "Minden méretről AVIF-változat is: általában kisebb a WebP-nél, de lassabban készül el."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "Bármilyen szélesség"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "A szélesebb fő képet erre a szélességre kicsinyíti. Hagyjuk üresen, hogy minden kép megtartsa a szélességét."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "A fő képet e fájlméret alá csökkenti. Hagyjuk üresen, ha nem kell korlát."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "Megtartja minden kép EXIF-adatait, például a fényképezőgépet és a készítés helyét. Kikapcsolva eltávolítja őket."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "Leírást ír minden olyan képhez, amelynek nincs alternatív szövege. Az általunk írt alternatív szöveg soha nem cserélődik le. A kép egy kicsinyített másolata az Anthropic AI-modelljéhez kerül, és mindegyik beleszámít a mai AI-alapú alternatív szövegekbe."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "Az alternatív szöveg nyelve"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "Minden méret optimalizálása"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "A WordPress által egy feltöltésből készített összes méret. Kapcsoljuk ki, ha méreteket szeretnénk kiválasztani."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "Ezen a webhelyen"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "A feltöltési mappában, az iminify-backup alatt tárolva, így bármelyik kép visszaállítható a korábbi állapotára."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "WebP és AVIF az oldalakon"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "Kiszolgálás picture elemekkel"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "Kiszolgálás az egész oldalon"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "Kiszolgálás szerverszabályokkal"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "Oldalak módosítása nélkül"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "A képekből hiányzó szélesség, magasság és alternatív szöveg pótlása"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "Ahol egy oldal jelölőkódja kihagyja ezeket egy médiatárbeli képnél, a bővítmény minden oldal kiszolgálásakor hozzáadja a kép szélességét és magasságát, hogy az oldal ne ugráljon betöltés közben, valamint a médiatárban megadott alternatív szövegét. A szándékosan üresen hagyott alternatív szöveg üres marad."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "Amikor töröljük a bővítményt"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "A WebP- és AVIF-változatok törlése is"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "Egy oldal, amelyet a gyorsítótár picture elemekkel tárolt el, hibás képet mutatna, amíg a gyorsítótárat ki nem ürítik."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "A biztonsági mentések törlése is"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "Ezek az Iminify által optimalizált képek egyetlen eredetijei, így azok a képek utána nem állíthatók vissza. Ha a változatokat is töröljük, a bővítmény újratelepítése másodszor is optimalizálná ezeket a képeket."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "Módosítások mentése"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "Nem mentett módosítások"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Figyelmet igényel"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "A hálózat össze van kapcsolva."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "A webhely össze van kapcsolva."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "A kapcsolatot nem hagyták jóvá időben, vagy elutasították. Az újrapróbáláshoz nyomjuk meg a Hálózat összekapcsolása gombot."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "A kapcsolatot nem hagyták jóvá időben, vagy elutasították. Az újrapróbáláshoz nyomjuk meg az Összekapcsolás gombot."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "A hálózat kapcsolata itt megszűnt, de a kulcsát nem sikerült érvényteleníteni az Iminify oldalán. Bontsuk a hálózat kapcsolatát az iminify.com Settings, Sites oldalán is."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "A webhely kapcsolata itt megszűnt, de a kulcsát nem sikerült érvényteleníteni az Iminify oldalán. Bontsuk a webhely kapcsolatát az iminify.com Settings, Sites oldalán is."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "A webhely csatlakozott a hálózathoz."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "A kapcsolat áthelyezése ide"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "E példány összekapcsolása önálló webhelyként"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "%s beállításai mostantól érvényesek ezen a webhelyen."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "A sorok eltávolítva. Töltsük újra az Nginxet, hogy ne szolgálja ki őket tovább."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "A sorok eltávolítva."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Beállítások elmentve."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "A várakozó képek úton vannak."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "A fiók mára jutó képei továbbra is elfogytak."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Az Iminify bontotta a hálózat kapcsolatát, ezért a webhelyein az új feltöltéseket nem optimalizálja. A folytatáshoz kapcsoljuk össze újra."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Az Iminify bontotta a hálózat kapcsolatát, ezért az új feltöltéseket nem optimalizálja. A hálózatot egy szuper adminnak kell újra összekapcsolnia a Hálózat kezelőben."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Az Iminify bontotta a webhely kapcsolatát, ezért az új feltöltéseket nem optimalizálja. A folytatáshoz csatlakozzunk újra a hálózathoz, vagy kapcsoljuk össze a webhelyet önállóan."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Az Iminify bontotta a webhely kapcsolatát, ezért az új feltöltéseket nem optimalizálja. A folytatáshoz kapcsoljuk össze újra."

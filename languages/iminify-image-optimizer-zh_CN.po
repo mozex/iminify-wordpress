@@ -1,0 +1,3681 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
+"Language: zh_CN\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "使用 Iminify 对媒体库中的图片进行压缩、格式转换和尺寸调整，并以 WebP 和 AVIF 格式提供。"
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "页面检测"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "找出拖慢页面的图片，每张都与其在媒体库中对应的图片并列显示。"
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "插件文件夹中缺少此页面的脚本。请重新安装插件以找回它。"
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "此页面需要 JavaScript。"
+
+#: includes/admin/class-audit-state.php:354
+msgid "Original upload"
+msgstr "上传的原始图片"
+
+#: includes/admin/class-audit-state.php:368
+msgid "Home page"
+msgstr "首页"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "抱歉，您不能这么做。"
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "批量优化"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "一次性优化媒体库中已有的全部图片。"
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "插件文件夹中缺少批量优化页面的脚本。请重新安装插件以找回它。"
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "批量优化页面需要 JavaScript。"
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:342
+msgid "That folder isn't in the list."
+msgstr "该文件夹不在列表中。"
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "该图片不在列表中。"
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "其他文件夹"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "主题及媒体库以外其他文件夹中的图片。"
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "此图片在站点上没有可供对比的原图。"
+
+#: includes/admin/class-media-view.php:183
+msgid "Original"
+msgstr "原图"
+
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
+msgid "Compare with the original"
+msgstr "与原图对比"
+
+#: includes/admin/class-media-view.php:211
+msgid "Close"
+msgstr "关闭"
+
+#: includes/admin/class-media-view.php:212
+msgid "How much of the original shows"
+msgstr "原图显示的比例"
+
+#: includes/admin/class-media-view.php:213
+msgid "The optimized file to compare"
+msgstr "要对比的优化后文件"
+
+#: includes/admin/class-media-view.php:214
+msgid "This image couldn't be loaded from the site."
+msgstr "无法从站点加载此图片。"
+
+#: includes/admin/class-media-view.php:216
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "拖动分隔线或使用方向键，即可在一侧查看更多原图，在另一侧查看更多优化后的文件。"
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:219
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "已优化，级别为「%s」。拖动分隔线或使用方向键，即可在一侧查看更多原图，在另一侧查看更多优化后的文件。"
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:248
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s，%2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:256
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s，缩小 %2$s"
+
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "已优化"
+
+#: includes/admin/class-media-view.php:375
+msgid "Optimize again from the original"
+msgstr "从原图重新优化"
+
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
+msgid "Restore original"
+msgstr "恢复原图"
+
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "重新优化"
+
+#: includes/admin/class-media-view.php:400
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "优化"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "按 Iminify 状态筛选"
+
+#: includes/admin/class-media-view.php:455
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "全部 Iminify 状态"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "已优化"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "未优化"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "错误"
+
+#: includes/admin/class-media-view.php:577
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "缺少格式"
+
+#: includes/admin/class-media-view.php:578
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "由其他插件优化"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:673
+#, php-format
+msgid "Offloaded by %s"
+msgstr "已由 %s 转存至云端"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:707
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "在 %3$s 个文件中共节省 %1$s（%2$s）。"
+
+#: includes/admin/class-media-view.php:714
+msgid "The originals were already smaller, so they were kept."
+msgstr "原图本来就更小，因此保留了原图。"
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:723
+#, php-format
+msgid "Copies: %s"
+msgstr "副本：%s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:737
+#, php-format
+msgid "Missing formats: %s"
+msgstr "缺少格式：%s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:749
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "缺少尺寸：%s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:761
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "其他工具生成的 %s 个 WebP 或 AVIF 副本已原样保留。"
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:771
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "%s 个文件无法写入。"
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:815
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "据 %1$s 自身的记录，它节省了 %2$s（%3$s）。"
+
+#: includes/admin/class-media-view.php:824
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "其原图已保留。Iminify 不会改动此图片，也不会因此消耗任何额度。"
+
+#: includes/admin/class-media-view.php:825
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "此图片没有保留原图，因此 Iminify 不会改动它，以免对其再次压缩。"
+
+#: includes/admin/class-media-view.php:841
+msgid "Queued"
+msgstr "排队中"
+
+#: includes/admin/class-media-view.php:843
+msgid "Being optimized"
+msgstr "优化中"
+
+#: includes/admin/class-media-view.php:845
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "等待下一批次"
+
+#: includes/admin/class-media-view.php:847
+msgid "Waiting for the connection"
+msgstr "等待连接"
+
+#: includes/admin/class-media-view.php:849
+msgid "Not sent"
+msgstr "未发送"
+
+#: includes/admin/class-media-view.php:851
+msgid "Error"
+msgstr "错误"
+
+#: includes/admin/class-media-view.php:853
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "未优化"
+
+#: includes/admin/class-media-view.php:889
+msgid "The next batch is open, so it goes out shortly."
+msgstr "下一批次已开放，即将发送。"
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:891
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "它将于 %s 自动发送。"
+
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: being written."
+msgstr "替代文本：生成中。"
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: written by Iminify."
+msgstr "替代文本：由 Iminify 生成。"
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: yours was kept."
+msgstr "替代文本：已保留您填写的内容。"
+
+#: includes/admin/class-media-view.php:915
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "替代文本：Iminify 无法为此图片生成。"
+
+#: includes/admin/class-media-view.php:916
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "替代文本：未生成，因为今日的 AI 替代文本额度已用完。"
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "此图片带有内容凭证（记录其来源的签名信息），其文件会保留这些凭证。"
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "此图片曾带有内容凭证（记录其来源的签名信息）。Iminify 写入的文件和副本不含这些凭证，因为新文件会破坏其签名；作为备份保留的原图仍带有这些凭证。"
+
+#: includes/admin/class-media-view.php:946
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "此图片曾带有内容凭证（记录其来源的签名信息）。Iminify 写入的文件和副本不含这些凭证，因为新文件会破坏其签名。"
+
+#: includes/admin/class-media-view.php:950
+msgid "They say generative AI made it, wholly or in part."
+msgstr "凭证表明此图片全部或部分由生成式 AI 制作。"
+
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1023
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "在 Iminify 生成自己的副本之前，页面会使用 %2$s 生成的 %1$s 副本。"
+
+#: includes/admin/class-media-view.php:1053
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "全尺寸"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1082
+#, php-format
+msgid "Level: %s"
+msgstr "级别：%s"
+
+#: includes/admin/class-media-view.php:1090
+msgid "Size"
+msgstr "尺寸"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Before"
+msgstr "优化前"
+
+#: includes/admin/class-media-view.php:1092
+msgid "After"
+msgstr "优化后"
+
+#: includes/admin/class-media-view.php:1093
+msgid "Copies"
+msgstr "副本"
+
+#: includes/admin/class-media-view.php:1139
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "用 AI 生成替代文本"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "要发送此图片的缩小版来生成替代文本吗？这会占用您今日 1 条 AI 替代文本额度。"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Write alt text"
+msgstr "生成替代文本"
+
+#: includes/admin/class-media-view.php:1158
+msgid "Optimize again from the original at"
+msgstr "以下列级别从原图重新优化："
+
+#: includes/admin/class-media-view.php:1186
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "将站点连接到 Iminify 后即可优化此图片。"
+
+#: includes/admin/class-media-view.php:1188
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "此图片没有保留原图，因此无法重新优化或恢复。"
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize again at"
+msgstr "以下列级别重新优化："
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize at"
+msgstr "以下列级别优化："
+
+#: includes/admin/class-media-view.php:1207
+msgid "Make what it lacks"
+msgstr "补齐缺少的内容："
+
+#: includes/admin/class-media-view.php:1216
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "此图片在 Iminify 优化后已被更改，因此没有可恢复的内容。"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete the copies"
+msgstr "删除副本"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "要删除此图片的 WebP 和 AVIF 副本吗？其所在页面将改回提供 JPEG 或 PNG 图片。"
+
+#: includes/admin/class-media-view.php:1288
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "补齐缺少的格式"
+
+#: includes/admin/class-media-view.php:1292
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "补齐缺少的尺寸"
+
+#: includes/admin/class-media-view.php:1303
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "要重新发送此图片以补齐所缺内容吗？这会额外计为 1 张图片；除非 Iminify 能把其他文件变得更小，否则其他文件保持不变。"
+
+#: includes/admin/class-media-view.php:1311
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "要重新优化此图片吗？Iminify 将从原图重新生成其文件，并保留原有的格式和文件名。这会额外计为 1 张图片。"
+
+#: includes/admin/class-media-view.php:1314
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "要重新优化此图片吗？将先放回其原图，这会额外计为 1 张图片。"
+
+#: includes/admin/class-media-view.php:1321
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "要恢复此图片的原图吗？WordPress 会重新生成其各个尺寸，其 WebP 和 AVIF 副本将被删除。"
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1336
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "要从 %s 保留的原图重新优化此图片吗？Iminify 将基于该原图重新生成其文件，并保留原有的格式和文件名，让您文章中的链接依然有效，同时为原图保留自己的备份。这会额外计为 1 张图片。"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1343
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "要从 %s 保留的原图重新优化此图片吗？将先放回原图，由 WordPress 重新生成其各个尺寸，然后 Iminify 进行优化，并为原图保留自己的备份。这会额外计为 1 张图片。"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1358
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "要用 %s 保留的内容恢复此图片的原图吗？WordPress 会重新生成其各个尺寸，该插件的备份和副本将留在原处。"
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Iminify 已断开此站点的连接，新上传的图片不会被优化。"
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "重新连接"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Iminify Image Optimizer 已准备就绪。将其连接到您的 Iminify 账户，即可开始优化图片。"
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "连接"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "打开 Iminify 设置"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "已连接"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "未连接"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "站点连接到 Iminify 后，Iminify Image Optimizer 会将上传到此站点的图片发送至图片优化服务 Iminify。您可以将下方文字复制到隐私政策中有关所发布媒体的部分。"
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "推荐的文本："
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "本站使用 Iminify（www.iminify.com）来减小图片体积，并生成图片的 WebP 和 AVIF 副本。当有图片上传到本站，或我们优化本站已有的图片（包括媒体库中的图片以及主题和其他文件夹中的图片）时，我们的服务器会将图片连同本站地址发送给 Iminify，Iminify 再将更小的文件发回。我们保存这些文件后，Iminify 即删除该图片。"
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "照片可能包含相机写入的信息，例如拍摄时间和地点。这些信息会随图片一起发送给 Iminify；除非我们选择保留，否则 Iminify 发回的文件中不会包含这些信息。"
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "如果我们在插件设置中开启了 AI 替代文本，Iminify 还会为每张没有替代文本的图片生成缩小版，并将其发送给 Anthropic，由其模型为图片撰写描述。为媒体库中已有的图片请求替代文本时，也会将每张图片的缩小版发送给 Iminify，用于同一目的。"
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "如果我们检测本站某个页面中的图片，我们的服务器会将该页面的地址发送给 Iminify。Iminify 会像普通访客一样打开该页面，测量页面显示的图片，并将检测结果与本站和 Iminify 的连接一起保存。"
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "如果本站属于作为整体连接到 Iminify 的多站点网络，我们的服务器还会在本站首次需要时，将本站的地址和名称发送给 Iminify。"
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "如果我们选择沿用其他图片优化插件在本站保留的设置，我们的服务器会将这些设置、该优化插件的名称以及本站生成的图片尺寸名称发送给 Iminify。Iminify 会返回与之对应的设置，且不保留其中任何信息。"
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "不会向 Iminify 发送任何关于本站访客的信息：我们页面上的图片及其 WebP 和 AVIF 副本均由本站提供。"
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Iminify 的隐私政策：%s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "只有启用了此插件的站点网络中的站点才能加入该站点网络。"
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:272
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "此站点未连接到 Iminify。"
+
+#: includes/admin/class-settings-import.php:57
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "插件未在此站点上找到该优化插件的设置。"
+
+#: includes/admin/class-settings-import.php:107
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "这些设置在显示后已发生变化。请重新查看后再使用。"
+
+#: includes/admin/class-settings-import.php:208
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "优化新上传的图片"
+
+#: includes/admin/class-settings-import.php:210
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "压缩级别"
+
+#: includes/admin/class-settings-import.php:212
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "生成 WebP 副本"
+
+#: includes/admin/class-settings-import.php:214
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "生成 AVIF 副本"
+
+#: includes/admin/class-settings-import.php:216
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "最大宽度（像素）"
+
+#: includes/admin/class-settings-import.php:218
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "大小上限（KB）"
+
+#: includes/admin/class-settings-import.php:220
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "保留元数据"
+
+#: includes/admin/class-settings-import.php:222
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "要优化的尺寸"
+
+#: includes/admin/class-settings-import.php:224
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "为每张原图保留备份"
+
+#: includes/admin/class-settings-import.php:242
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "无上限"
+
+#: includes/admin/class-settings-import.php:245
+msgid "Every size"
+msgstr "所有尺寸"
+
+#: includes/admin/class-settings-import.php:249
+msgid "Only the full image"
+msgstr "仅全尺寸图片"
+
+#: includes/admin/class-settings-import.php:264
+msgid "On"
+msgstr "开启"
+
+#: includes/admin/class-settings-import.php:264
+msgid "Off"
+msgstr "关闭"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "设置"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "连接此站点，并选择其图片的优化方式。"
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "只需连接此站点网络，其中每个站点都会自动加入。"
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "插件文件夹中缺少设置页面的脚本。请重新安装插件以找回它。"
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "设置页面需要 JavaScript。"
+
+#: includes/admin/class-state.php:165
+msgid "Images today"
+msgstr "今日图片"
+
+#: includes/admin/class-state.php:166
+msgid "Files today"
+msgstr "今日文件"
+
+#: includes/admin/class-state.php:167
+msgid "AI alt texts today"
+msgstr "今日 AI 替代文本"
+
+#: includes/admin/class-state.php:248
+msgid "Guest"
+msgstr "游客"
+
+#: includes/admin/class-state.php:249
+msgid "Free"
+msgstr "免费版"
+
+#: includes/admin/class-state.php:250
+msgid "Pro trial"
+msgstr "Pro 试用"
+
+#: includes/admin/class-state.php:251
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:252
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:302
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "已用 %s 个，无每日上限"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:304
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "已用 %s 个"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:306
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "剩余 %s 个"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:310
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "已用 %s 条，无每日上限"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:312
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "已用 %s 条"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:314
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "剩余 %s 条"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:318
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "已用 %s 张，无每日上限"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:320
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "已用 %s 张"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:322
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "剩余 %s 张"
+
+#: includes/admin/class-state.php:344
+msgid "This site"
+msgstr "此站点"
+
+#: includes/admin/class-state.php:345
+msgid "Your whole account"
+msgstr "您的整个账户"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "中等"
+
+#: includes/admin/class-state.php:473
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "大"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:496
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s（宽 %2$d 像素）"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:501
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s（高 %2$d 像素）"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:505
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s（%2$d × %3$d）"
+
+#: includes/audit/class-findings.php:56
+msgid "Show a smaller size of the image here."
+msgstr "在此处显示该图片的较小尺寸。"
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:58
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "在此处显示宽约 %s 像素的尺寸，即其在页面中所占宽度的 2 倍。"
+
+#: includes/audit/class-findings.php:60
+msgid "Give the image its width and height in the page."
+msgstr "在页面中为图片指定宽度和高度。"
+
+#: includes/audit/class-findings.php:62
+msgid "Write alt text for the image."
+msgstr "为图片添加替代文本。"
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image straight away, not lazily."
+msgstr "立即加载图片，不要延迟加载。"
+
+#: includes/audit/class-findings.php:66
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "延迟加载图片，在访客滚动到其附近时再加载。"
+
+#: includes/audit/class-findings.php:68
+msgid "Have the browser fetch the image first."
+msgstr "让浏览器优先获取该图片。"
+
+#: includes/audit/class-findings.php:105
+msgid "Oversized"
+msgstr "尺寸过大"
+
+#: includes/audit/class-findings.php:106
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "文件的宽度和高度都超过其显示区域的 2 倍。换用同一图片的较小尺寸，看起来同样清晰。"
+
+#: includes/audit/class-findings.php:110
+msgid "No width and height"
+msgstr "缺少宽高"
+
+#: includes/audit/class-findings.php:111
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "图片没有 width 和 height 属性，浏览器无法预留其空间，图片加载出来时页面会发生跳动。"
+
+#: includes/audit/class-findings.php:115
+msgid "Lazy in the first screen"
+msgstr "首屏延迟加载"
+
+#: includes/audit/class-findings.php:116
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "图片位于首屏，却设置了延迟加载，导致其显示变慢。"
+
+#: includes/audit/class-findings.php:120
+msgid "Loads too early"
+msgstr "加载过早"
+
+#: includes/audit/class-findings.php:121
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "图片位于首屏以下，却会立即加载，与访客首先看到的内容争抢资源。"
+
+#: includes/audit/class-findings.php:125
+msgid "No alt text"
+msgstr "缺少替代文本"
+
+#: includes/audit/class-findings.php:126
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "图片没有供屏幕阅读器和搜索引擎使用的替代文本。"
+
+#: includes/audit/class-findings.php:130
+msgid "Not prioritized"
+msgstr "未优先加载"
+
+#: includes/audit/class-findings.php:131
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "这是首屏中最大的元素，它加载完成时页面才会给人已加载的感觉。优先获取它可以让页面更快显示。"
+
+#: includes/audit/class-findings.php:148
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "您的站点拒绝了扫描程序，因此无法读取该页面。这通常是防火墙或机器人检查所致，以 Cloudflare 的最为常见。请暂时放行扫描：在 Cloudflare 中关闭「Bot Fight Mode」或将「Security Level」设为「Essentially off」；在安全插件中暂停其防火墙或机器人拦截。重新扫描后，再将它们重新开启。"
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:150
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "您的站点拒绝了扫描程序（返回了 %d），因此无法读取该页面。这通常是防火墙或机器人检查所致，以 Cloudflare 的最为常见。请暂时放行扫描：在 Cloudflare 中关闭「Bot Fight Mode」或将「Security Level」设为「Essentially off」；在安全插件中暂停其防火墙或机器人拦截。重新扫描后，再将它们重新开启。"
+
+#: includes/audit/class-findings.php:152
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "此地址没有页面。请检查地址后重新扫描。"
+
+#: includes/audit/class-findings.php:154
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "页面返回了站点端的错误，因此无法读取。请过几分钟后重新扫描。"
+
+#: includes/audit/class-findings.php:156
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "该页面将扫描程序重定向到了其他站点，而检测不会跟随此类跳转。如果页面最终到达的地址位于本站，请扫描该地址。"
+
+#: includes/audit/class-findings.php:159
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "无法读取该页面：站点没有响应扫描程序。请检查地址后重新扫描。"
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:161
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "该地址返回了 %d，而不是页面，因此无法读取。请检查地址后重新扫描。"
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "请单独传入 --others，或同时传入要重新优化的附件。"
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "文件夹中的文件会一次性全部处理：请单独传入 --folders，或与 --failed 一起使用。"
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "请指定附件，或传入 --all 或 --failed。"
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "文件夹中的文件会一次性全部处理：请单独传入 --folders。"
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "要将文件夹中所有已优化的文件恢复原样吗？"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:275
+msgid "Name the attachments, or pass --all."
+msgstr "请指定附件，或传入 --all。"
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "要将所有已优化的图片恢复为上传时的状态吗？"
+
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "请指定要补齐的内容：%1$s 或 %2$s。"
+
+#: includes/class-cli.php:321
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "在站点网络中，其他文件夹需在主站点上选择：请添加 --url 并指定主站点的地址。"
+
+#: includes/class-cli.php:328
+msgid "Name the folder, relative to wp-content."
+msgstr "请指定文件夹，路径相对于 wp-content。"
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:361
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "找到 %1$s 张图片：%2$s 张新增，%3$s 张已更改。"
+
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
+msgid "No bulk run is going."
+msgstr "没有正在进行的批量任务。"
+
+#: includes/class-cli.php:432
+msgid "Stopped."
+msgstr "已停止。"
+
+#: includes/class-cli.php:497
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "任务将在后台继续运行。查看进度请运行：wp iminify status"
+
+#: includes/class-cli.php:518
+msgid "Bulk run"
+msgstr "批量任务"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:612
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "该账户今日的 AI 替代文本额度已用完。额度将于 %s 重置，届时任务会在后台继续。"
+
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "任务正在等待此站点与 Iminify 的连接，连接正常后将在后台继续。"
+
+#: includes/class-cli.php:628
+msgid "The run goes on in the background once it stops."
+msgstr "该插件停止后，任务会在后台继续运行。"
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:639
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "该账户今日的图片额度已用完。下一批次将于 %s 开放，届时任务会在后台继续。"
+
+#: includes/class-cli.php:661
+msgid "The run was stopped."
+msgstr "任务已停止。"
+
+#: includes/class-cli.php:668
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "任务已暂停：服务器磁盘空间不足。请释放部分空间，然后运行：wp iminify run"
+
+#: includes/class-cli.php:671
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "任务已暂停。如需继续，请运行：wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:680
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%s 张图片无法恢复。原因见媒体库中相应图片的面板。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:690
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s 张图片保持原样：其他插件已将其转换为 WebP 或 AVIF，只有相应插件才能放回其原图。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:698
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s 张图片保持其他插件处理后的状态：原图已不存在、过大无法发送，或只有相应插件才能放回。具体原因见媒体库中相应图片的面板。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:706
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s 张图片保持原样：与其他附件共用文件，或现已有替代文本。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:714
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s 张图片没有可作为依据的原图，或在优化后已被更改，因此未为其生成任何内容。"
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:724
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "已恢复 %s 个文件。"
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:726
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "已将 %s 个文件发送到 Iminify。"
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:731
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "您的文件夹中共有 %2$s 个文件，已优化 %1$s 个，失败 %3$s 个。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:744
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "已恢复 %s 张图片。"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:746
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "已将 %s 张图片发送到 Iminify。"
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:751
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "媒体库中共有 %2$s 张图片，已优化 %1$s 张，失败 %3$s 张。"
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:798
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s 不是附件。"
+
+#: includes/class-cli.php:819
+msgid "This account can't run bulk commands."
+msgstr "此账户无法运行批量命令。"
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify 返回了此版本插件无法读取的响应。"
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "请先粘贴站点密钥。"
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "此站点的密钥已在 wp-config.php 中设置。请在该文件中修改或移除。"
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress 无法保存站点网络的密钥。请点击「连接站点网络」重试。"
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "WordPress 无法保存站点密钥。请点击「连接」重试。"
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "智能"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "智能：兼顾画质与文件大小"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "兼顾画质与文件大小。"
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "极限"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "极限：文件最小，画质略有损失"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "文件最小，画质略有损失。"
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "无损"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "无损：画质无可见变化"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "画质无可见变化。"
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "不压缩"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "不压缩：仅应用其他设置"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "不压缩，仅应用其他设置。"
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "英语"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "法语"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "德语"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "意大利语"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "荷兰语"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "波兰语"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "瑞典语"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "土耳其语"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "俄语"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "乌克兰语"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "阿拉伯语"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "波斯语"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "希伯来语"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "印地语"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "印度尼西亚语"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "越南语"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "泰语"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "日语"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "韩语"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "简体中文"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "繁体中文"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Iminify 无法识别此密钥。请检查是否已完整复制，或新建密钥。"
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "这是 API 密钥。站点需要使用站点密钥：请在 iminify.com 的「Settings, Sites」中创建，或改为点击「连接」。"
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "此密钥属于其他地址上的站点，因此本克隆站点无法使用。请将本克隆站点作为独立站点连接，或将连接移到此处。"
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Iminify 要求插件等待。请在 %s 后重试。"
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Iminify 要求插件等待。请稍后重试。"
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "此连接已无法使用：它已过期、被拒绝或已被使用。请点击「连接」重新开始。"
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "此站点的 AI 替代文本功能已关闭。请先在插件设置中开启。"
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "检测只扫描本站自己的页面。请输入本站某个页面的地址。"
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "站点网络的密钥是为单个站点创建的，因此站点网络中的站点无法用它加入。超级管理员可在「管理网络」中重新连接站点网络。"
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "该站点网络的站点数量已达到单个站点网络的上限。请在 iminify.com 的「Settings, Sites」中移除不再使用的站点，或单独连接此站点。"
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "此站点已单独连接到该账户，或已属于其他站点网络。请先在 iminify.com 的「Settings, Sites」中断开其连接，再将其加入此站点网络；或在此单独连接此站点。"
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "此版本的 Iminify Image Optimizer 过旧，无法继续优化图片。请在「插件」页面中更新。"
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "您账户今日的图片额度已用完。新上传的图片会排队等待，并在下一批次开放时自动发送。"
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "此站点曾在其他 Iminify 账户上试用过 Pro，因此在此账户中，其上传的图片适用免费版的额度。"
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "站点网络未连接到 Iminify。超级管理员可在「管理网络」中连接。"
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "此站点正在加入站点网络。请稍候再查看。"
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "等待继续：此图片在处理途中时插件被禁用。"
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "等待下一批次。"
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "等待站点连接到 Iminify。"
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "未优化：批量任务已停止。"
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "未优化：站点未连接到 Iminify。"
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "未优化：请先更新 Iminify 插件。"
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "未优化：此站点不优化上传的图片。"
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "未优化：服务器磁盘空间不足。请释放部分空间，然后优化此图片。"
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "未发送：此服务器的 PHP 无法打开 zip 文件。请让您的主机商开启 PHP 的 zip 扩展。"
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "此服务器的 PHP 无法打开 zip 文件：请让您的主机商开启 PHP 的 zip 扩展。"
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "无法打开从 Iminify 下载的文件。"
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "未发送：此图片的原图过大，无法发送，超出了您套餐允许的文件大小，或超出了此服务器内存所能容纳的范围。"
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "未发送：此图片超出了您套餐允许的文件大小，或超出了此服务器内存所能容纳的范围。"
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "未发送：此图片已没有可用于生成优化文件的原图。"
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "未发送：此图片已没有可用于生成优化文件的原图。"
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress 无法为此图片生成缺少的尺寸。"
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "保持上传原样：Iminify 只优化 JPEG、PNG、WebP 和 GIF 图片。"
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "保持原样：Iminify 只优化 JPEG、PNG、WebP 和 GIF 图片。"
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "保持上传原样：此站点已将此图片排除在外。"
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "保持原样：此站点已将此图片排除在外。"
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "无法读取该图片。"
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "该图片不在 uploads 文件夹中。"
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "未发送：该图片的文件不在 uploads 文件夹中。"
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "未发送：该图片的文件不存在，或是指向其他位置的链接。"
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "该图片的文件或其备份在处理途中丢失。"
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "未发送：该图片已不在 Iminify 优化的文件夹中。"
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "未写入：该图片已不在 Iminify 优化的文件夹中。"
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "在 Iminify 优化后已被更改，因此可以重新优化。"
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "该图片在 Iminify 优化期间被更改，因此将重新发送。"
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "与翻译版本一样，其文件属于附件 #%d，因此 Iminify 会在该附件上优化这些文件。"
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "无法保存此图片的备份，因此未进行优化。请检查 WordPress 能否写入 uploads 文件夹，或在 Iminify 设置中关闭备份。"
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "此图片在备份后已被更改，且无法移开旧备份，因此未进行优化。"
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "无法从 WP Offload Media 的存储桶中将该图片复制回来进行发送。"
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify 多次尝试后仍无法完成此图片。"
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "已恢复：原图已放回。"
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "无法恢复该图片。"
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "无法从 WP Offload Media 的存储桶中复制回原图，因此图片保持不变。请重试。"
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "无法放回原图，因此图片保持不变。"
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress 无法读取原图，因此图片的各个尺寸保持不变。请重试。"
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify 未更改过此图片，因此没有可恢复的内容。"
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify 未对此图片做任何更改，因此它本来就是原样。"
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "此图片在 Iminify 优化后已被更改，恢复会覆盖新的图片。"
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "此图片在 Iminify 优化后已被更改，因此其备份已不再是它的原图。"
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "该图片的文件已不存在，或不在 Iminify 优化的文件夹中。"
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "此图片没有保留原图，因此无法恢复。优化时备份处于关闭状态，或备份已被删除。"
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "此图片没有保留原图，因此无法恢复。"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s 未保留可供 Iminify 检查的此图片原图，因此无法在此恢复。"
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "无法连接 Iminify：%s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify 返回了错误（HTTP %d）。"
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "此服务器内存不足，无法发送这么大的图片。"
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "无法从 uploads 文件夹读取该图片。"
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress 无法保存站点密钥。请点击「加入站点网络」重试。"
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "uploads 文件夹"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "请指定 wp-content 中的某个文件夹，例如 themes/your-theme。"
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "wp-content 中该路径下没有文件夹。"
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "该文件夹是指向其他位置的链接，因此 Iminify 会将其排除。"
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "这是媒体库的文件夹：其中的图片通过媒体库进行优化。"
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "这是 Iminify 插件自身的文件夹，每次更新都会被替换。"
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "其他工具会在该文件夹中存放拷贝、缓存或备份，因此其中的图片并非站点自有的图片。"
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "该文件夹存放的是媒体库的文件或其备份，Iminify 会通过媒体库处理它们。"
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "该文件夹存放的是隐藏文件或项目依赖，Iminify 不会处理。"
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "在站点网络中，其他文件夹需在主站点上选择。"
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "该文件夹已在列表中，位于 %s 内。"
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "列表中的文件夹数量已达上限。请先移除某个文件夹，或选择包含其中多个文件夹的上级文件夹。"
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "请先更新 Iminify 插件。"
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "您账户今日的图片额度已用完。下一批次将于 %s 开放。"
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "服务器磁盘空间不足。请释放部分空间，然后优化此图片。"
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "此图片没有保留原图，因此无法重新优化。"
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "此图片过大，无法发送：超出了您套餐允许的文件大小，或超出了此服务器内存所能容纳的范围。"
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "此图片已有替代文本，或其文本正在生成中。"
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "已有批量任务正在进行。请先停止该任务。"
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "其他文件夹中的文件会一次性全部优化、重新发送或恢复。"
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Iminify 仍在查找您的文件夹。请在查找完成后重新开始。"
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "服务器磁盘空间不足。请释放部分空间，然后重新开始。"
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "请先选择文件夹。"
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "您的文件夹中已没有可恢复的已优化文件。"
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "您的文件夹中没有失败的文件。"
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "您的文件夹中的所有文件都已优化或正在处理。"
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "已没有可恢复的已优化图片。"
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "没有任何由其他插件优化的图片还保留着可用于重新优化的原图。"
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "所有图片都已有替代文本，或其文本正在生成中。"
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "所有已优化的图片都已满足站点当前的要求。"
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "所有图片都已优化或正在处理。"
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "此图片在 Iminify 优化后已被更改，请改为重新优化。"
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "此图片已满足站点当前的要求，没有缺少任何内容。"
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "此图片的原图过大，无法发送：超出了您套餐允许的文件大小，或超出了此服务器内存所能容纳的范围。"
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "请禁用 Converter for Media，或在「设置，Converter for Media」的「General Settings」中关闭「Conversion of new images」。"
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "请禁用 Image Optimizer by Elementor，或在「Elementor, Image Optimization, Settings」中关闭「Optimize new uploads」。"
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Image Optimizer by Elementor 转换了此图片，为其赋予了新的地址（您的文章现在链接到该地址），并在旁边保留了原图。只要该插件仍处于安装状态，其自带的「Restore」即可放回原图及其地址；Iminify 不会改写您的文章，因此不会恢复此图片。"
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "请禁用 EWWW Image Optimizer。"
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "EWWW Image Optimizer 将此图片的原图保存在其自己的服务器上，保留 30 天。请在其密钥仍有效且未超过这 30 天时，在 EWWW Image Optimizer 中恢复；Iminify 无法获取该原图。"
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "请禁用 Imagify，或在其设置中关闭「Auto-Optimize images on upload」。"
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "这些行已经不存在，或其所属插件已重新启用。"
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "只有能够管理站点网络的用户才能移除所有站点共用的行。"
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "插件无法删除这些行。请手动移除。"
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s 已不再使用这些行，但当浏览器支持 WebP 或 AVIF 时，这些行仍会用它在自身文件夹中为图片生成的副本来代替该图片，因此访客可能拿到 Iminify 优化之前生成的副本。"
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s 已不再使用这些行，但当浏览器支持 WebP 或 AVIF 时，这些行仍会用以该图片命名的任何 WebP 或 AVIF 文件（无论多旧）来代替该图片，因此访客可能拿到 Iminify 优化之前生成的副本。"
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Nginx 在重新加载前会继续使用这些行，因此删除后请重新加载 Nginx。"
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Smush 为其转换为 JPEG 的 PNG 图片添加了此规则，该规则仍在 WordPress 的重写规则中：对这类已不存在的 PNG 的请求，最终会跳转到您的首页，而不是返回「未找到」。"
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "请在「LiteSpeed Cache, Image Optimization」中关闭「Auto Request Cron」，在「Page Optimization, Media Settings」中关闭「Auto Rescale Original Images」，并等待其已发送的图片返回；或禁用 LiteSpeed Cache。"
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "请禁用 Modern Image Formats：它没有可以让自身停止的设置。"
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Modern Image Formats 用基于原图生成的现代格式文件替换了此图片的文件，WordPress 保留了原图。放回原图会改变图片的地址，导致链接到这些地址的文章失效，因此 Iminify 不会恢复此图片。"
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "请禁用 Optimole，或在「Optimole, Settings, Image Storage」中选择「Optimole Cloud and your website」。"
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Optimole 已将此图片移至其云端，并删除了本地文件。请先在 Optimole 中将其回滚（需要 Optimole 处于启用并已连接的状态），之后 Iminify 即可优化它。"
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "%1$s 已启用并会自行优化您上传的图片，因此在它运行期间 Iminify 不会优化任何图片，以免图片被重复压缩。%2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "已由 %s 优化"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "请禁用 ShortPixel，或在其设置的「Processing」中关闭「Optimize media on upload」。"
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "请禁用 Smush，或在其设置中关闭「Automatic compression」。"
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "请禁用 TinyPNG，或在其设置中将新图片设为手动压缩。"
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "（在新窗口中打开）"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "载入中…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "重试"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "不再显示"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Iminify 正在扫描该页面。"
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "您的页面现在会在发送时自动补上缺少的宽度、高度和替代文本。重新扫描该页面即可查看效果。"
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "每周检查每个页面"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "每周检查会每周检测 1 次您的站点地图中列出的每个页面，压缩新增或更改过的图片，并通过电子邮件将结果发送给您。您可以在 iminify.com 上基于对站点的抓取进行设置，并在那里查看哪些套餐包含此功能。"
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "设置每周检查"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "无法读取页面"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "等待扫描"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "扫描中"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "已完成"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "无图片"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "已停止"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "失败"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Iminify 已断开此站点的连接，因此无法检测其页面。请重新连接以继续。"
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "请将此站点连接到 Iminify 以检测其页面。"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "前往设置"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "扫描页面"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Iminify 会像访客一样打开页面，并测量其中显示的每张图片。"
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "页面"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "本站的其他地址"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "地址"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "扫描"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "%s 秒后可再次扫描。"
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "今日已使用 %s 次页面扫描。每次检测计为 1 次。"
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "今日还剩 %1$s 次页面扫描，每日共 %2$s 次。每次检测计为 1 次。"
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "您今日的页面扫描次数已用完。新的次数将于 %s 提供。"
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "您今日的页面扫描次数已用完。"
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "最近的检测"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "页面中的图片"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "选择页面并点击「扫描」。Iminify 会列出其中的每张图片，与其在媒体库中对应的图片并列显示，并指出值得修复的问题。"
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Iminify 正在打开页面并测量其中的图片。这通常不到 1 分钟，测得的图片会立即显示在此页面上。"
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "该页面没有显示任何图片。"
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "页面上有 %1$s 张图片，其中 %2$s 张有需要修复的问题。"
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "没有需要修复的问题：此页面上每张图片的尺寸、加载方式和描述都很合适。"
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "隐藏没有问题的图片"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "显示 %s 张没有问题的图片"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "此页面上有 %s 张来自媒体库的图片缺少宽度和高度，或缺少其在媒体库中的替代文本。插件可以在发送页面时，从媒体库为页面补上缺少的内容。"
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "在每个页面上自动补全"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "能够更改插件设置的用户可以开启此功能。"
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "在放置此图片的位置使用「%1$s」尺寸（%2$s × %3$s）。该图片并非由页面编辑器放置：它由您的主题、模板或小工具显示，需在那里选择尺寸。"
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "在此处使用「%1$s」尺寸（%2$s × %3$s）：在编辑器中选中该图片，然后在「分辨率」中选择。"
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "编辑页面"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "插件会在发送页面时补上这些内容。重新扫描即可查看。"
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Iminify 正在生成该图片的替代文本。生成后请重新扫描。"
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "为此站点开启 AI 替代文本后，Iminify 即可生成。"
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "在设置中开启"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "其替代文本正在生成。生成后请重新扫描。"
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "多个翻译版本共用此图片，各自带有其语言的替代文本：请在此页面所显示版本的编辑页面中填写。"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "插件会在发送页面时，补上该图片在媒体库中的替代文本。重新扫描即可查看。"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "处理中"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "等待中"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "失败"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "已由其他插件优化"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "（无标题）"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s，%2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "%s 副本"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "首屏中最大的元素"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "显示为 %1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "该图片正在发送到 Iminify。"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "已复制"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "复制"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "取消"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Iminify 表示您账户今日的图片额度仍已用完。"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "处理中"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "失败"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "已跳过"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "已恢复"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "您的媒体库"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s 张图片"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "您的媒体库中还没有图片。"
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "已优化"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "累计节省"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "原 %1$s，减少 %2$s%%"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s 优化了 %2$s 张图片，并保留了原图。Iminify 将保持其原样。"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "%1$s 优化了 %2$s 张图片，且未保留原图。Iminify 将保持其原样。"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s 优化了 %2$s 张图片，其中 %3$s 张保留了原图。Iminify 将保持其原样。"
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "其他文件夹已恢复"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "正在恢复其他文件夹"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "其他文件夹已优化"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "正在优化其他文件夹"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "媒体库已恢复"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "正在恢复"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "替代文本已生成"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "正在生成替代文本"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "缺少的格式已补齐"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "正在补齐缺少的格式"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "缺少的尺寸已补齐"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "正在补齐缺少的尺寸"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "已从原图重新优化"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "正在从原图重新优化"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "批量优化"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "已完成"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "已暂停：磁盘空间不足"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "已暂停"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "等待其他优化插件"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "停滞"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "等待站点"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "今日额度已用完"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify 繁忙"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "正在此页面中运行"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "运行中"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "已恢复 %1$s 张图片，共 %2$s 张。"
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "已将 %1$s 张图片发送到 Iminify，共 %2$s 张。"
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s 条替代文本正在生成"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s 张图片正在由 Iminify 处理"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "张图片已恢复"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "张图片已发送到 Iminify"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "%d 张图片无法恢复。原因见「媒体，其他文件夹」中相应的行。"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%d 张图片无法恢复。原因见媒体库中相应图片的面板。"
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "立即开始"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "暂停"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "继续"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "停止"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "改为在后台运行"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "已完成：图片已恢复为上传时的状态。"
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "已完成：每张图片的替代文本结果可在媒体库中查看。"
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "已完成：没有需要发送的图片。"
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "已完成：所有图片均已发送。每张图片的处理结果可在媒体库中查看。"
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "已停止。已交给 Iminify 的图片会在此页面保持打开期间处理完成；其余图片保持不变。"
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "已停止。已交给 Iminify 的图片会继续处理完成；其余图片保持不变。"
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "已暂停：服务器磁盘空间不足。请释放部分空间，然后继续。"
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "插件被禁用期间已暂停。"
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "已暂停。已交给 Iminify 的图片会在此页面保持打开期间处理完成。"
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "已暂停。已交给 Iminify 的图片会继续处理完成。"
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "其他图片优化插件正在处理您上传的图片，任务已暂缓。该插件关闭后，任务会自动继续。"
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "任务已有一段时间没有进展：此站点的计划任务似乎没有运行。"
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "您账户今日的图片额度已用完。下一批次于 %s 开放时，任务会自动继续。"
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "已暂缓：Iminify 不接受此站点的密钥。连接正常后，任务会自动继续。"
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "您账户今日的 AI 替代文本额度已用完。任务将于 %s 自动继续。"
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Iminify 正忙于处理已发送的图片。任务将于 %s 发送更多图片。"
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "请保持此页面打开：页面打开期间图片会持续发送。"
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "任务会在后台继续运行，您可以离开此页面。"
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "站点健康显示：%s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "如果此站点在打开前要求输入密码，请将该用户名和密码填入 wp-config.php，以便其计划任务能够访问站点："
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "请改为在此页面打开时运行，或在命令行中继续运行："
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "在此页面打开时运行"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "比较套餐"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "请将此站点连接到 Iminify 以优化其图片。"
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "服务器磁盘空间不足，在释放部分空间之前不会优化任何图片。"
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "优化媒体库"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s 张图片尚未优化。"
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "其备份约需 %1$s 磁盘空间（剩余 %2$s）。"
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "其备份约需 %s 磁盘空间。"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "重新发送 %s 张失败的图片"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "暂无可优化的内容。"
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "所有图片都已优化或正在处理。"
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "没有等待优化的图片。"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s 张图片已被恢复，将保持原样：批量任务不会处理已被手动放回的图片。如需重新优化，请在媒体库中相应图片的面板中操作。"
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "缺少的文件"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "%s 张已优化的图片缺少站点当前要求的格式。"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "%s 张已优化的图片可能缺少站点当前生成的尺寸。"
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "替代文本"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s 张图片没有替代文本。"
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "要发送这些图片的缩小版来生成替代文本吗？每张都会占用 1 条今日 AI 替代文本额度，人工填写的替代文本绝不会被替换。"
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "今日还剩 %s 条 AI 替代文本。"
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "要重新发送这些图片以补齐所缺内容吗？每张都会额外计为 1 张图片；除非 Iminify 能把其他文件变得更小，否则其他文件保持不变。"
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "从原图重新优化这些图片"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "%s 张由其他插件优化的图片保留了原图。Iminify 可以基于原图重新优化，并为每张原图保留自己的备份。重新优化前会先放回原图；但如果图片已被转换为 WebP 或 AVIF，则会以相同的文件名、按该格式重新生成其文件。"
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "要从原图重新优化这些图片吗？每张都会额外计为 1 张图片；原图只能由其所属插件放回的图片将保持原样。"
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "LiteSpeed Cache 已启用。每当 WordPress 重新生成图片的各个尺寸（使用 Regenerate Thumbnails 或替换图片）时，它都会删除图片旁的 WebP 和 AVIF 副本，并放回其为已优化图片保留的旧文件，导致 Iminify 认为该图片已被更改。「LiteSpeed Cache, Image Optimization」中的「Remove Original Image Backups」可阻止它放回旧文件。"
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "在后台"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "您可以离开此页面。"
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "在此页面打开时"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "适用于计划任务无法运行的主机。"
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "运行"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "您的套餐"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "今天全部完成"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "约 %d 天"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "您套餐的每日图片额度今天即可全部覆盖。"
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "任务每天会自动继续。"
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "查看套餐"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "其他文件夹"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "就地优化主题及媒体库以外其他文件夹中的图片，并为每张图片保留备份。"
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "您的文件夹中有 %1$s 张图片：%2$s 张已优化，%3$s 张尚未优化。"
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Iminify 仍在查找这些文件夹。"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "要将文件夹中所有已优化的图片恢复原样吗？其 WebP 和 AVIF 副本将被删除，备份会保留。"
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "全部恢复"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "查看图片"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "优化这些图片"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "重新发送失败的图片"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "选择文件夹"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "恢复媒体库"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "将每张已优化的图片从其备份恢复为上传时的状态，并由 WordPress 重新生成其各个尺寸。如果您希望在移除插件前放回原图，请先执行此操作。被其他插件转换为 WebP 或 AVIF 的图片将保持原样，因为只有该插件才能放回其原图。"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "要将所有已优化的图片恢复为上传时的状态吗？其 WebP 和 AVIF 副本将被删除，备份会保留。"
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "已发送到 Iminify。"
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "原图已放回。"
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "查找中"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "文件夹"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "选择您的主题或 wp-content 中的任意文件夹，Iminify 会就地优化其中的图片，并为每张图片保留备份。"
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "移除"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "您的主题"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "其父主题"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "添加您的主题：%s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "添加其父主题：%s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "添加"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "wp-content 中的其他文件夹"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "上次查找于 %1$s：%2$s 张图片，%3$s 张新增，%4$s 张已更改。"
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "主题或插件更新后，Iminify 会重新查找。手动更改图片后，请立即查找。"
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "查找新增和更改的图片"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "您的文件夹中"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "批量优化页面上正在对这些图片执行批量任务。"
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "在批量优化页面上全部优化或恢复。"
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "前往批量优化"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "全部"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "图片"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "添加文件夹后即可在此查看其中的图片。"
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "在这些文件夹中未找到图片。"
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "此处没有图片。"
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "上一页"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "第 %1$s 页，共 %2$s 页"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "下一页"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "等待连接"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "已跳过"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "已恢复"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "缩小 %s%%"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "恢复"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "要放回原图吗？其 WebP 和 AVIF 副本将被删除，备份会保留。"
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "要断开站点网络与 Iminify 的连接吗？其各站点加入时使用的密钥都将一并停用，这些站点新上传的图片将不再被优化。已优化的图片保持不变。"
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "要断开此站点与 Iminify 的连接吗？新上传的图片将不再被优化，且此站点不会自动重新加入站点网络：如需重新加入，请点击「加入站点网络」。已优化的图片保持不变。"
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "要断开此站点与 Iminify 的连接吗？新上传的图片将不再被优化。已优化的图片保持不变。"
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "断开连接"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s（%2$s）已作为多站点网络连接到 Iminify。"
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s（%2$s）已通过其站点网络连接到 Iminify。"
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s（%2$s）已连接到 Iminify。"
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "您的账户"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "套餐"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s，有效期至 %2$s"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "下一批次"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "站点网络中的站点"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s / %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "主站点"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "已节省 %s"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "此站点的 Iminify 账户已在 wp-config.php 中设置。"
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "您在 iminify.com 上的套餐"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "站点网络的密钥已在 wp-config.php 中设置为 <code>IMINIFY_API_KEY</code>。如需断开连接，请在该文件中将其移除，并在 iminify.com 的「Settings, Sites」中断开站点网络。"
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "站点的密钥已在 wp-config.php 中设置为 <code>IMINIFY_API_KEY</code>。如需断开连接，请在该文件中将其移除，并在 iminify.com 的「Settings, Sites」中断开该站点。"
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "连接您的站点网络"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Iminify 会压缩上传到此站点网络中每个站点的图片，并生成其 WebP 和 AVIF 副本。只需将站点网络连接到您的 Iminify 账户（也可在过程中创建免费账户），每个站点都会在首次需要 Iminify 时自动加入。"
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "在您连接之前，不会向 Iminify 发送任何内容。点击「连接」会在新标签页中打开 iminify.com，您可在那里批准此站点网络。"
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "连接站点网络"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "单独连接此站点"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "此站点也可以改为连接到自己的 Iminify 账户，此后将不再使用站点网络的连接。"
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "点击「连接」会在新标签页中打开 iminify.com，您可在那里批准此站点。"
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "连接您的站点"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Iminify 会压缩您上传的图片，并生成其 WebP 和 AVIF 副本。将此站点连接到您的 Iminify 账户（也可在过程中创建免费账户）即可开始。"
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "在您连接之前，不会向 Iminify 发送任何内容。点击「连接」会在新标签页中打开 iminify.com，您可在那里批准此站点。"
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "超级管理员也可以在「管理网络」中连接整个站点网络，每个站点都会自动加入。"
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "连接的工作方式"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "等待您的批准"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "请在已打开的标签页中，于 iminify.com 上批准连接。批准后此页面会自动完成连接；即使您关闭此页面，站点也会继续完成连接。"
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "重新打开 iminify.com 上的页面"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "代理机构可以在 iminify.com 的「<a>Settings, Sites</a>」中添加此站点，并将其密钥粘贴到此处，或在 wp-config.php 中将其设置为 <code>IMINIFY_API_KEY</code>。"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "代理机构可以在 iminify.com 的「Settings, Sites」中添加此站点，并将其密钥粘贴到此处，或在 wp-config.php 中将其设置为 <code>IMINIFY_API_KEY</code>。"
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "代理机构可在 iminify.com 的「<a>Settings, Sites</a>」中添加站点网络（勾选「This is a multisite network」），并将其密钥粘贴到此处，或在 wp-config.php 中将其设置为 <code>IMINIFY_API_KEY</code>。"
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "代理机构可在 iminify.com 的「Settings, Sites」中添加站点网络（勾选「This is a multisite network」），并将其密钥粘贴到此处，或在 wp-config.php 中将其设置为 <code>IMINIFY_API_KEY</code>。"
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "每次上传都在后台优化"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "WordPress 先完成上传，然后 Iminify 压缩该图片及 WordPress 为其生成的每个尺寸。"
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "每次上传计为 1 张图片"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "WordPress 为其生成的各个尺寸及其 WebP 和 AVIF 副本都作为文件随之计入，绝不额外计为图片。"
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "您的原图保留在此站点上"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "每张原图的备份都保存在 uploads 文件夹中，任何图片都可以恢复原样。"
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "媒体库何时处理由您决定"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "媒体库中已有的图片会一直等待，直到您在「媒体，批量优化」中启动它们。"
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "连接之后"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "使用站点网络的密钥连接"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "使用站点密钥连接"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "站点网络密钥"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "站点密钥"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "使用此密钥连接"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "变为"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "不变"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "%s 的设置"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Iminify 在此站点上发现了 %s 的设置。只要 Iminify 有相同的设置，它就可以按这些设置来设定此站点：压缩级别、最大宽度、元数据、WebP 和 AVIF 副本、尺寸和备份。在做出任何更改之前，您都会先看到将要更改的内容。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "使用 %s 的设置"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "不用了"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "此站点已在使用与 %s 的设置相对应的配置。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "根据 %s 的设置，Iminify 将设定以下内容。在您使用之前不会有任何更改；使用后将替换您在下方设置中尚未保存的更改。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "根据 %s 的设置，Iminify 将设定以下内容。在您使用之前不会有任何更改。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "%s 的设置在 Iminify 中均无对应项，因此此站点保留自己的设置。"
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "使用这些设置"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "确定"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "打开站点网络的 Iminify 设置"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "站点网络的连接"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "这是站点网络的主站点，因此它使用站点网络与 Iminify 的连接。超级管理员在「管理网络」中连接和断开站点网络。"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "这是站点网络的主站点，因此它使用站点网络与 Iminify 的连接，但该连接尚未建立。超级管理员可在「管理网络」中连接站点网络，之后每个站点都会自动加入。"
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "站点网络中的站点"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "此密钥是为单个站点创建的，因此站点网络中的站点无法用它加入。请断开连接后重新连接站点网络，或在 iminify.com 的「Settings, Sites」中勾选「This is a multisite network」来创建密钥。"
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "站点网络中的每个站点会在首次需要 Iminify 时，使用自己的密钥自动加入，并沿用主站点的设置。每个站点在您的账户中都计为独立站点。在其自身页面或 iminify.com 的「Settings, Sites」中断开连接的站点不会自动重新加入。"
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "每个站点的设置位于其自己的「设置，Iminify」页面。主题和其他文件夹中的图片由主站点为整个站点网络统一优化。"
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "主站点的设置"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "主站点的其他文件夹"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "站点网络的连接方式"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "加入站点网络"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s 已连接到 Iminify。此站点可以使用自己的密钥加入，并在该账户中计为独立站点。"
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "在 WordPress 的重写规则中："
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "在 <file /> 中："
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "要从 WordPress 的重写规则中移除 %s 的规则吗？其他规则均保持不变。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "要从此文件中移除 %s 的行吗？文件中的其他内容保持不变。Nginx 在重新加载前会继续使用这些行，因此之后请重新加载 Nginx。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "要从此文件中移除 %s 的行吗？文件中的其他内容保持不变。"
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> 包含行 %s，但由该行开始的代码块没有自己的结束行，或跨越了其他代码块，因此插件不会改动该文件。请手动删除该代码块的各行。"
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "插件无法写入 <file />。请手动从中删除这些行，然后重新加载 Nginx。"
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "插件无法写入 <file />。请手动从中删除这些行。"
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "站点网络中的所有站点共用这些行，因此需由能够管理站点网络的用户在「管理网络」的 Iminify 设置中移除。"
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "站点网络中的所有站点共用这些行，因此需由超级管理员在此页面上移除。"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "%s 的重写规则"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "%s 的规则"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "其他优化插件留下的规则"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "其他优化插件留下的规则已移除。"
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "您之前使用的某个图片优化插件在禁用时留下了这些规则。Iminify 绝不会自行移除其他插件的规则。"
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d 张图片正在优化。"
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d 张图片正在等待下一批次。"
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d 张图片正在等待站点连接，连接后会自动发送。"
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "下一批次将于 %s 开放。新上传的图片会优先自动发送。"
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "队列"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "服务器磁盘空间不足，Iminify 已停止优化此处的图片。请释放部分空间，然后优化标记为「未优化」的图片。"
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "规则添加后您的服务器返回了错误，因此插件已将规则撤下，您的图片会照常加载。请询问您的主机商 .htaccess 文件能否设置重写规则和文件类型，或选择 picture 标签。"
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "您的服务器正在提供 WebP 和 AVIF 副本。检查时间：%s。"
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "您的服务器仍在提供原图：有其他程序在读取这些规则之前就响应了图片请求，通常是位于 Apache 前面的 Nginx。请将下方的 Nginx 行添加到其配置中，或选择 picture 标签。检查时间：%s。"
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "您的服务器仍在提供原图。请将下方的行添加到其配置中并重新加载 Nginx，然后再次保存。检查时间：%s。"
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Cloudflare 返回的是原图，因此访客可能永远无法通过这些规则获得副本。请选择 picture 标签，它在 Cloudflare 后面也能正常工作。检查时间：%s。"
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "插件无法向您的站点请求图片来检查规则是否生效，站点无法访问自身地址时会出现这种情况。请用浏览器的开发者工具打开您的某张图片：其类型应显示为 image/avif 或 image/webp。尝试时间：%s。"
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "规则位于 <file /> 中。"
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "<file /> 中有 <begin /> 行，但缺少对应的 <end /> 行，因此插件不会改动该文件。请将 <end /> 行放回该代码块最后的 <closing /> 之后，或删除该代码块的所有行，然后再次保存。"
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "您的 uploads 文件夹不在存放站点 .htaccess 文件的文件夹内，因此那里的规则无法指向它。请选择 picture 标签。"
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "<file /> 尚不存在。请用这些行创建它，然后再次保存。"
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "<file /> 没有开启重写，因此插件不会改动它。如果您的服务器会读取其中的重写规则，请将这些行粘贴进去，然后再次保存。"
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "插件无法写入 <file />。请将这些行粘贴到其中 WordPress 为站点网络提供的规则之上，然后再次保存。"
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "插件无法写入 <file />。请将这些行粘贴到其末尾，然后再次保存。"
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "您的服务器既不读取 .htaccess 文件，也不读取 Nginx 的配置，因此插件无法为其提供规则。请选择 picture 标签。"
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "您的站点运行在 Nginx 上，而 Nginx 不读取 .htaccess。请将开头几行放在站点 server 块的顶部、任何 if 或 rewrite 之前，并将 location 放在其他任何图片 location 之上，然后重新加载 Nginx。请将您的图片所需的 expires、Cache-Control 或 add_header 行复制到该 location 中，因为其中的 add_header 会替换 server 块中的设置："
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "对于 Nginx，请将开头几行放在站点 server 块的顶部、任何 if 或 rewrite 之前，并将 location 放在其他任何图片 location 之上，然后重新加载 Nginx。请将您的图片所需的 expires、Cache-Control 或 add_header 行复制到该 location 中，因为其中的 add_header 会替换 server 块中的设置："
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "这些规则适用于：%s。"
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "这些规则会提供与图片同名并位于其旁边的任何 WebP 或 AVIF 副本，因此在 Iminify 生成自己的副本之前，其他优化插件留在那里的副本也会被提供。Iminify 绝不会删除其他插件的副本。"
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Cloudflare 正在为您的站点提供响应。无论浏览器支持何种格式，它都只为每张图片保留 1 个版本，因此不支持 AVIF 的浏览器可能会收到 AVIF 副本。请选择 picture 标签，它在任何 CDN 后面都能正常工作。"
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "WP Offload Media 从其存储桶提供您的图片，而这些规则无法作用于存储桶，因此这些图片仍提供原图。如果开启了其「Remove Local Media」，这些规则将不提供任何内容。"
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "通过在发送每个页面时读取其内容，还能覆盖原始 HTML、页面构建器和主题自身标记中的图片、页面内设置的背景图，以及您所选文件夹中的图片。样式表文件中设置的背景图仍使用原图。未被缓存的页面加载会稍慢一些。"
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "您的页面保持不变，服务器会向支持的浏览器提供 WebP 或 AVIF 副本来代替该图片。这将覆盖 uploads 文件夹及您所选文件夹中的每张图片，包括样式表文件中的背景图。需要在服务器配置中添加规则（在 Apache 上会为您写好）；如果使用 CDN，则需要能为每种格式分别保存图片版本的 CDN。"
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "您的页面保持不变：会生成副本，但没有页面使用它们。"
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "适用于文章中的图片以及主题通过 WordPress 显示的图片。每个页面对所有访客都相同，因此页面缓存和 CDN 仍可正常工作，不支持 WebP 和 AVIF 的浏览器会收到原图。"
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "优化"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "这些设置随站点保存在 iminify.com 上，并应用于站点发送的每张图片。"
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "在上传每张图片时将其发送到 Iminify。"
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "为每个尺寸生成 WebP 副本，提供给支持该格式的浏览器。比对应图片更大的副本不会保留。"
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "同时为每个尺寸生成 AVIF 副本：通常比 WebP 更小，但生成速度较慢。"
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "任意宽度"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "将更宽的主图缩小到此宽度。留空则保持每张图片的原有宽度。"
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "将主图压缩到此大小以内。留空则不设上限。"
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "保留每张图片的 EXIF 数据，例如相机型号和拍摄地点。关闭则将其移除。"
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "为每张没有替代文本的图片生成描述。您填写的替代文本绝不会被替换。图片的缩小版会发送给 Anthropic 的 AI，每张都会占用 1 条今日 AI 替代文本额度。"
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "替代文本的语言"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "优化所有尺寸"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "WordPress 为上传的图片生成的每个尺寸。关闭后可选择要优化的尺寸。"
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "在此站点上"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "保存在 uploads 文件夹的 iminify-backup 下，任何图片都可以恢复原样。"
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "页面上的 WebP 和 AVIF"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "通过 picture 标签提供"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "在整个页面中提供"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "通过服务器规则提供"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "不更改页面"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "补上图片缺少的宽度、高度和替代文本"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "如果页面标记中来自媒体库的图片缺少这些属性，插件会在发送每个页面时补上其宽度和高度（让页面在加载时不会跳动），以及其在媒体库中的替代文本。特意留空的替代文本会保持为空。"
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "删除插件时"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "同时删除 WebP 和 AVIF 副本"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "如果某个页面的缓存中包含 picture 标签，在清除缓存之前，该页面会显示损坏的图片。"
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "同时删除备份"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "备份是 Iminify 所优化图片仅有的原图，删除后这些图片将无法恢复。如果副本也一并删除，重新安装插件会再次优化这些图片。"
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "保存更改"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "有未保存的更改"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "需要注意"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "站点网络已连接。"
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "站点已连接。"
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "连接未在规定时间内获得批准，或已被拒绝。请点击「连接站点网络」重试。"
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "连接未在规定时间内获得批准，或已被拒绝。请点击「连接」重试。"
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "站点网络已在此处断开连接，但无法在 Iminify 上停用其密钥。请同时在 iminify.com 的「Settings, Sites」中断开其连接。"
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "站点已在此处断开连接，但无法在 Iminify 上停用其密钥。请同时在 iminify.com 的「Settings, Sites」中断开其连接。"
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "站点已加入站点网络。"
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "将连接移到此处"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "将此克隆站点作为独立站点连接"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "此站点现已使用 %s 的设置。"
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "这些行已移除。请重新加载 Nginx，使其停止使用这些行。"
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "这些行已移除。"
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "设置已保存。"
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "等待中的图片正在发送。"
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "您账户今日的图片额度仍已用完。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify 已断开站点网络的连接，其站点新上传的图片不会被优化。请重新连接以继续。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify 已断开站点网络的连接，新上传的图片不会被优化。超级管理员可在「管理网络」中重新连接。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify 已断开此站点的连接，新上传的图片不会被优化。请重新加入站点网络，或单独连接此站点，以继续使用。"
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify 已断开此站点的连接，新上传的图片不会被优化。请重新连接以继续。"

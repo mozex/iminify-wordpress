@@ -1,0 +1,3737 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
+"Language: he_IL\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "דחיסה, המרה ושינוי גודל של התמונות בספריית המדיה שלך עם Iminify, והגשתן בפורמטים WebP ו-AVIF."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "בדיקת עמוד"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "איתור התמונות שמאטות את העמודים שלך, כל אחת לצד התמונה התואמת לה בספרייה שלך."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "הסקריפט של העמוד חסר בתיקיית התוסף. יש להתקין מחדש את התוסף כדי להחזיר אותו."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "עמוד זה דורש JavaScript."
+
+#: includes/admin/class-audit-state.php:354
+msgid "Original upload"
+msgstr "ההעלאה המקורית"
+
+#: includes/admin/class-audit-state.php:368
+msgid "Home page"
+msgstr "עמוד הבית"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "אין לך הרשאות לעשות את זה."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "אופטימיזציה קבוצתית"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "כל התמונות שכבר נמצאות בספריית המדיה שלך, בהרצה אחת."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "הסקריפט של עמוד האופטימיזציה הקבוצתית חסר בתיקיית התוסף. יש להתקין מחדש את התוסף כדי להחזיר אותו."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "עמוד האופטימיזציה הקבוצתית דורש JavaScript."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:342
+msgid "That folder isn't in the list."
+msgstr "התיקייה הזו אינה ברשימה."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "התמונה הזו אינה ברשימה."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "תיקיות אחרות"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "התמונות בתבנית שלך ובתיקיות אחרות מחוץ לספריית המדיה."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "לתמונה זו אין מקור באתר שאפשר להשוות אליו."
+
+#: includes/admin/class-media-view.php:183
+msgid "Original"
+msgstr "מקור"
+
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
+msgid "Compare with the original"
+msgstr "השוואה למקור"
+
+#: includes/admin/class-media-view.php:211
+msgid "Close"
+msgstr "סגור"
+
+#: includes/admin/class-media-view.php:212
+msgid "How much of the original shows"
+msgstr "כמה מהמקור מוצג"
+
+#: includes/admin/class-media-view.php:213
+msgid "The optimized file to compare"
+msgstr "הקובץ שעבר אופטימיזציה להשוואה"
+
+#: includes/admin/class-media-view.php:214
+msgid "This image couldn't be loaded from the site."
+msgstr "לא ניתן היה לטעון את התמונה הזו מהאתר."
+
+#: includes/admin/class-media-view.php:216
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "יש לגרור את הקו, או להשתמש במקשי החיצים, כדי לראות יותר מהמקור בצד אחד ויותר מהקובץ שעבר אופטימיזציה בצד השני."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:219
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "עברה אופטימיזציה ברמה %s. יש לגרור את הקו, או להשתמש במקשי החיצים, כדי לראות יותר מהמקור בצד אחד ויותר מהקובץ שעבר אופטימיזציה בצד השני."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:248
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:256
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s פחות"
+
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "עברה אופטימיזציה"
+
+#: includes/admin/class-media-view.php:375
+msgid "Optimize again from the original"
+msgstr "אופטימיזציה מחדש מהמקור"
+
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
+msgid "Restore original"
+msgstr "שחזור המקור"
+
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "אופטימיזציה מחדש"
+
+#: includes/admin/class-media-view.php:400
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "אופטימיזציה"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "סינון לפי סטטוס Iminify"
+
+#: includes/admin/class-media-view.php:455
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "כל הסטטוסים של Iminify"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "עברו אופטימיזציה"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "ללא אופטימיזציה"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "שגיאות"
+
+#: includes/admin/class-media-view.php:577
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "פורמטים חסרים"
+
+#: includes/admin/class-media-view.php:578
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "עברו אופטימיזציה בתוסף אחר"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:673
+#, php-format
+msgid "Offloaded by %s"
+msgstr "הועברה ל-%s"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:707
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "נחסכו %1$s (%2$s) ב-%3$s קובץ."
+msgstr[1] "נחסכו %1$s (%2$s) ב-%3$s קבצים."
+
+#: includes/admin/class-media-view.php:714
+msgid "The originals were already smaller, so they were kept."
+msgstr "הקבצים המקוריים כבר היו קטנים יותר, ולכן הם נשמרו."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:723
+#, php-format
+msgid "Copies: %s"
+msgstr "עותקים: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:737
+#, php-format
+msgid "Missing formats: %s"
+msgstr "פורמטים חסרים: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:749
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "גדלים חסרים: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:761
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "%s עותק WebP או AVIF שכלי אחר יצר נשמר כמו שהוא."
+msgstr[1] "%s עותקי WebP או AVIF שכלי אחר יצר נשמרו כמו שהם."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:771
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "לא ניתן היה לכתוב %s קובץ."
+msgstr[1] "לא ניתן היה לכתוב %s קבצים."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:815
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "%1$s חסך %2$s (%3$s), לפי הרישום שלו."
+
+#: includes/admin/class-media-view.php:824
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "המקור שלה נשמר. Iminify משאיר את התמונה כמו שהיא, ללא עלות."
+
+#: includes/admin/class-media-view.php:825
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "לא נשמר לה מקור, ולכן Iminify משאיר אותה כמו שהיא במקום לדחוס אותה פעם שנייה."
+
+#: includes/admin/class-media-view.php:841
+msgid "Queued"
+msgstr "בתור"
+
+#: includes/admin/class-media-view.php:843
+msgid "Being optimized"
+msgstr "בתהליך אופטימיזציה"
+
+#: includes/admin/class-media-view.php:845
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "בהמתנה למנה הבאה"
+
+#: includes/admin/class-media-view.php:847
+msgid "Waiting for the connection"
+msgstr "בהמתנה לחיבור"
+
+#: includes/admin/class-media-view.php:849
+msgid "Not sent"
+msgstr "לא נשלחה"
+
+#: includes/admin/class-media-view.php:851
+msgid "Error"
+msgstr "שגיאה"
+
+#: includes/admin/class-media-view.php:853
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "ללא אופטימיזציה"
+
+#: includes/admin/class-media-view.php:889
+msgid "The next batch is open, so it goes out shortly."
+msgstr "המנה הבאה פתוחה, ולכן התמונה תישלח בקרוב."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:891
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "התמונה תישלח מעצמה ב-%s."
+
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: being written."
+msgstr "טקסט אלטרנטיבי: בכתיבה."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: written by Iminify."
+msgstr "טקסט אלטרנטיבי: נכתב על ידי Iminify."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: yours was kept."
+msgstr "טקסט אלטרנטיבי: הטקסט שלך נשמר."
+
+#: includes/admin/class-media-view.php:915
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "טקסט אלטרנטיבי: Iminify לא הצליח לכתוב טקסט לתמונה זו."
+
+#: includes/admin/class-media-view.php:916
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "טקסט אלטרנטיבי: לא נכתב, כי הטקסטים האלטרנטיביים ב-AI להיום נוצלו."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "תמונה זו נושאת Content Credentials, רישום חתום של מוצא התמונה, והקבצים שלה שומרים עליהם."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "תמונה זו נשאה Content Credentials, רישום חתום של מוצא התמונה. הקבצים והעותקים ש-Iminify כתב אינם כוללים אותם, כי קובץ חדש שובר את החתימה שלהם, והמקור שנשמר כגיבוי עדיין כולל אותם."
+
+#: includes/admin/class-media-view.php:946
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "תמונה זו נשאה Content Credentials, רישום חתום של מוצא התמונה. הקבצים והעותקים ש-Iminify כתב אינם כוללים אותם, כי קובץ חדש שובר את החתימה שלהם."
+
+#: includes/admin/class-media-view.php:950
+msgid "They say generative AI made it, wholly or in part."
+msgstr "לפיהם, התמונה נוצרה באמצעות AI גנרטיבי, כולה או בחלקה."
+
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1023
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "העמודים שמציגים אותה מקבלים את עותקי %1$s שנוצרו על ידי %2$s, עד ש-Iminify ייצור עותקים משלו."
+
+#: includes/admin/class-media-view.php:1053
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "גודל מלא"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1082
+#, php-format
+msgid "Level: %s"
+msgstr "רמה: %s"
+
+#: includes/admin/class-media-view.php:1090
+msgid "Size"
+msgstr "גודל"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Before"
+msgstr "לפני"
+
+#: includes/admin/class-media-view.php:1092
+msgid "After"
+msgstr "אחרי"
+
+#: includes/admin/class-media-view.php:1093
+msgid "Copies"
+msgstr "עותקים"
+
+#: includes/admin/class-media-view.php:1139
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "כתיבת טקסט אלטרנטיבי ב-AI"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "לשלוח גרסה מוקטנת של התמונה הזו כדי לכתוב לה טקסט אלטרנטיבי? הפעולה נספרת כאחד מהטקסטים האלטרנטיביים ב-AI שלך להיום."
+
+#: includes/admin/class-media-view.php:1139
+msgid "Write alt text"
+msgstr "כתיבת טקסט אלטרנטיבי"
+
+#: includes/admin/class-media-view.php:1158
+msgid "Optimize again from the original at"
+msgstr "אופטימיזציה מחדש מהמקור ברמה"
+
+#: includes/admin/class-media-view.php:1186
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "יש לחבר את האתר ל-Iminify כדי לבצע אופטימיזציה לתמונה זו."
+
+#: includes/admin/class-media-view.php:1188
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "לא נשמר מקור של תמונה זו, ולכן לא ניתן לבצע לה אופטימיזציה מחדש או לשחזר אותה."
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize again at"
+msgstr "אופטימיזציה מחדש ברמה"
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize at"
+msgstr "אופטימיזציה ברמה"
+
+#: includes/admin/class-media-view.php:1207
+msgid "Make what it lacks"
+msgstr "יצירת מה שחסר"
+
+#: includes/admin/class-media-view.php:1216
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "התמונה הזו השתנתה מאז ש-Iminify ביצע לה אופטימיזציה, ולכן אין מה לשחזר."
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete the copies"
+msgstr "מחיקת העותקים"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "למחוק את עותקי WebP ו-AVIF של התמונה הזו? העמודים שמציגים אותה יחזרו להגיש את קובץ ה-JPEG או ה-PNG."
+
+#: includes/admin/class-media-view.php:1288
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "יצירת הפורמטים החסרים"
+
+#: includes/admin/class-media-view.php:1292
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "יצירת הגדלים החסרים"
+
+#: includes/admin/class-media-view.php:1303
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "לשלוח שוב את התמונה הזו כדי ליצור את מה שחסר לה? הפעולה נספרת כתמונה נוספת, ושאר הקבצים שלה יישארו כמו שהם, אלא אם Iminify יקטין אותם."
+
+#: includes/admin/class-media-view.php:1311
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "לבצע אופטימיזציה מחדש לתמונה הזו? Iminify ייצור מחדש את הקבצים שלה מהמקור, עם אותו פורמט ואותם שמות, והפעולה נספרת כתמונה נוספת."
+
+#: includes/admin/class-media-view.php:1314
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "לבצע אופטימיזציה מחדש לתמונה הזו? המקור שלה יוחזר קודם, והפעולה נספרת כתמונה נוספת."
+
+#: includes/admin/class-media-view.php:1321
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "לשחזר את המקור של התמונה הזו? WordPress ייצור מחדש את הגדלים שלה, ועותקי WebP ו-AVIF שלה יימחקו."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1336
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "לבצע אופטימיזציה מחדש לתמונה הזו מהמקור ש-%s שמר? Iminify ייצור מחדש את הקבצים שלה ממנו, עם אותו פורמט ואותם שמות כדי שהפוסטים שלך ימשיכו לקשר אליהם, וישמור גיבוי משלו של המקור. הפעולה נספרת כתמונה נוספת."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1343
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "לבצע אופטימיזציה מחדש לתמונה הזו מהמקור ש-%s שמר? המקור יוחזר קודם ו-WordPress ייצור מחדש את הגדלים שלה, ואז Iminify יבצע לה אופטימיזציה וישמור גיבוי משלו של המקור. הפעולה נספרת כתמונה נוספת."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1358
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "לשחזר את המקור של התמונה הזו ממה ש-%s שמר? WordPress ייצור מחדש את הגדלים שלה, והגיבויים והעותקים של התוסף ההוא יישארו במקומם."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Iminify ניתק את האתר הזה, ולכן העלאות חדשות לא עוברות אופטימיזציה."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "חיבור מחדש"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Iminify Image Optimizer מוכן. יש לחבר אותו לחשבון Iminify שלך כדי להתחיל באופטימיזציה של התמונות."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "חיבור"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "פתיחת ההגדרות של Iminify"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "מחובר"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "לא מחובר"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Iminify Image Optimizer שולח את התמונות שמועלות לאתר הזה אל Iminify, שירות לאופטימיזציה של תמונות, לאחר שהאתר מחובר אליו. ניתן להעתיק את הטקסט שלהלן לחלק במדיניות שלך שעוסק במדיה שמתפרסמת באתר."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "טקסט מוצע:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "אתר זה משתמש ב-Iminify (www.iminify.com) כדי להקטין את התמונות שלו וליצור מהן עותקי WebP ו-AVIF. כאשר תמונה מועלית לכאן, או כאשר אנו מבצעים אופטימיזציה לתמונות שכבר נמצאות כאן, בספריית המדיה או בתבנית שלנו ובתיקיות אחרות, השרת שלנו שולח אותה ל-Iminify יחד עם כתובת האתר הזה, ו-Iminify שולח בחזרה את הקבצים המוקטנים. Iminify מוחק את התמונה לאחר שאנו שומרים אותם."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "תמונה יכולה לכלול פרטים שהמצלמה כתבה בה, כמו מתי והיכן צולמה. פרטים אלה מגיעים ל-Iminify יחד עם התמונה, ו-Iminify משמיט אותם מהקבצים שהוא שולח בחזרה, אלא אם בחרנו לשמור אותם."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "אם הפעלנו טקסט אלטרנטיבי ב-AI בהגדרות התוסף, Iminify גם יוצר גרסה מוקטנת של כל תמונה שאין לה טקסט אלטרנטיבי ושולח אותה ל-Anthropic, שהמודל שלה כותב תיאור של התמונה. בקשה לטקסט אלטרנטיבי לתמונות שכבר נמצאות בספריית המדיה שולחת ל-Iminify גרסה מוקטנת של כל אחת מהן לאותה מטרה."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "אם אנו בודקים את התמונות באחד מעמודי האתר הזה, השרת שלנו שולח ל-Iminify את כתובת העמוד. Iminify פותח את העמוד כפי שכל מבקר יכול לפתוח אותו, מודד את התמונות שהוא מציג ושומר את הממצאים יחד עם החיבור של האתר הזה אליו."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "אם האתר הזה הוא חלק מרשת אתרים שמחוברת ל-Iminify כיחידה אחת, השרת שלנו שולח ל-Iminify גם את הכתובת והשם של האתר הזה, בפעם הראשונה שהאתר זקוק לו."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "אם נבחר להשתמש בהגדרות שתוסף אופטימיזציה אחר שמר באתר הזה, השרת שלנו שולח ל-Iminify את ההגדרות האלה, את שם התוסף ואת שמות גדלי התמונות שהאתר הזה יוצר. Iminify משיב עם ההגדרות שתואמות להן ואינו שומר דבר מכל זה."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "שום מידע על האנשים שמבקרים באתר הזה לא נשלח ל-Iminify: התמונות בעמודים שלנו, ועותקי WebP ו-AVIF שלהן, מוגשים מהאתר הזה."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "מדיניות הפרטיות של Iminify: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "רק אתר ברשת שהתוסף פעיל בה יכול להצטרף אליה."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:272
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "האתר הזה אינו מחובר ל-Iminify."
+
+#: includes/admin/class-settings-import.php:57
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "התוסף לא מצא באתר הזה הגדרות של תוסף האופטימיזציה ההוא."
+
+#: includes/admin/class-settings-import.php:107
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "ההגדרות האלה השתנו מאז שהוצגו. יש לעיין בהן שוב לפני השימוש בהן."
+
+#: includes/admin/class-settings-import.php:208
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "אופטימיזציה להעלאות חדשות"
+
+#: includes/admin/class-settings-import.php:210
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "רמת דחיסה"
+
+#: includes/admin/class-settings-import.php:212
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "יצירת עותקי WebP"
+
+#: includes/admin/class-settings-import.php:214
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "יצירת עותקי AVIF"
+
+#: includes/admin/class-settings-import.php:216
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "רוחב מרבי, בפיקסלים"
+
+#: includes/admin/class-settings-import.php:218
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "מגבלת גודל, ב-KB"
+
+#: includes/admin/class-settings-import.php:220
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "שמירת מטא-נתונים"
+
+#: includes/admin/class-settings-import.php:222
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "גדלים לאופטימיזציה"
+
+#: includes/admin/class-settings-import.php:224
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "שמירת גיבוי של כל תמונה מקורית"
+
+#: includes/admin/class-settings-import.php:242
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "ללא מגבלה"
+
+#: includes/admin/class-settings-import.php:245
+msgid "Every size"
+msgstr "כל הגדלים"
+
+#: includes/admin/class-settings-import.php:249
+msgid "Only the full image"
+msgstr "רק התמונה המלאה"
+
+#: includes/admin/class-settings-import.php:264
+msgid "On"
+msgstr "מופעל"
+
+#: includes/admin/class-settings-import.php:264
+msgid "Off"
+msgstr "כבוי"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "הגדרות"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "יש לחבר את האתר הזה ולבחור כיצד התמונות שלו יעברו אופטימיזציה."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "יש לחבר את הרשת הזו פעם אחת, וכל אחד מהאתרים שלה מצטרף מעצמו."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "הסקריפט של עמוד ההגדרות חסר בתיקיית התוסף. יש להתקין מחדש את התוסף כדי להחזיר אותו."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "עמוד ההגדרות דורש JavaScript."
+
+#: includes/admin/class-state.php:165
+msgid "Images today"
+msgstr "תמונות היום"
+
+#: includes/admin/class-state.php:166
+msgid "Files today"
+msgstr "קבצים היום"
+
+#: includes/admin/class-state.php:167
+msgid "AI alt texts today"
+msgstr "טקסטים אלטרנטיביים ב-AI היום"
+
+#: includes/admin/class-state.php:248
+msgid "Guest"
+msgstr "אורח"
+
+#: includes/admin/class-state.php:249
+msgid "Free"
+msgstr "חינם"
+
+#: includes/admin/class-state.php:250
+msgid "Pro trial"
+msgstr "תקופת ניסיון Pro"
+
+#: includes/admin/class-state.php:251
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:252
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:302
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "נוצל %s, ללא מגבלה יומית"
+msgstr[1] "נוצלו %s, ללא מגבלה יומית"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:304
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "נוצל %s"
+msgstr[1] "נוצלו %s"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:306
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "נותר %s"
+msgstr[1] "נותרו %s"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:310
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "נוצל %s, ללא מגבלה יומית"
+msgstr[1] "נוצלו %s, ללא מגבלה יומית"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:312
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "נוצל %s"
+msgstr[1] "נוצלו %s"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:314
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "נותר %s"
+msgstr[1] "נותרו %s"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:318
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "נוצלה %s, ללא מגבלה יומית"
+msgstr[1] "נוצלו %s, ללא מגבלה יומית"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:320
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "נוצלה %s"
+msgstr[1] "נוצלו %s"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:322
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "נותרה %s"
+msgstr[1] "נותרו %s"
+
+#: includes/admin/class-state.php:344
+msgid "This site"
+msgstr "האתר הזה"
+
+#: includes/admin/class-state.php:345
+msgid "Your whole account"
+msgstr "כל החשבון שלך"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "תמונה מוקטנת"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "בינוני"
+
+#: includes/admin/class-state.php:473
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "גדול"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:496
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (רוחב %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:501
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (גובה %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:505
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:56
+msgid "Show a smaller size of the image here."
+msgstr "יש להציג כאן גודל קטן יותר של התמונה."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:58
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "יש להציג כאן גודל ברוחב של כ-%s פיקסלים, פי שניים מהרוחב שהתמונה תופסת בעמוד."
+
+#: includes/audit/class-findings.php:60
+msgid "Give the image its width and height in the page."
+msgstr "יש לציין בעמוד את הרוחב והגובה של התמונה."
+
+#: includes/audit/class-findings.php:62
+msgid "Write alt text for the image."
+msgstr "יש לכתוב טקסט אלטרנטיבי לתמונה."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image straight away, not lazily."
+msgstr "יש לטעון את התמונה מיד, ולא בטעינה עצלה."
+
+#: includes/audit/class-findings.php:66
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "יש לטעון את התמונה בטעינה עצלה, כשמבקר גולל קרוב אליה."
+
+#: includes/audit/class-findings.php:68
+msgid "Have the browser fetch the image first."
+msgstr "יש לגרום לדפדפן לטעון את התמונה לפני השאר."
+
+#: includes/audit/class-findings.php:105
+msgid "Oversized"
+msgstr "גדולה מדי"
+
+#: includes/audit/class-findings.php:106
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "הקובץ רחב וגבוה פי שניים ויותר מהשטח שבו הוא מוצג. גודל קטן יותר של אותה תמונה ייראה חד באותה מידה."
+
+#: includes/audit/class-findings.php:110
+msgid "No width and height"
+msgstr "ללא רוחב וגובה"
+
+#: includes/audit/class-findings.php:111
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "לתמונה אין מאפייני רוחב וגובה, ולכן הדפדפן לא יכול לשמור לה מקום, והעמוד זז כשהיא נטענת."
+
+#: includes/audit/class-findings.php:115
+msgid "Lazy in the first screen"
+msgstr "טעינה עצלה במסך הראשון"
+
+#: includes/audit/class-findings.php:116
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "התמונה נמצאת במסך הראשון אבל נטענת בטעינה עצלה, מה שמעכב אותה."
+
+#: includes/audit/class-findings.php:120
+msgid "Loads too early"
+msgstr "נטענת מוקדם מדי"
+
+#: includes/audit/class-findings.php:121
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "התמונה נמצאת מתחת למסך הראשון ונטענת מיד, ומתחרה במה שהמבקרים רואים קודם."
+
+#: includes/audit/class-findings.php:125
+msgid "No alt text"
+msgstr "ללא טקסט אלטרנטיבי"
+
+#: includes/audit/class-findings.php:126
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "לתמונה אין טקסט אלטרנטיבי עבור קוראי מסך ומנועי חיפוש."
+
+#: includes/audit/class-findings.php:130
+msgid "Not prioritized"
+msgstr "ללא עדיפות"
+
+#: includes/audit/class-findings.php:131
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "זהו הרכיב הגדול ביותר במסך הראשון, ולכן העמוד נראה טעון ברגע שהרכיב הזה מגיע. טעינה שלו לפני השאר תציג את העמוד מהר יותר."
+
+#: includes/audit/class-findings.php:148
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "האתר שלך חסם את הסורק, ולכן לא ניתן היה לקרוא את העמוד. חומת אש או בדיקת בוטים גורמות לכך, לעיתים קרובות אלה של Cloudflare. יש לאפשר לסריקה לעבור לרגע: ב-Cloudflare, לכבות את Bot Fight Mode או להגדיר את Security Level ל-\"Essentially off\"; בתוסף אבטחה, להשהות את חומת האש או את חסימת הבוטים שלו. לאחר מכן יש לסרוק שוב, ואז להפעיל אותם מחדש."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:150
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "האתר שלך חסם את הסורק (הוא השיב %d), ולכן לא ניתן היה לקרוא את העמוד. חומת אש או בדיקת בוטים גורמות לכך, לעיתים קרובות אלה של Cloudflare. יש לאפשר לסריקה לעבור לרגע: ב-Cloudflare, לכבות את Bot Fight Mode או להגדיר את Security Level ל-\"Essentially off\"; בתוסף אבטחה, להשהות את חומת האש או את חסימת הבוטים שלו. לאחר מכן יש לסרוק שוב, ואז להפעיל אותם מחדש."
+
+#: includes/audit/class-findings.php:152
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "אין עמוד בכתובת הזו. יש לבדוק את הכתובת ולסרוק שוב."
+
+#: includes/audit/class-findings.php:154
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "העמוד השיב בשגיאה בצד האתר, ולכן לא ניתן היה לקרוא אותו. יש לסרוק שוב בעוד כמה דקות."
+
+#: includes/audit/class-findings.php:156
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "העמוד הפנה את הסורק לאתר אחר, ובדיקה לא עוקבת אחרי הפניה כזו. יש לסרוק את הכתובת שאליה העמוד מוביל בסוף, אם היא באתר הזה."
+
+#: includes/audit/class-findings.php:159
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "לא ניתן היה לקרוא את העמוד: האתר לא השיב לסורק. יש לבדוק את הכתובת ולסרוק שוב."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:161
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "הכתובת השיבה %d במקום העמוד עצמו, ולכן לא ניתן היה לקרוא אותו. יש לבדוק את הכתובת ולסרוק שוב."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "יש להעביר את --others לבד, או יחד עם הקבצים המצורפים שצריכים אופטימיזציה מחדש."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "הקבצים בתיקיות נשלחים כולם בבת אחת: יש להעביר את --folders לבד, או יחד עם --failed."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "יש לציין את הקבצים המצורפים, או להעביר את --all או את --failed."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "הקבצים בתיקיות נשלחים כולם בבת אחת: יש להעביר את --folders לבד."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "להחזיר כל קובץ שעבר אופטימיזציה בתיקיות שלך למצבו הקודם?"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:275
+msgid "Name the attachments, or pass --all."
+msgstr "יש לציין את הקבצים המצורפים, או להעביר את --all."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "להחזיר כל תמונה שעברה אופטימיזציה למצב שבו הועלתה?"
+
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "יש לציין מה ליצור: %1$s (פורמטים) או %2$s (גדלים)."
+
+#: includes/class-cli.php:321
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "ברשת, תיקיות אחרות נבחרות באתר הראשי: יש להוסיף --url עם הכתובת שלו."
+
+#: includes/class-cli.php:328
+msgid "Name the folder, relative to wp-content."
+msgstr "יש לציין את התיקייה, ביחס ל-wp-content."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:361
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "נמצאה %1$s תמונה. חדשות: %2$s, השתנו: %3$s."
+msgstr[1] "נמצאו %1$s תמונות. חדשות: %2$s, השתנו: %3$s."
+
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
+msgid "No bulk run is going."
+msgstr "אין הרצה קבוצתית פעילה."
+
+#: includes/class-cli.php:432
+msgid "Stopped."
+msgstr "נעצרה."
+
+#: includes/class-cli.php:497
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "ההרצה ממשיכה ברקע. ניתן לבדוק את ההתקדמות שלה עם: wp iminify status"
+
+#: includes/class-cli.php:518
+msgid "Bulk run"
+msgstr "הרצה קבוצתית"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:612
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "הטקסטים האלטרנטיביים ב-AI של החשבון להיום נוצלו. ההרצה תמשיך ברקע כשהם יתחדשו ב-%s."
+
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "ההרצה ממתינה לחיבור של האתר הזה ל-Iminify, ותמשיך ברקע כשהחיבור יעבוד."
+
+#: includes/class-cli.php:628
+msgid "The run goes on in the background once it stops."
+msgstr "ההרצה תמשיך ברקע אחרי שהתוסף ההוא יפסיק לפעול."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:639
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "התמונות היומיות של החשבון נוצלו. ההרצה תמשיך ברקע כשהמנה הבאה תיפתח ב-%s."
+
+#: includes/class-cli.php:661
+msgid "The run was stopped."
+msgstr "ההרצה נעצרה."
+
+#: includes/class-cli.php:668
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "ההרצה הושהתה: נשאר מעט מקום פנוי בדיסק של השרת. יש לפנות מקום, ואז להריץ: wp iminify run"
+
+#: includes/class-cli.php:671
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "ההרצה הושהתה. ניתן להמשיך עם: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:680
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "לא ניתן היה לשחזר %s תמונה. החלונית שלה בספריית המדיה מציינת את הסיבה."
+msgstr[1] "לא ניתן היה לשחזר %s תמונות. החלוניות שלהן בספריית המדיה מציינות את הסיבה."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:690
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s תמונה נשארה כמו שהיא: תוסף אחר המיר אותה ל-WebP או ל-AVIF, ורק התוסף ההוא יכול להחזיר את המקור שלה."
+msgstr[1] "%s תמונות נשארו כמו שהן: תוספים אחרים המירו אותן ל-WebP או ל-AVIF, ורק התוספים ההם יכולים להחזיר את המקורות שלהן."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:698
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s תמונה נשארה כפי שהתוסף האחר יצר אותה: המקור שלה נעלם, גדול מכדי לשלוח אותו, או שרק התוסף ההוא יכול להחזיר אותו. החלונית שלה בספריית המדיה מציינת איזו מהסיבות."
+msgstr[1] "%s תמונות נשארו כפי שהתוספים האחרים יצרו אותן: המקורות שלהן נעלמו, גדולים מכדי לשלוח אותם, או שרק התוספים ההם יכולים להחזיר אותם. החלוניות שלהן בספריית המדיה מציינות איזו מהסיבות."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:706
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s תמונה נשארה כמו שהיא: היא חולקת את הקבצים שלה עם קובץ מצורף אחר, או שכבר יש לה טקסט אלטרנטיבי."
+msgstr[1] "%s תמונות נשארו כמו שהן: הן חולקות את הקבצים שלהן עם קובץ מצורף אחר, או שכבר יש להן טקסט אלטרנטיבי."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:714
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "ל-%s תמונה אין מקור שאפשר לעבוד ממנו, או שהיא השתנתה מאז שעברה אופטימיזציה, ולכן לא נוצר עבורה דבר."
+msgstr[1] "ל-%s תמונות אין מקור שאפשר לעבוד ממנו, או שהן השתנו מאז שעברו אופטימיזציה, ולכן לא נוצר עבורן דבר."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:724
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s קובץ שוחזר."
+msgstr[1] "%s קבצים שוחזרו."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:726
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s קובץ נשלח ל-Iminify."
+msgstr[1] "%s קבצים נשלחו ל-Iminify."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:731
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "קבצים שעברו אופטימיזציה בתיקיות שלך: %1$s מתוך %2$s, נכשלו: %3$s."
+msgstr[1] "קבצים שעברו אופטימיזציה בתיקיות שלך: %1$s מתוך %2$s, נכשלו: %3$s."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:744
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s תמונה שוחזרה."
+msgstr[1] "%s תמונות שוחזרו."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:746
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s תמונה נשלחה ל-Iminify."
+msgstr[1] "%s תמונות נשלחו ל-Iminify."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:751
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "תמונות שעברו אופטימיזציה בספרייה: %1$s מתוך %2$s, נכשלו: %3$s."
+msgstr[1] "תמונות שעברו אופטימיזציה בספרייה: %1$s מתוך %2$s, נכשלו: %3$s."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:798
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s אינו קובץ מצורף."
+
+#: includes/class-cli.php:819
+msgid "This account can't run bulk commands."
+msgstr "החשבון הזה לא יכול להריץ פקודות קבוצתיות."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify שלח תשובה שגרסה זו של התוסף לא יכולה לקרוא."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "יש להדביק קודם את מפתח האתר."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "המפתח של האתר הזה מוגדר ב-wp-config.php. יש לשנות או להסיר אותו שם."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress לא הצליח לשמור את מפתח הרשת. יש ללחוץ על \"חיבור הרשת\" כדי לנסות שוב."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "WordPress לא הצליח לשמור את מפתח האתר. יש ללחוץ על \"חיבור\" כדי לנסות שוב."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "חכמה"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "חכמה: איזון בין איכות לגודל"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "איזון בין איכות לגודל."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "אולטרה"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "אולטרה: הקבצים הקטנים ביותר, עם אובדן מסוים באיכות"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "הקבצים הקטנים ביותר, עם אובדן מסוים באיכות."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "ללא אובדן"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "ללא אובדן: אין שינוי נראה לעין באיכות"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "אין שינוי נראה לעין באיכות."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "ללא"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "ללא: אין דחיסה, רק שאר ההגדרות"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "אין דחיסה, רק שאר ההגדרות."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "אנגלית"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "ספרדית"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "צרפתית"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "גרמנית"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "איטלקית"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "פורטוגזית"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "הולנדית"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "פולנית"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "שוודית"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "טורקית"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "רוסית"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "אוקראינית"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "ערבית"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "פרסית"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "עברית"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "הינדי"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "אינדונזית"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "וייטנאמית"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "תאית"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "יפנית"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "קוריאנית"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "סינית פשוטה"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "סינית מסורתית"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Iminify לא מזהה את המפתח הזה. יש לוודא שהעתקת את כולו, או ליצור מפתח חדש."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "זהו מפתח API. אתר צריך מפתח אתר: ניתן ליצור מפתח כזה תחת Settings, Sites ב-iminify.com, או ללחוץ על \"חיבור\" במקום זאת."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "המפתח הזה שייך לאתר בכתובת אחרת, ולכן ההעתק הזה של האתר לא יכול להשתמש בו. יש לחבר את ההעתק הזה כאתר נפרד, או להעביר את החיבור לכאן."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Iminify ביקש מהתוסף להמתין. יש לנסות שוב בעוד %s."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Iminify ביקש מהתוסף להמתין. יש לנסות שוב מאוחר יותר."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "לא ניתן עוד להשתמש בחיבור: תוקפו פג, הוא נדחה, או שכבר נעשה בו שימוש. יש ללחוץ על \"חיבור\" כדי להתחיל מחדש."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "טקסט אלטרנטיבי ב-AI כבוי באתר הזה. יש להפעיל אותו קודם בהגדרות התוסף."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "הבדיקה סורקת רק את העמודים של האתר הזה. יש להזין כתובת של עמוד באתר הזה."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "מפתח הרשת נוצר עבור אתר יחיד, ולכן אתרי הרשת לא יכולים להצטרף באמצעותו. מנהל רשת צריך לחבר את הרשת מחדש מהנהלת הרשת."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "ברשת כבר יש את המספר המרבי של אתרים שרשת אחת יכולה להכיל. יש להסיר אתר שכבר לא בשימוש תחת Settings, Sites ב-iminify.com, או לחבר את האתר הזה בנפרד."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "האתר הזה כבר מחובר לחשבון בנפרד, או ברשת אחרת. כדי להוסיף אותו לרשת הזו יש לנתק אותו תחת Settings, Sites ב-iminify.com, או לחבר אותו כאן בנפרד."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "גרסה זו של Iminify Image Optimizer ישנה מכדי להמשיך לבצע אופטימיזציה לתמונות. יש לעדכן אותה מעמוד התוספים."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "התמונות היומיות של החשבון שלך נוצלו. העלאות חדשות ימתינו ויישלחו מעצמן כשהמנה הבאה תיפתח."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "לאתר הזה כבר הייתה תקופת ניסיון חינמית של Pro בחשבון Iminify אחר, ולכן ההעלאות שלו מקבלות כאן את המכסות של התוכנית החינמית."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "הרשת אינה מחוברת ל-Iminify. מנהל רשת מחבר אותה מהנהלת הרשת."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "האתר הזה כבר מצטרף לרשת. יש להמתין רגע ולבדוק שוב."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "ממתינה להמשך: התוסף כובה בזמן שהתמונה הזו הייתה בדרך."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "בהמתנה למנה הבאה."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "בהמתנה לחיבור האתר ל-Iminify."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "ללא אופטימיזציה: ההרצה הקבוצתית נעצרה."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "ללא אופטימיזציה: האתר אינו מחובר ל-Iminify."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "ללא אופטימיזציה: יש לעדכן קודם את תוסף Iminify."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "ללא אופטימיזציה: האתר לא מבצע אופטימיזציה להעלאות."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "ללא אופטימיזציה: נשאר מעט מקום פנוי בדיסק של השרת. יש לפנות מקום, ואז לבצע אופטימיזציה לתמונה הזו."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "לא נשלחה: PHP בשרת הזה לא יכול לפתוח קובצי zip. יש לבקש מחברת האחסון להפעיל את הרחבת zip של PHP."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "PHP בשרת הזה לא יכול לפתוח קובצי zip: יש לבקש מחברת האחסון להפעיל את הרחבת zip של PHP."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "לא ניתן היה לפתוח את ההורדה מ-Iminify."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "לא נשלחה: המקור של התמונה הזו גדול מכדי לשלוח אותו, מעבר לגודל הקובץ שהתוכנית שלך מאפשרת או יותר ממה שהזיכרון של השרת הזה יכול להכיל."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "לא נשלחה: התמונה הזו חורגת מגודל הקובץ שהתוכנית שלך מאפשרת, או גדולה ממה שהזיכרון של השרת הזה יכול להכיל."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "לא נשלחה: לא נשאר מקור של התמונה הזו שממנו אפשר ליצור את הקבצים לאחר האופטימיזציה."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "לא נשלחה: לא נשאר מקור של התמונה הזו שממנו אפשר ליצור את הקובץ לאחר האופטימיזציה."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress לא הצליח ליצור את הגדלים החסרים של התמונה הזו."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "נשמרה כפי שהועלתה: Iminify מבצע אופטימיזציה לתמונות JPEG, PNG, WebP ו-GIF."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "נשמרה כמו שהיא: Iminify מבצע אופטימיזציה לתמונות JPEG, PNG, WebP ו-GIF."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "נשמרה כפי שהועלתה: האתר הזה מחריג את התמונה הזו."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "נשמרה כמו שהיא: האתר הזה מחריג את התמונה הזו."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "לא ניתן היה לקרוא את התמונה."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "התמונה אינה בתיקיית ההעלאות."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "לא נשלחה: הקובץ של התמונה אינו בתיקיית ההעלאות."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "לא נשלחה: הקובץ של התמונה לא נמצא, או שהוא קישור למקום אחר."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "הקובץ של התמונה או הגיבוי שלה נעלמו בזמן שהיא הייתה בדרך."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "לא נשלחה: התמונה כבר אינה בתיקייה ש-Iminify מבצע בה אופטימיזציה."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "לא נכתבה: התמונה כבר אינה בתיקייה ש-Iminify מבצע בה אופטימיזציה."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "השתנתה מאז ש-Iminify ביצע לה אופטימיזציה, ולכן ניתן לבצע לה אופטימיזציה מחדש."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "התמונה השתנתה בזמן ש-Iminify ביצע לה אופטימיזציה, ולכן היא נשלחת שוב."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "הקבצים שלה הם של הקובץ המצורף #%d, כמו במקרה של תרגום, ולכן Iminify מבצע להם אופטימיזציה שם."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "לא ניתן היה לשמור את הגיבוי של התמונה הזו, ולכן היא לא עברה אופטימיזציה. יש לוודא ש-WordPress יכול לכתוב לתיקיית ההעלאות, או לכבות את הגיבויים בהגדרות של Iminify."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "התמונה השתנתה מאז שנוצר הגיבוי שלה, ולא ניתן היה להזיז את הגיבוי הישן הצידה, ולכן היא לא עברה אופטימיזציה."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "לא ניתן היה להעתיק את התמונה בחזרה מה-bucket של WP Offload Media כדי לשלוח אותה."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify לא הצליח לסיים את התמונה הזו אחרי כמה ניסיונות."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "שוחזרה: המקור הוחזר."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "לא ניתן היה לשחזר את התמונה."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "לא ניתן היה להעתיק את המקור בחזרה מה-bucket של WP Offload Media, ולכן התמונה נשארת כפי שהייתה. יש לנסות שוב."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "לא ניתן היה להחזיר את המקור, ולכן התמונה נשארת כפי שהייתה."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress לא הצליח לקרוא את המקור, ולכן הגדלים של התמונה נשארים כפי שהיו. יש לנסות שוב."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify לא שינה את התמונה הזו, ולכן אין מה לשחזר."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify לא שינה דבר בתמונה הזו, ולכן היא כבר כפי שהייתה."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "התמונה הזו השתנתה מאז ש-Iminify ביצע לה אופטימיזציה, ולכן שחזור שלה ידרוס את התמונה החדשה."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "התמונה הזו השתנתה מאז ש-Iminify ביצע לה אופטימיזציה, ולכן הגיבוי שלה כבר אינו המקור שלה."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "הקובץ של התמונה כבר לא נמצא, או שאינו בתיקייה ש-Iminify מבצע בה אופטימיזציה."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "לא נשמר מקור של התמונה הזו, ולכן לא ניתן לשחזר אותה. הגיבויים היו כבויים כשהיא עברה אופטימיזציה, או שהגיבוי נמחק."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "לא נשמר מקור של התמונה הזו, ולכן לא ניתן לשחזר אותה."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s לא שמר מקור של התמונה הזו ש-Iminify יכול לבדוק, ולכן לא ניתן לשחזר אותה כאן."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "לא ניתן היה ליצור קשר עם Iminify: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify השיב בשגיאה (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "לשרת הזה אין מספיק זיכרון כדי לשלוח תמונה גדולה כל כך."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "לא ניתן היה לקרוא את התמונה מתיקיית ההעלאות."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress לא הצליח לשמור את מפתח האתר. יש ללחוץ על \"הצטרפות לרשת\" כדי לנסות שוב."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "תיקיית ההעלאות"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "יש לציין תיקייה בתוך wp-content, כמו themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "אין תיקייה בנתיב הזה בתוך wp-content."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "התיקייה הזו היא קישור למקום אחר, ולכן Iminify מחריג אותה."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "זו התיקייה של ספריית המדיה: התמונות שבה עוברות אופטימיזציה מספריית המדיה."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "זו התיקייה של תוסף Iminify עצמו, שכל עדכון מחליף."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "כלים אחרים שומרים בתיקייה הזו העתקים, מטמון או גיבויים, ולכן התמונות שבה אינן של האתר עצמו."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "התיקייה הזו מכילה את הקבצים של ספריית המדיה או את הגיבויים שלהם, ש-Iminify מטפל בהם מספריית המדיה."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "התיקייה הזו מכילה קבצים מוסתרים או תלויות של פרויקט, ש-Iminify לא נוגע בהם."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "ברשת, תיקיות אחרות נבחרות באתר הראשי."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "התיקייה הזו כבר ברשימה, בתוך %s."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "הרשימה כבר מכילה את המספר המרבי של תיקיות. יש להסיר אחת, או לבחור את התיקייה שמכילה כמה מהן."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "יש לעדכן קודם את תוסף Iminify."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "התמונות היומיות של החשבון שלך נוצלו. המנה הבאה תיפתח ב-%s."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "נשאר מעט מקום פנוי בדיסק של השרת. יש לפנות מקום, ואז לבצע אופטימיזציה לתמונה הזו."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "לא נשמר מקור של התמונה הזו, ולכן לא ניתן לבצע לה אופטימיזציה מחדש."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "התמונה הזו גדולה מכדי לשלוח אותה: היא חורגת מגודל הקובץ שהתוכנית שלך מאפשרת, או גדולה ממה שהזיכרון של השרת הזה יכול להכיל."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "לתמונה הזו כבר יש טקסט אלטרנטיבי, או שהטקסט שלה בדרך."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "הרצה קבוצתית כבר פועלת. יש לעצור אותה קודם."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "הקבצים בתיקיות אחרות עוברים אופטימיזציה, נשלחים שוב או משוחזרים, כולם בבת אחת."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Iminify עדיין עובר על התיקיות שלך. יש להתחיל שוב כשהוא יסיים."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "נשאר מעט מקום פנוי בדיסק של השרת. יש לפנות מקום, ואז להתחיל שוב."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "יש לבחור תיקייה קודם."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "לא נשאר בתיקיות שלך קובץ שעבר אופטימיזציה לשחזור."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "אף קובץ בתיקיות שלך לא נכשל."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "כל הקבצים בתיקיות שלך כבר עברו אופטימיזציה או שהם בדרך."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "לא נשארה תמונה שעברה אופטימיזציה לשחזור."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "לאף תמונה שתוסף אחר ביצע לה אופטימיזציה לא נשאר מקור שממנו אפשר לבצע לה אופטימיזציה מחדש."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "לכל התמונות כבר יש טקסט אלטרנטיבי, או שהטקסט שלהן בדרך."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "לאף תמונה שעברה אופטימיזציה לא חסר דבר ממה שהאתר שלך דורש כעת."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "כל התמונות כבר עברו אופטימיזציה או שהן בדרך."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "התמונה הזו השתנתה מאז ש-Iminify ביצע לה אופטימיזציה, ולכן יש לבצע לה אופטימיזציה מחדש במקום זאת."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "לתמונה הזו לא חסר דבר ממה שהאתר שלך דורש כעת."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "המקור של התמונה הזו גדול מכדי לשלוח אותו: הוא חורג מגודל הקובץ שהתוכנית שלך מאפשרת, או גדול ממה שהזיכרון של השרת הזה יכול להכיל."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "יש לכבות את Converter for Media, או לבטל את \"Conversion of new images\" ב-General Settings שלו, תחת הגדרות, Converter for Media."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "יש לכבות את Image Optimizer by Elementor, או לבטל את \"Optimize new uploads\" תחת Elementor, Image Optimization, Settings."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Image Optimizer by Elementor המיר את התמונה הזו, נתן לה כתובת חדשה שהפוסטים שלך מקשרים אליה כעת, ושמר את המקור שלה לצידה. פעולת ה-Restore שלו מחזירה את המקור, עם הכתובת שלו, כל עוד התוסף ההוא מותקן; Iminify לא משכתב את הפוסטים שלך, ולכן הוא לא משחזר את התמונה הזו."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "יש לכבות את EWWW Image Optimizer."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "EWWW Image Optimizer שמר את המקור של התמונה הזו בשרתים שלו, למשך 30 יום. יש לשחזר אותה ב-EWWW Image Optimizer כל עוד המפתח שלו בתוקף ו-30 הימים טרם חלפו; Iminify לא יכול להביא את המקור."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "יש לכבות את Imagify, או לבטל את \"Auto-Optimize images on upload\" בהגדרות שלו."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "השורות האלה כבר הוסרו, או שהתוסף שלהן פעיל שוב."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "רק מי שיכול לנהל את הרשת יכול להסיר שורות שכל האתרים חולקים."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "התוסף לא יכול להוציא את השורות האלה. יש להסיר אותן ידנית."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s כבר לא משתמש בהם, אבל הם עדיין עונים לדפדפן שקורא WebP או AVIF עם העותק שהתוסף יצר מתמונה ושמר בתיקייה שלו, במקום התמונה, כך שמבקר עלול לקבל עותק שנוצר לפני ש-Iminify ביצע לתמונה אופטימיזציה."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s כבר לא משתמש בהם, אבל הם עדיין עונים לדפדפן שקורא WebP או AVIF עם כל קובץ WebP או AVIF שנקרא על שם תמונה, ישן ככל שיהיה, במקום התמונה, כך שמבקר עלול לקבל עותק שנוצר לפני ש-Iminify ביצע לתמונה אופטימיזציה."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Nginx שומר אותם עד שהוא נטען מחדש, ולכן יש לטעון אותו מחדש אחרי שהם יוסרו."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Smush הוסיף את הכלל הזה עבור תמונות PNG שהוא המיר ל-JPEG, והוא עדיין נמצא בין כללי שכתוב הכתובות של WordPress: בקשה ל-PNG כזה, שכבר לא קיים, מגיעה לעמוד הבית שלך במקום לקבל תשובת \"לא נמצא\"."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "יש לבטל את \"Auto Request Cron\" תחת LiteSpeed Cache, Image Optimization, ואת \"Auto Rescale Original Images\" תחת Page Optimization, Media Settings, ולתת לתמונות שהוא כבר שלח לחזור, או לכבות את LiteSpeed Cache."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "יש לכבות את Modern Image Formats: אין לו הגדרה משלו שעוצרת אותו."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Modern Image Formats החליף את הקבצים של התמונה הזו בקבצים בפורמט מודרני שנוצרו מהמקור שלה, ש-WordPress שומר. החזרת המקור תשנה את הכתובות של התמונה ותשבור את הפוסטים שמקשרים אליהן, ולכן Iminify לא משחזר אותה."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "יש לכבות את Optimole, או לבחור \"Optimole Cloud and your website\" תחת Optimole, Settings, Image Storage."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Optimole העביר את התמונה הזו לענן שלו ומחק את הקבצים שלה כאן. יש להחזיר אותה קודם ב-Optimole (לשם כך Optimole צריך להיות פעיל ומחובר), ואז Iminify יוכל לבצע לה אופטימיזציה."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "%1$s פעיל ומבצע בעצמו אופטימיזציה להעלאות שלך, ולכן Iminify לא מבצע אופטימיזציה לשום דבר כל עוד הוא עושה זאת, כדי שאף תמונה לא תידחס פעמיים. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "עברה אופטימיזציה ב-%s"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "יש לכבות את ShortPixel, או לבטל את \"Optimize media on upload\" בהגדרות שלו, תחת Processing."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "יש לכבות את Smush, או לבטל את \"Automatic compression\" בהגדרות שלו."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "יש לכבות את TinyPNG, או להגדיר אותו בהגדרות שלו לדחוס תמונות חדשות באופן ידני."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(נפתח בטאב חדש)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "טוען…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "לנסות שוב"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "סגור"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Iminify סורק את העמוד."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "העמודים שלך מקבלים כעת את הרוחב, הגובה והטקסט האלטרנטיבי החסרים בזמן שהם נשלחים. יש לסרוק את העמוד שוב כדי לראות זאת."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "כל עמוד, כל שבוע"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "בדיקה שבועית עוברת פעם בשבוע על כל עמוד במפת האתר שלך, דוחסת את התמונות החדשות או אלה ששונו, ושולחת את הממצאים באימייל. ההגדרה נעשית ב-iminify.com מתוך סריקה מלאה של האתר שלך, ושם ניתן לראות אילו תוכניות כוללות אותה."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "הגדרת בדיקה שבועית"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "לא ניתן היה לקרוא את העמוד"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "ממתינה לסריקה"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "בסריקה"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "הושלמה"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "אין תמונות"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "נעצרה"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "נכשלה"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Iminify ניתק את האתר הזה, ולכן לא ניתן לבדוק את העמודים שלו. יש לחבר אותו מחדש כדי להמשיך."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "יש לחבר את האתר הזה ל-Iminify כדי לבדוק את העמודים שלו."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "מעבר להגדרות"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "סריקת עמוד"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Iminify פותח את העמוד כמו שמבקר היה פותח אותו ומודד כל תמונה שהוא מציג."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "עמוד"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "כתובת אחרת באתר הזה"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "כתובת"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "סריקה"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "ניתן לסרוק שוב בעוד %s שנייה."
+msgstr[1] "ניתן לסרוק שוב בעוד %s שניות."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "%s סריקת עמוד נוצלה היום. כל בדיקה נספרת כאחת."
+msgstr[1] "%s סריקות עמוד נוצלו היום. כל בדיקה נספרת כאחת."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "סריקות עמוד שנותרו היום: %1$s מתוך %2$s. כל בדיקה נספרת כאחת."
+msgstr[1] "סריקות עמוד שנותרו היום: %1$s מתוך %2$s. כל בדיקה נספרת כאחת."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "סריקות העמוד שלך להיום נוצלו. סריקות נוספות יהיו זמינות ב-%s."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "סריקות העמוד שלך להיום נוצלו."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "בדיקות אחרונות"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "תמונות בעמוד"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "יש לבחור עמוד וללחוץ על \"סריקה\". Iminify מציג את כל התמונות שבו, כל אחת לצד התמונה התואמת לה בספרייה שלך, יחד עם מה שכדאי לתקן."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Iminify פותח את העמוד ומודד את התמונות שבו. זה לוקח בדרך כלל פחות מדקה, והעמוד הזה מציג אותן ברגע שהן מגיעות."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "בעמוד לא הוצגו תמונות."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "%1$s תמונה בעמוד, %2$s עם משהו לתיקון."
+msgstr[1] "%1$s תמונות בעמוד, %2$s עם משהו לתיקון."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "אין מה לתקן: כל התמונות בעמוד הזה בגודל הנכון, נטענות כראוי ויש להן תיאור טוב."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "הסתרת התמונות שאין בהן מה לתקן"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "הצגת %s תמונה שאין בה מה לתקן"
+msgstr[1] "הצגת %s תמונות שאין בהן מה לתקן"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "%s תמונה מספריית המדיה שלך מופיעה בעמוד הזה בלי הרוחב והגובה שלה, או בלי הטקסט האלטרנטיבי שיש לה בספרייה. התוסף יכול להוסיף לעמודים שלך את מה שחסר, מהספרייה, בזמן שהם נשלחים."
+msgstr[1] "%s תמונות מספריית המדיה שלך מופיעות בעמוד הזה בלי הרוחב והגובה שלהן, או בלי הטקסט האלטרנטיבי שיש להן בספרייה. התוסף יכול להוסיף לעמודים שלך את מה שחסר, מהספרייה, בזמן שהם נשלחים."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "השלמה בכל העמודים"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "מי שיכול לשנות את הגדרות התוסף יכול להפעיל את זה."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "יש להשתמש בגודל %1$s (%2$s × %3$s) במקום שבו התמונה הזו ממוקמת. העורך של העמוד לא מכיל אותה: התבנית שלך, תבנית עמוד או וידג'ט מציגים אותה, והגודל נבחר שם."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "יש להשתמש כאן בגודל %1$s (%2$s × %3$s): בעורך, יש לסמן את התמונה ולבחור בגודל הזה תחת \"Resolution\"."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "עריכת העמוד"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "התוסף מוסיף אותם בזמן שהעמוד נשלח. יש לסרוק שוב כדי לראות זאת."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Iminify כותב את הטקסט האלטרנטיבי של התמונה. יש לסרוק שוב אחרי שהוא יתווסף."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Iminify יכול לכתוב אותו אחרי שטקסט אלטרנטיבי ב-AI יופעל באתר הזה."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "הפעלה בהגדרות"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "הטקסט האלטרנטיבי שלה בדרך. יש לסרוק שוב אחרי שהוא יתווסף."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "כמה תרגומים חולקים את התמונה הזו, כל אחד עם טקסט אלטרנטיבי בשפה שלו: יש לכתוב אותו בתרגום שהעמוד הזה מציג, במסך העריכה שלו."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "התוסף מוסיף את הטקסט האלטרנטיבי שיש לתמונה בספריית המדיה בזמן שהעמוד נשלח. יש לסרוק שוב כדי לראות זאת."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "בדרך"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "בהמתנה"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "נכשלה"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "עברה אופטימיזציה בתוסף אחר"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(ללא כותרת)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "עותק %s"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "הגדולה ביותר במסך הראשון"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "מוצגת ב-%1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "התמונה בדרך ל-Iminify."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "הועתק"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "העתק"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "בטל"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "לפי Iminify, התמונות היומיות של החשבון שלך עדיין נוצלו במלואן."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "בדרך"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "נכשלו"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "דולגו"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "שוחזרו"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "הספרייה שלך"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s תמונה"
+msgstr[1] "%s תמונות"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "בספריית המדיה שלך עדיין אין תמונות."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "עברו אופטימיזציה"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "נחסך עד כה"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "מתוך %1$s, %2$s%% פחות"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s ביצע אופטימיזציה ל-%2$s תמונה, והמקור שלה נשמר. Iminify משאיר אותה כמו שהיא."
+msgstr[1] "%1$s ביצע אופטימיזציה ל-%2$s תמונות, והמקור של כל אחת מהן נשמר. Iminify משאיר אותן כמו שהן."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "%1$s ביצע אופטימיזציה ל-%2$s תמונה, ולא שמר את המקור שלה. Iminify משאיר אותה כמו שהיא."
+msgstr[1] "%1$s ביצע אופטימיזציה ל-%2$s תמונות, ולא שמר את המקורות שלהן. Iminify משאיר אותן כמו שהן."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s ביצע אופטימיזציה ל-%2$s תמונות, ול-%3$s מהן נשמר מקור. Iminify משאיר אותן כמו שהן."
+msgstr[1] "%1$s ביצע אופטימיזציה ל-%2$s תמונות, ול-%3$s מהן נשמר מקור. Iminify משאיר אותן כמו שהן."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "התיקיות האחרות שוחזרו"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "מתבצע שחזור של התיקיות האחרות"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "התיקיות האחרות עברו אופטימיזציה"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "מתבצעת אופטימיזציה לתיקיות האחרות"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "הספרייה שוחזרה"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "מתבצע שחזור"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "הטקסטים האלטרנטיביים נכתבו"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "מתבצעת כתיבה של טקסט אלטרנטיבי"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "הפורמטים החסרים נוצרו"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "מתבצעת יצירה של הפורמטים החסרים"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "הגדלים החסרים נוצרו"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "מתבצעת יצירה של הגדלים החסרים"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "עברו אופטימיזציה מחדש מהמקורות"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "מתבצעת אופטימיזציה מחדש מהמקורות"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "אופטימיזציה קבוצתית"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "הסתיימה"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "מושהית: מעט מקום בדיסק"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "מושהית"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "ממתינה לתוסף אופטימיזציה אחר"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "לא מתקדמת"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "ממתינה לאתר"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "אזלו להיום"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify עסוק"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "פועלת בעמוד הזה"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "פועלת"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "תמונות ששוחזרו: %1$s מתוך %2$s."
+msgstr[1] "תמונות ששוחזרו: %1$s מתוך %2$s."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "תמונות שנשלחו ל-Iminify: %1$s מתוך %2$s."
+msgstr[1] "תמונות שנשלחו ל-Iminify: %1$s מתוך %2$s."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s טקסט אלטרנטיבי בדרך"
+msgstr[1] "%s טקסטים אלטרנטיביים בדרך"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s תמונה אצל Iminify כעת"
+msgstr[1] "%s תמונות אצל Iminify כעת"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "תמונה שוחזרה"
+msgstr[1] "תמונות שוחזרו"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "תמונה נשלחה ל-Iminify"
+msgstr[1] "תמונות נשלחו ל-Iminify"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "לא ניתן היה לשחזר %d תמונה. השורה שלה תחת מדיה, תיקיות אחרות מציינת את הסיבה."
+msgstr[1] "לא ניתן היה לשחזר %d תמונות. השורות שלהן תחת מדיה, תיקיות אחרות מציינות את הסיבה."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "לא ניתן היה לשחזר %d תמונה. החלונית שלה בספריית המדיה מציינת את הסיבה."
+msgstr[1] "לא ניתן היה לשחזר %d תמונות. החלוניות שלהן בספריית המדיה מציינות את הסיבה."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "להתחיל עכשיו"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "השהייה"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "המשך"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "עצירה"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "הרצה ברקע במקום זאת"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "הסתיימה: התמונות חזרו למצב שבו הועלו."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "הסתיימה: בספריית המדיה, כל תמונה מציגה את התוצאה של הטקסט האלטרנטיבי שלה."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "הסתיימה: אף תמונה לא הייתה צריכה להישלח."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "הסתיימה: כל התמונות נשלחו. בספריית המדיה, כל אחת מהן מציגה את התוצאה שלה."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "נעצרה. תמונות שכבר נמצאות אצל Iminify יושלמו כל עוד העמוד הזה פתוח; השאר יישארו כמו שהן."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "נעצרה. תמונות שכבר נמצאות אצל Iminify יושלמו; השאר יישארו כמו שהן."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "מושהית: נשאר מעט מקום פנוי בדיסק של השרת. יש לפנות מקום, ואז להמשיך."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "הושהתה בזמן שהתוסף היה כבוי."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "מושהית. תמונות שכבר נמצאות אצל Iminify יושלמו כל עוד העמוד הזה פתוח."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "מושהית. תמונות שכבר נמצאות אצל Iminify יושלמו."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "מעוכבת כל עוד תוסף אופטימיזציה אחר מטפל בהעלאות שלך. ההרצה תמשיך מעצמה אחרי שהוא יכובה."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "ההרצה לא התקדמה כבר זמן מה: נראה שהמשימות המתוזמנות של האתר הזה לא פועלות."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "התמונות היומיות של החשבון שלך נוצלו. ההרצה תמשיך מעצמה כשהמנה הבאה תיפתח ב-%s."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "מעוכבת: Iminify לא מקבל את המפתח של האתר הזה. ההרצה תמשיך מעצמה כשהחיבור יעבוד."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "הטקסטים האלטרנטיביים ב-AI של החשבון שלך להיום נוצלו. ההרצה תמשיך מעצמה ב-%s."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Iminify עסוק בתמונות שכבר נשלחו. ההרצה תשלח תמונות נוספות ב-%s."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "יש להשאיר את העמוד הזה פתוח: התמונות נשלחות כל עוד הוא פתוח."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "ההרצה ממשיכה ברקע, כך שניתן לעזוב את העמוד הזה."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "לפי בריאות אתר: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "אם האתר הזה מבקש סיסמה לפני שהוא נפתח, יש להוסיף את שם המשתמש והסיסמה האלה ל-wp-config.php כדי שהמשימות המתוזמנות שלו יוכלו לגשת אליו:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "במקום זאת, ניתן להריץ אותה כל עוד העמוד הזה פתוח, או להמשיך אותה משורת הפקודה:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "הרצה כל עוד העמוד הזה פתוח"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "השוואת התוכניות"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "יש לחבר את האתר הזה ל-Iminify כדי לבצע אופטימיזציה לתמונות שלו."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "נשאר מעט מקום פנוי בדיסק של השרת, ולכן שום דבר לא עובר אופטימיזציה עד שיתפנה מקום."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "אופטימיזציה לספרייה"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s תמונה עדיין לא עברה אופטימיזציה."
+msgstr[1] "%s תמונות עדיין לא עברו אופטימיזציה."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "הגיבויים שלהן צריכים כ-%1$s של מקום בדיסק (%2$s פנויים)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "הגיבויים שלהן צריכים כ-%s של מקום בדיסק."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "שליחה חוזרת של %s תמונה שנכשלה"
+msgstr[1] "שליחה חוזרת של %s תמונות שנכשלו"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "עדיין אין תמונות לאופטימיזציה."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "כל התמונות עברו אופטימיזציה או שהן בדרך."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "אף תמונה לא ממתינה לאופטימיזציה."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s תמונה שוחזרה, והיא נשארת כמו שהיא: הרצה אף פעם לא לוקחת תמונה שמישהו החזיר. ניתן לבצע לה אופטימיזציה מחדש מהחלונית שלה בספריית המדיה."
+msgstr[1] "%s תמונות שוחזרו, והן נשארות כמו שהן: הרצה אף פעם לא לוקחת תמונה שמישהו החזיר. ניתן לבצע אופטימיזציה מחדש לכל אחת מהן מהחלונית שלה בספריית המדיה."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "קבצים חסרים"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "ל-%s תמונה שעברה אופטימיזציה חסר פורמט שהאתר שלך דורש כעת."
+msgstr[1] "ל-%s תמונות שעברו אופטימיזציה חסר פורמט שהאתר שלך דורש כעת."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "ל-%s תמונה שעברה אופטימיזציה ייתכן שחסר גודל שהאתר שלך יוצר כעת."
+msgstr[1] "ל-%s תמונות שעברו אופטימיזציה ייתכן שחסר גודל שהאתר שלך יוצר כעת."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "טקסט אלטרנטיבי"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "ל-%s תמונה אין טקסט אלטרנטיבי."
+msgstr[1] "ל-%s תמונות אין טקסט אלטרנטיבי."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "לשלוח גרסה מוקטנת של כל אחת מהתמונות האלה כדי לכתוב לה טקסט אלטרנטיבי? כל אחת נספרת כאחד מהטקסטים האלטרנטיביים ב-AI שלך להיום, וטקסט אלטרנטיבי שמישהו כתב לעולם לא מוחלף."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "נותר היום %s טקסט אלטרנטיבי ב-AI."
+msgstr[1] "נותרו היום %s טקסטים אלטרנטיביים ב-AI."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "לשלוח שוב את התמונות האלה כדי ליצור את מה שחסר להן? כל אחת נספרת כתמונה נוספת, ושאר הקבצים שלה נשמרים, אלא אם Iminify יקטין אותם."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "אופטימיזציה מחדש מהמקורות שלהן"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "ל-%s תמונה שתוסף אחר ביצע לה אופטימיזציה נשמר המקור. Iminify יכול לבצע לה אופטימיזציה מחדש מהמקור הזה ולשמור ממנו גיבוי משלו. המקור מוחזר קודם, אלא אם התמונה הומרה ל-WebP או ל-AVIF: במקרה כזה הקבצים שלה נוצרים מחדש באותו פורמט, באותם שמות."
+msgstr[1] "ל-%s תמונות שתוספים אחרים ביצעו להן אופטימיזציה נשמרו המקורות. Iminify יכול לבצע להן אופטימיזציה מחדש מהמקורות האלה ולשמור גיבוי משלו של כל אחד מהם. כל מקור מוחזר קודם, אלא אם התמונה הומרה ל-WebP או ל-AVIF: במקרה כזה הקבצים שלה נוצרים מחדש באותו פורמט, באותם שמות."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "לבצע אופטימיזציה מחדש לתמונות האלה מהמקורות שלהן? כל אחת נספרת כתמונה נוספת, ותמונה שרק התוסף שלה יכול להחזיר את המקור שלה תישאר כמו שהיא."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "LiteSpeed Cache פעיל. בכל פעם ש-WordPress יוצר מחדש את הגדלים של תמונה (Regenerate Thumbnails, או החלפת תמונה), LiteSpeed Cache מוחק את עותקי WebP ו-AVIF שלצידה ומחזיר את הקבצים הישנים ששמר מתמונה שהוא ביצע לה אופטימיזציה, ולכן Iminify מזהה את התמונה כתמונה שהשתנתה. \"Remove Original Image Backups\", תחת LiteSpeed Cache, Image Optimization, מונע ממנו להחזיר קבצים ישנים."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "ברקע"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "כך שניתן לעזוב את העמוד הזה."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "כל עוד העמוד הזה פתוח"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "לאחסון שהמשימות המתוזמנות בו לא פועלות."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "הרצה"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "התוכנית שלך"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "הכל היום"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "כ-%d יום"
+msgstr[1] "כ-%d ימים"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "התמונות היומיות בתוכנית שלך מספיקות לכולן היום."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "ההרצה ממשיכה מעצמה בכל יום."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "הצגת התוכניות"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "תיקיות אחרות"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "אופטימיזציה לתמונות בתבנית שלך ובתיקיות אחרות מחוץ לספריית המדיה, במקום שבו הן נמצאות, עם גיבוי של כל אחת."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "%1$s תמונה בתיקיות שלך. עברו אופטימיזציה: %2$s, עדיין לא: %3$s."
+msgstr[1] "%1$s תמונות בתיקיות שלך. עברו אופטימיזציה: %2$s, עדיין לא: %3$s."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Iminify עדיין עובר עליהן."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "להחזיר כל תמונה שעברה אופטימיזציה בתיקיות שלך למצבה הקודם? עותקי WebP ו-AVIF שלהן יימחקו; הגיבויים יישארו."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "שחזור הכל"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "הצגת התמונות"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "אופטימיזציה לתמונות"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "שליחה חוזרת של אלה שנכשלו"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "בחירת תיקיות"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "שחזור הספרייה"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "החזרת כל תמונה שעברה אופטימיזציה למצב שבו הועלתה, מהגיבוי שלה, כש-WordPress יוצר מחדש את הגדלים שלה. כדאי לעשות זאת לפני הסרת התוסף אם ברצונך שהמקורות יחזרו למקומם. תמונה שתוסף אחר המיר ל-WebP או ל-AVIF נשארת כמו שהיא, כי רק התוסף ההוא יכול להחזיר את המקור שלה."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "להחזיר כל תמונה שעברה אופטימיזציה למצב שבו הועלתה? עותקי WebP ו-AVIF שלהן יימחקו; הגיבויים יישארו."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "נשלחה ל-Iminify."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "המקור הוחזר."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "בחיפוש"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "תיקיות"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "יש לבחור את התבנית שלך או כל תיקייה ב-wp-content, ו-Iminify יבצע אופטימיזציה לתמונות שבה במקום שבו הן נמצאות, וישמור גיבוי של כל אחת."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "הסרה"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "התבנית שלך"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "תבנית האם שלה"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "הוספת התבנית שלך, %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "הוספת תבנית האם שלה, %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "הוספה"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "תיקייה אחרת ב-wp-content"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "חיפוש אחרון ב-%1$s: %2$s תמונה. חדשות: %3$s, השתנו: %4$s."
+msgstr[1] "חיפוש אחרון ב-%1$s: %2$s תמונות. חדשות: %3$s, השתנו: %4$s."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Iminify מחפש שוב אחרי עדכון של תבנית או תוסף. אחרי שינוי ידני של תמונות, יש לחפש עכשיו."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "חיפוש תמונות חדשות ותמונות שהשתנו"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "בתיקיות שלך"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "הרצה קבוצתית על התמונות האלה פועלת בעמוד האופטימיזציה הקבוצתית."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "ניתן לבצע אופטימיזציה או שחזור לכולן בעמוד האופטימיזציה הקבוצתית."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "מעבר לאופטימיזציה קבוצתית"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "הכל"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "תמונות"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "יש להוסיף תיקייה כדי לראות כאן את התמונות שבה."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "לא נמצאו תמונות בתיקיות האלה."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "אין כאן תמונות."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "קודם"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "עמוד %1$s מתוך %2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "הבא"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "בהמתנה לחיבור"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "דולגה"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "שוחזרה"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%s%% פחות"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "שחזור"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "להחזיר את המקור? עותקי WebP ו-AVIF שלה יימחקו; הגיבוי יישאר."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "לנתק את הרשת מ-Iminify? גם כל המפתחות שבאמצעותם האתרים שלה הצטרפו יפסיקו לעבוד, והעלאות חדשות באתרים האלה יפסיקו לעבור אופטימיזציה. תמונות שכבר עברו אופטימיזציה יישארו כמו שהן."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "לנתק את האתר הזה מ-Iminify? העלאות חדשות יפסיקו לעבור אופטימיזציה, והאתר לא יצטרף שוב לרשת מעצמו: כדי להחזיר אותו יש ללחוץ על \"הצטרפות לרשת\". תמונות שכבר עברו אופטימיזציה יישארו כמו שהן."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "לנתק את האתר הזה מ-Iminify? העלאות חדשות יפסיקו לעבור אופטימיזציה. תמונות שכבר עברו אופטימיזציה יישארו כמו שהן."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "ניתוק"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s, בכתובת %2$s, מחוברת ל-Iminify כרשת אתרים."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s, בכתובת %2$s, מחובר ל-Iminify דרך הרשת שלו."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s, בכתובת %2$s, מחובר ל-Iminify."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "החשבון שלך"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "תוכנית"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, עד %2$s"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "המנה הבאה"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "אתרי הרשת"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s מתוך %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "האתר הראשי"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "נחסכו %s"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "חשבון Iminify של האתר הזה מוגדר ב-wp-config.php."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "התוכנית שלך ב-iminify.com"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "מפתח הרשת מוגדר ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>. כדי לנתק, יש להסיר אותו שם, ולנתק את הרשת תחת Settings, Sites ב-iminify.com."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "מפתח האתר מוגדר ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>. כדי לנתק, יש להסיר אותו שם, ולנתק את האתר תחת Settings, Sites ב-iminify.com."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "חיבור הרשת שלך"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Iminify דוחס את התמונות שמועלות לכל אתר ברשת הזו ויוצר מהן עותקי WebP ו-AVIF. יש לחבר את הרשת לחשבון Iminify שלך פעם אחת, או ליצור חשבון חינמי תוך כדי, וכל אתר מצטרף מעצמו בפעם הראשונה שהוא זקוק ל-Iminify."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "שום דבר לא נשלח ל-Iminify עד לחיבור. הכפתור \"חיבור הרשת\" פותח את iminify.com בטאב חדש, שבו יש לאשר את הרשת."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "חיבור הרשת"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "חיבור האתר הזה בנפרד"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "במקום זאת, האתר הזה יכול להתחבר לחשבון Iminify משלו, ואז הוא לעולם לא משתמש בחיבור של הרשת."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "הכפתור \"חיבור\" פותח את iminify.com בטאב חדש, שבו יש לאשר את האתר הזה."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "חיבור האתר שלך"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Iminify דוחס את התמונות שמועלות לאתר ויוצר מהן עותקי WebP ו-AVIF. כדי להתחיל, יש לחבר את האתר הזה לחשבון Iminify שלך, או ליצור חשבון חינמי תוך כדי."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "שום דבר לא נשלח ל-Iminify עד לחיבור. הכפתור \"חיבור\" פותח את iminify.com בטאב חדש, שבו יש לאשר את האתר הזה."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "במקום זאת, מנהל רשת יכול לחבר את כל הרשת מהנהלת הרשת, וכל אתר יצטרף אליה מעצמו."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "איך החיבור עובד"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "בהמתנה לאישור שלך"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "יש לאשר את החיבור ב-iminify.com, בטאב שנפתח. העמוד הזה יתחבר מעצמו אחרי האישור, והאתר ימשיך בחיבור גם אם העמוד ייסגר."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "פתיחה מחדש של העמוד ב-iminify.com"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "סוכנות יכולה להוסיף את האתר תחת <a>Settings, Sites</a> ב-iminify.com ולהדביק כאן את המפתח שלו, או להגדיר אותו ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "סוכנות יכולה להוסיף את האתר תחת Settings, Sites ב-iminify.com ולהדביק כאן את המפתח שלו, או להגדיר אותו ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "סוכנות מוסיפה את הרשת תחת <a>Settings, Sites</a> ב-iminify.com, כשהאפשרות \"This is a multisite network\" מסומנת, ומדביקה כאן את המפתח שלה, או מגדירה אותו ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "סוכנות מוסיפה את הרשת תחת Settings, Sites ב-iminify.com, כשהאפשרות \"This is a multisite network\" מסומנת, ומדביקה כאן את המפתח שלה, או מגדירה אותו ב-wp-config.php בתור <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "כל העלאה עוברת אופטימיזציה ברקע"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "WordPress מסיים קודם את ההעלאה, ואז Iminify דוחס את התמונה ואת כל הגדלים ש-WordPress יצר ממנה."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "העלאה נספרת כתמונה אחת"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "הגדלים ש-WordPress יצר ממנה ועותקי WebP ו-AVIF שלה נכללים בה כקבצים, ואף פעם לא כתמונות נוספות."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "המקורות שלך נשארים באתר הזה"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "גיבוי של כל אחד מהם נשמר בתיקיית ההעלאות, כך שניתן להחזיר כל תמונה למצבה הקודם."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "הספרייה שלך נשלחת רק לפי בקשתך"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "תמונות שכבר נמצאות בספריית המדיה ממתינות עד להפעלה שלהן תחת מדיה, אופטימיזציה קבוצתית."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "לאחר החיבור"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "חיבור עם מפתח הרשת"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "חיבור עם מפתח אתר"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "מפתח רשת"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "מפתח אתר"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "חיבור עם המפתח הזה"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "ואחרי השינוי:"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "ללא שינוי"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "ההגדרות של %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Iminify מצא באתר הזה את ההגדרות של %s. הוא יכול להתאים אליהן את ההגדרות של האתר הזה, ככל של-Iminify יש את אותן הגדרות: רמת הדחיסה, הרוחב המרבי, מטא-נתונים, עותקי WebP ו-AVIF, הגדלים והגיבויים. השינויים מוצגים לפני שמשהו משתנה."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "שימוש בהגדרות של %s"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "לא, תודה"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "האתר הזה כבר משתמש במה שתואם להגדרות של %s."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "לפי ההגדרות של %s, Iminify יגדיר את אלה. שום דבר לא משתנה עד לשימוש בהן, והשימוש בהן מחליף את השינויים שלא נשמרו בהגדרות שלמטה."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "לפי ההגדרות של %s, Iminify יגדיר את אלה. שום דבר לא משתנה עד לשימוש בהן."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "לאף אחת מההגדרות של %s אין הגדרה תואמת ב-Iminify, ולכן האתר הזה שומר על ההגדרות שלו."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "שימוש בהגדרות האלה"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "אישור"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "פתיחת הגדרות Iminify של הרשת"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "החיבור של הרשת"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "זהו האתר הראשי של הרשת, ולכן הוא משתמש בחיבור של הרשת ל-Iminify. מנהל רשת מחבר ומנתק את הרשת בהנהלת הרשת."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "זהו האתר הראשי של הרשת, ולכן הוא משתמש בחיבור של הרשת ל-Iminify, שעדיין לא נוצר. מנהל רשת מחבר את הרשת בהנהלת הרשת, וכל אתר מצטרף אליה מעצמו."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "אתרי הרשת"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "המפתח הזה נוצר עבור אתר יחיד, ולכן אתרי הרשת לא יכולים להצטרף באמצעותו. יש לנתק ואז לחבר את הרשת מחדש, או ליצור מפתח תחת Settings, Sites ב-iminify.com כשהאפשרות \"This is a multisite network\" מסומנת."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "כל אתר ברשת מצטרף מעצמו בפעם הראשונה שהוא זקוק ל-Iminify, עם מפתח משלו, ומתחיל עם ההגדרות של האתר הראשי. כל אחד נספר כאתר נפרד בחשבון שלך. אתר שנותק בעמוד שלו, או תחת Settings, Sites ב-iminify.com, לא מצטרף שוב מעצמו."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "ההגדרות של כל אתר נמצאות בעמוד הגדרות, Iminify שלו. האופטימיזציה לתמונות בתבניות ובתיקיות אחרות מתבצעת מהאתר הראשי, פעם אחת עבור כל הרשת."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "ההגדרות של האתר הראשי"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "התיקיות האחרות של האתר הראשי"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "איך רשת מתחברת"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "הצטרפות לרשת"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s מחוברת ל-Iminify. האתר הזה יכול להצטרף אליה עם מפתח משלו, והוא נספר כאתר נפרד בחשבון."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "בכללי שכתוב הכתובות של WordPress:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "ב-<file />:"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "להוציא את הכלל של %s מכללי שכתוב הכתובות של WordPress? כל שאר הכללים יישארו."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "להסיר את השורות של %s מהקובץ הזה? כל השאר בקובץ יישאר כמו שהוא. Nginx שומר אותן עד שהוא נטען מחדש, ולכן יש לטעון אותו מחדש לאחר מכן."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "להסיר את השורות של %s מהקובץ הזה? כל השאר בקובץ יישאר כמו שהוא."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> מכיל את השורה %s, אבל לבלוק שהיא פותחת אין סוף משלו, או שהוא חוצה בלוק אחר, ולכן התוסף לא נוגע בקובץ. יש להסיר את שורות הבלוק ידנית."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "התוסף לא יכול לכתוב ל-<file />. יש להסיר ממנו את השורות האלה ידנית, ואז לטעון מחדש את Nginx."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "התוסף לא יכול לכתוב ל-<file />. יש להסיר ממנו את השורות האלה ידנית."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "כל אתרי הרשת חולקים את השורות האלה, ולכן מי שיכול לנהל את הרשת מסיר אותן, מהגדרות Iminify בהנהלת הרשת."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "כל אתרי הרשת חולקים את השורות האלה, ולכן מנהל רשת מסיר אותן, בעמוד הזה."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "כלל שכתוב הכתובות של %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "הכללים של %s"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "כללים שהשאיר תוסף אופטימיזציה אחר"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "הכללים שהשאיר תוסף אופטימיזציה אחר הוסרו."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "תוסף אופטימיזציה שהיה בשימוש לפני כן השאיר את הכללים האלה כשהוא כובה. Iminify אף פעם לא מסיר מעצמו כללים של תוסף אחר."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d תמונה עוברת אופטימיזציה."
+msgstr[1] "%d תמונות עוברות אופטימיזציה."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d תמונה ממתינה למנה הבאה."
+msgstr[1] "%d תמונות ממתינות למנה הבאה."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d תמונה ממתינה לחיבור האתר. היא תישלח מעצמה כשהאתר יחובר."
+msgstr[1] "%d תמונות ממתינות לחיבור האתר. הן יישלחו מעצמן כשהאתר יחובר."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "המנה הבאה תיפתח ב-%s. העלאות חדשות יישלחו ראשונות, מעצמן."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "תור"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "נשאר מעט מקום פנוי בדיסק של השרת, ולכן Iminify הפסיק לבצע כאן אופטימיזציה לתמונות. יש לפנות מקום, ואז לבצע אופטימיזציה לתמונות שמסומנות \"ללא אופטימיזציה\"."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "השרת שלך השיב בשגיאה אחרי שהכללים נוספו, ולכן התוסף הוציא אותם שוב והתמונות שלך נטענות כמו קודם. יש לשאול את חברת האחסון אם קובצי .htaccess יכולים להגדיר כללי שכתוב וסוגי קבצים, או לבחור בתגיות picture."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "השרת שלך שולח את עותקי WebP ו-AVIF. נבדק ב-%s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "השרת שלך עדיין שולח את המקורות: משהו עונה לבקשות לתמונות לפני שהכללים האלה נקראים, לעיתים קרובות Nginx שפועל לפני Apache. יש להוסיף את שורות ה-Nginx שלמטה לתצורה שלו, או לבחור בתגיות picture. נבדק ב-%s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "השרת שלך עדיין שולח את המקורות. יש להוסיף את השורות שלמטה לתצורה שלו ולטעון מחדש את Nginx, ואז לשמור שוב. נבדק ב-%s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Cloudflare השיב עם המקור, ולכן ייתכן שמבקר לעולם לא יקבל עותק דרך הכללים האלה. יש לבחור בתגיות picture, שעובדות מאחורי Cloudflare. נבדק ב-%s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "התוסף לא הצליח לבקש תמונה מהאתר שלך כדי לבדוק אם הכללים עובדים, מה שקורה כשאתר לא יכול לגשת לכתובת שלו עצמו. יש לפתוח אחת מהתמונות שלך עם כלי המפתחים של הדפדפן: הסוג שלה צריך להיות image/avif או image/webp. נוסה ב-%s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "הכללים נמצאים ב-<file />."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "<file /> מכיל את השורה <begin /> בלי שורת ה-<end /> שלה, ולכן התוסף לא נוגע בקובץ. יש להחזיר את השורה <end /> אחרי ה-<closing /> האחרון של הבלוק, או למחוק את כל שורות הבלוק, ואז לשמור שוב."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "תיקיית ההעלאות שלך אינה בתוך התיקייה שמכילה את קובץ ה-.htaccess של האתר, ולכן אף כלל שם לא יכול להתייחס אליה. יש לבחור בתגיות picture."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "עדיין אין <file />. יש ליצור אותו עם השורות האלה, ואז לשמור שוב."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "<file /> לא מפעיל שכתוב כתובות, ולכן התוסף לא נוגע בו. אם השרת שלך קורא משם כללי שכתוב, יש להדביק בו את השורות האלה, ואז לשמור שוב."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "התוסף לא יכול לכתוב ל-<file />. יש להדביק בו את השורות האלה, מעל הכללים ש-WordPress נתן לרשת, ואז לשמור שוב."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "התוסף לא יכול לכתוב ל-<file />. יש להדביק את השורות האלה בסופו, ואז לשמור שוב."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "השרת שלך לא קורא קובצי .htaccess וגם לא את התצורה של Nginx, ולכן לתוסף אין כללים לתת לו. יש לבחור בתגיות picture."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "האתר שלך פועל על Nginx, שלא קורא את .htaccess. יש לשים את השורות הראשונות בראש בלוק ה-server של האתר, לפני כל if או rewrite, ואת ה-location מעל כל location אחר לתמונות, ואז לטעון מחדש את Nginx. יש להעתיק לתוך ה-location כל שורת expires, Cache-Control או add_header שהתמונות שלך צריכות, כי ה-add_header שלו מחליף את זה של בלוק ה-server:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "ב-Nginx, יש לשים את השורות הראשונות בראש בלוק ה-server של האתר, לפני כל if או rewrite, ואת ה-location מעל כל location אחר לתמונות, ואז לטעון מחדש את Nginx. יש להעתיק לתוך ה-location כל שורת expires, Cache-Control או add_header שהתמונות שלך צריכות, כי ה-add_header שלו מחליף את זה של בלוק ה-server:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "הכללים חלים על: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "הכללים מגישים כל עותק WebP או AVIF שנקרא על שם תמונה ונמצא לצידה, כך שגם עותק שתוסף אופטימיזציה אחר השאיר שם מוגש עד ש-Iminify ייצור עותק משלו. Iminify אף פעם לא מוחק עותקים של תוסף אחר."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Cloudflare עונה בשם האתר שלך. הוא שומר גרסה אחת של כל תמונה בלי קשר למה שהדפדפן קורא, כך שדפדפן שלא יכול להציג AVIF עלול לקבל את עותק ה-AVIF. יש לבחור בתגיות picture, שעובדות מאחורי כל CDN."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "WP Offload Media מגיש את התמונות שלך מה-bucket שלו, שהכללים האלה לא מגיעים אליו, ולכן התמונות האלה נשארות עם המקורות שלהן. כשהאפשרות \"Remove Local Media\" שלו מופעלת, הכללים לא מגישים דבר."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "מגיע גם לתמונות ב-HTML גולמי, בבוני עמודים ובקוד של התבנית שלך, לרקעים שמוגדרים בעמוד עצמו ולתמונות בתיקיות שבחרת, על ידי קריאת כל עמוד בזמן שהוא נשלח. רקע שמוגדר בקובץ גיליון סגנונות נשאר עם המקור שלו. עמוד שהמטמון שלך לא שמר ייטען מעט לאט יותר."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "העמודים שלך נשארים כמו שהם, והשרת שלך שולח את עותק ה-WebP או ה-AVIF במקום התמונה לכל דפדפן שקורא אותו. כך מגיעים לכל תמונה בתיקיית ההעלאות ובתיקיות שבחרת, כולל רקעים בקובצי גיליונות סגנונות. נדרשים כללים בתצורת השרת שלך (ב-Apache הם נכתבים עבורך), ומאחורי CDN, נדרש CDN ששומר גרסה של כל תמונה לכל פורמט."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "העמודים שלך נשארים כמו שהם: העותקים נוצרים, אבל אף עמוד לא מפנה אליהם."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "לתמונות בפוסטים שלך ולתמונות שהתבנית שלך מציגה דרך WordPress. כל עמוד זהה לכל מבקר, כך שמטמוני עמודים ו-CDN ממשיכים לעבוד, ודפדפן שלא קורא אף אחד מהפורמטים מקבל את המקור."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "אופטימיזציה"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "ההגדרות האלה נשמרות עם האתר ב-iminify.com, שמחיל אותן על כל תמונה שהאתר שולח."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "שליחת כל תמונה ל-Iminify ברגע שהיא מועלית."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "עותק WebP של כל גודל, שמוגש לדפדפנים שקוראים אותו. עותק שגדול מהתמונה שלו לא נשמר."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "גם עותק AVIF של כל גודל: בדרך כלל קטן יותר מ-WebP, ואיטי יותר ליצירה."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "כל רוחב"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "מקטין תמונה ראשית רחבה יותר לרוחב הזה. יש להשאיר ריק כדי לשמור על הרוחב של כל תמונה."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "מתאים את התמונה הראשית כך שתהיה מתחת לגודל הזה. יש להשאיר ריק כדי שלא תהיה מגבלה."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "שומר את נתוני ה-EXIF של כל תמונה, כמו המצלמה והמקום שבו היא צולמה. כשהאפשרות כבויה, הם מוסרים."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "כותב תיאור לכל תמונה שאין לה טקסט אלטרנטיבי. טקסט אלטרנטיבי שכתבת לעולם לא מוחלף. גרסה מוקטנת של התמונה נשלחת ל-AI של Anthropic, וכל אחת נספרת כאחד מהטקסטים האלטרנטיביים ב-AI שלך להיום."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "שפת הטקסט האלטרנטיבי"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "אופטימיזציה לכל הגדלים"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "כל גודל ש-WordPress יוצר מהעלאה. יש לכבות כדי לבחור את הגדלים."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "באתר הזה"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "נשמרים בתיקיית ההעלאות תחת iminify-backup, כך שניתן לשחזר כל תמונה למצבה הקודם."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "WebP ו-AVIF בעמודים שלך"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "הגשה עם תגיות picture"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "הגשה בכל העמוד"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "הגשה דרך כללי שרת"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "ללא שינוי בעמודים"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "הוספת הרוחב, הגובה והטקסט האלטרנטיבי שחסרים לתמונות"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "כשהקוד של עמוד משמיט אותם מתמונה מספריית המדיה שלך, התוסף מוסיף את הרוחב והגובה שלה, כדי שהעמוד לא יקפוץ בזמן הטעינה, ואת הטקסט האלטרנטיבי שיש לה בספרייה, בזמן שכל עמוד נשלח. טקסט אלטרנטיבי שהושאר ריק בכוונה נשאר ריק."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "במחיקת התוסף"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "מחיקה גם של עותקי WebP ו-AVIF"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "עמוד שהמטמון שלך שמר עם תגיות picture יציג תמונה שבורה עד שהמטמון ינוקה."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "מחיקה גם של הגיבויים"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "הם המקורות היחידים של התמונות ש-Iminify ביצע להן אופטימיזציה, ולכן לא ניתן יהיה לשחזר את התמונות האלה לאחר מכן. אם גם העותקים יימחקו, התקנה מחדש של התוסף תבצע לתמונות האלה אופטימיזציה פעם שנייה."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "שמור שינויים"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "שינויים שלא נשמרו"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "דורש תשומת לב"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "הרשת מחוברת."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "האתר מחובר."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "החיבור לא אושר בזמן, או שהוא נדחה. יש ללחוץ על \"חיבור הרשת\" כדי לנסות שוב."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "החיבור לא אושר בזמן, או שהוא נדחה. יש ללחוץ על \"חיבור\" כדי לנסות שוב."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "הרשת נותקה כאן, אבל לא ניתן היה לבטל את המפתח שלה ב-Iminify. יש לנתק אותה גם תחת Settings, Sites ב-iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "האתר נותק כאן, אבל לא ניתן היה לבטל את המפתח שלו ב-Iminify. יש לנתק אותו גם תחת Settings, Sites ב-iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "האתר הצטרף לרשת."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "העברת החיבור לכאן"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "חיבור ההעתק הזה כאתר נפרד"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "האתר הזה משתמש כעת בהגדרות של %s."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "השורות הוסרו. יש לטעון מחדש את Nginx כדי שיפסיק להגיש אותן."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "השורות הוסרו."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "הגדרות נשמרו."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "התמונות שהמתינו בדרך."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "התמונות היומיות של החשבון שלך עדיין נוצלו במלואן."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify ניתק את הרשת, ולכן העלאות חדשות באתרים שלה לא עוברות אופטימיזציה. יש לחבר אותה מחדש כדי להמשיך."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify ניתק את הרשת, ולכן העלאות חדשות לא עוברות אופטימיזציה. מנהל רשת מחבר אותה מחדש בהנהלת הרשת."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify ניתק את האתר הזה, ולכן העלאות חדשות לא עוברות אופטימיזציה. כדי להמשיך, יש להצטרף שוב לרשת או לחבר את האתר בנפרד."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify ניתק את האתר הזה, ולכן העלאות חדשות לא עוברות אופטימיזציה. יש לחבר אותו מחדש כדי להמשיך."

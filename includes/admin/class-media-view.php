@@ -69,6 +69,7 @@ class Media_View {
 		'image/png'  => 'PNG',
 		'image/webp' => 'WebP',
 		'image/gif'  => 'GIF',
+		'image/avif' => 'AVIF',
 	);
 
 	/**

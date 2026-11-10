@@ -1,0 +1,3737 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
+"Language: el\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "Συμπιέστε, μετατρέψτε και αλλάξτε το μέγεθος των εικόνων της βιβλιοθήκης πολυμέσων σας με το Iminify και σερβίρετέ τες ως WebP και AVIF."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "Έλεγχος σελίδας"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "Βρείτε τις εικόνες που επιβραδύνουν τις σελίδες σας, καθεμία δίπλα στην αντίστοιχη εικόνα της βιβλιοθήκης σας."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Το script της σελίδας λείπει από τον φάκελο του πρόσθετου. Εγκαταστήστε ξανά το πρόσθετο για να επανέλθει."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "Αυτή η σελίδα χρειάζεται JavaScript."
+
+#: includes/admin/class-audit-state.php:354
+msgid "Original upload"
+msgstr "Πρωτότυπο αρχείο"
+
+#: includes/admin/class-audit-state.php:368
+msgid "Home page"
+msgstr "Αρχική σελίδα"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "Λυπούμαστε, δεν σας επιτρέπεται να το κάνετε αυτό."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "Μαζική βελτιστοποίηση"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "Όλες οι εικόνες που υπάρχουν ήδη στη βιβλιοθήκη πολυμέσων σας, σε μία εκτέλεση."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Το script της σελίδας μαζικής βελτιστοποίησης λείπει από τον φάκελο του πρόσθετου. Εγκαταστήστε ξανά το πρόσθετο για να επανέλθει."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "Η σελίδα μαζικής βελτιστοποίησης χρειάζεται JavaScript."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:342
+msgid "That folder isn't in the list."
+msgstr "Αυτός ο φάκελος δεν είναι στη λίστα."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "Αυτή η εικόνα δεν είναι στη λίστα."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "Άλλοι φάκελοι"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "Οι εικόνες του θέματός σας και άλλων φακέλων εκτός της βιβλιοθήκης πολυμέσων."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "Αυτή η εικόνα δεν έχει πρωτότυπο στον ιστότοπο για να συγκριθεί."
+
+#: includes/admin/class-media-view.php:183
+msgid "Original"
+msgstr "Πρωτότυπο"
+
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
+msgid "Compare with the original"
+msgstr "Σύγκριση με το πρωτότυπο"
+
+#: includes/admin/class-media-view.php:211
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: includes/admin/class-media-view.php:212
+msgid "How much of the original shows"
+msgstr "Πόσο από το πρωτότυπο φαίνεται"
+
+#: includes/admin/class-media-view.php:213
+msgid "The optimized file to compare"
+msgstr "Το βελτιστοποιημένο αρχείο για σύγκριση"
+
+#: includes/admin/class-media-view.php:214
+msgid "This image couldn't be loaded from the site."
+msgstr "Δεν ήταν δυνατή η φόρτωση αυτής της εικόνας από τον ιστότοπο."
+
+#: includes/admin/class-media-view.php:216
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Σύρετε τη γραμμή ή χρησιμοποιήστε τα πλήκτρα βέλους για να δείτε περισσότερο από το πρωτότυπο στη μία πλευρά και από το βελτιστοποιημένο αρχείο στην άλλη."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:219
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Βελτιστοποιήθηκε με επίπεδο %s. Σύρετε τη γραμμή ή χρησιμοποιήστε τα πλήκτρα βέλους για να δείτε περισσότερο από το πρωτότυπο στη μία πλευρά και από το βελτιστοποιημένο αρχείο στην άλλη."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:248
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:256
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s μικρότερο"
+
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "Βελτιστοποιήθηκε"
+
+#: includes/admin/class-media-view.php:375
+msgid "Optimize again from the original"
+msgstr "Βελτιστοποίηση ξανά από το πρωτότυπο"
+
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
+msgid "Restore original"
+msgstr "Επαναφορά πρωτοτύπου"
+
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "Βελτιστοποίηση ξανά"
+
+#: includes/admin/class-media-view.php:400
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "Βελτιστοποίηση"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "Φιλτράρισμα κατά κατάσταση Iminify"
+
+#: includes/admin/class-media-view.php:455
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "Όλες οι καταστάσεις Iminify"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Βελτιστοποιημένες"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "Μη βελτιστοποιημένες"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "Σφάλματα"
+
+#: includes/admin/class-media-view.php:577
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "Μορφές που λείπουν"
+
+#: includes/admin/class-media-view.php:578
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "Βελτιστοποιημένες από άλλο πρόσθετο"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:673
+#, php-format
+msgid "Offloaded by %s"
+msgstr "Στο cloud του %s"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:707
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "Εξοικονόμηση %1$s (%2$s) σε %3$s αρχείο."
+msgstr[1] "Εξοικονόμηση %1$s (%2$s) σε %3$s αρχεία."
+
+#: includes/admin/class-media-view.php:714
+msgid "The originals were already smaller, so they were kept."
+msgstr "Τα πρωτότυπα ήταν ήδη μικρότερα, οπότε διατηρήθηκαν."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:723
+#, php-format
+msgid "Copies: %s"
+msgstr "Αντίγραφα: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:737
+#, php-format
+msgid "Missing formats: %s"
+msgstr "Μορφές που λείπουν: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:749
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "Μεγέθη που λείπουν: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:761
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "%s αντίγραφο WebP ή AVIF που δημιούργησε άλλο εργαλείο διατηρήθηκε ως έχει."
+msgstr[1] "%s αντίγραφα WebP ή AVIF που δημιούργησε άλλο εργαλείο διατηρήθηκαν ως έχουν."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:771
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "Δεν ήταν δυνατή η εγγραφή %s αρχείου."
+msgstr[1] "Δεν ήταν δυνατή η εγγραφή %s αρχείων."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:815
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "Το %1$s εξοικονόμησε %2$s (%3$s), σύμφωνα με τα δικά του στοιχεία."
+
+#: includes/admin/class-media-view.php:824
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "Το πρωτότυπό της διατηρείται. Το Iminify αφήνει την εικόνα ως έχει, χωρίς καμία χρέωση."
+
+#: includes/admin/class-media-view.php:825
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "Δεν κρατήθηκε πρωτότυπό της, οπότε το Iminify την αφήνει ως έχει αντί να τη συμπιέσει δεύτερη φορά."
+
+#: includes/admin/class-media-view.php:841
+msgid "Queued"
+msgstr "Στην ουρά"
+
+#: includes/admin/class-media-view.php:843
+msgid "Being optimized"
+msgstr "Βελτιστοποιείται"
+
+#: includes/admin/class-media-view.php:845
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "Αναμονή επόμενης παρτίδας"
+
+#: includes/admin/class-media-view.php:847
+msgid "Waiting for the connection"
+msgstr "Αναμονή σύνδεσης"
+
+#: includes/admin/class-media-view.php:849
+msgid "Not sent"
+msgstr "Δεν στάλθηκε"
+
+#: includes/admin/class-media-view.php:851
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: includes/admin/class-media-view.php:853
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Δεν βελτιστοποιήθηκε"
+
+#: includes/admin/class-media-view.php:889
+msgid "The next batch is open, so it goes out shortly."
+msgstr "Η επόμενη παρτίδα άνοιξε, οπότε θα σταλεί σύντομα."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:891
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "Θα σταλεί αυτόματα στις %s."
+
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: being written."
+msgstr "Εναλλακτικό κείμενο: συντάσσεται."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: written by Iminify."
+msgstr "Εναλλακτικό κείμενο: γράφτηκε από το Iminify."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: yours was kept."
+msgstr "Εναλλακτικό κείμενο: διατηρήθηκε το δικό σας."
+
+#: includes/admin/class-media-view.php:915
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "Εναλλακτικό κείμενο: το Iminify δεν μπόρεσε να γράψει κείμενο για αυτή την εικόνα."
+
+#: includes/admin/class-media-view.php:916
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "Εναλλακτικό κείμενο: δεν γράφτηκε, καθώς τα ημερήσια εναλλακτικά κείμενα AI εξαντλήθηκαν."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "Αυτή η εικόνα φέρει Content Credentials, μια υπογεγραμμένη καταγραφή της προέλευσής της, και τα αρχεία της τα διατηρούν."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "Αυτή η εικόνα έφερε Content Credentials, μια υπογεγραμμένη καταγραφή της προέλευσής της. Τα αρχεία και τα αντίγραφα που έγραψε το Iminify δεν τα περιλαμβάνουν, αφού ένα νέο αρχείο ακυρώνει την υπογραφή τους, ενώ το πρωτότυπο που κρατήθηκε ως αντίγραφο ασφαλείας τα διατηρεί."
+
+#: includes/admin/class-media-view.php:946
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "Αυτή η εικόνα έφερε Content Credentials, μια υπογεγραμμένη καταγραφή της προέλευσής της. Τα αρχεία και τα αντίγραφα που έγραψε το Iminify δεν τα περιλαμβάνουν, αφού ένα νέο αρχείο ακυρώνει την υπογραφή τους."
+
+#: includes/admin/class-media-view.php:950
+msgid "They say generative AI made it, wholly or in part."
+msgstr "Σύμφωνα με αυτά, η εικόνα δημιουργήθηκε εν όλω ή εν μέρει από παραγωγική τεχνητή νοημοσύνη."
+
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1023
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "Οι σελίδες με αυτή την εικόνα σερβίρουν τα αντίγραφα %1$s που δημιουργήθηκαν από %2$s, μέχρι το Iminify να δημιουργήσει τα δικά του."
+
+#: includes/admin/class-media-view.php:1053
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "Πλήρες μέγεθος"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1082
+#, php-format
+msgid "Level: %s"
+msgstr "Επίπεδο: %s"
+
+#: includes/admin/class-media-view.php:1090
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Before"
+msgstr "Πριν"
+
+#: includes/admin/class-media-view.php:1092
+msgid "After"
+msgstr "Μετά"
+
+#: includes/admin/class-media-view.php:1093
+msgid "Copies"
+msgstr "Αντίγραφα"
+
+#: includes/admin/class-media-view.php:1139
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "Σύνταξη εναλλακτικού κειμένου με AI"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "Να σταλεί ένα μικρό αντίγραφο αυτής της εικόνας για να γραφτεί το εναλλακτικό της κείμενο; Μετράει ως ένα από τα ημερήσια εναλλακτικά κείμενα AI σας."
+
+#: includes/admin/class-media-view.php:1139
+msgid "Write alt text"
+msgstr "Σύνταξη εναλλακτικού κειμένου"
+
+#: includes/admin/class-media-view.php:1158
+msgid "Optimize again from the original at"
+msgstr "Βελτιστοποίηση ξανά από το πρωτότυπο με επίπεδο"
+
+#: includes/admin/class-media-view.php:1186
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "Συνδέστε τον ιστότοπο με το Iminify για να βελτιστοποιήσετε αυτή την εικόνα."
+
+#: includes/admin/class-media-view.php:1188
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "Δεν κρατήθηκε πρωτότυπο αυτής της εικόνας, οπότε δεν μπορεί να βελτιστοποιηθεί ξανά ούτε να γίνει επαναφορά της."
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize again at"
+msgstr "Βελτιστοποίηση ξανά με επίπεδο"
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize at"
+msgstr "Βελτιστοποίηση με επίπεδο"
+
+#: includes/admin/class-media-view.php:1207
+msgid "Make what it lacks"
+msgstr "Δημιουργία όσων λείπουν"
+
+#: includes/admin/class-media-view.php:1216
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "Αυτή η εικόνα έχει αλλάξει από τότε που τη βελτιστοποίησε το Iminify, οπότε δεν υπάρχει κάτι για επαναφορά."
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete the copies"
+msgstr "Διαγραφή των αντιγράφων"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "Να διαγραφούν τα αντίγραφα WebP και AVIF αυτής της εικόνας; Οι σελίδες της θα σερβίρουν ξανά το JPEG ή το PNG."
+
+#: includes/admin/class-media-view.php:1288
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "Δημιουργία των μορφών που λείπουν"
+
+#: includes/admin/class-media-view.php:1292
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "Δημιουργία των μεγεθών που λείπουν"
+
+#: includes/admin/class-media-view.php:1303
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "Να σταλεί ξανά αυτή η εικόνα για να δημιουργηθούν όσα λείπουν; Μετράει ως μία ακόμη εικόνα, και τα υπόλοιπα αρχεία της μένουν ως έχουν, εκτός αν το Iminify τα κάνει μικρότερα."
+
+#: includes/admin/class-media-view.php:1311
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "Να βελτιστοποιηθεί ξανά αυτή η εικόνα; Το Iminify δημιουργεί ξανά τα αρχεία της από το πρωτότυπο, με την ίδια μορφή και τα ίδια ονόματα, και αυτό μετράει ως μία ακόμη εικόνα."
+
+#: includes/admin/class-media-view.php:1314
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "Να βελτιστοποιηθεί ξανά αυτή η εικόνα; Πρώτα επανέρχεται το πρωτότυπό της, και αυτό μετράει ως μία ακόμη εικόνα."
+
+#: includes/admin/class-media-view.php:1321
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "Να γίνει επαναφορά του πρωτοτύπου αυτής της εικόνας; Το WordPress δημιουργεί ξανά τα μεγέθη της και τα αντίγραφά της WebP και AVIF διαγράφονται."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1336
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "Να βελτιστοποιηθεί ξανά αυτή η εικόνα από το πρωτότυπο που κράτησε το %s; Το Iminify δημιουργεί ξανά τα αρχεία της από αυτό, με την ίδια μορφή και τα ίδια ονόματα ώστε τα άρθρα σας να συνδέονται ακόμη σε αυτά, και κρατά το δικό του αντίγραφο ασφαλείας του πρωτοτύπου. Αυτό μετράει ως μία ακόμη εικόνα."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1343
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "Να βελτιστοποιηθεί ξανά αυτή η εικόνα από το πρωτότυπο που κράτησε το %s; Πρώτα επανέρχεται το πρωτότυπο και το WordPress δημιουργεί ξανά τα μεγέθη της, έπειτα το Iminify τη βελτιστοποιεί και κρατά το δικό του αντίγραφο ασφαλείας του πρωτοτύπου. Αυτό μετράει ως μία ακόμη εικόνα."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1358
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "Να γίνει επαναφορά του πρωτοτύπου αυτής της εικόνας από ό,τι κράτησε το %s; Το WordPress δημιουργεί ξανά τα μεγέθη της, και τα αντίγραφα ασφαλείας και τα αντίγραφα εκείνου του πρόσθετου μένουν εκεί όπου βρίσκονται."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, οπότε οι νέες μεταφορτώσεις δεν βελτιστοποιούνται."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "Επανασύνδεση"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Το Iminify Image Optimizer είναι έτοιμο. Συνδέστε το με τον λογαριασμό σας στο Iminify για να ξεκινήσει η βελτιστοποίηση των εικόνων σας."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "Σύνδεση"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "Άνοιγμα ρυθμίσεων Iminify"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "Συνδεδεμένο"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "Μη συνδεδεμένο"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Το Iminify Image Optimizer στέλνει τις εικόνες που μεταφορτώνονται σε αυτόν τον ιστότοπο στο Iminify, μια υπηρεσία βελτιστοποίησης εικόνων, μόλις ο ιστότοπος συνδεθεί με αυτήν. Μπορείτε να αντιγράψετε το παρακάτω κείμενο στο τμήμα της πολιτικής σας που αφορά τα πολυμέσα που δημοσιεύετε."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "Προτεινόμενο κείμενο:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "Αυτός ο ιστότοπος χρησιμοποιεί το Iminify (www.iminify.com) για να κάνει τις εικόνες του μικρότερες και για να δημιουργεί αντίγραφα WebP και AVIF τους. Όταν μεταφορτώνεται εδώ μια εικόνα ή όταν βελτιστοποιούμε τις εικόνες που υπάρχουν ήδη εδώ, στη βιβλιοθήκη πολυμέσων ή στο θέμα μας και σε άλλους φακέλους, ο διακομιστής μας τη στέλνει στο Iminify μαζί με τη διεύθυνση αυτού του ιστότοπου, και το Iminify επιστρέφει τα μικρότερα αρχεία. Το Iminify διαγράφει την εικόνα μόλις τα αποθηκεύσουμε."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "Μια φωτογραφία μπορεί να περιέχει στοιχεία που κατέγραψε η κάμερα, όπως πότε και πού τραβήχτηκε. Αυτά τα στοιχεία φτάνουν στο Iminify μαζί με την εικόνα, και το Iminify τα αφαιρεί από τα αρχεία που επιστρέφει, εκτός αν έχουμε επιλέξει να διατηρούνται."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "Αν έχουμε ενεργοποιήσει το εναλλακτικό κείμενο AI στις ρυθμίσεις του πρόσθετου, το Iminify δημιουργεί επίσης ένα μικρό αντίγραφο κάθε εικόνας που δεν έχει εναλλακτικό κείμενο και το στέλνει στην Anthropic, της οποίας το μοντέλο γράφει μια περιγραφή της. Όταν ζητάμε εναλλακτικό κείμενο για εικόνες που υπάρχουν ήδη στη βιβλιοθήκη πολυμέσων, στέλνεται στο Iminify ένα μικρό αντίγραφο καθεμίας για την ίδια χρήση."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "Αν ελέγξουμε μία από τις σελίδες αυτού του ιστότοπου για τις εικόνες της, ο διακομιστής μας στέλνει στο Iminify τη διεύθυνση αυτής της σελίδας. Το Iminify ανοίγει τη σελίδα όπως θα μπορούσε να την ανοίξει οποιοσδήποτε επισκέπτης, μετρά τις εικόνες που εμφανίζει και κρατά τα ευρήματα μαζί με τη σύνδεση αυτού του ιστότοπου με το Iminify."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "Όταν αυτός ο ιστότοπος ανήκει σε δίκτυο πολλαπλών ιστοτόπων που είναι συνδεδεμένο με το Iminify ως σύνολο, ο διακομιστής μας στέλνει επίσης στο Iminify τη διεύθυνση και το όνομα αυτού του ιστότοπου την πρώτη φορά που ο ιστότοπος το χρειάζεται."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "Αν επιλέξουμε να χρησιμοποιήσουμε τις ρυθμίσεις που είχε αποθηκεύσει σε αυτόν τον ιστότοπο ένα άλλο πρόσθετο βελτιστοποίησης εικόνων, ο διακομιστής μας στέλνει στο Iminify αυτές τις ρυθμίσεις, το όνομα εκείνου του πρόσθετου και τα ονόματα των μεγεθών εικόνας που δημιουργεί αυτός ο ιστότοπος. Το Iminify απαντά με τις ρυθμίσεις στις οποίες αντιστοιχούν και δεν κρατά τίποτα από αυτά."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "Τίποτα σχετικά με τους επισκέπτες αυτού του ιστότοπου δεν στέλνεται στο Iminify: οι εικόνες στις σελίδες μας, καθώς και τα αντίγραφά τους WebP και AVIF, σερβίρονται από αυτόν τον ιστότοπο."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Πολιτική απορρήτου του Iminify: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "Μόνο ένας ιστότοπος δικτύου όπου το πρόσθετο είναι ενεργό μπορεί να ενταχθεί σε αυτό."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:272
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "Αυτός ο ιστότοπος δεν είναι συνδεδεμένος με το Iminify."
+
+#: includes/admin/class-settings-import.php:57
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "Δεν βρέθηκαν ρυθμίσεις αυτού του πρόσθετου βελτιστοποίησης σε αυτόν τον ιστότοπο."
+
+#: includes/admin/class-settings-import.php:107
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "Αυτές οι ρυθμίσεις άλλαξαν από τη στιγμή που εμφανίστηκαν. Ελέγξτε τις ξανά πριν τις χρησιμοποιήσετε."
+
+#: includes/admin/class-settings-import.php:208
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "Βελτιστοποίηση νέων μεταφορτώσεων"
+
+#: includes/admin/class-settings-import.php:210
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "Επίπεδο συμπίεσης"
+
+#: includes/admin/class-settings-import.php:212
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "Δημιουργία αντιγράφων WebP"
+
+#: includes/admin/class-settings-import.php:214
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "Δημιουργία αντιγράφων AVIF"
+
+#: includes/admin/class-settings-import.php:216
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "Μέγιστο πλάτος, σε pixels"
+
+#: includes/admin/class-settings-import.php:218
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "Όριο μεγέθους αρχείου, σε KB"
+
+#: includes/admin/class-settings-import.php:220
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "Διατήρηση μεταδεδομένων"
+
+#: includes/admin/class-settings-import.php:222
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "Μεγέθη προς βελτιστοποίηση"
+
+#: includes/admin/class-settings-import.php:224
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "Διατήρηση αντιγράφου ασφαλείας κάθε πρωτοτύπου"
+
+#: includes/admin/class-settings-import.php:242
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "Χωρίς όριο"
+
+#: includes/admin/class-settings-import.php:245
+msgid "Every size"
+msgstr "Όλα τα μεγέθη"
+
+#: includes/admin/class-settings-import.php:249
+msgid "Only the full image"
+msgstr "Μόνο η πλήρης εικόνα"
+
+#: includes/admin/class-settings-import.php:264
+msgid "On"
+msgstr "Ενεργό"
+
+#: includes/admin/class-settings-import.php:264
+msgid "Off"
+msgstr "Ανενεργό"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "Συνδέστε αυτόν τον ιστότοπο και επιλέξτε πώς βελτιστοποιούνται οι εικόνες του."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "Συνδέστε αυτό το δίκτυο μία φορά, και κάθε ιστότοπός του εντάσσεται αυτόματα."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Το script της σελίδας ρυθμίσεων λείπει από τον φάκελο του πρόσθετου. Εγκαταστήστε ξανά το πρόσθετο για να επανέλθει."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "Η σελίδα ρυθμίσεων χρειάζεται JavaScript."
+
+#: includes/admin/class-state.php:165
+msgid "Images today"
+msgstr "Εικόνες σήμερα"
+
+#: includes/admin/class-state.php:166
+msgid "Files today"
+msgstr "Αρχεία σήμερα"
+
+#: includes/admin/class-state.php:167
+msgid "AI alt texts today"
+msgstr "Εναλλακτικά κείμενα AI σήμερα"
+
+#: includes/admin/class-state.php:248
+msgid "Guest"
+msgstr "Επισκέπτης"
+
+#: includes/admin/class-state.php:249
+msgid "Free"
+msgstr "Δωρεάν"
+
+#: includes/admin/class-state.php:250
+msgid "Pro trial"
+msgstr "Δοκιμή Pro"
+
+#: includes/admin/class-state.php:251
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:252
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:302
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "Χρησιμοποιήθηκε %s, χωρίς ημερήσιο όριο"
+msgstr[1] "Χρησιμοποιήθηκαν %s, χωρίς ημερήσιο όριο"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:304
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "Χρησιμοποιήθηκε %s"
+msgstr[1] "Χρησιμοποιήθηκαν %s"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:306
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "απομένει %s"
+msgstr[1] "απομένουν %s"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:310
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "Χρησιμοποιήθηκε %s, χωρίς ημερήσιο όριο"
+msgstr[1] "Χρησιμοποιήθηκαν %s, χωρίς ημερήσιο όριο"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:312
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "Χρησιμοποιήθηκε %s"
+msgstr[1] "Χρησιμοποιήθηκαν %s"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:314
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "απομένει %s"
+msgstr[1] "απομένουν %s"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:318
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "Χρησιμοποιήθηκε %s, χωρίς ημερήσιο όριο"
+msgstr[1] "Χρησιμοποιήθηκαν %s, χωρίς ημερήσιο όριο"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:320
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "Χρησιμοποιήθηκε %s"
+msgstr[1] "Χρησιμοποιήθηκαν %s"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:322
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "απομένει %s"
+msgstr[1] "απομένουν %s"
+
+#: includes/admin/class-state.php:344
+msgid "This site"
+msgstr "Αυτός ο ιστότοπος"
+
+#: includes/admin/class-state.php:345
+msgid "Your whole account"
+msgstr "Ολόκληρος ο λογαριασμός σας"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "Μικρογραφία"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "Μέσο"
+
+#: includes/admin/class-state.php:473
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "Μεγάλο"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:496
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (πλάτος %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:501
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (ύψος %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:505
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:56
+msgid "Show a smaller size of the image here."
+msgstr "Εμφανίστε εδώ ένα μικρότερο μέγεθος της εικόνας."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:58
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "Εμφανίστε εδώ ένα μέγεθος πλάτους περίπου %s pixels, το διπλάσιο του πλάτους που καταλαμβάνει στη σελίδα."
+
+#: includes/audit/class-findings.php:60
+msgid "Give the image its width and height in the page."
+msgstr "Δώστε στην εικόνα το πλάτος και το ύψος της μέσα στη σελίδα."
+
+#: includes/audit/class-findings.php:62
+msgid "Write alt text for the image."
+msgstr "Γράψτε εναλλακτικό κείμενο για την εικόνα."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image straight away, not lazily."
+msgstr "Φορτώστε την εικόνα αμέσως, όχι με καθυστέρηση."
+
+#: includes/audit/class-findings.php:66
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "Φορτώστε την εικόνα με καθυστέρηση, όταν ο επισκέπτης φτάσει κοντά της με την κύλιση."
+
+#: includes/audit/class-findings.php:68
+msgid "Have the browser fetch the image first."
+msgstr "Ζητήστε από το πρόγραμμα περιήγησης να φέρει πρώτα αυτή την εικόνα."
+
+#: includes/audit/class-findings.php:105
+msgid "Oversized"
+msgstr "Υπερμεγέθης"
+
+#: includes/audit/class-findings.php:106
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "Το αρχείο είναι πάνω από δύο φορές πλατύτερο και ψηλότερο από τον χώρο όπου εμφανίζεται. Ένα μικρότερο μέγεθος της ίδιας εικόνας θα φαινόταν εξίσου καθαρό."
+
+#: includes/audit/class-findings.php:110
+msgid "No width and height"
+msgstr "Χωρίς πλάτος και ύψος"
+
+#: includes/audit/class-findings.php:111
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "Η εικόνα δεν έχει ιδιότητες πλάτους και ύψους, οπότε το πρόγραμμα περιήγησης δεν μπορεί να κρατήσει τον χώρο της και η σελίδα μετακινείται όταν αυτή φτάσει."
+
+#: includes/audit/class-findings.php:115
+msgid "Lazy in the first screen"
+msgstr "Καθυστερημένη φόρτωση στην πρώτη οθόνη"
+
+#: includes/audit/class-findings.php:116
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "Η εικόνα βρίσκεται στην πρώτη οθόνη αλλά φορτώνεται με καθυστέρηση (lazy loading), κάτι που την αργοπορεί."
+
+#: includes/audit/class-findings.php:120
+msgid "Loads too early"
+msgstr "Φορτώνει πολύ νωρίς"
+
+#: includes/audit/class-findings.php:121
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "Η εικόνα βρίσκεται κάτω από την πρώτη οθόνη και φορτώνει αμέσως, ανταγωνιζόμενη ό,τι βλέπουν πρώτα οι επισκέπτες."
+
+#: includes/audit/class-findings.php:125
+msgid "No alt text"
+msgstr "Χωρίς εναλλακτικό κείμενο"
+
+#: includes/audit/class-findings.php:126
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "Η εικόνα δεν έχει εναλλακτικό κείμενο για τους αναγνώστες οθόνης και τις μηχανές αναζήτησης."
+
+#: includes/audit/class-findings.php:130
+msgid "Not prioritized"
+msgstr "Χωρίς προτεραιότητα"
+
+#: includes/audit/class-findings.php:131
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "Αυτό είναι το μεγαλύτερο στοιχείο της πρώτης οθόνης, οπότε η σελίδα μοιάζει φορτωμένη όταν φτάσει. Αν φορτωθεί πρώτο, η σελίδα θα εμφανιστεί νωρίτερα."
+
+#: includes/audit/class-findings.php:148
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Ο ιστότοπός σας απέκλεισε τον σαρωτή, οπότε δεν ήταν δυνατή η ανάγνωση της σελίδας. Αυτό το κάνει ένα τείχος προστασίας ή ένας έλεγχος για bots, συχνά του Cloudflare. Αφήστε για λίγο τη σάρωση να περάσει: στο Cloudflare, απενεργοποιήστε το Bot Fight Mode ή ορίστε το Security Level σε «Essentially off». Σε ένα πρόσθετο ασφαλείας, θέστε σε παύση το τείχος προστασίας ή τον αποκλεισμό bots. Σαρώστε ξανά και μετά ενεργοποιήστε τα πάλι."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:150
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Ο ιστότοπός σας απέκλεισε τον σαρωτή (απάντησε %d), οπότε δεν ήταν δυνατή η ανάγνωση της σελίδας. Αυτό το κάνει ένα τείχος προστασίας ή ένας έλεγχος για bots, συχνά του Cloudflare. Αφήστε για λίγο τη σάρωση να περάσει: στο Cloudflare, απενεργοποιήστε το Bot Fight Mode ή ορίστε το Security Level σε «Essentially off». Σε ένα πρόσθετο ασφαλείας, θέστε σε παύση το τείχος προστασίας ή τον αποκλεισμό bots. Σαρώστε ξανά και μετά ενεργοποιήστε τα πάλι."
+
+#: includes/audit/class-findings.php:152
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "Δεν υπάρχει σελίδα σε αυτή τη διεύθυνση. Ελέγξτε τη διεύθυνση και σαρώστε ξανά."
+
+#: includes/audit/class-findings.php:154
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "Η σελίδα απάντησε με σφάλμα από την πλευρά του ιστότοπου, οπότε δεν ήταν δυνατή η ανάγνωσή της. Σαρώστε ξανά σε λίγα λεπτά."
+
+#: includes/audit/class-findings.php:156
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "Η σελίδα ανακατεύθυνε τον σαρωτή σε άλλον ιστότοπο, κάτι που ο έλεγχος δεν ακολουθεί. Σαρώστε τη διεύθυνση στην οποία καταλήγει η σελίδα, αν βρίσκεται σε αυτόν τον ιστότοπο."
+
+#: includes/audit/class-findings.php:159
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "Δεν ήταν δυνατή η ανάγνωση της σελίδας: ο ιστότοπος δεν απάντησε στον σαρωτή. Ελέγξτε τη διεύθυνση και σαρώστε ξανά."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:161
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "Η σελίδα απάντησε με τον κωδικό %d αντί για το περιεχόμενό της, οπότε δεν ήταν δυνατή η ανάγνωσή της. Ελέγξτε τη διεύθυνση και σαρώστε ξανά."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "Δώστε το --others μόνο του ή μαζί με τα συνημμένα που θα βελτιστοποιηθούν ξανά."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "Τα αρχεία των φακέλων στέλνονται όλα μαζί: δώστε το --folders μόνο του ή μαζί με το --failed."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "Ορίστε τα συνημμένα ή δώστε --all ή --failed."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "Τα αρχεία των φακέλων στέλνονται όλα μαζί: δώστε το --folders μόνο του."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "Να επανέλθει κάθε βελτιστοποιημένο αρχείο των φακέλων σας όπως ήταν;"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:275
+msgid "Name the attachments, or pass --all."
+msgstr "Ορίστε τα συνημμένα ή δώστε --all."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "Να επανέλθει κάθε βελτιστοποιημένη εικόνα όπως ήταν όταν μεταφορτώθηκε;"
+
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "Ορίστε τι θα δημιουργηθεί: %1$s (μορφές) ή %2$s (μεγέθη)."
+
+#: includes/class-cli.php:321
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "Σε δίκτυο, οι άλλοι φάκελοι επιλέγονται στον κύριο ιστότοπο: προσθέστε --url με τη διεύθυνσή του."
+
+#: includes/class-cli.php:328
+msgid "Name the folder, relative to wp-content."
+msgstr "Ορίστε τον φάκελο, σχετικά με το wp-content."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:361
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "Βρέθηκε %1$s εικόνα (νέες: %2$s, με αλλαγές: %3$s)."
+msgstr[1] "Βρέθηκαν %1$s εικόνες (νέες: %2$s, με αλλαγές: %3$s)."
+
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
+msgid "No bulk run is going."
+msgstr "Δεν υπάρχει μαζική εκτέλεση σε εξέλιξη."
+
+#: includes/class-cli.php:432
+msgid "Stopped."
+msgstr "Διακόπηκε."
+
+#: includes/class-cli.php:497
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "Η εκτέλεση συνεχίζεται στο παρασκήνιο. Δείτε την πρόοδό της με: wp iminify status"
+
+#: includes/class-cli.php:518
+msgid "Bulk run"
+msgstr "Μαζική εκτέλεση"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:612
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "Τα ημερήσια εναλλακτικά κείμενα AI του λογαριασμού εξαντλήθηκαν. Η εκτέλεση συνεχίζεται στο παρασκήνιο όταν ανανεωθούν, στις %s."
+
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "Η εκτέλεση περιμένει τη σύνδεση αυτού του ιστότοπου με το Iminify και συνεχίζεται στο παρασκήνιο μόλις αυτή λειτουργήσει."
+
+#: includes/class-cli.php:628
+msgid "The run goes on in the background once it stops."
+msgstr "Η εκτέλεση συνεχίζεται στο παρασκήνιο μόλις αυτό σταματήσει."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:639
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "Οι ημερήσιες εικόνες του λογαριασμού εξαντλήθηκαν. Η εκτέλεση συνεχίζεται στο παρασκήνιο όταν ανοίξει η επόμενη παρτίδα, στις %s."
+
+#: includes/class-cli.php:661
+msgid "The run was stopped."
+msgstr "Η εκτέλεση διακόπηκε."
+
+#: includes/class-cli.php:668
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "Η εκτέλεση τέθηκε σε παύση: ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο. Ελευθερώστε χώρο και μετά εκτελέστε: wp iminify run"
+
+#: includes/class-cli.php:671
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "Η εκτέλεση τέθηκε σε παύση. Συνεχίστε με: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:680
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "Δεν ήταν δυνατή η επαναφορά %s εικόνας. Το πλαίσιό της στη βιβλιοθήκη πολυμέσων εξηγεί τον λόγο."
+msgstr[1] "Δεν ήταν δυνατή η επαναφορά %s εικόνων. Τα πλαίσιά τους στη βιβλιοθήκη πολυμέσων εξηγούν τον λόγο."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:690
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s εικόνα έμεινε ως έχει: ένα άλλο πρόσθετο τη μετέτρεψε σε WebP ή AVIF, και μόνο εκείνο το πρόσθετο μπορεί να επαναφέρει το πρωτότυπό της."
+msgstr[1] "%s εικόνες έμειναν ως έχουν: άλλα πρόσθετα τις μετέτρεψαν σε WebP ή AVIF, και μόνο εκείνα τα πρόσθετα μπορούν να επαναφέρουν τα πρωτότυπά τους."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:698
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s εικόνα έμεινε όπως την έφτιαξε το άλλο πρόσθετο: το πρωτότυπό της λείπει, είναι πολύ μεγάλο για αποστολή ή μόνο εκείνο το πρόσθετο μπορεί να το επαναφέρει. Το πλαίσιό της στη βιβλιοθήκη πολυμέσων εξηγεί ποιο από αυτά ισχύει."
+msgstr[1] "%s εικόνες έμειναν όπως τις έφτιαξαν τα άλλα πρόσθετα: τα πρωτότυπά τους λείπουν, είναι πολύ μεγάλα για αποστολή ή μόνο εκείνα τα πρόσθετα μπορούν να τα επαναφέρουν. Τα πλαίσιά τους στη βιβλιοθήκη πολυμέσων εξηγούν ποιο από αυτά ισχύει."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:706
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s εικόνα έμεινε ως έχει: μοιράζεται τα αρχεία της με άλλο συνημμένο ή έχει πλέον εναλλακτικό κείμενο."
+msgstr[1] "%s εικόνες έμειναν ως έχουν: μοιράζονται τα αρχεία τους με άλλο συνημμένο ή έχουν πλέον εναλλακτικό κείμενο."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:714
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s εικόνα δεν έχει πρωτότυπο για αφετηρία ή άλλαξε από τότε που βελτιστοποιήθηκε, οπότε δεν δημιουργήθηκε τίποτα γι' αυτήν."
+msgstr[1] "%s εικόνες δεν έχουν πρωτότυπο για αφετηρία ή άλλαξαν από τότε που βελτιστοποιήθηκαν, οπότε δεν δημιουργήθηκε τίποτα γι' αυτές."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:724
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s αρχείο επαναφέρθηκε."
+msgstr[1] "%s αρχεία επαναφέρθηκαν."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:726
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s αρχείο στάλθηκε στο Iminify."
+msgstr[1] "%s αρχεία στάλθηκαν στο Iminify."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:731
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "Οι φάκελοί σας έχουν %2$s αρχείο (βελτιστοποιημένα: %1$s, αποτυχίες: %3$s)."
+msgstr[1] "Οι φάκελοί σας έχουν %2$s αρχεία (βελτιστοποιημένα: %1$s, αποτυχίες: %3$s)."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:744
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s εικόνα επαναφέρθηκε."
+msgstr[1] "%s εικόνες επαναφέρθηκαν."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:746
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s εικόνα στάλθηκε στο Iminify."
+msgstr[1] "%s εικόνες στάλθηκαν στο Iminify."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:751
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "Η βιβλιοθήκη έχει %2$s εικόνα (βελτιστοποιημένες: %1$s, αποτυχίες: %3$s)."
+msgstr[1] "Η βιβλιοθήκη έχει %2$s εικόνες (βελτιστοποιημένες: %1$s, αποτυχίες: %3$s)."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:798
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "Το %s δεν είναι συνημμένο."
+
+#: includes/class-cli.php:819
+msgid "This account can't run bulk commands."
+msgstr "Αυτός ο λογαριασμός δεν μπορεί να εκτελέσει μαζικές εντολές."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Το Iminify έστειλε μια απάντηση που αυτή η έκδοση του πρόσθετου δεν μπορεί να διαβάσει."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "Επικολλήστε πρώτα το κλειδί ιστότοπου."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "Το κλειδί αυτού του ιστότοπου ορίζεται στο wp-config.php. Αλλάξτε το ή αφαιρέστε το από εκεί."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "Το WordPress δεν μπόρεσε να αποθηκεύσει το κλειδί του δικτύου. Πατήστε «Σύνδεση δικτύου» για να δοκιμάσετε ξανά."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "Το WordPress δεν μπόρεσε να αποθηκεύσει το κλειδί ιστότοπου. Πατήστε «Σύνδεση» για να δοκιμάσετε ξανά."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "Έξυπνο"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "Έξυπνο: ισορροπία ανάμεσα σε ποιότητα και μέγεθος"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "Ισορροπία ανάμεσα σε ποιότητα και μέγεθος."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "Ultra"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "Ultra: τα μικρότερα αρχεία, με κάποια απώλεια ποιότητας"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "Τα μικρότερα αρχεία, με κάποια απώλεια ποιότητας."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "Χωρίς απώλειες"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "Χωρίς απώλειες: καμία ορατή αλλαγή στην ποιότητα"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "Καμία ορατή αλλαγή στην ποιότητα."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "Κανένα"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "Κανένα: χωρίς συμπίεση, μόνο οι άλλες ρυθμίσεις"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "Χωρίς συμπίεση, μόνο οι άλλες ρυθμίσεις."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "Αγγλικά"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "Ισπανικά"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "Γαλλικά"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "Γερμανικά"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "Ιταλικά"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "Πορτογαλικά"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "Ολλανδικά"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "Πολωνικά"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "Σουηδικά"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "Τουρκικά"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "Ρωσικά"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "Ουκρανικά"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "Αραβικά"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "Περσικά"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "Εβραϊκά"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "Χίντι"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "Ινδονησιακά"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "Βιετναμικά"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "Ταϊλανδικά"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "Ιαπωνικά"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "Κορεατικά"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "Απλοποιημένα Κινεζικά"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "Παραδοσιακά Κινεζικά"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Το Iminify δεν αναγνωρίζει αυτό το κλειδί. Βεβαιωθείτε ότι το αντιγράψατε ολόκληρο ή δημιουργήστε ένα νέο."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "Αυτό είναι κλειδί API. Ένας ιστότοπος χρειάζεται κλειδί ιστότοπου: δημιουργήστε ένα στην ενότητα Settings, Sites του iminify.com ή πατήστε «Σύνδεση»."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "Αυτό το κλειδί ανήκει στον ιστότοπο σε άλλη διεύθυνση, οπότε αυτός ο κλώνος του ιστότοπου δεν μπορεί να το χρησιμοποιήσει. Συνδέστε αυτόν τον κλώνο ως ξεχωριστό ιστότοπο ή μεταφέρετε τη σύνδεση εδώ."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Το Iminify ζήτησε από το πρόσθετο να περιμένει. Δοκιμάστε ξανά σε %s."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Το Iminify ζήτησε από το πρόσθετο να περιμένει. Δοκιμάστε ξανά αργότερα."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "Η σύνδεση δεν μπορεί πλέον να χρησιμοποιηθεί: έληξε, απορρίφθηκε ή έχει ήδη χρησιμοποιηθεί. Πατήστε «Σύνδεση» για να ξεκινήσετε από την αρχή."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "Το εναλλακτικό κείμενο AI είναι απενεργοποιημένο για αυτόν τον ιστότοπο. Ενεργοποιήστε το πρώτα στις ρυθμίσεις του πρόσθετου."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "Ο έλεγχος σαρώνει μόνο τις σελίδες αυτού του ιστότοπου. Εισαγάγετε τη διεύθυνση μιας σελίδας αυτού του ιστότοπου."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "Το κλειδί του δικτύου δημιουργήθηκε για μεμονωμένο ιστότοπο, οπότε οι ιστότοποι του δικτύου δεν μπορούν να ενταχθούν με αυτό. Ένας υπερδιαχειριστής συνδέει ξανά το δίκτυο από τη διαχείριση δικτύου."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "Το δίκτυο έχει ήδη όσους ιστότοπους μπορεί να έχει ένα δίκτυο. Αφαιρέστε έναν ιστότοπο που δεν χρησιμοποιείτε πια στην ενότητα Settings, Sites του iminify.com ή συνδέστε αυτόν τον ιστότοπο ξεχωριστά."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "Αυτός ο ιστότοπος είναι ήδη συνδεδεμένος με τον λογαριασμό ξεχωριστά ή σε άλλο δίκτυο. Αποσυνδέστε τον στην ενότητα Settings, Sites του iminify.com για να τον προσθέσετε σε αυτό το δίκτυο ή συνδέστε τον εδώ ξεχωριστά."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "Αυτή η έκδοση του Iminify Image Optimizer είναι πολύ παλιά για να συνεχίσει να βελτιστοποιεί εικόνες. Ενημερώστε την από τη σελίδα Πρόσθετα."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "Οι ημερήσιες εικόνες του λογαριασμού σας εξαντλήθηκαν. Οι νέες μεταφορτώσεις περιμένουν και στέλνονται αυτόματα όταν ανοίξει η επόμενη παρτίδα."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "Αυτός ο ιστότοπος είχε τη δωρεάν δοκιμή του Pro σε άλλον λογαριασμό Iminify, οπότε οι μεταφορτώσεις του έχουν εδώ τα όρια του δωρεάν πακέτου."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "Το δίκτυο δεν είναι συνδεδεμένο με το Iminify. Ένας υπερδιαχειριστής το συνδέει από τη διαχείριση δικτύου."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "Αυτός ο ιστότοπος εντάσσεται ήδη στο δίκτυο. Περιμένετε λίγο και ελέγξτε ξανά."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Σε αναμονή για συνέχεια: το πρόσθετο απενεργοποιήθηκε ενώ η εικόνα ήταν καθ' οδόν."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "Αναμονή για την επόμενη παρτίδα."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Αναμονή για τη σύνδεση του ιστότοπου με το Iminify."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Δεν βελτιστοποιήθηκε: η μαζική εκτέλεση διακόπηκε."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Δεν βελτιστοποιήθηκε: ο ιστότοπος δεν είναι συνδεδεμένος με το Iminify."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Δεν βελτιστοποιήθηκε: ενημερώστε πρώτα το πρόσθετο Iminify."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Δεν βελτιστοποιήθηκε: ο ιστότοπος δεν βελτιστοποιεί τις μεταφορτώσεις."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Δεν βελτιστοποιήθηκε: ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο. Ελευθερώστε χώρο και μετά βελτιστοποιήστε αυτή την εικόνα."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Δεν στάλθηκε: η PHP αυτού του διακομιστή δεν μπορεί να ανοίξει αρχεία zip. Ζητήστε από τον πάροχο φιλοξενίας να ενεργοποιήσει την επέκταση zip της PHP."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "Η PHP αυτού του διακομιστή δεν μπορεί να ανοίξει αρχεία zip: ζητήστε από τον πάροχο φιλοξενίας να ενεργοποιήσει την επέκταση zip της PHP."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Δεν ήταν δυνατό να ανοιχτεί το αρχείο που κατέβηκε από το Iminify."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Δεν στάλθηκε: το πρωτότυπο αυτής της εικόνας είναι πολύ μεγάλο για αποστολή, πάνω από το μέγεθος αρχείου του πακέτου σας ή περισσότερο από όσο χωράει η μνήμη αυτού του διακομιστή."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Δεν στάλθηκε: αυτή η εικόνα ξεπερνά το μέγεθος αρχείου του πακέτου σας ή είναι περισσότερο από όσο χωράει η μνήμη αυτού του διακομιστή."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Δεν στάλθηκε: δεν έχει απομείνει πρωτότυπο αυτής της εικόνας για να δημιουργηθούν τα βελτιστοποιημένα αρχεία."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Δεν στάλθηκε: δεν έχει απομείνει πρωτότυπο αυτής της εικόνας για να δημιουργηθεί το βελτιστοποιημένο αρχείο."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "Το WordPress δεν μπόρεσε να δημιουργήσει τα μεγέθη που λείπουν από αυτή την εικόνα."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Διατηρήθηκε όπως μεταφορτώθηκε: το Iminify βελτιστοποιεί εικόνες JPEG, PNG, WebP και GIF."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Διατηρήθηκε ως έχει: το Iminify βελτιστοποιεί εικόνες JPEG, PNG, WebP και GIF."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Διατηρήθηκε όπως μεταφορτώθηκε: αυτός ο ιστότοπος εξαιρεί αυτή την εικόνα."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Διατηρήθηκε ως έχει: αυτός ο ιστότοπος εξαιρεί αυτή την εικόνα."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "Δεν ήταν δυνατή η ανάγνωση της εικόνας."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "Η εικόνα δεν βρίσκεται στον φάκελο μεταφορτώσεων."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Δεν στάλθηκε: το αρχείο της εικόνας δεν βρίσκεται στον φάκελο μεταφορτώσεων."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Δεν στάλθηκε: το αρχείο της εικόνας δεν υπάρχει ή είναι σύνδεσμος προς άλλη θέση."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "Το αρχείο της εικόνας ή το αντίγραφο ασφαλείας της χάθηκε ενώ η εικόνα ήταν καθ' οδόν."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Δεν στάλθηκε: η εικόνα δεν βρίσκεται πλέον σε φάκελο που βελτιστοποιεί το Iminify."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Δεν γράφτηκε: η εικόνα δεν βρίσκεται πλέον σε φάκελο που βελτιστοποιεί το Iminify."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Άλλαξε από τότε που τη βελτιστοποίησε το Iminify, οπότε μπορεί να βελτιστοποιηθεί ξανά."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "Η εικόνα άλλαξε ενώ το Iminify τη βελτιστοποιούσε, οπότε στέλνεται ξανά."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "Τα αρχεία της είναι αυτά του συνημμένου #%d, όπως συμβαίνει με μια μετάφραση, οπότε το Iminify τα βελτιστοποιεί εκεί."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "Δεν ήταν δυνατή η αποθήκευση του αντιγράφου ασφαλείας αυτής της εικόνας, οπότε δεν βελτιστοποιήθηκε. Βεβαιωθείτε ότι το WordPress μπορεί να γράψει στον φάκελο μεταφορτώσεων ή απενεργοποιήστε τα αντίγραφα ασφαλείας στις ρυθμίσεις του Iminify."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "Η εικόνα άλλαξε από τότε που δημιουργήθηκε το αντίγραφο ασφαλείας της, και το παλιό αντίγραφο ασφαλείας δεν ήταν δυνατό να μετακινηθεί, οπότε δεν βελτιστοποιήθηκε."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "Δεν ήταν δυνατή η αντιγραφή της εικόνας πίσω από το bucket του WP Offload Media για να σταλεί."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Το Iminify δεν μπόρεσε να ολοκληρώσει αυτή την εικόνα μετά από αρκετές προσπάθειες."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Επαναφέρθηκε: το πρωτότυπο επανήλθε."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "Δεν ήταν δυνατή η επαναφορά της εικόνας."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "Δεν ήταν δυνατή η αντιγραφή του πρωτοτύπου πίσω από το bucket του WP Offload Media, οπότε η εικόνα έμεινε όπως ήταν. Δοκιμάστε ξανά."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "Δεν ήταν δυνατό να επανέλθει το πρωτότυπο, οπότε η εικόνα έμεινε όπως ήταν."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "Το WordPress δεν μπόρεσε να διαβάσει το πρωτότυπο, οπότε τα μεγέθη της εικόνας έμειναν όπως ήταν. Δοκιμάστε ξανά."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Το Iminify δεν έχει αλλάξει αυτή την εικόνα, οπότε δεν υπάρχει κάτι για επαναφορά."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Το Iminify δεν άλλαξε τίποτα σε αυτή την εικόνα, οπότε είναι ήδη όπως ήταν."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Αυτή η εικόνα έχει αλλάξει από τότε που τη βελτιστοποίησε το Iminify, οπότε η επαναφορά της θα αντικαθιστούσε τη νέα."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Αυτή η εικόνα έχει αλλάξει από τότε που τη βελτιστοποίησε το Iminify, οπότε το αντίγραφο ασφαλείας της δεν είναι πλέον το πρωτότυπό της."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "Το αρχείο της εικόνας δεν υπάρχει πια ή δεν βρίσκεται σε φάκελο που βελτιστοποιεί το Iminify."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "Δεν κρατήθηκε πρωτότυπο αυτής της εικόνας, οπότε δεν μπορεί να γίνει επαναφορά της. Τα αντίγραφα ασφαλείας ήταν απενεργοποιημένα όταν βελτιστοποιήθηκε ή το αντίγραφο ασφαλείας διαγράφηκε."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "Δεν κρατήθηκε πρωτότυπο αυτής της εικόνας, οπότε δεν μπορεί να γίνει επαναφορά της."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "Το %s δεν κράτησε πρωτότυπο αυτής της εικόνας που να μπορεί να ελέγξει το Iminify, οπότε δεν μπορεί να γίνει επαναφορά της εδώ."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Δεν ήταν δυνατή η επικοινωνία με το Iminify: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Το Iminify απάντησε με σφάλμα (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "Αυτός ο διακομιστής δεν έχει αρκετή μνήμη για να στείλει τόσο μεγάλη εικόνα."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "Δεν ήταν δυνατή η ανάγνωση της εικόνας από τον φάκελο μεταφορτώσεων."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "Το WordPress δεν μπόρεσε να αποθηκεύσει το κλειδί ιστότοπου. Πατήστε «Ένταξη στο δίκτυο» για να δοκιμάσετε ξανά."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "Ο φάκελος μεταφορτώσεων"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "Ορίστε έναν φάκελο μέσα στο wp-content, όπως themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "Δεν υπάρχει φάκελος σε αυτή τη διαδρομή μέσα στο wp-content."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "Αυτός ο φάκελος είναι σύνδεσμος προς άλλη θέση, οπότε το Iminify τον εξαιρεί."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "Αυτός είναι ο φάκελος της βιβλιοθήκης πολυμέσων: οι εικόνες του βελτιστοποιούνται από τη βιβλιοθήκη πολυμέσων."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "Αυτός είναι ο φάκελος του ίδιου του πρόσθετου Iminify, τον οποίο αντικαθιστά κάθε ενημέρωση."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "Άλλα εργαλεία κρατούν σε αυτόν τον φάκελο αντίγραφα, προσωρινά αρχεία ή αντίγραφα ασφαλείας, οπότε οι εικόνες του δεν είναι του ίδιου του ιστότοπου."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "Αυτός ο φάκελος περιέχει τα αρχεία της βιβλιοθήκης πολυμέσων ή τα αντίγραφα ασφαλείας τους, τα οποία το Iminify χειρίζεται από τη βιβλιοθήκη πολυμέσων."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "Αυτός ο φάκελος περιέχει κρυφά αρχεία ή εξαρτήσεις ενός έργου, τα οποία το Iminify δεν αγγίζει."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "Σε δίκτυο, οι άλλοι φάκελοι επιλέγονται στον κύριο ιστότοπο."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "Αυτός ο φάκελος βρίσκεται ήδη στη λίστα, μέσα στο %s."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "Η λίστα έχει όσους φακέλους χωράει. Αφαιρέστε έναν ή επιλέξτε τον φάκελο που περιέχει αρκετούς από αυτούς."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "Ενημερώστε πρώτα το πρόσθετο Iminify."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "Οι ημερήσιες εικόνες του λογαριασμού σας εξαντλήθηκαν. Η επόμενη παρτίδα ανοίγει στις %s."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "Ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο. Ελευθερώστε χώρο και μετά βελτιστοποιήστε αυτή την εικόνα."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "Δεν κρατήθηκε πρωτότυπο αυτής της εικόνας, οπότε δεν μπορεί να βελτιστοποιηθεί ξανά."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Αυτή η εικόνα είναι πολύ μεγάλη για αποστολή: ξεπερνά το μέγεθος αρχείου του πακέτου σας ή είναι περισσότερο από όσο χωράει η μνήμη αυτού του διακομιστή."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "Αυτή η εικόνα έχει ήδη εναλλακτικό κείμενο ή το κείμενό της είναι καθ' οδόν."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "Μια μαζική εκτέλεση βρίσκεται ήδη σε εξέλιξη. Διακόψτε την πρώτα."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "Τα αρχεία στους άλλους φακέλους βελτιστοποιούνται, στέλνονται ξανά ή επαναφέρονται όλα μαζί."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Το Iminify εξετάζει ακόμη τους φακέλους σας. Ξεκινήστε ξανά μόλις τελειώσει."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "Ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο. Ελευθερώστε χώρο και μετά ξεκινήστε ξανά."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "Επιλέξτε πρώτα έναν φάκελο."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "Δεν έχει απομείνει βελτιστοποιημένο αρχείο για επαναφορά στους φακέλους σας."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "Κανένα αρχείο στους φακέλους σας δεν απέτυχε."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "Κάθε αρχείο στους φακέλους σας είναι ήδη βελτιστοποιημένο ή καθ' οδόν."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "Δεν έχει απομείνει βελτιστοποιημένη εικόνα για επαναφορά."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "Καμία εικόνα που βελτιστοποίησε άλλο πρόσθετο δεν έχει πρωτότυπο από το οποίο να βελτιστοποιηθεί ξανά."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "Κάθε εικόνα έχει ήδη εναλλακτικό κείμενο ή το κείμενό της είναι καθ' οδόν."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "Σε καμία βελτιστοποιημένη εικόνα δεν λείπει κάτι από όσα ζητά τώρα ο ιστότοπός σας."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "Κάθε εικόνα είναι ήδη βελτιστοποιημένη ή καθ' οδόν."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "Αυτή η εικόνα έχει αλλάξει από τότε που τη βελτιστοποίησε το Iminify, οπότε βελτιστοποιήστε την ξανά."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "Σε αυτή την εικόνα δεν λείπει τίποτα από όσα ζητά τώρα ο ιστότοπός σας."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Το πρωτότυπο αυτής της εικόνας είναι πολύ μεγάλο για αποστολή: ξεπερνά το μέγεθος αρχείου του πακέτου σας ή είναι περισσότερο από όσο χωράει η μνήμη αυτού του διακομιστή."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "Απενεργοποιήστε το Converter for Media ή κλείστε την επιλογή «Conversion of new images» στα General Settings του, στην ενότητα Ρυθμίσεις, Converter for Media."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "Απενεργοποιήστε το Image Optimizer by Elementor ή κλείστε την επιλογή «Optimize new uploads» στην ενότητα Elementor, Image Optimization, Settings."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Το Image Optimizer by Elementor μετέτρεψε αυτή την εικόνα, δίνοντάς της νέα διεύθυνση στην οποία συνδέονται πλέον τα άρθρα σας, και κράτησε το πρωτότυπό της δίπλα της. Η δική του λειτουργία Restore επαναφέρει το πρωτότυπο, μαζί με τη διεύθυνσή του, όσο εκείνο το πρόσθετο είναι εγκατεστημένο. Το Iminify δεν ξαναγράφει τα άρθρα σας, οπότε δεν κάνει επαναφορά αυτής της εικόνας."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "Απενεργοποιήστε το EWWW Image Optimizer."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "Το EWWW Image Optimizer κράτησε το πρωτότυπο αυτής της εικόνας στους δικούς του διακομιστές, για 30 ημέρες. Κάντε την επαναφορά από το EWWW Image Optimizer όσο ισχύουν το κλειδί του και αυτές οι ημέρες. Το Iminify δεν μπορεί να το ανακτήσει."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "Απενεργοποιήστε το Imagify ή κλείστε την επιλογή «Auto-Optimize images on upload» στις ρυθμίσεις του."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "Αυτές οι γραμμές έχουν ήδη αφαιρεθεί ή το πρόσθετό τους είναι ξανά ενεργό."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "Μόνο κάποιος που μπορεί να διαχειριστεί το δίκτυο αφαιρεί γραμμές που μοιράζονται όλοι οι ιστότοποι."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "Το πρόσθετο δεν μπορεί να αφαιρέσει αυτές τις γραμμές. Αφαιρέστε τις χειροκίνητα."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "Το %s δεν τις χρησιμοποιεί πλέον, όμως εξακολουθούν να απαντούν σε κάθε πρόγραμμα περιήγησης που διαβάζει WebP ή AVIF με το αντίγραφο που είχε δημιουργήσει για μια εικόνα στον δικό του φάκελο, στη θέση της εικόνας, οπότε ένας επισκέπτης μπορεί να λάβει αντίγραφο που δημιουργήθηκε πριν το Iminify βελτιστοποιήσει την εικόνα."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "Το %s δεν τις χρησιμοποιεί πλέον, όμως εξακολουθούν να απαντούν σε κάθε πρόγραμμα περιήγησης που διαβάζει WebP ή AVIF με οποιοδήποτε αρχείο WebP ή AVIF φέρει το όνομα μιας εικόνας, όσο παλιό κι αν είναι, στη θέση της εικόνας, οπότε ένας επισκέπτης μπορεί να λάβει αντίγραφο που δημιουργήθηκε πριν το Iminify βελτιστοποιήσει την εικόνα."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Το Nginx τις κρατά μέχρι να γίνει επαναφόρτωσή του, οπότε επαναφορτώστε το μόλις αφαιρεθούν."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Το Smush πρόσθεσε αυτόν τον κανόνα για τις εικόνες PNG που μετέτρεψε σε JPEG, και ο κανόνας βρίσκεται ακόμη στους κανόνες επανεγγραφής του WordPress: ένα αίτημα για μια τέτοια PNG, που δεν υπάρχει πια, καταλήγει στην αρχική σας σελίδα αντί για απάντηση «δεν βρέθηκε»."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "Κλείστε την επιλογή «Auto Request Cron» στην ενότητα LiteSpeed Cache, Image Optimization, και την επιλογή «Auto Rescale Original Images» στην ενότητα Page Optimization, Media Settings, και αφήστε τις εικόνες που έχει ήδη στείλει να επιστρέψουν, ή απενεργοποιήστε το LiteSpeed Cache."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "Απενεργοποιήστε το Modern Image Formats: καμία δική του ρύθμιση δεν το σταματά."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Το Modern Image Formats αντικατέστησε τα αρχεία αυτής της εικόνας με αρχεία σύγχρονης μορφής που δημιούργησε από το πρωτότυπό της, το οποίο κρατά το WordPress. Η επαναφορά του πρωτοτύπου θα άλλαζε τις διευθύνσεις της εικόνας και θα χαλούσε τα άρθρα που συνδέονται σε αυτές, οπότε το Iminify δεν κάνει επαναφορά της."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "Απενεργοποιήστε το Optimole ή επιλέξτε «Optimole Cloud and your website» στην ενότητα Optimole, Settings, Image Storage."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Το Optimole μετέφερε αυτή την εικόνα στο cloud του και διέγραψε τα αρχεία της εδώ. Φέρτε την πρώτα πίσω μέσω του Optimole (χρειάζεται το Optimole ενεργό και συνδεδεμένο), και τότε το Iminify θα μπορεί να τη βελτιστοποιήσει."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "Το %1$s είναι ενεργό και βελτιστοποιεί το ίδιο τις μεταφορτώσεις σας, οπότε το Iminify δεν βελτιστοποιεί τίποτα όσο αυτό ισχύει, ώστε καμία εικόνα να μη συμπιεστεί δύο φορές. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "Βελτιστοποιήθηκε από το %s"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "Απενεργοποιήστε το ShortPixel ή κλείστε την επιλογή «Optimize media on upload» στις ρυθμίσεις του, στην ενότητα Processing."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "Απενεργοποιήστε το Smush ή κλείστε την επιλογή «Automatic compression» στις ρυθμίσεις του."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "Απενεργοποιήστε το TinyPNG ή ρυθμίστε το στις ρυθμίσεις του να συμπιέζει τις νέες εικόνες χειροκίνητα."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(ανοίγει σε μία νέα καρτέλα)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Φόρτωση…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Δοκιμάστε ξανά"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Απόρριψη"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Το Iminify σαρώνει τη σελίδα."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "Οι σελίδες σας λαμβάνουν πλέον το πλάτος, το ύψος και το εναλλακτικό κείμενο που λείπουν καθώς στέλνονται. Σαρώστε ξανά τη σελίδα για να το δείτε."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "Κάθε σελίδα, κάθε εβδομάδα"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "Ένας εβδομαδιαίος έλεγχος εξετάζει κάθε σελίδα στον χάρτη (sitemap) του ιστότοπού σας μία φορά την εβδομάδα, συμπιέζει τις εικόνες που είναι νέες ή άλλαξαν και σας στέλνει με email τα ευρήματα. Τον ρυθμίζετε στο iminify.com από μια ανίχνευση του ιστότοπού σας, όπου μπορείτε να δείτε ποια πακέτα τον περιλαμβάνουν."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "Ρύθμιση εβδομαδιαίου ελέγχου"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "Αδυναμία ανάγνωσης της σελίδας"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "Αναμονή σάρωσης"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "Σαρώνεται"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "Ολοκληρώθηκε"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "Χωρίς εικόνες"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "Διακόπηκε"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "Απέτυχε"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, οπότε δεν μπορεί να γίνει έλεγχος των σελίδων του. Συνδέστε τον ξανά για να συνεχίσετε."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "Συνδέστε αυτόν τον ιστότοπο με το Iminify για να ελέγξετε τις σελίδες του."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "Μετάβαση στις ρυθμίσεις"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "Σάρωση σελίδας"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Το Iminify ανοίγει τη σελίδα όπως θα την άνοιγε ένας επισκέπτης και μετρά κάθε εικόνα που εμφανίζει."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "Σελίδα"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "Άλλη διεύθυνση σε αυτόν τον ιστότοπο"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "Διεύθυνση"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "Σάρωση"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "Μπορείτε να σαρώσετε ξανά σε %s δευτερόλεπτο."
+msgstr[1] "Μπορείτε να σαρώσετε ξανά σε %s δευτερόλεπτα."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "Χρησιμοποιήθηκε σήμερα %s σάρωση σελίδας. Κάθε έλεγχος μετράει ως μία."
+msgstr[1] "Χρησιμοποιήθηκαν σήμερα %s σαρώσεις σελίδων. Κάθε έλεγχος μετράει ως μία."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "Σαρώσεις σελίδων που απομένουν σήμερα: %1$s από %2$s. Κάθε έλεγχος μετράει ως μία."
+msgstr[1] "Σαρώσεις σελίδων που απομένουν σήμερα: %1$s από %2$s. Κάθε έλεγχος μετράει ως μία."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "Οι σαρώσεις σελίδων σας για σήμερα εξαντλήθηκαν. Νέες έρχονται στις %s."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "Οι σαρώσεις σελίδων σας για σήμερα εξαντλήθηκαν."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "Πρόσφατοι έλεγχοι"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "Εικόνες στη σελίδα"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "Επιλέξτε μια σελίδα και πατήστε «Σάρωση». Το Iminify παραθέτει κάθε εικόνα της, καθεμία δίπλα στην αντίστοιχη εικόνα της βιβλιοθήκης σας, μαζί με ό,τι αξίζει να διορθωθεί."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Το Iminify ανοίγει τη σελίδα και μετρά τις εικόνες της. Αυτό συνήθως διαρκεί λιγότερο από ένα λεπτό, και η σελίδα τις εμφανίζει μόλις είναι έτοιμες."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "Η σελίδα δεν εμφάνισε εικόνες."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "%1$s εικόνα στη σελίδα, %2$s με κάτι προς διόρθωση."
+msgstr[1] "%1$s εικόνες στη σελίδα, %2$s με κάτι προς διόρθωση."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "Τίποτα προς διόρθωση: κάθε εικόνα αυτής της σελίδας έχει σωστό μέγεθος, φόρτωση και περιγραφή."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "Απόκρυψη των εικόνων χωρίς κάτι προς διόρθωση"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "Εμφάνιση %s εικόνας χωρίς κάτι προς διόρθωση"
+msgstr[1] "Εμφάνιση %s εικόνων χωρίς κάτι προς διόρθωση"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "%s εικόνα από τη βιβλιοθήκη πολυμέσων σας βρίσκεται σε αυτή τη σελίδα χωρίς το πλάτος και το ύψος της ή χωρίς το εναλλακτικό κείμενο που έχει στη βιβλιοθήκη. Το πρόσθετο μπορεί να προσθέτει ό,τι λείπει στις σελίδες σας καθώς στέλνονται, από τη βιβλιοθήκη."
+msgstr[1] "%s εικόνες από τη βιβλιοθήκη πολυμέσων σας βρίσκονται σε αυτή τη σελίδα χωρίς το πλάτος και το ύψος τους ή χωρίς το εναλλακτικό κείμενο που έχουν στη βιβλιοθήκη. Το πρόσθετο μπορεί να προσθέτει ό,τι λείπει στις σελίδες σας καθώς στέλνονται, από τη βιβλιοθήκη."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "Συμπλήρωση σε κάθε σελίδα"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "Κάποιος που μπορεί να αλλάξει τις ρυθμίσεις του πρόσθετου μπορεί να το ενεργοποιήσει."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "Χρησιμοποιήστε το μέγεθος %1$s (%2$s × %3$s) εκεί όπου τοποθετείται αυτή η εικόνα. Ο επεξεργαστής της σελίδας δεν την περιέχει: την εμφανίζει το θέμα σας, ένα πρότυπο ή μια μικροεφαρμογή, και το μέγεθος επιλέγεται εκεί."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "Χρησιμοποιήστε εδώ το μέγεθος %1$s (%2$s × %3$s): στον επεξεργαστή, επιλέξτε την εικόνα και διαλέξτε το στην «Ανάλυση»."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "Επεξεργασία της σελίδας"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "Το πρόσθετο τα προσθέτει καθώς στέλνεται η σελίδα. Σαρώστε ξανά για να το δείτε."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Το Iminify γράφει το εναλλακτικό κείμενο της εικόνας. Σαρώστε ξανά μόλις είναι έτοιμο."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Το Iminify μπορεί να το γράψει μόλις ενεργοποιηθεί το εναλλακτικό κείμενο AI για αυτόν τον ιστότοπο."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "Ενεργοποίηση στις ρυθμίσεις"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "Το εναλλακτικό κείμενό της είναι καθ' οδόν. Σαρώστε ξανά μόλις είναι έτοιμο."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "Αυτή την εικόνα τη μοιράζονται μεταφράσεις, καθεμία με εναλλακτικό κείμενο στη δική της γλώσσα: γράψτε το σε αυτήν που εμφανίζει αυτή η σελίδα, στην οθόνη επεξεργασίας της."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "Το πρόσθετο προσθέτει το εναλλακτικό κείμενο που έχει η εικόνα στη βιβλιοθήκη πολυμέσων καθώς στέλνεται η σελίδα. Σαρώστε ξανά για να το δείτε."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "Καθ' οδόν"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "Σε αναμονή"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Απέτυχε"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Βελτιστοποιήθηκε από άλλο πρόσθετο"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(χωρίς τίτλο)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "Αντίγραφο %s"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "Το μεγαλύτερο στην πρώτη οθόνη"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "εμφανίζεται σε %1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "Η εικόνα είναι καθ' οδόν προς το Iminify."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "Αντιγράφηκε"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Το Iminify αναφέρει ότι οι ημερήσιες εικόνες του λογαριασμού σας εξακολουθούν να είναι εξαντλημένες."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "Καθ' οδόν"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Αποτυχημένες"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Παραλειμμένες"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "Επαναφερμένες"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "Η βιβλιοθήκη σας"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s εικόνα"
+msgstr[1] "%s εικόνες"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "Η βιβλιοθήκη πολυμέσων σας δεν έχει ακόμη εικόνες."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "βελτιστοποιημένες"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "Εξοικονόμηση έως τώρα"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "από %1$s, %2$s%% λιγότερο"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "Το %1$s βελτιστοποίησε %2$s εικόνα και κράτησε το πρωτότυπό της. Το Iminify την αφήνει ως έχει."
+msgstr[1] "Το %1$s βελτιστοποίησε %2$s εικόνες και κράτησε το πρωτότυπο καθεμίας. Το Iminify τις αφήνει ως έχουν."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "Το %1$s βελτιστοποίησε %2$s εικόνα και δεν κράτησε πρωτότυπό της. Το Iminify την αφήνει ως έχει."
+msgstr[1] "Το %1$s βελτιστοποίησε %2$s εικόνες και δεν κράτησε πρωτότυπά τους. Το Iminify τις αφήνει ως έχουν."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "Το %1$s βελτιστοποίησε %2$s εικόνες, %3$s από αυτές με πρωτότυπο που κρατήθηκε. Το Iminify τις αφήνει ως έχουν."
+msgstr[1] "Το %1$s βελτιστοποίησε %2$s εικόνες, %3$s από αυτές με πρωτότυπο που κρατήθηκε. Το Iminify τις αφήνει ως έχουν."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "Οι άλλοι φάκελοι επαναφέρθηκαν"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "Επαναφορά των άλλων φακέλων"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "Οι άλλοι φάκελοι βελτιστοποιήθηκαν"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "Βελτιστοποίηση των άλλων φακέλων"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "Η βιβλιοθήκη επαναφέρθηκε"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Επαναφορά"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "Τα εναλλακτικά κείμενα γράφτηκαν"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "Σύνταξη εναλλακτικών κειμένων"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "Οι μορφές που έλειπαν δημιουργήθηκαν"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "Δημιουργία των μορφών που λείπουν"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "Τα μεγέθη που έλειπαν δημιουργήθηκαν"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "Δημιουργία των μεγεθών που λείπουν"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "Βελτιστοποιήθηκαν ξανά από τα πρωτότυπα"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "Βελτιστοποίηση ξανά από τα πρωτότυπα"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "Μαζική βελτιστοποίηση"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Ολοκληρώθηκε"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "Σε παύση: λίγος χώρος δίσκου"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "Σε παύση"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Αναμονή για άλλο πρόσθετο"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "Χωρίς πρόοδο"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "Αναμονή ιστότοπου"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Εξαντλήθηκαν για σήμερα"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Το Iminify είναι απασχολημένο"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "Εκτελείται σε αυτή τη σελίδα"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "Εκτελείται"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "Εικόνες που επαναφέρθηκαν: %1$s από %2$s."
+msgstr[1] "Εικόνες που επαναφέρθηκαν: %1$s από %2$s."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "Εικόνες που στάλθηκαν στο Iminify: %1$s από %2$s."
+msgstr[1] "Εικόνες που στάλθηκαν στο Iminify: %1$s από %2$s."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s εναλλακτικό κείμενο καθ' οδόν"
+msgstr[1] "%s εναλλακτικά κείμενα καθ' οδόν"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s εικόνα βρίσκεται τώρα στο Iminify"
+msgstr[1] "%s εικόνες βρίσκονται τώρα στο Iminify"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "εικόνα επαναφέρθηκε"
+msgstr[1] "εικόνες επαναφέρθηκαν"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "εικόνα στάλθηκε στο Iminify"
+msgstr[1] "εικόνες στάλθηκαν στο Iminify"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "Δεν ήταν δυνατή η επαναφορά %d εικόνας. Η γραμμή της στην ενότητα Πολυμέσα, Άλλοι φάκελοι εξηγεί τον λόγο."
+msgstr[1] "Δεν ήταν δυνατή η επαναφορά %d εικόνων. Οι γραμμές τους στην ενότητα Πολυμέσα, Άλλοι φάκελοι εξηγούν τον λόγο."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "Δεν ήταν δυνατή η επαναφορά %d εικόνας. Το πλαίσιό της στη βιβλιοθήκη πολυμέσων εξηγεί τον λόγο."
+msgstr[1] "Δεν ήταν δυνατή η επαναφορά %d εικόνων. Τα πλαίσιά τους στη βιβλιοθήκη πολυμέσων εξηγούν τον λόγο."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "Έναρξη τώρα"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "Παύση"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "Συνέχιση"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "Διακοπή"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "Εκτέλεση στο παρασκήνιο"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "Ολοκληρώθηκε: οι εικόνες επανήλθαν όπως ήταν όταν μεταφορτώθηκαν."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "Ολοκληρώθηκε: κάθε εικόνα δείχνει στη βιβλιοθήκη πολυμέσων το αποτέλεσμα για το εναλλακτικό της κείμενο."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "Ολοκληρώθηκε: καμία εικόνα δεν χρειαζόταν αποστολή."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "Ολοκληρώθηκε: όλες οι εικόνες στάλθηκαν. Καθεμία δείχνει το αποτέλεσμά της στη βιβλιοθήκη πολυμέσων."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "Διακόπηκε. Οι εικόνες που βρίσκονται ήδη στο Iminify ολοκληρώνονται όσο αυτή η σελίδα είναι ανοιχτή. Οι υπόλοιπες μένουν ως έχουν."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "Διακόπηκε. Οι εικόνες που βρίσκονται ήδη στο Iminify ολοκληρώνονται. Οι υπόλοιπες μένουν ως έχουν."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "Σε παύση: ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο. Ελευθερώστε χώρο και μετά συνεχίστε."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "Σε παύση όσο το πρόσθετο ήταν απενεργοποιημένο."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "Σε παύση. Οι εικόνες που βρίσκονται ήδη στο Iminify ολοκληρώνονται όσο αυτή η σελίδα είναι ανοιχτή."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "Σε παύση. Οι εικόνες που βρίσκονται ήδη στο Iminify ολοκληρώνονται."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "Σε αναμονή όσο ένα άλλο πρόσθετο βελτιστοποίησης εικόνων επεξεργάζεται τις μεταφορτώσεις σας. Η εκτέλεση συνεχίζεται αυτόματα μόλις εκείνο απενεργοποιηθεί."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "Η εκτέλεση δεν έχει προχωρήσει εδώ και λίγη ώρα: οι προγραμματισμένες εργασίες αυτού του ιστότοπου δεν φαίνεται να εκτελούνται."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "Οι ημερήσιες εικόνες του λογαριασμού σας εξαντλήθηκαν. Η εκτέλεση συνεχίζεται αυτόματα όταν ανοίξει η επόμενη παρτίδα, στις %s."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "Σε αναμονή: το Iminify δεν δέχεται το κλειδί αυτού του ιστότοπου. Η εκτέλεση συνεχίζεται αυτόματα μόλις λειτουργήσει η σύνδεση."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "Τα ημερήσια εναλλακτικά κείμενα AI του λογαριασμού σας εξαντλήθηκαν. Η εκτέλεση συνεχίζεται αυτόματα στις %s."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Το Iminify είναι απασχολημένο με τις εικόνες που έχουν ήδη σταλεί. Η εκτέλεση στέλνει περισσότερες στις %s."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "Κρατήστε αυτή τη σελίδα ανοιχτή: οι εικόνες στέλνονται όσο είναι ανοιχτή."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "Η εκτέλεση συνεχίζεται στο παρασκήνιο, οπότε μπορείτε να φύγετε από αυτή τη σελίδα."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "Η Υγεία ιστότοπου αναφέρει: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "Αν αυτός ο ιστότοπος ζητά κωδικό πρόσβασης πριν ανοίξει, προσθέστε αυτό το όνομα χρήστη και τον κωδικό πρόσβασης στο wp-config.php ώστε οι προγραμματισμένες εργασίες του να έχουν πρόσβαση σε αυτόν:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "Εκτελέστε την όσο αυτή η σελίδα είναι ανοιχτή ή συνεχίστε την από τη γραμμή εντολών:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "Εκτέλεση όσο η σελίδα είναι ανοιχτή"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "Σύγκριση πακέτων"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "Συνδέστε αυτόν τον ιστότοπο με το Iminify για να βελτιστοποιήσετε τις εικόνες του."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "Ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο, οπότε τίποτα δεν βελτιστοποιείται μέχρι να ελευθερωθεί χώρος."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "Βελτιστοποίηση της βιβλιοθήκης"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s εικόνα δεν έχει βελτιστοποιηθεί ακόμη."
+msgstr[1] "%s εικόνες δεν έχουν βελτιστοποιηθεί ακόμη."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "Τα αντίγραφα ασφαλείας τους χρειάζονται περίπου %1$s χώρο στον δίσκο (ελεύθερος χώρος: %2$s)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "Τα αντίγραφα ασφαλείας τους χρειάζονται περίπου %s χώρο στον δίσκο."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "Αποστολή ξανά της %s εικόνας που απέτυχε"
+msgstr[1] "Αποστολή ξανά των %s εικόνων που απέτυχαν"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "Τίποτα για βελτιστοποίηση ακόμη."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "Κάθε εικόνα είναι βελτιστοποιημένη ή καθ' οδόν."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "Καμία εικόνα δεν περιμένει βελτιστοποίηση."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s εικόνα επαναφέρθηκε και μένει ως έχει: μια εκτέλεση δεν παίρνει ποτέ εικόνα που επανέφερε κάποιος. Βελτιστοποιήστε την ξανά από το πλαίσιό της στη βιβλιοθήκη πολυμέσων."
+msgstr[1] "%s εικόνες επαναφέρθηκαν και μένουν ως έχουν: μια εκτέλεση δεν παίρνει ποτέ εικόνα που επανέφερε κάποιος. Βελτιστοποιήστε ξανά όποια θέλετε από το πλαίσιό της στη βιβλιοθήκη πολυμέσων."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "Αρχεία που λείπουν"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "Σε %s βελτιστοποιημένη εικόνα λείπει μια μορφή που ζητά τώρα ο ιστότοπός σας."
+msgstr[1] "Σε %s βελτιστοποιημένες εικόνες λείπει μια μορφή που ζητά τώρα ο ιστότοπός σας."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "Σε %s βελτιστοποιημένη εικόνα μπορεί να λείπει ένα μέγεθος που δημιουργεί τώρα ο ιστότοπός σας."
+msgstr[1] "Σε %s βελτιστοποιημένες εικόνες μπορεί να λείπει ένα μέγεθος που δημιουργεί τώρα ο ιστότοπός σας."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "Εναλλακτικό κείμενο"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s εικόνα δεν έχει εναλλακτικό κείμενο."
+msgstr[1] "%s εικόνες δεν έχουν εναλλακτικό κείμενο."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "Να σταλεί ένα μικρό αντίγραφο καθεμίας από αυτές τις εικόνες για να γραφτεί το εναλλακτικό της κείμενο; Καθεμία μετράει ως ένα από τα ημερήσια εναλλακτικά κείμενα AI σας, και ένα εναλλακτικό κείμενο που έγραψε κάποιος δεν αντικαθίσταται ποτέ."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "Απομένει σήμερα %s εναλλακτικό κείμενο AI."
+msgstr[1] "Απομένουν σήμερα %s εναλλακτικά κείμενα AI."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "Να σταλούν ξανά αυτές οι εικόνες για να δημιουργηθούν όσα λείπουν; Καθεμία μετράει ως μία ακόμη εικόνα και διατηρεί τα υπόλοιπα αρχεία της, εκτός αν το Iminify τα κάνει μικρότερα."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "Βελτιστοποίηση ξανά από τα πρωτότυπά τους"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "%s εικόνα που βελτιστοποίησε άλλο πρόσθετο κράτησε το πρωτότυπό της. Το Iminify μπορεί να τη βελτιστοποιήσει ξανά από αυτό το πρωτότυπο και να κρατήσει το δικό του αντίγραφο ασφαλείας του. Πρώτα επανέρχεται το πρωτότυπο, εκτός αν η εικόνα μετατράπηκε σε WebP ή AVIF: τότε τα αρχεία της δημιουργούνται ξανά σε αυτή τη μορφή, με τα ίδια ονόματα."
+msgstr[1] "%s εικόνες που βελτιστοποίησαν άλλα πρόσθετα κράτησαν τα πρωτότυπά τους. Το Iminify μπορεί να τις βελτιστοποιήσει ξανά από αυτά τα πρωτότυπα και να κρατήσει το δικό του αντίγραφο ασφαλείας για καθένα. Κάθε πρωτότυπο επανέρχεται πρώτα, εκτός αν η εικόνα μετατράπηκε σε WebP ή AVIF: τότε τα αρχεία της δημιουργούνται ξανά σε αυτή τη μορφή, με τα ίδια ονόματα."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "Να βελτιστοποιηθούν ξανά αυτές οι εικόνες από τα πρωτότυπά τους; Καθεμία μετράει ως μία ακόμη εικόνα, και όποια έχει πρωτότυπο που μόνο το πρόσθετό της μπορεί να επαναφέρει μένει ως έχει."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "Το LiteSpeed Cache είναι ενεργό. Κάθε φορά που το WordPress δημιουργεί ξανά τα μεγέθη μιας εικόνας (Regenerate Thumbnails ή αντικατάσταση εικόνας), το LiteSpeed Cache διαγράφει τα αντίγραφα WebP και AVIF δίπλα της και επαναφέρει τα παλιά αρχεία που είχε κρατήσει από μια εικόνα που βελτιστοποίησε, οπότε το Iminify θεωρεί ότι αυτή η εικόνα άλλαξε. Η επιλογή «Remove Original Image Backups», στην ενότητα LiteSpeed Cache, Image Optimization, το εμποδίζει να επαναφέρει τα παλιά αρχεία."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "Στο παρασκήνιο"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "Ώστε να μπορείτε να φύγετε από αυτή τη σελίδα."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "Όσο αυτή η σελίδα είναι ανοιχτή"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "Για πάροχο φιλοξενίας όπου οι προγραμματισμένες εργασίες δεν εκτελούνται."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "Εκτέλεση"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "Το πακέτο σας"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "όλες σήμερα"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "περίπου %d ημέρα"
+msgstr[1] "περίπου %d ημέρες"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "Οι ημερήσιες εικόνες του πακέτου σας τις καλύπτουν όλες σήμερα."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "Η εκτέλεση συνεχίζεται αυτόματα κάθε ημέρα."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "Προβολή πακέτων"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "Άλλοι φάκελοι"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "Βελτιστοποιήστε τις εικόνες του θέματός σας και άλλων φακέλων εκτός της βιβλιοθήκης πολυμέσων, εκεί όπου βρίσκονται, με αντίγραφο ασφαλείας για καθεμία."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "%1$s εικόνα στους φακέλους σας (βελτιστοποιημένες: %2$s, όχι ακόμη: %3$s)."
+msgstr[1] "%1$s εικόνες στους φακέλους σας (βελτιστοποιημένες: %2$s, όχι ακόμη: %3$s)."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Το Iminify τις εξετάζει ακόμη."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Να επανέλθει κάθε βελτιστοποιημένη εικόνα των φακέλων σας όπως ήταν; Τα αντίγραφά τους WebP και AVIF διαγράφονται. Τα αντίγραφα ασφαλείας παραμένουν."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "Επαναφορά όλων"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "Προβολή των εικόνων"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "Βελτιστοποίηση των εικόνων"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "Αποστολή ξανά όσων απέτυχαν"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "Επιλογή φακέλων"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "Επαναφορά της βιβλιοθήκης"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "Επαναφέρετε κάθε βελτιστοποιημένη εικόνα όπως ήταν όταν μεταφορτώθηκε, από το αντίγραφο ασφαλείας της, με τα μεγέθη της να δημιουργούνται ξανά από το WordPress. Κάντε το πριν αφαιρέσετε το πρόσθετο, αν θέλετε τα πρωτότυπά σας πίσω στη θέση τους. Μια εικόνα που μετέτρεψε άλλο πρόσθετο σε WebP ή AVIF μένει ως έχει, αφού μόνο εκείνο το πρόσθετο μπορεί να επαναφέρει το πρωτότυπό της."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Να επανέλθει κάθε βελτιστοποιημένη εικόνα όπως ήταν όταν μεταφορτώθηκε; Τα αντίγραφά τους WebP και AVIF διαγράφονται. Τα αντίγραφα ασφαλείας παραμένουν."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "Στάλθηκε στο Iminify."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "Το πρωτότυπο επανήλθε."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "Αναζήτηση"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "Φάκελοι"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "Επιλέξτε το θέμα σας ή οποιονδήποτε φάκελο στο wp-content, και το Iminify βελτιστοποιεί τις εικόνες του εκεί όπου βρίσκονται, κρατώντας αντίγραφο ασφαλείας για καθεμία."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "Το θέμα σας"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "Το γονικό του θέμα"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "Προσθήκη του θέματός σας, %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "Προσθήκη του γονικού του θέματος, %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "Προσθήκη"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "Άλλος φάκελος στο wp-content"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Τελευταία αναζήτηση στις %1$s: %2$s εικόνα (νέες: %3$s, με αλλαγές: %4$s)."
+msgstr[1] "Τελευταία αναζήτηση στις %1$s: %2$s εικόνες (νέες: %3$s, με αλλαγές: %4$s)."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Το Iminify ψάχνει ξανά μετά από κάθε ενημέρωση θέματος ή πρόσθετου. Αν αλλάξατε εικόνες χειροκίνητα, κάντε τώρα αναζήτηση."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "Αναζήτηση νέων και αλλαγμένων εικόνων"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "Στους φακέλους σας"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "Μια μαζική εκτέλεση για αυτές τις εικόνες βρίσκεται σε εξέλιξη στη σελίδα μαζικής βελτιστοποίησης."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "Βελτιστοποιήστε ή επαναφέρετέ τες όλες στη σελίδα μαζικής βελτιστοποίησης."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "Μετάβαση στη Μαζική βελτιστοποίηση"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "Όλες"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "Εικόνες"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "Προσθέστε έναν φάκελο για να δείτε τις εικόνες του εδώ."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "Δεν βρέθηκαν εικόνες σε αυτούς τους φακέλους."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "Καμία εικόνα εδώ."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "Προηγούμενη"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "Σελίδα %1$s από %2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "Επόμενη"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Αναμονή σύνδεσης"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Παραλείφθηκε"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Επαναφέρθηκε"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%s%% μικρότερο"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "Να επανέλθει το πρωτότυπο; Τα αντίγραφα WebP και AVIF της εικόνας διαγράφονται. Το αντίγραφο ασφαλείας παραμένει."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "Να αποσυνδεθεί το δίκτυο από το Iminify; Όλα τα κλειδιά με τα οποία εντάχθηκαν οι ιστότοποί του σταματούν επίσης, και οι νέες μεταφορτώσεις σε αυτούς τους ιστότοπους παύουν να βελτιστοποιούνται. Οι ήδη βελτιστοποιημένες εικόνες μένουν ως έχουν."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "Να αποσυνδεθεί αυτός ο ιστότοπος από το Iminify; Οι νέες μεταφορτώσεις παύουν να βελτιστοποιούνται, και ο ιστότοπος δεν εντάσσεται ξανά αυτόματα στο δίκτυο: πατήστε «Ένταξη στο δίκτυο» για να επανέλθει. Οι ήδη βελτιστοποιημένες εικόνες μένουν ως έχουν."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "Να αποσυνδεθεί αυτός ο ιστότοπος από το Iminify; Οι νέες μεταφορτώσεις παύουν να βελτιστοποιούνται. Οι ήδη βελτιστοποιημένες εικόνες μένουν ως έχουν."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "Αποσύνδεση"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "Το %1$s, στη διεύθυνση %2$s, είναι συνδεδεμένο με το Iminify ως δίκτυο πολλαπλών ιστοτόπων."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "Ο ιστότοπος %1$s, στη διεύθυνση %2$s, είναι συνδεδεμένος με το Iminify μέσω του δικτύου του."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "Ο ιστότοπος %1$s, στη διεύθυνση %2$s, είναι συνδεδεμένος με το Iminify."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "Ο λογαριασμός σας"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "Πακέτο"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, έως %2$s"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "Επόμενη παρτίδα"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "Ιστότοποι δικτύου"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s από %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "Ο κύριος ιστότοπος"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "Εξοικονόμηση %s"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "Ο λογαριασμός Iminify αυτού του ιστότοπου ορίζεται στο wp-config.php."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "Το πακέτο σας στο iminify.com"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "Το κλειδί του δικτύου ορίζεται στο wp-config.php ως <code>IMINIFY_API_KEY</code>. Για αποσύνδεση, αφαιρέστε το από εκεί και αποσυνδέστε το δίκτυο στην ενότητα Settings, Sites του iminify.com."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "Το κλειδί του ιστότοπου ορίζεται στο wp-config.php ως <code>IMINIFY_API_KEY</code>. Για αποσύνδεση, αφαιρέστε το από εκεί και αποσυνδέστε τον ιστότοπο στην ενότητα Settings, Sites του iminify.com."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "Συνδέστε το δίκτυό σας"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Το Iminify συμπιέζει τις εικόνες που μεταφορτώνονται σε κάθε ιστότοπο αυτού του δικτύου και δημιουργεί αντίγραφα WebP και AVIF τους. Συνδέστε το δίκτυο με τον λογαριασμό σας στο Iminify μία φορά, ή δημιουργήστε δωρεάν λογαριασμό στην πορεία, και κάθε ιστότοπος εντάσσεται αυτόματα την πρώτη φορά που χρειάζεται το Iminify."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "Τίποτα δεν στέλνεται στο Iminify πριν συνδεθείτε. Η «Σύνδεση» ανοίγει το iminify.com σε νέα καρτέλα, όπου εγκρίνετε το δίκτυο."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "Σύνδεση δικτύου"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "Ξεχωριστή σύνδεση αυτού του ιστότοπου"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "Αυτός ο ιστότοπος μπορεί αντί γι' αυτό να συνδεθεί με δικό του λογαριασμό Iminify, και τότε δεν χρησιμοποιεί ποτέ τη σύνδεση του δικτύου."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Η «Σύνδεση» ανοίγει το iminify.com σε νέα καρτέλα, όπου εγκρίνετε αυτόν τον ιστότοπο."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "Συνδέστε τον ιστότοπό σας"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Το Iminify συμπιέζει τις εικόνες που μεταφορτώνετε και δημιουργεί αντίγραφα WebP και AVIF τους. Συνδέστε αυτόν τον ιστότοπο με τον λογαριασμό σας στο Iminify, ή δημιουργήστε δωρεάν λογαριασμό στην πορεία, για να ξεκινήσετε."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Τίποτα δεν στέλνεται στο Iminify πριν συνδεθείτε. Η «Σύνδεση» ανοίγει το iminify.com σε νέα καρτέλα, όπου εγκρίνετε αυτόν τον ιστότοπο."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "Ένας υπερδιαχειριστής μπορεί αντί γι' αυτό να συνδέσει ολόκληρο το δίκτυο από τη διαχείριση δικτύου, και κάθε ιστότοπος εντάσσεται αυτόματα."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "Πώς λειτουργεί η σύνδεση"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Αναμονή για την έγκρισή σας"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "Εγκρίνετε τη σύνδεση στο iminify.com, στην καρτέλα που άνοιξε. Αυτή η σελίδα συνδέεται αυτόματα μόλις το κάνετε, και ο ιστότοπος συνεχίζει τη σύνδεση ακόμη κι αν κλείσετε τη σελίδα."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "Άνοιγμα ξανά της σελίδας στο iminify.com"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Μια εταιρεία ανάπτυξης ιστοτόπων μπορεί να προσθέσει τον ιστότοπο στην ενότητα <a>Settings, Sites</a> του iminify.com και να επικολλήσει εδώ το κλειδί του, ή να το ορίσει στο wp-config.php ως <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Μια εταιρεία ανάπτυξης ιστοτόπων μπορεί να προσθέσει τον ιστότοπο στην ενότητα Settings, Sites του iminify.com και να επικολλήσει εδώ το κλειδί του, ή να το ορίσει στο wp-config.php ως <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Μια εταιρεία ανάπτυξης ιστοτόπων προσθέτει το δίκτυο στην ενότητα <a>Settings, Sites</a> του iminify.com, με επιλεγμένο το «This is a multisite network», και επικολλά εδώ το κλειδί του, ή το ορίζει στο wp-config.php ως <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Μια εταιρεία ανάπτυξης ιστοτόπων προσθέτει το δίκτυο στην ενότητα Settings, Sites του iminify.com, με επιλεγμένο το «This is a multisite network», και επικολλά εδώ το κλειδί του, ή το ορίζει στο wp-config.php ως <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "Κάθε μεταφόρτωση βελτιστοποιείται στο παρασκήνιο"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "Το WordPress ολοκληρώνει πρώτα τη μεταφόρτωση και έπειτα το Iminify συμπιέζει την εικόνα και κάθε μέγεθος που δημιούργησε το WordPress από αυτήν."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "Μια μεταφόρτωση μετράει ως μία εικόνα"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "Τα μεγέθη που δημιούργησε το WordPress από αυτήν και τα αντίγραφά της WebP και AVIF τη συνοδεύουν ως αρχεία, ποτέ ως επιπλέον εικόνες."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "Τα πρωτότυπά σας μένουν σε αυτόν τον ιστότοπο"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "Ένα αντίγραφο ασφαλείας καθενός διατηρείται στον φάκελο μεταφορτώσεων, ώστε να μπορεί να γίνει επαναφορά κάθε εικόνας όπως ήταν."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "Η βιβλιοθήκη σας βελτιστοποιείται όταν το αποφασίσετε"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "Οι εικόνες που υπάρχουν ήδη στη βιβλιοθήκη πολυμέσων περιμένουν μέχρι να ξεκινήσετε τη βελτιστοποίησή τους στην ενότητα Πολυμέσα, Μαζική βελτιστοποίηση."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "Μόλις συνδεθείτε"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "Σύνδεση με το κλειδί του δικτύου"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "Σύνδεση με κλειδί ιστότοπου"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "Κλειδί δικτύου"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "Κλειδί ιστότοπου"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "Σύνδεση με αυτό το κλειδί"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "γίνεται"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "χωρίς αλλαγή"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "Ρυθμίσεις του %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Το Iminify βρήκε ρυθμίσεις του %s σε αυτόν τον ιστότοπο. Μπορεί να προσαρμόσει τις ρυθμίσεις αυτού του ιστότοπου ώστε να ταιριάζουν με αυτές, στον βαθμό που το Iminify έχει τις ίδιες ρυθμίσεις: το επίπεδο συμπίεσης, το μέγιστο πλάτος, τα μεταδεδομένα, τα αντίγραφα WebP και AVIF, τα μεγέθη και τα αντίγραφα ασφαλείας. Βλέπετε τι αλλάζει πριν αλλάξει οτιδήποτε."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "Χρήση των ρυθμίσεων του %s"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "Όχι, ευχαριστώ"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "Αυτός ο ιστότοπος χρησιμοποιεί ήδη ό,τι αντιστοιχεί στις ρυθμίσεις του %s."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "Με βάση τις ρυθμίσεις του %s, το Iminify θα όριζε τα εξής. Τίποτα δεν αλλάζει μέχρι να τα χρησιμοποιήσετε, και η χρήση τους αντικαθιστά τις αλλαγές που δεν έχετε αποθηκεύσει στις παρακάτω ρυθμίσεις."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "Με βάση τις ρυθμίσεις του %s, το Iminify θα όριζε τα εξής. Τίποτα δεν αλλάζει μέχρι να τα χρησιμοποιήσετε."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "Καμία από τις ρυθμίσεις του %s δεν έχει αντιστοιχία στο Iminify, οπότε αυτός ο ιστότοπος κρατά τις δικές του."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "Χρήση αυτών των ρυθμίσεων"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "Εντάξει"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "Άνοιγμα των ρυθμίσεων Iminify του δικτύου"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "Η σύνδεση του δικτύου"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Αυτός είναι ο κύριος ιστότοπος του δικτύου, οπότε χρησιμοποιεί τη σύνδεση του δικτύου με το Iminify. Ένας υπερδιαχειριστής συνδέει και αποσυνδέει το δίκτυο από τη διαχείριση δικτύου."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Αυτός είναι ο κύριος ιστότοπος του δικτύου, οπότε χρησιμοποιεί τη σύνδεση του δικτύου με το Iminify, η οποία δεν έχει γίνει ακόμη. Ένας υπερδιαχειριστής συνδέει το δίκτυο από τη διαχείριση δικτύου, και κάθε ιστότοπος εντάσσεται αυτόματα."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "Οι ιστότοποι του δικτύου"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Αυτό το κλειδί δημιουργήθηκε για μεμονωμένο ιστότοπο, οπότε οι ιστότοποι του δικτύου δεν μπορούν να ενταχθούν με αυτό. Αποσυνδέστε και συνδέστε ξανά το δίκτυο ή δημιουργήστε ένα κλειδί στην ενότητα Settings, Sites του iminify.com με επιλεγμένο το «This is a multisite network»."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "Κάθε ιστότοπος του δικτύου εντάσσεται αυτόματα την πρώτη φορά που χρειάζεται το Iminify, με δικό του κλειδί, και ξεκινά με τις ρυθμίσεις του κύριου ιστότοπου. Καθένας μετράει ως ξεχωριστός ιστότοπος στον λογαριασμό σας. Ένας ιστότοπος που αποσυνδέθηκε από τη δική του σελίδα ή από την ενότητα Settings, Sites του iminify.com δεν εντάσσεται ξανά αυτόματα."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Οι ρυθμίσεις κάθε ιστότοπου βρίσκονται στη δική του σελίδα Ρυθμίσεις, Iminify. Τις εικόνες στα θέματα και σε άλλους φακέλους τις βελτιστοποιεί ο κύριος ιστότοπος, μία φορά για όλο το δίκτυο."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "Οι ρυθμίσεις του κύριου ιστότοπου"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "Οι άλλοι φάκελοι του κύριου ιστότοπου"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Πώς συνδέεται ένα δίκτυο"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Ένταξη στο δίκτυο"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "Το δίκτυο %s είναι συνδεδεμένο με το Iminify. Αυτός ο ιστότοπος μπορεί να ενταχθεί σε αυτό με δικό του κλειδί και μετράει ως ξεχωριστός ιστότοπος στον λογαριασμό."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "Στους κανόνες επανεγγραφής του WordPress:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "Στο <file />:"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "Να αφαιρεθεί ο κανόνας του %s από τους κανόνες επανεγγραφής του WordPress; Όλοι οι άλλοι κανόνες παραμένουν."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "Να αφαιρεθούν οι γραμμές του %s από αυτό το αρχείο; Όλα τα υπόλοιπα σε αυτό μένουν ως έχουν. Το Nginx τις κρατά μέχρι να γίνει επαναφόρτωσή του, οπότε επαναφορτώστε το μετά."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "Να αφαιρεθούν οι γραμμές του %s από αυτό το αρχείο; Όλα τα υπόλοιπα σε αυτό μένουν ως έχουν."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "Το <file /> περιέχει τη γραμμή %s, αλλά το μπλοκ που ξεκινά δεν έχει δικό του τέλος ή επικαλύπτει άλλο μπλοκ, οπότε το πρόσθετο αφήνει το αρχείο ανέγγιχτο. Αφαιρέστε τις γραμμές του μπλοκ χειροκίνητα."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "Το πρόσθετο δεν μπορεί να γράψει στο <file />. Αφαιρέστε αυτές τις γραμμές από αυτό χειροκίνητα και μετά επαναφορτώστε το Nginx."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "Το πρόσθετο δεν μπορεί να γράψει στο <file />. Αφαιρέστε αυτές τις γραμμές από αυτό χειροκίνητα."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "Όλοι οι ιστότοποι του δικτύου μοιράζονται αυτές τις γραμμές, οπότε τις αφαιρεί κάποιος που μπορεί να διαχειριστεί το δίκτυο, από τις ρυθμίσεις Iminify της διαχείρισης δικτύου."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "Όλοι οι ιστότοποι του δικτύου μοιράζονται αυτές τις γραμμές, οπότε τις αφαιρεί ένας υπερδιαχειριστής, σε αυτή τη σελίδα."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "Ο κανόνας επανεγγραφής του %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "Οι κανόνες του %s"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "Κανόνες που άφησε άλλο πρόσθετο βελτιστοποίησης"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "Οι κανόνες που άφησε άλλο πρόσθετο βελτιστοποίησης αφαιρέθηκαν."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "Ένα πρόσθετο βελτιστοποίησης εικόνων που είχατε παλιότερα άφησε αυτούς τους κανόνες όταν απενεργοποιήθηκε. Το Iminify δεν αφαιρεί ποτέ από μόνο του τους κανόνες άλλου πρόσθετου."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d εικόνα βελτιστοποιείται."
+msgstr[1] "%d εικόνες βελτιστοποιούνται."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d εικόνα περιμένει την επόμενη παρτίδα."
+msgstr[1] "%d εικόνες περιμένουν την επόμενη παρτίδα."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d εικόνα περιμένει να συνδεθεί ο ιστότοπος. Θα σταλεί αυτόματα μόλις συνδεθεί."
+msgstr[1] "%d εικόνες περιμένουν να συνδεθεί ο ιστότοπος. Θα σταλούν αυτόματα μόλις συνδεθεί."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "Η επόμενη παρτίδα ανοίγει στις %s. Οι νέες μεταφορτώσεις στέλνονται πρώτες, αυτόματα."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "Ουρά"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "Ο διακομιστής έχει λίγο ελεύθερο χώρο στον δίσκο, οπότε το Iminify σταμάτησε να βελτιστοποιεί εικόνες εδώ. Ελευθερώστε χώρο και μετά βελτιστοποιήστε τις εικόνες με την ένδειξη «Δεν βελτιστοποιήθηκε»."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "Ο διακομιστής σας απάντησε με σφάλμα μόλις μπήκαν οι κανόνες, οπότε το πρόσθετο τους αφαίρεσε ξανά και οι εικόνες σας φορτώνουν όπως πριν. Ρωτήστε τον πάροχο φιλοξενίας αν τα αρχεία .htaccess επιτρέπεται να ορίζουν κανόνες επανεγγραφής και τύπους αρχείων ή επιλέξτε τις ετικέτες picture."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "Ο διακομιστής σας στέλνει τα αντίγραφα WebP και AVIF. Ελέγχθηκε στις %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "Ο διακομιστής σας στέλνει ακόμη τα πρωτότυπα: κάτι απαντά για τις εικόνες πριν διαβαστούν αυτοί οι κανόνες, συχνά το Nginx μπροστά από τον Apache. Προσθέστε τις παρακάτω γραμμές Nginx στη διαμόρφωσή του ή επιλέξτε τις ετικέτες picture. Ελέγχθηκε στις %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "Ο διακομιστής σας στέλνει ακόμη τα πρωτότυπα. Προσθέστε τις παρακάτω γραμμές στη διαμόρφωσή του και επαναφορτώστε το Nginx, έπειτα αποθηκεύστε ξανά. Ελέγχθηκε στις %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Το Cloudflare απάντησε με το πρωτότυπο, οπότε ένας επισκέπτης μπορεί να μη λάβει ποτέ αντίγραφο μέσω αυτών των κανόνων. Επιλέξτε τις ετικέτες picture, που λειτουργούν πίσω από το Cloudflare. Ελέγχθηκε στις %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "Το πρόσθετο δεν μπόρεσε να ζητήσει μια εικόνα από τον ιστότοπό σας για να ελέγξει αν οι κανόνες λειτουργούν, κάτι που συμβαίνει όταν ένας ιστότοπος δεν μπορεί να φτάσει στη δική του διεύθυνση. Ανοίξτε μία από τις εικόνες σας με τα εργαλεία προγραμματιστή ενός προγράμματος περιήγησης: ο τύπος της πρέπει να είναι image/avif ή image/webp. Δοκιμάστηκε στις %s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "Οι κανόνες βρίσκονται στο <file />."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "Το <file /> περιέχει τη γραμμή <begin /> χωρίς τη γραμμή <end />, οπότε το πρόσθετο αφήνει το αρχείο ανέγγιχτο. Βάλτε ξανά τη γραμμή <end /> μετά την τελευταία <closing /> του μπλοκ ή διαγράψτε όλες τις γραμμές του μπλοκ, και μετά αποθηκεύστε ξανά."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "Ο φάκελος μεταφορτώσεών σας δεν βρίσκεται μέσα στον φάκελο που περιέχει το αρχείο .htaccess του ιστότοπου, οπότε κανένας κανόνας εκεί δεν μπορεί να τον ονομάσει. Επιλέξτε τις ετικέτες picture."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "Δεν υπάρχει ακόμη <file />. Δημιουργήστε το με αυτές τις γραμμές και μετά αποθηκεύστε ξανά."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "Το <file /> δεν ενεργοποιεί την επανεγγραφή, οπότε το πρόσθετο το αφήνει ανέγγιχτο. Αν ο διακομιστής σας διαβάζει κανόνες επανεγγραφής εκεί, επικολλήστε αυτές τις γραμμές σε αυτό και μετά αποθηκεύστε ξανά."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "Το πρόσθετο δεν μπορεί να γράψει στο <file />. Επικολλήστε αυτές τις γραμμές σε αυτό, πάνω από τους κανόνες που έδωσε το WordPress για το δίκτυο, και μετά αποθηκεύστε ξανά."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "Το πρόσθετο δεν μπορεί να γράψει στο <file />. Επικολλήστε αυτές τις γραμμές στο τέλος του και μετά αποθηκεύστε ξανά."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "Ο διακομιστής σας δεν διαβάζει ούτε αρχεία .htaccess ούτε τη διαμόρφωση του Nginx, οπότε το πρόσθετο δεν έχει κανόνες να του δώσει. Επιλέξτε τις ετικέτες picture."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Ο ιστότοπός σας τρέχει σε Nginx, που δεν διαβάζει το .htaccess. Βάλτε τις πρώτες γραμμές στην αρχή του server block του ιστότοπου, πριν από οποιοδήποτε if ή rewrite, και το location πάνω από κάθε άλλο location για εικόνες, και μετά επαναφορτώστε το Nginx. Αντιγράψτε μέσα στο location όποιες γραμμές expires, Cache-Control ή add_header χρειάζονται οι εικόνες σας, αφού το δικό του add_header αντικαθιστά εκείνο του server block:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Για το Nginx, βάλτε τις πρώτες γραμμές στην αρχή του server block του ιστότοπου, πριν από οποιοδήποτε if ή rewrite, και το location πάνω από κάθε άλλο location για εικόνες, και μετά επαναφορτώστε το Nginx. Αντιγράψτε μέσα στο location όποιες γραμμές expires, Cache-Control ή add_header χρειάζονται οι εικόνες σας, αφού το δικό του add_header αντικαθιστά εκείνο του server block:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "Καλύπτουν: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "Σερβίρουν οποιοδήποτε αντίγραφο WebP ή AVIF έχει το όνομα μιας εικόνας και βρίσκεται δίπλα της, οπότε σερβίρεται και ένα αντίγραφο που άφησε εκεί άλλο πρόσθετο βελτιστοποίησης, μέχρι το Iminify να δημιουργήσει το δικό του. Το Iminify δεν διαγράφει ποτέ τα αντίγραφα άλλου πρόσθετου."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Το Cloudflare απαντά για τον ιστότοπό σας. Κρατά μία εκδοχή κάθε εικόνας ανεξάρτητα από το τι διαβάζει το πρόγραμμα περιήγησης, οπότε ένα πρόγραμμα περιήγησης που δεν μπορεί να εμφανίσει AVIF μπορεί να λάβει το αντίγραφο AVIF. Επιλέξτε τις ετικέτες picture, που λειτουργούν πίσω από οποιοδήποτε CDN."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "Το WP Offload Media σερβίρει τις εικόνες σας από το bucket του, στο οποίο αυτοί οι κανόνες δεν φτάνουν ποτέ, οπότε εκείνες κρατούν τα πρωτότυπά τους. Με ενεργοποιημένο το «Remove Local Media» του, οι κανόνες δεν σερβίρουν τίποτα."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "Καλύπτει επίσης τις εικόνες σε κώδικα HTML, σε page builders και στη σήμανση του ίδιου του θέματός σας, τα φόντα που ορίζονται μέσα στη σελίδα και τις εικόνες στους φακέλους που επιλέξατε, διαβάζοντας κάθε σελίδα καθώς στέλνεται. Ένα φόντο που ορίζεται σε αρχείο stylesheet κρατά το πρωτότυπό του. Μια σελίδα που δεν έχει κρατήσει η προσωρινή μνήμη σας αργεί λίγο περισσότερο."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "Οι σελίδες σας μένουν ως έχουν, και ο διακομιστής σας στέλνει το αντίγραφο WebP ή AVIF στη θέση της εικόνας σε κάθε πρόγραμμα περιήγησης που το διαβάζει. Αυτό καλύπτει κάθε εικόνα στον φάκελο μεταφορτώσεων και στους φακέλους που επιλέξατε, ακόμη και φόντα σε αρχεία stylesheet. Χρειάζεται κανόνες στη διαμόρφωση του διακομιστή σας, που γράφονται για εσάς στον Apache, και, πίσω από CDN, ένα CDN που κρατά μία εκδοχή κάθε εικόνας ανά μορφή."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "Οι σελίδες σας μένουν ως έχουν: τα αντίγραφα δημιουργούνται, αλλά καμία σελίδα δεν τα χρησιμοποιεί."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "Για τις εικόνες στα άρθρα σας και όσες εμφανίζει το θέμα σας μέσω του WordPress. Κάθε σελίδα είναι ίδια για κάθε επισκέπτη, οπότε οι προσωρινές μνήμες σελίδων και τα CDN συνεχίζουν να λειτουργούν, και ένα πρόγραμμα περιήγησης που δεν διαβάζει καμία από τις δύο μορφές λαμβάνει το πρωτότυπο."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "Βελτιστοποίηση"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "Αυτές οι ρυθμίσεις φυλάσσονται μαζί με τον ιστότοπο στο iminify.com, το οποίο τις εφαρμόζει σε κάθε εικόνα που στέλνει ο ιστότοπος."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "Κάθε εικόνα στέλνεται στο Iminify μόλις μεταφορτωθεί."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "Ένα αντίγραφο WebP κάθε μεγέθους, που σερβίρεται στα προγράμματα περιήγησης που το διαβάζουν. Ένα αντίγραφο μεγαλύτερο από την εικόνα του δεν διατηρείται."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "Και ένα αντίγραφο AVIF κάθε μεγέθους: συνήθως μικρότερο από το WebP και πιο αργό στη δημιουργία."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "Οποιοδήποτε πλάτος"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "Σμικρύνει μια πλατύτερη κύρια εικόνα σε αυτό το πλάτος. Αφήστε το κενό για να διατηρηθεί το πλάτος κάθε εικόνας."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "Κάνει την κύρια εικόνα να χωρά κάτω από αυτό το μέγεθος αρχείου. Αφήστε το κενό για να μην υπάρχει όριο."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "Διατηρεί τα δεδομένα EXIF κάθε εικόνας, όπως την κάμερα και τον τόπο λήψης. Όταν είναι ανενεργό, αφαιρούνται."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "Περιγράφει κάθε εικόνα που δεν έχει εναλλακτικό κείμενο. Ένα εναλλακτικό κείμενο που γράψατε εσείς δεν αντικαθίσταται ποτέ. Ένα μικρό αντίγραφο της εικόνας στέλνεται στο μοντέλο AI της Anthropic, και καθένα μετράει στα ημερήσια εναλλακτικά κείμενα AI σας."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "Γλώσσα του εναλλακτικού κειμένου"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "Βελτιστοποίηση όλων των μεγεθών"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "Κάθε μέγεθος που δημιουργεί το WordPress από μια μεταφόρτωση. Απενεργοποιήστε το για να επιλέξετε μεγέθη."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "Σε αυτόν τον ιστότοπο"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "Διατηρούνται στον φάκελο μεταφορτώσεων, στο iminify-backup, ώστε να μπορεί να γίνει επαναφορά κάθε εικόνας όπως ήταν."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "WebP και AVIF στις σελίδες σας"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "Σερβίρισμα με ετικέτες picture"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "Σερβίρισμα σε ολόκληρη τη σελίδα"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "Σερβίρισμα μέσω κανόνων διακομιστή"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "Χωρίς αλλαγές στις σελίδες"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "Προσθήκη του πλάτους, του ύψους και του εναλλακτικού κειμένου που λείπουν από τις εικόνες"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "Όπου η σήμανση μιας σελίδας τα παραλείπει από μια εικόνα της βιβλιοθήκης πολυμέσων σας, το πρόσθετο προσθέτει το πλάτος και το ύψος της, ώστε η σελίδα να μη μετακινείται κατά τη φόρτωση, καθώς και το εναλλακτικό κείμενο που έχει στη βιβλιοθήκη, καθώς στέλνεται κάθε σελίδα. Ένα εναλλακτικό κείμενο που αφέθηκε σκόπιμα κενό μένει κενό."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "Όταν διαγράψετε το πρόσθετο"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "Διαγραφή και των αντιγράφων WebP και AVIF"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "Μια σελίδα που κράτησε η προσωρινή μνήμη σας με ετικέτες picture θα έδειχνε σπασμένη εικόνα μέχρι να καθαριστεί η προσωρινή μνήμη."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "Διαγραφή και των αντιγράφων ασφαλείας"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "Είναι τα μόνα πρωτότυπα των εικόνων που βελτιστοποίησε το Iminify, οπότε δεν θα μπορεί να γίνει επαναφορά αυτών των εικόνων αργότερα. Αν διαγραφούν και τα αντίγραφα, μια νέα εγκατάσταση του πρόσθετου θα βελτιστοποιούσε αυτές τις εικόνες δεύτερη φορά."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "Αποθήκευση αλλαγών"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "Μη αποθηκευμένες αλλαγές"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Χρειάζεται προσοχή"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "Το δίκτυο συνδέθηκε."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "Ο ιστότοπος συνδέθηκε."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "Η σύνδεση δεν εγκρίθηκε εγκαίρως ή απορρίφθηκε. Πατήστε «Σύνδεση δικτύου» για να δοκιμάσετε ξανά."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "Η σύνδεση δεν εγκρίθηκε εγκαίρως ή απορρίφθηκε. Πατήστε «Σύνδεση» για να δοκιμάσετε ξανά."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Το δίκτυο αποσυνδέθηκε εδώ, αλλά το κλειδί του δεν ήταν δυνατό να απενεργοποιηθεί στο Iminify. Αποσυνδέστε το και στην ενότητα Settings, Sites του iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Ο ιστότοπος αποσυνδέθηκε εδώ, αλλά το κλειδί του δεν ήταν δυνατό να απενεργοποιηθεί στο Iminify. Αποσυνδέστε τον και στην ενότητα Settings, Sites του iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "Ο ιστότοπος εντάχθηκε στο δίκτυο."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "Μεταφορά της σύνδεσης εδώ"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "Σύνδεση αυτού του κλώνου ως ξεχωριστού ιστότοπου"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "Αυτός ο ιστότοπος χρησιμοποιεί πλέον τις ρυθμίσεις του %s."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "Οι γραμμές αφαιρέθηκαν. Επαναφορτώστε το Nginx ώστε να σταματήσει να τις σερβίρει."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "Οι γραμμές αφαιρέθηκαν."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Οι ρυθμίσεις αποθηκεύτηκαν."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "Οι εικόνες σε αναμονή είναι καθ' οδόν."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "Οι ημερήσιες εικόνες του λογαριασμού σας εξακολουθούν να είναι εξαντλημένες."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Το Iminify αποσύνδεσε το δίκτυο, οπότε οι νέες μεταφορτώσεις στους ιστότοπούς του δεν βελτιστοποιούνται. Συνδέστε το ξανά για να συνεχίσετε."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Το Iminify αποσύνδεσε το δίκτυο, οπότε οι νέες μεταφορτώσεις δεν βελτιστοποιούνται. Ένας υπερδιαχειριστής το συνδέει ξανά από τη διαχείριση δικτύου."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, οπότε οι νέες μεταφορτώσεις δεν βελτιστοποιούνται. Εντάξτε τον ξανά στο δίκτυο ή συνδέστε τον ιστότοπο ξεχωριστά για να συνεχίσετε."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, οπότε οι νέες μεταφορτώσεις δεν βελτιστοποιούνται. Συνδέστε τον ξανά για να συνεχίσετε."

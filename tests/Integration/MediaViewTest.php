@@ -17,6 +17,7 @@ use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Tests\Support\Api_Stub;
+use ReflectionMethod;
 use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -762,6 +763,15 @@ class MediaViewTest extends WP_UnitTestCase {
 		unset( $result['credentials'] );
 		Records::update( $id, array( 'result' => $result ) );
 		$this->assertStringNotContainsString( 'Content Credentials', Media_View::panel( $id ) );
+	}
+
+	public function test_the_compare_names_a_main_file_by_its_format_an_avif_one_included(): void {
+		$name = new ReflectionMethod( Media_View::class, 'format_name' );
+		$name->setAccessible( true );
+		$images = dirname( __DIR__ ) . '/fixtures/images/';
+
+		/* An image another plugin converted to AVIF keeps that format, so its main file is one; the label leads with the format, a Latin word, which keeps a right-to-left line in order. */
+		$this->assertSame( 'AVIF', $name->invoke( null, $images . 'ours-32x24.avif' ) );
 	}
 
 	/**

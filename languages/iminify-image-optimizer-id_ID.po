@@ -1,0 +1,3737 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
+"Language: id_ID\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "Kompres, konversi, dan ubah ukuran gambar di pustaka media Anda dengan Iminify, lalu sajikan sebagai WebP dan AVIF."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "Audit Laman"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "Temukan gambar yang memperlambat laman Anda, masing-masing di samping gambar yang sesuai di pustaka Anda."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Skrip laman ini tidak ada di folder plugin. Pasang ulang plugin agar skrip itu tersedia lagi."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "Laman ini memerlukan JavaScript."
+
+#: includes/admin/class-audit-state.php:354
+msgid "Original upload"
+msgstr "Unggahan asli"
+
+#: includes/admin/class-audit-state.php:368
+msgid "Home page"
+msgstr "Beranda"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "Maaf, Anda tidak diizinkan melakukannya."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "Pengoptimalan Massal"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "Setiap gambar yang sudah ada di pustaka media Anda, dalam satu proses."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Skrip laman pengoptimalan massal tidak ada di folder plugin. Pasang ulang plugin agar skrip itu tersedia lagi."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "Laman pengoptimalan massal memerlukan JavaScript."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:342
+msgid "That folder isn't in the list."
+msgstr "Folder itu tidak ada dalam daftar."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "Gambar itu tidak ada dalam daftar."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "Folder Lain"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "Gambar di tema Anda dan folder lain di luar pustaka media."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "Gambar ini tidak memiliki versi asli di situs untuk dibandingkan."
+
+#: includes/admin/class-media-view.php:183
+msgid "Original"
+msgstr "Asli"
+
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
+msgid "Compare with the original"
+msgstr "Bandingkan dengan versi asli"
+
+#: includes/admin/class-media-view.php:211
+msgid "Close"
+msgstr "Tutup"
+
+#: includes/admin/class-media-view.php:212
+msgid "How much of the original shows"
+msgstr "Seberapa banyak versi asli yang tampil"
+
+#: includes/admin/class-media-view.php:213
+msgid "The optimized file to compare"
+msgstr "Berkas yang dioptimalkan untuk dibandingkan"
+
+#: includes/admin/class-media-view.php:214
+msgid "This image couldn't be loaded from the site."
+msgstr "Gambar ini tidak dapat dimuat dari situs."
+
+#: includes/admin/class-media-view.php:216
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Seret garis, atau gunakan tombol panah, untuk melihat lebih banyak versi asli di satu sisi dan berkas yang dioptimalkan di sisi lain."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:219
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Dioptimalkan dengan tingkat %s. Seret garis, atau gunakan tombol panah, untuk melihat lebih banyak versi asli di satu sisi dan berkas yang dioptimalkan di sisi lain."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:248
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:256
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s lebih kecil"
+
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "Dioptimalkan"
+
+#: includes/admin/class-media-view.php:375
+msgid "Optimize again from the original"
+msgstr "Optimalkan lagi dari versi asli"
+
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
+msgid "Restore original"
+msgstr "Kembalikan versi asli"
+
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "Optimalkan lagi"
+
+#: includes/admin/class-media-view.php:400
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "Optimalkan"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "Saring menurut status Iminify"
+
+#: includes/admin/class-media-view.php:455
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "Semua status Iminify"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Dioptimalkan"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "Belum dioptimalkan"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "Eror"
+
+#: includes/admin/class-media-view.php:577
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "Format yang kurang"
+
+#: includes/admin/class-media-view.php:578
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "Dioptimalkan oleh plugin lain"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:673
+#, php-format
+msgid "Offloaded by %s"
+msgstr "Dipindahkan ke cloud %s"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:707
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "Dihemat %1$s (%2$s) pada %3$s berkas."
+msgstr[1] "Dihemat %1$s (%2$s) pada %3$s berkas."
+
+#: includes/admin/class-media-view.php:714
+msgid "The originals were already smaller, so they were kept."
+msgstr "Berkas aslinya sudah lebih kecil, jadi berkas itu tetap dipakai."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:723
+#, php-format
+msgid "Copies: %s"
+msgstr "Salinan: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:737
+#, php-format
+msgid "Missing formats: %s"
+msgstr "Format yang kurang: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:749
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "Ukuran yang kurang: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:761
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "%s salinan WebP atau AVIF buatan alat lain dibiarkan apa adanya."
+msgstr[1] "%s salinan WebP atau AVIF buatan alat lain dibiarkan apa adanya."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:771
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "%s berkas tidak dapat ditulis."
+msgstr[1] "%s berkas tidak dapat ditulis."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:815
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "%1$s menghemat %2$s (%3$s), menurut catatannya sendiri."
+
+#: includes/admin/class-media-view.php:824
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "Versi aslinya disimpan. Iminify membiarkan gambar ini apa adanya, tanpa biaya apa pun."
+
+#: includes/admin/class-media-view.php:825
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "Versi aslinya tidak disimpan, jadi Iminify membiarkannya apa adanya alih-alih mengompresnya untuk kedua kalinya."
+
+#: includes/admin/class-media-view.php:841
+msgid "Queued"
+msgstr "Dalam antrean"
+
+#: includes/admin/class-media-view.php:843
+msgid "Being optimized"
+msgstr "Sedang dioptimalkan"
+
+#: includes/admin/class-media-view.php:845
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "Menunggu jatah berikutnya"
+
+#: includes/admin/class-media-view.php:847
+msgid "Waiting for the connection"
+msgstr "Menunggu koneksi"
+
+#: includes/admin/class-media-view.php:849
+msgid "Not sent"
+msgstr "Tidak dikirim"
+
+#: includes/admin/class-media-view.php:851
+msgid "Error"
+msgstr "Eror"
+
+#: includes/admin/class-media-view.php:853
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Belum dioptimalkan"
+
+#: includes/admin/class-media-view.php:889
+msgid "The next batch is open, so it goes out shortly."
+msgstr "Jatah berikutnya sudah dibuka, jadi gambar ini segera dikirim."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:891
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "Gambar ini dikirim otomatis pada %s."
+
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: being written."
+msgstr "Teks alt: sedang ditulis."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: written by Iminify."
+msgstr "Teks alt: ditulis oleh Iminify."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: yours was kept."
+msgstr "Teks alt: milik Anda dipertahankan."
+
+#: includes/admin/class-media-view.php:915
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "Teks alt: Iminify tidak dapat menulisnya untuk gambar ini."
+
+#: includes/admin/class-media-view.php:916
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "Teks alt: tidak ditulis, karena kuota teks alt AI hari ini sudah habis."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "Gambar ini memuat Content Credentials, catatan bertanda tangan tentang asal-usulnya, dan berkas-berkasnya tetap menyimpan catatan itu."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "Gambar ini semula memuat Content Credentials, catatan bertanda tangan tentang asal-usulnya. Berkas dan salinan yang ditulis Iminify tidak menyertakannya, karena berkas baru merusak tanda tangannya, sedangkan versi asli yang disimpan sebagai cadangan masih memilikinya."
+
+#: includes/admin/class-media-view.php:946
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "Gambar ini semula memuat Content Credentials, catatan bertanda tangan tentang asal-usulnya. Berkas dan salinan yang ditulis Iminify tidak menyertakannya, karena berkas baru merusak tanda tangannya."
+
+#: includes/admin/class-media-view.php:950
+msgid "They say generative AI made it, wholly or in part."
+msgstr "Menurut catatan itu, gambar ini dibuat oleh AI generatif, seluruhnya atau sebagian."
+
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1023
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "Laman yang memuat gambar ini menyajikan salinan %1$s buatan %2$s, sampai Iminify membuat salinannya sendiri."
+
+#: includes/admin/class-media-view.php:1053
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "Ukuran Penuh"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1082
+#, php-format
+msgid "Level: %s"
+msgstr "Tingkat: %s"
+
+#: includes/admin/class-media-view.php:1090
+msgid "Size"
+msgstr "Ukuran"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Before"
+msgstr "Sebelum"
+
+#: includes/admin/class-media-view.php:1092
+msgid "After"
+msgstr "Sesudah"
+
+#: includes/admin/class-media-view.php:1093
+msgid "Copies"
+msgstr "Salinan"
+
+#: includes/admin/class-media-view.php:1139
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "Tulis teks alt dengan AI"
+
+#: includes/admin/class-media-view.php:1139
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "Kirim versi kecil gambar ini untuk dibuatkan teks alt? Ini dihitung sebagai satu dari kuota teks alt AI Anda hari ini."
+
+#: includes/admin/class-media-view.php:1139
+msgid "Write alt text"
+msgstr "Tulis teks alt"
+
+#: includes/admin/class-media-view.php:1158
+msgid "Optimize again from the original at"
+msgstr "Optimalkan lagi dari versi asli dengan tingkat"
+
+#: includes/admin/class-media-view.php:1186
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "Hubungkan situs ke Iminify untuk mengoptimalkan gambar ini."
+
+#: includes/admin/class-media-view.php:1188
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "Versi asli gambar ini tidak disimpan, jadi gambar ini tidak dapat dioptimalkan lagi atau dikembalikan."
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize again at"
+msgstr "Optimalkan lagi dengan tingkat"
+
+#: includes/admin/class-media-view.php:1190
+msgid "Optimize at"
+msgstr "Optimalkan dengan tingkat"
+
+#: includes/admin/class-media-view.php:1207
+msgid "Make what it lacks"
+msgstr "Buat yang kurang"
+
+#: includes/admin/class-media-view.php:1216
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "Gambar ini sudah berubah sejak dioptimalkan oleh Iminify, jadi tidak ada yang bisa dikembalikan."
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete the copies"
+msgstr "Hapus salinan"
+
+#: includes/admin/class-media-view.php:1223
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "Hapus salinan WebP dan AVIF gambar ini? Laman yang memuatnya akan menyajikan JPEG atau PNG lagi."
+
+#: includes/admin/class-media-view.php:1288
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "Buat format yang kurang"
+
+#: includes/admin/class-media-view.php:1292
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "Buat ukuran yang kurang"
+
+#: includes/admin/class-media-view.php:1303
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "Kirim gambar ini lagi untuk membuat yang kurang? Ini dihitung sebagai satu gambar lagi, dan berkas lainnya tetap apa adanya kecuali Iminify membuatnya lebih kecil."
+
+#: includes/admin/class-media-view.php:1311
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "Optimalkan gambar ini lagi? Iminify membuat ulang berkas-berkasnya dari versi asli, dengan format dan nama yang sama, dan ini dihitung sebagai satu gambar lagi."
+
+#: includes/admin/class-media-view.php:1314
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "Optimalkan gambar ini lagi? Versi aslinya dikembalikan dulu, dan ini dihitung sebagai satu gambar lagi."
+
+#: includes/admin/class-media-view.php:1321
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "Kembalikan versi asli gambar ini? WordPress membuat ulang ukuran-ukurannya, dan salinan WebP serta AVIF-nya dihapus."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1336
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "Optimalkan gambar ini lagi dari versi asli yang disimpan %s? Iminify membuat ulang berkas-berkasnya dari versi itu, dengan format dan nama yang sama agar pos Anda tetap menautkannya, dan menyimpan cadangan versi asli miliknya sendiri. Ini dihitung sebagai satu gambar lagi."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1343
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "Optimalkan gambar ini lagi dari versi asli yang disimpan %s? Versi asli dikembalikan dulu dan WordPress membuat ulang ukuran-ukurannya, lalu Iminify mengoptimalkannya dan menyimpan cadangan versi asli miliknya sendiri. Ini dihitung sebagai satu gambar lagi."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1358
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "Kembalikan versi asli gambar ini dari yang disimpan %s? WordPress membuat ulang ukuran-ukurannya, dan cadangan serta salinan milik plugin itu tetap di tempatnya."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Iminify memutuskan koneksi situs ini, jadi unggahan baru tidak dioptimalkan."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "Hubungkan lagi"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Iminify Image Optimizer sudah siap. Hubungkan ke akun Iminify Anda untuk mulai mengoptimalkan gambar."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "Hubungkan"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "Buka pengaturan Iminify"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "Terhubung"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "Tidak terhubung"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Iminify Image Optimizer mengirimkan gambar yang diunggah di situs ini ke Iminify, sebuah layanan pengoptimalan gambar, setelah situs terhubung dengannya. Anda dapat menyalin teks di bawah ini ke bagian kebijakan Anda tentang media yang Anda terbitkan."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "Teks yang disarankan:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "Situs ini menggunakan Iminify (www.iminify.com) untuk memperkecil gambarnya dan membuat salinan WebP dan AVIF dari gambar tersebut. Saat gambar diunggah di sini, atau saat kami mengoptimalkan gambar yang sudah ada di sini, baik di pustaka media maupun di tema dan folder lain kami, server kami mengirimkannya ke Iminify beserta alamat situs ini, dan Iminify membalas dengan berkas yang lebih kecil. Iminify menghapus gambar tersebut setelah kami menyimpan berkas-berkas itu."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "Foto dapat memuat detail yang ditulis kamera ke dalamnya, seperti kapan dan di mana foto itu diambil. Detail tersebut sampai ke Iminify bersama gambarnya, dan Iminify tidak menyertakannya dalam berkas yang dikirimkan kepada kami kecuali kami memilih untuk mempertahankannya."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "Jika kami mengaktifkan teks alt AI di pengaturan plugin, Iminify juga membuat versi kecil dari setiap gambar yang tidak memiliki teks alt dan mengirimkannya ke Anthropic, yang modelnya menulis deskripsi gambar tersebut. Meminta teks alt untuk gambar yang sudah ada di pustaka media akan mengirimkan versi kecil dari setiap gambar itu ke Iminify untuk keperluan yang sama."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "Jika kami mengaudit gambar di salah satu laman situs ini, server kami mengirimkan alamat laman tersebut ke Iminify. Iminify membuka laman itu seperti pengunjung mana pun, mengukur gambar yang ditampilkannya, dan menyimpan temuannya bersama koneksi situs ini ke Iminify."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "Jika situs ini merupakan bagian dari jaringan multisitus yang terhubung ke Iminify sebagai satu kesatuan, server kami juga mengirimkan alamat dan nama situs ini ke Iminify saat pertama kali situs ini membutuhkannya."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "Jika kami memilih untuk menggunakan pengaturan yang disimpan pengoptimal gambar lain di situs ini, server kami mengirimkan pengaturan tersebut, nama pengoptimal itu, dan nama ukuran gambar yang dibuat situs ini ke Iminify. Iminify menjawab dengan pengaturan yang sesuai dan tidak menyimpan apa pun dari data itu."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "Tidak ada data tentang pengunjung situs ini yang dikirim ke Iminify: gambar di laman kami, beserta salinan WebP dan AVIF-nya, disajikan dari situs ini."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Kebijakan privasi Iminify: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "Hanya situs dalam jaringan yang mengaktifkan plugin ini yang dapat bergabung ke jaringan tersebut."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:272
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "Situs ini tidak terhubung ke Iminify."
+
+#: includes/admin/class-settings-import.php:57
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "Plugin tidak menemukan pengaturan pengoptimal tersebut di situs ini."
+
+#: includes/admin/class-settings-import.php:107
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "Pengaturan tersebut sudah berubah sejak ditampilkan. Periksa lagi sebelum menggunakannya."
+
+#: includes/admin/class-settings-import.php:208
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "Optimalkan unggahan baru"
+
+#: includes/admin/class-settings-import.php:210
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "Tingkat kompresi"
+
+#: includes/admin/class-settings-import.php:212
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "Buat salinan WebP"
+
+#: includes/admin/class-settings-import.php:214
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "Buat salinan AVIF"
+
+#: includes/admin/class-settings-import.php:216
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "Lebar maksimum, dalam piksel"
+
+#: includes/admin/class-settings-import.php:218
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "Batas ukuran, dalam KB"
+
+#: includes/admin/class-settings-import.php:220
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "Pertahankan metadata"
+
+#: includes/admin/class-settings-import.php:222
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "Ukuran yang dioptimalkan"
+
+#: includes/admin/class-settings-import.php:224
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "Simpan cadangan setiap versi asli"
+
+#: includes/admin/class-settings-import.php:242
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "Tanpa batas"
+
+#: includes/admin/class-settings-import.php:245
+msgid "Every size"
+msgstr "Semua ukuran"
+
+#: includes/admin/class-settings-import.php:249
+msgid "Only the full image"
+msgstr "Hanya gambar penuh"
+
+#: includes/admin/class-settings-import.php:264
+msgid "On"
+msgstr "Aktif"
+
+#: includes/admin/class-settings-import.php:264
+msgid "Off"
+msgstr "Nonaktif"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "Hubungkan situs ini dan pilih cara gambarnya dioptimalkan."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "Hubungkan jaringan ini sekali, dan setiap situsnya bergabung dengan sendirinya."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Skrip laman pengaturan tidak ada di folder plugin. Pasang ulang plugin agar skrip itu tersedia lagi."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "Laman pengaturan memerlukan JavaScript."
+
+#: includes/admin/class-state.php:165
+msgid "Images today"
+msgstr "Gambar hari ini"
+
+#: includes/admin/class-state.php:166
+msgid "Files today"
+msgstr "Berkas hari ini"
+
+#: includes/admin/class-state.php:167
+msgid "AI alt texts today"
+msgstr "Teks alt AI hari ini"
+
+#: includes/admin/class-state.php:248
+msgid "Guest"
+msgstr "Tamu"
+
+#: includes/admin/class-state.php:249
+msgid "Free"
+msgstr "Gratis"
+
+#: includes/admin/class-state.php:250
+msgid "Pro trial"
+msgstr "Uji coba Pro"
+
+#: includes/admin/class-state.php:251
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:252
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:302
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s terpakai, tanpa batas harian"
+msgstr[1] "%s terpakai, tanpa batas harian"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:304
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s terpakai"
+msgstr[1] "%s terpakai"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:306
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "sisa %s"
+msgstr[1] "sisa %s"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:310
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s terpakai, tanpa batas harian"
+msgstr[1] "%s terpakai, tanpa batas harian"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:312
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s terpakai"
+msgstr[1] "%s terpakai"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:314
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "sisa %s"
+msgstr[1] "sisa %s"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:318
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s terpakai, tanpa batas harian"
+msgstr[1] "%s terpakai, tanpa batas harian"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:320
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s terpakai"
+msgstr[1] "%s terpakai"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:322
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "sisa %s"
+msgstr[1] "sisa %s"
+
+#: includes/admin/class-state.php:344
+msgid "This site"
+msgstr "Situs ini"
+
+#: includes/admin/class-state.php:345
+msgid "Your whole account"
+msgstr "Seluruh akun Anda"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "Gambar Miniatur"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "Sedang"
+
+#: includes/admin/class-state.php:473
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "Besar"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:496
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (lebar %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:501
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (tinggi %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:505
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:56
+msgid "Show a smaller size of the image here."
+msgstr "Tampilkan ukuran gambar yang lebih kecil di sini."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:58
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "Tampilkan ukuran dengan lebar sekitar %s piksel di sini, dua kali lebar yang ditempatinya di laman."
+
+#: includes/audit/class-findings.php:60
+msgid "Give the image its width and height in the page."
+msgstr "Cantumkan lebar dan tinggi gambar di laman."
+
+#: includes/audit/class-findings.php:62
+msgid "Write alt text for the image."
+msgstr "Tulis teks alt untuk gambar ini."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image straight away, not lazily."
+msgstr "Muat gambar ini langsung, bukan secara lambat."
+
+#: includes/audit/class-findings.php:66
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "Muat gambar ini secara lambat, setelah pengunjung menggulir ke dekatnya."
+
+#: includes/audit/class-findings.php:68
+msgid "Have the browser fetch the image first."
+msgstr "Minta peramban mengambil gambar ini lebih dulu."
+
+#: includes/audit/class-findings.php:105
+msgid "Oversized"
+msgstr "Terlalu besar"
+
+#: includes/audit/class-findings.php:106
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "Berkas ini lebih dari dua kali lebar dan dua kali tinggi ruang tempatnya ditampilkan. Ukuran yang lebih kecil dari gambar yang sama akan terlihat sama tajamnya."
+
+#: includes/audit/class-findings.php:110
+msgid "No width and height"
+msgstr "Tanpa lebar dan tinggi"
+
+#: includes/audit/class-findings.php:111
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "Gambar ini tidak memiliki atribut lebar dan tinggi, jadi peramban tidak dapat menyediakan ruangnya dan laman bergeser saat gambar itu muncul."
+
+#: includes/audit/class-findings.php:115
+msgid "Lazy in the first screen"
+msgstr "Dimuat lambat di layar pertama"
+
+#: includes/audit/class-findings.php:116
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "Gambar ini ada di layar pertama tetapi dimuat secara lambat, sehingga tampil terlambat."
+
+#: includes/audit/class-findings.php:120
+msgid "Loads too early"
+msgstr "Dimuat terlalu awal"
+
+#: includes/audit/class-findings.php:121
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "Gambar ini ada di bawah layar pertama tetapi langsung dimuat, sehingga bersaing dengan apa yang pertama kali dilihat pengunjung."
+
+#: includes/audit/class-findings.php:125
+msgid "No alt text"
+msgstr "Tanpa teks alt"
+
+#: includes/audit/class-findings.php:126
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "Gambar ini tidak memiliki teks alt untuk pembaca layar dan mesin pencari."
+
+#: includes/audit/class-findings.php:130
+msgid "Not prioritized"
+msgstr "Tidak diprioritaskan"
+
+#: includes/audit/class-findings.php:131
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "Ini elemen terbesar di layar pertama, jadi laman terasa selesai dimuat saat elemen ini muncul. Mengambilnya lebih dulu akan menampilkan laman lebih cepat."
+
+#: includes/audit/class-findings.php:148
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Situs Anda menolak pemindai, jadi laman tidak dapat dibaca. Hal ini disebabkan oleh firewall atau pemeriksaan bot, sering kali milik Cloudflare. Biarkan pemindaian lewat sebentar: di Cloudflare, matikan Bot Fight Mode atau atur Security Level ke \"Essentially off\"; di plugin keamanan, jeda firewall atau pemblokiran botnya. Pindai lagi, lalu nyalakan lagi semuanya."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:150
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Situs Anda menolak pemindai (situs menjawab %d), jadi laman tidak dapat dibaca. Hal ini disebabkan oleh firewall atau pemeriksaan bot, sering kali milik Cloudflare. Biarkan pemindaian lewat sebentar: di Cloudflare, matikan Bot Fight Mode atau atur Security Level ke \"Essentially off\"; di plugin keamanan, jeda firewall atau pemblokiran botnya. Pindai lagi, lalu nyalakan lagi semuanya."
+
+#: includes/audit/class-findings.php:152
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "Tidak ada laman di alamat ini. Periksa alamatnya dan pindai lagi."
+
+#: includes/audit/class-findings.php:154
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "Laman menjawab dengan eror di sisi situs, jadi tidak dapat dibaca. Pindai lagi dalam beberapa menit."
+
+#: includes/audit/class-findings.php:156
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "Laman mengalihkan pemindai ke situs lain, dan audit tidak mengikutinya. Pindai alamat tujuan akhir laman itu, jika alamat tersebut ada di situs ini."
+
+#: includes/audit/class-findings.php:159
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "Laman tidak dapat dibaca: situs tidak menjawab pemindai. Periksa alamatnya dan pindai lagi."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:161
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "Laman menjawab %d alih-alih menampilkan isinya, jadi tidak dapat dibaca. Periksa alamatnya dan pindai lagi."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "Berikan --others saja, atau bersama lampiran yang ingin dioptimalkan lagi."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "Berkas di folder diproses sekaligus: berikan --folders saja, atau bersama --failed."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "Sebutkan lampirannya, atau berikan --all atau --failed."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "Berkas di folder diproses sekaligus: berikan --folders saja."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "Kembalikan setiap berkas yang dioptimalkan di folder Anda seperti semula?"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:275
+msgid "Name the attachments, or pass --all."
+msgstr "Sebutkan lampirannya, atau berikan --all."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "Kembalikan setiap gambar yang dioptimalkan seperti saat diunggah?"
+
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "Sebutkan apa yang ingin dibuat: %1$s atau %2$s."
+
+#: includes/class-cli.php:321
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "Di jaringan, folder lain dipilih di situs utama: tambahkan --url dengan alamat situs itu."
+
+#: includes/class-cli.php:328
+msgid "Name the folder, relative to wp-content."
+msgstr "Sebutkan foldernya, relatif terhadap wp-content."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:361
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "Ditemukan %1$s gambar: %2$s baru, %3$s berubah."
+msgstr[1] "Ditemukan %1$s gambar: %2$s baru, %3$s berubah."
+
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
+msgid "No bulk run is going."
+msgstr "Tidak ada proses massal yang sedang berjalan."
+
+#: includes/class-cli.php:432
+msgid "Stopped."
+msgstr "Dihentikan."
+
+#: includes/class-cli.php:497
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "Proses berlanjut di latar belakang. Lihat kemajuannya dengan: wp iminify status"
+
+#: includes/class-cli.php:518
+msgid "Bulk run"
+msgstr "Proses massal"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:612
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "Kuota teks alt AI harian akun sudah habis. Proses berlanjut di latar belakang saat kuota itu tersedia lagi pada %s."
+
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "Proses menunggu koneksi situs ini ke Iminify, dan berlanjut di latar belakang setelah koneksi berfungsi."
+
+#: includes/class-cli.php:628
+msgid "The run goes on in the background once it stops."
+msgstr "Proses berlanjut di latar belakang setelah plugin itu berhenti."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:639
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "Kuota gambar harian akun sudah habis. Proses berlanjut di latar belakang saat jatah berikutnya dibuka pada %s."
+
+#: includes/class-cli.php:661
+msgid "The run was stopped."
+msgstr "Proses dihentikan."
+
+#: includes/class-cli.php:668
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "Proses dijeda: ruang disk server hampir habis. Kosongkan sebagian, lalu jalankan: wp iminify run"
+
+#: includes/class-cli.php:671
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "Proses dijeda. Lanjutkan dengan: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:680
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%s gambar tidak dapat dikembalikan. Panel gambar di pustaka media menjelaskan alasannya."
+msgstr[1] "%s gambar tidak dapat dikembalikan. Panel gambar di pustaka media menjelaskan alasannya."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:690
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s gambar dibiarkan apa adanya: plugin lain mengonversinya ke WebP atau AVIF, dan hanya plugin tersebut yang dapat mengembalikan versi aslinya."
+msgstr[1] "%s gambar dibiarkan apa adanya: plugin lain mengonversinya ke WebP atau AVIF, dan hanya plugin tersebut yang dapat mengembalikan versi aslinya."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:698
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s gambar dibiarkan seperti hasil plugin lain: versi aslinya hilang, terlalu besar untuk dikirim, atau hanya plugin tersebut yang dapat mengembalikannya. Panel gambar di pustaka media menjelaskan alasan yang mana."
+msgstr[1] "%s gambar dibiarkan seperti hasil plugin lain: versi aslinya hilang, terlalu besar untuk dikirim, atau hanya plugin tersebut yang dapat mengembalikannya. Panel gambar di pustaka media menjelaskan alasan yang mana."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:706
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s gambar dibiarkan apa adanya: berkasnya dipakai bersama lampiran lain, atau kini sudah memiliki teks alt."
+msgstr[1] "%s gambar dibiarkan apa adanya: berkasnya dipakai bersama lampiran lain, atau kini sudah memiliki teks alt."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:714
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s gambar tidak memiliki versi asli untuk dijadikan dasar, atau sudah berubah sejak dioptimalkan, jadi tidak ada yang dibuat untuknya."
+msgstr[1] "%s gambar tidak memiliki versi asli untuk dijadikan dasar, atau sudah berubah sejak dioptimalkan, jadi tidak ada yang dibuat untuknya."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:724
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s berkas dikembalikan."
+msgstr[1] "%s berkas dikembalikan."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:726
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s berkas dikirim ke Iminify."
+msgstr[1] "%s berkas dikirim ke Iminify."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:731
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "Folder Anda: %1$s dari %2$s berkas dioptimalkan, %3$s gagal."
+msgstr[1] "Folder Anda: %1$s dari %2$s berkas dioptimalkan, %3$s gagal."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:744
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s gambar dikembalikan."
+msgstr[1] "%s gambar dikembalikan."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:746
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s gambar dikirim ke Iminify."
+msgstr[1] "%s gambar dikirim ke Iminify."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:751
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "Pustaka: %1$s dari %2$s gambar dioptimalkan, %3$s gagal."
+msgstr[1] "Pustaka: %1$s dari %2$s gambar dioptimalkan, %3$s gagal."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:798
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s bukan lampiran."
+
+#: includes/class-cli.php:819
+msgid "This account can't run bulk commands."
+msgstr "Akun ini tidak dapat menjalankan perintah massal."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify mengirim jawaban yang tidak dapat dibaca oleh versi plugin ini."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "Tempel kunci situs terlebih dahulu."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "Kunci situs ini diatur di wp-config.php. Ubah atau hapus di sana."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress tidak dapat menyimpan kunci jaringan. Tekan Hubungkan jaringan untuk mencoba lagi."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "WordPress tidak dapat menyimpan kunci situs. Tekan Hubungkan untuk mencoba lagi."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "Cerdas"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "Cerdas: keseimbangan antara kualitas dan ukuran berkas"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "Keseimbangan antara kualitas dan ukuran berkas."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "Ultra"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "Ultra: berkas terkecil, dengan sedikit penurunan kualitas"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "Berkas terkecil, dengan sedikit penurunan kualitas."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "Lossless"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "Lossless: tanpa perubahan kualitas yang terlihat"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "Tanpa perubahan kualitas yang terlihat."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "Tidak ada"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "Tidak ada: tanpa kompresi, hanya pengaturan lainnya"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "Tanpa kompresi, hanya pengaturan lainnya."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "Bahasa Inggris"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "Bahasa Spanyol"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "Bahasa Prancis"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "Bahasa Jerman"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "Bahasa Italia"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "Bahasa Portugis"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "Bahasa Belanda"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "Bahasa Polandia"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "Bahasa Swedia"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "Bahasa Turki"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "Bahasa Rusia"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "Bahasa Ukraina"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "Bahasa Arab"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "Bahasa Persia"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "Bahasa Ibrani"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "Bahasa Hindi"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "Bahasa Indonesia"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "Bahasa Vietnam"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "Bahasa Thai"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "Bahasa Jepang"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "Bahasa Korea"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "Bahasa Mandarin (Sederhana)"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "Bahasa Mandarin (Tradisional)"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Iminify tidak mengenali kunci ini. Pastikan Anda menyalin seluruhnya, atau buat kunci baru."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "Itu kunci API. Situs memerlukan kunci situs: buat di Settings, Sites di iminify.com, atau tekan Hubungkan saja."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "Kunci ini milik situs di alamat lain, jadi salinan situs ini tidak dapat menggunakannya. Hubungkan salinan ini sebagai situs tersendiri, atau pindahkan koneksinya ke sini."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Iminify meminta plugin untuk menunggu. Coba lagi dalam %s."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Iminify meminta plugin untuk menunggu. Coba lagi nanti."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "Koneksi ini tidak dapat digunakan lagi: sudah kedaluwarsa, ditolak, atau sudah dipakai. Tekan Hubungkan untuk memulai lagi."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "Teks alt AI nonaktif untuk situs ini. Aktifkan dulu di pengaturan plugin."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "Audit hanya memindai laman milik situs ini sendiri. Masukkan alamat laman di situs ini."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "Kunci jaringan dibuat untuk satu situs, jadi situs-situs dalam jaringan tidak dapat bergabung dengannya. Admin super menghubungkan jaringan lagi dari admin jaringan."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "Jaringan sudah memiliki situs sebanyak yang dapat ditampung satu jaringan. Hapus situs yang tidak lagi Anda gunakan di Settings, Sites di iminify.com, atau hubungkan situs ini secara tersendiri."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "Situs ini sudah terhubung ke akun secara tersendiri, atau dalam jaringan lain. Putuskan koneksinya di Settings, Sites di iminify.com untuk menambahkannya ke jaringan ini, atau hubungkan situs ini di sini secara tersendiri."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "Versi Iminify Image Optimizer ini terlalu lama untuk terus mengoptimalkan gambar. Perbarui dari laman Plugin."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "Kuota gambar harian akun Anda sudah habis. Unggahan baru menunggu dan dikirim otomatis saat jatah berikutnya dibuka."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "Situs ini pernah mendapat uji coba gratis Pro di akun Iminify lain, jadi unggahannya mendapat batas paket gratis di sini."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "Jaringan tidak terhubung ke Iminify. Admin super menghubungkannya dari admin jaringan."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "Situs ini sedang bergabung ke jaringan. Tunggu sebentar, lalu periksa lagi."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Menunggu dilanjutkan: plugin dinonaktifkan saat gambar ini sedang diproses."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "Menunggu jatah berikutnya."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Menunggu situs terhubung ke Iminify."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Belum dioptimalkan: proses massal dihentikan."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Belum dioptimalkan: situs tidak terhubung ke Iminify."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Belum dioptimalkan: perbarui plugin Iminify terlebih dahulu."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Belum dioptimalkan: situs tidak mengoptimalkan unggahan."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Belum dioptimalkan: ruang disk server hampir habis. Kosongkan sebagian, lalu optimalkan gambar ini."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Tidak dikirim: PHP di server ini tidak dapat membuka berkas zip. Minta penyedia hosting Anda mengaktifkan ekstensi zip PHP."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "PHP di server ini tidak dapat membuka berkas zip: minta penyedia hosting Anda mengaktifkan ekstensi zip PHP."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Unduhan dari Iminify tidak dapat dibuka."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Tidak dikirim: versi asli gambar ini terlalu besar untuk dikirim, melebihi ukuran berkas maksimum paket Anda atau lebih dari yang dapat ditampung memori server ini."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Tidak dikirim: gambar ini melebihi ukuran berkas maksimum paket Anda, atau lebih dari yang dapat ditampung memori server ini."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Tidak dikirim: tidak ada lagi versi asli gambar ini untuk membuat berkas-berkas yang dioptimalkan."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Tidak dikirim: tidak ada lagi versi asli gambar ini untuk membuat berkas yang dioptimalkan."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress tidak dapat membuat ukuran yang kurang untuk gambar ini."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Tetap seperti saat diunggah: Iminify mengoptimalkan gambar JPEG, PNG, WebP, dan GIF."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Dibiarkan apa adanya: Iminify mengoptimalkan gambar JPEG, PNG, WebP, dan GIF."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Tetap seperti saat diunggah: situs ini mengecualikan gambar ini."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Dibiarkan apa adanya: situs ini mengecualikan gambar ini."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "Gambar tidak dapat dibaca."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "Gambar tidak berada di folder unggahan."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Tidak dikirim: berkas gambar tidak berada di folder unggahan."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Tidak dikirim: berkas gambar tidak ada, atau berupa tautan ke tempat lain."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "Berkas gambar atau cadangannya hilang saat sedang diproses."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Tidak dikirim: gambar tidak lagi berada di folder yang dioptimalkan Iminify."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Tidak ditulis: gambar tidak lagi berada di folder yang dioptimalkan Iminify."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Berubah sejak dioptimalkan Iminify, jadi bisa dioptimalkan lagi."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "Gambar berubah saat Iminify sedang mengoptimalkannya, jadi gambar dikirim lagi."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "Berkasnya milik lampiran #%d, seperti berkas sebuah terjemahan, jadi Iminify mengoptimalkannya di sana."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "Cadangan gambar ini tidak dapat disimpan, jadi gambar tidak dioptimalkan. Pastikan WordPress dapat menulis ke folder unggahan, atau nonaktifkan cadangan di pengaturan Iminify."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "Gambar berubah sejak cadangannya dibuat, dan cadangan lama tidak dapat dipindahkan, jadi gambar tidak dioptimalkan."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "Gambar tidak dapat disalin dari bucket WP Offload Media untuk dikirim."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify tidak dapat menyelesaikan gambar ini setelah beberapa kali mencoba."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Dikembalikan: versi asli sudah kembali."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "Gambar tidak dapat dikembalikan."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "Versi asli tidak dapat disalin dari bucket WP Offload Media, jadi gambar tetap seperti sebelumnya. Coba lagi."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "Versi asli tidak dapat dikembalikan, jadi gambar tetap seperti sebelumnya."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress tidak dapat membaca versi asli, jadi ukuran gambar tetap seperti sebelumnya. Coba lagi."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify tidak mengubah gambar ini, jadi tidak ada yang perlu dikembalikan."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify tidak mengubah apa pun pada gambar ini, jadi gambar ini sudah seperti semula."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Gambar ini sudah berubah sejak dioptimalkan Iminify, jadi mengembalikannya akan menimpa gambar yang baru."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Gambar ini sudah berubah sejak dioptimalkan Iminify, jadi cadangannya bukan lagi versi aslinya."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "Berkas gambar sudah tidak ada, atau tidak berada di folder yang dioptimalkan Iminify."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "Versi asli gambar ini tidak disimpan, jadi gambar tidak dapat dikembalikan. Cadangan sedang nonaktif saat gambar ini dioptimalkan, atau cadangannya sudah dihapus."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "Versi asli gambar ini tidak disimpan, jadi gambar tidak dapat dikembalikan."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s tidak menyimpan versi asli gambar ini yang dapat diperiksa Iminify, jadi gambar tidak dapat dikembalikan di sini."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Iminify tidak dapat dijangkau: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify menjawab dengan eror (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "Server ini tidak memiliki cukup memori untuk mengirim gambar sebesar ini."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "Gambar tidak dapat dibaca dari folder unggahan."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress tidak dapat menyimpan kunci situs. Tekan Gabung ke jaringan untuk mencoba lagi."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "Folder unggahan"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "Sebutkan folder di dalam wp-content, seperti themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "Tidak ada folder di jalur itu di dalam wp-content."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "Folder itu adalah tautan ke tempat lain, jadi Iminify mengecualikannya."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "Itu folder pustaka media: gambarnya dioptimalkan dari pustaka media."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "Itu folder milik plugin Iminify sendiri, yang diganti setiap kali plugin diperbarui."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "Alat lain menyimpan salinan, cache, atau cadangan di folder itu, jadi gambarnya bukan milik situs ini sendiri."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "Folder itu berisi berkas pustaka media atau cadangannya, yang ditangani Iminify dari pustaka media."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "Folder itu berisi berkas tersembunyi atau dependensi sebuah proyek, yang tidak disentuh Iminify."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "Di jaringan, folder lain dipilih di situs utama."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "Folder itu sudah ada dalam daftar, di dalam %s."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "Daftar sudah berisi folder sebanyak yang dapat ditampungnya. Hapus satu, atau pilih folder yang menampung beberapa di antaranya."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "Perbarui plugin Iminify terlebih dahulu."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "Kuota gambar harian akun Anda sudah habis. Jatah berikutnya dibuka pada %s."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "Ruang disk server hampir habis. Kosongkan sebagian, lalu optimalkan gambar ini."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "Versi asli gambar ini tidak disimpan, jadi gambar tidak dapat dioptimalkan lagi."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Gambar ini terlalu besar untuk dikirim: melebihi ukuran berkas maksimum paket Anda, atau lebih dari yang dapat ditampung memori server ini."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "Gambar ini sudah memiliki teks alt, atau teksnya sedang ditulis."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "Proses massal sudah berjalan. Hentikan terlebih dahulu."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "Berkas di folder lain dioptimalkan, dikirim lagi, atau dikembalikan, semuanya sekaligus."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Iminify masih memeriksa folder Anda. Mulai lagi setelah selesai."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "Ruang disk server hampir habis. Kosongkan sebagian, lalu mulai lagi."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "Pilih folder terlebih dahulu."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "Tidak ada lagi berkas yang dioptimalkan untuk dikembalikan di folder Anda."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "Tidak ada berkas di folder Anda yang gagal."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "Setiap berkas di folder Anda sudah dioptimalkan atau sedang diproses."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "Tidak ada lagi gambar yang dioptimalkan untuk dikembalikan."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "Tidak ada gambar hasil plugin lain yang masih memiliki versi asli untuk dioptimalkan lagi."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "Setiap gambar sudah memiliki teks alt, atau teksnya sedang ditulis."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "Semua gambar yang dioptimalkan sudah memiliki semua yang kini diminta situs Anda."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "Setiap gambar sudah dioptimalkan atau sedang diproses."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "Gambar ini sudah berubah sejak dioptimalkan Iminify, jadi optimalkan lagi saja."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "Gambar ini sudah memiliki semua yang kini diminta situs Anda."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Versi asli gambar ini terlalu besar untuk dikirim: melebihi ukuran berkas maksimum paket Anda, atau lebih dari yang dapat ditampung memori server ini."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "Nonaktifkan Converter for Media, atau matikan \"Conversion of new images\" di bagian General Settings plugin tersebut, di Pengaturan, Converter for Media."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "Nonaktifkan Image Optimizer by Elementor, atau matikan \"Optimize new uploads\" di Elementor, Image Optimization, Settings."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Image Optimizer by Elementor mengonversi gambar ini, memberinya alamat baru yang kini ditautkan oleh pos Anda, dan menyimpan versi aslinya di sampingnya. Tombol Restore milik plugin itu mengembalikan versi asli beserta alamatnya, selama plugin tersebut terpasang; Iminify tidak menulis ulang pos Anda, jadi Iminify tidak mengembalikan gambar ini."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "Nonaktifkan EWWW Image Optimizer."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "EWWW Image Optimizer menyimpan versi asli gambar ini di servernya sendiri, selama 30 hari. Kembalikan di EWWW Image Optimizer selama kuncinya dan masa 30 hari itu masih berlaku; Iminify tidak dapat mengambilnya."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "Nonaktifkan Imagify, atau matikan \"Auto-Optimize images on upload\" di pengaturannya."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "Baris-baris itu sudah hilang, atau plugin pemiliknya aktif lagi."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "Hanya orang yang dapat mengelola jaringan yang dapat menghapus baris yang dipakai bersama oleh semua situs."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "Plugin tidak dapat menghapus baris-baris ini. Hapus secara manual."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s tidak lagi menggunakannya, tetapi baris-baris itu masih menjawab peramban yang dapat membaca WebP atau AVIF dengan salinan yang dibuatnya dari gambar di foldernya sendiri, menggantikan gambar tersebut, sehingga pengunjung bisa mendapat salinan yang dibuat sebelum Iminify mengoptimalkan gambar itu."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s tidak lagi menggunakannya, tetapi baris-baris itu masih menjawab peramban yang dapat membaca WebP atau AVIF dengan berkas WebP atau AVIF apa pun yang dinamai sesuai gambar, betapa pun lamanya, menggantikan gambar tersebut, sehingga pengunjung bisa mendapat salinan yang dibuat sebelum Iminify mengoptimalkan gambar itu."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Nginx tetap memakainya sampai dimuat ulang, jadi muat ulang Nginx setelah baris-baris itu dihapus."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Smush menambahkan aturan ini untuk gambar PNG yang diubahnya menjadi JPEG, dan aturan itu masih ada di antara aturan penulisan ulang WordPress: permintaan untuk PNG semacam itu, yang sudah tidak ada, berakhir di beranda Anda alih-alih mendapat jawaban “tidak ditemukan”."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "Matikan \"Auto Request Cron\" di LiteSpeed Cache, Image Optimization, dan \"Auto Rescale Original Images\" di Page Optimization, Media Settings, lalu tunggu sampai gambar yang sudah dikirimnya kembali, atau nonaktifkan LiteSpeed Cache."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "Nonaktifkan Modern Image Formats: tidak ada pengaturannya yang dapat menghentikannya."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Modern Image Formats mengganti berkas gambar ini dengan berkas berformat modern yang dibuat dari versi aslinya, yang disimpan WordPress. Mengembalikan versi asli akan mengubah alamat gambar dan merusak pos yang menautkannya, jadi Iminify tidak mengembalikannya."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "Nonaktifkan Optimole, atau pilih \"Optimole Cloud and your website\" di Optimole, Settings, Image Storage."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Optimole memindahkan gambar ini ke cloud-nya dan menghapus berkasnya di sini. Kembalikan gambar ini dari Optimole terlebih dahulu (Optimole harus aktif dan terhubung), lalu Iminify dapat mengoptimalkannya."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "%1$s aktif dan mengoptimalkan unggahan Anda sendiri, jadi Iminify tidak mengoptimalkan apa pun selama itu, agar tidak ada gambar yang dikompresi dua kali. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "Dioptimalkan oleh %s"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "Nonaktifkan ShortPixel, atau matikan \"Optimize media on upload\" di pengaturannya, di bagian Processing."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "Nonaktifkan Smush, atau matikan \"Automatic compression\" di pengaturannya."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "Nonaktifkan TinyPNG, atau atur agar plugin itu mengompresi gambar baru secara manual di pengaturannya."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(buka di tab baru)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Memuat…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Coba lagi"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Tutup"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Iminify sedang memindai laman."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "Laman Anda kini mendapat lebar, tinggi, dan teks alt yang kurang saat dikirim. Pindai laman lagi untuk melihatnya."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "Setiap laman, setiap minggu"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "Pemeriksaan mingguan mengaudit setiap laman di peta situs Anda seminggu sekali, mengompresi gambar yang baru atau berubah, dan mengirimkan temuannya ke email Anda. Anda mengaturnya di iminify.com dari perayapan situs Anda, tempat Anda juga dapat melihat paket mana yang menyertakannya."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "Atur pemeriksaan mingguan"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "Laman tidak dapat dibaca"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "Menunggu dipindai"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "Memindai"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "Selesai"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "Tidak ada gambar"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "Dihentikan"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "Gagal"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Iminify memutuskan koneksi situs ini, jadi lamannya tidak dapat diaudit. Hubungkan lagi untuk melanjutkan."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "Hubungkan situs ini ke Iminify untuk mengaudit lamannya."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "Buka pengaturan"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "Pindai laman"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Iminify membuka laman seperti pengunjung dan mengukur setiap gambar yang ditampilkannya."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "Laman"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "Alamat lain di situs ini"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "Alamat"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "Pindai"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "Anda dapat memindai lagi dalam %s detik."
+msgstr[1] "Anda dapat memindai lagi dalam %s detik."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "%s pemindaian laman terpakai hari ini. Setiap audit dihitung satu."
+msgstr[1] "%s pemindaian laman terpakai hari ini. Setiap audit dihitung satu."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "Sisa %1$s dari %2$s pemindaian laman hari ini. Setiap audit dihitung satu."
+msgstr[1] "Sisa %1$s dari %2$s pemindaian laman hari ini. Setiap audit dihitung satu."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "Kuota pemindaian laman Anda hari ini sudah habis. Kuota baru tersedia pada %s."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "Kuota pemindaian laman Anda hari ini sudah habis."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "Audit terbaru"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "Gambar di laman"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "Pilih laman lalu tekan Pindai. Iminify menampilkan setiap gambar di dalamnya, masing-masing di samping gambar yang sesuai di pustaka Anda, beserta hal yang perlu diperbaiki."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Iminify sedang membuka laman dan mengukur gambarnya. Biasanya ini memakan waktu kurang dari satu menit, dan laman ini menampilkan gambar-gambar itu begitu hasilnya masuk."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "Laman ini tidak menampilkan gambar."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "%1$s gambar di laman, %2$s perlu diperbaiki."
+msgstr[1] "%1$s gambar di laman, %2$s perlu diperbaiki."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "Tidak ada yang perlu diperbaiki: setiap gambar di laman ini sudah tepat ukurannya, cara pemuatannya, dan deskripsinya."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "Sembunyikan gambar yang tidak perlu diperbaiki"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "Tampilkan %s gambar yang tidak perlu diperbaiki"
+msgstr[1] "Tampilkan %s gambar yang tidak perlu diperbaiki"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "%s gambar dari pustaka media Anda ada di laman ini tanpa lebar dan tingginya, atau tanpa teks alt yang dimilikinya di pustaka. Plugin dapat menambahkan yang kurang ke laman Anda saat laman dikirim, dari pustaka."
+msgstr[1] "%s gambar dari pustaka media Anda ada di laman ini tanpa lebar dan tingginya, atau tanpa teks alt yang dimilikinya di pustaka. Plugin dapat menambahkan yang kurang ke laman Anda saat laman dikirim, dari pustaka."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "Lengkapi di setiap laman"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "Orang yang dapat mengubah pengaturan plugin dapat mengaktifkan ini."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "Gunakan ukuran %1$s (%2$s × %3$s) di tempat gambar ini dipasang. Editor laman tidak memuatnya: tema, templat, atau widget Anda yang menampilkannya, dan ukurannya dipilih di sana."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "Gunakan ukuran %1$s (%2$s × %3$s) di sini: di editor, pilih gambarnya lalu pilih ukuran itu di bagian Resolusi."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "Sunting laman"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "Plugin menambahkannya saat laman dikirim. Pindai lagi untuk melihatnya."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Iminify sedang menulis teks alt gambar ini. Pindai lagi setelah teks itu masuk."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Iminify dapat menulisnya setelah teks alt AI diaktifkan untuk situs ini."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "Aktifkan di pengaturan"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "Teks alt-nya sedang dibuat. Pindai lagi setelah teks itu masuk."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "Beberapa terjemahan memakai gambar ini, masing-masing dengan teks alt dalam bahasanya sendiri: tulis teks alt pada terjemahan yang ditampilkan laman ini, di layar suntingnya."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "Plugin menambahkan teks alt yang dimiliki gambar ini di pustaka media saat laman dikirim. Pindai lagi untuk melihatnya."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "Dalam proses"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "Menunggu"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Gagal"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Dioptimalkan oleh plugin lain"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(tanpa judul)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "Salinan %s"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "Terbesar di layar pertama"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "ditampilkan pada %1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "Gambar sedang dikirim ke Iminify."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "Disalin"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "Salin"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "Batal"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Iminify menyatakan kuota gambar harian akun Anda masih habis."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "Dalam proses"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Gagal"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Dilewati"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "Dikembalikan"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "Pustaka Anda"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s gambar"
+msgstr[1] "%s gambar"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "Pustaka media Anda belum memiliki gambar."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "dioptimalkan"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "Dihemat sejauh ini"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "dari %1$s, berkurang %2$s%%"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s mengoptimalkan %2$s gambar dan menyimpan versi aslinya. Iminify membiarkannya apa adanya."
+msgstr[1] "%1$s mengoptimalkan %2$s gambar dan menyimpan versi asli masing-masing. Iminify membiarkannya apa adanya."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "%1$s mengoptimalkan %2$s gambar tanpa menyimpan versi aslinya. Iminify membiarkannya apa adanya."
+msgstr[1] "%1$s mengoptimalkan %2$s gambar tanpa menyimpan versi aslinya. Iminify membiarkannya apa adanya."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s mengoptimalkan %2$s gambar, %3$s di antaranya dengan versi asli yang disimpan. Iminify membiarkannya apa adanya."
+msgstr[1] "%1$s mengoptimalkan %2$s gambar, %3$s di antaranya dengan versi asli yang disimpan. Iminify membiarkannya apa adanya."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "Folder lain dikembalikan"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "Mengembalikan folder lain"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "Folder lain dioptimalkan"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "Mengoptimalkan folder lain"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "Pustaka dikembalikan"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Mengembalikan"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "Teks alt ditulis"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "Menulis teks alt"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "Format yang kurang dibuat"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "Membuat format yang kurang"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "Ukuran yang kurang dibuat"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "Membuat ukuran yang kurang"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "Dioptimalkan lagi dari versi asli"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "Mengoptimalkan lagi dari versi asli"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "Pengoptimalan massal"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Selesai"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "Dijeda: disk hampir penuh"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "Dijeda"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Menunggu pengoptimal lain"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "Macet"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "Menunggu situs"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Habis untuk hari ini"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify sedang sibuk"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "Berjalan di laman ini"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "Berjalan"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "%1$s dari %2$s gambar dikembalikan."
+msgstr[1] "%1$s dari %2$s gambar dikembalikan."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "%1$s dari %2$s gambar dikirim ke Iminify."
+msgstr[1] "%1$s dari %2$s gambar dikirim ke Iminify."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s teks alt sedang dibuat"
+msgstr[1] "%s teks alt sedang dibuat"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s gambar sedang diproses Iminify"
+msgstr[1] "%s gambar sedang diproses Iminify"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "gambar dikembalikan"
+msgstr[1] "gambar dikembalikan"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "gambar dikirim ke Iminify"
+msgstr[1] "gambar dikirim ke Iminify"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "%d gambar tidak dapat dikembalikan. Baris gambar di Media, Folder Lain menjelaskan alasannya."
+msgstr[1] "%d gambar tidak dapat dikembalikan. Baris gambar di Media, Folder Lain menjelaskan alasannya."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%d gambar tidak dapat dikembalikan. Panel gambar di pustaka media menjelaskan alasannya."
+msgstr[1] "%d gambar tidak dapat dikembalikan. Panel gambar di pustaka media menjelaskan alasannya."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "Mulai sekarang"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "Jeda"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "Lanjutkan"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "Hentikan"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "Jalankan di latar belakang saja"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "Selesai: gambar sudah kembali seperti saat diunggah."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "Selesai: setiap gambar menunjukkan hasil teks alt-nya di pustaka media."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "Selesai: tidak ada gambar yang perlu dikirim."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "Selesai: setiap gambar sudah dikirim. Masing-masing menunjukkan hasilnya di pustaka media."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "Dihentikan. Gambar yang sudah di Iminify selesai diproses selama laman ini terbuka; sisanya tetap apa adanya."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "Dihentikan. Gambar yang sudah di Iminify selesai diproses; sisanya tetap apa adanya."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "Dijeda: ruang disk server hampir habis. Kosongkan sebagian, lalu lanjutkan."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "Dijeda selama plugin dinonaktifkan."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "Dijeda. Gambar yang sudah di Iminify selesai diproses selama laman ini terbuka."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "Dijeda. Gambar yang sudah di Iminify selesai diproses."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "Ditahan selama pengoptimal gambar lain menangani unggahan Anda. Proses berlanjut otomatis setelah pengoptimal itu dimatikan."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "Proses sudah lama tidak bergerak: tugas terjadwal situs ini tampaknya tidak berjalan."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "Kuota gambar harian akun Anda sudah habis. Proses berlanjut otomatis saat jatah berikutnya dibuka pada %s."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "Ditahan: Iminify tidak menerima kunci situs ini. Proses berlanjut otomatis setelah koneksi berfungsi."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "Kuota teks alt AI harian akun Anda sudah habis. Proses berlanjut otomatis pada %s."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Iminify sedang sibuk dengan gambar yang sudah dikirim. Proses mengirim gambar berikutnya pada %s."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "Biarkan laman ini tetap terbuka: gambar dikirim selama laman ini terbuka."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "Proses berlanjut di latar belakang, jadi Anda dapat meninggalkan laman ini."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "Kesehatan Situs menyatakan: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "Jika situs ini meminta sandi sebelum terbuka, masukkan nama pengguna dan sandi tersebut di wp-config.php agar tugas terjadwalnya dapat menjangkau situs:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "Jalankan selama laman ini terbuka saja, atau lanjutkan dari shell:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "Jalankan selama laman ini terbuka"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "Bandingkan paket"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "Hubungkan situs ini ke Iminify untuk mengoptimalkan gambarnya."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "Ruang disk server hampir habis, jadi tidak ada yang dioptimalkan sampai sebagian ruang dikosongkan."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "Optimalkan pustaka"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s gambar belum dioptimalkan."
+msgstr[1] "%s gambar belum dioptimalkan."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "Cadangannya membutuhkan sekitar %1$s ruang disk (%2$s tersedia)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "Cadangannya membutuhkan sekitar %s ruang disk."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "Kirim lagi %s gambar yang gagal"
+msgstr[1] "Kirim lagi %s gambar yang gagal"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "Belum ada yang perlu dioptimalkan."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "Setiap gambar sudah dioptimalkan atau sedang diproses."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "Tidak ada gambar yang menunggu untuk dioptimalkan."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s gambar sudah dikembalikan, dan tetap apa adanya: proses massal tidak pernah mengambil gambar yang sudah dikembalikan seseorang. Optimalkan lagi dari panelnya di pustaka media."
+msgstr[1] "%s gambar sudah dikembalikan, dan tetap apa adanya: proses massal tidak pernah mengambil gambar yang sudah dikembalikan seseorang. Optimalkan lagi satu per satu dari panelnya di pustaka media."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "Berkas yang kurang"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "%s gambar yang dioptimalkan tidak memiliki format yang kini diminta situs Anda."
+msgstr[1] "%s gambar yang dioptimalkan tidak memiliki format yang kini diminta situs Anda."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "%s gambar yang dioptimalkan mungkin tidak memiliki ukuran yang kini dibuat situs Anda."
+msgstr[1] "%s gambar yang dioptimalkan mungkin tidak memiliki ukuran yang kini dibuat situs Anda."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "Teks alt"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s gambar tidak memiliki teks alt."
+msgstr[1] "%s gambar tidak memiliki teks alt."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "Kirim versi kecil dari setiap gambar ini untuk dibuatkan teks alt? Setiap gambar dihitung sebagai satu dari kuota teks alt AI Anda hari ini, dan teks alt yang ditulis seseorang tidak pernah diganti."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "Sisa %s teks alt AI hari ini."
+msgstr[1] "Sisa %s teks alt AI hari ini."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "Kirim gambar-gambar ini lagi untuk membuat yang kurang? Setiap gambar dihitung sebagai satu gambar lagi, dan berkas lainnya tetap dipertahankan kecuali Iminify membuatnya lebih kecil."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "Optimalkan lagi dari versi aslinya"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "%s gambar yang dioptimalkan plugin lain masih memiliki versi aslinya. Iminify dapat mengoptimalkannya lagi dari versi asli tersebut dan menyimpan cadangannya sendiri. Versi asli dikembalikan terlebih dahulu, kecuali jika gambar telah dikonversi ke WebP atau AVIF: dalam hal itu, berkasnya dibuat ulang dalam format tersebut, dengan nama yang sama."
+msgstr[1] "%s gambar yang dioptimalkan plugin lain masih memiliki versi aslinya. Iminify dapat mengoptimalkannya lagi dari versi asli tersebut dan menyimpan cadangannya sendiri untuk masing-masing. Setiap versi asli dikembalikan terlebih dahulu, kecuali jika gambar telah dikonversi ke WebP atau AVIF: dalam hal itu, berkasnya dibuat ulang dalam format tersebut, dengan nama yang sama."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "Optimalkan lagi gambar-gambar ini dari versi aslinya? Setiap gambar dihitung sebagai satu gambar lagi, dan gambar yang versi aslinya hanya dapat dikembalikan oleh pluginnya sendiri dibiarkan apa adanya."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "LiteSpeed Cache aktif. Setiap kali WordPress membuat ulang ukuran gambar (Regenerate Thumbnails, atau saat gambar diganti), plugin itu menghapus salinan WebP dan AVIF di sampingnya dan mengembalikan berkas lama yang disimpannya dari gambar yang pernah dioptimalkannya, sehingga Iminify menganggap gambar itu berubah. \"Remove Original Image Backups\", di LiteSpeed Cache, Image Optimization, mencegahnya mengembalikan berkas lama."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "Di latar belakang"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "Jadi Anda dapat meninggalkan laman ini."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "Selama laman ini terbuka"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "Untuk hosting yang tugas terjadwalnya tidak berjalan."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "Jalankan"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "Paket Anda"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "semua selesai hari ini"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "sekitar %d hari"
+msgstr[1] "sekitar %d hari"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "Kuota gambar harian paket Anda cukup untuk semuanya hari ini."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "Proses berlanjut otomatis setiap hari."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "Lihat paket"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "Folder lain"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "Optimalkan gambar di tema Anda dan folder lain di luar pustaka media, di tempatnya masing-masing, dengan cadangan untuk setiap gambar."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "%1$s gambar di folder Anda: %2$s dioptimalkan, %3$s belum."
+msgstr[1] "%1$s gambar di folder Anda: %2$s dioptimalkan, %3$s belum."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Iminify masih memeriksanya."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Kembalikan setiap gambar yang dioptimalkan di folder Anda seperti semula? Salinan WebP dan AVIF-nya dihapus; cadangannya tetap ada."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "Kembalikan semua"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "Lihat gambar"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "Optimalkan gambarnya"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "Kirim lagi yang gagal"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "Pilih folder"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "Kembalikan pustaka"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "Kembalikan setiap gambar yang dioptimalkan seperti saat diunggah, dari cadangannya, dengan ukuran-ukurannya dibuat ulang oleh WordPress. Lakukan ini sebelum menghapus plugin jika Anda ingin versi asli terpasang kembali. Gambar yang dikonversi plugin lain ke WebP atau AVIF tetap apa adanya, karena hanya plugin itu yang dapat mengembalikan versi aslinya."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Kembalikan setiap gambar yang dioptimalkan seperti saat diunggah? Salinan WebP dan AVIF-nya dihapus; cadangannya tetap ada."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "Dikirim ke Iminify."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "Versi asli sudah kembali."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "Memeriksa"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "Folder"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "Pilih tema Anda atau folder apa pun di wp-content, dan Iminify mengoptimalkan gambar di dalamnya di tempatnya, dengan menyimpan cadangan setiap gambar."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "Hapus"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "Tema Anda"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "Tema induknya"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "Tambahkan tema Anda, %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "Tambahkan tema induknya, %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "Tambah"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "Folder lain di wp-content"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Terakhir diperiksa pada %1$s: %2$s gambar, %3$s baru, %4$s berubah."
+msgstr[1] "Terakhir diperiksa pada %1$s: %2$s gambar, %3$s baru, %4$s berubah."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Iminify memeriksa lagi setelah pembaruan tema atau plugin. Periksa sekarang setelah mengubah gambar secara manual."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "Cari gambar baru dan yang berubah"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "Di folder Anda"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "Proses massal untuk gambar-gambar ini sedang berjalan di laman pengoptimalan massal."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "Optimalkan atau kembalikan semuanya di laman pengoptimalan massal."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "Buka Pengoptimalan Massal"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "Semua"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "Gambar"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "Tambahkan folder untuk melihat gambarnya di sini."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "Tidak ada gambar yang ditemukan di folder-folder ini."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "Tidak ada gambar di sini."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "Laman %1$s dari %2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "Berikutnya"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Menunggu dihubungkan"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Dilewati"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Dikembalikan"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%s%% lebih kecil"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "Kembalikan"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "Kembalikan versi asli? Salinan WebP dan AVIF-nya dihapus; cadangannya tetap ada."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "Putuskan koneksi jaringan dari Iminify? Setiap kunci yang dipakai situs-situsnya untuk bergabung juga berhenti berlaku, dan unggahan baru di situs-situs itu tidak lagi dioptimalkan. Gambar yang sudah dioptimalkan tetap apa adanya."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "Putuskan koneksi situs ini dari Iminify? Unggahan baru tidak lagi dioptimalkan, dan situs ini tidak bergabung lagi ke jaringan dengan sendirinya: tekan Gabung ke jaringan agar situs ini bergabung lagi. Gambar yang sudah dioptimalkan tetap apa adanya."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "Putuskan koneksi situs ini dari Iminify? Unggahan baru tidak lagi dioptimalkan. Gambar yang sudah dioptimalkan tetap apa adanya."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "Putuskan koneksi"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s, di %2$s, terhubung ke Iminify sebagai jaringan multisitus."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s, di %2$s, terhubung ke Iminify melalui jaringannya."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s, di %2$s, terhubung ke Iminify."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "Akun Anda"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "Paket"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, hingga %2$s"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "Jatah berikutnya"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "Situs jaringan"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s dari %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "Situs utama"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "%s dihemat"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "Akun Iminify situs ini diatur di wp-config.php."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "Paket Anda di iminify.com"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "Kunci jaringan diatur di wp-config.php sebagai <code>IMINIFY_API_KEY</code>. Untuk memutuskan koneksi, hapus kunci itu di sana, lalu putuskan koneksi jaringan di Settings, Sites di iminify.com."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "Kunci situs diatur di wp-config.php sebagai <code>IMINIFY_API_KEY</code>. Untuk memutuskan koneksi, hapus kunci itu di sana, lalu putuskan koneksi situs di Settings, Sites di iminify.com."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "Hubungkan jaringan Anda"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Iminify mengompresi gambar yang diunggah ke setiap situs di jaringan ini dan membuat salinan WebP dan AVIF-nya. Hubungkan jaringan ke akun Iminify Anda sekali saja, atau buat akun gratis sekalian, dan setiap situs bergabung dengan sendirinya saat pertama kali membutuhkan Iminify."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "Tidak ada yang dikirim ke Iminify sampai Anda menghubungkannya. Tombol Hubungkan membuka iminify.com di tab baru, tempat Anda menyetujui jaringan ini."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "Hubungkan jaringan"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "Hubungkan situs ini secara tersendiri"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "Sebagai gantinya, situs ini dapat terhubung ke akun Iminify tersendiri, lalu tidak pernah memakai koneksi jaringan."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Tombol Hubungkan membuka iminify.com di tab baru, tempat Anda menyetujui situs ini."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "Hubungkan situs Anda"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Iminify mengompresi gambar yang Anda unggah dan membuat salinan WebP dan AVIF-nya. Hubungkan situs ini ke akun Iminify Anda, atau buat akun gratis sekalian, untuk memulai."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Tidak ada yang dikirim ke Iminify sampai Anda menghubungkannya. Tombol Hubungkan membuka iminify.com di tab baru, tempat Anda menyetujui situs ini."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "Sebagai gantinya, admin super dapat menghubungkan seluruh jaringan dari admin jaringan, dan setiap situs bergabung dengan sendirinya."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "Cara kerja koneksi"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Menunggu persetujuan Anda"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "Setujui koneksi di iminify.com, di tab yang terbuka. Laman ini terhubung dengan sendirinya setelah Anda menyetujuinya, dan situs tetap melanjutkan koneksi meskipun Anda menutup laman ini."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "Buka lagi laman di iminify.com"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Agensi dapat menambahkan situs di <a>Settings, Sites</a> di iminify.com lalu menempelkan kuncinya di sini, atau mengaturnya di wp-config.php sebagai <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Agensi dapat menambahkan situs di Settings, Sites di iminify.com lalu menempelkan kuncinya di sini, atau mengaturnya di wp-config.php sebagai <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Agensi menambahkan jaringan di <a>Settings, Sites</a> di iminify.com, dengan This is a multisite network dicentang, lalu menempelkan kuncinya di sini, atau mengaturnya di wp-config.php sebagai <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Agensi menambahkan jaringan di Settings, Sites di iminify.com, dengan This is a multisite network dicentang, lalu menempelkan kuncinya di sini, atau mengaturnya di wp-config.php sebagai <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "Setiap unggahan dioptimalkan di latar belakang"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "WordPress menyelesaikan unggahan terlebih dahulu, lalu Iminify mengompresi gambar beserta setiap ukuran yang dibuat WordPress darinya."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "Satu unggahan dihitung sebagai satu gambar"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "Ukuran-ukuran yang dibuat WordPress darinya serta salinan WebP dan AVIF-nya ikut sebagai berkas, tidak pernah sebagai gambar tambahan."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "Versi asli Anda tetap di situs ini"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "Cadangan setiap gambar disimpan di folder unggahan, jadi gambar apa pun dapat dikembalikan seperti semula."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "Pustaka Anda menyusul saat Anda memintanya"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "Gambar yang sudah ada di pustaka media menunggu sampai Anda memulainya di Media, Pengoptimalan Massal."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "Setelah Anda terhubung"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "Hubungkan dengan kunci jaringan"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "Hubungkan dengan kunci situs"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "Kunci jaringan"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "Kunci situs"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "Hubungkan dengan kunci ini"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "menjadi"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "tidak berubah"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "Pengaturan %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Iminify menemukan pengaturan %s di situs ini. Iminify dapat menyesuaikan pengaturan situs ini dengannya, sejauh Iminify memiliki pengaturan yang sama: tingkat kompresi, lebar maksimum, metadata, salinan WebP dan AVIF, ukuran, dan cadangan. Anda melihat apa saja yang berubah sebelum ada yang diubah."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "Gunakan pengaturan %s"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "Tidak, terima kasih"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "Situs ini sudah menggunakan apa yang sesuai dengan pengaturan %s."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "Berdasarkan pengaturan %s, Iminify akan mengatur hal-hal ini. Tidak ada yang berubah sampai Anda menggunakannya, dan menggunakannya akan menggantikan perubahan yang belum Anda simpan di pengaturan di bawah."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "Berdasarkan pengaturan %s, Iminify akan mengatur hal-hal ini. Tidak ada yang berubah sampai Anda menggunakannya."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "Tidak ada pengaturan %s yang memiliki padanan di Iminify, jadi situs ini mempertahankan pengaturannya sendiri."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "Gunakan pengaturan ini"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "Oke"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "Buka pengaturan Iminify jaringan"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "Koneksi jaringan"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Ini situs utama jaringan, jadi situs ini memakai koneksi jaringan ke Iminify. Admin super menghubungkan dan memutuskan koneksi jaringan di admin jaringan."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Ini situs utama jaringan, jadi situs ini memakai koneksi jaringan ke Iminify, yang belum dibuat. Admin super menghubungkan jaringan di admin jaringan, dan setiap situs bergabung dengan sendirinya."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "Situs-situs jaringan"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Kunci ini dibuat untuk satu situs, jadi situs-situs dalam jaringan tidak dapat bergabung dengannya. Putuskan koneksi, lalu hubungkan jaringan lagi, atau buat kunci di Settings, Sites di iminify.com dengan This is a multisite network dicentang."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "Setiap situs di jaringan bergabung dengan sendirinya saat pertama kali membutuhkan Iminify, dengan kuncinya sendiri, dan dimulai dengan pengaturan situs utama. Setiap situs dihitung sebagai situs tersendiri di akun Anda. Situs yang diputus koneksinya di lamannya sendiri, atau di Settings, Sites di iminify.com, tidak bergabung lagi dengan sendirinya."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Pengaturan setiap situs ada di laman Pengaturan, Iminify miliknya sendiri. Gambar di tema dan folder lain dioptimalkan oleh situs utama, sekali untuk seluruh jaringan."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "Pengaturan situs utama"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "Folder lain situs utama"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Cara jaringan terhubung"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Gabung ke jaringan"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s terhubung ke Iminify. Situs ini dapat bergabung dengan kuncinya sendiri, dan dihitung sebagai situs tersendiri di akun."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "Di aturan penulisan ulang WordPress:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "Di <file />:"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "Hapus aturan %s dari aturan penulisan ulang WordPress? Semua aturan lainnya tetap ada."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "Hapus baris %s dari berkas ini? Semua isi lainnya tetap apa adanya. Nginx tetap memakainya sampai dimuat ulang, jadi muat ulang Nginx setelahnya."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "Hapus baris %s dari berkas ini? Semua isi lainnya tetap apa adanya."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> memuat baris %s, tetapi blok yang dimulainya tidak memiliki akhir sendiri, atau melintasi blok lain, jadi plugin tidak mengubah berkas itu. Hapus baris-baris blok tersebut secara manual."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "Plugin tidak dapat menulis ke <file />. Hapus baris-baris ini darinya secara manual, lalu muat ulang Nginx."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "Plugin tidak dapat menulis ke <file />. Hapus baris-baris ini darinya secara manual."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "Semua situs di jaringan memakai baris-baris ini bersama, jadi baris-baris ini dihapus oleh orang yang dapat mengelola jaringan, dari pengaturan Iminify di admin jaringan."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "Semua situs di jaringan memakai baris-baris ini bersama, jadi baris-baris ini dihapus oleh admin super, di laman ini."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "Aturan penulisan ulang %s"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "Aturan %s"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "Aturan yang ditinggalkan pengoptimal lain"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "Aturan yang ditinggalkan pengoptimal lain sudah dihapus."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "Pengoptimal gambar yang Anda pakai sebelumnya meninggalkan aturan ini saat dimatikan. Iminify tidak pernah menghapus aturan plugin lain dengan sendirinya."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d gambar sedang dioptimalkan."
+msgstr[1] "%d gambar sedang dioptimalkan."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d gambar menunggu jatah berikutnya."
+msgstr[1] "%d gambar menunggu jatah berikutnya."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d gambar menunggu situs terhubung. Gambar dikirim otomatis setelah situs terhubung."
+msgstr[1] "%d gambar menunggu situs terhubung. Gambar dikirim otomatis setelah situs terhubung."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "Jatah berikutnya dibuka pada %s. Unggahan baru diproses lebih dulu, secara otomatis."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "Antrean"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "Ruang disk server hampir habis, jadi Iminify berhenti mengoptimalkan gambar di sini. Kosongkan sebagian, lalu optimalkan gambar yang ditandai \"Belum dioptimalkan\"."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "Server Anda menjawab dengan eror setelah aturan dipasang, jadi plugin menghapusnya lagi dan gambar Anda dimuat seperti sebelumnya. Tanyakan kepada penyedia hosting Anda apakah berkas .htaccess boleh mengatur aturan penulisan ulang dan jenis berkas, atau pilih tag picture."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "Server Anda mengirimkan salinan WebP dan AVIF. Diperiksa %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "Server Anda masih mengirimkan versi asli: ada yang menjawab permintaan gambar sebelum aturan ini dibaca, sering kali Nginx di depan Apache. Tambahkan baris Nginx di bawah ke konfigurasinya, atau pilih tag picture. Diperiksa %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "Server Anda masih mengirimkan versi asli. Tambahkan baris di bawah ke konfigurasinya dan muat ulang Nginx, lalu simpan lagi. Diperiksa %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Cloudflare menjawab dengan versi asli, jadi pengunjung mungkin tidak pernah mendapat salinan melalui aturan ini. Pilih tag picture, yang berfungsi di balik Cloudflare. Diperiksa %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "Plugin tidak dapat meminta gambar dari situs Anda untuk melihat apakah aturan berfungsi, yang terjadi bila situs tidak dapat menjangkau alamatnya sendiri. Buka salah satu gambar Anda dengan alat pengembang peramban: jenisnya seharusnya image/avif atau image/webp. Dicoba %s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "Aturan sudah ada di <file />."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "<file /> memuat baris <begin /> tanpa baris <end />, jadi plugin tidak mengubah berkas itu. Tambahkan lagi baris <end /> setelah <closing /> terakhir blok tersebut, atau hapus setiap baris blok itu, lalu simpan lagi."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "Folder unggahan Anda tidak berada di dalam folder yang memuat berkas .htaccess situs, jadi tidak ada aturan di sana yang dapat menjangkaunya. Pilih tag picture."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "Belum ada <file />. Buat berkas itu dengan baris-baris ini, lalu simpan lagi."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "<file /> tidak mengaktifkan penulisan ulang, jadi plugin tidak mengubahnya. Jika server Anda membaca aturan penulisan ulang di sana, tempel baris-baris ini ke dalamnya, lalu simpan lagi."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "Plugin tidak dapat menulis ke <file />. Tempel baris-baris ini ke dalamnya, di atas aturan yang diberikan WordPress untuk jaringan, lalu simpan lagi."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "Plugin tidak dapat menulis ke <file />. Tempel baris-baris ini di bagian akhirnya, lalu simpan lagi."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "Server Anda tidak membaca berkas .htaccess maupun konfigurasi Nginx, jadi plugin tidak memiliki aturan untuk diberikan. Pilih tag picture."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Situs Anda berjalan di Nginx, yang tidak membaca .htaccess. Letakkan baris-baris pertama di bagian atas blok server situs, sebelum if atau rewrite apa pun, dan location di atas location lain untuk gambar, lalu muat ulang Nginx. Salin ke dalam location tersebut baris expires, Cache-Control, atau add_header yang dibutuhkan gambar Anda, karena add_header miliknya menggantikan milik blok server:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Untuk Nginx, letakkan baris-baris pertama di bagian atas blok server situs, sebelum if atau rewrite apa pun, dan location di atas location lain untuk gambar, lalu muat ulang Nginx. Salin ke dalam location tersebut baris expires, Cache-Control, atau add_header yang dibutuhkan gambar Anda, karena add_header miliknya menggantikan milik blok server:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "Aturan ini mencakup: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "Aturan ini menyajikan salinan WebP atau AVIF apa pun yang dinamai sesuai gambar di sampingnya, jadi salinan yang ditinggalkan pengoptimal lain di sana juga disajikan sampai Iminify membuat salinannya sendiri. Iminify tidak pernah menghapus salinan milik plugin lain."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Cloudflare menjawab untuk situs Anda. Cloudflare menyimpan satu versi setiap gambar, apa pun yang dapat dibaca peramban, jadi peramban yang tidak dapat menampilkan AVIF bisa mendapat salinan AVIF. Pilih tag picture, yang berfungsi di balik CDN apa pun."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "WP Offload Media menyajikan gambar Anda dari bucket-nya, yang tidak pernah dijangkau aturan ini, jadi gambar-gambar itu tetap memakai versi aslinya. Jika “Remove Local Media” miliknya aktif, aturan ini tidak menyajikan apa pun."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "Juga menjangkau gambar di HTML mentah, page builder, dan markup tema Anda sendiri, latar belakang yang diatur di dalam laman itu sendiri, serta gambar di folder yang Anda pilih, dengan membaca setiap laman saat dikirim. Latar belakang yang diatur di berkas stylesheet tetap memakai versi aslinya. Laman yang belum disimpan cache Anda membutuhkan waktu sedikit lebih lama."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "Laman Anda tetap apa adanya, dan server Anda mengirimkan salinan WebP atau AVIF sebagai pengganti gambar ke setiap peramban yang dapat membacanya. Ini menjangkau setiap gambar di folder unggahan dan folder yang Anda pilih, termasuk latar belakang di berkas stylesheet. Memerlukan aturan di konfigurasi server Anda, yang ditulis untuk Anda di Apache, dan jika di balik CDN, CDN yang menyimpan versi setiap gambar per format."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "Laman Anda tetap apa adanya: salinan dibuat, tetapi tidak ada laman yang menggunakannya."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "Untuk gambar di pos Anda dan gambar yang ditampilkan tema Anda melalui WordPress. Setiap laman sama untuk setiap pengunjung, jadi cache laman dan CDN tetap berfungsi, dan peramban yang tidak dapat membaca kedua format tersebut mendapat versi asli."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "Pengoptimalan"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "Pengaturan ini disimpan bersama situs di iminify.com, yang menerapkannya pada setiap gambar yang dikirim situs."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "Kirim setiap gambar ke Iminify saat diunggah."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "Salinan WebP dari setiap ukuran, disajikan ke peramban yang dapat membacanya. Salinan yang lebih besar dari gambarnya tidak disimpan."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "Salinan AVIF dari setiap ukuran juga: biasanya lebih kecil dari WebP, dan lebih lambat dibuat."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "Lebar berapa pun"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "Memperkecil gambar utama yang lebih lebar ke lebar ini. Biarkan kosong untuk mempertahankan lebar setiap gambar."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "Memperkecil gambar utama hingga di bawah batas ini. Biarkan kosong agar tanpa batas."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "Mempertahankan data EXIF setiap gambar, seperti kamera dan tempat gambar itu diambil. Jika nonaktif, data itu dihapus."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "Mendeskripsikan setiap gambar yang tidak memiliki teks alt. Teks alt yang Anda tulis tidak pernah diganti. Versi kecil gambar dikirim ke AI Anthropic, dan setiap gambar dihitung dalam kuota teks alt AI Anda hari ini."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "Bahasa teks alt"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "Optimalkan semua ukuran"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "Setiap ukuran yang dibuat WordPress dari unggahan. Matikan untuk memilih ukurannya."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "Di situs ini"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "Disimpan di folder unggahan di bawah iminify-backup, jadi gambar apa pun dapat dikembalikan seperti semula."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "WebP dan AVIF di laman Anda"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "Sajikan dengan tag picture"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "Sajikan di seluruh laman"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "Sajikan melalui aturan server"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "Jangan ubah laman"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "Tambahkan lebar, tinggi, dan teks alt yang kurang pada gambar"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "Jika markup laman tidak menyertakannya pada gambar dari pustaka media Anda, plugin menambahkan lebar dan tingginya, agar laman tidak bergeser saat dimuat, serta teks alt yang dimilikinya di pustaka, saat setiap laman dikirim. Teks alt yang sengaja dikosongkan tetap kosong."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "Saat Anda menghapus plugin"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "Hapus juga salinan WebP dan AVIF"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "Laman yang disimpan cache Anda dengan tag picture akan menampilkan gambar rusak sampai cache dibersihkan."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "Hapus juga cadangannya"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "Cadangan adalah satu-satunya versi asli gambar yang dioptimalkan Iminify, jadi gambar-gambar itu tidak dapat dikembalikan setelahnya. Jika salinannya juga dihapus, memasang plugin lagi akan mengoptimalkan gambar-gambar itu untuk kedua kalinya."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "Simpan Perubahan"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "Perubahan belum disimpan"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Perlu perhatian"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "Jaringan sudah terhubung."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "Situs sudah terhubung."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "Koneksi tidak disetujui tepat waktu, atau ditolak. Tekan Hubungkan jaringan untuk mencoba lagi."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "Koneksi tidak disetujui tepat waktu, atau ditolak. Tekan Hubungkan untuk mencoba lagi."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Koneksi jaringan sudah diputus di sini, tetapi kuncinya tidak dapat dihentikan di Iminify. Putuskan juga koneksinya di Settings, Sites di iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Koneksi situs sudah diputus di sini, tetapi kuncinya tidak dapat dihentikan di Iminify. Putuskan juga koneksinya di Settings, Sites di iminify.com."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "Situs sudah bergabung ke jaringan."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "Pindahkan koneksi ke sini"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "Hubungkan salinan ini sebagai situs tersendiri"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "Situs ini kini menggunakan pengaturan %s."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "Baris-baris itu sudah dihapus. Muat ulang Nginx agar berhenti menyajikannya."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "Baris-baris itu sudah dihapus."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Pengaturan telah disimpan."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "Gambar yang menunggu sedang dikirim."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "Kuota gambar harian akun Anda masih habis."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify memutuskan koneksi jaringan, jadi unggahan baru di situs-situsnya tidak dioptimalkan. Hubungkan lagi untuk melanjutkan."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify memutuskan koneksi jaringan, jadi unggahan baru tidak dioptimalkan. Admin super menghubungkannya lagi di admin jaringan."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify memutuskan koneksi situs ini, jadi unggahan baru tidak dioptimalkan. Gabung ke jaringan lagi, atau hubungkan situs ini secara tersendiri, untuk melanjutkan."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify memutuskan koneksi situs ini, jadi unggahan baru tidak dioptimalkan. Hubungkan lagi untuk melanjutkan."

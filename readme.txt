@@ -41,6 +41,8 @@ Translations WPML or Polylang make of an image share its files, so the plugin op
 
 Where WordPress sends over cURL, as nearly every host does, originals go to Iminify straight from the disk, so a file as large as your plan takes goes through on a 128 MB memory limit. Elsewhere, an original too large for the server's memory goes as WordPress's scaled copy. On a site behind a password (HTTP basic auth), the background runs reach the site with the password the page was opened with, or with `IMINIFY_AUTH_USER` and `IMINIFY_AUTH_PASSWORD` set in wp-config.php.
 
+The plugin carries its own translations into 28 languages besides English, 31 locales in all with Spanish for Spain and Mexico, Portuguese for Brazil and Portugal, and Chinese in Simplified and Traditional script. Its screens follow the language of the site or of each user's profile, right to left where the language reads that way, and its WP-CLI output follows the site's. When translate.wordpress.org has a translation of the plugin for your language, WordPress loads that one instead.
+
 = For developers =
 
 The plugin has sixteen hooks:

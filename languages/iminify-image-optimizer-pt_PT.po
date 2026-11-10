@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T03:13:26+00:00\n"
-"PO-Revision-Date: 2026-11-10 04:10+0000\n"
+"POT-Creation-Date: 2026-11-10T05:43:39+00:00\n"
+"PO-Revision-Date: 2026-11-10 05:44+0000\n"
 "Language: pt_PT\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: iminify-image-optimizer\n"
@@ -37,8 +37,8 @@ msgstr "Comprima, converta e redimensione as imagens da sua biblioteca multiméd
 
 #. Author of the plugin
 #: iminify-image-optimizer.php
-#: includes/admin/class-media-view.php:104
-#: includes/admin/class-media-view.php:426
+#: includes/admin/class-media-view.php:106
+#: includes/admin/class-media-view.php:428
 #: includes/admin/class-page-header.php:39
 #: includes/admin/class-settings-page.php:56
 #: includes/admin/class-settings-page.php:77
@@ -65,11 +65,11 @@ msgstr "O script da página não está na pasta do plugin. Reinstale o plugin pa
 msgid "This page needs JavaScript."
 msgstr "Esta página precisa de JavaScript."
 
-#: includes/admin/class-audit-state.php:353
+#: includes/admin/class-audit-state.php:354
 msgid "Original upload"
 msgstr "Original carregado"
 
-#: includes/admin/class-audit-state.php:367
+#: includes/admin/class-audit-state.php:368
 msgid "Home page"
 msgstr "Página inicial"
 
@@ -96,7 +96,7 @@ msgid "The bulk page needs JavaScript."
 msgstr "A página de optimização em massa precisa de JavaScript."
 
 #: includes/admin/class-folders-controller.php:121
-#: includes/class-cli.php:335
+#: includes/class-cli.php:342
 msgid "That folder isn't in the list."
 msgstr "Essa pasta não está na lista."
 
@@ -119,96 +119,96 @@ msgstr "As imagens do seu tema e de outras pastas fora da biblioteca multimédia
 msgid "This image has no original on the site to compare it with."
 msgstr "Esta imagem não tem um original no site com que a comparar."
 
-#: includes/admin/class-media-view.php:181
+#: includes/admin/class-media-view.php:183
 msgid "Original"
 msgstr "Original"
 
-#: includes/admin/class-media-view.php:208
-#: includes/admin/class-media-view.php:333
+#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:335
 msgid "Compare with the original"
 msgstr "Comparar com o original"
 
-#: includes/admin/class-media-view.php:209
+#: includes/admin/class-media-view.php:211
 msgid "Close"
 msgstr "Fechar"
 
-#: includes/admin/class-media-view.php:210
+#: includes/admin/class-media-view.php:212
 msgid "How much of the original shows"
 msgstr "Quanto se vê do original"
 
-#: includes/admin/class-media-view.php:211
+#: includes/admin/class-media-view.php:213
 msgid "The optimized file to compare"
 msgstr "O ficheiro optimizado a comparar"
 
-#: includes/admin/class-media-view.php:212
+#: includes/admin/class-media-view.php:214
 msgid "This image couldn't be loaded from the site."
 msgstr "Não foi possível carregar esta imagem a partir do site."
 
-#: includes/admin/class-media-view.php:214
+#: includes/admin/class-media-view.php:216
 msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "Arraste a linha, ou use as teclas de seta, para ver mais do original de um lado e do ficheiro optimizado do outro."
 
 #. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
-#: includes/admin/class-media-view.php:217
+#: includes/admin/class-media-view.php:219
 #, php-format
 msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
 msgstr "Optimizada com o nível %s. Arraste a linha, ou use as teclas de seta, para ver mais do original de um lado e do ficheiro optimizado do outro."
 
 #. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
-#: includes/admin/class-media-view.php:246
+#: includes/admin/class-media-view.php:248
 #, php-format
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
 
 #. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
-#: includes/admin/class-media-view.php:254
+#: includes/admin/class-media-view.php:256
 #, php-format
 msgid "%1$s, %2$s smaller"
 msgstr "%1$s, %2$s mais pequeno"
 
-#: includes/admin/class-media-view.php:276
-#: includes/admin/class-media-view.php:837
+#: includes/admin/class-media-view.php:278
+#: includes/admin/class-media-view.php:839
 #: assets/build/audit.js:11
 #: assets/build/folders.js:8
 msgctxt "the status of one image"
 msgid "Optimized"
 msgstr "Optimizada"
 
-#: includes/admin/class-media-view.php:373
+#: includes/admin/class-media-view.php:375
 msgid "Optimize again from the original"
 msgstr "Optimizar de novo a partir do original"
 
-#: includes/admin/class-media-view.php:377
-#: includes/admin/class-media-view.php:404
-#: includes/admin/class-media-view.php:1168
-#: includes/admin/class-media-view.php:1212
+#: includes/admin/class-media-view.php:379
+#: includes/admin/class-media-view.php:406
+#: includes/admin/class-media-view.php:1170
+#: includes/admin/class-media-view.php:1214
 msgid "Restore original"
 msgstr "Repor original"
 
-#: includes/admin/class-media-view.php:398
-#: includes/admin/class-media-view.php:1160
-#: includes/admin/class-media-view.php:1192
+#: includes/admin/class-media-view.php:400
+#: includes/admin/class-media-view.php:1162
+#: includes/admin/class-media-view.php:1194
 #: assets/build/folders.js:9
 msgid "Optimize again"
 msgstr "Optimizar de novo"
 
-#: includes/admin/class-media-view.php:398
+#: includes/admin/class-media-view.php:400
 #: assets/build/audit.js:14
 #: assets/build/folders.js:9
 msgid "Optimize"
 msgstr "Optimizar"
 
-#: includes/admin/class-media-view.php:451
+#: includes/admin/class-media-view.php:453
 #: assets/build/media-grid.js:1
 msgid "Filter by Iminify status"
 msgstr "Filtrar por estado do Iminify"
 
-#: includes/admin/class-media-view.php:453
+#: includes/admin/class-media-view.php:455
 #: assets/build/media-grid.js:1
 msgid "All Iminify statuses"
 msgstr "Todos os estados do Iminify"
 
-#: includes/admin/class-media-view.php:572
+#: includes/admin/class-media-view.php:574
 #: assets/build/bulk.js:2
 #: assets/build/bulk.js:3
 #: assets/build/folders.js:4
@@ -218,7 +218,7 @@ msgctxt "images, over a count or as a filter"
 msgid "Optimized"
 msgstr "Optimizadas"
 
-#: includes/admin/class-media-view.php:573
+#: includes/admin/class-media-view.php:575
 #: assets/build/bulk.js:2
 #: assets/build/folders.js:4
 #: assets/build/folders.js:6
@@ -227,17 +227,17 @@ msgctxt "images, over a count or as a filter"
 msgid "Not optimized"
 msgstr "Não optimizadas"
 
-#: includes/admin/class-media-view.php:574
+#: includes/admin/class-media-view.php:576
 #: assets/build/media-grid.js:1
 msgid "Errors"
 msgstr "Erros"
 
-#: includes/admin/class-media-view.php:575
+#: includes/admin/class-media-view.php:577
 #: assets/build/media-grid.js:1
 msgid "Missing formats"
 msgstr "Formatos em falta"
 
-#: includes/admin/class-media-view.php:576
+#: includes/admin/class-media-view.php:578
 #: assets/build/bulk.js:2
 #: assets/build/bulk.js:30
 #: assets/build/folders.js:4
@@ -247,43 +247,43 @@ msgid "Optimized by another plugin"
 msgstr "Optimizadas por outro plugin"
 
 #. translators: %s: another image optimizer's name, such as Optimole.
-#: includes/admin/class-media-view.php:671
+#: includes/admin/class-media-view.php:673
 #, php-format
 msgid "Offloaded by %s"
 msgstr "Na nuvem de %s"
 
 #. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
-#: includes/admin/class-media-view.php:705
+#: includes/admin/class-media-view.php:707
 #, php-format
 msgid "Saved %1$s (%2$s) across %3$s file."
 msgid_plural "Saved %1$s (%2$s) across %3$s files."
 msgstr[0] "Poupança de %1$s (%2$s) em %3$s ficheiro."
 msgstr[1] "Poupança de %1$s (%2$s) em %3$s ficheiros."
 
-#: includes/admin/class-media-view.php:712
+#: includes/admin/class-media-view.php:714
 msgid "The originals were already smaller, so they were kept."
 msgstr "Os originais já eram mais pequenos, por isso foram mantidos."
 
 #. translators: %s: the formats made, such as "WebP, AVIF".
-#: includes/admin/class-media-view.php:721
+#: includes/admin/class-media-view.php:723
 #, php-format
 msgid "Copies: %s"
 msgstr "Cópias: %s"
 
 #. translators: %s: the formats missing, such as "AVIF".
-#: includes/admin/class-media-view.php:735
+#: includes/admin/class-media-view.php:737
 #, php-format
 msgid "Missing formats: %s"
 msgstr "Formatos em falta: %s"
 
 #. translators: %s: the sizes missing, by their names.
-#: includes/admin/class-media-view.php:747
+#: includes/admin/class-media-view.php:749
 #, php-format
 msgid "Missing sizes: %s"
 msgstr "Tamanhos em falta: %s"
 
 #. translators: %s: how many copies.
-#: includes/admin/class-media-view.php:759
+#: includes/admin/class-media-view.php:761
 #, php-format
 msgid "%s WebP or AVIF copy another tool made was kept as it is."
 msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
@@ -291,7 +291,7 @@ msgstr[0] "%s cópia WebP ou AVIF feita por outra ferramenta foi mantida tal com
 msgstr[1] "%s cópias WebP ou AVIF feitas por outra ferramenta foram mantidas tal como estão."
 
 #. translators: %s: how many files.
-#: includes/admin/class-media-view.php:769
+#: includes/admin/class-media-view.php:771
 #, php-format
 msgid "%s file couldn't be written."
 msgid_plural "%s files couldn't be written."
@@ -299,233 +299,233 @@ msgstr[0] "Não foi possível gravar %s ficheiro."
 msgstr[1] "Não foi possível gravar %s ficheiros."
 
 #. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
-#: includes/admin/class-media-view.php:813
+#: includes/admin/class-media-view.php:815
 #, php-format
 msgid "%1$s saved %2$s (%3$s), as it recorded it."
 msgstr "%1$s poupou %2$s (%3$s), segundo os seus próprios registos."
 
-#: includes/admin/class-media-view.php:822
+#: includes/admin/class-media-view.php:824
 msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
 msgstr "O original está guardado. O Iminify deixa a imagem como está, e isso não tem qualquer custo."
 
-#: includes/admin/class-media-view.php:823
+#: includes/admin/class-media-view.php:825
 msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
 msgstr "Não foi guardado nenhum original, por isso o Iminify deixa-a como está em vez de a comprimir uma segunda vez."
 
-#: includes/admin/class-media-view.php:839
+#: includes/admin/class-media-view.php:841
 msgid "Queued"
 msgstr "Em fila"
 
-#: includes/admin/class-media-view.php:841
+#: includes/admin/class-media-view.php:843
 msgid "Being optimized"
 msgstr "A ser optimizada"
 
-#: includes/admin/class-media-view.php:843
+#: includes/admin/class-media-view.php:845
 #: assets/build/bulk.js:7
 #: assets/build/folders.js:8
 msgid "Waiting for the next batch"
 msgstr "À espera do próximo lote"
 
-#: includes/admin/class-media-view.php:845
+#: includes/admin/class-media-view.php:847
 msgid "Waiting for the connection"
 msgstr "À espera da ligação"
 
-#: includes/admin/class-media-view.php:847
+#: includes/admin/class-media-view.php:849
 msgid "Not sent"
 msgstr "Não enviada"
 
-#: includes/admin/class-media-view.php:849
+#: includes/admin/class-media-view.php:851
 msgid "Error"
 msgstr "Erro"
 
-#: includes/admin/class-media-view.php:851
+#: includes/admin/class-media-view.php:853
 #: assets/build/audit.js:11
 #: assets/build/folders.js:8
 msgctxt "the status of one image"
 msgid "Not optimized"
 msgstr "Não optimizada"
 
-#: includes/admin/class-media-view.php:887
+#: includes/admin/class-media-view.php:889
 msgid "The next batch is open, so it goes out shortly."
 msgstr "O próximo lote está aberto, por isso será enviada em breve."
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/admin/class-media-view.php:889
+#: includes/admin/class-media-view.php:891
 #, php-format
 msgid "It goes out by itself on %s."
 msgstr "Será enviada automaticamente a %s."
 
-#: includes/admin/class-media-view.php:909
-#: includes/admin/class-media-view.php:910
+#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:912
 msgid "Alt text: being written."
 msgstr "Texto alternativo: a ser escrito."
 
-#: includes/admin/class-media-view.php:911
+#: includes/admin/class-media-view.php:913
 msgid "Alt text: written by Iminify."
 msgstr "Texto alternativo: escrito pelo Iminify."
 
-#: includes/admin/class-media-view.php:912
+#: includes/admin/class-media-view.php:914
 msgid "Alt text: yours was kept."
 msgstr "Texto alternativo: o seu foi mantido."
 
-#: includes/admin/class-media-view.php:913
+#: includes/admin/class-media-view.php:915
 msgid "Alt text: Iminify couldn't write one for this image."
 msgstr "Texto alternativo: o Iminify não conseguiu escrever um para esta imagem."
 
-#: includes/admin/class-media-view.php:914
+#: includes/admin/class-media-view.php:916
 msgid "Alt text: not written, as the day's AI alt texts were used up."
 msgstr "Texto alternativo: não foi escrito, porque os textos alternativos com IA do dia se esgotaram."
 
-#: includes/admin/class-media-view.php:940
+#: includes/admin/class-media-view.php:942
 msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
 msgstr "Esta imagem contém Content Credentials, um registo assinado da sua origem, e os seus ficheiros mantêm-nas."
 
-#: includes/admin/class-media-view.php:942
+#: includes/admin/class-media-view.php:944
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
 msgstr "Esta imagem continha Content Credentials, um registo assinado da sua origem. Os ficheiros e as cópias que o Iminify escreveu não as incluem, porque um ficheiro novo quebra a assinatura, mas o original guardado como cópia de segurança ainda as tem."
 
-#: includes/admin/class-media-view.php:944
+#: includes/admin/class-media-view.php:946
 msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
 msgstr "Esta imagem continha Content Credentials, um registo assinado da sua origem. Os ficheiros e as cópias que o Iminify escreveu não as incluem, porque um ficheiro novo quebra a assinatura."
 
-#: includes/admin/class-media-view.php:948
+#: includes/admin/class-media-view.php:950
 msgid "They say generative AI made it, wholly or in part."
 msgstr "Indicam que foi criada por IA generativa, no todo ou em parte."
 
-#: includes/admin/class-media-view.php:983
-#: includes/admin/class-media-view.php:1003
+#: includes/admin/class-media-view.php:985
+#: includes/admin/class-media-view.php:1005
 msgid "WebP"
 msgstr "WebP"
 
-#: includes/admin/class-media-view.php:984
-#: includes/admin/class-media-view.php:1004
+#: includes/admin/class-media-view.php:986
+#: includes/admin/class-media-view.php:1006
 msgid "AVIF"
 msgstr "AVIF"
 
 #. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
-#: includes/admin/class-media-view.php:1021
+#: includes/admin/class-media-view.php:1023
 #, php-format
 msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
 msgstr "As páginas mostram as cópias %1$s feitas por %2$s, até o Iminify fazer as suas."
 
-#: includes/admin/class-media-view.php:1051
+#: includes/admin/class-media-view.php:1053
 #: includes/audit/class-fixes.php:149
 msgid "Full Size"
 msgstr "Tamanho original"
 
 #. translators: %s: the compression level, such as Smart.
-#: includes/admin/class-media-view.php:1080
+#: includes/admin/class-media-view.php:1082
 #, php-format
 msgid "Level: %s"
 msgstr "Nível: %s"
 
-#: includes/admin/class-media-view.php:1088
+#: includes/admin/class-media-view.php:1090
 msgid "Size"
 msgstr "Tamanho"
 
-#: includes/admin/class-media-view.php:1089
+#: includes/admin/class-media-view.php:1091
 msgid "Before"
 msgstr "Antes"
 
-#: includes/admin/class-media-view.php:1090
+#: includes/admin/class-media-view.php:1092
 msgid "After"
 msgstr "Depois"
 
-#: includes/admin/class-media-view.php:1091
+#: includes/admin/class-media-view.php:1093
 msgid "Copies"
 msgstr "Cópias"
 
-#: includes/admin/class-media-view.php:1137
+#: includes/admin/class-media-view.php:1139
 #: assets/build/audit.js:11
 #: assets/build/bulk.js:25
 #: assets/build/settings.js:37
 msgid "Write alt text with AI"
 msgstr "Escrever texto alternativo com IA"
 
-#: includes/admin/class-media-view.php:1137
+#: includes/admin/class-media-view.php:1139
 msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
 msgstr "Enviar uma cópia pequena desta imagem para escrever o seu texto alternativo? Conta como um dos seus textos alternativos com IA do dia."
 
-#: includes/admin/class-media-view.php:1137
+#: includes/admin/class-media-view.php:1139
 msgid "Write alt text"
 msgstr "Escrever texto alternativo"
 
-#: includes/admin/class-media-view.php:1156
+#: includes/admin/class-media-view.php:1158
 msgid "Optimize again from the original at"
 msgstr "Optimizar de novo a partir do original no nível"
 
-#: includes/admin/class-media-view.php:1184
+#: includes/admin/class-media-view.php:1186
 msgid "Connect the site to Iminify to optimize this image."
 msgstr "Ligue o site ao Iminify para optimizar esta imagem."
 
-#: includes/admin/class-media-view.php:1186
+#: includes/admin/class-media-view.php:1188
 msgid "No original of this image was kept, so it can't be optimized again or restored."
 msgstr "Não foi guardado nenhum original desta imagem, por isso não pode ser optimizada de novo nem reposta."
 
-#: includes/admin/class-media-view.php:1188
+#: includes/admin/class-media-view.php:1190
 msgid "Optimize again at"
 msgstr "Optimizar de novo no nível"
 
-#: includes/admin/class-media-view.php:1188
+#: includes/admin/class-media-view.php:1190
 msgid "Optimize at"
 msgstr "Optimizar no nível"
 
-#: includes/admin/class-media-view.php:1205
+#: includes/admin/class-media-view.php:1207
 msgid "Make what it lacks"
 msgstr "Criar o que lhe falta"
 
-#: includes/admin/class-media-view.php:1214
+#: includes/admin/class-media-view.php:1216
 msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
 msgstr "Esta imagem mudou desde que o Iminify a optimizou, por isso não há nada para repor."
 
-#: includes/admin/class-media-view.php:1221
+#: includes/admin/class-media-view.php:1223
 msgid "Delete the copies"
 msgstr "Eliminar as cópias"
 
-#: includes/admin/class-media-view.php:1221
+#: includes/admin/class-media-view.php:1223
 msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
 msgstr "Eliminar as cópias WebP e AVIF desta imagem? As páginas voltam a servir o JPEG ou o PNG."
 
-#: includes/admin/class-media-view.php:1286
+#: includes/admin/class-media-view.php:1288
 #: assets/build/bulk.js:23
 msgid "Make the missing formats"
 msgstr "Criar os formatos em falta"
 
-#: includes/admin/class-media-view.php:1290
+#: includes/admin/class-media-view.php:1292
 #: assets/build/bulk.js:24
 msgid "Make the missing sizes"
 msgstr "Criar os tamanhos em falta"
 
-#: includes/admin/class-media-view.php:1301
+#: includes/admin/class-media-view.php:1303
 msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
 msgstr "Enviar esta imagem de novo para criar o que lhe falta? Conta como mais uma imagem, e os outros ficheiros ficam como estão, a menos que o Iminify os torne mais pequenos."
 
-#: includes/admin/class-media-view.php:1309
+#: includes/admin/class-media-view.php:1311
 msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
 msgstr "Optimizar esta imagem de novo? O Iminify volta a criar os ficheiros a partir do original, mantendo o formato e os nomes, e isto conta como mais uma imagem."
 
-#: includes/admin/class-media-view.php:1312
+#: includes/admin/class-media-view.php:1314
 msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
 msgstr "Optimizar esta imagem de novo? Primeiro é reposto o original, e isto conta como mais uma imagem."
 
-#: includes/admin/class-media-view.php:1319
+#: includes/admin/class-media-view.php:1321
 msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
 msgstr "Repor o original desta imagem? O WordPress volta a criar os tamanhos, e as cópias WebP e AVIF são eliminadas."
 
 #. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
-#: includes/admin/class-media-view.php:1334
+#: includes/admin/class-media-view.php:1336
 #, php-format
 msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
 msgstr "Optimizar esta imagem de novo a partir do original que %s guardou? O Iminify volta a criar os ficheiros a partir dele, mantendo o formato e os nomes para que os seus artigos continuem a apontar para eles, e guarda a sua própria cópia de segurança do original. Isto conta como mais uma imagem."
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1341
+#: includes/admin/class-media-view.php:1343
 #, php-format
 msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
 msgstr "Optimizar esta imagem de novo a partir do original que %s guardou? Primeiro é reposto o original e o WordPress volta a criar os tamanhos; depois o Iminify optimiza-a e guarda a sua própria cópia de segurança do original. Isto conta como mais uma imagem."
 
 #. translators: %s: another image optimizer's name, such as Imagify.
-#: includes/admin/class-media-view.php:1356
+#: includes/admin/class-media-view.php:1358
 #, php-format
 msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
 msgstr "Repor o original desta imagem a partir do que %s guardou? O WordPress volta a criar os tamanhos, e as cópias de segurança e as cópias desse plugin ficam onde estão."
@@ -615,7 +615,7 @@ msgid "Only a site of a network the plugin is active for can join it."
 msgstr "Só um site de uma rede onde o plugin está activo pode aderir a ela."
 
 #: includes/admin/class-rest-controller.php:284
-#: includes/admin/class-settings-import.php:271
+#: includes/admin/class-settings-import.php:272
 #: includes/api/class-client.php:386
 #: includes/class-connection.php:529
 #: includes/folders/class-optimizer.php:143
@@ -626,77 +626,77 @@ msgstr "Só um site de uma rede onde o plugin está activo pode aderir a ela."
 msgid "This site isn't connected to Iminify."
 msgstr "Este site não está ligado ao Iminify."
 
-#: includes/admin/class-settings-import.php:56
+#: includes/admin/class-settings-import.php:57
 msgid "The plugin found no settings of that optimizer on this site."
 msgstr "O plugin não encontrou definições desse optimizador neste site."
 
-#: includes/admin/class-settings-import.php:106
+#: includes/admin/class-settings-import.php:107
 msgid "Those settings changed since they were shown. Look at them again before using them."
 msgstr "Essas definições mudaram desde que foram mostradas. Reveja-as antes de as usar."
 
-#: includes/admin/class-settings-import.php:207
+#: includes/admin/class-settings-import.php:208
 #: assets/build/settings.js:37
 msgid "Optimize new uploads"
 msgstr "Optimizar novos carregamentos"
 
-#: includes/admin/class-settings-import.php:209
+#: includes/admin/class-settings-import.php:210
 #: assets/build/settings.js:37
 msgid "Compression level"
 msgstr "Nível de compressão"
 
-#: includes/admin/class-settings-import.php:211
+#: includes/admin/class-settings-import.php:212
 #: assets/build/settings.js:37
 msgid "Make WebP copies"
 msgstr "Criar cópias WebP"
 
-#: includes/admin/class-settings-import.php:213
+#: includes/admin/class-settings-import.php:214
 #: assets/build/settings.js:37
 msgid "Make AVIF copies"
 msgstr "Criar cópias AVIF"
 
-#: includes/admin/class-settings-import.php:215
+#: includes/admin/class-settings-import.php:216
 #: assets/build/settings.js:37
 msgid "Maximum width, in pixels"
 msgstr "Largura máxima, em píxeis"
 
-#: includes/admin/class-settings-import.php:217
+#: includes/admin/class-settings-import.php:218
 #: assets/build/settings.js:37
 msgid "Size limit, in KB"
 msgstr "Limite de tamanho, em KB"
 
-#: includes/admin/class-settings-import.php:219
+#: includes/admin/class-settings-import.php:220
 #: assets/build/settings.js:37
 msgid "Keep metadata"
 msgstr "Manter metadados"
 
-#: includes/admin/class-settings-import.php:221
+#: includes/admin/class-settings-import.php:222
 #: assets/build/settings.js:37
 msgid "Sizes to optimize"
 msgstr "Tamanhos a optimizar"
 
-#: includes/admin/class-settings-import.php:223
+#: includes/admin/class-settings-import.php:224
 #: assets/build/settings.js:37
 msgid "Keep a backup of each original"
 msgstr "Guardar uma cópia de segurança de cada original"
 
-#: includes/admin/class-settings-import.php:241
+#: includes/admin/class-settings-import.php:242
 #: assets/build/settings.js:37
 msgid "No limit"
 msgstr "Sem limite"
 
-#: includes/admin/class-settings-import.php:244
+#: includes/admin/class-settings-import.php:245
 msgid "Every size"
 msgstr "Todos os tamanhos"
 
-#: includes/admin/class-settings-import.php:248
+#: includes/admin/class-settings-import.php:249
 msgid "Only the full image"
 msgstr "Apenas a imagem completa"
 
-#: includes/admin/class-settings-import.php:263
+#: includes/admin/class-settings-import.php:264
 msgid "On"
 msgstr "Activado"
 
-#: includes/admin/class-settings-import.php:263
+#: includes/admin/class-settings-import.php:264
 msgid "Off"
 msgstr "Desactivado"
 
@@ -721,40 +721,40 @@ msgstr "O script da página de definições não está na pasta do plugin. Reins
 msgid "The settings page needs JavaScript."
 msgstr "A página de definições precisa de JavaScript."
 
-#: includes/admin/class-state.php:164
+#: includes/admin/class-state.php:165
 msgid "Images today"
 msgstr "Imagens hoje"
 
-#: includes/admin/class-state.php:165
+#: includes/admin/class-state.php:166
 msgid "Files today"
 msgstr "Ficheiros hoje"
 
-#: includes/admin/class-state.php:166
+#: includes/admin/class-state.php:167
 msgid "AI alt texts today"
 msgstr "Textos alternativos com IA hoje"
 
-#: includes/admin/class-state.php:247
+#: includes/admin/class-state.php:248
 msgid "Guest"
 msgstr "Convidado"
 
-#: includes/admin/class-state.php:248
+#: includes/admin/class-state.php:249
 msgid "Free"
 msgstr "Gratuito"
 
-#: includes/admin/class-state.php:249
+#: includes/admin/class-state.php:250
 msgid "Pro trial"
 msgstr "Avaliação Pro"
 
-#: includes/admin/class-state.php:250
+#: includes/admin/class-state.php:251
 msgid "Pro"
 msgstr "Pro"
 
-#: includes/admin/class-state.php:251
+#: includes/admin/class-state.php:252
 msgid "Max"
 msgstr "Max"
 
 #. translators: %s: how many files Iminify made today.
-#: includes/admin/class-state.php:301
+#: includes/admin/class-state.php:302
 #, php-format
 msgctxt "files today"
 msgid "%s used, no daily limit"
@@ -763,7 +763,7 @@ msgstr[0] "%s usado, sem limite diário"
 msgstr[1] "%s usados, sem limite diário"
 
 #. translators: %s: how many files Iminify made today.
-#: includes/admin/class-state.php:303
+#: includes/admin/class-state.php:304
 #, php-format
 msgctxt "files today"
 msgid "%s used"
@@ -772,7 +772,7 @@ msgstr[0] "%s usado"
 msgstr[1] "%s usados"
 
 #. translators: %s: how many files are left today.
-#: includes/admin/class-state.php:305
+#: includes/admin/class-state.php:306
 #, php-format
 msgctxt "files today"
 msgid "%s left"
@@ -781,7 +781,7 @@ msgstr[0] "%s restante"
 msgstr[1] "%s restantes"
 
 #. translators: %s: how many AI alt texts were written today.
-#: includes/admin/class-state.php:309
+#: includes/admin/class-state.php:310
 #, php-format
 msgctxt "AI alt texts today"
 msgid "%s used, no daily limit"
@@ -790,7 +790,7 @@ msgstr[0] "%s usado, sem limite diário"
 msgstr[1] "%s usados, sem limite diário"
 
 #. translators: %s: how many AI alt texts were written today.
-#: includes/admin/class-state.php:311
+#: includes/admin/class-state.php:312
 #, php-format
 msgctxt "AI alt texts today"
 msgid "%s used"
@@ -799,7 +799,7 @@ msgstr[0] "%s usado"
 msgstr[1] "%s usados"
 
 #. translators: %s: how many AI alt texts are left today.
-#: includes/admin/class-state.php:313
+#: includes/admin/class-state.php:314
 #, php-format
 msgctxt "AI alt texts today"
 msgid "%s left"
@@ -808,7 +808,7 @@ msgstr[0] "%s restante"
 msgstr[1] "%s restantes"
 
 #. translators: %s: how many images were optimized today.
-#: includes/admin/class-state.php:317
+#: includes/admin/class-state.php:318
 #, php-format
 msgctxt "images today"
 msgid "%s used, no daily limit"
@@ -817,7 +817,7 @@ msgstr[0] "%s usada, sem limite diário"
 msgstr[1] "%s usadas, sem limite diário"
 
 #. translators: %s: how many images were optimized today.
-#: includes/admin/class-state.php:319
+#: includes/admin/class-state.php:320
 #, php-format
 msgctxt "images today"
 msgid "%s used"
@@ -826,7 +826,7 @@ msgstr[0] "%s usada"
 msgstr[1] "%s usadas"
 
 #. translators: %s: how many images are left today.
-#: includes/admin/class-state.php:321
+#: includes/admin/class-state.php:322
 #, php-format
 msgctxt "images today"
 msgid "%s left"
@@ -834,153 +834,153 @@ msgid_plural "%s left"
 msgstr[0] "%s restante"
 msgstr[1] "%s restantes"
 
-#: includes/admin/class-state.php:343
+#: includes/admin/class-state.php:344
 msgid "This site"
 msgstr "Este site"
 
-#: includes/admin/class-state.php:344
+#: includes/admin/class-state.php:345
 msgid "Your whole account"
 msgstr "Toda a sua conta"
 
-#: includes/admin/class-state.php:470
+#: includes/admin/class-state.php:471
 #: includes/audit/class-fixes.php:146
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: includes/admin/class-state.php:471
+#: includes/admin/class-state.php:472
 #: includes/audit/class-fixes.php:147
 msgid "Medium"
 msgstr "Médio"
 
-#: includes/admin/class-state.php:472
+#: includes/admin/class-state.php:473
 #: includes/audit/class-fixes.php:148
 msgid "Large"
 msgstr "Grande"
 
 #. translators: 1: the size's name, 2: its width in pixels.
-#: includes/admin/class-state.php:495
+#: includes/admin/class-state.php:496
 #, php-format
 msgid "%1$s (%2$d wide)"
 msgstr "%1$s (%2$d de largura)"
 
 #. translators: 1: the size's name, 2: its height in pixels.
-#: includes/admin/class-state.php:500
+#: includes/admin/class-state.php:501
 #, php-format
 msgid "%1$s (%2$d high)"
 msgstr "%1$s (%2$d de altura)"
 
 #. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
-#: includes/admin/class-state.php:504
+#: includes/admin/class-state.php:505
 #, php-format
 msgid "%1$s (%2$d × %3$d)"
 msgstr "%1$s (%2$d × %3$d)"
 
-#: includes/audit/class-findings.php:54
+#: includes/audit/class-findings.php:56
 msgid "Show a smaller size of the image here."
 msgstr "Mostre aqui um tamanho mais pequeno da imagem."
 
 #. translators: %s: a width in pixels, such as 1,280.
-#: includes/audit/class-findings.php:56
+#: includes/audit/class-findings.php:58
 #, php-format
 msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
 msgstr "Mostre aqui um tamanho com cerca de %s píxeis de largura, o dobro da largura que a imagem ocupa na página."
 
-#: includes/audit/class-findings.php:58
+#: includes/audit/class-findings.php:60
 msgid "Give the image its width and height in the page."
 msgstr "Indique na página a largura e a altura da imagem."
 
-#: includes/audit/class-findings.php:60
+#: includes/audit/class-findings.php:62
 msgid "Write alt text for the image."
 msgstr "Escreva texto alternativo para a imagem."
 
-#: includes/audit/class-findings.php:62
+#: includes/audit/class-findings.php:64
 msgid "Load the image straight away, not lazily."
 msgstr "Carregue a imagem de imediato, não em diferido."
 
-#: includes/audit/class-findings.php:64
+#: includes/audit/class-findings.php:66
 msgid "Load the image lazily, once a visitor scrolls near it."
 msgstr "Carregue a imagem em diferido, quando um visitante se aproxima dela ao percorrer a página."
 
-#: includes/audit/class-findings.php:66
+#: includes/audit/class-findings.php:68
 msgid "Have the browser fetch the image first."
 msgstr "Faça com que o navegador obtenha a imagem primeiro."
 
-#: includes/audit/class-findings.php:103
+#: includes/audit/class-findings.php:105
 msgid "Oversized"
 msgstr "Demasiado grande"
 
-#: includes/audit/class-findings.php:104
+#: includes/audit/class-findings.php:106
 msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
 msgstr "O ficheiro tem mais do dobro da largura e do dobro da altura do espaço onde é mostrado. Um tamanho mais pequeno da mesma imagem ficaria igualmente nítido."
 
-#: includes/audit/class-findings.php:108
+#: includes/audit/class-findings.php:110
 msgid "No width and height"
 msgstr "Sem largura e altura"
 
-#: includes/audit/class-findings.php:109
+#: includes/audit/class-findings.php:111
 msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
 msgstr "A imagem não tem os atributos de largura e altura, por isso o navegador não consegue reservar o seu espaço e a página mexe-se quando ela chega."
 
-#: includes/audit/class-findings.php:113
+#: includes/audit/class-findings.php:115
 msgid "Lazy in the first screen"
 msgstr "Diferida no primeiro ecrã"
 
-#: includes/audit/class-findings.php:114
+#: includes/audit/class-findings.php:116
 msgid "The image is in the first screen but is lazy loaded, which delays it."
 msgstr "A imagem está no primeiro ecrã mas é carregada em diferido, o que a atrasa."
 
-#: includes/audit/class-findings.php:118
+#: includes/audit/class-findings.php:120
 msgid "Loads too early"
 msgstr "Carrega demasiado cedo"
 
-#: includes/audit/class-findings.php:119
+#: includes/audit/class-findings.php:121
 msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
 msgstr "A imagem está abaixo do primeiro ecrã e carrega de imediato, competindo com o que aparece primeiro aos visitantes."
 
-#: includes/audit/class-findings.php:123
+#: includes/audit/class-findings.php:125
 msgid "No alt text"
 msgstr "Sem texto alternativo"
 
-#: includes/audit/class-findings.php:124
+#: includes/audit/class-findings.php:126
 msgid "The image has no alt text for screen readers and search engines."
 msgstr "A imagem não tem texto alternativo para leitores de ecrã e motores de pesquisa."
 
-#: includes/audit/class-findings.php:128
+#: includes/audit/class-findings.php:130
 msgid "Not prioritized"
 msgstr "Sem prioridade"
 
-#: includes/audit/class-findings.php:129
+#: includes/audit/class-findings.php:131
 msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
 msgstr "Este é o maior elemento do primeiro ecrã, por isso a página parece carregada quando ele chega. Obtê-lo primeiro mostraria a página mais cedo."
 
-#: includes/audit/class-findings.php:146
+#: includes/audit/class-findings.php:148
 msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
 msgstr "O seu site recusou o analisador, por isso não foi possível ler a página. Isto acontece por causa de uma firewall ou de uma verificação anti-bots, muitas vezes a da Cloudflare. Deixe passar a análise por um momento: na Cloudflare, desactive o Bot Fight Mode ou defina o Security Level como “Essentially off”; num plugin de segurança, ponha em pausa a firewall ou o bloqueio de bots. Analise de novo e depois volte a activá-los."
 
 #. translators: %d: the HTTP status the site answered, such as 403.
-#: includes/audit/class-findings.php:148
+#: includes/audit/class-findings.php:150
 #, php-format
 msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
 msgstr "O seu site recusou o analisador (respondeu %d), por isso não foi possível ler a página. Isto acontece por causa de uma firewall ou de uma verificação anti-bots, muitas vezes a da Cloudflare. Deixe passar a análise por um momento: na Cloudflare, desactive o Bot Fight Mode ou defina o Security Level como “Essentially off”; num plugin de segurança, ponha em pausa a firewall ou o bloqueio de bots. Analise de novo e depois volte a activá-los."
 
-#: includes/audit/class-findings.php:150
+#: includes/audit/class-findings.php:152
 msgid "There is no page at this address. Check the address and scan again."
 msgstr "Não há nenhuma página neste endereço. Verifique o endereço e analise de novo."
 
-#: includes/audit/class-findings.php:152
+#: includes/audit/class-findings.php:154
 msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
 msgstr "A página respondeu com um erro do lado do site, por isso não foi possível lê-la. Analise de novo dentro de alguns minutos."
 
-#: includes/audit/class-findings.php:154
+#: includes/audit/class-findings.php:156
 msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
 msgstr "A página encaminhou o analisador para outro site, e uma auditoria não segue esse encaminhamento. Analise o endereço onde a página acaba por ir parar, se estiver neste site."
 
-#: includes/audit/class-findings.php:157
+#: includes/audit/class-findings.php:159
 msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
 msgstr "Não foi possível ler a página: o site não respondeu ao analisador. Verifique o endereço e analise de novo."
 
 #. translators: %d: the HTTP status the site answered, such as 400.
-#: includes/audit/class-findings.php:159
+#: includes/audit/class-findings.php:161
 #, php-format
 msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
 msgstr "A página respondeu %d em vez de mostrar a página, por isso não foi possível lê-la. Verifique o endereço e analise de novo."
@@ -1006,7 +1006,7 @@ msgid "Put every optimized file in your folders back as it was?"
 msgstr "Repor todos os ficheiros optimizados das suas pastas tal como eram?"
 
 #: includes/class-cli.php:181
-#: includes/class-cli.php:268
+#: includes/class-cli.php:275
 msgid "Name the attachments, or pass --all."
 msgstr "Indique os anexos, ou use --all."
 
@@ -1014,78 +1014,80 @@ msgstr "Indique os anexos, ou use --all."
 msgid "Put every optimized image back as it was uploaded?"
 msgstr "Repor todas as imagens optimizadas tal como foram carregadas?"
 
-#: includes/class-cli.php:228
-msgid "Say what to make: formats or sizes."
-msgstr "Indique o que criar: formats ou sizes."
+#. translators: 1: formats, 2: sizes, the two words the command takes as they are typed.
+#: includes/class-cli.php:231
+#, php-format
+msgid "Say what to make: %1$s or %2$s."
+msgstr "Indique o que criar: %1$s ou %2$s."
 
-#: includes/class-cli.php:314
+#: includes/class-cli.php:321
 msgid "On a network, other folders are chosen on the main site: add --url with its address."
 msgstr "Numa rede, as outras pastas são escolhidas no site principal: adicione --url com o endereço dele."
 
-#: includes/class-cli.php:321
+#: includes/class-cli.php:328
 msgid "Name the folder, relative to wp-content."
 msgstr "Indique a pasta, relativa a wp-content."
 
 #. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
-#: includes/class-cli.php:354
+#: includes/class-cli.php:361
 #, php-format
 msgid "Found %1$s image: %2$s new, %3$s changed."
 msgid_plural "Found %1$s images: %2$s new, %3$s changed."
 msgstr[0] "%1$s imagem encontrada (novas: %2$s, alteradas: %3$s)."
 msgstr[1] "%1$s imagens encontradas (novas: %2$s, alteradas: %3$s)."
 
-#: includes/class-cli.php:392
-#: includes/class-cli.php:421
+#: includes/class-cli.php:399
+#: includes/class-cli.php:428
 msgid "No bulk run is going."
 msgstr "Não está a decorrer nenhuma execução em massa."
 
-#: includes/class-cli.php:425
+#: includes/class-cli.php:432
 msgid "Stopped."
 msgstr "Execução parada."
 
-#: includes/class-cli.php:490
+#: includes/class-cli.php:497
 msgid "The run goes on in the background. See how far it got with: wp iminify status"
 msgstr "A execução continua em segundo plano. Veja o progresso com: wp iminify status"
 
-#: includes/class-cli.php:511
+#: includes/class-cli.php:518
 msgid "Bulk run"
 msgstr "Execução em massa"
 
 #. translators: %s: the date and time the alt texts come back.
-#: includes/class-cli.php:605
+#: includes/class-cli.php:612
 #, php-format
 msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
 msgstr "Os textos alternativos com IA do dia da conta esgotaram-se. A execução continua em segundo plano quando voltarem, a %s."
 
-#: includes/class-cli.php:613
-#: includes/class-cli.php:640
+#: includes/class-cli.php:620
+#: includes/class-cli.php:647
 msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
 msgstr "A execução aguarda a ligação deste site ao Iminify, e continua em segundo plano assim que esta funcionar."
 
-#: includes/class-cli.php:621
+#: includes/class-cli.php:628
 msgid "The run goes on in the background once it stops."
 msgstr "A execução continua em segundo plano assim que esse plugin parar."
 
 #. translators: %s: the date and time the next batch opens.
-#: includes/class-cli.php:632
+#: includes/class-cli.php:639
 #, php-format
 msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
 msgstr "As imagens do dia da conta esgotaram-se. A execução continua em segundo plano quando o próximo lote abrir, a %s."
 
-#: includes/class-cli.php:654
+#: includes/class-cli.php:661
 msgid "The run was stopped."
 msgstr "A execução foi parada."
 
-#: includes/class-cli.php:661
+#: includes/class-cli.php:668
 msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
 msgstr "A execução foi pausada: o servidor tem pouco espaço em disco. Liberte algum espaço e depois execute: wp iminify run"
 
-#: includes/class-cli.php:664
+#: includes/class-cli.php:671
 msgid "The run was paused. Carry on with: wp iminify run"
 msgstr "A execução foi pausada. Continue com: wp iminify run"
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:673
+#: includes/class-cli.php:680
 #, php-format
 msgid "%s image couldn't be restored. Its panel in the media library says why."
 msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
@@ -1093,7 +1095,7 @@ msgstr[0] "Não foi possível repor %s imagem. O painel dela na biblioteca multi
 msgstr[1] "Não foi possível repor %s imagens. Os painéis delas na biblioteca multimédia explicam porquê."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:683
+#: includes/class-cli.php:690
 #: assets/build/bulk.js:27
 #, php-format,js-format
 msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
@@ -1102,7 +1104,7 @@ msgstr[0] "%s imagem ficou como está: outro plugin converteu-a para WebP ou AVI
 msgstr[1] "%s imagens ficaram como estão: outros plugins converteram-nas para WebP ou AVIF, e só esses plugins podem repor os originais."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:691
+#: includes/class-cli.php:698
 #: assets/build/bulk.js:29
 #, php-format,js-format
 msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
@@ -1111,7 +1113,7 @@ msgstr[0] "%s imagem ficou como o outro plugin a deixou: o original desapareceu,
 msgstr[1] "%s imagens ficaram como os outros plugins as deixaram: os originais desapareceram, são demasiado grandes para enviar, ou só esses plugins os podem repor. Os painéis delas na biblioteca multimédia indicam o motivo."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:699
+#: includes/class-cli.php:706
 #: assets/build/bulk.js:28
 #, php-format,js-format
 msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
@@ -1120,7 +1122,7 @@ msgstr[0] "%s imagem ficou como está: partilha os ficheiros com outro anexo, ou
 msgstr[1] "%s imagens ficaram como estão: partilham os ficheiros com outro anexo, ou já têm texto alternativo."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:707
+#: includes/class-cli.php:714
 #: assets/build/bulk.js:30
 #, php-format,js-format
 msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
@@ -1129,7 +1131,7 @@ msgstr[0] "%s imagem não tem nenhum original de onde partir, ou mudou desde que
 msgstr[1] "%s imagens não têm nenhum original de onde partir, ou mudaram desde que foram optimizadas, por isso não foi criado nada para elas."
 
 #. translators: %s: how many files.
-#: includes/class-cli.php:717
+#: includes/class-cli.php:724
 #, php-format
 msgid "%s file restored."
 msgid_plural "%s files restored."
@@ -1137,7 +1139,7 @@ msgstr[0] "%s ficheiro reposto."
 msgstr[1] "%s ficheiros repostos."
 
 #. translators: %s: how many files.
-#: includes/class-cli.php:719
+#: includes/class-cli.php:726
 #, php-format
 msgid "%s file sent to Iminify."
 msgid_plural "%s files sent to Iminify."
@@ -1145,7 +1147,7 @@ msgstr[0] "%s ficheiro enviado para o Iminify."
 msgstr[1] "%s ficheiros enviados para o Iminify."
 
 #. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
-#: includes/class-cli.php:724
+#: includes/class-cli.php:731
 #, php-format
 msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
 msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
@@ -1153,7 +1155,7 @@ msgstr[0] "As suas pastas têm %1$s de %2$s ficheiro optimizado, %3$s com falha.
 msgstr[1] "As suas pastas têm %1$s de %2$s ficheiros optimizados, %3$s com falha."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:737
+#: includes/class-cli.php:744
 #, php-format
 msgid "%s image restored."
 msgid_plural "%s images restored."
@@ -1161,7 +1163,7 @@ msgstr[0] "%s imagem reposta."
 msgstr[1] "%s imagens repostas."
 
 #. translators: %s: how many images.
-#: includes/class-cli.php:739
+#: includes/class-cli.php:746
 #, php-format
 msgid "%s image sent to Iminify."
 msgid_plural "%s images sent to Iminify."
@@ -1169,7 +1171,7 @@ msgstr[0] "%s imagem enviada para o Iminify."
 msgstr[1] "%s imagens enviadas para o Iminify."
 
 #. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
-#: includes/class-cli.php:744
+#: includes/class-cli.php:751
 #, php-format
 msgid "The library has %1$s of %2$s image optimized, %3$s failed."
 msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
@@ -1177,12 +1179,12 @@ msgstr[0] "A biblioteca tem %1$s de %2$s imagem optimizada, %3$s com falha."
 msgstr[1] "A biblioteca tem %1$s de %2$s imagens optimizadas, %3$s com falha."
 
 #. translators: %s: what was given as an attachment's id.
-#: includes/class-cli.php:791
+#: includes/class-cli.php:798
 #, php-format
 msgid "%s isn't an attachment."
 msgstr "%s não é um anexo."
 
-#: includes/class-cli.php:812
+#: includes/class-cli.php:819
 msgid "This account can't run bulk commands."
 msgstr "Esta conta não pode executar comandos em massa."
 

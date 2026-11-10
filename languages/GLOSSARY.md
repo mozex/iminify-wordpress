@@ -5,7 +5,7 @@ The plugin ships its own translations in this folder. `iminify-image-optimizer.p
 ## What every translation keeps
 
 - **Names stay as they are:** Iminify, WebP, AVIF, JPEG, PNG, GIF, HEIC, the plan names Pro and Max, WP-CLI, WooCommerce, Cloudflare, Nginx, Apache, and every other product or plugin name. A name in a sentence may take the grammar the language needs around it, but its spelling never changes.
-- **Code stays as it is:** everything inside `<code>` and `</code>`, file names (`wp-config.php`, `.htaccess`), constants (`IMINIFY_API_KEY`), commands (`wp iminify optimize`), addresses (`iminify.com`) and HTTP status codes.
+- **Code stays as it is:** everything inside `<code>` and `</code>`, file names (`wp-config.php`, `.htaccess`), constants (`IMINIFY_API_KEY`), commands (`wp iminify optimize`), addresses (`iminify.com`) and HTTP status codes. So do the words a command takes as typed, even outside `<code>`: "formats or sizes" after `wp iminify missing` keeps both words in English, with the language's own word beside each if it helps.
 - **Placeholders stay exactly as written:** `%s`, `%d`, `%1$s`, `%2$s`, `%%`. A translation holds the same placeholders as its source, no more and no fewer; with several, the numbered ones may move to wherever the language puts them. Each plural form holds the placeholders of the plural source.
 - **Tags stay exactly as written:** `<a>` and `</a>`, `<code>`, `<strong>`, `<file />` and the like are filled in by the code, so each pair keeps its name and wraps the translated words it wrapped in the source.
 - **No em dash (—).** Use the language's ordinary punctuation: a comma, a colon, or a hyphen with spaces.

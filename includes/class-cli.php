@@ -225,7 +225,14 @@ class Cli {
 		$what = (string) array_shift( $args );
 
 		if ( ! in_array( $what, array( Missing::FORMATS, Missing::SIZES ), true ) ) {
-			WP_CLI::error( __( 'Say what to make: formats or sizes.', 'iminify-image-optimizer' ) );
+			WP_CLI::error(
+				sprintf(
+					/* translators: 1: formats, 2: sizes, the two words the command takes as they are typed. */
+					__( 'Say what to make: %1$s or %2$s.', 'iminify-image-optimizer' ),
+					Missing::FORMATS,
+					Missing::SIZES
+				)
+			);
 		}
 
 		$this->begin( $what, array() === $args ? null : $this->ids( $args ), $assoc );
