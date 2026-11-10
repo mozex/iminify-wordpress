@@ -27,7 +27,7 @@ Iminify counts what you upload, not what WordPress makes of it. A photo WordPres
 
 = Your library, in bulk =
 
-Media, Bulk Optimization shows how many images are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page restores every optimized image at once.
+Media, Bulk Optimization shows how many images are left, how many days your plan's daily images need for them, and the disk space their backups take. A run goes on in the background, or while the page is open on a host whose scheduled tasks don't run, and picks up by itself after a spent day. The same page puts back, at once, every optimized image whose original was kept.
 
 If you turn AVIF on after optimizing your library, or a theme adds an image size, the page also makes what the optimized images lack. Each image goes again from its original, counts as one more image, and keeps its other files unless Iminify makes them smaller.
 

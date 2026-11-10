@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T05:47:06+00:00\n"
+"POT-Creation-Date: 2026-11-10T09:44:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: iminify-image-optimizer\n"
@@ -25,9 +25,8 @@ msgid "Iminify Image Optimizer"
 msgstr ""
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
 #: iminify-image-optimizer.php
-msgid "https://www.iminify.com"
+msgid "https://www.iminify.com/wordpress-plugin"
 msgstr ""
 
 #. Description of the plugin
@@ -43,6 +42,11 @@ msgstr ""
 #: includes/admin/class-settings-page.php:56
 #: includes/admin/class-settings-page.php:77
 msgid "Iminify"
+msgstr ""
+
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
 msgstr ""
 
 #: includes/admin/class-audit-page.php:41

@@ -24,7 +24,6 @@ msgstr ""
 msgid "Iminify Image Optimizer"
 msgstr "Iminify Image Optimizer"
 
-#. Plugin URI of the plugin
 #. Author URI of the plugin
 #: iminify-image-optimizer.php
 msgid "https://www.iminify.com"
@@ -3735,3 +3734,8 @@ msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, ο
 #: assets/build/settings.js:38
 msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
 msgstr "Το Iminify αποσύνδεσε αυτόν τον ιστότοπο, οπότε οι νέες μεταφορτώσεις δεν βελτιστοποιούνται. Συνδέστε τον ξανά για να συνεχίσετε."
+
+#. Plugin URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com/wordpress-plugin"
+msgstr "https://www.iminify.com/wordpress-plugin"

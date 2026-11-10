@@ -36,8 +36,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$GITHUB_SHA" --status success --json databaseId --jq length)
-          echo "CI runs passed on $GITHUB_SHA: $passed"
+          passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$GITHUB_SHA" --branch main --event push --status success --json databaseId --jq length)
+          echo "CI runs passed on main at $GITHUB_SHA: $passed"
           [ "$passed" -ge 1 ]
 
       - name: Check the tag names the version the plugin states
@@ -77,6 +77,7 @@ jobs:
             build/iminify-image-optimizer
             build/iminify-image-optimizer.zip
           if-no-files-found: error
+          overwrite: true
 
   deploy:
     name: Release to wordpress.org

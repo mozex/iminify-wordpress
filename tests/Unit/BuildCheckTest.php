@@ -43,12 +43,13 @@ class BuildCheckTest extends TestCase {
 		$this->write( 'assets/images/mark.svg', '<svg xmlns="http://www.w3.org/2000/svg"></svg>' );
 		$this->write( 'languages/x.mo', "https://www.iminify.com\0image\0https://wordpress.org/support/plugin/iminify-image-optimizer\0" );
 		$this->write( 'languages/x.json', '{"a":"See https:\/\/www.iminify.com\/pricing"}' );
-		$this->write( 'assets/build/settings.js', 'if(e.test(a)){return b.example(c)}' );
+		$this->write( 'assets/build/settings.js', 'if(e.test(a)){return b.example(c)}x.replace(/a/g,"");a?e.test:b;u="//"+host;img.src="//www.iminify.com/x.png"' );
 
 		$this->assertSame( array(), iminify_check_addresses( $this->dir ) );
 	}
 
 	public function test_any_other_address_is_named_with_its_file_however_it_is_written(): void {
+		$this->write( 'assets/build/audit.js', 'img.src="//cdn.example.com/a.png"' );
 		$this->write( 'assets/build/settings.js', 'fetch("https://cdn.example.com/x.js")' );
 		$this->write( 'assets/build/settings.css', '.a{background:url(//cdn.example.com/x.png)}' );
 		$this->write( 'languages/x.json', '{"a":"See https:\/\/cdn.example.com\/x"}' );
@@ -56,6 +57,7 @@ class BuildCheckTest extends TestCase {
 
 		$this->assertSame(
 			array(
+				'assets/build/audit.js: //cdn.example.com/a.png',
 				'assets/build/settings.css: //cdn.example.com/x.png',
 				'assets/build/settings.js: https://cdn.example.com/x.js',
 				'languages/x.json: https://cdn.example.com/x',
@@ -65,22 +67,47 @@ class BuildCheckTest extends TestCase {
 		);
 	}
 
-	public function test_action_schedulers_own_links_pass_but_a_local_name_never_does(): void {
-		$this->write( 'vendor/woocommerce/action-scheduler/readme.txt', 'Docs: https://actionscheduler.org/' );
+	public function test_action_schedulers_own_links_pass(): void {
+		$this->write( 'vendor/woocommerce/action-scheduler/readme.txt', 'Docs: https://actionscheduler.org/ and https://github.com/woocommerce/action-scheduler' );
+
 		$this->assertSame( array(), iminify_check_addresses( $this->dir ) );
+	}
 
-		$this->write( 'vendor/woocommerce/action-scheduler/x.php', '<?php // https://shop.test/api' );
-		$this->write( 'includes/x.php', '<?php // see E:\\Users\\dev\\site and http://localhost:8080/' );
-
-		$this->assertSame(
-			array(
-				'includes/x.php: localhost',
-				'includes/x.php: E:\\Users',
-				'includes/x.php: http://localhost:8080/',
-				'vendor/woocommerce/action-scheduler/x.php: //shop.test',
-			),
-			iminify_check_addresses( $this->dir )
+	/**
+	 * Each kind of local name, planted in Action Scheduler's folder so only the
+	 * local names are read there, with what the check names. A backslash is
+	 * written \x5c.
+	 *
+	 * @return array<string, array{string, string}>
+	 */
+	public function local_names(): array {
+		return array(
+			'localhost'                    => array( 'see localhost', 'localhost' ),
+			'loopback address'             => array( 'at 127.0.0.1:80', '127.0.0.1' ),
+			'container host'               => array( 'h=host.docker.internal;', 'host.docker.internal' ),
+			'reserved host after //'       => array( 'https://shop.test/api', '//shop.test' ),
+			'reserved host standing alone' => array( '"api.shop.example:8443"', 'api.shop.example' ),
+			'drive path with slashes'      => array( 'C:/Users/dev/site', 'C:/Users/' ),
+			'drive path, escaped'          => array( "\"C:\x5c\x5cUsers\x5c\x5cdev\"", "C:\x5c\x5cUsers\x5c" ),
+			'drive path, any folder'       => array( "D:\x5cprojects\x5csite", "D:\x5cprojects\x5c" ),
+			'WSL network path'             => array( "\x5c\x5cwsl\$\x5cUbuntu", "\x5c\x5cwsl\$" ),
+			'WSL mount'                    => array( 'cd /mnt/c/site', '/mnt/c/' ),
+			'Git Bash drive'               => array( 'cd /d/projects/site/', '/d/projects/' ),
+			'macOS home'                   => array( 'see /Users/alice/site', '/Users/alice/' ),
+			'Linux home'                   => array( 'see /home/runner/site', '/home/runner/' ),
 		);
+	}
+
+	/**
+	 * @dataProvider local_names
+	 *
+	 * @param string $content What the file holds.
+	 * @param string $named   What the check names.
+	 */
+	public function test_a_local_name_is_found_even_in_action_schedulers_folder( string $content, string $named ): void {
+		$this->write( 'vendor/woocommerce/action-scheduler/x.php', $content );
+
+		$this->assertContains( 'vendor/woocommerce/action-scheduler/x.php: ' . $named, iminify_check_addresses( $this->dir ) );
 	}
 
 	public function test_every_locale_has_its_files_and_the_checkouts_bytes(): void {

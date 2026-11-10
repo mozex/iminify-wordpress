@@ -24,7 +24,6 @@ msgstr ""
 msgid "Iminify Image Optimizer"
 msgstr "Iminify Image Optimizer"
 
-#. Plugin URI of the plugin
 #. Author URI of the plugin
 #: iminify-image-optimizer.php
 msgid "https://www.iminify.com"
@@ -3679,3 +3678,8 @@ msgstr "Iminify 已中斷這個網站的連線，因此新上傳的圖片不會�
 #: assets/build/settings.js:38
 msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
 msgstr "Iminify 已中斷這個網站的連線，因此新上傳的圖片不會進行最佳化。請重新連線以繼續。"
+
+#. Plugin URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com/wordpress-plugin"
+msgstr "https://www.iminify.com/wordpress-plugin"

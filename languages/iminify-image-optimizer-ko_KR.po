@@ -24,7 +24,6 @@ msgstr ""
 msgid "Iminify Image Optimizer"
 msgstr "Iminify Image Optimizer"
 
-#. Plugin URI of the plugin
 #. Author URI of the plugin
 #: iminify-image-optimizer.php
 msgid "https://www.iminify.com"
@@ -3679,3 +3678,8 @@ msgstr "Iminify에서 이 사이트의 연결을 해제해 새 업로드가 최�
 #: assets/build/settings.js:38
 msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
 msgstr "Iminify에서 이 사이트의 연결을 해제해 새 업로드가 최적화되지 않습니다. 계속하려면 다시 연결하세요."
+
+#. Plugin URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com/wordpress-plugin"
+msgstr "https://www.iminify.com/wordpress-plugin"

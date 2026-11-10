@@ -34,19 +34,23 @@ const IMINIFY_BUILD_SCHEDULER = 'vendor/woocommerce/action-scheduler/';
 
 /**
  * What points at a development copy of the service or at a developer's
- * machine: a loopback or container host, a host under a name reserved for
- * testing and examples (RFC 2606 and RFC 6761, and `.internal`), a WSL mount,
- * a Windows drive's path or a home folder. Never allowed anywhere in what
- * ships, Action Scheduler included. A host needs the `//` before it, so
- * minified code (`e.test(`) never matches.
+ * machine, never allowed anywhere in what ships, Action Scheduler included:
+ * a loopback or container host; a host under a name reserved for testing and
+ * examples (RFC 2606 and RFC 6761, and `.internal`), after `//` or standing
+ * alone before a port, a path or a quote, so minified code (`e.test(a)`)
+ * never matches; a drive's path with either separator, escaped or not; a
+ * WSL, Git Bash, macOS or Linux home path. A backslash is written `\x5c`.
  */
 const IMINIFY_BUILD_LOCAL = array(
 	'~localhost~i',
 	'~127\.0\.0\.1~',
 	'~host\.docker\.internal~i',
 	'~//[^/\s"\'<>()\x5c]*\.(?:test|example|invalid|localhost|internal)(?![a-z0-9.-])~i',
+	'~(?<![\w$.\x5c/@-])(?:[a-z0-9-]+\.)+(?:test|example|invalid|localhost|internal)(?=:\d|/|["\'\s]|$)~im',
+	'~(?<![\w$])[A-Z]:(?:\x5c\x5c?|/)[\w.-]+(?:\x5c|/)~',
+	'~\x5c\x5c(?:wsl\$|wsl\.localhost)~i',
 	'~/mnt/[a-z]/~i',
-	'~\b[A-Z]:\x5c(?:Users|www|wamp|xampp|laragon)\b~i',
+	'~(?<![\w.$/:-])/(?:[a-z]|Users)/[\w.-]+/~',
 	'~/home/[a-z0-9_-]+/~i',
 );
 
@@ -101,16 +105,17 @@ function iminify_check_addresses( string $dir ): array {
 		}
 
 		/*
-		 * A JSON file writes a slash as \/, and a stylesheet can name an address
-		 * without its scheme (url(//host/...)), which loads over the page's own.
-		 * A .mo file keeps its strings apart with NUL bytes, so control
-		 * characters end an address too.
+		 * A JSON file writes a slash as \/, and code or a stylesheet can name an
+		 * address without its scheme (url(//host/...), src="//host/..."), which
+		 * loads over the page's own. A .mo file keeps its strings apart with NUL
+		 * bytes, so control characters end an address too.
 		 */
 		$text = str_replace( '\\/', '/', $text );
 		preg_match_all( '~https?://[^\s\x00-\x1f"\'<>()\\\\`]*~i', $text, $matches );
 		preg_match_all( '~url\(\s*["\']?\K//[^\s\x00-\x1f"\'<>()\\\\`]*~i', $text, $relative );
+		preg_match_all( '~["\'=]\s*\K//[a-z0-9-]+(?:\.[a-z0-9-]+)+[^\s\x00-\x1f"\'<>()\x5c`]*~i', $text, $quoted );
 
-		foreach ( array_unique( array_merge( $matches[0], $relative[0] ) ) as $address ) {
+		foreach ( array_unique( array_merge( $matches[0], $relative[0], $quoted[0] ) ) as $address ) {
 			if ( ! iminify_check_allowed( $address ) ) {
 				$problems[] = $file . ': ' . $address;
 			}
@@ -127,6 +132,10 @@ function iminify_check_addresses( string $dir ): array {
  * @param string $address The address as the file holds it.
  */
 function iminify_check_allowed( string $address ): bool {
+	if ( 0 === strpos( $address, '//' ) ) {
+		$address = 'https:' . $address;
+	}
+
 	if ( '' === (string) preg_replace( '~^https?://~i', '', $address ) ) {
 		return true;
 	}
