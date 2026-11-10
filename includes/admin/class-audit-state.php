@@ -19,6 +19,7 @@ use Iminify\WordPress\Media\Shared;
 use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
+use Iminify\WordPress\Translations;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -172,7 +173,7 @@ class Audit_State {
 				'natural_width'   => self::number( $image['natural_width'] ?? null ),
 				'natural_height'  => self::number( $image['natural_height'] ?? null ),
 				'largest_paint'   => true === ( $image['largest_paint'] ?? false ),
-				'bytes'           => null === self::number( $image['bytes'] ?? null ) ? null : (string) size_format( (int) $image['bytes'], 1 ),
+				'bytes'           => null === self::number( $image['bytes'] ?? null ) ? null : Translations::size( (int) $image['bytes'] ),
 				'attachment'      => isset( $found[ $url ] ) ? self::attachment( $found[ $url ] ) : null,
 			);
 		}

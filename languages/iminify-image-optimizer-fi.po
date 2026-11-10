@@ -1,0 +1,3735 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T03:13:26+00:00\n"
+"PO-Revision-Date: 2026-11-10 04:14+0000\n"
+"Language: fi\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "Pakkaa, muunna ja skaalaa mediakirjastosi kuvat Iminifyn avulla ja tarjoa ne WebP- ja AVIF-muodossa."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:104
+#: includes/admin/class-media-view.php:426
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "Sivun tarkastus"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "Löydä kuvat, jotka hidastavat sivujasi, kukin kirjastosi vastaavan kuvan vieressä."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Sivun skripti puuttuu lisäosan kansiosta. Palauta se asentamalla lisäosa uudelleen."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "Tämä sivu tarvitsee JavaScriptin."
+
+#: includes/admin/class-audit-state.php:353
+msgid "Original upload"
+msgstr "Alkuperäinen siirretty kuva"
+
+#: includes/admin/class-audit-state.php:367
+msgid "Home page"
+msgstr "Etusivu"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "Sinulla ei ole oikeutta tehdä tuota."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "Massaoptimointi"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "Kaikki mediakirjastosi kuvat yhdellä ajolla."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Massaoptimointisivun skripti puuttuu lisäosan kansiosta. Palauta se asentamalla lisäosa uudelleen."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "Massaoptimointisivu tarvitsee JavaScriptin."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:335
+msgid "That folder isn't in the list."
+msgstr "Kansiota ei ole luettelossa."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "Kuvaa ei ole luettelossa."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "Muut kansiot"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "Teemasi ja muiden mediakirjaston ulkopuolisten kansioiden kuvat."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "Tällä kuvalla ei ole sivustolla alkuperäistä, johon sitä voisi verrata."
+
+#: includes/admin/class-media-view.php:181
+msgid "Original"
+msgstr "Alkuperäinen"
+
+#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:333
+msgid "Compare with the original"
+msgstr "Vertaa alkuperäiseen"
+
+#: includes/admin/class-media-view.php:209
+msgid "Close"
+msgstr "Sulje"
+
+#: includes/admin/class-media-view.php:210
+msgid "How much of the original shows"
+msgstr "Kuinka paljon alkuperäistä näkyy"
+
+#: includes/admin/class-media-view.php:211
+msgid "The optimized file to compare"
+msgstr "Verrattava optimoitu tiedosto"
+
+#: includes/admin/class-media-view.php:212
+msgid "This image couldn't be loaded from the site."
+msgstr "Tätä kuvaa ei voitu ladata sivustolta."
+
+#: includes/admin/class-media-view.php:214
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Vedä viivaa tai käytä nuolinäppäimiä, niin näet enemmän alkuperäistä toisella puolella ja optimoitua tiedostoa toisella."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:217
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Optimoitu tasolla %s. Vedä viivaa tai käytä nuolinäppäimiä, niin näet enemmän alkuperäistä toisella puolella ja optimoitua tiedostoa toisella."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:246
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:254
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s pienempi"
+
+#: includes/admin/class-media-view.php:276
+#: includes/admin/class-media-view.php:837
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "Optimoitu"
+
+#: includes/admin/class-media-view.php:373
+msgid "Optimize again from the original"
+msgstr "Optimoi uudelleen alkuperäisestä"
+
+#: includes/admin/class-media-view.php:377
+#: includes/admin/class-media-view.php:404
+#: includes/admin/class-media-view.php:1168
+#: includes/admin/class-media-view.php:1212
+msgid "Restore original"
+msgstr "Palauta alkuperäinen"
+
+#: includes/admin/class-media-view.php:398
+#: includes/admin/class-media-view.php:1160
+#: includes/admin/class-media-view.php:1192
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "Optimoi uudelleen"
+
+#: includes/admin/class-media-view.php:398
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "Optimoi"
+
+#: includes/admin/class-media-view.php:451
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "Suodata Iminify-tilan mukaan"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "Kaikki Iminify-tilat"
+
+#: includes/admin/class-media-view.php:572
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Optimoidut"
+
+#: includes/admin/class-media-view.php:573
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "Optimoimattomat"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "Virheet"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "Puuttuvat muodot"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "Muiden lisäosien optimoimat"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:671
+#, php-format
+msgid "Offloaded by %s"
+msgstr "Siirretty pilveen: %s"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:705
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "Säästetty %1$s (%2$s) %3$s tiedostosta."
+msgstr[1] "Säästetty %1$s (%2$s) %3$s tiedostosta."
+
+#: includes/admin/class-media-view.php:712
+msgid "The originals were already smaller, so they were kept."
+msgstr "Alkuperäiset olivat jo pienempiä, joten ne säilytettiin."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:721
+#, php-format
+msgid "Copies: %s"
+msgstr "Kopiot: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:735
+#, php-format
+msgid "Missing formats: %s"
+msgstr "Puuttuvat muodot: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:747
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "Puuttuvat koot: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:759
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "%s toisen työkalun tekemä WebP- tai AVIF-kopio säilytettiin sellaisenaan."
+msgstr[1] "%s toisen työkalun tekemää WebP- tai AVIF-kopiota säilytettiin sellaisenaan."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:769
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "%s tiedostoa ei voitu kirjoittaa."
+msgstr[1] "%s tiedostoa ei voitu kirjoittaa."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:813
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "Lisäosa %1$s säästi omien tietojensa mukaan %2$s (%3$s)."
+
+#: includes/admin/class-media-view.php:822
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "Sen alkuperäinen on tallessa. Iminify jättää kuvan ennalleen, eikä se maksa mitään."
+
+#: includes/admin/class-media-view.php:823
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "Siitä ei säilytetty alkuperäistä, joten Iminify jättää sen ennalleen eikä pakkaa sitä toiseen kertaan."
+
+#: includes/admin/class-media-view.php:839
+msgid "Queued"
+msgstr "Jonossa"
+
+#: includes/admin/class-media-view.php:841
+msgid "Being optimized"
+msgstr "Optimoidaan"
+
+#: includes/admin/class-media-view.php:843
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "Odottaa seuraavaa erää"
+
+#: includes/admin/class-media-view.php:845
+msgid "Waiting for the connection"
+msgstr "Odottaa yhteyttä"
+
+#: includes/admin/class-media-view.php:847
+msgid "Not sent"
+msgstr "Ei lähetetty"
+
+#: includes/admin/class-media-view.php:849
+msgid "Error"
+msgstr "Virhe"
+
+#: includes/admin/class-media-view.php:851
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Ei optimoitu"
+
+#: includes/admin/class-media-view.php:887
+msgid "The next batch is open, so it goes out shortly."
+msgstr "Seuraava erä on auki, joten kuva lähtee pian."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:889
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "Kuva lähtee automaattisesti %s."
+
+#: includes/admin/class-media-view.php:909
+#: includes/admin/class-media-view.php:910
+msgid "Alt text: being written."
+msgstr "Vaihtoehtoinen teksti: kirjoitetaan."
+
+#: includes/admin/class-media-view.php:911
+msgid "Alt text: written by Iminify."
+msgstr "Vaihtoehtoinen teksti: Iminifyn kirjoittama."
+
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: yours was kept."
+msgstr "Vaihtoehtoinen teksti: omasi säilytettiin."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "Vaihtoehtoinen teksti: Iminify ei pystynyt kirjoittamaan sitä tälle kuvalle."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "Vaihtoehtoinen teksti: ei kirjoitettu, koska päivittäiset tekoälyn vaihtoehtoiset tekstit oli käytetty loppuun."
+
+#: includes/admin/class-media-view.php:940
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "Tässä kuvassa on Content Credentials -tiedot, allekirjoitettu tieto sen alkuperästä, ja sen tiedostot säilyttävät ne."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "Tässä kuvassa oli Content Credentials -tiedot, allekirjoitettu tieto sen alkuperästä. Iminifyn kirjoittamista tiedostoista ja kopioista ne puuttuvat, koska uusi tiedosto rikkoo niiden allekirjoituksen. Varmuuskopiona säilytetyssä alkuperäisessä ne ovat yhä tallessa."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "Tässä kuvassa oli Content Credentials -tiedot, allekirjoitettu tieto sen alkuperästä. Iminifyn kirjoittamista tiedostoista ja kopioista ne puuttuvat, koska uusi tiedosto rikkoo niiden allekirjoituksen."
+
+#: includes/admin/class-media-view.php:948
+msgid "They say generative AI made it, wholly or in part."
+msgstr "Niiden mukaan kuva on kokonaan tai osittain generatiivisen tekoälyn tekemä."
+
+#: includes/admin/class-media-view.php:983
+#: includes/admin/class-media-view.php:1003
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:984
+#: includes/admin/class-media-view.php:1004
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1021
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "Sivuilla, joilla kuva on, tarjotaan kopioita (%1$s), jotka on tehnyt %2$s, kunnes Iminify tekee omansa."
+
+#: includes/admin/class-media-view.php:1051
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "Täysikokoinen"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1080
+#, php-format
+msgid "Level: %s"
+msgstr "Taso: %s"
+
+#: includes/admin/class-media-view.php:1088
+msgid "Size"
+msgstr "Koko"
+
+#: includes/admin/class-media-view.php:1089
+msgid "Before"
+msgstr "Ennen"
+
+#: includes/admin/class-media-view.php:1090
+msgid "After"
+msgstr "Jälkeen"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Copies"
+msgstr "Kopiot"
+
+#: includes/admin/class-media-view.php:1137
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "Kirjoita vaihtoehtoinen teksti tekoälyllä"
+
+#: includes/admin/class-media-view.php:1137
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "Lähetetäänkö tästä kuvasta pieni kopio vaihtoehtoisen tekstin kirjoittamista varten? Se lasketaan yhdeksi päivittäisistä tekoälyn vaihtoehtoisista teksteistäsi."
+
+#: includes/admin/class-media-view.php:1137
+msgid "Write alt text"
+msgstr "Kirjoita vaihtoehtoinen teksti"
+
+#: includes/admin/class-media-view.php:1156
+msgid "Optimize again from the original at"
+msgstr "Optimoi uudelleen alkuperäisestä tasolla"
+
+#: includes/admin/class-media-view.php:1184
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "Yhdistä sivusto Iminifyhin, niin voit optimoida tämän kuvan."
+
+#: includes/admin/class-media-view.php:1186
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "Tästä kuvasta ei säilytetty alkuperäistä, joten sitä ei voi optimoida uudelleen eikä palauttaa."
+
+#: includes/admin/class-media-view.php:1188
+msgid "Optimize again at"
+msgstr "Optimoi uudelleen tasolla"
+
+#: includes/admin/class-media-view.php:1188
+msgid "Optimize at"
+msgstr "Optimoi tasolla"
+
+#: includes/admin/class-media-view.php:1205
+msgid "Make what it lacks"
+msgstr "Tee puuttuvat tiedostot"
+
+#: includes/admin/class-media-view.php:1214
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "Tämä kuva on muuttunut sen jälkeen, kun Iminify optimoi sen, joten palautettavaa ei ole."
+
+#: includes/admin/class-media-view.php:1221
+msgid "Delete the copies"
+msgstr "Poista kopiot"
+
+#: includes/admin/class-media-view.php:1221
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "Poistetaanko tämän kuvan WebP- ja AVIF-kopiot? Sivuilla tarjotaan sen jälkeen taas JPEG- tai PNG-tiedosto."
+
+#: includes/admin/class-media-view.php:1286
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "Tee puuttuvat muodot"
+
+#: includes/admin/class-media-view.php:1290
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "Tee puuttuvat koot"
+
+#: includes/admin/class-media-view.php:1301
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "Lähetetäänkö tämä kuva uudelleen, jotta siltä puuttuvat tiedostot tehdään? Se lasketaan yhdeksi kuvaksi lisää, ja sen muut tiedostot pysyvät ennallaan, ellei Iminify saa niitä pienemmiksi."
+
+#: includes/admin/class-media-view.php:1309
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "Optimoidaanko tämä kuva uudelleen? Iminify tekee sen tiedostot uudelleen alkuperäisestä ja säilyttää niiden muodon ja nimet, ja tämä lasketaan yhdeksi kuvaksi lisää."
+
+#: includes/admin/class-media-view.php:1312
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "Optimoidaanko tämä kuva uudelleen? Sen alkuperäinen palautetaan ensin, ja tämä lasketaan yhdeksi kuvaksi lisää."
+
+#: includes/admin/class-media-view.php:1319
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "Palautetaanko tämän kuvan alkuperäinen? WordPress tekee sen koot uudelleen, ja sen WebP- ja AVIF-kopiot poistetaan."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1334
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "Optimoidaanko tämä kuva uudelleen alkuperäisestä, jonka lisäosa %s säilytti? Iminify tekee sen tiedostot uudelleen siitä ja säilyttää niiden muodon ja nimet, jotta artikkelisi linkittävät yhä niihin, ja ottaa alkuperäisestä oman varmuuskopionsa. Tämä lasketaan yhdeksi kuvaksi lisää."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1341
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "Optimoidaanko tämä kuva uudelleen alkuperäisestä, jonka lisäosa %s säilytti? Alkuperäinen palautetaan ensin ja WordPress tekee sen koot uudelleen, minkä jälkeen Iminify optimoi sen ja ottaa alkuperäisestä oman varmuuskopionsa. Tämä lasketaan yhdeksi kuvaksi lisää."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1356
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "Palautetaanko tämän kuvan alkuperäinen siitä, minkä lisäosa %s säilytti? WordPress tekee sen koot uudelleen, ja kyseisen lisäosan varmuuskopiot ja kopiot jäävät paikoilleen."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Iminify katkaisi tämän sivuston yhteyden, joten uusia siirrettyjä kuvia ei optimoida."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "Yhdistä uudelleen"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Iminify Image Optimizer on valmis. Yhdistä se Iminify-tiliisi, niin voit alkaa optimoida kuviasi."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "Yhdistä"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "Avaa Iminify-asetukset"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "Yhdistetty"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "Ei yhdistetty"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Iminify Image Optimizer lähettää tälle sivustolle siirretyt kuvat Iminifylle, joka on kuvien optimointipalvelu, kun sivusto on yhdistetty siihen. Voit kopioida alla olevan tekstin siihen tietosuojaselosteesi kohtaan, joka käsittelee julkaisemaasi mediaa."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "Suositeltu teksti:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "Tämä sivusto käyttää Iminify-palvelua (www.iminify.com) kuviensa pienentämiseen ja niiden WebP- ja AVIF-kopioiden tekemiseen. Kun kuva siirretään tänne tai kun optimoimme täällä jo olevia kuvia mediakirjastossa tai teemassamme ja muissa kansioissa, palvelimemme lähettää kuvan Iminifylle yhdessä tämän sivuston osoitteen kanssa, ja Iminify lähettää pienemmät tiedostot takaisin. Iminify poistaa kuvan, kun olemme tallentaneet ne."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "Valokuvassa voi olla kameran siihen kirjoittamia tietoja, kuten milloin ja missä se on otettu. Nämä tiedot päätyvät Iminifylle kuvan mukana, ja Iminify jättää ne pois takaisin lähettämistään tiedostoista, ellemme ole valinneet niiden säilyttämistä."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "Jos olemme ottaneet tekoälyn vaihtoehtoiset tekstit käyttöön lisäosan asetuksissa, Iminify tekee myös jokaisesta kuvasta, jolta puuttuu vaihtoehtoinen teksti, pienen kopion ja lähettää sen Anthropicille, jonka malli kirjoittaa siitä kuvauksen. Kun vaihtoehtoisia tekstejä pyydetään mediakirjastossa jo oleville kuville, Iminifylle lähetetään samaan tarkoitukseen pieni kopio jokaisesta niistä."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "Jos tarkastamme jonkin tämän sivuston sivuista sen kuvien osalta, palvelimemme lähettää Iminifylle kyseisen sivun osoitteen. Iminify avaa sivun kuten kuka tahansa vierailija, mittaa sen näyttämät kuvat ja säilyttää havaintonsa tämän sivuston Iminify-yhteyden tiedoissa."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "Jos tämä sivusto kuuluu multisite-verkkoon, joka on yhdistetty Iminifyhin yhtenä kokonaisuutena, palvelimemme lähettää Iminifylle myös tämän sivuston osoitteen ja nimen, kun sivusto tarvitsee niitä ensimmäisen kerran."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "Jos päätämme käyttää asetuksia, jotka jokin toinen kuvien optimointilisäosa on tallentanut tälle sivustolle, palvelimemme lähettää Iminifylle nämä asetukset, kyseisen optimointilisäosan nimen ja tämän sivuston tekemien kuvakokojen nimet. Iminify vastaa asetuksilla, joita ne vastaavat, eikä säilytä niistä mitään."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "Tämän sivuston vierailijoista ei lähetetä Iminifylle mitään: sivujemme kuvat ja niiden WebP- ja AVIF-kopiot tarjotaan tältä sivustolta."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Iminifyn tietosuojaseloste: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "Verkkoon voi liittyä vain sellaisen verkon sivusto, jossa lisäosa on käytössä."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:271
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "Tätä sivustoa ei ole yhdistetty Iminifyhin."
+
+#: includes/admin/class-settings-import.php:56
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "Lisäosa ei löytänyt tältä sivustolta kyseisen optimointilisäosan asetuksia."
+
+#: includes/admin/class-settings-import.php:106
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "Asetukset ovat muuttuneet sen jälkeen, kun ne näytettiin. Tarkista ne uudelleen ennen kuin käytät niitä."
+
+#: includes/admin/class-settings-import.php:207
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "Optimoi uudet siirretyt kuvat"
+
+#: includes/admin/class-settings-import.php:209
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "Pakkaustaso"
+
+#: includes/admin/class-settings-import.php:211
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "Tee WebP-kopiot"
+
+#: includes/admin/class-settings-import.php:213
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "Tee AVIF-kopiot"
+
+#: includes/admin/class-settings-import.php:215
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "Enimmäisleveys pikseleinä"
+
+#: includes/admin/class-settings-import.php:217
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "Kokoraja kilotavuina"
+
+#: includes/admin/class-settings-import.php:219
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "Säilytä metatiedot"
+
+#: includes/admin/class-settings-import.php:221
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "Optimoitavat koot"
+
+#: includes/admin/class-settings-import.php:223
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "Säilytä varmuuskopio jokaisesta alkuperäisestä"
+
+#: includes/admin/class-settings-import.php:241
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "Ei rajaa"
+
+#: includes/admin/class-settings-import.php:244
+msgid "Every size"
+msgstr "Kaikki koot"
+
+#: includes/admin/class-settings-import.php:248
+msgid "Only the full image"
+msgstr "Vain täysikokoinen kuva"
+
+#: includes/admin/class-settings-import.php:263
+msgid "On"
+msgstr "Päällä"
+
+#: includes/admin/class-settings-import.php:263
+msgid "Off"
+msgstr "Pois"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "Asetukset"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "Yhdistä tämä sivusto ja valitse, miten sen kuvat optimoidaan."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "Yhdistä tämä verkko kerran, niin jokainen sen sivusto liittyy siihen itsestään."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Asetussivun skripti puuttuu lisäosan kansiosta. Palauta se asentamalla lisäosa uudelleen."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "Asetussivu tarvitsee JavaScriptin."
+
+#: includes/admin/class-state.php:164
+msgid "Images today"
+msgstr "Kuvat tänään"
+
+#: includes/admin/class-state.php:165
+msgid "Files today"
+msgstr "Tiedostot tänään"
+
+#: includes/admin/class-state.php:166
+msgid "AI alt texts today"
+msgstr "Tekoälyn vaihtoehtoiset tekstit tänään"
+
+#: includes/admin/class-state.php:247
+msgid "Guest"
+msgstr "Vieras"
+
+#: includes/admin/class-state.php:248
+msgid "Free"
+msgstr "Ilmainen"
+
+#: includes/admin/class-state.php:249
+msgid "Pro trial"
+msgstr "Pro-kokeilu"
+
+#: includes/admin/class-state.php:250
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:251
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:301
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s käytetty, ei päivärajaa"
+msgstr[1] "%s käytettyä, ei päivärajaa"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:303
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s käytetty"
+msgstr[1] "%s käytettyä"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:305
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s jäljellä"
+msgstr[1] "%s jäljellä"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:309
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s käytetty, ei päivärajaa"
+msgstr[1] "%s käytettyä, ei päivärajaa"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:311
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s käytetty"
+msgstr[1] "%s käytettyä"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:313
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s jäljellä"
+msgstr[1] "%s jäljellä"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:317
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s käytetty, ei päivärajaa"
+msgstr[1] "%s käytettyä, ei päivärajaa"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:319
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s käytetty"
+msgstr[1] "%s käytettyä"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:321
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s jäljellä"
+msgstr[1] "%s jäljellä"
+
+#: includes/admin/class-state.php:343
+msgid "This site"
+msgstr "Tämä sivusto"
+
+#: includes/admin/class-state.php:344
+msgid "Your whole account"
+msgstr "Koko tilisi"
+
+#: includes/admin/class-state.php:470
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "Pienoiskuva"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "Keskikokoinen"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "Iso"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:495
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (leveys %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:500
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (korkeus %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:504
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:54
+msgid "Show a smaller size of the image here."
+msgstr "Näytä tässä kuvasta pienempi koko."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:56
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "Näytä tässä noin %s pikselin levyinen koko, kaksi kertaa niin leveä kuin kuvan tila sivulla."
+
+#: includes/audit/class-findings.php:58
+msgid "Give the image its width and height in the page."
+msgstr "Merkitse kuvan leveys ja korkeus sivun koodiin."
+
+#: includes/audit/class-findings.php:60
+msgid "Write alt text for the image."
+msgstr "Kirjoita kuvalle vaihtoehtoinen teksti."
+
+#: includes/audit/class-findings.php:62
+msgid "Load the image straight away, not lazily."
+msgstr "Lataa kuva heti, ei laiskasti."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "Lataa kuva laiskasti, kun vierailija vierittää sen lähelle."
+
+#: includes/audit/class-findings.php:66
+msgid "Have the browser fetch the image first."
+msgstr "Pyydä selainta hakemaan kuva ensimmäisenä."
+
+#: includes/audit/class-findings.php:103
+msgid "Oversized"
+msgstr "Liian suuri"
+
+#: includes/audit/class-findings.php:104
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "Tiedosto on yli kaksi kertaa niin leveä ja kaksi kertaa niin korkea kuin tila, jossa se näytetään. Saman kuvan pienempi koko näyttäisi yhtä terävältä."
+
+#: includes/audit/class-findings.php:108
+msgid "No width and height"
+msgstr "Ei leveyttä ja korkeutta"
+
+#: includes/audit/class-findings.php:109
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "Kuvalla ei ole width- ja height-määritteitä, joten selain ei voi varata sille tilaa, ja sivu hyppää, kun kuva saapuu."
+
+#: includes/audit/class-findings.php:113
+msgid "Lazy in the first screen"
+msgstr "Laiska ensimmäisessä näkymässä"
+
+#: includes/audit/class-findings.php:114
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "Kuva on ensimmäisessä näkymässä, mutta se ladataan laiskasti, mikä viivästää sitä."
+
+#: includes/audit/class-findings.php:118
+msgid "Loads too early"
+msgstr "Latautuu liian aikaisin"
+
+#: includes/audit/class-findings.php:119
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "Kuva on ensimmäisen näkymän alapuolella ja latautuu heti, jolloin se kilpailee sen kanssa, minkä vierailijat näkevät ensin."
+
+#: includes/audit/class-findings.php:123
+msgid "No alt text"
+msgstr "Ei vaihtoehtoista tekstiä"
+
+#: includes/audit/class-findings.php:124
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "Kuvalla ei ole vaihtoehtoista tekstiä ruudunlukijoille ja hakukoneille."
+
+#: includes/audit/class-findings.php:128
+msgid "Not prioritized"
+msgstr "Ei priorisoitu"
+
+#: includes/audit/class-findings.php:129
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "Tämä on ensimmäisen näkymän suurin elementti, joten sivu tuntuu latautuneelta, kun se saapuu. Sen hakeminen ensimmäisenä näyttäisi sivun nopeammin."
+
+#: includes/audit/class-findings.php:146
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Sivustosi torjui skannerin, joten sivua ei voitu lukea. Näin tekee palomuuri tai bottitarkistus, usein Cloudflaren. Päästä skannaus hetkeksi läpi: kytke Cloudflaressa Bot Fight Mode pois tai aseta Security Level arvoon ”Essentially off”; keskeytä tietoturvalisäosan palomuuri tai bottien esto. Skannaa uudelleen ja ota ne sitten taas käyttöön."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:148
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Sivustosi torjui skannerin (se vastasi koodilla %d), joten sivua ei voitu lukea. Näin tekee palomuuri tai bottitarkistus, usein Cloudflaren. Päästä skannaus hetkeksi läpi: kytke Cloudflaressa Bot Fight Mode pois tai aseta Security Level arvoon ”Essentially off”; keskeytä tietoturvalisäosan palomuuri tai bottien esto. Skannaa uudelleen ja ota ne sitten taas käyttöön."
+
+#: includes/audit/class-findings.php:150
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "Tässä osoitteessa ei ole sivua. Tarkista osoite ja skannaa uudelleen."
+
+#: includes/audit/class-findings.php:152
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "Sivu vastasi sivuston puolen virheellä, joten sitä ei voitu lukea. Skannaa uudelleen muutaman minuutin kuluttua."
+
+#: includes/audit/class-findings.php:154
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "Sivu ohjasi skannerin toiselle sivustolle, eikä tarkastus seuraa sinne. Skannaa osoite, johon sivu lopulta päätyy, jos se on tällä sivustolla."
+
+#: includes/audit/class-findings.php:157
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "Sivua ei voitu lukea: sivusto ei vastannut skannerille. Tarkista osoite ja skannaa uudelleen."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:159
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "Sivu vastasi koodilla %d sivun sijaan, joten sitä ei voitu lukea. Tarkista osoite ja skannaa uudelleen."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "Anna --others yksinään tai yhdessä uudelleen optimoitavien liitteiden kanssa."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "Kansioiden tiedostot käsitellään kaikki kerralla: anna --folders yksinään tai yhdessä valitsimen --failed kanssa."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "Nimeä liitteet tai anna --all tai --failed."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "Kansioiden tiedostot käsitellään kaikki kerralla: anna --folders yksinään."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "Palautetaanko kaikki kansioidesi optimoidut tiedostot ennalleen?"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:268
+msgid "Name the attachments, or pass --all."
+msgstr "Nimeä liitteet tai anna --all."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "Palautetaanko jokainen optimoitu kuva sellaiseksi kuin se siirrettiin?"
+
+#: includes/class-cli.php:228
+msgid "Say what to make: formats or sizes."
+msgstr "Kerro, mitä tehdään: formats tai sizes."
+
+#: includes/class-cli.php:314
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "Verkossa muut kansiot valitaan pääsivustolla: lisää --url ja sen osoite."
+
+#: includes/class-cli.php:321
+msgid "Name the folder, relative to wp-content."
+msgstr "Nimeä kansio suhteessa wp-content-kansioon."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:354
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "Löytyi %1$s kuva: uusia %2$s, muuttuneita %3$s."
+msgstr[1] "Löytyi %1$s kuvaa: uusia %2$s, muuttuneita %3$s."
+
+#: includes/class-cli.php:392
+#: includes/class-cli.php:421
+msgid "No bulk run is going."
+msgstr "Massa-ajoa ei ole käynnissä."
+
+#: includes/class-cli.php:425
+msgid "Stopped."
+msgstr "Lopetettu."
+
+#: includes/class-cli.php:490
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "Ajo jatkuu taustalla. Näet sen edistymisen komennolla: wp iminify status"
+
+#: includes/class-cli.php:511
+msgid "Bulk run"
+msgstr "Massa-ajo"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:605
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "Tilin päivittäiset tekoälyn vaihtoehtoiset tekstit on käytetty loppuun. Ajo jatkuu taustalla, kun niitä on taas käytettävissä %s."
+
+#: includes/class-cli.php:613
+#: includes/class-cli.php:640
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "Ajo odottaa tämän sivuston yhteyttä Iminifyhin ja jatkuu taustalla, kun yhteys toimii."
+
+#: includes/class-cli.php:621
+msgid "The run goes on in the background once it stops."
+msgstr "Ajo jatkuu taustalla, kun lisäosa lakkaa optimoimasta."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:632
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "Tilin päivittäiset kuvat on käytetty loppuun. Ajo jatkuu taustalla, kun seuraava erä avautuu %s."
+
+#: includes/class-cli.php:654
+msgid "The run was stopped."
+msgstr "Ajo lopetettiin."
+
+#: includes/class-cli.php:661
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "Ajo pysähtyi: palvelimen levytila on vähissä. Vapauta tilaa ja suorita sitten: wp iminify run"
+
+#: includes/class-cli.php:664
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "Ajo pysäytettiin. Jatka komennolla: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:673
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%s kuvaa ei voitu palauttaa. Sen paneeli mediakirjastossa kertoo syyn."
+msgstr[1] "%s kuvaa ei voitu palauttaa. Niiden paneelit mediakirjastossa kertovat syyn."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:683
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s kuva jätettiin ennalleen: toinen lisäosa muunsi sen WebP- tai AVIF-muotoon, ja vain se lisäosa voi palauttaa sen alkuperäisen."
+msgstr[1] "%s kuvaa jätettiin ennalleen: muut lisäosat muunsivat ne WebP- tai AVIF-muotoon, ja vain ne lisäosat voivat palauttaa niiden alkuperäiset."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:691
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s kuva jätettiin sellaiseksi kuin toinen lisäosa sen teki: sen alkuperäinen on poissa tai liian suuri lähetettäväksi, tai vain se lisäosa voi palauttaa sen. Sen paneeli mediakirjastossa kertoo, mikä näistä."
+msgstr[1] "%s kuvaa jätettiin sellaisiksi kuin muut lisäosat ne tekivät: niiden alkuperäiset ovat poissa tai liian suuria lähetettäviksi, tai vain ne lisäosat voivat palauttaa ne. Niiden paneelit mediakirjastossa kertovat, mikä näistä."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:699
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s kuva jätettiin ennalleen: se jakaa tiedostonsa toisen liitteen kanssa, tai sillä on jo vaihtoehtoinen teksti."
+msgstr[1] "%s kuvaa jätettiin ennalleen: ne jakavat tiedostonsa toisen liitteen kanssa, tai niillä on jo vaihtoehtoinen teksti."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:707
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s kuvalla ei ole alkuperäistä, josta lähteä, tai se on muuttunut optimoinnin jälkeen, joten sille ei tehty mitään."
+msgstr[1] "%s kuvalla ei ole alkuperäistä, josta lähteä, tai ne ovat muuttuneet optimoinnin jälkeen, joten niille ei tehty mitään."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:717
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s tiedosto palautettu."
+msgstr[1] "%s tiedostoa palautettu."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:719
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s tiedosto lähetetty Iminifylle."
+msgstr[1] "%s tiedostoa lähetetty Iminifylle."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:724
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "Kansioissasi on %2$s tiedosto: optimoituja %1$s, epäonnistuneita %3$s."
+msgstr[1] "Kansioissasi on %2$s tiedostoa: optimoituja %1$s, epäonnistuneita %3$s."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:737
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s kuva palautettu."
+msgstr[1] "%s kuvaa palautettu."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:739
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s kuva lähetetty Iminifylle."
+msgstr[1] "%s kuvaa lähetetty Iminifylle."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:744
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "Kirjastossa on %2$s kuva: optimoituja %1$s, epäonnistuneita %3$s."
+msgstr[1] "Kirjastossa on %2$s kuvaa: optimoituja %1$s, epäonnistuneita %3$s."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:791
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s ei ole liite."
+
+#: includes/class-cli.php:812
+msgid "This account can't run bulk commands."
+msgstr "Tämä käyttäjätili ei voi suorittaa massakomentoja."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify lähetti vastauksen, jota tämä lisäosan versio ei osaa lukea."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "Liitä ensin sivustoavain."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "Tämän sivuston avain on asetettu wp-config.php-tiedostossa. Muuta tai poista se siellä."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress ei pystynyt tallentamaan verkon avainta. Yritä uudelleen painamalla Yhdistä verkko."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "WordPress ei pystynyt tallentamaan sivustoavainta. Yritä uudelleen painamalla Yhdistä."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "Älykäs"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "Älykäs: tasapaino laadun ja koon välillä"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "Tasapaino laadun ja koon välillä."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "Ultra"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "Ultra: pienimmät tiedostot, laatu heikkenee hieman"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "Pienimmät tiedostot, laatu heikkenee hieman."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "Häviötön"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "Häviötön: ei näkyvää muutosta laatuun"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "Ei näkyvää muutosta laatuun."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "Ei pakkausta"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "Ei pakkausta: vain muut asetukset"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "Vain muut asetukset, ei pakkausta."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "Englanti"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "Espanja"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "Ranska"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "Saksa"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "Italia"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "Portugali"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "Hollanti"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "Puola"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "Ruotsi"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "Turkki"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "Venäjä"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "Ukraina"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "Arabia"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "Persia"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "Heprea"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "Hindi"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "Indonesia"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "Vietnam"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "Thai"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "Japani"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "Korea"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "Yksinkertaistettu kiina"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "Perinteinen kiina"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Iminify ei tunnista tätä avainta. Tarkista, että kopioit sen kokonaan, tai luo uusi."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "Tämä on API-avain. Sivusto tarvitsee sivustoavaimen: luo sellainen iminify.com-sivustolla kohdassa Settings, Sites tai paina sen sijaan Yhdistä."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "Tämä avain kuuluu toisessa osoitteessa olevalle sivustolle, joten tämä sivuston kopio ei voi käyttää sitä. Yhdistä tämä kopio omana sivustonaan tai siirrä yhteys tänne."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Iminify pyysi lisäosaa odottamaan. Odota %s ja yritä sitten uudelleen."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Iminify pyysi lisäosaa odottamaan. Yritä myöhemmin uudelleen."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "Yhteyttä ei voi enää käyttää: se on vanhentunut, hylätty tai jo käytetty. Aloita alusta painamalla Yhdistä."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "Tekoälyn vaihtoehtoiset tekstit ovat pois käytöstä tällä sivustolla. Ota ne ensin käyttöön lisäosan asetuksissa."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "Tarkastus skannaa vain tämän sivuston omia sivuja. Anna tämän sivuston sivun osoite."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "Verkon avain on tehty yksittäiselle sivustolle, joten verkon sivustot eivät voi liittyä sillä. Järjestelmänvalvoja yhdistää verkon uudelleen verkon hallinnasta."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "Verkossa on jo niin monta sivustoa kuin yhteen verkkoon mahtuu. Poista sivusto, jota et enää käytä, iminify.com-sivustolla kohdassa Settings, Sites, tai yhdistä tämä sivusto erikseen."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "Tämä sivusto on jo yhdistetty tiliin erikseen tai toisen verkon kautta. Katkaise sen yhteys iminify.com-sivustolla kohdassa Settings, Sites, jotta voit lisätä sen tähän verkkoon, tai yhdistä se tässä erikseen."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "Tämä Iminify Image Optimizer -versio on liian vanha optimoimaan kuvia. Päivitä se Lisäosat-sivulta."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "Tilisi päivittäiset kuvat on käytetty loppuun. Uudet siirretyt kuvat odottavat ja lähtevät automaattisesti, kun seuraava erä avautuu."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "Tällä sivustolla oli jo Pro-paketin ilmainen kokeilu toisella Iminify-tilillä, joten sen siirretyt kuvat saavat tässä ilmaisen paketin rajat."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "Verkkoa ei ole yhdistetty Iminifyhin. Järjestelmänvalvoja yhdistää sen verkon hallinnasta."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "Tämä sivusto on jo liittymässä verkkoon. Odota hetki ja katso uudelleen."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Odottaa jatkamista: lisäosa poistettiin käytöstä, kun tämä kuva oli matkalla."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "Odottaa seuraavaa erää."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Odottaa, että sivusto yhdistetään Iminifyhin."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Ei optimoitu: massa-ajo lopetettiin."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Ei optimoitu: sivustoa ei ole yhdistetty Iminifyhin."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Ei optimoitu: päivitä ensin Iminify-lisäosa."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Ei optimoitu: sivusto ei optimoi siirrettyjä kuvia."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Ei optimoitu: palvelimen levytila on vähissä. Vapauta tilaa ja optimoi sitten tämä kuva."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Ei lähetetty: tämän palvelimen PHP ei pysty avaamaan zip-tiedostoja. Pyydä palveluntarjoajaasi ottamaan käyttöön PHP:n zip-laajennus."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "Tämän palvelimen PHP ei pysty avaamaan zip-tiedostoja: pyydä palveluntarjoajaasi ottamaan käyttöön PHP:n zip-laajennus."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Iminifyn lähettämää tiedostoa ei voitu avata."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Ei lähetetty: tämän kuvan alkuperäinen on liian suuri lähetettäväksi, koska se ylittää pakettisi tiedostokoon tai on enemmän kuin tämän palvelimen muisti pystyy käsittelemään."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Ei lähetetty: tämä kuva ylittää pakettisi tiedostokoon tai on enemmän kuin tämän palvelimen muisti pystyy käsittelemään."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Ei lähetetty: tästä kuvasta ei ole jäljellä alkuperäistä, josta optimoidut tiedostot tehtäisiin."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Ei lähetetty: tästä kuvasta ei ole jäljellä alkuperäistä, josta optimoitu tiedosto tehtäisiin."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress ei pystynyt tekemään tämän kuvan puuttuvia kokoja."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Jätetty sellaiseksi kuin se siirrettiin: Iminify optimoi JPEG-, PNG-, WebP- ja GIF-kuvia."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Jätetty ennalleen: Iminify optimoi JPEG-, PNG-, WebP- ja GIF-kuvia."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Jätetty sellaiseksi kuin se siirrettiin: tämä sivusto jättää tämän kuvan pois."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Jätetty ennalleen: tämä sivusto jättää tämän kuvan pois."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "Kuvaa ei voitu lukea."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "Kuva ei ole uploads-kansiossa."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Ei lähetetty: kuvan tiedosto ei ole uploads-kansiossa."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Ei lähetetty: kuvan tiedostoa ei ole olemassa, tai se on linkki toiseen paikkaan."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "Kuvan tiedosto tai sen varmuuskopio katosi, kun kuva oli matkalla."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Ei lähetetty: kuva ei ole enää kansiossa, jonka Iminify optimoi."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Ei kirjoitettu: kuva ei ole enää kansiossa, jonka Iminify optimoi."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Muuttunut sen jälkeen, kun Iminify optimoi sen, joten sen voi optimoida uudelleen."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "Kuva muuttui, kun Iminify optimoi sitä, joten se lähetetään uudelleen."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "Sen tiedostot kuuluvat liitteelle #%d, kuten käännöksen tiedostot, joten Iminify optimoi ne siellä."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "Tämän kuvan varmuuskopiota ei voitu tallentaa, joten kuvaa ei optimoitu. Tarkista, että WordPress voi kirjoittaa uploads-kansioon, tai poista varmuuskopiot käytöstä Iminify-asetuksissa."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "Kuva on muuttunut varmuuskopion tekemisen jälkeen, eikä vanhaa varmuuskopiota voitu siirtää syrjään, joten kuvaa ei optimoitu."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "Kuvaa ei voitu kopioida takaisin WP Offload Media -lisäosan pilvitallennustilasta lähetettäväksi."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify ei saanut tätä kuvaa valmiiksi useista yrityksistä huolimatta."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Palautettu: alkuperäinen on taas paikallaan."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "Kuvaa ei voitu palauttaa."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "Alkuperäistä ei voitu kopioida takaisin WP Offload Media -lisäosan pilvitallennustilasta, joten kuva pysyy ennallaan. Yritä uudelleen."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "Alkuperäistä ei voitu palauttaa paikalleen, joten kuva pysyy ennallaan."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress ei pystynyt lukemaan alkuperäistä, joten kuvan koot pysyvät ennallaan. Yritä uudelleen."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify ei ole muuttanut tätä kuvaa, joten palautettavaa ei ole."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify ei muuttanut tästä kuvasta mitään, joten se on jo ennallaan."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Tämä kuva on muuttunut sen jälkeen, kun Iminify optimoi sen, joten palauttaminen korvaisi uuden kuvan."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Tämä kuva on muuttunut sen jälkeen, kun Iminify optimoi sen, joten sen varmuuskopio ei ole enää sen alkuperäinen."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "Kuvan tiedostoa ei ole enää olemassa, tai se ei ole kansiossa, jonka Iminify optimoi."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "Tästä kuvasta ei säilytetty alkuperäistä, joten sitä ei voi palauttaa. Varmuuskopiot olivat pois käytöstä, kun se optimoitiin, tai varmuuskopio on poistettu."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "Tästä kuvasta ei säilytetty alkuperäistä, joten sitä ei voi palauttaa."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "Lisäosa %s ei säilyttänyt tästä kuvasta alkuperäistä, jonka Iminify voisi tarkistaa, joten sitä ei voi palauttaa täällä."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Iminifyhin ei saatu yhteyttä: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify vastasi virheellä (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "Tällä palvelimella ei ole tarpeeksi muistia näin suuren kuvan lähettämiseen."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "Kuvaa ei voitu lukea uploads-kansiosta."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress ei pystynyt tallentamaan sivustoavainta. Yritä uudelleen painamalla Liity verkkoon."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "uploads-kansio"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "Nimeä kansio wp-content-kansion sisältä, esimerkiksi themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "Tällä polulla ei ole kansiota wp-content-kansion sisällä."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "Kansio on linkki toiseen paikkaan, joten Iminify jättää sen pois."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "Tämä on mediakirjaston kansio: sen kuvat optimoidaan mediakirjastosta."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "Tämä on Iminify-lisäosan oma kansio, jonka jokainen päivitys korvaa."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "Muut työkalut säilyttävät tässä kansiossa kopioita, välimuisteja tai varmuuskopioita, joten sen kuvat eivät ole sivuston omia."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "Tässä kansiossa on mediakirjaston tiedostoja tai niiden varmuuskopioita, jotka Iminify käsittelee mediakirjastosta."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "Tässä kansiossa on piilotiedostoja tai projektin riippuvuuksia, joihin Iminify ei koske."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "Verkossa muut kansiot valitaan pääsivustolla."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "Tämä kansio on jo luettelossa kansion %s sisällä."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "Luettelossa on jo niin monta kansiota kuin siihen mahtuu. Poista yksi tai valitse kansio, jonka sisällä useat niistä ovat."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "Päivitä ensin Iminify-lisäosa."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "Tilisi päivittäiset kuvat on käytetty loppuun. Seuraava erä avautuu %s."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "Palvelimen levytila on vähissä. Vapauta tilaa ja optimoi sitten tämä kuva."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "Tästä kuvasta ei säilytetty alkuperäistä, joten sitä ei voi optimoida uudelleen."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Tämä kuva on liian suuri lähetettäväksi: se ylittää pakettisi tiedostokoon tai on enemmän kuin tämän palvelimen muisti pystyy käsittelemään."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "Tällä kuvalla on jo vaihtoehtoinen teksti, tai sen teksti on tulossa."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "Massa-ajo on jo käynnissä. Lopeta se ensin."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "Muiden kansioiden tiedostot optimoidaan, lähetetään uudelleen tai palautetaan kaikki kerralla."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Iminify käy vielä kansioitasi läpi. Aloita uudelleen, kun se on valmis."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "Palvelimen levytila on vähissä. Vapauta tilaa ja aloita sitten uudelleen."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "Valitse ensin kansio."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "Kansioissasi ei ole enää optimoitua tiedostoa palautettavaksi."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "Mikään kansioidesi tiedosto ei epäonnistunut."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "Jokainen kansioidesi tiedosto on jo optimoitu tai matkalla."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "Optimoitua kuvaa ei ole enää palautettavaksi."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "Millään toisen lisäosan optimoimalla kuvalla ei ole jäljellä alkuperäistä, josta sen voisi optimoida uudelleen."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "Jokaisella kuvalla on jo vaihtoehtoinen teksti, tai sen teksti on tulossa."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "Yhdeltäkään optimoidulta kuvalta ei puutu mitään, mitä sivustosi nyt vaatii."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "Jokainen kuva on jo optimoitu tai matkalla."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "Tämä kuva on muuttunut sen jälkeen, kun Iminify optimoi sen, joten optimoi se sen sijaan uudelleen."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "Tältä kuvalta ei puutu mitään, mitä sivustosi nyt vaatii."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Tämän kuvan alkuperäinen on liian suuri lähetettäväksi: se ylittää pakettisi tiedostokoon tai on enemmän kuin tämän palvelimen muisti pystyy käsittelemään."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "Poista Converter for Media -lisäosa käytöstä tai kytke pois sen General Settings -välilehden asetus ”Conversion of new images” (Asetukset, Converter for Media)."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "Poista Image Optimizer by Elementor -lisäosa käytöstä tai kytke pois ”Optimize new uploads” kohdassa Elementor, Image Optimization, Settings."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Image Optimizer by Elementor muunsi tämän kuvan ja antoi sille uuden osoitteen, johon artikkelisi nyt linkittävät, ja säilytti sen alkuperäisen sen rinnalla. Sen oma ”Restore”-toiminto palauttaa alkuperäisen osoitteineen niin kauan kuin lisäosa on asennettuna; Iminify ei muokkaa artikkeleitasi, joten se ei palauta tätä kuvaa."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "Poista EWWW Image Optimizer -lisäosa käytöstä."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "EWWW Image Optimizer säilytti tämän kuvan alkuperäisen omilla palvelimillaan 30 päivän ajan. Palauta se EWWW Image Optimizer -lisäosassa niin kauan kuin sen avain ja nuo päivät ovat voimassa; Iminify ei voi hakea sitä."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "Poista Imagify-lisäosa käytöstä tai kytke pois sen asetuksista ”Auto-Optimize images on upload”."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "Rivit on jo poistettu, tai niiden lisäosa on taas käytössä."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "Vain verkkoa hallinnoiva käyttäjä voi poistaa rivit, jotka ovat yhteisiä kaikille sivustoille."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "Lisäosa ei pysty poistamaan näitä rivejä. Poista ne käsin."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "Lisäosa %s ei enää käytä niitä, mutta ne vastaavat yhä WebP- tai AVIF-muotoa lukevalle selaimelle kuvan sijaan kopiolla, jonka lisäosa teki kuvasta omaan kansioonsa, joten vierailija voi saada kopion, joka on tehty ennen kuin Iminify optimoi kuvan."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "Lisäosa %s ei enää käytä niitä, mutta ne vastaavat yhä WebP- tai AVIF-muotoa lukevalle selaimelle kuvan sijaan millä tahansa kuvan mukaan nimetyllä WebP- tai AVIF-tiedostolla, oli se kuinka vanha tahansa, joten vierailija voi saada kopion, joka on tehty ennen kuin Iminify optimoi kuvan."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Nginx pitää ne voimassa, kunnes sen asetukset ladataan uudelleen, joten lataa ne uudelleen, kun rivit on poistettu."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Smush lisäsi tämän säännön PNG-kuville, jotka se muunsi JPEG-muotoon, ja se on yhä WordPressin uudelleenkirjoitussääntöjen joukossa: pyyntö tällaiselle PNG-kuvalle, jota ei enää ole, päätyy etusivullesi ”ei löytynyt” -vastauksen sijaan."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "Kytke pois ”Auto Request Cron” kohdassa LiteSpeed Cache, Image Optimization ja ”Auto Rescale Original Images” kohdassa Page Optimization, Media Settings, ja anna jo lähetettyjen kuvien palata, tai poista LiteSpeed Cache -lisäosa käytöstä."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "Poista Modern Image Formats -lisäosa käytöstä: sillä ei ole omaa asetusta, joka pysäyttäisi sen."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Modern Image Formats korvasi tämän kuvan tiedostot modernissa muodossa olevilla tiedostoilla, jotka on tehty sen alkuperäisestä, jonka WordPress säilyttää. Alkuperäisen palauttaminen muuttaisi kuvan osoitteet ja rikkoisi niihin linkittävät artikkelit, joten Iminify ei palauta sitä."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "Poista Optimole-lisäosa käytöstä tai valitse ”Optimole Cloud and your website” kohdassa Optimole, Settings, Image Storage."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Optimole siirsi tämän kuvan pilveensä ja poisti sen tiedostot täältä. Palauta se ensin Optimole-lisäosassa (se vaatii, että Optimole on käytössä ja yhdistetty), minkä jälkeen Iminify voi optimoida sen."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "Lisäosa %1$s on käytössä ja optimoi siirretyt kuvat itse, joten Iminify ei optimoi mitään sillä aikaa, jottei mitään kuvaa pakattaisi kahdesti. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "Optimoitu lisäosalla %s"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "Poista ShortPixel-lisäosa käytöstä tai kytke pois ”Optimize media on upload” sen asetusten kohdassa Processing."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "Poista Smush-lisäosa käytöstä tai kytke pois sen asetuksista ”Automatic compression”."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "Poista TinyPNG-lisäosa käytöstä tai valitse sen asetuksista uusien kuvien pakkaaminen käsin."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(avaa uuden välilehden)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Ladataan…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Yritä uudelleen"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Sulje"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Iminify skannaa sivua."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "Sivuillesi lisätään nyt puuttuva leveys, korkeus ja vaihtoehtoinen teksti, kun ne lähetetään. Skannaa sivu uudelleen nähdäksesi sen."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "Jokainen sivu, joka viikko"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "Viikoittainen tarkistus tarkastaa kerran viikossa jokaisen sivustosi sivukartassa olevan sivun, pakkaa uudet tai muuttuneet kuvat ja lähettää sinulle havainnot sähköpostitse. Otat sen käyttöön iminify.com-sivustolla sivustosi läpikäynnin pohjalta, ja siellä näet myös, mihin paketteihin se kuuluu."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "Ota viikoittainen tarkistus käyttöön"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "Sivua ei voitu lukea"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "Odottaa skannausta"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "Skannataan"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "Valmis"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "Ei kuvia"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "Lopetettu"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "Epäonnistunut"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Iminify katkaisi tämän sivuston yhteyden, joten sen sivuja ei voi tarkastaa. Yhdistä se uudelleen jatkaaksesi."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "Yhdistä tämä sivusto Iminifyhin, niin voit tarkastaa sen sivut."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "Siirry asetuksiin"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "Skannaa sivu"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Iminify avaa sivun kuten vierailija ja mittaa jokaisen sen näyttämän kuvan."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "Sivu"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "Muu osoite tällä sivustolla"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "Osoite"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "Skannaa"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "Voit skannata uudelleen %s sekunnin kuluttua."
+msgstr[1] "Voit skannata uudelleen %s sekunnin kuluttua."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "Tänään käytetty %s sivuskannaus. Jokainen tarkastus lasketaan yhdeksi."
+msgstr[1] "Tänään käytetty %s sivuskannausta. Jokainen tarkastus lasketaan yhdeksi."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "Sivuskannauksia jäljellä tänään %1$s/%2$s. Jokainen tarkastus lasketaan yhdeksi."
+msgstr[1] "Sivuskannauksia jäljellä tänään %1$s/%2$s. Jokainen tarkastus lasketaan yhdeksi."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "Tämän päivän sivuskannaukset on käytetty loppuun. Lisää on saatavilla %s."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "Tämän päivän sivuskannaukset on käytetty loppuun."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "Viimeisimmät tarkastukset"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "Sivun kuvat"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "Valitse sivu ja paina Skannaa. Iminify luettelee jokaisen sivulla olevan kuvan kirjastosi vastaavan kuvan vieressä ja kertoo, mitä kannattaa korjata."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Iminify avaa sivua ja mittaa sen kuvia. Tämä kestää yleensä alle minuutin, ja kuvat näkyvät sivulla heti, kun ne ovat valmiina."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "Sivulla ei näkynyt kuvia."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "Sivulla on %1$s kuva, korjattavaa %2$s kuvassa."
+msgstr[1] "Sivulla on %1$s kuvaa, korjattavaa %2$s kuvassa."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "Ei korjattavaa: jokaisen tämän sivun kuvan koko, lataus ja kuvaus ovat kunnossa."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "Piilota kuvat, joissa ei ole korjattavaa"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "Näytä %s kuva, jossa ei ole korjattavaa"
+msgstr[1] "Näytä %s kuvaa, joissa ei ole korjattavaa"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "%s mediakirjastosi kuva on tällä sivulla ilman leveyttään ja korkeuttaan tai ilman vaihtoehtoista tekstiä, joka sillä on kirjastossa. Lisäosa voi lisätä puuttuvat tiedot sivuillesi kirjastosta, kun sivut lähetetään."
+msgstr[1] "%s mediakirjastosi kuvaa on tällä sivulla ilman leveyttään ja korkeuttaan tai ilman vaihtoehtoista tekstiä, joka niillä on kirjastossa. Lisäosa voi lisätä puuttuvat tiedot sivuillesi kirjastosta, kun sivut lähetetään."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "Täydennä ne jokaisella sivulla"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "Käyttäjä, jolla on oikeus muuttaa lisäosan asetuksia, voi ottaa tämän käyttöön."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "Käytä kokoa %1$s (%2$s × %3$s) kohdassa, jossa tämä kuva on. Sivun editori ei sisällä sitä: teemasi, sivupohja tai vimpain näyttää sen, ja koko valitaan siellä."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "Käytä tässä kokoa %1$s (%2$s × %3$s): valitse kuva editorissa ja valitse koko kohdasta Resoluutio."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "Muokkaa sivua"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "Lisäosa lisää ne, kun sivu lähetetään. Skannaa uudelleen nähdäksesi sen."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Iminify kirjoittaa kuvan vaihtoehtoista tekstiä. Skannaa uudelleen, kun se on valmis."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Iminify voi kirjoittaa sen, kun tekoälyn vaihtoehtoiset tekstit ovat käytössä tällä sivustolla."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "Ota käyttöön asetuksissa"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "Sen vaihtoehtoinen teksti on tulossa. Skannaa uudelleen, kun se on valmis."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "Käännökset jakavat tämän kuvan, ja kullakin on vaihtoehtoinen teksti omalla kielellään: kirjoita se sen käännöksen muokkausnäkymässä, jonka tämä sivu näyttää."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "Lisäosa lisää kuvan mediakirjastossa olevan vaihtoehtoisen tekstin, kun sivu lähetetään. Skannaa uudelleen nähdäksesi sen."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "Matkalla"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "Odottaa"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Epäonnistunut"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Toisen lisäosan optimoima"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(ei otsikkoa)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "%s-kopio"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "Ensimmäisen näkymän suurin"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "näytetään koossa %1$s × %2$s"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "Kuva on matkalla Iminifylle."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "Kopioitu"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "Kopioi"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Iminifyn mukaan tilisi päivittäiset kuvat on yhä käytetty loppuun."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "Matkalla"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Epäonnistuneet"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Ohitetut"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "Palautetut"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "Kirjastosi"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s kuva"
+msgstr[1] "%s kuvaa"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "Mediakirjastossasi ei ole vielä kuvia."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "optimoitu"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "Säästetty tähän mennessä"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "alun perin %1$s, %2$s %% vähemmän"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "Lisäosa %1$s optimoi %2$s kuvan, ja sen alkuperäinen on tallessa. Iminify jättää sen ennalleen."
+msgstr[1] "Lisäosa %1$s optimoi %2$s kuvaa, ja jokaisen alkuperäinen on tallessa. Iminify jättää ne ennalleen."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "Lisäosa %1$s optimoi %2$s kuvan eikä säilyttänyt sen alkuperäistä. Iminify jättää sen ennalleen."
+msgstr[1] "Lisäosa %1$s optimoi %2$s kuvaa eikä säilyttänyt niiden alkuperäisiä. Iminify jättää ne ennalleen."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "Lisäosa %1$s optimoi %2$s kuvan, ja alkuperäinen on tallessa %3$s kuvasta. Iminify jättää ne ennalleen."
+msgstr[1] "Lisäosa %1$s optimoi %2$s kuvaa, ja alkuperäinen on tallessa %3$s kuvasta. Iminify jättää ne ennalleen."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "Muut kansiot palautettu"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "Palautetaan muita kansioita"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "Muut kansiot optimoitu"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "Optimoidaan muita kansioita"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "Kirjasto palautettu"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Palautetaan"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "Vaihtoehtoiset tekstit kirjoitettu"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "Kirjoitetaan vaihtoehtoisia tekstejä"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "Puuttuvat muodot tehty"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "Tehdään puuttuvia muotoja"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "Puuttuvat koot tehty"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "Tehdään puuttuvia kokoja"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "Optimoitu uudelleen alkuperäisistä"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "Optimoidaan uudelleen alkuperäisistä"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "Massaoptimointi"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Valmis"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "Pysäytetty: levytila vähissä"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "Pysäytetty"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Odottaa toista optimointilisäosaa"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "Ei etene"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "Odottaa sivustoa"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Loppu tältä päivältä"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify on kiireinen"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "Käynnissä tällä sivulla"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "Käynnissä"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "Palautettu %1$s/%2$s kuva."
+msgstr[1] "Palautettu %1$s/%2$s kuvaa."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "Lähetetty %1$s/%2$s kuva Iminifylle."
+msgstr[1] "Lähetetty %1$s/%2$s kuvaa Iminifylle."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s vaihtoehtoinen teksti matkalla"
+msgstr[1] "%s vaihtoehtoista tekstiä matkalla"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s kuva nyt Iminifyn käsittelyssä"
+msgstr[1] "%s kuvaa nyt Iminifyn käsittelyssä"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "kuva palautettu"
+msgstr[1] "kuvaa palautettu"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "kuva lähetetty Iminifylle"
+msgstr[1] "kuvaa lähetetty Iminifylle"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "%d kuvaa ei voitu palauttaa. Sen rivi kohdassa Media, Muut kansiot kertoo syyn."
+msgstr[1] "%d kuvaa ei voitu palauttaa. Niiden rivit kohdassa Media, Muut kansiot kertovat syyn."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%d kuvaa ei voitu palauttaa. Sen paneeli mediakirjastossa kertoo syyn."
+msgstr[1] "%d kuvaa ei voitu palauttaa. Niiden paneelit mediakirjastossa kertovat syyn."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "Aloita nyt"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "Pysäytä"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "Jatka"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "Lopeta"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "Suorita se taustalla"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "Valmis: kuvat ovat taas sellaisia kuin ne siirrettiin."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "Valmis: jokaisen kuvan kohdalla mediakirjastossa näkyy, miten sen vaihtoehtoinen teksti onnistui."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "Valmis: yhtään kuvaa ei tarvinnut lähettää."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "Valmis: jokainen kuva lähetettiin. Jokaisen kuvan kohdalla mediakirjastossa näkyy, miten se onnistui."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "Lopetettu. Iminifylle jo lähetetyt kuvat valmistuvat, kun tämä sivu on auki; loput pysyvät ennallaan."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "Lopetettu. Iminifylle jo lähetetyt kuvat valmistuvat; loput pysyvät ennallaan."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "Pysäytetty: palvelimen levytila on vähissä. Vapauta tilaa ja jatka sitten."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "Pysäytetty, kun lisäosa oli poistettu käytöstä."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "Pysäytetty. Iminifylle jo lähetetyt kuvat valmistuvat, kun tämä sivu on auki."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "Pysäytetty. Iminifylle jo lähetetyt kuvat valmistuvat."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "Odottaa niin kauan kuin toinen kuvien optimointilisäosa käsittelee siirrettyjä kuviasi. Ajo jatkuu automaattisesti, kun se poistetaan käytöstä."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "Ajo ei ole edennyt vähään aikaan: tämän sivuston ajastetut tehtävät eivät näytä toimivan."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "Tilisi päivittäiset kuvat on käytetty loppuun. Ajo jatkuu automaattisesti, kun seuraava erä avautuu %s."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "Odottaa: Iminify ei hyväksy tämän sivuston avainta. Ajo jatkuu automaattisesti, kun yhteys toimii."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "Tilisi päivittäiset tekoälyn vaihtoehtoiset tekstit on käytetty loppuun. Ajo jatkuu automaattisesti %s."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Iminify käsittelee jo lähetettyjä kuvia. Ajo lähettää lisää %s."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "Pidä tämä sivu auki: kuvat lähtevät niin kauan kuin se on auki."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "Ajo jatkuu taustalla, joten voit poistua tältä sivulta."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "Sivuston eheys ilmoittaa: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "Jos tämä sivusto kysyy salasanaa ennen kuin se aukeaa, lisää kyseinen käyttäjätunnus ja salasana wp-config.php-tiedostoon, jotta sen ajastetut tehtävät pääsevät siihen:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "Suorita se sen sijaan tämän sivun ollessa auki tai jatka sitä komentoriviltä:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "Suorita se tämän sivun ollessa auki"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "Vertaa paketteja"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "Yhdistä tämä sivusto Iminifyhin, niin voit optimoida sen kuvat."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "Palvelimen levytila on vähissä, joten mitään ei optimoida ennen kuin tilaa vapautetaan."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "Optimoi kirjasto"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s kuva on vielä optimoimatta."
+msgstr[1] "%s kuvaa on vielä optimoimatta."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "Niiden varmuuskopiot vievät noin %1$s levytilaa (vapaana %2$s)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "Niiden varmuuskopiot vievät noin %s levytilaa."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "Lähetä %s epäonnistunut kuva uudelleen"
+msgstr[1] "Lähetä %s epäonnistunutta kuvaa uudelleen"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "Ei vielä optimoitavaa."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "Jokainen kuva on optimoitu tai matkalla."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "Yksikään kuva ei odota optimointia."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s kuva palautettiin, ja se pysyy ennallaan: ajo ei koskaan ota kuvaa, jonka joku on palauttanut. Optimoi se uudelleen sen paneelista mediakirjastossa."
+msgstr[1] "%s kuvaa palautettiin, ja ne pysyvät ennallaan: ajo ei koskaan ota kuvaa, jonka joku on palauttanut. Optimoi kuva uudelleen sen paneelista mediakirjastossa."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "Puuttuvat tiedostot"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "%s optimoidulta kuvalta puuttuu muoto, jota sivustosi nyt vaatii."
+msgstr[1] "%s optimoidulta kuvalta puuttuu muoto, jota sivustosi nyt vaatii."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "%s optimoidulta kuvalta saattaa puuttua koko, jonka sivustosi nyt tekee."
+msgstr[1] "%s optimoidulta kuvalta saattaa puuttua koko, jonka sivustosi nyt tekee."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "Vaihtoehtoinen teksti"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s kuvalla ei ole vaihtoehtoista tekstiä."
+msgstr[1] "%s kuvalla ei ole vaihtoehtoista tekstiä."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "Lähetetäänkö näistä kuvista pieni kopio kustakin vaihtoehtoisen tekstin kirjoittamista varten? Kukin lasketaan yhdeksi päivittäisistä tekoälyn vaihtoehtoisista teksteistäsi, eikä kenenkään kirjoittamaa vaihtoehtoista tekstiä koskaan korvata."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "%s tekoälyn vaihtoehtoinen teksti jäljellä tänään."
+msgstr[1] "%s tekoälyn vaihtoehtoista tekstiä jäljellä tänään."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "Lähetetäänkö nämä kuvat uudelleen, jotta niiltä puuttuvat tiedostot tehdään? Kukin lasketaan yhdeksi kuvaksi lisää, ja sen muut tiedostot säilyvät, ellei Iminify saa niitä pienemmiksi."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "Optimoi ne uudelleen alkuperäisistä"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "%s toisen lisäosan optimoiman kuvan alkuperäinen on tallessa. Iminify voi optimoida sen uudelleen tästä alkuperäisestä ja ottaa siitä oman varmuuskopionsa. Alkuperäinen palautetaan ensin, ellei kuvaa ole muunnettu WebP- tai AVIF-muotoon: silloin sen tiedostot tehdään uudelleen siinä muodossa samoilla nimillä."
+msgstr[1] "%s muiden lisäosien optimoiman kuvan alkuperäiset ovat tallessa. Iminify voi optimoida ne uudelleen näistä alkuperäisistä ja ottaa jokaisesta oman varmuuskopionsa. Kukin alkuperäinen palautetaan ensin, ellei kuvaa ole muunnettu WebP- tai AVIF-muotoon: silloin sen tiedostot tehdään uudelleen siinä muodossa samoilla nimillä."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "Optimoidaanko nämä kuvat uudelleen alkuperäisistään? Kukin lasketaan yhdeksi kuvaksi lisää, ja kuva, jonka alkuperäisen vain sen lisäosa voi palauttaa, jätetään ennalleen."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "LiteSpeed Cache on käytössä. Aina kun WordPress tekee kuvan koot uudelleen (Regenerate Thumbnails tai kuvan korvaaminen), LiteSpeed Cache poistaa kuvan vieressä olevat WebP- ja AVIF-kopiot ja palauttaa vanhat tiedostot, jotka se säilytti optimoimastaan kuvasta, joten Iminify tulkitsee kuvan muuttuneeksi. Asetus ”Remove Original Image Backups” kohdassa LiteSpeed Cache, Image Optimization estää sitä palauttamasta vanhoja tiedostoja."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "Taustalla"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "Voit poistua tältä sivulta."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "Tämän sivun ollessa auki"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "Jos palveluntarjoajasi ajastetut tehtävät eivät toimi."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "Suorita"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "Pakettisi"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "kaikki tänään"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "noin %d päivä"
+msgstr[1] "noin %d päivää"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "Pakettisi päivittäiset kuvat riittävät kaikkiin tänään."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "Ajo jatkuu automaattisesti joka päivä."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "Katso paketit"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "Muut kansiot"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "Optimoi teemasi ja muiden mediakirjaston ulkopuolisten kansioiden kuvat niiden omilla paikoillaan ja ota jokaisesta varmuuskopio."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "Kansioissasi on %1$s kuva: optimoituja %2$s, vielä optimoimattomia %3$s."
+msgstr[1] "Kansioissasi on %1$s kuvaa: optimoituja %2$s, vielä optimoimattomia %3$s."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Iminify käy niitä vielä läpi."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Palautetaanko jokainen kansioidesi optimoitu kuva ennalleen? Niiden WebP- ja AVIF-kopiot poistetaan; varmuuskopiot säilyvät."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "Palauta kaikki"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "Näytä kuvat"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "Optimoi ne"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "Lähetä epäonnistuneet uudelleen"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "Valitse kansiot"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "Palauta kirjasto"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "Palauta jokainen optimoitu kuva varmuuskopiostaan sellaiseksi kuin se siirrettiin, ja WordPress tekee sen koot uudelleen. Tee tämä ennen lisäosan poistamista, jos haluat alkuperäisesi takaisin paikoilleen. Kuva, jonka toinen lisäosa muunsi WebP- tai AVIF-muotoon, pysyy ennallaan, koska vain se lisäosa voi palauttaa sen alkuperäisen."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Palautetaanko jokainen optimoitu kuva sellaiseksi kuin se siirrettiin? Niiden WebP- ja AVIF-kopiot poistetaan; varmuuskopiot säilyvät."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "Lähetetty Iminifylle."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "Alkuperäinen on palautettu."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "Etsitään"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "Kansiot"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "Valitse teemasi tai mikä tahansa wp-content-kansion kansio, niin Iminify optimoi sen kuvat niiden omilla paikoillaan ja ottaa jokaisesta varmuuskopion."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "Poista"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "Teemasi"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "Sen yläteema"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "Lisää teemasi: %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "Lisää sen yläteema: %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "Lisää"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "Muu kansio wp-content-kansiossa"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Edellinen haku %1$s: %2$s kuva, uusia %3$s, muuttuneita %4$s."
+msgstr[1] "Edellinen haku %1$s: %2$s kuvaa, uusia %3$s, muuttuneita %4$s."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Iminify etsii uudelleen teeman tai lisäosan päivityksen jälkeen. Etsi nyt, jos olet muuttanut kuvia käsin."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "Etsi uusia ja muuttuneita kuvia"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "Kansioissasi"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "Massaoptimointisivulla on käynnissä massa-ajo näille kuville."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "Optimoi tai palauta ne kaikki massaoptimointisivulla."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "Siirry Massaoptimointi-sivulle"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "Kaikki"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "Kuvat"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "Lisää kansio, niin sen kuvat näkyvät tässä."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "Näistä kansioista ei löytynyt kuvia."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "Täällä ei ole kuvia."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "Edellinen"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "Sivu %1$s/%2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "Seuraava"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Odottaa yhteyttä"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Ohitettu"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Palautettu"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%s %% pienempi"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "Palauta"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "Palautetaanko alkuperäinen? Sen WebP- ja AVIF-kopiot poistetaan; varmuuskopio säilyy."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "Katkaistaanko verkon yhteys Iminifyhin? Myös jokainen avain, jolla sen sivustot liittyivät, lakkaa toimimasta, eikä niiden sivustojen uusia siirrettyjä kuvia enää optimoida. Jo optimoidut kuvat pysyvät ennallaan."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "Katkaistaanko tämän sivuston yhteys Iminifyhin? Uusia siirrettyjä kuvia ei enää optimoida, eikä sivusto liity verkkoon uudelleen itsestään: palauta yhteys painamalla Liity verkkoon. Jo optimoidut kuvat pysyvät ennallaan."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "Katkaistaanko tämän sivuston yhteys Iminifyhin? Uusia siirrettyjä kuvia ei enää optimoida. Jo optimoidut kuvat pysyvät ennallaan."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "Katkaise yhteys"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s (%2$s) on yhdistetty Iminifyhin multisite-verkkona."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s (%2$s) on yhdistetty Iminifyhin verkkonsa kautta."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s (%2$s) on yhdistetty Iminifyhin."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "Tilisi"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "Paketti"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, %2$s asti"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "Seuraava erä"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "Verkon sivustot"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s/%2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "Pääsivusto"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "%s säästetty"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "Tämän sivuston Iminify-tili on asetettu wp-config.php-tiedostossa."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "Pakettisi iminify.com-sivustolla"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "Verkon avain on asetettu wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>. Katkaise yhteys poistamalla se sieltä ja katkaisemalla verkon yhteys iminify.com-sivustolla kohdassa Settings, Sites."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "Sivuston avain on asetettu wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>. Katkaise yhteys poistamalla se sieltä ja katkaisemalla sivuston yhteys iminify.com-sivustolla kohdassa Settings, Sites."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "Yhdistä verkkosi"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Iminify pakkaa tämän verkon jokaiselle sivustolle siirretyt kuvat ja tekee niistä WebP- ja AVIF-kopiot. Yhdistä verkko Iminify-tiliisi kerran tai luo samalla ilmainen tili, niin jokainen sivusto liittyy itsestään, kun se ensimmäisen kerran tarvitsee Iminify-palvelua."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "Iminifylle ei lähetetä mitään ennen kuin yhdistät. Yhdistä avaa iminify.com-sivuston uuteen välilehteen, jossa hyväksyt verkon."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "Yhdistä verkko"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "Yhdistä tämä sivusto erikseen"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "Tämä sivusto voi sen sijaan yhdistää omaan Iminify-tiliinsä, jolloin se ei koskaan käytä verkon yhteyttä."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Yhdistä avaa iminify.com-sivuston uuteen välilehteen, jossa hyväksyt tämän sivuston."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "Yhdistä sivustosi"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Iminify pakkaa siirtämäsi kuvat ja tekee niistä WebP- ja AVIF-kopiot. Aloita yhdistämällä tämä sivusto Iminify-tiliisi tai luomalla samalla ilmainen tili."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Iminifylle ei lähetetä mitään ennen kuin yhdistät. Yhdistä avaa iminify.com-sivuston uuteen välilehteen, jossa hyväksyt tämän sivuston."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "Verkon hallinnassa järjestelmänvalvoja voi sen sijaan yhdistää koko verkon, jolloin jokainen sivusto liittyy siihen itsestään."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "Näin yhdistäminen toimii"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Odottaa hyväksyntääsi"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "Hyväksy yhteys iminify.com-sivustolla avautuneessa välilehdessä. Tämä sivu yhdistyy itsestään, kun olet hyväksynyt, ja sivusto jatkaa yhdistämistä, vaikka sulkisit sivun."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "Avaa sivu iminify.com-sivustolla uudelleen"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Digitoimisto voi lisätä sivuston iminify.com-sivustolla kohdassa <a>Settings, Sites</a> ja liittää sen avaimen tähän tai asettaa sen wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Digitoimisto voi lisätä sivuston iminify.com-sivustolla kohdassa Settings, Sites ja liittää sen avaimen tähän tai asettaa sen wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Digitoimisto lisää verkon iminify.com-sivustolla kohdassa <a>Settings, Sites</a> valinta ”This is a multisite network” rastitettuna ja liittää sen avaimen tähän tai asettaa sen wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Digitoimisto lisää verkon iminify.com-sivustolla kohdassa Settings, Sites valinta ”This is a multisite network” rastitettuna ja liittää sen avaimen tähän tai asettaa sen wp-config.php-tiedostossa vakiona <code>IMINIFY_API_KEY</code>."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "Jokainen siirretty kuva optimoidaan taustalla"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "WordPress viimeistelee siirron ensin, minkä jälkeen Iminify pakkaa kuvan ja jokaisen WordPressin siitä tekemän koon."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "Siirretty kuva lasketaan yhdeksi kuvaksi"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "WordPressin siitä tekemät koot sekä sen WebP- ja AVIF-kopiot tulevat sen mukana tiedostoina, eivät koskaan lisäkuvina."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "Alkuperäisesi pysyvät tällä sivustolla"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "Jokaisesta otetaan varmuuskopio uploads-kansioon, joten minkä tahansa kuvan voi palauttaa ennalleen."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "Kirjastosi optimoidaan vasta, kun haluat"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "Mediakirjastossa jo olevat kuvat odottavat, kunnes käynnistät niiden optimoinnin kohdassa Media, Massaoptimointi."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "Kun olet yhdistänyt"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "Yhdistä verkon avaimella"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "Yhdistä sivustoavaimella"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "Verkon avain"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "Sivustoavain"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "Yhdistä tällä avaimella"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "muuttuu arvoksi"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "ei muutosta"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "Lisäosan %s asetukset"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Iminify löysi tältä sivustolta lisäosan %s asetukset. Se voi asettaa tämän sivuston asetukset vastaamaan niitä siltä osin kuin Iminify tarjoaa samat asetukset: pakkaustaso, enimmäisleveys, metatiedot, WebP- ja AVIF-kopiot, koot ja varmuuskopiot. Näet, mitä muuttuu, ennen kuin mikään muuttuu."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "Käytä lisäosan %s asetuksia"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "Ei kiitos"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "Tämä sivusto käyttää jo sitä, mitä lisäosan %s asetukset vastaavat."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "Lisäosan %s asetusten perusteella Iminify asettaisi nämä. Mikään ei muutu ennen kuin käytät niitä, ja niiden käyttäminen korvaa alla olevien asetusten tallentamattomat muutokset."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "Lisäosan %s asetusten perusteella Iminify asettaisi nämä. Mikään ei muutu ennen kuin käytät niitä."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "Iminify ei tarjoa vastinetta millekään lisäosan %s asetukselle, joten tämä sivusto pitää omat asetuksensa."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "Käytä näitä asetuksia"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "OK"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "Avaa verkon Iminify-asetukset"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "Verkon yhteys"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Tämä on verkon pääsivusto, joten se käyttää verkon yhteyttä Iminifyhin. Verkon hallinnassa järjestelmänvalvoja yhdistää verkon ja katkaisee sen yhteyden."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Tämä on verkon pääsivusto, joten se käyttää verkon yhteyttä Iminifyhin, jota ei ole vielä muodostettu. Verkon hallinnassa järjestelmänvalvoja yhdistää verkon, ja jokainen sivusto liittyy siihen itsestään."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "Verkon sivustot"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Tämä avain on tehty yksittäiselle sivustolle, joten verkon sivustot eivät voi liittyä sillä. Katkaise yhteys ja yhdistä sitten verkko uudelleen, tai luo avain iminify.com-sivustolla kohdassa Settings, Sites valinta ”This is a multisite network” rastitettuna."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "Jokainen verkon sivusto liittyy itsestään omalla avaimellaan, kun se ensimmäisen kerran tarvitsee Iminify-palvelua, ja aloittaa pääsivuston asetuksilla. Kukin lasketaan tilillesi omaksi sivustokseen. Sivusto, jonka yhteys on katkaistu sen omalla sivulla tai iminify.com-sivustolla kohdassa Settings, Sites, ei liity uudelleen itsestään."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Kunkin sivuston asetukset ovat sen omalla Asetukset, Iminify -sivulla. Teemojen ja muiden kansioiden kuvat optimoi pääsivusto, kerran koko verkon puolesta."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "Pääsivuston asetukset"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "Pääsivuston muut kansiot"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Näin verkko yhdistetään"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Liity verkkoon"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "Verkko %s on yhdistetty Iminifyhin. Tämä sivusto voi liittyä siihen omalla avaimellaan, ja se lasketaan tilillä omaksi sivustokseen."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "WordPressin uudelleenkirjoitussäännöissä:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "Tiedostossa <file />:"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "Poistetaanko lisäosan %s sääntö WordPressin uudelleenkirjoitussäännöistä? Kaikki muut säännöt säilyvät."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "Poistetaanko lisäosan %s rivit tästä tiedostosta? Kaikki muu siinä pysyy ennallaan. Nginx pitää ne voimassa, kunnes sen asetukset ladataan uudelleen, joten lataa ne uudelleen sen jälkeen."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "Poistetaanko lisäosan %s rivit tästä tiedostosta? Kaikki muu siinä pysyy ennallaan."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "Tiedostossa <file /> on rivi %s, mutta sen aloittamalla lohkolla ei ole omaa loppuaan tai se ulottuu toisen lohkon yli, joten lisäosa ei koske tiedostoon. Poista lohkon rivit käsin."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "Lisäosa ei pysty kirjoittamaan tiedostoon <file />. Poista nämä rivit siitä käsin ja lataa sitten Nginxin asetukset uudelleen."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "Lisäosa ei pysty kirjoittamaan tiedostoon <file />. Poista nämä rivit siitä käsin."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "Kaikki verkon sivustot jakavat nämä rivit, joten ne poistaa verkkoa hallinnoiva käyttäjä verkon hallinnan Iminify-asetuksista."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "Kaikki verkon sivustot jakavat nämä rivit, joten ne poistaa järjestelmänvalvoja tällä sivulla."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "Lisäosan %s uudelleenkirjoitussääntö"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "Lisäosan %s säännöt"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "Toisen optimointilisäosan jättämät säännöt"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "Toisen optimointilisäosan jättämät säännöt on poistettu."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "Aiemmin käyttämäsi kuvien optimointilisäosa jätti nämä säännöt jälkeensä, kun se poistettiin käytöstä. Iminify ei koskaan poista toisen lisäosan sääntöjä itsestään."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d kuva on optimoitavana."
+msgstr[1] "%d kuvaa on optimoitavana."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d kuva odottaa seuraavaa erää."
+msgstr[1] "%d kuvaa odottaa seuraavaa erää."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d kuva odottaa, että sivusto yhdistetään. Se lähtee automaattisesti, kun sivusto on yhdistetty."
+msgstr[1] "%d kuvaa odottaa, että sivusto yhdistetään. Ne lähtevät automaattisesti, kun sivusto on yhdistetty."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "Seuraava erä avautuu %s. Uudet siirretyt kuvat lähtevät ensin, automaattisesti."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "Jono"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "Palvelimen levytila on vähissä, joten Iminify on lopettanut kuvien optimoinnin täällä. Vapauta tilaa ja optimoi sitten kuvat, joiden tilana on ”Ei optimoitu”."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "Palvelimesi vastasi virheellä, kun säännöt oli lisätty, joten lisäosa poisti ne taas, ja kuvasi latautuvat kuten ennenkin. Kysy palveluntarjoajaltasi, saako .htaccess-tiedostoissa asettaa uudelleenkirjoitussääntöjä ja tiedostotyyppejä, tai valitse picture-elementit."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "Palvelimesi tarjoaa WebP- ja AVIF-kopiot. Tarkistettu %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "Palvelimesi tarjoaa yhä alkuperäiset: jokin vastaa kuvapyyntöihin ennen kuin näitä sääntöjä luetaan, usein Nginx Apachen edessä. Lisää alla olevat Nginx-rivit sen asetuksiin tai valitse picture-elementit. Tarkistettu %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "Palvelimesi tarjoaa yhä alkuperäiset. Lisää alla olevat rivit sen asetuksiin, lataa Nginxin asetukset uudelleen ja tallenna sitten uudelleen. Tarkistettu %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Cloudflare vastasi alkuperäisellä, joten vierailija ei ehkä koskaan saa kopiota näiden sääntöjen kautta. Valitse picture-elementit, jotka toimivat Cloudflaren takana. Tarkistettu %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "Lisäosa ei pystynyt pyytämään sivustoltasi kuvaa tarkistaakseen, toimivatko säännöt. Näin käy, kun sivusto ei tavoita omaa osoitettaan. Avaa jokin kuvistasi selaimen kehittäjätyökaluilla: sen tyypin pitäisi olla image/avif tai image/webp. Yritetty %s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "Säännöt ovat tiedostossa <file />."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "Tiedostossa <file /> on rivi <begin /> ilman riviä <end />, joten lisäosa ei koske tiedostoon. Lisää rivi <end /> takaisin lohkon viimeisen rivin <closing /> jälkeen tai poista lohkon kaikki rivit ja tallenna sitten uudelleen."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "Uploads-kansiosi ei ole sen kansion sisällä, jossa sivuston .htaccess-tiedosto on, joten mikään siellä oleva sääntö ei voi viitata siihen. Valitse picture-elementit."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "Tiedostoa <file /> ei vielä ole. Luo se näillä riveillä ja tallenna sitten uudelleen."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "Tiedosto <file /> ei ota uudelleenkirjoitusta käyttöön, joten lisäosa ei koske siihen. Jos palvelimesi lukee uudelleenkirjoitussääntöjä sieltä, liitä nämä rivit siihen ja tallenna sitten uudelleen."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "Lisäosa ei pysty kirjoittamaan tiedostoon <file />. Liitä nämä rivit siihen niiden sääntöjen yläpuolelle, jotka WordPress antoi verkolle, ja tallenna sitten uudelleen."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "Lisäosa ei pysty kirjoittamaan tiedostoon <file />. Liitä nämä rivit sen loppuun ja tallenna sitten uudelleen."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "Palvelimesi ei lue .htaccess-tiedostoja eikä Nginxin asetuksia, joten lisäosalla ei ole sille sääntöjä. Valitse picture-elementit."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Sivustosi toimii Nginxillä, joka ei lue .htaccess-tiedostoa. Lisää ensimmäiset rivit sivuston server-lohkon alkuun ennen mitään if- tai rewrite-käskyä ja location-lohko minkä tahansa muun kuvien location-lohkon yläpuolelle, ja lataa sitten Nginxin asetukset uudelleen. Kopioi location-lohkoon kaikki expires-, Cache-Control- tai add_header-rivit, joita kuvasi tarvitsevat, koska sen add_header korvaa server-lohkon vastaavat:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Nginxiä varten: lisää ensimmäiset rivit sivuston server-lohkon alkuun ennen mitään if- tai rewrite-käskyä ja location-lohko minkä tahansa muun kuvien location-lohkon yläpuolelle, ja lataa sitten Nginxin asetukset uudelleen. Kopioi location-lohkoon kaikki expires-, Cache-Control- tai add_header-rivit, joita kuvasi tarvitsevat, koska sen add_header korvaa server-lohkon vastaavat:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "Ne kattavat: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "Ne tarjoavat minkä tahansa kuvan mukaan nimetyn WebP- tai AVIF-kopion sen vierestä, joten myös toisen optimointilisäosan sinne jättämä kopio tarjotaan, kunnes Iminify tekee omansa. Iminify ei koskaan poista toisen lisäosan kopioita."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Cloudflare vastaa sivustosi puolesta. Se säilyttää jokaisesta kuvasta yhden version selaimesta riippumatta, joten selain, joka ei osaa näyttää AVIF-kuvia, voisi saada AVIF-kopion. Valitse picture-elementit, jotka toimivat minkä tahansa CDN:n takana."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "WP Offload Media tarjoaa kuvasi pilvitallennustilastaan, johon nämä säännöt eivät koskaan ulotu, joten niistä tarjotaan alkuperäiset. Kun sen ”Remove Local Media” on käytössä, säännöt eivät tarjoa mitään."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "Ulottuu myös raa'an HTML:n, sivunrakentajien ja teemasi oman koodin kuviin, itse sivulla asetettuihin taustakuviin sekä valitsemiesi kansioiden kuviin, sillä lisäosa lukee jokaisen sivun sen lähtiessä. Tyylitiedostossa asetettu taustakuva säilyttää alkuperäisensä. Sivu, jota välimuistisi ei ole säilyttänyt, latautuu hieman hitaammin."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "Sivusi pysyvät ennallaan, ja palvelimesi tarjoaa kuvan sijaan WebP- tai AVIF-kopion jokaiselle selaimelle, joka osaa lukea sen. Tämä koskee jokaista kuvaa uploads-kansiossa ja valitsemissasi kansioissa, myös tyylitiedostojen taustakuvia. Vaatii sääntöjä palvelimesi asetuksiin; Apachessa ne kirjoitetaan puolestasi, ja CDN:n takana CDN:n on säilytettävä jokaisesta kuvasta oma versio kutakin muotoa varten."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "Sivusi pysyvät ennallaan: kopiot tehdään, mutta mikään sivu ei viittaa niihin."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "Artikkeleidesi kuville ja niille, jotka teemasi näyttää WordPressin kautta. Jokainen sivu on sama kaikille vierailijoille, joten sivuvälimuistit ja CDN:t toimivat edelleen, ja selain, joka ei lue kumpaakaan muotoa, saa alkuperäisen."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "Optimointi"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "Nämä asetukset säilytetään sivuston tiedoissa iminify.com-sivustolla, ja se soveltaa niitä jokaiseen sivuston lähettämään kuvaan."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "Lähetä jokainen kuva Iminifylle sitä siirrettäessä."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "Jokaisesta koosta WebP-kopio, jota tarjotaan sitä tukeville selaimille. Kuvaansa suurempaa kopiota ei säilytetä."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "Jokaisesta koosta myös AVIF-kopio: yleensä WebP-kopiota pienempi, mutta hitaampi tehdä."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "Mikä tahansa leveys"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "Pienentää leveämmän pääkuvan tähän leveyteen. Jätä tyhjäksi, niin jokaisen kuvan leveys säilyy."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "Pienentää pääkuvan tämän tiedostokoon alle. Jätä tyhjäksi, niin rajaa ei ole."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "Säilyttää jokaisen kuvan EXIF-tiedot, kuten kameran ja kuvauspaikan. Pois päältä poistaa ne."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "Kuvailee jokaisen kuvan, jolla ei ole vaihtoehtoista tekstiä. Kirjoittamaasi vaihtoehtoista tekstiä ei koskaan korvata. Kuvasta lähetetään pieni kopio Anthropicin tekoälylle, ja jokainen lasketaan päivittäisiin tekoälyn vaihtoehtoisiin teksteihisi."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "Vaihtoehtoisen tekstin kieli"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "Optimoi kaikki koot"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "Jokainen koko, jonka WordPress tekee siirretystä kuvasta. Kytke pois, jos haluat valita koot."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "Tällä sivustolla"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "Säilytetään uploads-kansion alikansiossa iminify-backup, joten minkä tahansa kuvan voi palauttaa ennalleen."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "WebP ja AVIF sivuillasi"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "Tarjoa ne picture-elementeillä"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "Tarjoa ne koko sivulla"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "Tarjoa ne palvelinsäännöillä"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "Älä muuta sivuja"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "Lisää kuvilta puuttuva leveys, korkeus ja vaihtoehtoinen teksti"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "Kun sivun koodista puuttuvat ne mediakirjastosi kuvalta, lisäosa lisää jokaisen sivun lähtiessä kuvan leveyden ja korkeuden, jotta sivu ei hypi latautuessaan, sekä kirjastossa olevan vaihtoehtoisen tekstin. Tarkoituksella tyhjäksi jätetty vaihtoehtoinen teksti pysyy tyhjänä."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "Kun poistat lisäosan"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "Poista myös WebP- ja AVIF-kopiot"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "Sivu, jonka välimuistisi on säilyttänyt picture-elementtien kanssa, näyttäisi rikkinäisen kuvan, kunnes välimuisti tyhjennetään."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "Poista myös varmuuskopiot"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "Ne ovat Iminifyn optimoimien kuvien ainoat alkuperäiset, joten noita kuvia ei voi palauttaa jälkeenpäin. Jos myös kopiot poistetaan, lisäosan asentaminen uudelleen optimoisi nuo kuvat toiseen kertaan."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "Tallenna muutokset"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "Tallentamattomia muutoksia"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Vaatii huomiota"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "Verkko on yhdistetty."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "Sivusto on yhdistetty."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "Yhteyttä ei hyväksytty ajoissa, tai se hylättiin. Yritä uudelleen painamalla Yhdistä verkko."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "Yhteyttä ei hyväksytty ajoissa, tai se hylättiin. Yritä uudelleen painamalla Yhdistä."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Verkon yhteys on katkaistu täällä, mutta sen avainta ei voitu poistaa käytöstä Iminify-palvelussa. Katkaise sen yhteys myös iminify.com-sivustolla kohdassa Settings, Sites."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Sivuston yhteys on katkaistu täällä, mutta sen avainta ei voitu poistaa käytöstä Iminify-palvelussa. Katkaise sen yhteys myös iminify.com-sivustolla kohdassa Settings, Sites."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "Sivusto liittyi verkkoon."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "Siirrä yhteys tänne"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "Yhdistä tämä kopio omana sivustonaan"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "Tämä sivusto käyttää nyt lisäosan %s asetuksia."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "Rivit on poistettu. Lataa Nginxin asetukset uudelleen, jotta se lakkaa käyttämästä niitä."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "Rivit on poistettu."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Asetukset tallennettu."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "Odottavat kuvat ovat matkalla."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "Tilisi päivittäiset kuvat on yhä käytetty loppuun."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify katkaisi verkon yhteyden, joten sen sivustojen uusia siirrettyjä kuvia ei optimoida. Yhdistä se uudelleen jatkaaksesi."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify katkaisi verkon yhteyden, joten uusia siirrettyjä kuvia ei optimoida. Järjestelmänvalvoja yhdistää sen uudelleen verkon hallinnassa."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify katkaisi tämän sivuston yhteyden, joten uusia siirrettyjä kuvia ei optimoida. Liity verkkoon uudelleen tai yhdistä sivusto erikseen jatkaaksesi."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify katkaisi tämän sivuston yhteyden, joten uusia siirrettyjä kuvia ei optimoida. Yhdistä se uudelleen jatkaaksesi."

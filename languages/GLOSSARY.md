@@ -11,6 +11,8 @@ The plugin ships its own translations in this folder. `iminify-image-optimizer.p
 - **No em dash (—).** Use the language's ordinary punctuation: a comma, a colon, or a hyphen with spaces.
 - **Follow WordPress's own translation for the locale:** how it addresses the person (formal or informal), and its words for the Media Library, an attachment, Settings, Plugins, uploads, the dashboard and other WordPress screens. The plugin's menu items sit beside WordPress's own, so they should read as one admin.
 - **Short where the source is short:** a button or a menu item stays a few words; a status chip is one or two.
+- **A menu path keeps its commas** as the source writes them ("Media, Bulk Optimization"), never an arrow. iminify.com's own labels ("Settings, Sites", "This is a multisite network") and other plugins' setting names stay in English, since those screens are English; WordPress's own menus take WordPress's words for the locale.
+- **The account tile's note is two pieces** ("3 used" and "37 left", each with its own plural), which the code joins with the language's list separator, the "used" piece first, so the "left" piece starts as the language goes on after a comma.
 
 ## The plugin's words
 

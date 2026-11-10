@@ -352,9 +352,9 @@ class Cli {
 				sprintf(
 					/* translators: 1: how many images were found, 2: how many are new, 3: how many changed. */
 					_n( 'Found %1$s image: %2$s new, %3$s changed.', 'Found %1$s images: %2$s new, %3$s changed.', (int) $scan['found'], 'iminify-image-optimizer' ),
-					number_format_i18n( (int) $scan['found'] ),
-					number_format_i18n( (int) $scan['added'] ),
-					number_format_i18n( (int) $scan['changed'] )
+					Translations::number( (int) $scan['found'] ),
+					Translations::number( (int) $scan['added'] ),
+					Translations::number( (int) $scan['changed'] )
 				)
 			);
 		}
@@ -671,7 +671,7 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image couldn\'t be restored. Its panel in the media library says why.', '%s images couldn\'t be restored. Their panels in the media library say why.', $run['failed'], 'iminify-image-optimizer' ),
-					number_format_i18n( $run['failed'] )
+					Translations::number( $run['failed'] )
 				)
 			);
 		}
@@ -681,7 +681,7 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back.', '%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back.', $run['passed'], 'iminify-image-optimizer' ),
-					number_format_i18n( $run['passed'] )
+					Translations::number( $run['passed'] )
 				)
 			);
 		} elseif ( $run['passed'] > 0 && Bulk::REDO === $run['action'] ) {
@@ -689,7 +689,7 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which.', '%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which.', $run['passed'], 'iminify-image-optimizer' ),
-					number_format_i18n( $run['passed'] )
+					Translations::number( $run['passed'] )
 				)
 			);
 		} elseif ( $run['passed'] > 0 && Bulk::ALT_TEXT === $run['action'] ) {
@@ -697,7 +697,7 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image was left as it is: it shares its files with another attachment, or has alt text by now.', '%s images were left as they are: they share their files with another attachment, or have alt text by now.', $run['passed'], 'iminify-image-optimizer' ),
-					number_format_i18n( $run['passed'] )
+					Translations::number( $run['passed'] )
 				)
 			);
 		} elseif ( $run['passed'] > 0 ) {
@@ -705,7 +705,7 @@ class Cli {
 				sprintf(
 					/* translators: %s: how many images. */
 					_n( '%s image has no original to go from, or changed since it was optimized, so nothing was made for it.', '%s images have no original to go from, or changed since they were optimized, so nothing was made for them.', $run['passed'], 'iminify-image-optimizer' ),
-					number_format_i18n( $run['passed'] )
+					Translations::number( $run['passed'] )
 				)
 			);
 		}
@@ -719,12 +719,12 @@ class Cli {
 				: _n( '%s file sent to Iminify.', '%s files sent to Iminify.', $run['sent'], 'iminify-image-optimizer' );
 
 			WP_CLI::success(
-				sprintf( $done, number_format_i18n( $run['sent'] ) ) . ' ' . sprintf(
+				sprintf( $done, Translations::number( $run['sent'] ) ) . ' ' . sprintf(
 					/* translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed. */
 					_n( 'Your folders have %1$s of %2$s file optimized, %3$s failed.', 'Your folders have %1$s of %2$s files optimized, %3$s failed.', $files['files'], 'iminify-image-optimizer' ),
-					number_format_i18n( $files['optimized'] ),
-					number_format_i18n( $files['files'] ),
-					number_format_i18n( $files['failed'] )
+					Translations::number( $files['optimized'] ),
+					Translations::number( $files['files'] ),
+					Translations::number( $files['failed'] )
 				)
 			);
 
@@ -739,12 +739,12 @@ class Cli {
 			: _n( '%s image sent to Iminify.', '%s images sent to Iminify.', $run['sent'], 'iminify-image-optimizer' );
 
 		WP_CLI::success(
-			sprintf( $done, number_format_i18n( $run['sent'] ) ) . ' ' . sprintf(
+			sprintf( $done, Translations::number( $run['sent'] ) ) . ' ' . sprintf(
 				/* translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed. */
 				_n( 'The library has %1$s of %2$s image optimized, %3$s failed.', 'The library has %1$s of %2$s images optimized, %3$s failed.', $counts['images'], 'iminify-image-optimizer' ),
-				number_format_i18n( $counts['optimized'] ),
-				number_format_i18n( $counts['images'] ),
-				number_format_i18n( $counts['failed'] )
+				Translations::number( $counts['optimized'] ),
+				Translations::number( $counts['images'] ),
+				Translations::number( $counts['failed'] )
 			)
 		);
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Loads the translations that ship with the plugin.
+ * Loads the translations that ship with the plugin, and writes numbers for them.
  *
  * @package Iminify\WordPress
  */
@@ -51,5 +51,39 @@ class Translations {
 		$base   = $folder . self::DOMAIN . '-' . $locale;
 
 		return is_readable( $base . '.l10n.php' ) || is_readable( $base . '.mo' ) ? $folder : $path;
+	}
+
+	/**
+	 * A number as the site's language writes it, ready to be text anywhere. Where
+	 * a language separates thousands with a space (Czech, Finnish, Russian,
+	 * Ukrainian), WordPress writes the separator as the `&nbsp;` entity, which a
+	 * screen's script, a REST answer and WP-CLI print as those six characters, so
+	 * it becomes the no-break space itself. Every number the plugin shows goes
+	 * through here, or through `size()`.
+	 *
+	 * @param int|float $number   The number.
+	 * @param int       $decimals How many decimals to write.
+	 */
+	public static function number( $number, int $decimals = 0 ): string {
+		return self::text( number_format_i18n( $number, $decimals ) );
+	}
+
+	/**
+	 * A file size as the site's language writes it ("1.2 MB"), with one decimal,
+	 * as `number()` does for a number; empty for a negative size.
+	 *
+	 * @param int $bytes The size in bytes.
+	 */
+	public static function size( int $bytes ): string {
+		return self::text( (string) size_format( $bytes, 1 ) );
+	}
+
+	/**
+	 * Core's formatted figure with its entity turned into the character.
+	 *
+	 * @param string $formatted What core wrote.
+	 */
+	protected static function text( string $formatted ): string {
+		return str_replace( '&nbsp;', "\u{00A0}", $formatted );
 	}
 }

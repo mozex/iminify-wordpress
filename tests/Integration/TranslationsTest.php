@@ -41,10 +41,23 @@ class TranslationsTest extends WP_UnitTestCase {
 	 */
 	const PLURAL_FORMS = array(
 		'ar'    => 'nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));',
+		'cs_CZ' => 'nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);',
+		'da_DK' => 'nplurals=2; plural=n != 1;',
 		'de_DE' => 'nplurals=2; plural=n != 1;',
 		'es_ES' => 'nplurals=2; plural=n != 1;',
+		'es_MX' => 'nplurals=2; plural=n != 1;',
+		'fi'    => 'nplurals=2; plural=n != 1;',
+		'fr_FR' => 'nplurals=2; plural=n > 1;',
+		'it_IT' => 'nplurals=2; plural=n != 1;',
 		'ja'    => 'nplurals=1; plural=0;',
+		'nl_NL' => 'nplurals=2; plural=n != 1;',
+		'pl_PL' => 'nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);',
+		'pt_BR' => 'nplurals=2; plural=n > 1;',
+		'pt_PT' => 'nplurals=2; plural=n != 1;',
 		'ru_RU' => 'nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);',
+		'sv_SE' => 'nplurals=2; plural=n != 1;',
+		'tr_TR' => 'nplurals=2; plural=n > 1;',
+		'uk'    => 'nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);',
 	);
 
 	/**
@@ -228,12 +241,12 @@ class TranslationsTest extends WP_UnitTestCase {
 		add_filter(
 			'determine_locale',
 			static function (): string {
-				return 'fr_FR';
+				return 'is_IS';
 			},
 			20
 		);
 		$this->assertSame( 'Settings', __( 'Settings', 'iminify-image-optimizer' ), 'A locale the plugin doesn\'t ship stays in English.' );
-		$this->assertFalse( $GLOBALS['wp_textdomain_registry']->get( Translations::DOMAIN, 'fr_FR' ), 'No folder is handed over for a locale the plugin doesn\'t ship.' );
+		$this->assertFalse( $GLOBALS['wp_textdomain_registry']->get( Translations::DOMAIN, 'is_IS' ), 'No folder is handed over for a locale the plugin doesn\'t ship.' );
 		$this->assertSame( IMINIFY_DIR . '/languages/', Translations::folder( false, Translations::DOMAIN, $locale ) );
 		$this->assertFalse( Translations::folder( false, 'another-plugin', $locale ), 'Another text domain is left alone.' );
 		$this->assertSame( '/packs/', Translations::folder( '/packs/', Translations::DOMAIN, $locale ), 'A folder WordPress found is kept.' );

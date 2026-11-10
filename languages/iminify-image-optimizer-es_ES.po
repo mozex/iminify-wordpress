@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T03:10:50+00:00\n"
-"PO-Revision-Date: 2026-11-10 03:13+0000\n"
+"POT-Creation-Date: 2026-11-10T03:13:26+00:00\n"
+"PO-Revision-Date: 2026-11-10 04:10+0000\n"
 "Language: es_ES\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: iminify-image-optimizer\n"
@@ -1962,7 +1962,7 @@ msgstr "Escaneando"
 
 #: assets/build/audit.js:2
 msgid "Done"
-msgstr "Completado"
+msgstr "Completada"
 
 #: assets/build/audit.js:2
 msgid "No images"
@@ -1976,7 +1976,7 @@ msgstr "Detenido"
 #: assets/build/audit.js:2
 msgctxt "the status of a page audit"
 msgid "Failed"
-msgstr "Fallido"
+msgstr "Fallida"
 
 #: assets/build/audit.js:2
 msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
@@ -2787,8 +2787,8 @@ msgstr "Optimiza las imágenes de tu tema y de otras carpetas fuera de la biblio
 #, js-format
 msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
 msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
-msgstr[0] "%1$s imagen en tus carpetas: %2$s optimizadas, %3$s todavía no."
-msgstr[1] "%1$s imágenes en tus carpetas: %2$s optimizadas, %3$s todavía no."
+msgstr[0] "%1$s imagen en tus carpetas (optimizadas: %2$s, sin optimizar: %3$s)."
+msgstr[1] "%1$s imágenes en tus carpetas (optimizadas: %2$s, sin optimizar: %3$s)."
 
 #: assets/build/bulk.js:33
 msgid "Iminify is still looking through them."

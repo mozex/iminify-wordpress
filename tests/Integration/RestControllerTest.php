@@ -128,6 +128,25 @@ class RestControllerTest extends WP_UnitTestCase {
 		$this->assertSame( array(), $this->api->requests );
 	}
 
+	public function test_a_language_that_separates_thousands_with_a_space_gets_the_character_not_the_entity(): void {
+		global $wp_locale;
+		( new Key_Store() )->save( self::KEY );
+		$this->api->on( 'GET', 'site', 200, Api_Stub::fixture( 'site' ) );
+		$separator = $wp_locale->number_format['thousands_sep'];
+		// What WordPress keeps for Czech, Finnish, Russian and Ukrainian, whose separator is a space.
+		$wp_locale->number_format['thousands_sep'] = '&nbsp;';
+
+		try {
+			$state = $this->call( 'GET', '/state' )->get_data();
+		} finally {
+			$wp_locale->number_format['thousands_sep'] = $separator;
+		}
+
+		$this->assertSame( "1\u{00A0}476", $state['site']['usage'][1]['remaining'] );
+		$this->assertSame( "5\u{00A0}021", $state['site']['stats'][1]['images'] );
+		$this->assertStringNotContainsString( '&nbsp;', (string) wp_json_encode( $state ) );
+	}
+
 	public function test_a_connected_site_shows_its_plan_counts_and_settings_without_the_key(): void {
 		( new Key_Store() )->save( self::KEY );
 		$this->api->on( 'GET', 'site', 200, Api_Stub::fixture( 'site' ) );

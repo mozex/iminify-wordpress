@@ -7,6 +7,8 @@
 
 namespace Iminify\WordPress\Audit;
 
+use Iminify\WordPress\Translations;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -53,7 +55,7 @@ class Findings {
 				return null === $serve_width
 					? __( 'Show a smaller size of the image here.', 'iminify-image-optimizer' )
 					/* translators: %s: a width in pixels, such as 1,280. */
-					: sprintf( __( 'Show a size about %s pixels wide here, twice the width it takes on the page.', 'iminify-image-optimizer' ), number_format_i18n( $serve_width ) );
+					: sprintf( __( 'Show a size about %s pixels wide here, twice the width it takes on the page.', 'iminify-image-optimizer' ), Translations::number( $serve_width ) );
 			case 'add_dimensions':
 				return __( 'Give the image its width and height in the page.', 'iminify-image-optimizer' );
 			case 'write_alt_text':

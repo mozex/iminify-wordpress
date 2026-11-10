@@ -22,6 +22,7 @@ use Iminify\WordPress\Messages;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Translations;
 use WP_Error;
 use WP_Site_Health;
 
@@ -79,11 +80,11 @@ class Bulk_State {
 			'connected'     => Plugin::connected(),
 			'hidden'        => $hidden,
 			'counts'        => $counts,
-			'numbers'       => array_map( 'number_format_i18n', $counts ),
+			'numbers'       => array_map( array( Translations::class, 'number' ), $counts ),
 			'saved'         => $saved['before'] > 0 && $saved['after'] < $saved['before'] ? array(
-				'bytes'   => size_format( $saved['before'] - $saved['after'], 1 ),
-				'before'  => size_format( $saved['before'], 1 ),
-				'percent' => number_format_i18n( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
+				'bytes'   => Translations::size( $saved['before'] - $saved['after'] ),
+				'before'  => Translations::size( $saved['before'] ),
+				'percent' => Translations::number( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
 			) : null,
 			'alt_text'      => self::alt_text(),
 			'others'        => self::others(),
@@ -94,7 +95,7 @@ class Bulk_State {
 			'folders'       => self::folders(),
 			'disk'          => array(
 				'low'     => ! Disk::has_room_for( 0 ),
-				'free'    => null === $free ? null : size_format( (int) $free, 1 ),
+				'free'    => null === $free ? null : Translations::size( (int) $free ),
 				'backups' => null,
 			),
 			'estimate'      => null,
@@ -111,7 +112,7 @@ class Bulk_State {
 		}
 
 		if ( Local_Settings::get()['backups'] && $counts['not_optimized'] > 0 ) {
-			$state['disk']['backups'] = size_format( Bulk::backup_bytes(), 1 );
+			$state['disk']['backups'] = Translations::size( Bulk::backup_bytes() );
 		}
 
 		if ( ! $state['connected'] ) {
@@ -158,7 +159,7 @@ class Bulk_State {
 
 		return array(
 			'on'        => Alt_Text::on(),
-			'remaining' => null === $left ? null : number_format_i18n( (int) $left ),
+			'remaining' => null === $left ? null : Translations::number( (int) $left ),
 			'left'      => null === $left ? null : (int) $left,
 		);
 	}
@@ -187,9 +188,9 @@ class Bulk_State {
 			$others[] = array(
 				'name'      => Others::name( $slug ),
 				'count'     => $count['with'] + $count['without'],
-				'number'    => number_format_i18n( $count['with'] + $count['without'] ),
+				'number'    => Translations::number( $count['with'] + $count['without'] ),
 				'with'      => $count['with'],
-				'originals' => number_format_i18n( $count['with'] ),
+				'originals' => Translations::number( $count['with'] ),
 			);
 		}
 
@@ -259,7 +260,7 @@ class Bulk_State {
 		return array(
 			'listed'   => Folders::listed(),
 			'counts'   => $counts,
-			'numbers'  => array_map( 'number_format_i18n', $counts ),
+			'numbers'  => array_map( array( Translations::class, 'number' ), $counts ),
 			'saved'    => Folders_State::saved( $saved ),
 			'scanning' => Scanner::running(),
 			'link'     => Folders_Page::url(),

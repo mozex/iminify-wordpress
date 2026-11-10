@@ -15,6 +15,7 @@ use Iminify\WordPress\Media\Bulk;
 use Iminify\WordPress\Media\Records;
 use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Reasons;
+use Iminify\WordPress\Translations;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -65,14 +66,14 @@ class Folders_State {
 			'offered'   => Folders::offered(),
 			'scan'      => null === $scan ? null : array(
 				'running' => null === $scan['finished'],
-				'found'   => number_format_i18n( $scan['found'] ),
+				'found'   => Translations::number( $scan['found'] ),
 				'count'   => $scan['found'],
 				'added'   => $scan['added'],
 				'changed' => $scan['changed'],
 				'at'      => null === $scan['finished'] ? null : State::date( gmdate( 'c', $scan['finished'] ) ),
 			),
 			'counts'    => $counts,
-			'numbers'   => array_map( 'number_format_i18n', $counts ),
+			'numbers'   => array_map( array( Translations::class, 'number' ), $counts ),
 			'saved'     => self::saved( Table::saved() ),
 			'files'     => array(
 				'filter' => $filter,
@@ -104,9 +105,9 @@ class Folders_State {
 		}
 
 		return array(
-			'bytes'   => (string) size_format( $saved['before'] - $saved['after'], 1 ),
-			'before'  => (string) size_format( $saved['before'], 1 ),
-			'percent' => number_format_i18n( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
+			'bytes'   => Translations::size( $saved['before'] - $saved['after'] ),
+			'before'  => Translations::size( $saved['before'] ),
+			'percent' => Translations::number( ( $saved['before'] - $saved['after'] ) / $saved['before'] * 100, 1 ),
 		);
 	}
 
@@ -147,10 +148,10 @@ class Folders_State {
 			'id'          => (int) $row['id'],
 			'path'        => (string) $row['path'],
 			'thumb'       => self::thumb( $row ),
-			'size'        => (string) size_format( (int) $row['bytes'], 1 ),
+			'size'        => Translations::size( (int) $row['bytes'] ),
 			'status'      => $status,
 			'reason'      => Reasons::text( $row['error'] ),
-			'saved'       => Records::OPTIMIZED === $status && $before > 0 && $after < $before ? number_format_i18n( ( $before - $after ) / $before * 100, 1 ) : null,
+			'saved'       => Records::OPTIMIZED === $status && $before > 0 && $after < $before ? Translations::number( ( $before - $after ) / $before * 100, 1 ) : null,
 			'formats'     => $formats,
 			'can_restore' => Records::OPTIMIZED === $status && Restorer::AVAILABLE === Restorer::availability( $row ),
 			'on_its_way'  => in_array( $status, Table::ON_ITS_WAY, true ),

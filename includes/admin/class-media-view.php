@@ -24,6 +24,7 @@ use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Reasons;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
+use Iminify\WordPress\Translations;
 use WP_Post;
 use WP_Query;
 
@@ -245,7 +246,7 @@ class Media_View {
 			/* translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB. */
 			__( '%1$s, %2$s', 'iminify-image-optimizer' ),
 			$name,
-			(string) size_format( $bytes, 1 )
+			Translations::size( $bytes )
 		);
 
 		if ( null !== $before && $bytes < $before['bytes'] ) {
@@ -704,8 +705,8 @@ class Media_View {
 					/* translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers. */
 					esc_html( _n( 'Saved %1$s (%2$s) across %3$s file.', 'Saved %1$s (%2$s) across %3$s files.', $saved['files'], 'iminify-image-optimizer' ) ),
 					self::figure( $percent . '%' ),
-					self::figure( (string) size_format( $saved['before'] - $saved['after'], 1 ) ),
-					esc_html( number_format_i18n( $saved['files'] ) )
+					self::figure( Translations::size( $saved['before'] - $saved['after'] ) ),
+					esc_html( Translations::number( $saved['files'] ) )
 				)
 			);
 		} else {
@@ -757,7 +758,7 @@ class Media_View {
 				sprintf(
 					/* translators: %s: how many copies. */
 					_n( '%s WebP or AVIF copy another tool made was kept as it is.', '%s WebP or AVIF copies another tool made were kept as they are.', $kept, 'iminify-image-optimizer' ),
-					number_format_i18n( $kept )
+					Translations::number( $kept )
 				)
 			) . '</p>';
 		}
@@ -767,7 +768,7 @@ class Media_View {
 				sprintf(
 					/* translators: %s: how many files. */
 					_n( '%s file couldn\'t be written.', '%s files couldn\'t be written.', (int) $record['result']['skipped'], 'iminify-image-optimizer' ),
-					number_format_i18n( (int) $record['result']['skipped'] )
+					Translations::number( (int) $record['result']['skipped'] )
 				)
 			) . '</p>';
 		}
@@ -813,7 +814,7 @@ class Media_View {
 				esc_html__( '%1$s saved %2$s (%3$s), as it recorded it.', 'iminify-image-optimizer' ),
 				esc_html( Others::name( $other['plugin'] ) ),
 				self::figure( $percent . '%' ),
-				self::figure( (string) size_format( $other['before'] - $other['after'], 1 ) )
+				self::figure( Translations::size( $other['before'] - $other['after'] ) )
 			) . '</p>';
 		}
 
@@ -1106,8 +1107,8 @@ class Media_View {
 				'<tr><th scope="row">%s<br><small dir="ltr">%s</small></th><td>%s</td><td>%s</td><td>%s</td></tr>',
 				esc_html( $names[ (string) $name ] ),
 				esc_html( (int) $output['width'] . ' × ' . (int) $output['height'] ),
-				esc_html( (string) size_format( (int) $output['before'], 1 ) ),
-				esc_html( (string) size_format( (int) $output['after'], 1 ) ),
+				esc_html( Translations::size( (int) $output['before'] ) ),
+				esc_html( Translations::size( (int) $output['after'] ) ),
 				esc_html( strtoupper( implode( wp_get_list_item_separator(), array_map( 'strval', (array) ( $output['formats'] ?? array() ) ) ) ) )
 			);
 		}

@@ -13,6 +13,7 @@ use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Others;
 use Iminify\WordPress\Switching\Settings_Copy;
+use Iminify\WordPress\Translations;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -238,7 +239,7 @@ class Settings_Import {
 				return is_string( $value ) && isset( $levels[ $value ] ) ? $levels[ $value ]['name'] : '';
 			case 'max_width':
 			case 'size_limit':
-				return is_int( $value ) ? number_format_i18n( $value ) : __( 'No limit', 'iminify-image-optimizer' );
+				return is_int( $value ) ? Translations::number( $value ) : __( 'No limit', 'iminify-image-optimizer' );
 			case 'sizes':
 				if ( ! is_array( $value ) ) {
 					return __( 'Every size', 'iminify-image-optimizer' );

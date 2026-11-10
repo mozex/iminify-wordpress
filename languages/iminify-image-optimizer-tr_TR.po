@@ -1,0 +1,3735 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Iminify Image Optimizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iminify-image-optimizer\n"
+"Last-Translator: Iminify\n"
+"Language-Team: Iminify\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-10T03:13:26+00:00\n"
+"PO-Revision-Date: 2026-11-10 04:10+0000\n"
+"Language: tr_TR\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: iminify-image-optimizer\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. Plugin Name of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-privacy.php:27
+#: includes/admin/class-settings-page.php:55
+#: includes/admin/class-settings-page.php:76
+#: includes/admin/class-settings-page.php:161
+#: includes/admin/class-settings-page.php:170
+msgid "Iminify Image Optimizer"
+msgstr "Iminify Image Optimizer"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: iminify-image-optimizer.php
+msgid "https://www.iminify.com"
+msgstr "https://www.iminify.com"
+
+#. Description of the plugin
+#: iminify-image-optimizer.php
+msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
+msgstr "Ortam kitaplığınızdaki görselleri Iminify ile sıkıştırın, dönüştürün ve yeniden boyutlandırın; sitenizde WebP ve AVIF olarak sunun."
+
+#. Author of the plugin
+#: iminify-image-optimizer.php
+#: includes/admin/class-media-view.php:104
+#: includes/admin/class-media-view.php:426
+#: includes/admin/class-page-header.php:39
+#: includes/admin/class-settings-page.php:56
+#: includes/admin/class-settings-page.php:77
+msgid "Iminify"
+msgstr "Iminify"
+
+#: includes/admin/class-audit-page.php:41
+#: includes/admin/class-audit-page.php:42
+#: includes/admin/class-audit-page.php:79
+msgid "Page Audit"
+msgstr "Sayfa denetimi"
+
+#: includes/admin/class-audit-page.php:79
+msgid "Find the images that slow your pages down, each beside the image in your library it is."
+msgstr "Sayfalarınızı yavaşlatan görselleri bulun; her biri, kitaplığınızdaki karşılığının yanında listelenir."
+
+#: includes/admin/class-audit-page.php:82
+#: includes/admin/class-folders-page.php:87
+msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Sayfanın betiği eklentinin klasöründe yok. Geri getirmek için eklentiyi yeniden kurun."
+
+#: includes/admin/class-audit-page.php:84
+#: includes/admin/class-folders-page.php:89
+msgid "This page needs JavaScript."
+msgstr "Bu sayfa JavaScript gerektirir."
+
+#: includes/admin/class-audit-state.php:353
+msgid "Original upload"
+msgstr "Özgün yükleme"
+
+#: includes/admin/class-audit-state.php:367
+msgid "Home page"
+msgstr "Ana sayfa"
+
+#: includes/admin/class-bulk-controller.php:113
+msgid "Sorry, you are not allowed to do that."
+msgstr "Ne yazık ki, bunu yapma izniniz yok."
+
+#: includes/admin/class-bulk-page.php:39
+#: includes/admin/class-bulk-page.php:40
+#: includes/admin/class-bulk-page.php:77
+msgid "Bulk Optimization"
+msgstr "Toplu optimizasyon"
+
+#: includes/admin/class-bulk-page.php:77
+msgid "Every image already in your media library, in one run."
+msgstr "Ortam kitaplığınızdaki tüm görseller, tek seferde."
+
+#: includes/admin/class-bulk-page.php:80
+msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Toplu optimizasyon sayfasının betiği eklentinin klasöründe yok. Geri getirmek için eklentiyi yeniden kurun."
+
+#: includes/admin/class-bulk-page.php:82
+msgid "The bulk page needs JavaScript."
+msgstr "Toplu optimizasyon sayfası JavaScript gerektirir."
+
+#: includes/admin/class-folders-controller.php:121
+#: includes/class-cli.php:335
+msgid "That folder isn't in the list."
+msgstr "Bu klasör listede yok."
+
+#: includes/admin/class-folders-controller.php:191
+#: includes/folders/class-restorer.php:95
+msgid "That image isn't in the list."
+msgstr "Bu görsel listede yok."
+
+#: includes/admin/class-folders-page.php:46
+#: includes/admin/class-folders-page.php:47
+#: includes/admin/class-folders-page.php:84
+msgid "Other Folders"
+msgstr "Diğer klasörler"
+
+#: includes/admin/class-folders-page.php:84
+msgid "The images in your theme and other folders outside the media library."
+msgstr "Temanızdaki ve ortam kitaplığı dışındaki diğer klasörlerdeki görseller."
+
+#: includes/admin/class-media-controller.php:205
+msgid "This image has no original on the site to compare it with."
+msgstr "Bu görselin sitede karşılaştırılabilecek bir özgün dosyası yok."
+
+#: includes/admin/class-media-view.php:181
+msgid "Original"
+msgstr "Özgün"
+
+#: includes/admin/class-media-view.php:208
+#: includes/admin/class-media-view.php:333
+msgid "Compare with the original"
+msgstr "Özgün görselle karşılaştır"
+
+#: includes/admin/class-media-view.php:209
+msgid "Close"
+msgstr "Kapat"
+
+#: includes/admin/class-media-view.php:210
+msgid "How much of the original shows"
+msgstr "Özgün görselin görünen kısmı"
+
+#: includes/admin/class-media-view.php:211
+msgid "The optimized file to compare"
+msgstr "Karşılaştırılacak optimize edilmiş dosya"
+
+#: includes/admin/class-media-view.php:212
+msgid "This image couldn't be loaded from the site."
+msgstr "Bu görsel siteden yüklenemedi."
+
+#: includes/admin/class-media-view.php:214
+msgid "Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Bir yanda özgün görselin, öbür yanda optimize edilmiş dosyanın daha fazlasını görmek için çizgiyi sürükleyin ya da ok tuşlarını kullanın."
+
+#. translators: %s: the compression level with what it does, such as "Smart: a balance between quality and size".
+#: includes/admin/class-media-view.php:217
+#, php-format
+msgid "Optimized at %s. Drag the line, or use the arrow keys, to see more of the original on one side and of the optimized file on the other."
+msgstr "Optimize edildi (%s). Bir yanda özgün görselin, öbür yanda optimize edilmiş dosyanın daha fazlasını görmek için çizgiyi sürükleyin ya da ok tuşlarını kullanın."
+
+#. translators: 1: what the file is, such as Original or WebP, 2: its size, such as 1.2 MB.
+#: includes/admin/class-media-view.php:246
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: what the file is and its size, such as "WebP, 340 KB", 2: how much smaller it is than the original, such as 72%.
+#: includes/admin/class-media-view.php:254
+#, php-format
+msgid "%1$s, %2$s smaller"
+msgstr "%1$s, %2$s daha küçük"
+
+#: includes/admin/class-media-view.php:276
+#: includes/admin/class-media-view.php:837
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized"
+msgstr "Optimize edildi"
+
+#: includes/admin/class-media-view.php:373
+msgid "Optimize again from the original"
+msgstr "Özgün görselden yeniden optimize et"
+
+#: includes/admin/class-media-view.php:377
+#: includes/admin/class-media-view.php:404
+#: includes/admin/class-media-view.php:1168
+#: includes/admin/class-media-view.php:1212
+msgid "Restore original"
+msgstr "Özgün görseli geri yükle"
+
+#: includes/admin/class-media-view.php:398
+#: includes/admin/class-media-view.php:1160
+#: includes/admin/class-media-view.php:1192
+#: assets/build/folders.js:9
+msgid "Optimize again"
+msgstr "Yeniden optimize et"
+
+#: includes/admin/class-media-view.php:398
+#: assets/build/audit.js:14
+#: assets/build/folders.js:9
+msgid "Optimize"
+msgstr "Optimize et"
+
+#: includes/admin/class-media-view.php:451
+#: assets/build/media-grid.js:1
+msgid "Filter by Iminify status"
+msgstr "Iminify durumuna göre süz"
+
+#: includes/admin/class-media-view.php:453
+#: assets/build/media-grid.js:1
+msgid "All Iminify statuses"
+msgstr "Tüm Iminify durumları"
+
+#: includes/admin/class-media-view.php:572
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Optimized"
+msgstr "Optimize edilmiş"
+
+#: includes/admin/class-media-view.php:573
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+#: assets/build/media-grid.js:1
+msgctxt "images, over a count or as a filter"
+msgid "Not optimized"
+msgstr "Optimize edilmemiş"
+
+#: includes/admin/class-media-view.php:574
+#: assets/build/media-grid.js:1
+msgid "Errors"
+msgstr "Hatalar"
+
+#: includes/admin/class-media-view.php:575
+#: assets/build/media-grid.js:1
+msgid "Missing formats"
+msgstr "Eksik biçimler"
+
+#: includes/admin/class-media-view.php:576
+#: assets/build/bulk.js:2
+#: assets/build/bulk.js:30
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Optimized by another plugin"
+msgstr "Başka eklentiyle optimize edilmiş"
+
+#. translators: %s: another image optimizer's name, such as Optimole.
+#: includes/admin/class-media-view.php:671
+#, php-format
+msgid "Offloaded by %s"
+msgstr "%s tarafından buluta taşındı"
+
+#. translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers.
+#: includes/admin/class-media-view.php:705
+#, php-format
+msgid "Saved %1$s (%2$s) across %3$s file."
+msgid_plural "Saved %1$s (%2$s) across %3$s files."
+msgstr[0] "%3$s dosyada %1$s (%2$s) tasarruf edildi."
+msgstr[1] "%3$s dosyada %1$s (%2$s) tasarruf edildi."
+
+#: includes/admin/class-media-view.php:712
+msgid "The originals were already smaller, so they were kept."
+msgstr "Özgün dosyalar zaten daha küçüktü, bu yüzden korundu."
+
+#. translators: %s: the formats made, such as "WebP, AVIF".
+#: includes/admin/class-media-view.php:721
+#, php-format
+msgid "Copies: %s"
+msgstr "Kopyalar: %s"
+
+#. translators: %s: the formats missing, such as "AVIF".
+#: includes/admin/class-media-view.php:735
+#, php-format
+msgid "Missing formats: %s"
+msgstr "Eksik biçimler: %s"
+
+#. translators: %s: the sizes missing, by their names.
+#: includes/admin/class-media-view.php:747
+#, php-format
+msgid "Missing sizes: %s"
+msgstr "Eksik boyutlar: %s"
+
+#. translators: %s: how many copies.
+#: includes/admin/class-media-view.php:759
+#, php-format
+msgid "%s WebP or AVIF copy another tool made was kept as it is."
+msgid_plural "%s WebP or AVIF copies another tool made were kept as they are."
+msgstr[0] "Başka bir aracın oluşturduğu %s WebP ya da AVIF kopyası olduğu gibi bırakıldı."
+msgstr[1] "Başka bir aracın oluşturduğu %s WebP ya da AVIF kopyası olduğu gibi bırakıldı."
+
+#. translators: %s: how many files.
+#: includes/admin/class-media-view.php:769
+#, php-format
+msgid "%s file couldn't be written."
+msgid_plural "%s files couldn't be written."
+msgstr[0] "%s dosya yazılamadı."
+msgstr[1] "%s dosya yazılamadı."
+
+#. translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB.
+#: includes/admin/class-media-view.php:813
+#, php-format
+msgid "%1$s saved %2$s (%3$s), as it recorded it."
+msgstr "%1$s, kendi kaydına göre %2$s (%3$s) tasarruf sağladı."
+
+#: includes/admin/class-media-view.php:822
+msgid "Its original is kept. Iminify leaves the image as it is, and it costs nothing."
+msgstr "Özgün hâli saklanıyor. Iminify görseli olduğu gibi bırakır ve bunun için hakkınızdan hiçbir şey düşmez."
+
+#: includes/admin/class-media-view.php:823
+msgid "No original of it was kept, so Iminify leaves it as it is rather than compress it a second time."
+msgstr "Özgün hâli saklanmadığı için Iminify onu ikinci kez sıkıştırmak yerine olduğu gibi bırakır."
+
+#: includes/admin/class-media-view.php:839
+msgid "Queued"
+msgstr "Sırada"
+
+#: includes/admin/class-media-view.php:841
+msgid "Being optimized"
+msgstr "Optimize ediliyor"
+
+#: includes/admin/class-media-view.php:843
+#: assets/build/bulk.js:7
+#: assets/build/folders.js:8
+msgid "Waiting for the next batch"
+msgstr "Hakkın yenilenmesini bekliyor"
+
+#: includes/admin/class-media-view.php:845
+msgid "Waiting for the connection"
+msgstr "Bağlantıyı bekliyor"
+
+#: includes/admin/class-media-view.php:847
+msgid "Not sent"
+msgstr "Gönderilmedi"
+
+#: includes/admin/class-media-view.php:849
+msgid "Error"
+msgstr "Hata"
+
+#: includes/admin/class-media-view.php:851
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Not optimized"
+msgstr "Optimize edilmedi"
+
+#: includes/admin/class-media-view.php:887
+msgid "The next batch is open, so it goes out shortly."
+msgstr "Hak yenilendi, bu yüzden görsel birazdan gönderilecek."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/admin/class-media-view.php:889
+#, php-format
+msgid "It goes out by itself on %s."
+msgstr "%s tarihinde kendiliğinden gönderilecek."
+
+#: includes/admin/class-media-view.php:909
+#: includes/admin/class-media-view.php:910
+msgid "Alt text: being written."
+msgstr "Alternatif metin: yazılıyor."
+
+#: includes/admin/class-media-view.php:911
+msgid "Alt text: written by Iminify."
+msgstr "Alternatif metin: Iminify tarafından yazıldı."
+
+#: includes/admin/class-media-view.php:912
+msgid "Alt text: yours was kept."
+msgstr "Alternatif metin: sizinki korundu."
+
+#: includes/admin/class-media-view.php:913
+msgid "Alt text: Iminify couldn't write one for this image."
+msgstr "Alternatif metin: Iminify bu görsel için bir metin yazamadı."
+
+#: includes/admin/class-media-view.php:914
+msgid "Alt text: not written, as the day's AI alt texts were used up."
+msgstr "Alternatif metin: günlük yapay zeka alternatif metin hakkı dolduğu için yazılmadı."
+
+#: includes/admin/class-media-view.php:940
+msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
+msgstr "Bu görsel, nereden geldiğinin imzalı bir kaydı olan Content Credentials bilgilerini taşıyor ve dosyaları da bu bilgileri koruyor."
+
+#: includes/admin/class-media-view.php:942
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature, and the original kept as a backup still has them."
+msgstr "Bu görsel, nereden geldiğinin imzalı bir kaydı olan Content Credentials bilgilerini taşıyordu. Yeni bir dosya bu bilgilerin imzasını bozduğundan Iminify’ın yazdığı dosyalar ve kopyalar bunları içermez; yedek olarak saklanan özgün görselde ise hâlâ bulunurlar."
+
+#: includes/admin/class-media-view.php:944
+msgid "This image carried Content Credentials, a signed record of where it came from. The files and copies Iminify wrote leave them out, since a new file breaks their signature."
+msgstr "Bu görsel, nereden geldiğinin imzalı bir kaydı olan Content Credentials bilgilerini taşıyordu. Yeni bir dosya bu bilgilerin imzasını bozduğundan Iminify’ın yazdığı dosyalar ve kopyalar bunları içermez."
+
+#: includes/admin/class-media-view.php:948
+msgid "They say generative AI made it, wholly or in part."
+msgstr "Bu bilgilere göre görseli tamamen ya da kısmen üretken yapay zeka oluşturmuş."
+
+#: includes/admin/class-media-view.php:983
+#: includes/admin/class-media-view.php:1003
+msgid "WebP"
+msgstr "WebP"
+
+#: includes/admin/class-media-view.php:984
+#: includes/admin/class-media-view.php:1004
+msgid "AVIF"
+msgstr "AVIF"
+
+#. translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer".
+#: includes/admin/class-media-view.php:1021
+#, php-format
+msgid "Its pages are served the %1$s copies %2$s made, until Iminify makes its own."
+msgstr "Iminify kendi kopyalarını oluşturana kadar sayfalarında %2$s tarafından oluşturulan %1$s kopyaları sunulur."
+
+#: includes/admin/class-media-view.php:1051
+#: includes/audit/class-fixes.php:149
+msgid "Full Size"
+msgstr "Tam boy"
+
+#. translators: %s: the compression level, such as Smart.
+#: includes/admin/class-media-view.php:1080
+#, php-format
+msgid "Level: %s"
+msgstr "Düzey: %s"
+
+#: includes/admin/class-media-view.php:1088
+msgid "Size"
+msgstr "Boyut"
+
+#: includes/admin/class-media-view.php:1089
+msgid "Before"
+msgstr "Öncesi"
+
+#: includes/admin/class-media-view.php:1090
+msgid "After"
+msgstr "Sonrası"
+
+#: includes/admin/class-media-view.php:1091
+msgid "Copies"
+msgstr "Kopyalar"
+
+#: includes/admin/class-media-view.php:1137
+#: assets/build/audit.js:11
+#: assets/build/bulk.js:25
+#: assets/build/settings.js:37
+msgid "Write alt text with AI"
+msgstr "Yapay zeka ile alternatif metin yaz"
+
+#: includes/admin/class-media-view.php:1137
+msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
+msgstr "Alternatif metnini yazmak için bu görselin küçük bir kopyası gönderilsin mi? Bu, günlük yapay zeka alternatif metin hakkınızdan birini kullanır."
+
+#: includes/admin/class-media-view.php:1137
+msgid "Write alt text"
+msgstr "Alternatif metin yaz"
+
+#: includes/admin/class-media-view.php:1156
+msgid "Optimize again from the original at"
+msgstr "Özgün görselden şu düzeyde yeniden optimize et:"
+
+#: includes/admin/class-media-view.php:1184
+msgid "Connect the site to Iminify to optimize this image."
+msgstr "Bu görseli optimize etmek için siteyi Iminify’a bağlayın."
+
+#: includes/admin/class-media-view.php:1186
+msgid "No original of this image was kept, so it can't be optimized again or restored."
+msgstr "Bu görselin özgün hâli saklanmadığı için yeniden optimize edilemez ya da geri yüklenemez."
+
+#: includes/admin/class-media-view.php:1188
+msgid "Optimize again at"
+msgstr "Şu düzeyde yeniden optimize et:"
+
+#: includes/admin/class-media-view.php:1188
+msgid "Optimize at"
+msgstr "Şu düzeyde optimize et:"
+
+#: includes/admin/class-media-view.php:1205
+msgid "Make what it lacks"
+msgstr "Eksiklerini oluştur"
+
+#: includes/admin/class-media-view.php:1214
+msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
+msgstr "Bu görsel, Iminify optimize ettiğinden beri değişti; bu yüzden geri yüklenecek bir şey yok."
+
+#: includes/admin/class-media-view.php:1221
+msgid "Delete the copies"
+msgstr "Kopyaları sil"
+
+#: includes/admin/class-media-view.php:1221
+msgid "Delete this image's WebP and AVIF copies? Its pages go back to serving the JPEG or PNG."
+msgstr "Bu görselin WebP ve AVIF kopyaları silinsin mi? Sayfalarında yeniden JPEG ya da PNG dosyası sunulur."
+
+#: includes/admin/class-media-view.php:1286
+#: assets/build/bulk.js:23
+msgid "Make the missing formats"
+msgstr "Eksik biçimleri oluştur"
+
+#: includes/admin/class-media-view.php:1290
+#: assets/build/bulk.js:24
+msgid "Make the missing sizes"
+msgstr "Eksik boyutları oluştur"
+
+#: includes/admin/class-media-view.php:1301
+msgid "Send this image again to make what it lacks? This counts as one more image, and its other files stay as they are unless Iminify makes them smaller."
+msgstr "Eksiklerini oluşturmak için bu görsel yeniden gönderilsin mi? Bu, bir görsel daha sayılır; diğer dosyaları ise Iminify küçültmedikçe olduğu gibi kalır."
+
+#: includes/admin/class-media-view.php:1309
+msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
+msgstr "Bu görsel yeniden optimize edilsin mi? Iminify, dosyalarını biçimlerini ve adlarını koruyarak özgün hâlinden yeniden oluşturur; bu, bir görsel daha sayılır."
+
+#: includes/admin/class-media-view.php:1312
+msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
+msgstr "Bu görsel yeniden optimize edilsin mi? Önce özgün hâli yerine konur; bu, bir görsel daha sayılır."
+
+#: includes/admin/class-media-view.php:1319
+msgid "Restore the original of this image? WordPress makes its sizes again, and its WebP and AVIF copies are deleted."
+msgstr "Bu görselin özgün hâli geri yüklensin mi? WordPress boyutlarını yeniden oluşturur ve WebP ile AVIF kopyaları silinir."
+
+#. translators: %s: another image optimizer's name, such as Image Optimizer by Elementor.
+#: includes/admin/class-media-view.php:1334
+#, php-format
+msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
+msgstr "Bu görsel, %s eklentisinin sakladığı özgün hâlinden yeniden optimize edilsin mi? Iminify dosyalarını bundan yeniden oluşturur; yazılarınız onlara bağlanmayı sürdürsün diye biçimlerini ve adlarını korur ve özgün görselin bir yedeğini de kendisi saklar. Bu, bir görsel daha sayılır."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1341
+#, php-format
+msgid "Optimize this image again from the original %s kept? The original goes back first and WordPress makes its sizes again, then Iminify optimizes it and keeps its own backup of the original. This counts as one more image."
+msgstr "Bu görsel, %s eklentisinin sakladığı özgün hâlinden yeniden optimize edilsin mi? Önce özgün hâli yerine konur ve WordPress boyutlarını yeniden oluşturur; ardından Iminify görseli optimize eder ve özgün görselin bir yedeğini de kendisi saklar. Bu, bir görsel daha sayılır."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/admin/class-media-view.php:1356
+#, php-format
+msgid "Restore the original of this image from what %s kept? WordPress makes its sizes again, and that plugin's backups and copies stay where they are."
+msgstr "Bu görselin özgün hâli, %s eklentisinin sakladığı dosyadan geri yüklensin mi? WordPress boyutlarını yeniden oluşturur; o eklentinin yedekleri ve kopyaları oldukları yerde kalır."
+
+#: includes/admin/class-notice.php:132
+msgid "Iminify disconnected this site, so new uploads aren't optimized."
+msgstr "Iminify bu sitenin bağlantısını kesti, bu yüzden yeni yüklemeler optimize edilmiyor."
+
+#: includes/admin/class-notice.php:133
+msgid "Connect it again"
+msgstr "Yeniden bağla"
+
+#: includes/admin/class-notice.php:137
+msgid "Iminify Image Optimizer is ready. Connect it to your Iminify account to start optimizing your images."
+msgstr "Iminify Image Optimizer hazır. Görsellerinizi optimize etmeye başlamak için eklentiyi Iminify hesabınıza bağlayın."
+
+#: includes/admin/class-notice.php:138
+#: assets/build/settings.js:9
+msgid "Connect"
+msgstr "Bağla"
+
+#: includes/admin/class-notice.php:150
+#: includes/admin/class-notice.php:183
+msgid "Open the Iminify settings"
+msgstr "Iminify ayarlarını aç"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Connected"
+msgstr "Bağlı"
+
+#: includes/admin/class-page-header.php:42
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:37
+msgid "Not connected"
+msgstr "Bağlı değil"
+
+#: includes/admin/class-privacy.php:36
+msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
+msgstr "Iminify Image Optimizer, site bağlandıktan sonra bu siteye yüklenen görselleri bir görsel optimizasyon hizmeti olan Iminify’a gönderir. Aşağıdaki metni gizlilik politikanızın yayımladığınız ortam dosyalarıyla ilgili bölümüne kopyalayabilirsiniz."
+
+#: includes/admin/class-privacy.php:37
+msgid "Suggested text:"
+msgstr "Önerilen metin:"
+
+#: includes/admin/class-privacy.php:38
+msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
+msgstr "Bu site, görsellerini küçültmek ve bunların WebP ve AVIF kopyalarını oluşturmak için Iminify’ı (www.iminify.com) kullanır. Buraya bir görsel yüklendiğinde ya da ortam kitaplığında, temamızda ve diğer klasörlerimizde zaten bulunan görselleri optimize ettiğimizde sunucumuz görseli bu sitenin adresiyle birlikte Iminify’a gönderir ve Iminify daha küçük dosyaları geri gönderir. Biz dosyaları kaydettikten sonra Iminify görseli siler."
+
+#: includes/admin/class-privacy.php:39
+msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
+msgstr "Bir fotoğraf, fotoğraf makinesinin içine yazdığı, ne zaman ve nerede çekildiği gibi ayrıntıları taşıyabilir. Bu ayrıntılar görselle birlikte Iminify’a ulaşır ve biz korumayı seçmediysek Iminify geri gönderdiği dosyalara bunları koymaz."
+
+#: includes/admin/class-privacy.php:40
+msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
+msgstr "Eklentinin ayarlarında yapay zeka alternatif metnini açtıysak Iminify, alternatif metni olmayan her görselin küçük bir kopyasını da oluşturur ve bunu, modeli görselin bir açıklamasını yazan Anthropic’e gönderir. Ortam kitaplığında zaten bulunan görseller için alternatif metin istemek de aynı amaçla her birinin küçük bir kopyasını Iminify’a gönderir."
+
+#: includes/admin/class-privacy.php:41
+msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
+msgstr "Bu sitenin sayfalarından birindeki görselleri denetlersek sunucumuz o sayfanın adresini Iminify’a gönderir. Iminify sayfayı herhangi bir ziyaretçinin açabileceği gibi açar, gösterdiği görselleri ölçer ve bulduklarını bu sitenin kendisiyle olan bağlantısıyla birlikte saklar."
+
+#: includes/admin/class-privacy.php:42
+msgid "Where this site is part of a multisite network connected to Iminify as one, our server also sends Iminify this site's address and name the first time the site needs it."
+msgstr "Bu site, Iminify’a tek bir bütün olarak bağlanmış bir çoklu site ağının parçasıysa sunucumuz, sitenin buna ilk ihtiyaç duyduğu anda bu sitenin adresini ve adını da Iminify’a gönderir."
+
+#: includes/admin/class-privacy.php:43
+msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
+msgstr "Başka bir görsel optimizasyon eklentisinin bu sitede sakladığı ayarları kullanmayı seçersek sunucumuz bu ayarları, o eklentinin adını ve bu sitenin oluşturduğu görsel boyutlarının adlarını Iminify’a gönderir. Iminify bunlara karşılık gelen ayarlarla yanıt verir ve hiçbirini saklamaz."
+
+#: includes/admin/class-privacy.php:44
+msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
+msgstr "Bu siteyi ziyaret eden kişilerle ilgili hiçbir şey Iminify’a gönderilmez: sayfalarımızdaki görseller ve bunların WebP ve AVIF kopyaları bu siteden sunulur."
+
+#. translators: %s: the address of Iminify's privacy policy.
+#: includes/admin/class-privacy.php:47
+#, php-format
+msgid "Iminify's privacy policy: %s"
+msgstr "Iminify gizlilik politikası: %s"
+
+#: includes/admin/class-rest-controller.php:246
+msgid "Only a site of a network the plugin is active for can join it."
+msgstr "Bu ağa yalnızca eklentinin etkin olduğu ağın bir sitesi katılabilir."
+
+#: includes/admin/class-rest-controller.php:284
+#: includes/admin/class-settings-import.php:271
+#: includes/api/class-client.php:386
+#: includes/class-connection.php:529
+#: includes/folders/class-optimizer.php:143
+#: includes/media/class-alt-text.php:238
+#: includes/media/class-bulk.php:247
+#: includes/media/class-optimizer.php:290
+#: includes/media/class-queue.php:137
+msgid "This site isn't connected to Iminify."
+msgstr "Bu site Iminify’a bağlı değil."
+
+#: includes/admin/class-settings-import.php:56
+msgid "The plugin found no settings of that optimizer on this site."
+msgstr "Eklenti, bu sitede o optimizasyon eklentisine ait bir ayar bulamadı."
+
+#: includes/admin/class-settings-import.php:106
+msgid "Those settings changed since they were shown. Look at them again before using them."
+msgstr "Bu ayarlar gösterildikten sonra değişti. Kullanmadan önce onlara yeniden bakın."
+
+#: includes/admin/class-settings-import.php:207
+#: assets/build/settings.js:37
+msgid "Optimize new uploads"
+msgstr "Yeni yüklemeleri optimize et"
+
+#: includes/admin/class-settings-import.php:209
+#: assets/build/settings.js:37
+msgid "Compression level"
+msgstr "Sıkıştırma düzeyi"
+
+#: includes/admin/class-settings-import.php:211
+#: assets/build/settings.js:37
+msgid "Make WebP copies"
+msgstr "WebP kopyaları oluştur"
+
+#: includes/admin/class-settings-import.php:213
+#: assets/build/settings.js:37
+msgid "Make AVIF copies"
+msgstr "AVIF kopyaları oluştur"
+
+#: includes/admin/class-settings-import.php:215
+#: assets/build/settings.js:37
+msgid "Maximum width, in pixels"
+msgstr "Azami genişlik (piksel)"
+
+#: includes/admin/class-settings-import.php:217
+#: assets/build/settings.js:37
+msgid "Size limit, in KB"
+msgstr "Boyut sınırı (KB)"
+
+#: includes/admin/class-settings-import.php:219
+#: assets/build/settings.js:37
+msgid "Keep metadata"
+msgstr "Üst verileri koru"
+
+#: includes/admin/class-settings-import.php:221
+#: assets/build/settings.js:37
+msgid "Sizes to optimize"
+msgstr "Optimize edilecek boyutlar"
+
+#: includes/admin/class-settings-import.php:223
+#: assets/build/settings.js:37
+msgid "Keep a backup of each original"
+msgstr "Her özgün görselin yedeğini sakla"
+
+#: includes/admin/class-settings-import.php:241
+#: assets/build/settings.js:37
+msgid "No limit"
+msgstr "Sınır yok"
+
+#: includes/admin/class-settings-import.php:244
+msgid "Every size"
+msgstr "Tüm boyutlar"
+
+#: includes/admin/class-settings-import.php:248
+msgid "Only the full image"
+msgstr "Yalnızca tam boy görsel"
+
+#: includes/admin/class-settings-import.php:263
+msgid "On"
+msgstr "Açık"
+
+#: includes/admin/class-settings-import.php:263
+msgid "Off"
+msgstr "Kapalı"
+
+#: includes/admin/class-settings-page.php:101
+#: includes/admin/class-settings-page.php:114
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: includes/admin/class-settings-page.php:161
+msgid "Connect this site and choose how its images are optimized."
+msgstr "Bu siteyi bağlayın ve görsellerinin nasıl optimize edileceğini seçin."
+
+#: includes/admin/class-settings-page.php:170
+msgid "Connect this network once, and each of its sites joins by itself."
+msgstr "Bu ağı bir kez bağlayın; sitelerinin her biri kendiliğinden katılır."
+
+#: includes/admin/class-settings-page.php:182
+msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
+msgstr "Ayarlar sayfasının betiği eklentinin klasöründe yok. Geri getirmek için eklentiyi yeniden kurun."
+
+#: includes/admin/class-settings-page.php:187
+msgid "The settings page needs JavaScript."
+msgstr "Ayarlar sayfası JavaScript gerektirir."
+
+#: includes/admin/class-state.php:164
+msgid "Images today"
+msgstr "Bugünkü görseller"
+
+#: includes/admin/class-state.php:165
+msgid "Files today"
+msgstr "Bugünkü dosyalar"
+
+#: includes/admin/class-state.php:166
+msgid "AI alt texts today"
+msgstr "Bugünkü yapay zeka alternatif metinleri"
+
+#: includes/admin/class-state.php:247
+msgid "Guest"
+msgstr "Misafir"
+
+#: includes/admin/class-state.php:248
+msgid "Free"
+msgstr "Ücretsiz"
+
+#: includes/admin/class-state.php:249
+msgid "Pro trial"
+msgstr "Pro denemesi"
+
+#: includes/admin/class-state.php:250
+msgid "Pro"
+msgstr "Pro"
+
+#: includes/admin/class-state.php:251
+msgid "Max"
+msgstr "Max"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:301
+#, php-format
+msgctxt "files today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s kullanıldı, günlük sınır yok"
+msgstr[1] "%s kullanıldı, günlük sınır yok"
+
+#. translators: %s: how many files Iminify made today.
+#: includes/admin/class-state.php:303
+#, php-format
+msgctxt "files today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s kullanıldı"
+msgstr[1] "%s kullanıldı"
+
+#. translators: %s: how many files are left today.
+#: includes/admin/class-state.php:305
+#, php-format
+msgctxt "files today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s kaldı"
+msgstr[1] "%s kaldı"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:309
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s kullanıldı, günlük sınır yok"
+msgstr[1] "%s kullanıldı, günlük sınır yok"
+
+#. translators: %s: how many AI alt texts were written today.
+#: includes/admin/class-state.php:311
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s kullanıldı"
+msgstr[1] "%s kullanıldı"
+
+#. translators: %s: how many AI alt texts are left today.
+#: includes/admin/class-state.php:313
+#, php-format
+msgctxt "AI alt texts today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s kaldı"
+msgstr[1] "%s kaldı"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:317
+#, php-format
+msgctxt "images today"
+msgid "%s used, no daily limit"
+msgid_plural "%s used, no daily limit"
+msgstr[0] "%s kullanıldı, günlük sınır yok"
+msgstr[1] "%s kullanıldı, günlük sınır yok"
+
+#. translators: %s: how many images were optimized today.
+#: includes/admin/class-state.php:319
+#, php-format
+msgctxt "images today"
+msgid "%s used"
+msgid_plural "%s used"
+msgstr[0] "%s kullanıldı"
+msgstr[1] "%s kullanıldı"
+
+#. translators: %s: how many images are left today.
+#: includes/admin/class-state.php:321
+#, php-format
+msgctxt "images today"
+msgid "%s left"
+msgid_plural "%s left"
+msgstr[0] "%s kaldı"
+msgstr[1] "%s kaldı"
+
+#: includes/admin/class-state.php:343
+msgid "This site"
+msgstr "Bu site"
+
+#: includes/admin/class-state.php:344
+msgid "Your whole account"
+msgstr "Tüm hesabınız"
+
+#: includes/admin/class-state.php:470
+#: includes/audit/class-fixes.php:146
+msgid "Thumbnail"
+msgstr "Küçük görsel"
+
+#: includes/admin/class-state.php:471
+#: includes/audit/class-fixes.php:147
+msgid "Medium"
+msgstr "Orta"
+
+#: includes/admin/class-state.php:472
+#: includes/audit/class-fixes.php:148
+msgid "Large"
+msgstr "Büyük"
+
+#. translators: 1: the size's name, 2: its width in pixels.
+#: includes/admin/class-state.php:495
+#, php-format
+msgid "%1$s (%2$d wide)"
+msgstr "%1$s (genişlik %2$d)"
+
+#. translators: 1: the size's name, 2: its height in pixels.
+#: includes/admin/class-state.php:500
+#, php-format
+msgid "%1$s (%2$d high)"
+msgstr "%1$s (yükseklik %2$d)"
+
+#. translators: 1: the size's name, 2: its width in pixels, 3: its height in pixels.
+#: includes/admin/class-state.php:504
+#, php-format
+msgid "%1$s (%2$d × %3$d)"
+msgstr "%1$s (%2$d × %3$d)"
+
+#: includes/audit/class-findings.php:54
+msgid "Show a smaller size of the image here."
+msgstr "Burada görselin daha küçük bir boyutunu gösterin."
+
+#. translators: %s: a width in pixels, such as 1,280.
+#: includes/audit/class-findings.php:56
+#, php-format
+msgid "Show a size about %s pixels wide here, twice the width it takes on the page."
+msgstr "Burada yaklaşık %s piksel genişliğinde, yani sayfada kapladığı genişliğin iki katı olan bir boyut gösterin."
+
+#: includes/audit/class-findings.php:58
+msgid "Give the image its width and height in the page."
+msgstr "Görselin genişliğini ve yüksekliğini sayfada belirtin."
+
+#: includes/audit/class-findings.php:60
+msgid "Write alt text for the image."
+msgstr "Görsel için alternatif metin yazın."
+
+#: includes/audit/class-findings.php:62
+msgid "Load the image straight away, not lazily."
+msgstr "Görseli geç yükleme olmadan, hemen yükleyin."
+
+#: includes/audit/class-findings.php:64
+msgid "Load the image lazily, once a visitor scrolls near it."
+msgstr "Görseli geç yükleyin: ziyaretçi sayfayı yakınına kaydırdığında yüklensin."
+
+#: includes/audit/class-findings.php:66
+msgid "Have the browser fetch the image first."
+msgstr "Tarayıcının görseli önce getirmesini sağlayın."
+
+#: includes/audit/class-findings.php:103
+msgid "Oversized"
+msgstr "Fazla büyük"
+
+#: includes/audit/class-findings.php:104
+msgid "The file is more than twice as wide and twice as tall as the space it is shown in. A smaller size of the same image would look as sharp."
+msgstr "Dosya, gösterildiği alanın iki katından daha geniş ve iki katından daha yüksek. Aynı görselin daha küçük bir boyutu da aynı netlikte görünür."
+
+#: includes/audit/class-findings.php:108
+msgid "No width and height"
+msgstr "Genişlik ve yükseklik yok"
+
+#: includes/audit/class-findings.php:109
+msgid "The image has no width and height attributes, so the browser can't hold its space and the page moves when it arrives."
+msgstr "Görselin genişlik ve yükseklik öznitelikleri yok; bu yüzden tarayıcı yerini önceden ayıramıyor ve görsel geldiğinde sayfa kayıyor."
+
+#: includes/audit/class-findings.php:113
+msgid "Lazy in the first screen"
+msgstr "İlk ekranda geç yükleniyor"
+
+#: includes/audit/class-findings.php:114
+msgid "The image is in the first screen but is lazy loaded, which delays it."
+msgstr "Görsel ilk ekranda ama geç yükleniyor, bu da onu geciktiriyor."
+
+#: includes/audit/class-findings.php:118
+msgid "Loads too early"
+msgstr "Çok erken yükleniyor"
+
+#: includes/audit/class-findings.php:119
+msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
+msgstr "Görsel ilk ekranın altında ama hemen yükleniyor ve ziyaretçilerin ilk gördükleriyle yarışıyor."
+
+#: includes/audit/class-findings.php:123
+msgid "No alt text"
+msgstr "Alternatif metin yok"
+
+#: includes/audit/class-findings.php:124
+msgid "The image has no alt text for screen readers and search engines."
+msgstr "Görselin ekran okuyucular ve arama motorları için alternatif metni yok."
+
+#: includes/audit/class-findings.php:128
+msgid "Not prioritized"
+msgstr "Öncelik verilmemiş"
+
+#: includes/audit/class-findings.php:129
+msgid "This is the largest thing in the first screen, so the page feels loaded when it arrives. Fetching it first would show the page sooner."
+msgstr "Bu, ilk ekrandaki en büyük öğe; sayfa, bu öğe geldiğinde yüklenmiş gibi hissettirir. Önce getirilirse sayfa daha erken görünür."
+
+#: includes/audit/class-findings.php:146
+msgid "Your site turned the scanner away, so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Siteniz tarama aracını geri çevirdi, bu yüzden sayfa okunamadı. Bunu bir güvenlik duvarı ya da bot denetimi yapar; çoğu zaman bu Cloudflare olur. Taramaya kısa bir süre izin verin: Cloudflare panelinde Bot Fight Mode ayarını kapatın ya da Security Level ayarını “Essentially off” yapın; bir güvenlik eklentisinde ise güvenlik duvarını ya da bot engellemesini duraklatın. Yeniden tarayın, ardından bunları yeniden açın."
+
+#. translators: %d: the HTTP status the site answered, such as 403.
+#: includes/audit/class-findings.php:148
+#, php-format
+msgid "Your site turned the scanner away (it answered %d), so the page couldn't be read. A firewall or a bot check does this, often Cloudflare's. Let the scan through for a moment: in Cloudflare, turn Bot Fight Mode off or set the Security Level to \"Essentially off\"; in a security plugin, pause its firewall or its bot blocking. Scan again, then turn them back on."
+msgstr "Siteniz tarama aracını geri çevirdi (yanıt: %d), bu yüzden sayfa okunamadı. Bunu bir güvenlik duvarı ya da bot denetimi yapar; çoğu zaman bu Cloudflare olur. Taramaya kısa bir süre izin verin: Cloudflare panelinde Bot Fight Mode ayarını kapatın ya da Security Level ayarını “Essentially off” yapın; bir güvenlik eklentisinde ise güvenlik duvarını ya da bot engellemesini duraklatın. Yeniden tarayın, ardından bunları yeniden açın."
+
+#: includes/audit/class-findings.php:150
+msgid "There is no page at this address. Check the address and scan again."
+msgstr "Bu adreste bir sayfa yok. Adresi kontrol edip yeniden tarayın."
+
+#: includes/audit/class-findings.php:152
+msgid "The page answered with an error on the site's side, so it couldn't be read. Scan again in a few minutes."
+msgstr "Sayfa, site tarafında oluşan bir hatayla yanıt verdi, bu yüzden okunamadı. Birkaç dakika sonra yeniden tarayın."
+
+#: includes/audit/class-findings.php:154
+msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
+msgstr "Sayfa, tarama aracını başka bir siteye yönlendirdi; denetim bu yönlendirmeyi izlemez. Sayfanın sonunda vardığı adres bu sitedeyse o adresi tarayın."
+
+#: includes/audit/class-findings.php:157
+msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
+msgstr "Sayfa okunamadı: site tarama aracına yanıt vermedi. Adresi kontrol edip yeniden tarayın."
+
+#. translators: %d: the HTTP status the site answered, such as 400.
+#: includes/audit/class-findings.php:159
+#, php-format
+msgid "The page answered %d instead of the page, so it couldn't be read. Check the address and scan again."
+msgstr "Sayfa yerine %d yanıtı geldi, bu yüzden sayfa okunamadı. Adresi kontrol edip yeniden tarayın."
+
+#: includes/class-cli.php:107
+msgid "Pass --others alone, or with the attachments to optimize again."
+msgstr "--others seçeneğini tek başına ya da yeniden optimize edilecek ek dosyalarla birlikte verin."
+
+#: includes/class-cli.php:117
+msgid "The folders' files go all at once: pass --folders alone, or with --failed."
+msgstr "Klasörlerin dosyaları hep birlikte gider: --folders seçeneğini tek başına ya da --failed ile birlikte verin."
+
+#: includes/class-cli.php:126
+msgid "Name the attachments, or pass --all or --failed."
+msgstr "Ek dosyaları belirtin ya da --all veya --failed seçeneğini verin."
+
+#: includes/class-cli.php:169
+msgid "The folders' files go all at once: pass --folders alone."
+msgstr "Klasörlerin dosyaları hep birlikte gider: --folders seçeneğini tek başına verin."
+
+#: includes/class-cli.php:172
+msgid "Put every optimized file in your folders back as it was?"
+msgstr "Klasörlerinizdeki optimize edilmiş tüm dosyalar eski hâline döndürülsün mü?"
+
+#: includes/class-cli.php:181
+#: includes/class-cli.php:268
+msgid "Name the attachments, or pass --all."
+msgstr "Ek dosyaları belirtin ya da --all seçeneğini verin."
+
+#: includes/class-cli.php:185
+msgid "Put every optimized image back as it was uploaded?"
+msgstr "Optimize edilmiş tüm görseller yüklendikleri hâle döndürülsün mü?"
+
+#: includes/class-cli.php:228
+msgid "Say what to make: formats or sizes."
+msgstr "Ne oluşturulacağını belirtin: formats ya da sizes."
+
+#: includes/class-cli.php:314
+msgid "On a network, other folders are chosen on the main site: add --url with its address."
+msgstr "Bir ağda diğer klasörler ana sitede seçilir: ana sitenin adresiyle birlikte --url ekleyin."
+
+#: includes/class-cli.php:321
+msgid "Name the folder, relative to wp-content."
+msgstr "Klasörün wp-content içindeki yolunu yazın."
+
+#. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
+#: includes/class-cli.php:354
+#, php-format
+msgid "Found %1$s image: %2$s new, %3$s changed."
+msgid_plural "Found %1$s images: %2$s new, %3$s changed."
+msgstr[0] "%1$s görsel bulundu: %2$s yeni, %3$s değişmiş."
+msgstr[1] "%1$s görsel bulundu: %2$s yeni, %3$s değişmiş."
+
+#: includes/class-cli.php:392
+#: includes/class-cli.php:421
+msgid "No bulk run is going."
+msgstr "Devam eden bir toplu işlem yok."
+
+#: includes/class-cli.php:425
+msgid "Stopped."
+msgstr "Durduruldu."
+
+#: includes/class-cli.php:490
+msgid "The run goes on in the background. See how far it got with: wp iminify status"
+msgstr "İşlem arka planda sürüyor. Ne kadar ilerlediğini şununla görebilirsiniz: wp iminify status"
+
+#: includes/class-cli.php:511
+msgid "Bulk run"
+msgstr "Toplu işlem"
+
+#. translators: %s: the date and time the alt texts come back.
+#: includes/class-cli.php:605
+#, php-format
+msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
+msgstr "Hesabın günlük yapay zeka alternatif metin hakkı doldu. İşlem, bu hak %s tarihinde yenilendiğinde arka planda sürer."
+
+#: includes/class-cli.php:613
+#: includes/class-cli.php:640
+msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
+msgstr "İşlem, bu sitenin Iminify bağlantısını bekliyor ve bağlantı çalıştığında arka planda sürer."
+
+#: includes/class-cli.php:621
+msgid "The run goes on in the background once it stops."
+msgstr "O eklenti durduğunda işlem arka planda sürer."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/class-cli.php:632
+#, php-format
+msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
+msgstr "Hesabın günlük görsel hakkı doldu. İşlem, hak %s tarihinde yenilendiğinde arka planda sürer."
+
+#: includes/class-cli.php:654
+msgid "The run was stopped."
+msgstr "İşlem durduruldu."
+
+#: includes/class-cli.php:661
+msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
+msgstr "İşlem duraklatıldı: sunucuda disk alanı azaldı. Biraz yer açın, ardından şunu çalıştırın: wp iminify run"
+
+#: includes/class-cli.php:664
+msgid "The run was paused. Carry on with: wp iminify run"
+msgstr "İşlem duraklatıldı. Şununla sürdürün: wp iminify run"
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:673
+#, php-format
+msgid "%s image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%s images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%s görsel geri yüklenemedi. Nedeni, ortam kitaplığındaki panelinde yazıyor."
+msgstr[1] "%s görsel geri yüklenemedi. Nedenleri, ortam kitaplığındaki panellerinde yazıyor."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:683
+#: assets/build/bulk.js:27
+#, php-format,js-format
+msgid "%s image was left as it is: another plugin converted it to WebP or AVIF, and only that plugin can put its original back."
+msgid_plural "%s images were left as they are: other plugins converted them to WebP or AVIF, and only those plugins can put their originals back."
+msgstr[0] "%s görsel olduğu gibi bırakıldı: başka bir eklenti onu WebP ya da AVIF biçimine dönüştürdü ve özgün hâlini yalnızca o eklenti geri koyabilir."
+msgstr[1] "%s görsel olduğu gibi bırakıldı: başka eklentiler bunları WebP ya da AVIF biçimine dönüştürdü ve özgün hâllerini yalnızca o eklentiler geri koyabilir."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:691
+#: assets/build/bulk.js:29
+#, php-format,js-format
+msgid "%s image was left as the other plugin made it: its original is gone, too large to send, or only that plugin can put it back. Its panel in the media library says which."
+msgid_plural "%s images were left as the other plugins made them: their originals are gone, too large to send, or only those plugins can put them back. Their panels in the media library say which."
+msgstr[0] "%s görsel, diğer eklentinin bıraktığı gibi kaldı: özgün hâli artık yok, gönderilemeyecek kadar büyük ya da onu yalnızca o eklenti geri koyabilir. Hangisi olduğu, ortam kitaplığındaki panelinde yazıyor."
+msgstr[1] "%s görsel, diğer eklentilerin bıraktığı gibi kaldı: özgün hâlleri artık yok, gönderilemeyecek kadar büyük ya da onları yalnızca o eklentiler geri koyabilir. Hangisi olduğu, ortam kitaplığındaki panellerinde yazıyor."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:699
+#: assets/build/bulk.js:28
+#, php-format,js-format
+msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
+msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
+msgstr[0] "%s görsel olduğu gibi bırakıldı: dosyalarını başka bir ek dosyayla paylaşıyor ya da artık alternatif metni var."
+msgstr[1] "%s görsel olduğu gibi bırakıldı: dosyalarını başka bir ek dosyayla paylaşıyorlar ya da artık alternatif metinleri var."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:707
+#: assets/build/bulk.js:30
+#, php-format,js-format
+msgid "%s image has no original to go from, or changed since it was optimized, so nothing was made for it."
+msgid_plural "%s images have no original to go from, or changed since they were optimized, so nothing was made for them."
+msgstr[0] "%s görselin kaynak alınacak bir özgün hâli yok ya da görsel optimize edildikten sonra değişti, bu yüzden onun için hiçbir şey oluşturulmadı."
+msgstr[1] "%s görselin kaynak alınacak bir özgün hâli yok ya da görseller optimize edildikten sonra değişti, bu yüzden onlar için hiçbir şey oluşturulmadı."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:717
+#, php-format
+msgid "%s file restored."
+msgid_plural "%s files restored."
+msgstr[0] "%s dosya geri yüklendi."
+msgstr[1] "%s dosya geri yüklendi."
+
+#. translators: %s: how many files.
+#: includes/class-cli.php:719
+#, php-format
+msgid "%s file sent to Iminify."
+msgid_plural "%s files sent to Iminify."
+msgstr[0] "%s dosya Iminify’a gönderildi."
+msgstr[1] "%s dosya Iminify’a gönderildi."
+
+#. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
+#: includes/class-cli.php:724
+#, php-format
+msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
+msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
+msgstr[0] "Klasörlerinizdeki %2$s dosyadan %1$s tanesi optimize edildi, %3$s tanesi başarısız oldu."
+msgstr[1] "Klasörlerinizdeki %2$s dosyadan %1$s tanesi optimize edildi, %3$s tanesi başarısız oldu."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:737
+#, php-format
+msgid "%s image restored."
+msgid_plural "%s images restored."
+msgstr[0] "%s görsel geri yüklendi."
+msgstr[1] "%s görsel geri yüklendi."
+
+#. translators: %s: how many images.
+#: includes/class-cli.php:739
+#, php-format
+msgid "%s image sent to Iminify."
+msgid_plural "%s images sent to Iminify."
+msgstr[0] "%s görsel Iminify’a gönderildi."
+msgstr[1] "%s görsel Iminify’a gönderildi."
+
+#. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
+#: includes/class-cli.php:744
+#, php-format
+msgid "The library has %1$s of %2$s image optimized, %3$s failed."
+msgid_plural "The library has %1$s of %2$s images optimized, %3$s failed."
+msgstr[0] "Kitaplıktaki %2$s görselden %1$s tanesi optimize edildi, %3$s tanesi başarısız oldu."
+msgstr[1] "Kitaplıktaki %2$s görselden %1$s tanesi optimize edildi, %3$s tanesi başarısız oldu."
+
+#. translators: %s: what was given as an attachment's id.
+#: includes/class-cli.php:791
+#, php-format
+msgid "%s isn't an attachment."
+msgstr "%s bir ek dosya değil."
+
+#: includes/class-cli.php:812
+msgid "This account can't run bulk commands."
+msgstr "Bu hesap toplu komutları çalıştıramaz."
+
+#: includes/class-connection.php:96
+#: includes/class-reasons.php:278
+msgid "Iminify sent an answer this version of the plugin can't read."
+msgstr "Iminify, eklentinin bu sürümünün okuyamadığı bir yanıt gönderdi."
+
+#: includes/class-connection.php:244
+msgid "Paste the site key first."
+msgstr "Önce site anahtarını yapıştırın."
+
+#: includes/class-connection.php:522
+msgid "This site's key is set in wp-config.php. Change or remove it there."
+msgstr "Bu sitenin anahtarı wp-config.php dosyasında ayarlı. Anahtarı orada değiştirin ya da kaldırın."
+
+#: includes/class-connection.php:538
+msgid "WordPress couldn't store the network's key. Press Connect the network to try again."
+msgstr "WordPress ağın anahtarını kaydedemedi. Yeniden denemek için “Ağı bağla” düğmesine basın."
+
+#: includes/class-connection.php:539
+msgid "WordPress couldn't store the site key. Press Connect to try again."
+msgstr "WordPress site anahtarını kaydedemedi. Yeniden denemek için “Bağla” düğmesine basın."
+
+#: includes/class-messages.php:35
+msgid "Smart"
+msgstr "Akıllı"
+
+#: includes/class-messages.php:36
+msgid "Smart: a balance between quality and size"
+msgstr "Akıllı: kalite ile dosya boyutu arasında bir denge"
+
+#: includes/class-messages.php:37
+msgid "A balance between quality and size."
+msgstr "Kalite ile dosya boyutu arasında bir denge."
+
+#: includes/class-messages.php:40
+msgid "Ultra"
+msgstr "Ultra"
+
+#: includes/class-messages.php:41
+msgid "Ultra: the smallest files, with some loss of quality"
+msgstr "Ultra: en küçük dosyalar, biraz kalite kaybıyla"
+
+#: includes/class-messages.php:42
+msgid "The smallest files, with some loss of quality."
+msgstr "En küçük dosyalar, biraz kalite kaybıyla."
+
+#: includes/class-messages.php:45
+msgid "Lossless"
+msgstr "Kayıpsız"
+
+#: includes/class-messages.php:46
+msgid "Lossless: no visible change in quality"
+msgstr "Kayıpsız: kalitede gözle görülür bir değişiklik yok"
+
+#: includes/class-messages.php:47
+msgid "No visible change in quality."
+msgstr "Kalitede gözle görülür bir değişiklik yok."
+
+#: includes/class-messages.php:50
+msgid "None"
+msgstr "Yok"
+
+#: includes/class-messages.php:51
+msgid "None: no compression, only the other settings"
+msgstr "Yok: sıkıştırma yok, yalnızca diğer ayarlar"
+
+#: includes/class-messages.php:52
+msgid "No compression, only the other settings."
+msgstr "Sıkıştırma yok, yalnızca diğer ayarlar."
+
+#: includes/class-messages.php:67
+msgctxt "a language alt text is written in"
+msgid "English"
+msgstr "İngilizce"
+
+#: includes/class-messages.php:68
+msgctxt "a language alt text is written in"
+msgid "Spanish"
+msgstr "İspanyolca"
+
+#: includes/class-messages.php:69
+msgctxt "a language alt text is written in"
+msgid "French"
+msgstr "Fransızca"
+
+#: includes/class-messages.php:70
+msgctxt "a language alt text is written in"
+msgid "German"
+msgstr "Almanca"
+
+#: includes/class-messages.php:71
+msgctxt "a language alt text is written in"
+msgid "Italian"
+msgstr "İtalyanca"
+
+#: includes/class-messages.php:72
+msgctxt "a language alt text is written in"
+msgid "Portuguese"
+msgstr "Portekizce"
+
+#: includes/class-messages.php:73
+msgctxt "a language alt text is written in"
+msgid "Dutch"
+msgstr "Felemenkçe"
+
+#: includes/class-messages.php:74
+msgctxt "a language alt text is written in"
+msgid "Polish"
+msgstr "Lehçe"
+
+#: includes/class-messages.php:75
+msgctxt "a language alt text is written in"
+msgid "Swedish"
+msgstr "İsveççe"
+
+#: includes/class-messages.php:76
+msgctxt "a language alt text is written in"
+msgid "Turkish"
+msgstr "Türkçe"
+
+#: includes/class-messages.php:77
+msgctxt "a language alt text is written in"
+msgid "Russian"
+msgstr "Rusça"
+
+#: includes/class-messages.php:78
+msgctxt "a language alt text is written in"
+msgid "Ukrainian"
+msgstr "Ukraynaca"
+
+#: includes/class-messages.php:79
+msgctxt "a language alt text is written in"
+msgid "Arabic"
+msgstr "Arapça"
+
+#: includes/class-messages.php:80
+msgctxt "a language alt text is written in"
+msgid "Persian"
+msgstr "Farsça"
+
+#: includes/class-messages.php:81
+msgctxt "a language alt text is written in"
+msgid "Hebrew"
+msgstr "İbranice"
+
+#: includes/class-messages.php:82
+msgctxt "a language alt text is written in"
+msgid "Hindi"
+msgstr "Hintçe"
+
+#: includes/class-messages.php:83
+msgctxt "a language alt text is written in"
+msgid "Indonesian"
+msgstr "Endonezce"
+
+#: includes/class-messages.php:84
+msgctxt "a language alt text is written in"
+msgid "Vietnamese"
+msgstr "Vietnamca"
+
+#: includes/class-messages.php:85
+msgctxt "a language alt text is written in"
+msgid "Thai"
+msgstr "Tayca"
+
+#: includes/class-messages.php:86
+msgctxt "a language alt text is written in"
+msgid "Japanese"
+msgstr "Japonca"
+
+#: includes/class-messages.php:87
+msgctxt "a language alt text is written in"
+msgid "Korean"
+msgstr "Korece"
+
+#: includes/class-messages.php:88
+msgctxt "a language alt text is written in"
+msgid "Simplified Chinese"
+msgstr "Basitleştirilmiş Çince"
+
+#: includes/class-messages.php:89
+msgctxt "a language alt text is written in"
+msgid "Traditional Chinese"
+msgstr "Geleneksel Çince"
+
+#: includes/class-messages.php:149
+msgid "Iminify doesn't know this key. Check that you copied all of it, or make a new one."
+msgstr "Iminify bu anahtarı tanımıyor. Tamamını kopyaladığınızdan emin olun ya da yeni bir anahtar oluşturun."
+
+#: includes/class-messages.php:151
+msgid "That is an API key. A site needs a site key: make one under Settings, Sites on iminify.com, or press Connect instead."
+msgstr "Bu bir API anahtarı. Bir site için site anahtarı gerekir: iminify.com’da Settings, Sites altında bir tane oluşturun ya da bunun yerine “Bağla” düğmesine basın."
+
+#: includes/class-messages.php:153
+msgid "This key belongs to the site at another address, so this copy of the site can't use it. Connect this copy as a site of its own, or move the connection here."
+msgstr "Bu anahtar başka bir adresteki siteye ait, bu yüzden sitenin bu kopyası onu kullanamaz. Bu kopyayı ayrı bir site olarak bağlayın ya da bağlantıyı buraya taşıyın."
+
+#. translators: %s: how long to wait, such as "10 minutes".
+#: includes/class-messages.php:157
+#, php-format
+msgid "Iminify asked the plugin to wait. Try again in %s."
+msgstr "Iminify, eklentiden beklemesini istedi. %s sonra yeniden deneyin."
+
+#: includes/class-messages.php:158
+msgid "Iminify asked the plugin to wait. Try again later."
+msgstr "Iminify, eklentiden beklemesini istedi. Daha sonra yeniden deneyin."
+
+#: includes/class-messages.php:160
+msgid "The connection can no longer be used: it expired, was turned down, or was used already. Press Connect to start again."
+msgstr "Bu bağlantı artık kullanılamaz: süresi doldu, reddedildi ya da zaten kullanıldı. Yeniden başlamak için “Bağla” düğmesine basın."
+
+#: includes/class-messages.php:162
+#: includes/media/class-alt-text.php:242
+#: includes/media/class-bulk.php:263
+msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
+msgstr "Bu sitede yapay zeka alternatif metni kapalı. Önce eklentinin ayarlarından açın."
+
+#: includes/class-messages.php:164
+msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
+msgstr "Denetim yalnızca bu sitenin kendi sayfalarını tarar. Bu sitedeki bir sayfanın adresini girin."
+
+#: includes/class-messages.php:166
+msgid "The network's key was made for a single site, so the network's sites can't join with it. A super admin connects the network again from the network admin."
+msgstr "Ağın anahtarı tek bir site için oluşturulmuş, bu yüzden ağın siteleri bu anahtarla katılamaz. Bir süper yönetici, ağı Ağ yöneticisi bölümünden yeniden bağlar."
+
+#: includes/class-messages.php:168
+msgid "The network already has as many sites as one network can hold. Remove a site you no longer use under Settings, Sites on iminify.com, or connect this site on its own."
+msgstr "Ağ, bir ağın barındırabileceği en fazla site sayısına ulaştı. iminify.com’da Settings, Sites altında artık kullanmadığınız bir siteyi kaldırın ya da bu siteyi kendi başına bağlayın."
+
+#: includes/class-messages.php:170
+msgid "This site is already connected to the account on its own, or in another network. Disconnect it under Settings, Sites on iminify.com to add it to this network, or connect it here on its own."
+msgstr "Bu site hesaba zaten kendi başına ya da başka bir ağ içinde bağlı. Bu ağa eklemek için iminify.com’da Settings, Sites altında bağlantısını kesin ya da burada kendi başına bağlayın."
+
+#: includes/class-messages.php:184
+msgid "This version of Iminify Image Optimizer is too old to keep optimizing images. Update it from the Plugins page."
+msgstr "Iminify Image Optimizer eklentisinin bu sürümü, görselleri optimize etmeyi sürdürmek için çok eski. Eklentiler sayfasından güncelleyin."
+
+#: includes/class-messages.php:186
+msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
+msgstr "Hesabınızın günlük görsel hakkı doldu. Yeni yüklemeler bekler ve hak yenilendiğinde kendiliğinden gönderilir."
+
+#: includes/class-messages.php:188
+msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
+msgstr "Bu site, ücretsiz Pro denemesini başka bir Iminify hesabında kullandı; bu yüzden buradaki yüklemelerine ücretsiz planın sınırları uygulanır."
+
+#: includes/class-network.php:213
+msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
+msgstr "Ağ Iminify’a bağlı değil. Bir süper yönetici ağı Ağ yöneticisi bölümünden bağlar."
+
+#: includes/class-network.php:223
+msgid "This site is joining the network already. Wait a moment and look again."
+msgstr "Bu site zaten ağa katılıyor. Biraz bekleyip yeniden bakın."
+
+#: includes/class-reasons.php:149
+msgid "Waiting to go on: the plugin was turned off while this image was on its way."
+msgstr "Devam etmeyi bekliyor: bu görsel yoldayken eklenti etkisizleştirildi."
+
+#: includes/class-reasons.php:151
+msgid "Waiting for the next batch."
+msgstr "Hakkın yenilenmesini bekliyor."
+
+#: includes/class-reasons.php:153
+msgid "Waiting for the site to be connected to Iminify."
+msgstr "Sitenin Iminify’a bağlanmasını bekliyor."
+
+#: includes/class-reasons.php:155
+msgid "Not optimized: the bulk run was stopped."
+msgstr "Optimize edilmedi: toplu işlem durduruldu."
+
+#: includes/class-reasons.php:157
+msgid "Not optimized: the site isn't connected to Iminify."
+msgstr "Optimize edilmedi: site Iminify’a bağlı değil."
+
+#: includes/class-reasons.php:159
+msgid "Not optimized: update the Iminify plugin first."
+msgstr "Optimize edilmedi: önce Iminify eklentisini güncelleyin."
+
+#: includes/class-reasons.php:161
+msgid "Not optimized: the site doesn't optimize uploads."
+msgstr "Optimize edilmedi: site yüklemeleri optimize etmiyor."
+
+#: includes/class-reasons.php:163
+msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
+msgstr "Optimize edilmedi: sunucuda disk alanı azaldı. Biraz yer açın, ardından bu görseli optimize edin."
+
+#: includes/class-reasons.php:165
+#: includes/media/class-optimizer.php:340
+msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
+msgstr "Gönderilmedi: bu sunucudaki PHP zip dosyalarını açamıyor. Barındırma sağlayıcınızdan PHP zip uzantısını açmasını isteyin."
+
+#: includes/class-reasons.php:167
+msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
+msgstr "Bu sunucudaki PHP zip dosyalarını açamıyor: barındırma sağlayıcınızdan PHP zip uzantısını açmasını isteyin."
+
+#: includes/class-reasons.php:169
+msgid "Iminify's download couldn't be opened."
+msgstr "Iminify’dan indirilen dosya açılamadı."
+
+#: includes/class-reasons.php:171
+msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
+msgstr "Gönderilmedi: bu görselin özgün hâli gönderilemeyecek kadar büyük; planınızın izin verdiği dosya boyutunu ya da bu sunucunun belleğinin kaldırabileceğini aşıyor."
+
+#: includes/class-reasons.php:173
+msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
+msgstr "Gönderilmedi: bu görsel, planınızın izin verdiği dosya boyutunu ya da bu sunucunun belleğinin kaldırabileceğini aşıyor."
+
+#: includes/class-reasons.php:175
+msgid "Not sent: no original of this image is left to make the optimized files from."
+msgstr "Gönderilmedi: bu görselin, optimize edilmiş dosyaların oluşturulacağı özgün hâli kalmadı."
+
+#: includes/class-reasons.php:177
+msgid "Not sent: no original of this image is left to make the optimized file from."
+msgstr "Gönderilmedi: bu görselin, optimize edilmiş dosyanın oluşturulacağı özgün hâli kalmadı."
+
+#: includes/class-reasons.php:179
+msgid "WordPress couldn't make the missing sizes of this image."
+msgstr "WordPress bu görselin eksik boyutlarını oluşturamadı."
+
+#: includes/class-reasons.php:181
+msgid "Kept as uploaded: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Yüklendiği gibi bırakıldı: Iminify JPEG, PNG, WebP ve GIF görselleri optimize eder."
+
+#: includes/class-reasons.php:183
+msgid "Kept as it is: Iminify optimizes JPEG, PNG, WebP and GIF images."
+msgstr "Olduğu gibi bırakıldı: Iminify JPEG, PNG, WebP ve GIF görselleri optimize eder."
+
+#: includes/class-reasons.php:185
+msgid "Kept as uploaded: this site leaves this image out."
+msgstr "Yüklendiği gibi bırakıldı: bu site bu görseli kapsam dışında tutuyor."
+
+#: includes/class-reasons.php:187
+msgid "Kept as it is: this site leaves this image out."
+msgstr "Olduğu gibi bırakıldı: bu site bu görseli kapsam dışında tutuyor."
+
+#: includes/class-reasons.php:189
+msgid "The image couldn't be read."
+msgstr "Görsel okunamadı."
+
+#: includes/class-reasons.php:191
+msgid "The image isn't in the uploads folder."
+msgstr "Görsel, yüklemeler klasöründe değil."
+
+#: includes/class-reasons.php:193
+msgid "Not sent: the image's file isn't in the uploads folder."
+msgstr "Gönderilmedi: görselin dosyası yüklemeler klasöründe değil."
+
+#: includes/class-reasons.php:195
+msgid "Not sent: the image's file isn't there, or is a link to another place."
+msgstr "Gönderilmedi: görselin dosyası yerinde değil ya da başka bir konuma işaret eden bir bağlantı."
+
+#: includes/class-reasons.php:197
+msgid "The image's file or its backup went missing while it was on its way."
+msgstr "Görselin dosyası ya da yedeği, görsel yoldayken kayboldu."
+
+#: includes/class-reasons.php:199
+msgid "Not sent: the image is no longer in a folder Iminify optimizes."
+msgstr "Gönderilmedi: görsel artık Iminify’ın optimize ettiği bir klasörde değil."
+
+#: includes/class-reasons.php:201
+msgid "Not written: the image is no longer in a folder Iminify optimizes."
+msgstr "Yazılmadı: görsel artık Iminify’ın optimize ettiği bir klasörde değil."
+
+#: includes/class-reasons.php:203
+msgid "Changed since Iminify optimized it, so it can be optimized again."
+msgstr "Iminify optimize ettiğinden beri değişti, bu yüzden yeniden optimize edilebilir."
+
+#: includes/class-reasons.php:205
+msgid "The image changed while Iminify was optimizing it, so it's sent again."
+msgstr "Görsel, Iminify onu optimize ederken değişti, bu yüzden yeniden gönderiliyor."
+
+#. translators: %d: the id of the attachment whose files this one shares.
+#: includes/class-reasons.php:209
+#, php-format
+msgid "Its files are attachment #%d's, as a translation's are, so Iminify optimizes them there."
+msgstr "Dosyaları, bir çevirinin dosyaları gibi #%d numaralı ek dosyaya ait; bu yüzden Iminify onları orada optimize eder."
+
+#: includes/class-reasons.php:224
+msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
+msgstr "Bu görselin yedeği kaydedilemedi, bu yüzden görsel optimize edilmedi. WordPress’in yüklemeler klasörüne yazabildiğini kontrol edin ya da Iminify ayarlarından yedeklemeyi kapatın."
+
+#: includes/class-reasons.php:226
+msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
+msgstr "Görsel, yedeği alındığından beri değişti ve eski yedek kenara taşınamadı, bu yüzden görsel optimize edilmedi."
+
+#: includes/class-reasons.php:228
+msgid "The image couldn't be copied back from WP Offload Media's bucket to send it."
+msgstr "Görsel, gönderilmek üzere WP Offload Media deposundan geri kopyalanamadı."
+
+#: includes/class-reasons.php:230
+msgid "Iminify couldn't finish this image after several tries."
+msgstr "Iminify birkaç denemeden sonra bu görseli tamamlayamadı."
+
+#: includes/class-reasons.php:232
+msgid "Restored: the original is back."
+msgstr "Geri yüklendi: özgün hâli geri geldi."
+
+#: includes/class-reasons.php:234
+msgid "The image couldn't be restored."
+msgstr "Görsel geri yüklenemedi."
+
+#: includes/class-reasons.php:236
+msgid "The original couldn't be copied back from WP Offload Media's bucket, so the image stays as it was. Try again."
+msgstr "Özgün hâli WP Offload Media deposundan geri kopyalanamadı, bu yüzden görsel olduğu gibi kalıyor. Yeniden deneyin."
+
+#: includes/class-reasons.php:238
+msgid "The original couldn't be put back, so the image stays as it was."
+msgstr "Özgün hâli yerine konamadı, bu yüzden görsel olduğu gibi kalıyor."
+
+#: includes/class-reasons.php:240
+msgid "WordPress couldn't read the original, so the image's sizes stay as they were. Try again."
+msgstr "WordPress özgün dosyayı okuyamadı, bu yüzden görselin boyutları olduğu gibi kalıyor. Yeniden deneyin."
+
+#: includes/class-reasons.php:246
+msgid "Iminify hasn't changed this image, so there's nothing to restore."
+msgstr "Iminify bu görseli değiştirmedi, bu yüzden geri yüklenecek bir şey yok."
+
+#: includes/class-reasons.php:248
+msgid "Iminify changed nothing in this image, so it already is as it was."
+msgstr "Iminify bu görselde hiçbir şeyi değiştirmedi, bu yüzden görsel zaten eski hâlinde."
+
+#: includes/class-reasons.php:250
+msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
+msgstr "Bu görsel, Iminify optimize ettiğinden beri değişti; geri yüklemek yeni hâlinin üzerine yazar."
+
+#: includes/class-reasons.php:252
+msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
+msgstr "Bu görsel, Iminify optimize ettiğinden beri değişti, bu yüzden yedeği artık onun özgün hâli değil."
+
+#: includes/class-reasons.php:254
+msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
+msgstr "Görselin dosyası artık yerinde değil ya da Iminify’ın optimize ettiği bir klasörde değil."
+
+#: includes/class-reasons.php:256
+msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
+msgstr "Bu görselin özgün hâli saklanmadığı için geri yüklenemez. Görsel optimize edildiğinde yedekleme kapalıydı ya da yedek silindi."
+
+#: includes/class-reasons.php:258
+msgid "No original of this image was kept, so it can't be restored."
+msgstr "Bu görselin özgün hâli saklanmadığı için geri yüklenemez."
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/class-reasons.php:262
+#, php-format
+msgid "%s kept no original of this image that Iminify can check, so it can't be restored here."
+msgstr "%s eklentisi, bu görselin Iminify’ın doğrulayabileceği bir özgün hâlini saklamadı, bu yüzden görsel burada geri yüklenemez."
+
+#. translators: %s: the reason the connection failed.
+#: includes/class-reasons.php:268
+#, php-format
+msgid "Iminify couldn't be reached: %s"
+msgstr "Iminify’a ulaşılamadı: %s"
+
+#. translators: %d: the HTTP status Iminify answered.
+#: includes/class-reasons.php:274
+#, php-format
+msgid "Iminify answered with an error (HTTP %d)."
+msgstr "Iminify bir hatayla yanıt verdi (HTTP %d)."
+
+#: includes/class-reasons.php:280
+msgid "This server doesn't have the memory to send an image this large."
+msgstr "Bu sunucunun bu kadar büyük bir görseli göndermeye yetecek belleği yok."
+
+#: includes/class-reasons.php:282
+msgid "The image couldn't be read from the uploads folder."
+msgstr "Görsel yüklemeler klasöründen okunamadı."
+
+#: includes/class-reasons.php:284
+msgid "WordPress couldn't store the site key. Press Join the network to try again."
+msgstr "WordPress site anahtarını kaydedemedi. Yeniden denemek için “Ağa katıl” düğmesine basın."
+
+#: includes/delivery/class-rules.php:412
+msgid "The uploads folder"
+msgstr "Yüklemeler klasörü"
+
+#: includes/folders/class-folders.php:175
+msgid "Name a folder inside wp-content, such as themes/your-theme."
+msgstr "wp-content içinde bir klasör belirtin; örneğin themes/your-theme."
+
+#: includes/folders/class-folders.php:181
+msgid "There is no folder at that path inside wp-content."
+msgstr "wp-content içinde bu yolda bir klasör yok."
+
+#: includes/folders/class-folders.php:185
+msgid "That folder is a link to another place, so Iminify leaves it out."
+msgstr "Bu klasör başka bir konuma işaret eden bir bağlantı, bu yüzden Iminify onu dışarıda bırakır."
+
+#: includes/folders/class-folders.php:208
+msgid "That's the media library's folder: its images are optimized from the media library."
+msgstr "Bu, ortam kitaplığının klasörü: içindeki görseller ortam kitaplığından optimize edilir."
+
+#: includes/folders/class-folders.php:214
+msgid "That's the Iminify plugin's own folder, which every update replaces."
+msgstr "Bu, Iminify eklentisinin kendi klasörü; her güncellemede baştan yazılır."
+
+#: includes/folders/class-folders.php:220
+msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
+msgstr "Başka araçlar bu klasörde kopya, ön bellek ya da yedek tutar, bu yüzden içindeki görseller sitenin kendi görselleri değil."
+
+#: includes/folders/class-folders.php:225
+msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
+msgstr "Bu klasör, ortam kitaplığının dosyalarını ya da bunların yedeklerini barındırıyor; Iminify bunları ortam kitaplığından işler."
+
+#: includes/folders/class-folders.php:229
+msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
+msgstr "Bu klasör gizli dosyaları ya da bir projenin bağımlılıklarını barındırıyor; Iminify bunlara dokunmaz."
+
+#: includes/folders/class-folders.php:268
+msgid "On a network, other folders are chosen on the main site."
+msgstr "Bir ağda diğer klasörler ana sitede seçilir."
+
+#. translators: %s: a folder's path inside wp-content.
+#: includes/folders/class-folders.php:285
+#, php-format
+msgid "That folder is already in the list, inside %s."
+msgstr "Bu klasör zaten listedeki %s klasörünün içinde."
+
+#: includes/folders/class-folders.php:298
+msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
+msgstr "Liste alabileceği kadar klasör içeriyor. Birini kaldırın ya da bunlardan birkaçını içeren klasörü seçin."
+
+#: includes/folders/class-optimizer.php:151
+#: includes/media/class-optimizer.php:298
+msgid "Update the Iminify plugin first."
+msgstr "Önce Iminify eklentisini güncelleyin."
+
+#. translators: %s: the date and time the next batch opens.
+#: includes/folders/class-optimizer.php:161
+#: includes/media/class-optimizer.php:308
+#, php-format
+msgid "Your account's images for the day are used up. The next batch opens on %s."
+msgstr "Hesabınızın günlük görsel hakkı doldu. Hakkınız %s tarihinde yenilenir."
+
+#: includes/folders/class-optimizer.php:169
+#: includes/media/class-optimizer.php:320
+#: includes/media/class-optimizer.php:335
+msgid "The server is low on disk space. Free some up, then optimize this image."
+msgstr "Sunucuda disk alanı azaldı. Biraz yer açın, ardından bu görseli optimize edin."
+
+#: includes/folders/class-optimizer.php:176
+#: includes/media/class-optimizer.php:316
+msgid "No original of this image was kept, so it can't be optimized again."
+msgstr "Bu görselin özgün hâli saklanmadığı için yeniden optimize edilemez."
+
+#: includes/folders/class-optimizer.php:182
+msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Bu görsel gönderilemeyecek kadar büyük: planınızın izin verdiği dosya boyutunu ya da bu sunucunun belleğinin kaldırabileceğini aşıyor."
+
+#: includes/media/class-alt-text.php:246
+msgid "This image already has alt text, or its text is on the way."
+msgstr "Bu görselin zaten alternatif metni var ya da metni yolda."
+
+#: includes/media/class-bulk.php:224
+msgid "A bulk run is already going. Stop it first."
+msgstr "Zaten devam eden bir toplu işlem var. Önce onu durdurun."
+
+#: includes/media/class-bulk.php:229
+msgid "The files in other folders are optimized, sent again or restored, all of them at once."
+msgstr "Diğer klasörlerdeki dosyaların tümü birlikte optimize edilir, yeniden gönderilir ya da geri yüklenir."
+
+#: includes/media/class-bulk.php:233
+msgid "Iminify is still looking through your folders. Start again once it has finished."
+msgstr "Iminify klasörlerinizde hâlâ arama yapıyor. Arama bitince yeniden başlatın."
+
+#: includes/media/class-bulk.php:251
+msgid "The server is low on disk space. Free some up, then start again."
+msgstr "Sunucuda disk alanı azaldı. Biraz yer açın, ardından yeniden başlatın."
+
+#: includes/media/class-bulk.php:1228
+msgid "Choose a folder first."
+msgstr "Önce bir klasör seçin."
+
+#: includes/media/class-bulk.php:1233
+msgid "No optimized file is left to restore in your folders."
+msgstr "Klasörlerinizde geri yüklenecek optimize edilmiş dosya kalmadı."
+
+#: includes/media/class-bulk.php:1235
+msgid "No file in your folders failed."
+msgstr "Klasörlerinizde başarısız olan dosya yok."
+
+#: includes/media/class-bulk.php:1237
+msgid "Every file in your folders is already optimized or on its way."
+msgstr "Klasörlerinizdeki tüm dosyalar zaten optimize edilmiş ya da yolda."
+
+#: includes/media/class-bulk.php:1242
+msgid "No optimized image is left to restore."
+msgstr "Geri yüklenecek optimize edilmiş görsel kalmadı."
+
+#: includes/media/class-bulk.php:1246
+msgid "No image another plugin optimized has an original left to optimize it again from."
+msgstr "Başka eklentilerin optimize ettiği görsellerin hiçbirinde, yeniden optimize etmek için kaynak alınacak özgün hâl kalmadı."
+
+#: includes/media/class-bulk.php:1250
+msgid "Every image already has alt text, or its text is on the way."
+msgstr "Tüm görsellerin zaten alternatif metni var ya da metinleri yolda."
+
+#: includes/media/class-bulk.php:1253
+msgid "No optimized image lacks anything your site asks for now."
+msgstr "Optimize edilmiş görsellerin hiçbirinde, sitenizin şu an istediği bir eksik yok."
+
+#: includes/media/class-bulk.php:1253
+msgid "Every image is already optimized or on its way."
+msgstr "Tüm görseller zaten optimize edilmiş ya da yolda."
+
+#: includes/media/class-optimizer.php:219
+msgid "This image has changed since Iminify optimized it, so optimize it again instead."
+msgstr "Bu görsel, Iminify optimize ettiğinden beri değişti; bunun yerine onu yeniden optimize edin."
+
+#: includes/media/class-optimizer.php:223
+msgid "This image lacks nothing your site asks for now."
+msgstr "Bu görselde, sitenizin şu an istediği hiçbir eksik yok."
+
+#: includes/media/class-optimizer.php:330
+msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
+msgstr "Bu görselin özgün hâli gönderilemeyecek kadar büyük: planınızın izin verdiği dosya boyutunu ya da bu sunucunun belleğinin kaldırabileceğini aşıyor."
+
+#: includes/switching/class-converter.php:52
+msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
+msgstr "Converter for Media eklentisini etkisizleştirin ya da Ayarlar, Converter for Media altındaki General Settings bölümünde “Conversion of new images” seçeneğini kapatın."
+
+#: includes/switching/class-elementor.php:70
+msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
+msgstr "Image Optimizer by Elementor eklentisini etkisizleştirin ya da Elementor, Image Optimization, Settings altında “Optimize new uploads” seçeneğini kapatın."
+
+#: includes/switching/class-elementor.php:194
+msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
+msgstr "Image Optimizer by Elementor bu görseli dönüştürdü, ona yazılarınızın artık bağlandığı yeni bir adres verdi ve özgün hâlini yanında sakladı. O eklenti kurulu olduğu sürece kendi Restore düğmesi özgün hâli adresiyle birlikte geri koyar; Iminify yazılarınızı yeniden yazmadığı için bu görseli geri yüklemez."
+
+#: includes/switching/class-ewww.php:53
+msgid "Deactivate EWWW Image Optimizer."
+msgstr "EWWW Image Optimizer eklentisini etkisizleştirin."
+
+#: includes/switching/class-ewww.php:254
+msgid "EWWW Image Optimizer kept this image's original on its own servers, for 30 days. Restore it in EWWW Image Optimizer while its key and those days last; Iminify can't fetch it."
+msgstr "EWWW Image Optimizer bu görselin özgün hâlini 30 gün boyunca kendi sunucularında sakladı. Görseli, EWWW Image Optimizer anahtarınız ve bu süre geçerliyken o eklentinin içinden geri yükleyin; Iminify onu getiremez."
+
+#: includes/switching/class-imagify.php:44
+msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
+msgstr "Imagify eklentisini etkisizleştirin ya da ayarlarında “Auto-Optimize images on upload” seçeneğini kapatın."
+
+#: includes/switching/class-leftovers.php:160
+msgid "Those lines are gone already, or their plugin is on again."
+msgstr "Bu satırlar zaten kaldırılmış ya da ait oldukları eklenti yeniden etkin."
+
+#: includes/switching/class-leftovers.php:164
+msgid "Only someone who can manage the network removes lines every site shares."
+msgstr "Her sitenin paylaştığı satırları yalnızca ağı yönetebilen biri kaldırabilir."
+
+#: includes/switching/class-leftovers.php:183
+msgid "The plugin can’t take these lines out. Remove them by hand."
+msgstr "Eklenti bu satırları çıkaramıyor. Bunları elle kaldırın."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:412
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s eklentisi bunları artık kullanmıyor; yine de WebP ya da AVIF okuyabilen bir tarayıcıya görselin yerine, o eklentinin kendi klasöründe oluşturduğu kopyayı sunmayı sürdürüyorlar. Bu yüzden bir ziyaretçi, Iminify görseli optimize etmeden önce oluşturulmuş bir kopya alabilir."
+
+#. translators: %s: another image optimizer's name.
+#: includes/switching/class-leftovers.php:414
+#, php-format
+msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with whatever WebP or AVIF file is named after an image, however old, in place of the image, so a visitor can get a copy made before Iminify optimized it."
+msgstr "%s eklentisi bunları artık kullanmıyor; yine de WebP ya da AVIF okuyabilen bir tarayıcıya görselin yerine, ne kadar eski olursa olsun görselin adını taşıyan herhangi bir WebP ya da AVIF dosyasını sunmayı sürdürüyorlar. Bu yüzden bir ziyaretçi, Iminify görseli optimize etmeden önce oluşturulmuş bir kopya alabilir."
+
+#: includes/switching/class-leftovers.php:418
+msgid "Nginx keeps them until it is reloaded, so reload it once they are gone."
+msgstr "Nginx yeniden yüklenene kadar bunları tutar; bu yüzden satırlar kaldırıldıktan sonra Nginx’i bir kez yeniden yükleyin."
+
+#: includes/switching/class-leftovers.php:450
+msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
+msgstr "Smush bu kuralı JPEG biçimine dönüştürdüğü PNG görseller için ekledi ve kural hâlâ WordPress’in yeniden yazma kuralları arasında: artık var olmayan böyle bir PNG için gelen istek, “bulunamadı” yanıtı yerine ana sayfanızda sonlanıyor."
+
+#: includes/switching/class-litespeed.php:65
+msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
+msgstr "LiteSpeed Cache, Image Optimization altında “Auto Request Cron” seçeneğini ve Page Optimization, Media Settings altında “Auto Rescale Original Images” seçeneğini kapatıp eklentinin zaten gönderdiği görsellerin geri gelmesini bekleyin ya da LiteSpeed Cache eklentisini etkisizleştirin."
+
+#: includes/switching/class-modern-formats.php:54
+msgid "Deactivate Modern Image Formats: no setting of its own stops it."
+msgstr "Modern Image Formats eklentisini etkisizleştirin: onu durduracak kendi ayarı yok."
+
+#: includes/switching/class-modern-formats.php:203
+msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
+msgstr "Modern Image Formats bu görselin dosyalarını, WordPress’in sakladığı özgün hâlinden oluşturduğu modern biçimli dosyalarla değiştirdi. Özgün hâli geri koymak görselin adreslerini değiştirir ve bunlara bağlanan yazıları bozar, bu yüzden Iminify onu geri yüklemez."
+
+#: includes/switching/class-optimole.php:35
+msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
+msgstr "Optimole eklentisini etkisizleştirin ya da Optimole, Settings, Image Storage altında “Optimole Cloud and your website” seçeneğini seçin."
+
+#: includes/switching/class-optimole.php:85
+msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
+msgstr "Optimole bu görseli kendi bulutuna taşıdı ve buradaki dosyalarını sildi. Önce görseli Optimole içinden geri alın (bunun için Optimole etkin ve bağlı olmalı); ardından Iminify onu optimize edebilir."
+
+#. translators: 1: another image optimizer's name, 2: what to switch off in it, a sentence.
+#: includes/switching/class-others.php:169
+#, php-format
+msgid "%1$s is active and optimizes your uploads itself, so Iminify optimizes nothing while it does, to keep any image from being compressed twice. %2$s"
+msgstr "%1$s etkin ve yüklemelerinizi kendisi optimize ediyor; bu yüzden hiçbir görsel iki kez sıkıştırılmasın diye Iminify, o eklenti bunu yaptığı sürece hiçbir şeyi optimize etmez. %2$s"
+
+#. translators: %s: another image optimizer's name, such as Imagify.
+#: includes/switching/class-others.php:485
+#, php-format
+msgid "Optimized by %s"
+msgstr "%s tarafından optimize edildi"
+
+#: includes/switching/class-shortpixel.php:63
+msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
+msgstr "ShortPixel eklentisini etkisizleştirin ya da ayarlarında, Processing altında “Optimize media on upload” seçeneğini kapatın."
+
+#: includes/switching/class-smush.php:45
+msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
+msgstr "Smush eklentisini etkisizleştirin ya da ayarlarında “Automatic compression” seçeneğini kapatın."
+
+#: includes/switching/class-tinypng.php:47
+msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
+msgstr "TinyPNG eklentisini etkisizleştirin ya da ayarlarından yeni görselleri elle sıkıştıracak şekilde ayarlayın."
+
+#. translators: said by screen readers after a link's words.
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/settings.js:2
+msgid "(opens in a new tab)"
+msgstr "(yeni sekmede açılır)"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Loading…"
+msgstr "Yükleniyor…"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+#: assets/build/settings.js:38
+msgid "Try again"
+msgstr "Yeniden dene"
+
+#: assets/build/audit.js:2
+#: assets/build/folders.js:1
+#: assets/build/settings.js:2
+msgid "Dismiss"
+msgstr "Gizle"
+
+#: assets/build/audit.js:2
+msgid "Iminify is scanning the page."
+msgstr "Iminify sayfayı tarıyor."
+
+#: assets/build/audit.js:2
+msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
+msgstr "Sayfalarınız artık gönderilirken eksik genişlik, yükseklik ve alternatif metni alıyor. Görmek için sayfayı yeniden tarayın."
+
+#: assets/build/audit.js:2
+msgid "Every page, every week"
+msgstr "Her sayfa, her hafta"
+
+#: assets/build/audit.js:2
+msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
+msgstr "Haftalık kontrol, sitenizin site haritasındaki her sayfayı haftada bir denetler, yeni ya da değişmiş görselleri sıkıştırır ve bulduklarını size e-postayla gönderir. Bunu iminify.com’da sitenizin bir taramasından kurarsınız; hangi planların bunu içerdiğini de orada görebilirsiniz."
+
+#: assets/build/audit.js:2
+msgid "Set up a weekly check"
+msgstr "Haftalık kontrol kur"
+
+#: assets/build/audit.js:2
+msgid "Couldn't read the page"
+msgstr "Sayfa okunamadı"
+
+#: assets/build/audit.js:2
+msgid "Waiting to scan"
+msgstr "Taranmayı bekliyor"
+
+#: assets/build/audit.js:2
+msgid "Scanning"
+msgstr "Taranıyor"
+
+#: assets/build/audit.js:2
+msgid "Done"
+msgstr "Bitti"
+
+#: assets/build/audit.js:2
+msgid "No images"
+msgstr "Görsel yok"
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:7
+msgid "Stopped"
+msgstr "Durduruldu"
+
+#: assets/build/audit.js:2
+msgctxt "the status of a page audit"
+msgid "Failed"
+msgstr "Başarısız"
+
+#: assets/build/audit.js:2
+msgid "Iminify disconnected this site, so its pages can’t be audited. Connect it again to carry on."
+msgstr "Iminify bu sitenin bağlantısını kesti, bu yüzden sayfaları denetlenemiyor. Sürdürmek için siteyi yeniden bağlayın."
+
+#: assets/build/audit.js:2
+msgid "Connect this site to Iminify to audit its pages."
+msgstr "Sayfalarını denetlemek için bu siteyi Iminify’a bağlayın."
+
+#: assets/build/audit.js:2
+#: assets/build/bulk.js:17
+msgid "Go to the settings"
+msgstr "Ayarlara git"
+
+#: assets/build/audit.js:2
+msgid "Scan a page"
+msgstr "Bir sayfa tara"
+
+#: assets/build/audit.js:2
+msgid "Iminify opens the page as a visitor would and measures every image it shows."
+msgstr "Iminify sayfayı bir ziyaretçi gibi açar ve gösterdiği her görseli ölçer."
+
+#: assets/build/audit.js:2
+msgid "Page"
+msgstr "Sayfa"
+
+#: assets/build/audit.js:2
+msgid "Another address on this site"
+msgstr "Bu sitede başka bir adres"
+
+#: assets/build/audit.js:2
+msgid "Address"
+msgstr "Adres"
+
+#: assets/build/audit.js:2
+msgid "Scan"
+msgstr "Tara"
+
+#. translators: %s: how many seconds are left before the next scan.
+#: assets/build/audit.js:3
+#, js-format
+msgid "You can scan again in %s second."
+msgid_plural "You can scan again in %s seconds."
+msgstr[0] "%s saniye sonra yeniden tarayabilirsiniz."
+msgstr[1] "%s saniye sonra yeniden tarayabilirsiniz."
+
+#. translators: %s: how many page scans the account used today.
+#: assets/build/audit.js:4
+#, js-format
+msgid "%s page scan used today. Each audit counts as one."
+msgid_plural "%s page scans used today. Each audit counts as one."
+msgstr[0] "Bugün %s sayfa taraması kullanıldı. Her denetim bir tarama sayılır."
+msgstr[1] "Bugün %s sayfa taraması kullanıldı. Her denetim bir tarama sayılır."
+
+#. translators: 1: how many page scans are left today, 2: how many the account has a day.
+#: assets/build/audit.js:5
+#, js-format
+msgid "%1$s of %2$s page scan left today. Each audit counts as one."
+msgid_plural "%1$s of %2$s page scans left today. Each audit counts as one."
+msgstr[0] "Bugün %2$s sayfa taramasından %1$s tanesi kaldı. Her denetim bir tarama sayılır."
+msgstr[1] "Bugün %2$s sayfa taramasından %1$s tanesi kaldı. Her denetim bir tarama sayılır."
+
+#. translators: %s: the date and time more page scans come.
+#: assets/build/audit.js:6
+#, js-format
+msgid "Your page scans for today are used up. More come on %s."
+msgstr "Bugünkü sayfa tarama hakkınız doldu. Yenileri %s tarihinde gelir."
+
+#: assets/build/audit.js:6
+msgid "Your page scans for today are used up."
+msgstr "Bugünkü sayfa tarama hakkınız doldu."
+
+#: assets/build/audit.js:6
+msgid "Recent audits"
+msgstr "Son denetimler"
+
+#: assets/build/audit.js:6
+msgid "Images on the page"
+msgstr "Sayfadaki görseller"
+
+#: assets/build/audit.js:6
+msgid "Choose a page and press Scan. Iminify lists every image on it, each beside the image in your library it is, with what is worth fixing."
+msgstr "Bir sayfa seçip “Tara” düğmesine basın. Iminify sayfadaki her görseli, kitaplığınızdaki karşılığının yanında ve düzeltilmeye değer noktalarıyla birlikte listeler."
+
+#: assets/build/audit.js:6
+msgid "Iminify is opening the page and measuring its images. This usually takes less than a minute, and the page shows them as soon as they’re in."
+msgstr "Iminify sayfayı açıyor ve görsellerini ölçüyor. Bu genellikle bir dakikadan kısa sürer; görseller geldikçe sayfada görünür."
+
+#: assets/build/audit.js:6
+msgid "The page showed no images."
+msgstr "Sayfada hiç görsel görünmedi."
+
+#. translators: 1: how many images the page showed, 2: how many of them have something to fix.
+#: assets/build/audit.js:7
+#, js-format
+msgid "%1$s image on the page, %2$s with something to fix."
+msgid_plural "%1$s images on the page, %2$s with something to fix."
+msgstr[0] "Sayfada %1$s görsel var, %2$s tanesinde düzeltilecek bir şey var."
+msgstr[1] "Sayfada %1$s görsel var, %2$s tanesinde düzeltilecek bir şey var."
+
+#: assets/build/audit.js:7
+msgid "Nothing to fix: every image on this page is sized, loaded and described well."
+msgstr "Düzeltilecek bir şey yok: bu sayfadaki her görsel doğru boyutta, doğru yükleniyor ve iyi tanımlanmış."
+
+#: assets/build/audit.js:7
+msgid "Hide the images with nothing to fix"
+msgstr "Düzeltilecek bir şeyi olmayan görselleri gizle"
+
+#. translators: %s: how many images have nothing to fix.
+#: assets/build/audit.js:8
+#, js-format
+msgid "Show %s image with nothing to fix"
+msgid_plural "Show %s images with nothing to fix"
+msgstr[0] "Düzeltilecek bir şeyi olmayan %s görseli göster"
+msgstr[1] "Düzeltilecek bir şeyi olmayan %s görseli göster"
+
+#. translators: %s: how many images.
+#: assets/build/audit.js:9
+#, js-format
+msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
+msgstr[0] "Ortam kitaplığınızdaki %s görsel bu sayfada genişliği ve yüksekliği olmadan ya da kitaplıktaki alternatif metni olmadan yer alıyor. Eklenti, sayfalarınız gönderilirken eksik olanları kitaplıktan ekleyebilir."
+msgstr[1] "Ortam kitaplığınızdaki %s görsel bu sayfada genişlikleri ve yükseklikleri olmadan ya da kitaplıktaki alternatif metinleri olmadan yer alıyor. Eklenti, sayfalarınız gönderilirken eksik olanları kitaplıktan ekleyebilir."
+
+#: assets/build/audit.js:9
+msgid "Fill them in on every page"
+msgstr "Her sayfada tamamla"
+
+#: assets/build/audit.js:9
+msgid "Someone who can change the plugin’s settings can turn this on."
+msgstr "Eklentinin ayarlarını değiştirebilen biri bunu açabilir."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:10
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) where this image is placed. The page’s editor doesn’t hold it: your theme, a template or a widget shows it, and the size is chosen there."
+msgstr "Bu görselin yerleştirildiği yerde %1$s boyutunu (%2$s × %3$s) kullanın. Sayfanın düzenleyicisi bu görseli içermiyor: onu temanız, bir şablon ya da bir bileşen gösteriyor ve boyut orada seçiliyor."
+
+#. translators: 1: a size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:11
+#, js-format
+msgid "Use the %1$s size (%2$s × %3$s) here: in the editor, select the image and choose it under Resolution."
+msgstr "Burada %1$s boyutunu (%2$s × %3$s) kullanın: düzenleyicide görseli seçip Çözünürlük altından bu boyutu seçin."
+
+#: assets/build/audit.js:11
+msgid "Edit the page"
+msgstr "Sayfayı düzenle"
+
+#: assets/build/audit.js:11
+msgid "The plugin adds them as the page is sent. Scan again to see it."
+msgstr "Eklenti bunları sayfa gönderilirken ekler. Görmek için yeniden tarayın."
+
+#: assets/build/audit.js:11
+msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
+msgstr "Iminify görselin alternatif metnini yazıyor. Metin gelince yeniden tarayın."
+
+#: assets/build/audit.js:11
+msgid "Iminify can write it once AI alt text is on for this site."
+msgstr "Bu sitede yapay zeka alternatif metni açıldığında Iminify bunu yazabilir."
+
+#: assets/build/audit.js:11
+msgid "Turn it on in the settings"
+msgstr "Ayarlardan aç"
+
+#: assets/build/audit.js:11
+msgid "Its alt text is on its way. Scan again once it’s in."
+msgstr "Alternatif metni yolda. Metin gelince yeniden tarayın."
+
+#: assets/build/audit.js:11
+msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
+msgstr "Bu görseli çeviriler paylaşıyor ve her birinin kendi dilinde bir alternatif metni var: metni, bu sayfanın gösterdiği çevirinin düzenleme ekranında yazın."
+
+#: assets/build/audit.js:11
+msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
+msgstr "Eklenti, görselin ortam kitaplığındaki alternatif metnini sayfa gönderilirken ekler. Görmek için yeniden tarayın."
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgid "On its way"
+msgstr "Yolda"
+
+#: assets/build/audit.js:11
+msgid "Waiting"
+msgstr "Bekliyor"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Failed"
+msgstr "Başarısız"
+
+#: assets/build/audit.js:11
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Optimized by another plugin"
+msgstr "Başka eklentiyle optimize edildi"
+
+#: assets/build/audit.js:11
+msgid "(no title)"
+msgstr "(başlıksız)"
+
+#. translators: 1: the size's name, such as "Medium", 2: its width in pixels, 3: its height in pixels.
+#: assets/build/audit.js:12
+#, js-format
+msgid "%1$s, %2$s × %3$s"
+msgstr "%1$s, %2$s × %3$s"
+
+#. translators: %s: a format, such as WEBP.
+#: assets/build/audit.js:13
+#, js-format
+msgid "%s copy"
+msgstr "%s kopyası"
+
+#: assets/build/audit.js:13
+msgid "Largest in the first screen"
+msgstr "İlk ekrandaki en büyük öğe"
+
+#. translators: 1: the width the page shows it at in pixels, 2: the height.
+#: assets/build/audit.js:14
+#, js-format
+msgid "shown at %1$s × %2$s"
+msgstr "%1$s × %2$s boyutunda gösteriliyor"
+
+#: assets/build/audit.js:14
+msgid "The image is on its way to Iminify."
+msgstr "Görsel Iminify’a gönderiliyor."
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copied"
+msgstr "Kopyalandı"
+
+#: assets/build/bulk.js:1
+#: assets/build/settings.js:1
+msgid "Copy"
+msgstr "Kopyala"
+
+#: assets/build/bulk.js:1
+#: assets/build/folders.js:1
+#: assets/build/media.js:1
+#: assets/build/settings.js:1
+#: assets/build/settings.js:9
+#: assets/build/settings.js:16
+msgid "Cancel"
+msgstr "Vazgeç"
+
+#: assets/build/bulk.js:2
+msgid "Iminify says your account's images for the day are still used up."
+msgstr "Iminify, hesabınızın günlük görsel hakkının hâlâ dolu olduğunu söylüyor."
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgid "On their way"
+msgstr "Yolda"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+#: assets/build/folders.js:6
+msgctxt "images, over a count or as a filter"
+msgid "Failed"
+msgstr "Başarısız"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Skipped"
+msgstr "Atlanmış"
+
+#: assets/build/bulk.js:2
+#: assets/build/folders.js:4
+msgctxt "images, over a count or as a filter"
+msgid "Restored"
+msgstr "Geri yüklenmiş"
+
+#: assets/build/bulk.js:2
+msgid "Your library"
+msgstr "Kitaplığınız"
+
+#. translators: %s: how many images the media library has.
+#. translators: %s: how many images the folders hold.
+#. translators: %s: how many images the filter shows.
+#. translators: %s: how many images Iminify optimized.
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/folders.js:7
+#: assets/build/settings.js:9
+#, js-format
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s görsel"
+msgstr[1] "%s görsel"
+
+#: assets/build/bulk.js:3
+msgid "Your media library has no images yet."
+msgstr "Ortam kitaplığınızda henüz görsel yok."
+
+#: assets/build/bulk.js:3
+msgid "optimized"
+msgstr "optimize edildi"
+
+#: assets/build/bulk.js:3
+#: assets/build/folders.js:5
+#: assets/build/settings.js:7
+msgid "Saved so far"
+msgstr "Şu ana kadarki tasarruf"
+
+#. translators: 1: the bytes before, such as "12.4 MB", 2: the share saved, such as "38.2".
+#: assets/build/bulk.js:4
+#: assets/build/folders.js:6
+#, js-format
+msgid "of %1$s, %2$s%% less"
+msgstr "%1$s içinden, %%%2$s daha az"
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:5
+#, js-format
+msgid "%1$s optimized %2$s image, with its original kept. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, each with its original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s, %2$s görseli özgün hâlini saklayarak optimize etti. Iminify onu olduğu gibi bırakır."
+msgstr[1] "%1$s, %2$s görseli her birinin özgün hâlini saklayarak optimize etti. Iminify bunları olduğu gibi bırakır."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized.
+#: assets/build/bulk.js:6
+#, js-format
+msgid "%1$s optimized %2$s image, and kept no original of it. Iminify leaves it as it is."
+msgid_plural "%1$s optimized %2$s images, and kept no original of them. Iminify leaves them as they are."
+msgstr[0] "%1$s, %2$s görseli optimize etti ve özgün hâlini saklamadı. Iminify onu olduğu gibi bırakır."
+msgstr[1] "%1$s, %2$s görseli optimize etti ve özgün hâllerini saklamadı. Iminify bunları olduğu gibi bırakır."
+
+#. translators: 1: another image optimizer's name, 2: how many images it optimized, 3: how many of them have an original kept. Only ever shown for two images or more.
+#: assets/build/bulk.js:7
+#, js-format
+msgid "%1$s optimized %2$s image, %3$s of them with an original kept. Iminify leaves them as they are."
+msgid_plural "%1$s optimized %2$s images, %3$s of them with an original kept. Iminify leaves them as they are."
+msgstr[0] "%1$s, %2$s görseli optimize etti; bunların %3$s tanesinin özgün hâli saklandı. Iminify bunları olduğu gibi bırakır."
+msgstr[1] "%1$s, %2$s görseli optimize etti; bunların %3$s tanesinin özgün hâli saklandı. Iminify bunları olduğu gibi bırakır."
+
+#: assets/build/bulk.js:7
+msgid "Other folders restored"
+msgstr "Diğer klasörler geri yüklendi"
+
+#: assets/build/bulk.js:7
+msgid "Restoring other folders"
+msgstr "Diğer klasörler geri yükleniyor"
+
+#: assets/build/bulk.js:7
+msgid "Other folders optimized"
+msgstr "Diğer klasörler optimize edildi"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing other folders"
+msgstr "Diğer klasörler optimize ediliyor"
+
+#: assets/build/bulk.js:7
+msgid "Library restored"
+msgstr "Kitaplık geri yüklendi"
+
+#: assets/build/bulk.js:7
+msgid "Restoring"
+msgstr "Geri yükleniyor"
+
+#: assets/build/bulk.js:7
+msgid "Alt text written"
+msgstr "Alternatif metinler yazıldı"
+
+#: assets/build/bulk.js:7
+msgid "Writing alt text"
+msgstr "Alternatif metinler yazılıyor"
+
+#: assets/build/bulk.js:7
+msgid "Missing formats made"
+msgstr "Eksik biçimler oluşturuldu"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing formats"
+msgstr "Eksik biçimler oluşturuluyor"
+
+#: assets/build/bulk.js:7
+msgid "Missing sizes made"
+msgstr "Eksik boyutlar oluşturuldu"
+
+#: assets/build/bulk.js:7
+msgid "Making the missing sizes"
+msgstr "Eksik boyutlar oluşturuluyor"
+
+#: assets/build/bulk.js:7
+msgid "Optimized again from the originals"
+msgstr "Özgün görsellerden yeniden optimize edildi"
+
+#: assets/build/bulk.js:7
+msgid "Optimizing again from the originals"
+msgstr "Özgün görsellerden yeniden optimize ediliyor"
+
+#: assets/build/bulk.js:7
+msgid "Bulk optimization"
+msgstr "Toplu optimizasyon"
+
+#: assets/build/bulk.js:7
+msgid "Finished"
+msgstr "Tamamlandı"
+
+#: assets/build/bulk.js:7
+msgid "Paused: low disk"
+msgstr "Duraklatıldı: disk alanı az"
+
+#: assets/build/bulk.js:7
+msgid "Paused"
+msgstr "Duraklatıldı"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for another optimizer"
+msgstr "Diğer eklentiyi bekliyor"
+
+#: assets/build/bulk.js:7
+msgid "Not moving"
+msgstr "İlerlemiyor"
+
+#: assets/build/bulk.js:7
+msgid "Waiting for the site"
+msgstr "Siteyi bekliyor"
+
+#: assets/build/bulk.js:7
+msgid "Used up for today"
+msgstr "Bugünlük hak doldu"
+
+#: assets/build/bulk.js:7
+msgid "Iminify is busy"
+msgstr "Iminify meşgul"
+
+#: assets/build/bulk.js:7
+msgid "Running on this page"
+msgstr "Bu sayfada çalışıyor"
+
+#: assets/build/bulk.js:7
+msgid "Running"
+msgstr "Çalışıyor"
+
+#. translators: 1: how many images were restored, 2: how many there were to restore.
+#: assets/build/bulk.js:8
+#, js-format
+msgid "Restored %1$s of %2$s image."
+msgid_plural "Restored %1$s of %2$s images."
+msgstr[0] "%2$s görselden %1$s tanesi geri yüklendi."
+msgstr[1] "%2$s görselden %1$s tanesi geri yüklendi."
+
+#. translators: 1: how many images were sent, 2: how many there were to send.
+#: assets/build/bulk.js:9
+#, js-format
+msgid "Sent %1$s of %2$s image to Iminify."
+msgid_plural "Sent %1$s of %2$s images to Iminify."
+msgstr[0] "%2$s görselden %1$s tanesi Iminify’a gönderildi."
+msgstr[1] "%2$s görselden %1$s tanesi Iminify’a gönderildi."
+
+#. translators: %s: how many alt texts.
+#: assets/build/bulk.js:10
+#, js-format
+msgid "%s alt text on its way"
+msgid_plural "%s alt texts on their way"
+msgstr[0] "%s alternatif metin yolda"
+msgstr[1] "%s alternatif metin yolda"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:11
+#, js-format
+msgid "%s image with Iminify now"
+msgid_plural "%s images with Iminify now"
+msgstr[0] "%s görsel şu an Iminify’da"
+msgstr[1] "%s görsel şu an Iminify’da"
+
+#: assets/build/bulk.js:11
+msgid "image restored"
+msgid_plural "images restored"
+msgstr[0] "görsel geri yüklendi"
+msgstr[1] "görsel geri yüklendi"
+
+#: assets/build/bulk.js:11
+msgid "image sent to Iminify"
+msgid_plural "images sent to Iminify"
+msgstr[0] "görsel Iminify’a gönderildi"
+msgstr[1] "görsel Iminify’a gönderildi"
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:12
+#, js-format
+msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
+msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
+msgstr[0] "%d görsel geri yüklenemedi. Nedeni Ortam, Diğer klasörler altındaki satırında yazıyor."
+msgstr[1] "%d görsel geri yüklenemedi. Nedenleri Ortam, Diğer klasörler altındaki satırlarında yazıyor."
+
+#. translators: %d: how many images.
+#: assets/build/bulk.js:13
+#, js-format
+msgid "%d image couldn't be restored. Its panel in the media library says why."
+msgid_plural "%d images couldn't be restored. Their panels in the media library say why."
+msgstr[0] "%d görsel geri yüklenemedi. Nedeni, ortam kitaplığındaki panelinde yazıyor."
+msgstr[1] "%d görsel geri yüklenemedi. Nedenleri, ortam kitaplığındaki panellerinde yazıyor."
+
+#: assets/build/bulk.js:13
+#: assets/build/settings.js:27
+msgid "Start now"
+msgstr "Şimdi başlat"
+
+#: assets/build/bulk.js:13
+msgid "Pause"
+msgstr "Duraklat"
+
+#: assets/build/bulk.js:13
+msgid "Resume"
+msgstr "Sürdür"
+
+#: assets/build/bulk.js:13
+msgid "Stop"
+msgstr "Durdur"
+
+#: assets/build/bulk.js:13
+msgid "Run it in the background instead"
+msgstr "Bunun yerine arka planda çalıştır"
+
+#: assets/build/bulk.js:13
+msgid "Finished: the images are back as they were uploaded."
+msgstr "Tamamlandı: görseller yüklendikleri hâle döndü."
+
+#: assets/build/bulk.js:13
+msgid "Finished: each image shows how its alt text came out in the media library."
+msgstr "Tamamlandı: her görselin alternatif metninin nasıl sonuçlandığı ortam kitaplığında görünüyor."
+
+#: assets/build/bulk.js:13
+msgid "Finished: no image needed sending."
+msgstr "Tamamlandı: gönderilmesi gereken görsel yoktu."
+
+#: assets/build/bulk.js:13
+msgid "Finished: every image was sent. Each one shows how it came out in the media library."
+msgstr "Tamamlandı: tüm görseller gönderildi. Her birinin nasıl sonuçlandığı ortam kitaplığında görünüyor."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
+msgstr "Durduruldu. Zaten Iminify’da olan görseller bu sayfa açık kaldığı sürece tamamlanır; geri kalanlar olduğu gibi kalır."
+
+#: assets/build/bulk.js:13
+msgid "Stopped. Images already with Iminify finish; the rest stay as they are."
+msgstr "Durduruldu. Zaten Iminify’da olan görseller tamamlanır; geri kalanlar olduğu gibi kalır."
+
+#: assets/build/bulk.js:13
+msgid "Paused: the server is low on disk space. Free some up, then resume."
+msgstr "Duraklatıldı: sunucuda disk alanı azaldı. Biraz yer açın, ardından sürdürün."
+
+#: assets/build/bulk.js:13
+msgid "Paused while the plugin was turned off."
+msgstr "Eklenti etkisizleştirilmişken duraklatıldı."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish while this page is open."
+msgstr "Duraklatıldı. Zaten Iminify’da olan görseller bu sayfa açık kaldığı sürece tamamlanır."
+
+#: assets/build/bulk.js:13
+msgid "Paused. Images already with Iminify finish."
+msgstr "Duraklatıldı. Zaten Iminify’da olan görseller tamamlanır."
+
+#: assets/build/bulk.js:13
+msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
+msgstr "Başka bir görsel optimizasyon eklentisi yüklemelerinizi işlediği için bekletiliyor. O eklenti kapatıldığında işlem kendiliğinden sürer."
+
+#: assets/build/bulk.js:13
+msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
+msgstr "İşlem bir süredir ilerlemiyor: bu sitenin zamanlanmış görevleri çalışmıyor gibi görünüyor."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/bulk.js:14
+#, js-format
+msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
+msgstr "Hesabınızın günlük görsel hakkı doldu. İşlem, hakkınız %s tarihinde yenilendiğinde kendiliğinden sürer."
+
+#: assets/build/bulk.js:14
+msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
+msgstr "Bekletiliyor: Iminify bu sitenin anahtarını kabul etmiyor. Bağlantı çalıştığında işlem kendiliğinden sürer."
+
+#. translators: %s: the date and time the alt texts come back.
+#: assets/build/bulk.js:15
+#, js-format
+msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
+msgstr "Hesabınızın günlük yapay zeka alternatif metin hakkı doldu. İşlem %s tarihinde kendiliğinden sürer."
+
+#. translators: %s: the date and time the run goes on.
+#: assets/build/bulk.js:16
+#, js-format
+msgid "Iminify is busy with the images already sent. The run sends more at %s."
+msgstr "Iminify zaten gönderilen görsellerle meşgul. İşlem %s tarihinde daha fazlasını gönderir."
+
+#: assets/build/bulk.js:16
+msgid "Keep this page open: the images go out while it is."
+msgstr "Bu sayfayı açık tutun: görseller sayfa açık olduğu sürece gönderilir."
+
+#: assets/build/bulk.js:16
+msgid "The run goes on in the background, so you can leave this page."
+msgstr "İşlem arka planda sürüyor, bu yüzden bu sayfadan ayrılabilirsiniz."
+
+#. translators: %s: what Site Health's loopback check found.
+#: assets/build/bulk.js:17
+#, js-format
+msgid "Site Health says: %s"
+msgstr "Site sağlığı bildirimi: %s"
+
+#: assets/build/bulk.js:17
+msgid "If this site asks for a password before it opens, put that user name and password in wp-config.php so its scheduled tasks can reach it:"
+msgstr "Bu site açılmadan önce parola istiyorsa, zamanlanmış görevlerinin siteye ulaşabilmesi için o kullanıcı adını ve parolayı wp-config.php dosyasına ekleyin:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open instead, or carry it on from the shell:"
+msgstr "Bunun yerine bu sayfa açıkken çalıştırın ya da komut satırından sürdürün:"
+
+#: assets/build/bulk.js:17
+msgid "Run it while this page is open"
+msgstr "Bu sayfa açıkken çalıştır"
+
+#: assets/build/bulk.js:17
+#: assets/build/settings.js:9
+msgid "Compare the plans"
+msgstr "Planları karşılaştır"
+
+#: assets/build/bulk.js:17
+msgid "Connect this site to Iminify to optimize its images."
+msgstr "Görsellerini optimize etmek için bu siteyi Iminify’a bağlayın."
+
+#: assets/build/bulk.js:17
+msgid "The server is low on disk space, so nothing is optimized until some is freed."
+msgstr "Sunucuda disk alanı azaldı, bu yüzden biraz yer açılana kadar hiçbir şey optimize edilmiyor."
+
+#: assets/build/bulk.js:17
+#: assets/build/bulk.js:20
+msgid "Optimize the library"
+msgstr "Kitaplığı optimize et"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:18
+#, js-format
+msgid "%s image is not optimized yet."
+msgid_plural "%s images are not optimized yet."
+msgstr[0] "%s görsel henüz optimize edilmedi."
+msgstr[1] "%s görsel henüz optimize edilmedi."
+
+#. translators: 1: the disk space the backups need, such as "120 MB", 2: the free space.
+#: assets/build/bulk.js:19
+#, js-format
+msgid "Their backups need about %1$s of disk space (%2$s free)."
+msgstr "Yedekleri için yaklaşık %1$s disk alanı gerekiyor (%2$s boş)."
+
+#. translators: %s: the disk space the backups need, such as "120 MB".
+#: assets/build/bulk.js:20
+#, js-format
+msgid "Their backups need about %s of disk space."
+msgstr "Yedekleri için yaklaşık %s disk alanı gerekiyor."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:21
+#, js-format
+msgid "Send the %s failed image again"
+msgid_plural "Send the %s failed images again"
+msgstr[0] "Başarısız olan %s görseli yeniden gönder"
+msgstr[1] "Başarısız olan %s görseli yeniden gönder"
+
+#: assets/build/bulk.js:21
+msgid "Nothing to optimize yet."
+msgstr "Henüz optimize edilecek bir şey yok."
+
+#: assets/build/bulk.js:21
+msgid "Every image is optimized or on its way."
+msgstr "Tüm görseller optimize edildi ya da yolda."
+
+#: assets/build/bulk.js:21
+msgid "No image is waiting to be optimized."
+msgstr "Optimize edilmeyi bekleyen görsel yok."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:22
+#, js-format
+msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
+msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
+msgstr[0] "%s görsel geri yüklendi ve olduğu gibi kalıyor: bir işlem, birinin geri koyduğu bir görseli asla almaz. Onu ortam kitaplığındaki panelinden yeniden optimize edin."
+msgstr[1] "%s görsel geri yüklendi ve olduğu gibi kalıyor: bir işlem, birinin geri koyduğu bir görseli asla almaz. Bunlardan birini ortam kitaplığındaki panelinden yeniden optimize edin."
+
+#: assets/build/bulk.js:22
+msgid "Missing files"
+msgstr "Eksik dosyalar"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:23
+#, js-format
+msgid "%s optimized image lacks a format your site asks for now."
+msgid_plural "%s optimized images lack a format your site asks for now."
+msgstr[0] "Optimize edilmiş %s görselde, sitenizin şu an istediği bir biçim eksik."
+msgstr[1] "Optimize edilmiş %s görselde, sitenizin şu an istediği bir biçim eksik."
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:24
+#, js-format
+msgid "%s optimized image may lack a size your site makes now."
+msgid_plural "%s optimized images may lack a size your site makes now."
+msgstr[0] "Optimize edilmiş %s görselde, sitenizin şu an oluşturduğu bir boyut eksik olabilir."
+msgstr[1] "Optimize edilmiş %s görselde, sitenizin şu an oluşturduğu bir boyut eksik olabilir."
+
+#: assets/build/bulk.js:24
+msgid "Alt text"
+msgstr "Alternatif metin"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:25
+#, js-format
+msgid "%s image has no alt text."
+msgid_plural "%s images have no alt text."
+msgstr[0] "%s görselin alternatif metni yok."
+msgstr[1] "%s görselin alternatif metni yok."
+
+#: assets/build/bulk.js:25
+msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
+msgstr "Alternatif metinlerini yazmak için bu görsellerin her birinin küçük bir kopyası gönderilsin mi? Her biri, günlük yapay zeka alternatif metin hakkınızdan birini kullanır ve birinin yazdığı bir alternatif metin asla değiştirilmez."
+
+#. translators: %s: how many AI alt texts are left today.
+#: assets/build/bulk.js:26
+#, js-format
+msgid "%s AI alt text left today."
+msgid_plural "%s AI alt texts left today."
+msgstr[0] "Bugün için %s yapay zeka alternatif metin hakkınız kaldı."
+msgstr[1] "Bugün için %s yapay zeka alternatif metin hakkınız kaldı."
+
+#: assets/build/bulk.js:26
+msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
+msgstr "Eksiklerini oluşturmak için bu görseller yeniden gönderilsin mi? Her biri bir görsel daha sayılır ve Iminify küçültmedikçe diğer dosyalarını korur."
+
+#: assets/build/bulk.js:30
+msgid "Optimize them again from their originals"
+msgstr "Özgün hâllerinden yeniden optimize et"
+
+#. translators: %s: how many images.
+#: assets/build/bulk.js:31
+#, js-format
+msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
+msgstr[0] "Başka bir eklentinin optimize ettiği %s görselin özgün hâli saklanmış. Iminify görseli bu özgün hâlden yeniden optimize edebilir ve özgün hâlin bir yedeğini de kendisi saklayabilir. Görsel WebP ya da AVIF biçimine dönüştürülmediyse önce özgün hâli geri konur; dönüştürüldüyse dosyaları aynı adlarla o biçimde yeniden oluşturulur."
+msgstr[1] "Başka eklentilerin optimize ettiği %s görselin özgün hâli saklanmış. Iminify bu görselleri özgün hâllerinden yeniden optimize edebilir ve her birinin bir yedeğini de kendisi saklayabilir. Bir görsel WebP ya da AVIF biçimine dönüştürülmediyse önce özgün hâli geri konur; dönüştürüldüyse dosyaları aynı adlarla o biçimde yeniden oluşturulur."
+
+#: assets/build/bulk.js:31
+msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
+msgstr "Bu görseller özgün hâllerinden yeniden optimize edilsin mi? Her biri bir görsel daha sayılır; özgün hâlini yalnızca kendi eklentisinin geri koyabildiği bir görsel olduğu gibi bırakılır."
+
+#: assets/build/bulk.js:31
+msgid "LiteSpeed Cache is active. Whenever WordPress makes an image's sizes again (Regenerate Thumbnails, or replacing an image), it deletes the WebP and AVIF copies beside it and puts back the old files it kept of an image it optimized, so Iminify reads that image as changed. \"Remove Original Image Backups\", under LiteSpeed Cache, Image Optimization, stops it putting old files back."
+msgstr "LiteSpeed Cache etkin. WordPress bir görselin boyutlarını yeniden oluşturduğunda (Regenerate Thumbnails ile ya da bir görselin yerine yenisi konduğunda) LiteSpeed Cache yanındaki WebP ve AVIF kopyalarını siler ve optimize ettiği bir görsel için sakladığı eski dosyaları geri koyar; bu yüzden Iminify o görseli değişmiş olarak okur. LiteSpeed Cache, Image Optimization altındaki “Remove Original Image Backups” seçeneği, eski dosyaları geri koymasını durdurur."
+
+#: assets/build/bulk.js:31
+msgid "In the background"
+msgstr "Arka planda"
+
+#: assets/build/bulk.js:31
+msgid "So you can leave this page."
+msgstr "Böylece bu sayfadan ayrılabilirsiniz."
+
+#: assets/build/bulk.js:31
+msgid "While this page is open"
+msgstr "Bu sayfa açıkken"
+
+#: assets/build/bulk.js:31
+msgid "For a host whose scheduled tasks don't run."
+msgstr "Zamanlanmış görevleri çalışmayan barındırma hizmetleri için."
+
+#: assets/build/bulk.js:31
+msgid "Run it"
+msgstr "Çalıştır"
+
+#: assets/build/bulk.js:31
+msgid "Your plan"
+msgstr "Planınız"
+
+#: assets/build/bulk.js:31
+msgid "all today"
+msgstr "hepsi bugün"
+
+#. translators: %d: how many days.
+#: assets/build/bulk.js:32
+#, js-format
+msgid "about %d day"
+msgid_plural "about %d days"
+msgstr[0] "yaklaşık %d gün"
+msgstr[1] "yaklaşık %d gün"
+
+#: assets/build/bulk.js:32
+msgid "Your plan's daily images cover them all today."
+msgstr "Planınızın günlük görsel hakkı bugün hepsine yetiyor."
+
+#: assets/build/bulk.js:32
+msgid "The run goes on by itself each day."
+msgstr "İşlem her gün kendiliğinden sürer."
+
+#: assets/build/bulk.js:32
+msgid "See the plans"
+msgstr "Planları gör"
+
+#: assets/build/bulk.js:32
+msgid "Other folders"
+msgstr "Diğer klasörler"
+
+#: assets/build/bulk.js:32
+msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
+msgstr "Temanızdaki ve ortam kitaplığı dışındaki diğer klasörlerdeki görselleri, her birinin yedeğini alarak bulundukları yerde optimize edin."
+
+#. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
+#: assets/build/bulk.js:33
+#, js-format
+msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
+msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
+msgstr[0] "Klasörlerinizde %1$s görsel var: %2$s tanesi optimize edildi, %3$s tanesi henüz optimize edilmedi."
+msgstr[1] "Klasörlerinizde %1$s görsel var: %2$s tanesi optimize edildi, %3$s tanesi henüz optimize edilmedi."
+
+#: assets/build/bulk.js:33
+msgid "Iminify is still looking through them."
+msgstr "Iminify hâlâ bunların içinde arama yapıyor."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Klasörlerinizdeki optimize edilmiş tüm görseller eski hâline döndürülsün mü? WebP ve AVIF kopyaları silinir; yedekler kalır."
+
+#: assets/build/bulk.js:33
+msgid "Restore all"
+msgstr "Tümünü geri yükle"
+
+#: assets/build/bulk.js:33
+msgid "See the images"
+msgstr "Görselleri gör"
+
+#: assets/build/bulk.js:33
+msgid "Optimize them"
+msgstr "Optimize et"
+
+#: assets/build/bulk.js:33
+msgid "Send the failed again"
+msgstr "Başarısız olanları yeniden gönder"
+
+#: assets/build/bulk.js:33
+msgid "Choose folders"
+msgstr "Klasör seç"
+
+#: assets/build/bulk.js:33
+msgid "Restore the library"
+msgstr "Kitaplığı geri yükle"
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded, from its backup, with its sizes made again by WordPress. Do this before removing the plugin if you want your originals back in place. An image another plugin converted to WebP or AVIF stays as it is, since only that plugin can put its original back."
+msgstr "Optimize edilmiş her görseli yedeğinden yüklendiği hâle döndürün; boyutlarını WordPress yeniden oluşturur. Özgün görsellerinizin yeniden yerinde olmasını istiyorsanız bunu eklentiyi kaldırmadan önce yapın. Başka bir eklentinin WebP ya da AVIF biçimine dönüştürdüğü bir görsel olduğu gibi kalır, çünkü özgün hâlini yalnızca o eklenti geri koyabilir."
+
+#: assets/build/bulk.js:33
+msgid "Put every optimized image back as it was uploaded? Their WebP and AVIF copies are deleted; the backups stay."
+msgstr "Optimize edilmiş tüm görseller yüklendikleri hâle döndürülsün mü? WebP ve AVIF kopyaları silinir; yedekler kalır."
+
+#: assets/build/folders.js:1
+msgid "Sent to Iminify."
+msgstr "Iminify’a gönderildi."
+
+#: assets/build/folders.js:1
+msgid "The original is back."
+msgstr "Özgün hâli geri geldi."
+
+#: assets/build/folders.js:1
+msgid "Looking"
+msgstr "Aranıyor"
+
+#: assets/build/folders.js:1
+msgid "Folders"
+msgstr "Klasörler"
+
+#: assets/build/folders.js:1
+msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
+msgstr "Temanızı ya da wp-content içindeki herhangi bir klasörü seçin; Iminify içindeki görselleri, her birinin yedeğini tutarak bulundukları yerde optimize eder."
+
+#: assets/build/folders.js:1
+#: assets/build/settings.js:23
+msgid "Remove"
+msgstr "Kaldır"
+
+#: assets/build/folders.js:1
+msgid "Your theme"
+msgstr "Temanız"
+
+#: assets/build/folders.js:1
+msgid "Its parent theme"
+msgstr "Üst teması"
+
+#. translators: %s: the theme's name.
+#: assets/build/folders.js:2
+#, js-format
+msgid "Add your theme, %s"
+msgstr "Temanızı ekle: %s"
+
+#. translators: %s: the parent theme's name.
+#: assets/build/folders.js:3
+#, js-format
+msgid "Add its parent theme, %s"
+msgstr "Üst temasını ekle: %s"
+
+#: assets/build/folders.js:3
+msgid "Add"
+msgstr "Ekle"
+
+#: assets/build/folders.js:3
+msgid "Another folder in wp-content"
+msgstr "wp-content içinde başka bir klasör"
+
+#. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
+#: assets/build/folders.js:4
+#, js-format
+msgid "Last looked on %1$s: %2$s image, %3$s new, %4$s changed."
+msgid_plural "Last looked on %1$s: %2$s images, %3$s new, %4$s changed."
+msgstr[0] "Son arama (%1$s): %2$s görsel, %3$s yeni, %4$s değişmiş."
+msgstr[1] "Son arama (%1$s): %2$s görsel, %3$s yeni, %4$s değişmiş."
+
+#: assets/build/folders.js:4
+msgid "Iminify looks again after a theme or plugin update. Look now after changing images by hand."
+msgstr "Iminify, bir tema ya da eklenti güncellemesinden sonra yeniden arama yapar. Görselleri elle değiştirdiyseniz şimdi arayın."
+
+#: assets/build/folders.js:4
+msgid "Look for new and changed images"
+msgstr "Yeni ve değişmiş görselleri ara"
+
+#: assets/build/folders.js:4
+msgid "In your folders"
+msgstr "Klasörlerinizde"
+
+#: assets/build/folders.js:6
+msgid "A bulk run over these images is going on the bulk page."
+msgstr "Bu görseller üzerinde, toplu optimizasyon sayfasında bir toplu işlem sürüyor."
+
+#: assets/build/folders.js:6
+msgid "Optimize or restore them all on the bulk page."
+msgstr "Hepsini toplu optimizasyon sayfasında optimize edin ya da geri yükleyin."
+
+#: assets/build/folders.js:6
+msgid "Go to Bulk Optimization"
+msgstr "Toplu optimizasyona git"
+
+#: assets/build/folders.js:6
+msgid "All"
+msgstr "Tümü"
+
+#: assets/build/folders.js:6
+msgid "Images"
+msgstr "Görseller"
+
+#: assets/build/folders.js:6
+msgid "Add a folder to see its images here."
+msgstr "Görsellerini burada görmek için bir klasör ekleyin."
+
+#: assets/build/folders.js:7
+msgid "No images were found in these folders."
+msgstr "Bu klasörlerde hiç görsel bulunamadı."
+
+#: assets/build/folders.js:7
+msgid "No image here."
+msgstr "Burada görsel yok."
+
+#: assets/build/folders.js:7
+msgid "Previous"
+msgstr "Önceki"
+
+#. translators: 1: this page, 2: how many pages.
+#: assets/build/folders.js:8
+#, js-format
+msgid "Page %1$s of %2$s"
+msgstr "Sayfa %1$s / %2$s"
+
+#: assets/build/folders.js:8
+msgid "Next"
+msgstr "Sonraki"
+
+#: assets/build/folders.js:8
+msgid "Waiting to connect"
+msgstr "Bağlanmayı bekliyor"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Skipped"
+msgstr "Atlandı"
+
+#: assets/build/folders.js:8
+msgctxt "the status of one image"
+msgid "Restored"
+msgstr "Geri yüklendi"
+
+#. translators: %s: the share saved, such as "38.2".
+#: assets/build/folders.js:9
+#, js-format
+msgid "%s%% smaller"
+msgstr "%%%s daha küçük"
+
+#: assets/build/folders.js:9
+msgid "Restore"
+msgstr "Geri yükle"
+
+#: assets/build/folders.js:9
+msgid "Put the original back? Its WebP and AVIF copies are deleted; the backup stays."
+msgstr "Özgün hâli geri konsun mu? WebP ve AVIF kopyaları silinir; yedek kalır."
+
+#: assets/build/settings.js:2
+msgid "Disconnect the network from Iminify? Every key its sites joined with stops too, and new uploads on those sites stop being optimized. Images already optimized stay as they are."
+msgstr "Ağın Iminify bağlantısı kesilsin mi? Sitelerinin katıldığı tüm anahtarlar da çalışmayı durdurur ve bu sitelerdeki yeni yüklemeler artık optimize edilmez. Zaten optimize edilmiş görseller olduğu gibi kalır."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized, and the site doesn't join the network again by itself: press Join the network to bring it back. Images already optimized stay as they are."
+msgstr "Bu sitenin Iminify bağlantısı kesilsin mi? Yeni yüklemeler artık optimize edilmez ve site ağa kendiliğinden yeniden katılmaz: geri getirmek için “Ağa katıl” düğmesine basın. Zaten optimize edilmiş görseller olduğu gibi kalır."
+
+#: assets/build/settings.js:2
+msgid "Disconnect this site from Iminify? New uploads stop being optimized. Images already optimized stay as they are."
+msgstr "Bu sitenin Iminify bağlantısı kesilsin mi? Yeni yüklemeler artık optimize edilmez. Zaten optimize edilmiş görseller olduğu gibi kalır."
+
+#: assets/build/settings.js:2
+#: assets/build/settings.js:9
+#: assets/build/settings.js:38
+msgid "Disconnect"
+msgstr "Bağlantıyı kes"
+
+#. translators: 1: the network's name, 2: its address.
+#: assets/build/settings.js:3
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify as a multisite network."
+msgstr "%1$s (%2$s), Iminify’a çoklu site ağı olarak bağlı."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:4
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify through its network."
+msgstr "%1$s (%2$s), Iminify’a ağı üzerinden bağlı."
+
+#. translators: 1: the site's name, 2: its address.
+#: assets/build/settings.js:5
+#, js-format
+msgid "%1$s, at %2$s, is connected to Iminify."
+msgstr "%1$s (%2$s), Iminify’a bağlı."
+
+#: assets/build/settings.js:5
+msgid "Your account"
+msgstr "Hesabınız"
+
+#: assets/build/settings.js:5
+msgid "Plan"
+msgstr "Plan"
+
+#. translators: 1: the plan's name, 2: the date it ends or renews.
+#: assets/build/settings.js:6
+#, js-format
+msgid "%1$s, until %2$s"
+msgstr "%1$s, %2$s tarihine kadar"
+
+#: assets/build/settings.js:6
+msgid "Next batch"
+msgstr "Hak yenilenmesi"
+
+#: assets/build/settings.js:6
+msgid "Network's sites"
+msgstr "Ağın siteleri"
+
+#. translators: 1: how many sites the network has on Iminify, its main site included, 2: how many it can have.
+#: assets/build/settings.js:7
+#, js-format
+msgid "%1$s of %2$s"
+msgstr "%1$s / %2$s"
+
+#: assets/build/settings.js:7
+msgid "The main site"
+msgstr "Ana site"
+
+#. translators: %s: the bytes Iminify saved, such as 1.2 GB.
+#: assets/build/settings.js:8
+#, js-format
+msgid "%s saved"
+msgstr "%s tasarruf"
+
+#: assets/build/settings.js:9
+msgid "This site's Iminify account is set in wp-config.php."
+msgstr "Bu sitenin Iminify hesabı wp-config.php dosyasında ayarlı."
+
+#: assets/build/settings.js:9
+msgid "Your plan on iminify.com"
+msgstr "iminify.com’daki planınız"
+
+#: assets/build/settings.js:9
+msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
+msgstr "Ağın anahtarı wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlı. Bağlantıyı kesmek için anahtarı oradan kaldırın ve iminify.com’da Settings, Sites altında ağın bağlantısını kesin."
+
+#: assets/build/settings.js:9
+msgid "The site's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the site under Settings, Sites on iminify.com."
+msgstr "Sitenin anahtarı wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlı. Bağlantıyı kesmek için anahtarı oradan kaldırın ve iminify.com’da Settings, Sites altında sitenin bağlantısını kesin."
+
+#: assets/build/settings.js:9
+msgid "Connect your network"
+msgstr "Ağınızı bağlayın"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images uploaded to every site of this network and makes WebP and AVIF copies of them. Connect the network to your Iminify account once, or create a free account on the way, and each site joins by itself the first time it needs Iminify."
+msgstr "Iminify, bu ağın her sitesine yüklenen görselleri sıkıştırır ve bunların WebP ve AVIF kopyalarını oluşturur. Ağı Iminify hesabınıza bir kez bağlayın ya da bu sırada ücretsiz bir hesap oluşturun; her site, Iminify’a ilk ihtiyaç duyduğunda ağa kendiliğinden katılır."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
+msgstr "Siz bağlanana kadar Iminify’a hiçbir şey gönderilmez. “Ağı bağla” düğmesi iminify.com’u yeni bir sekmede açar; ağı orada onaylarsınız."
+
+#: assets/build/settings.js:9
+msgid "Connect the network"
+msgstr "Ağı bağla"
+
+#: assets/build/settings.js:9
+msgid "Connect this site on its own"
+msgstr "Bu siteyi kendi başına bağlayın"
+
+#: assets/build/settings.js:9
+msgid "This site can connect to an Iminify account of its own instead, and then never uses the network's connection."
+msgstr "Bu site bunun yerine kendine ait bir Iminify hesabına bağlanabilir; bu durumda ağın bağlantısını hiç kullanmaz."
+
+#: assets/build/settings.js:9
+msgid "Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "“Bağla” düğmesi iminify.com’u yeni bir sekmede açar; bu siteyi orada onaylarsınız."
+
+#: assets/build/settings.js:9
+msgid "Connect your site"
+msgstr "Sitenizi bağlayın"
+
+#: assets/build/settings.js:9
+msgid "Iminify compresses the images you upload and makes WebP and AVIF copies of them. Connect this site to your Iminify account, or create a free account on the way, to start."
+msgstr "Iminify, yüklediğiniz görselleri sıkıştırır ve bunların WebP ve AVIF kopyalarını oluşturur. Başlamak için bu siteyi Iminify hesabınıza bağlayın ya da bu sırada ücretsiz bir hesap oluşturun."
+
+#: assets/build/settings.js:9
+msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
+msgstr "Siz bağlanana kadar Iminify’a hiçbir şey gönderilmez. “Bağla” düğmesi iminify.com’u yeni bir sekmede açar; bu siteyi orada onaylarsınız."
+
+#: assets/build/settings.js:9
+msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
+msgstr "Bunun yerine bir süper yönetici tüm ağı Ağ yöneticisi bölümünden bağlayabilir; bu durumda her site ağa kendiliğinden katılır."
+
+#: assets/build/settings.js:9
+msgid "How connecting works"
+msgstr "Bağlantı nasıl kurulur"
+
+#: assets/build/settings.js:9
+#: assets/build/settings.js:37
+msgid "Waiting for your approval"
+msgstr "Onayınız bekleniyor"
+
+#: assets/build/settings.js:9
+msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
+msgstr "Bağlantıyı iminify.com’da, açılan sekmede onaylayın. Onayladığınızda bu sayfa kendiliğinden bağlanır; sayfayı kapatsanız da site bağlanmayı sürdürür."
+
+#: assets/build/settings.js:9
+msgid "Open the page on iminify.com again"
+msgstr "iminify.com’daki sayfayı yeniden aç"
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under <a>Settings, Sites</a> on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Bir ajans, siteyi iminify.com’da <a>Settings, Sites</a> altında ekleyip anahtarını buraya yapıştırabilir ya da anahtarı wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlayabilir."
+
+#: assets/build/settings.js:9
+msgid "An agency can add the site under Settings, Sites on iminify.com and paste its key here, or set it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Bir ajans, siteyi iminify.com’da Settings, Sites altında ekleyip anahtarını buraya yapıştırabilir ya da anahtarı wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlayabilir."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under <a>Settings, Sites</a> on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Bir ajans, ağı iminify.com’da <a>Settings, Sites</a> altında “This is a multisite network” seçeneği işaretliyken ekler ve anahtarını buraya yapıştırır ya da wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlar."
+
+#: assets/build/settings.js:9
+msgid "An agency adds the network under Settings, Sites on iminify.com, with This is a multisite network ticked, and pastes its key here, or sets it in wp-config.php as <code>IMINIFY_API_KEY</code>."
+msgstr "Bir ajans, ağı iminify.com’da Settings, Sites altında “This is a multisite network” seçeneği işaretliyken ekler ve anahtarını buraya yapıştırır ya da wp-config.php dosyasında <code>IMINIFY_API_KEY</code> olarak ayarlar."
+
+#: assets/build/settings.js:9
+msgid "Each upload is optimized in the background"
+msgstr "Her yükleme arka planda optimize edilir"
+
+#: assets/build/settings.js:9
+msgid "WordPress finishes the upload first, then Iminify compresses the image and every size WordPress made of it."
+msgstr "Önce WordPress yüklemeyi tamamlar, ardından Iminify görseli ve WordPress’in ondan oluşturduğu her boyutu sıkıştırır."
+
+#: assets/build/settings.js:9
+msgid "An upload counts as one image"
+msgstr "Bir yükleme bir görsel sayılır"
+
+#: assets/build/settings.js:9
+msgid "The sizes WordPress made of it and its WebP and AVIF copies come with it as files, never as more images."
+msgstr "WordPress’in ondan oluşturduğu boyutlar ve WebP ile AVIF kopyaları onunla birlikte dosya olarak sayılır; hiçbir zaman ayrı görsel sayılmaz."
+
+#: assets/build/settings.js:9
+msgid "Your originals stay on this site"
+msgstr "Özgün görselleriniz bu sitede kalır"
+
+#: assets/build/settings.js:9
+msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
+msgstr "Her birinin yedeği yüklemeler klasöründe tutulur; böylece her görsel eski hâline döndürülebilir."
+
+#: assets/build/settings.js:9
+msgid "Your library goes when you say so"
+msgstr "Kitaplığınız siz istediğinizde gönderilir"
+
+#: assets/build/settings.js:9
+msgid "Images already in the media library wait until you start them under Media, Bulk Optimization."
+msgstr "Ortam kitaplığında zaten bulunan görseller, siz Ortam, Toplu optimizasyon altından başlatana kadar bekler."
+
+#: assets/build/settings.js:9
+msgid "Once you connect"
+msgstr "Bağlandığınızda"
+
+#: assets/build/settings.js:9
+msgid "Connect with the network's key"
+msgstr "Ağın anahtarıyla bağlayın"
+
+#: assets/build/settings.js:9
+msgid "Connect with a site key"
+msgstr "Bir site anahtarıyla bağlayın"
+
+#: assets/build/settings.js:9
+msgid "Network key"
+msgstr "Ağ anahtarı"
+
+#: assets/build/settings.js:9
+msgid "Site key"
+msgstr "Site anahtarı"
+
+#: assets/build/settings.js:9
+msgid "Connect with this key"
+msgstr "Bu anahtarla bağla"
+
+#: assets/build/settings.js:9
+msgid "becomes"
+msgstr "yerine"
+
+#: assets/build/settings.js:9
+msgid "no change"
+msgstr "değişiklik yok"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:10
+#, js-format
+msgid "%s’s settings"
+msgstr "%s ayarları"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:11
+#, js-format
+msgid "Iminify found %s’s settings on this site. It can set this site’s settings to match them, as far as Iminify has the same settings: the compression level, the maximum width, metadata, WebP and AVIF copies, the sizes and backups. You see what changes before anything does."
+msgstr "Iminify bu sitede %s ayarlarını buldu. Iminify’da aynı ayarlar bulunduğu ölçüde bu sitenin ayarlarını onlara uyacak şekilde düzenleyebilir: sıkıştırma düzeyi, azami genişlik, üst veriler, WebP ve AVIF kopyaları, boyutlar ve yedekler. Herhangi bir şey değişmeden önce neyin değişeceğini görürsünüz."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:12
+#, js-format
+msgid "Use %s’s settings"
+msgstr "%s ayarlarını kullan"
+
+#: assets/build/settings.js:12
+msgid "No thanks"
+msgstr "Hayır, teşekkürler"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:13
+#, js-format
+msgid "This site already uses what %s’s settings match."
+msgstr "Bu site zaten %s ayarlarının karşılık geldiği değerleri kullanıyor."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:14
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them, and using them replaces the changes you haven’t saved in the settings below."
+msgstr "Iminify, %s ayarlarına göre şunları ayarlar. Siz kullanana kadar hiçbir şey değişmez; kullandığınızda aşağıdaki ayarlarda kaydetmediğiniz değişikliklerin yerine bunlar geçer."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:15
+#, js-format
+msgid "From %s’s settings, Iminify would set these. Nothing changes until you use them."
+msgstr "Iminify, %s ayarlarına göre şunları ayarlar. Siz kullanana kadar hiçbir şey değişmez."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:16
+#, js-format
+msgid "None of %s’s settings has a match in Iminify, so this site keeps its own."
+msgstr "%s ayarlarının hiçbirinin Iminify’da karşılığı yok, bu yüzden bu site kendi ayarlarını korur."
+
+#: assets/build/settings.js:16
+msgid "Use these settings"
+msgstr "Bu ayarları kullan"
+
+#: assets/build/settings.js:16
+msgid "OK"
+msgstr "Tamam"
+
+#: assets/build/settings.js:16
+msgid "Open the network's Iminify settings"
+msgstr "Ağın Iminify ayarlarını aç"
+
+#: assets/build/settings.js:16
+msgid "The network's connection"
+msgstr "Ağın bağlantısı"
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify. A super admin connects and disconnects the network in the network admin."
+msgstr "Bu, ağın ana sitesi; bu yüzden ağın Iminify bağlantısını kullanır. Ağı bir süper yönetici Ağ yöneticisi bölümünde bağlar ve bağlantısını keser."
+
+#: assets/build/settings.js:16
+msgid "This is the network's main site, so it uses the network's connection to Iminify, which isn't made yet. A super admin connects the network in the network admin, and every site joins it by itself."
+msgstr "Bu, ağın ana sitesi; bu yüzden ağın henüz kurulmamış olan Iminify bağlantısını kullanır. Bir süper yönetici ağı Ağ yöneticisi bölümünde bağlar ve her site ağa kendiliğinden katılır."
+
+#: assets/build/settings.js:16
+msgid "The network's sites"
+msgstr "Ağın siteleri"
+
+#: assets/build/settings.js:16
+msgid "This key was made for a single site, so the network's sites can't join with it. Disconnect, then connect the network again, or make a key under Settings, Sites on iminify.com with This is a multisite network ticked."
+msgstr "Bu anahtar tek bir site için oluşturulmuş, bu yüzden ağın siteleri bu anahtarla katılamaz. Bağlantıyı kesip ağı yeniden bağlayın ya da iminify.com’da Settings, Sites altında “This is a multisite network” seçeneği işaretliyken bir anahtar oluşturun."
+
+#: assets/build/settings.js:16
+msgid "Each site of the network joins by itself the first time it needs Iminify, with a key of its own, and starts with the main site's settings. Each counts as a site of its own on your account. A site disconnected on its own page, or under Settings, Sites on iminify.com, doesn't join again by itself."
+msgstr "Ağın her sitesi, Iminify’a ilk ihtiyaç duyduğunda kendine ait bir anahtarla ağa kendiliğinden katılır ve ana sitenin ayarlarıyla başlar. Her biri hesabınızda ayrı bir site sayılır. Kendi sayfasında ya da iminify.com’da Settings, Sites altında bağlantısı kesilen bir site kendiliğinden yeniden katılmaz."
+
+#: assets/build/settings.js:16
+msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
+msgstr "Her sitenin ayarları kendi Ayarlar, Iminify sayfasındadır. Temalardaki ve diğer klasörlerdeki görselleri, tüm ağ için bir kez olmak üzere ana site optimize eder."
+
+#: assets/build/settings.js:16
+msgid "The main site's settings"
+msgstr "Ana sitenin ayarları"
+
+#: assets/build/settings.js:16
+msgid "The main site's other folders"
+msgstr "Ana sitenin diğer klasörleri"
+
+#: assets/build/settings.js:16
+msgid "How a network connects"
+msgstr "Bir ağ nasıl bağlanır"
+
+#: assets/build/settings.js:16
+#: assets/build/settings.js:17
+msgid "Join the network"
+msgstr "Ağa katıl"
+
+#. translators: %s: the network's name.
+#: assets/build/settings.js:17
+#, js-format
+msgid "%s is connected to Iminify. This site can join it with a key of its own, and counts as a site of its own on the account."
+msgstr "%s Iminify’a bağlı. Bu site kendine ait bir anahtarla bu ağa katılabilir ve hesapta ayrı bir site sayılır."
+
+#: assets/build/settings.js:17
+msgid "In WordPress’s rewrite rules:"
+msgstr "WordPress’in yeniden yazma kurallarında:"
+
+#: assets/build/settings.js:17
+msgid "In <file />:"
+msgstr "<file /> dosyasında:"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:18
+#, js-format
+msgid "Take %s’s rule out of WordPress’s rewrite rules? Every other rule stays."
+msgstr "%s kuralı WordPress’in yeniden yazma kurallarından çıkarılsın mı? Diğer tüm kurallar kalır."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:19
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is. Nginx keeps them until it is reloaded, so reload it afterwards."
+msgstr "%s satırları bu dosyadan kaldırılsın mı? Dosyadaki diğer her şey olduğu gibi kalır. Nginx yeniden yüklenene kadar bu satırları tutar, bu yüzden ardından Nginx’i yeniden yükleyin."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:20
+#, js-format
+msgid "Remove %s’s lines from this file? Everything else in it stays as it is."
+msgstr "%s satırları bu dosyadan kaldırılsın mı? Dosyadaki diğer her şey olduğu gibi kalır."
+
+#. translators: %s: the first line of another plugin's block, such as "# BEGIN EWWWIO".
+#: assets/build/settings.js:21
+#, js-format
+msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
+msgstr "<file /> dosyası %s satırını içeriyor, ancak bu satırın başlattığı bloğun kendi sonu yok ya da blok başka bir blokla iç içe geçiyor; bu yüzden eklenti dosyaya dokunmuyor. Bloğun satırlarını elle kaldırın."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
+msgstr "Eklenti <file /> dosyasına yazamıyor. Bu satırları dosyadan elle kaldırın, ardından Nginx’i yeniden yükleyin."
+
+#: assets/build/settings.js:21
+msgid "The plugin can’t write to <file />. Remove these lines from it by hand."
+msgstr "Eklenti <file /> dosyasına yazamıyor. Bu satırları dosyadan elle kaldırın."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so someone who can manage the network removes them, from the network admin’s Iminify settings."
+msgstr "Ağın her sitesi bu satırları paylaşıyor; bu yüzden onları ağı yönetebilen biri, Ağ yöneticisi bölümündeki Iminify ayarlarından kaldırır."
+
+#: assets/build/settings.js:21
+msgid "Every site of the network shares these lines, so a super admin removes them, on this page."
+msgstr "Ağın her sitesi bu satırları paylaşıyor; bu yüzden onları bir süper yönetici bu sayfada kaldırır."
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:22
+#, js-format
+msgid "%s’s rewrite rule"
+msgstr "%s yeniden yazma kuralı"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:23
+#, js-format
+msgid "%s’s rules"
+msgstr "%s kuralları"
+
+#: assets/build/settings.js:23
+msgid "Rules another optimizer left"
+msgstr "Başka bir optimizasyon eklentisinden kalan kurallar"
+
+#: assets/build/settings.js:23
+msgid "The rules another optimizer left are gone."
+msgstr "Başka bir optimizasyon eklentisinden kalan kurallar kaldırıldı."
+
+#: assets/build/settings.js:23
+msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
+msgstr "Daha önce kullandığınız bir görsel optimizasyon eklentisi, kapatıldığında bu kuralları geride bıraktı. Iminify başka bir eklentinin kurallarını asla kendiliğinden kaldırmaz."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:24
+#, js-format
+msgid "%d image is being optimized."
+msgid_plural "%d images are being optimized."
+msgstr[0] "%d görsel optimize ediliyor."
+msgstr[1] "%d görsel optimize ediliyor."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:25
+#, js-format
+msgid "%d image is waiting for the next batch."
+msgid_plural "%d images are waiting for the next batch."
+msgstr[0] "%d görsel, hakkın yenilenmesini bekliyor."
+msgstr[1] "%d görsel, hakkın yenilenmesini bekliyor."
+
+#. translators: %d: how many images.
+#: assets/build/settings.js:26
+#, js-format
+msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
+msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
+msgstr[0] "%d görsel sitenin bağlanmasını bekliyor. Site bağlandığında kendiliğinden gönderilir."
+msgstr[1] "%d görsel sitenin bağlanmasını bekliyor. Site bağlandığında kendiliğinden gönderilirler."
+
+#. translators: %s: the date and time the next batch opens.
+#: assets/build/settings.js:27
+#, js-format
+msgid "The next batch opens on %s. New uploads go first, by themselves."
+msgstr "Görsel hakkınız %s tarihinde yenilenir. Önce yeni yüklemeler kendiliğinden gönderilir."
+
+#: assets/build/settings.js:27
+msgid "Queue"
+msgstr "Kuyruk"
+
+#: assets/build/settings.js:27
+msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
+msgstr "Sunucuda disk alanı azaldı, bu yüzden Iminify burada görselleri optimize etmeyi durdurdu. Biraz yer açın, ardından “Optimize edilmedi” olarak işaretlenen görselleri optimize edin."
+
+#: assets/build/settings.js:27
+msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
+msgstr "Kurallar eklendikten sonra sunucunuz bir hatayla yanıt verdi; bu yüzden eklenti kuralları geri çıkardı ve görselleriniz eskisi gibi yükleniyor. Barındırma sağlayıcınıza .htaccess dosyalarının yeniden yazma kuralları ve dosya türleri belirleyip belirleyemeyeceğini sorun ya da picture etiketlerini seçin."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:28
+#, js-format
+msgid "Your server sends the WebP and AVIF copies. Checked %s."
+msgstr "Sunucunuz WebP ve AVIF kopyalarını gönderiyor. Son kontrol: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:30
+#, js-format
+msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
+msgstr "Sunucunuz hâlâ özgün dosyaları gönderiyor: bu kurallar okunmadan önce görsellere başka bir şey yanıt veriyor, çoğunlukla Apache sunucusunun önündeki Nginx. Aşağıdaki Nginx satırlarını onun yapılandırmasına ekleyin ya da picture etiketlerini seçin. Son kontrol: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:32
+#, js-format
+msgid "Your server still sends the originals. Add the lines below to its configuration and reload Nginx, then save again. Checked %s."
+msgstr "Sunucunuz hâlâ özgün dosyaları gönderiyor. Aşağıdaki satırları sunucunun yapılandırmasına ekleyip Nginx’i yeniden yükleyin, ardından yeniden kaydedin. Son kontrol: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:34
+#, js-format
+msgid "Cloudflare answered with the original, so a visitor may never get a copy through these rules. Choose picture tags, which work behind Cloudflare. Checked %s."
+msgstr "Cloudflare özgün dosyayla yanıt verdi, bu yüzden bir ziyaretçi bu kurallar aracılığıyla hiçbir zaman kopya almayabilir. Cloudflare arkasında da çalışan picture etiketlerini seçin. Son kontrol: %s."
+
+#. translators: %s: the date and time of the last check.
+#: assets/build/settings.js:35
+#, js-format
+msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
+msgstr "Eklenti, kuralların çalışıp çalışmadığını görmek için sitenizden bir görsel isteyemedi; bu, bir site kendi adresine ulaşamadığında olur. Görsellerinizden birini bir tarayıcının geliştirici araçlarıyla açın: türü image/avif ya da image/webp olmalı. Son deneme: %s."
+
+#: assets/build/settings.js:35
+msgid "The rules are in <file />."
+msgstr "Kurallar <file /> dosyasında."
+
+#. translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>.
+#: assets/build/settings.js:36
+msgid "<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again."
+msgstr "<file /> dosyası <begin /> satırını içeriyor ama <end /> satırını içermiyor, bu yüzden eklenti dosyaya dokunmuyor. <end /> satırını bloğun son <closing /> satırının ardına geri koyun ya da bloğun tüm satırlarını silin, ardından yeniden kaydedin."
+
+#: assets/build/settings.js:36
+msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
+msgstr "Yüklemeler klasörünüz, sitenin .htaccess dosyasını barındıran klasörün içinde değil; bu yüzden oradaki hiçbir kural onu adlandıramaz. Picture etiketlerini seçin."
+
+#: assets/build/settings.js:36
+msgid "There’s no <file /> yet. Create it with these lines, then save again."
+msgstr "Henüz <file /> dosyası yok. Dosyayı bu satırlarla oluşturun, ardından yeniden kaydedin."
+
+#: assets/build/settings.js:36
+msgid "<file /> doesn’t turn on rewriting, so the plugin leaves it alone. If your server reads rewrite rules there, paste these lines into it, then save again."
+msgstr "<file /> dosyası yeniden yazmayı açmıyor, bu yüzden eklenti ona dokunmuyor. Sunucunuz yeniden yazma kurallarını orada okuyorsa bu satırları dosyaya yapıştırın, ardından yeniden kaydedin."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines into it, above the rules WordPress gave the network, then save again."
+msgstr "Eklenti <file /> dosyasına yazamıyor. Bu satırları dosyaya, WordPress’in ağa verdiği kuralların üstüne yapıştırın, ardından yeniden kaydedin."
+
+#: assets/build/settings.js:36
+msgid "The plugin can’t write to <file />. Paste these lines at its end, then save again."
+msgstr "Eklenti <file /> dosyasına yazamıyor. Bu satırları dosyanın sonuna yapıştırın, ardından yeniden kaydedin."
+
+#: assets/build/settings.js:36
+msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
+msgstr "Sunucunuz ne .htaccess dosyalarını ne de Nginx yapılandırmasını okuyor, bu yüzden eklentinin ona verebileceği kural yok. Picture etiketlerini seçin."
+
+#: assets/build/settings.js:36
+msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Siteniz, .htaccess okumayan Nginx üzerinde çalışıyor. İlk satırları sitenin server bloğunun en üstüne, herhangi bir if ya da rewrite satırından önce koyun; location bloğunu da görseller için olan diğer location bloklarının üstüne yerleştirin, ardından Nginx’i yeniden yükleyin. Görsellerinizin ihtiyaç duyduğu expires, Cache-Control ya da add_header satırlarını location bloğunun içine kopyalayın, çünkü onun add_header satırları server bloğundakilerin yerine geçer:"
+
+#: assets/build/settings.js:36
+msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
+msgstr "Nginx için ilk satırları sitenin server bloğunun en üstüne, herhangi bir if ya da rewrite satırından önce koyun; location bloğunu da görseller için olan diğer location bloklarının üstüne yerleştirin, ardından Nginx’i yeniden yükleyin. Görsellerinizin ihtiyaç duyduğu expires, Cache-Control ya da add_header satırlarını location bloğunun içine kopyalayın, çünkü onun add_header satırları server bloğundakilerin yerine geçer:"
+
+#. translators: %s: the folders the rules cover, separated by commas.
+#: assets/build/settings.js:37
+#, js-format
+msgid "They cover: %s."
+msgstr "Kapsadıkları klasörler: %s."
+
+#: assets/build/settings.js:37
+msgid "They serve any WebP or AVIF copy named after an image beside it, so a copy another optimizer left there is served too until Iminify makes its own. Iminify never deletes another plugin’s copies."
+msgstr "Bu kurallar, bir görselin yanındaki ve onun adını taşıyan her WebP ya da AVIF kopyasını sunar; bu yüzden başka bir optimizasyon eklentisinin orada bıraktığı bir kopya da Iminify kendi kopyasını oluşturana kadar sunulur. Iminify başka bir eklentinin kopyalarını asla silmez."
+
+#: assets/build/settings.js:37
+msgid "Cloudflare answers for your site. It keeps one version of each image whatever the browser reads, so a browser that can't show AVIF could get the AVIF copy. Choose picture tags, which work behind any CDN."
+msgstr "Siteniz Cloudflare arkasında çalışıyor. Cloudflare, tarayıcı ne okursa okusun her görselin tek bir sürümünü tutar; bu yüzden AVIF gösteremeyen bir tarayıcı AVIF kopyasını alabilir. Her CDN arkasında çalışan picture etiketlerini seçin."
+
+#: assets/build/settings.js:37
+msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
+msgstr "WP Offload Media görsellerinizi kendi deposundan sunar ve bu kurallar oraya hiç ulaşmaz, bu yüzden bu görseller özgün hâlleriyle sunulur. Eklentinin “Remove Local Media” seçeneği açıksa kurallar hiçbir şey sunmaz."
+
+#: assets/build/settings.js:37
+msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
+msgstr "Her sayfayı gönderilirken okuyarak ham HTML’deki, sayfa oluşturuculardaki ve temanızın kendi işaretlemesindeki görsellere, sayfanın kendisinde belirlenen arka planlara ve seçtiğiniz klasörlerdeki görsellere de ulaşır. Bir biçem sayfasında belirlenen arka plan özgün hâliyle kalır. Ön belleğinizin saklamadığı bir sayfa biraz daha geç yüklenir."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
+msgstr "Sayfalarınız olduğu gibi kalır ve sunucunuz, WebP ya da AVIF okuyabilen her tarayıcıya görselin yerine bu kopyayı gönderir. Bu yöntem, biçem sayfalarındaki arka planlar da dahil olmak üzere yüklemeler klasöründeki ve seçtiğiniz klasörlerdeki her görsele ulaşır. Sunucunuzun yapılandırmasında kurallar gerektirir; Apache için bu kurallar sizin için yazılır. Bir CDN arkasındaysanız, CDN her görselin her biçim için ayrı bir sürümünü tutmalıdır."
+
+#: assets/build/settings.js:37
+msgid "Your pages stay as they are: the copies are made, but no page names them."
+msgstr "Sayfalarınız olduğu gibi kalır: kopyalar oluşturulur, ancak hiçbir sayfa onlara başvurmaz."
+
+#: assets/build/settings.js:37
+msgid "For the images in your posts and those your theme shows through WordPress. Each page is the same for every visitor, so page caches and CDNs keep working, and a browser that reads neither format gets the original."
+msgstr "Yazılarınızdaki görseller ve temanızın WordPress aracılığıyla gösterdiği görseller için. Her sayfa her ziyaretçi için aynıdır, bu yüzden sayfa ön bellekleri ve CDN hizmetleri çalışmayı sürdürür; iki biçimi de okuyamayan bir tarayıcı özgün görseli alır."
+
+#: assets/build/settings.js:37
+msgid "Optimization"
+msgstr "Optimizasyon"
+
+#: assets/build/settings.js:37
+msgid "These settings are kept with the site on iminify.com, which applies them to every image the site sends."
+msgstr "Bu ayarlar iminify.com’da siteyle birlikte saklanır; iminify.com bunları sitenin gönderdiği her görsele uygular."
+
+#: assets/build/settings.js:37
+msgid "Send each image to Iminify as it is uploaded."
+msgstr "Her görsel yüklendiği anda Iminify’a gönderilir."
+
+#: assets/build/settings.js:37
+msgid "A WebP copy of every size, served to browsers that read it. A copy larger than its image isn't kept."
+msgstr "Her boyutun bir WebP kopyası; bunu okuyabilen tarayıcılara sunulur. Görselinden büyük olan bir kopya saklanmaz."
+
+#: assets/build/settings.js:37
+msgid "An AVIF copy of every size too: usually smaller than WebP, and slower to make."
+msgstr "Her boyutun bir de AVIF kopyası: genellikle WebP kopyasından küçüktür ama oluşturulması daha yavaştır."
+
+#: assets/build/settings.js:37
+msgid "Any width"
+msgstr "Herhangi bir genişlik"
+
+#: assets/build/settings.js:37
+msgid "Shrinks a wider main image to this width. Leave it empty to keep each image's width."
+msgstr "Daha geniş bir ana görseli bu genişliğe küçültür. Her görselin genişliğini korumak için boş bırakın."
+
+#: assets/build/settings.js:37
+msgid "Fits the main image under this size. Leave it empty for no limit."
+msgstr "Ana görseli bu dosya boyutunun altına sığdırır. Sınır olmaması için boş bırakın."
+
+#: assets/build/settings.js:37
+msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
+msgstr "Her görselin, fotoğraf makinesi ve çekildiği yer gibi EXIF verilerini korur. Kapalıyken bu veriler kaldırılır."
+
+#: assets/build/settings.js:37
+msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
+msgstr "Alternatif metni olmayan her görseli tanımlar. Sizin yazdığınız bir alternatif metin asla değiştirilmez. Görselin küçük bir kopyası Anthropic’in yapay zekasına gider ve her biri günlük yapay zeka alternatif metin hakkınızdan düşer."
+
+#: assets/build/settings.js:37
+msgid "Language of the alt text"
+msgstr "Alternatif metnin dili"
+
+#: assets/build/settings.js:37
+msgid "Optimize every size"
+msgstr "Tüm boyutları optimize et"
+
+#: assets/build/settings.js:37
+msgid "Every size WordPress makes of an upload. Turn it off to pick the sizes."
+msgstr "WordPress’in bir yüklemeden oluşturduğu her boyut. Boyutları tek tek seçmek için kapatın."
+
+#: assets/build/settings.js:37
+msgid "On this site"
+msgstr "Bu sitede"
+
+#: assets/build/settings.js:37
+msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
+msgstr "Yüklemeler klasöründe iminify-backup altında saklanır; böylece her görsel eski hâline döndürülebilir."
+
+#: assets/build/settings.js:37
+msgid "WebP and AVIF on your pages"
+msgstr "Sayfalarınızda WebP ve AVIF"
+
+#: assets/build/settings.js:37
+msgid "Serve them with picture tags"
+msgstr "Picture etiketleriyle sun"
+
+#: assets/build/settings.js:37
+msgid "Serve them on the whole page"
+msgstr "Tüm sayfada sun"
+
+#: assets/build/settings.js:37
+msgid "Serve them through server rules"
+msgstr "Sunucu kurallarıyla sun"
+
+#: assets/build/settings.js:37
+msgid "Don't change the pages"
+msgstr "Sayfaları değiştirme"
+
+#: assets/build/settings.js:37
+msgid "Add the width, height and alt text images lack"
+msgstr "Görsellerin eksik genişlik, yükseklik ve alternatif metnini ekle"
+
+#: assets/build/settings.js:37
+msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
+msgstr "Bir sayfanın işaretlemesi ortam kitaplığınızdaki bir görselin genişliğini, yüksekliğini ya da alternatif metnini içermediğinde eklenti, her sayfa gönderilirken genişliği ve yüksekliği (böylece sayfa yüklenirken kaymaz) ve görselin kitaplıktaki alternatif metnini ekler. Bilerek boş bırakılan bir alternatif metin boş kalır."
+
+#: assets/build/settings.js:37
+msgid "When you delete the plugin"
+msgstr "Eklentiyi sildiğinizde"
+
+#: assets/build/settings.js:37
+msgid "Also delete the WebP and AVIF copies"
+msgstr "WebP ve AVIF kopyalarını da sil"
+
+#: assets/build/settings.js:37
+msgid "A page your cache kept with picture tags would show a broken image until the cache is cleared."
+msgstr "Ön belleğinizin picture etiketleriyle sakladığı bir sayfa, ön bellek temizlenene kadar bozuk bir görsel gösterir."
+
+#: assets/build/settings.js:37
+msgid "Also delete the backups"
+msgstr "Yedekleri de sil"
+
+#: assets/build/settings.js:37
+msgid "They're the only originals of the images Iminify optimized, so those images can't be restored afterwards. With the copies deleted too, installing the plugin again would optimize those images a second time."
+msgstr "Yedekler, Iminify’ın optimize ettiği görsellerin tek özgün hâlleridir; bu yüzden bu görseller sonrasında geri yüklenemez. Kopyalar da silinmişse eklentiyi yeniden kurmak bu görselleri ikinci kez optimize eder."
+
+#: assets/build/settings.js:37
+msgid "Save changes"
+msgstr "Değişiklikleri kaydet"
+
+#: assets/build/settings.js:37
+msgid "Unsaved changes"
+msgstr "Kaydedilmemiş değişiklikler"
+
+#: assets/build/settings.js:37
+msgid "Needs attention"
+msgstr "Dikkat gerekiyor"
+
+#: assets/build/settings.js:37
+msgid "The network is connected."
+msgstr "Ağ bağlandı."
+
+#: assets/build/settings.js:37
+msgid "The site is connected."
+msgstr "Site bağlandı."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect the network to try again."
+msgstr "Bağlantı zamanında onaylanmadı ya da reddedildi. Yeniden denemek için “Ağı bağla” düğmesine basın."
+
+#: assets/build/settings.js:37
+msgid "The connection wasn't approved in time, or was turned down. Press Connect to try again."
+msgstr "Bağlantı zamanında onaylanmadı ya da reddedildi. Yeniden denemek için “Bağla” düğmesine basın."
+
+#: assets/build/settings.js:37
+msgid "The network is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Ağın bağlantısı burada kesildi, ancak anahtarı Iminify’da durdurulamadı. Bağlantıyı iminify.com’da Settings, Sites altında da kesin."
+
+#: assets/build/settings.js:37
+msgid "The site is disconnected here, but its key couldn't be stopped on Iminify. Disconnect it under Settings, Sites on iminify.com too."
+msgstr "Sitenin bağlantısı burada kesildi, ancak anahtarı Iminify’da durdurulamadı. Bağlantıyı iminify.com’da Settings, Sites altında da kesin."
+
+#: assets/build/settings.js:37
+msgid "The site joined the network."
+msgstr "Site ağa katıldı."
+
+#: assets/build/settings.js:37
+msgid "Move the connection here"
+msgstr "Bağlantıyı buraya taşı"
+
+#: assets/build/settings.js:37
+msgid "Connect this copy as its own site"
+msgstr "Bu kopyayı ayrı bir site olarak bağla"
+
+#. translators: %s: another image optimizer's name.
+#: assets/build/settings.js:38
+#, js-format
+msgid "This site now uses %s’s settings."
+msgstr "Bu site artık %s ayarlarını kullanıyor."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed. Reload Nginx so it stops serving them."
+msgstr "Satırlar kaldırıldı. Onları sunmayı bırakması için Nginx’i yeniden yükleyin."
+
+#: assets/build/settings.js:38
+msgid "The lines are removed."
+msgstr "Satırlar kaldırıldı."
+
+#: assets/build/settings.js:38
+msgid "Settings saved."
+msgstr "Ayarlar kaydedildi."
+
+#: assets/build/settings.js:38
+msgid "The images waiting are on their way."
+msgstr "Bekleyen görseller yola çıktı."
+
+#: assets/build/settings.js:38
+msgid "Your account's images for the day are still used up."
+msgstr "Hesabınızın günlük görsel hakkı hâlâ dolu."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads on its sites aren't optimized. Connect it again to carry on."
+msgstr "Iminify ağın bağlantısını kesti, bu yüzden sitelerindeki yeni yüklemeler optimize edilmiyor. Sürdürmek için ağı yeniden bağlayın."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected the network, so new uploads aren't optimized. A super admin connects it again in the network admin."
+msgstr "Iminify ağın bağlantısını kesti, bu yüzden yeni yüklemeler optimize edilmiyor. Bir süper yönetici ağı Ağ yöneticisi bölümünde yeniden bağlar."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Join the network again, or connect the site on its own, to carry on."
+msgstr "Iminify bu sitenin bağlantısını kesti, bu yüzden yeni yüklemeler optimize edilmiyor. Sürdürmek için ağa yeniden katılın ya da siteyi kendi başına bağlayın."
+
+#: assets/build/settings.js:38
+msgid "Iminify disconnected this site, so new uploads aren't optimized. Connect it again to carry on."
+msgstr "Iminify bu sitenin bağlantısını kesti, bu yüzden yeni yüklemeler optimize edilmiyor. Sürdürmek için siteyi yeniden bağlayın."

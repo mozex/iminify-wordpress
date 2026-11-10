@@ -20,6 +20,7 @@ use Iminify\WordPress\Plugin;
 use Iminify\WordPress\Site_Record;
 use Iminify\WordPress\Switching\Leftovers;
 use Iminify\WordPress\Switching\Settings_Copy;
+use Iminify\WordPress\Translations;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -188,8 +189,8 @@ class State {
 
 		return array(
 			'main'      => ! empty( $network['main'] ),
-			'sites'     => number_format_i18n( (int) $network['sites'] ),
-			'max_sites' => number_format_i18n( (int) $network['max_sites'] ),
+			'sites'     => Translations::number( (int) $network['sites'] ),
+			'max_sites' => Translations::number( (int) $network['max_sites'] ),
 		);
 	}
 
@@ -275,8 +276,8 @@ class State {
 		return array(
 			'key'       => $key,
 			'label'     => $label,
-			'used'      => number_format_i18n( $used ),
-			'remaining' => null === $remaining ? null : number_format_i18n( $remaining ),
+			'used'      => Translations::number( $used ),
+			'remaining' => null === $remaining ? null : Translations::number( $remaining ),
 			'note'      => self::usage_note( $key, $used, $remaining ),
 			'share'     => null === $remaining ? null : ( 0 === $used + $remaining ? 1.0 : round( $used / ( $used + $remaining ), 3 ) ),
 		);
@@ -292,8 +293,8 @@ class State {
 	 * @param int|null $remaining How many are left, or null with no daily limit.
 	 */
 	protected static function usage_note( string $key, int $used, ?int $remaining ): string {
-		$used_words = number_format_i18n( $used );
-		$left_words = number_format_i18n( (int) $remaining );
+		$used_words = Translations::number( $used );
+		$left_words = Translations::number( (int) $remaining );
 
 		switch ( $key ) {
 			case 'files':
@@ -356,8 +357,8 @@ class State {
 				'key'    => $key,
 				'label'  => $label,
 				'count'  => $count,
-				'images' => number_format_i18n( $count ),
-				'saved'  => (string) size_format( max( 0, (int) $row['bytes_saved'] ), 1 ),
+				'images' => Translations::number( $count ),
+				'saved'  => Translations::size( max( 0, (int) $row['bytes_saved'] ) ),
 			);
 		}
 
