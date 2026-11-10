@@ -124,16 +124,25 @@ function Apache( { rules } ) {
 			return (
 				<Callout tone="warning">
 					<p>
-						{ withFile(
-							sprintf(
-								/* translators: %1$s: the name of the plugin's block in the file, such as "Iminify". */
-								__(
-									'<file /> holds the line # BEGIN %1$s without its # END %1$s line, so the plugin leaves the file alone. Put the line # END %1$s back after the block’s last </IfModule>, or delete every line of the block, then save again.',
-									'iminify-image-optimizer'
-								),
-								rules.marker
+						{ /* Each line of the file is its own left-to-right element, so a right-to-left sentence never moves its # to the end. */ }
+						{ createInterpolateElement(
+							/* translators: <file /> is the file's path, <begin /> and <end /> the first and last lines of the plugin's block in it (such as "# BEGIN Iminify"), <closing /> the line </IfModule>. */
+							__(
+								'<file /> holds the line <begin /> without its <end /> line, so the plugin leaves the file alone. Put the line <end /> back after the block’s last <closing />, or delete every line of the block, then save again.',
+								'iminify-image-optimizer'
 							),
-							rules.file
+							{
+								file: <code dir="ltr">{ rules.file }</code>,
+								begin: (
+									<code dir="ltr">{ `# BEGIN ${ rules.marker }` }</code>
+								),
+								end: (
+									<code dir="ltr">{ `# END ${ rules.marker }` }</code>
+								),
+								closing: (
+									<code dir="ltr">{ '</IfModule>' }</code>
+								),
+							}
 						) }
 					</p>
 				</Callout>

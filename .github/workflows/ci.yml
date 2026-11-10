@@ -126,6 +126,9 @@ jobs:
       - name: Start the e2e WordPress, whose stub answers for Iminify
         run: npm run env:e2e start
 
+      - name: Check the translations' template holds every string the code does
+        run: npm run --silent env:e2e -- run cli --env-cwd=wp-content/plugins/iminify-image-optimizer wp eval-file bin/i18n.php check
+
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
 

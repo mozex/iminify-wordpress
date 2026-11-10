@@ -55,6 +55,44 @@ class Messages {
 	}
 
 	/**
+	 * A language Iminify writes alt text in, by its tag, in the plugin's words, so
+	 * the setting reads in the admin's language; the service's English name for a
+	 * tag it added after this version.
+	 *
+	 * @param string $code The language's tag, such as `fr` or `zh-Hans`.
+	 * @param string $name The service's name for it, in English.
+	 */
+	public static function language( string $code, string $name ): string {
+		$names = array(
+			'en'      => _x( 'English', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'es'      => _x( 'Spanish', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'fr'      => _x( 'French', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'de'      => _x( 'German', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'it'      => _x( 'Italian', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'pt'      => _x( 'Portuguese', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'nl'      => _x( 'Dutch', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'pl'      => _x( 'Polish', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'sv'      => _x( 'Swedish', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'tr'      => _x( 'Turkish', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'ru'      => _x( 'Russian', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'uk'      => _x( 'Ukrainian', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'ar'      => _x( 'Arabic', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'fa'      => _x( 'Persian', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'he'      => _x( 'Hebrew', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'hi'      => _x( 'Hindi', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'id'      => _x( 'Indonesian', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'vi'      => _x( 'Vietnamese', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'th'      => _x( 'Thai', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'ja'      => _x( 'Japanese', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'ko'      => _x( 'Korean', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'zh-Hans' => _x( 'Simplified Chinese', 'a language alt text is written in', 'iminify-image-optimizer' ),
+			'zh-Hant' => _x( 'Traditional Chinese', 'a language alt text is written in', 'iminify-image-optimizer' ),
+		);
+
+		return $names[ $code ] ?? $name;
+	}
+
+	/**
 	 * The message `GET /site` answered, ready to show, or null. With the account
 	 * kept out of sight (Key_Store::hides_account()), only the plugin's own words
 	 * show, since the service's name the account's plan, trial and numbers.

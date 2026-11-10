@@ -336,7 +336,8 @@ class State {
 
 	/**
 	 * The languages the service writes alt text in, for the setting that picks one,
-	 * as `GET /site` answered them, so a language it adds needs no change here.
+	 * as `GET /site` answered them, so a language it adds needs no change here;
+	 * each named in the admin's language where the plugin knows its tag.
 	 *
 	 * @param mixed $languages The answer's `alt_text_languages`.
 	 * @return list<array{value: string, label: string}>
@@ -348,7 +349,7 @@ class State {
 			if ( is_array( $language ) && isset( $language['code'], $language['name'] ) ) {
 				$options[] = array(
 					'value' => (string) $language['code'],
-					'label' => (string) $language['name'],
+					'label' => Messages::language( (string) $language['code'], (string) $language['name'] ),
 				);
 			}
 		}

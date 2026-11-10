@@ -46,6 +46,7 @@ class Plugin {
 	 * Hooks the plugin into WordPress.
 	 */
 	public static function boot(): void {
+		Translations::register();
 		add_action( 'init', array( Local_Settings::class, 'register' ) );
 		add_action( 'rest_api_init', array( self::class, 'register_routes' ) );
 		add_action( Connection::CLAIM_HOOK, array( self::class, 'claim_in_background' ) );
