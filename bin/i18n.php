@@ -1,7 +1,8 @@
 <?php
 /**
  * Makes and checks the plugin's own translations in languages/. Run it with
- * WP-CLI from the plugin's folder in a wp-env site, after `npm run build`:
+ * WP-CLI from the plugin's folder in a wp-env site, after a production build
+ * (`NODE_ENV=production npm run build`, which is what ships):
  *
  *   wp eval-file bin/i18n.php make
  *       The template from the code, each locale's .po brought up to it, and
@@ -42,6 +43,11 @@ $iminify_i18n_template = $iminify_i18n_folder . '/' . $iminify_i18n_domain . '.p
 function iminify_i18n_template( string $root, string $target, string $domain ): void {
 	if ( ! is_readable( $root . '/assets/build/settings.js' ) ) {
 		WP_CLI::error( 'Run npm run build first: the scripts\' strings are read from assets/build.' );
+	}
+
+	/* A development build carries every shared part into every script, so its strings would be listed under scripts the shipped build leaves them out of, and the JSON files would be made for the wrong scripts. */
+	if ( false !== strpos( (string) file_get_contents( $root . '/assets/build/settings.js', false, null, 0, 200 ), 'webpackBootstrap' ) ) {
+		WP_CLI::error( 'assets/build holds a development build. Run NODE_ENV=production npm run build, which is what ships and what CI checks, then run this again.' );
 	}
 
 	WP_CLI::runcommand(
