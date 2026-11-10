@@ -767,7 +767,12 @@ class MediaViewTest extends WP_UnitTestCase {
 
 	public function test_the_compare_names_a_main_file_by_its_format_an_avif_one_included(): void {
 		$name = new ReflectionMethod( Media_View::class, 'format_name' );
-		$name->setAccessible( true );
+
+		/* PHP 8.1 made it a no-op and 8.5 deprecates it, but PHP 7.4 still needs it to call a protected method. */
+		if ( PHP_VERSION_ID < 80100 ) {
+			$name->setAccessible( true );
+		}
+
 		$images = dirname( __DIR__ ) . '/fixtures/images/';
 
 		/* An image another plugin converted to AVIF keeps that format, so its main file is one; the label leads with the format, a Latin word, which keeps a right-to-left line in order. */
