@@ -103,6 +103,7 @@
 	border-collapse: collapse;
 	display: table;
 	margin: 10px 0;
+	table-layout: auto;
 	width: 100%;
 
 	thead {
@@ -123,7 +124,7 @@
 		display: table-cell;
 		font-size: 12px;
 		font-weight: 400;
-		overflow-wrap: anywhere;
+		overflow-wrap: break-word;
 		padding: 6px 8px 6px 0;
 		padding-inline: 0 8px;
 		text-align: start;
@@ -139,6 +140,7 @@
 		color: var(--iminify-z500);
 	}
 
+	/* A size's dimensions stay on one line. */
 	tbody th {
 		color: var(--iminify-z900);
 		font-weight: 600;
@@ -146,11 +148,33 @@
 		small {
 			color: var(--iminify-z500);
 			font-weight: 400;
+			white-space: nowrap;
 		}
 	}
 
 	tbody tr:last-child > * {
 		border-bottom: 0;
+	}
+}
+
+/* A sideways scroll for the narrowest sidebars, where even the sizes' words don't fit. */
+.iminify-sizes-scroll {
+	overflow-x: auto;
+}
+
+/* The media modal's sidebar gives a field 65% of its width beside its label and cuts off what runs past it, so the panel takes the whole width under its label. */
+.compat-item .compat-field-iminify {
+
+	.label {
+		float: none;
+		min-width: 0;
+		margin: 0 0 4px;
+		text-align: start;
+	}
+
+	.field {
+		float: none;
+		width: auto;
 	}
 }
 

@@ -591,7 +591,7 @@ export function Choices( {
  * @param {Object}     props          The component's props.
  * @param {string}     props.question What it asks.
  * @param {string}     props.yes      The words of the button that goes ahead.
- * @param {boolean}    props.danger   Whether going ahead stops or deletes something, which draws its button red.
+ * @param {boolean}    props.danger   Whether going ahead ends the connection, edits a file outside the plugin's own or undoes a whole library's or the folders' work, which draws its button red and the box as a warning.
  * @param {boolean}    props.busy     Whether the yes is on its way.
  * @param {() => void} props.onYes    Goes ahead.
  * @param {() => void} props.onNo     Closes it.
@@ -610,7 +610,15 @@ export function Confirm( {
 	useEffect( () => cancel.current?.focus(), [] );
 
 	return (
-		<div className="iminify-confirm" role="group" aria-label={ question }>
+		<div
+			className={
+				danger
+					? 'iminify-confirm iminify-confirm--danger'
+					: 'iminify-confirm'
+			}
+			role="group"
+			aria-label={ question }
+		>
 			<p>{ question }</p>
 			<div className="iminify-actions">
 				<Button

@@ -98,8 +98,10 @@ test( 'The panel deletes the copies, then restores the original, each asked in t
 	const confirm = panel.locator( '.iminify-confirm' );
 	await expect( panel ).toContainText( 'Copies: WebP' );
 
-	await panel.getByRole( 'button', { name: 'Delete the WebP and AVIF copies' } ).click();
+	await panel.getByRole( 'button', { name: 'Delete the copies' } ).click();
 	await expect( confirm ).toContainText( "Delete this image's WebP and AVIF copies?" );
+	/* A single image's copies cost one image to make again: no warning, as its Restore has none. */
+	await expect( confirm ).not.toHaveCSS( 'background-color', 'rgb(255, 241, 242)' );
 	await confirm.getByRole( 'button', { name: 'Delete the copies' } ).click();
 	await expect( panel ).not.toContainText( 'Copies: WebP' );
 	expect( seedJson( 'record', { id } ).copies ).toEqual( [] );
@@ -171,6 +173,12 @@ test( 'The panel compares the original with each file the plugin made, by drag o
 	expect( await page.evaluate( () => window.iminifyKeysOutside ) ).toBe( 0 );
 	await page.keyboard.press( 'End' );
 	await expect( slider ).toHaveAttribute( 'aria-valuenow', '100' );
+
+	/* Tab from the last control comes round to the first, so focus never leaves the dialog for a place no key reaches. */
+	await page.keyboard.press( 'Tab' );
+	await expect( dialog.getByRole( 'button', { name: 'Close' } ) ).toBeFocused();
+	await page.keyboard.press( 'Shift+Tab' );
+	await expect( slider ).toBeFocused();
 
 	/* A press on the stage puts the line where it landed. */
 	const stage = await dialog

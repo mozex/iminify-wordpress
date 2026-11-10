@@ -64,6 +64,16 @@ for ( const width of [ 1280, 390 ] ) {
 		await expect( page.locator( '.iminify-audits__item' ) ).toHaveCount( 1 );
 		await expect( page.locator( '.iminify-audits__item' ) ).toHaveAttribute( 'aria-current', 'true' );
 
+		/* The press to scan comes before the list in the page, so a phone doesn't scroll past every image to reach it. */
+		const places = await page.evaluate( () => [ '.iminify-grid__scan', '.iminify-grid__list' ].map( ( one ) => document.querySelector( one ).getBoundingClientRect() ).map( ( box ) => [ box.top, box.left ] ) );
+		expect( await page.locator( '.iminify-grid--audit > .iminify-col' ).first().getByRole( 'heading', { name: 'Scan a page' } ).count() ).toBe( 1 );
+		if ( 1280 === width ) {
+			expect( places[ 0 ][ 1 ] ).toBeGreaterThan( places[ 1 ][ 1 ] );
+			expect( places[ 0 ][ 0 ] ).toBeCloseTo( places[ 1 ][ 0 ], 0 );
+		} else {
+			expect( places[ 0 ][ 0 ] ).toBeLessThan( places[ 1 ][ 0 ] );
+		}
+
 		/* Nothing in the screen is wider than the screen. */
 		const overflow = await page.locator( '#iminify-audit' ).evaluate( ( app ) => app.scrollWidth - app.clientWidth );
 		expect( overflow ).toBeLessThanOrEqual( 0 );

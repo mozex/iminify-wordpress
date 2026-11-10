@@ -344,9 +344,9 @@
 	margin-top: 14px;
 	padding: 12px 14px;
 	border-radius: var(--iminify-radius-control);
-	background: var(--iminify-danger-bg);
-	color: var(--iminify-danger-ink);
-	box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
+	background: var(--iminify-z50);
+	color: var(--iminify-z800);
+	box-shadow: inset 0 0 0 1px var(--iminify-z200);
 	animation: iminify-enter 0.2s ease-out both;
 
 	p {
@@ -356,6 +356,13 @@
 	.iminify-actions {
 		margin-top: 0;
 	}
+}
+
+/* Only a yes costly to take back is drawn as a warning, the same press that draws its button red. */
+.iminify-confirm--danger {
+	background: var(--iminify-danger-bg);
+	color: var(--iminify-danger-ink);
+	box-shadow: inset 0 0 0 1px var(--iminify-danger-line);
 }
 
 .iminify-code {

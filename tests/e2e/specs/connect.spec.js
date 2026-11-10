@@ -87,6 +87,7 @@ test( 'A site setting goes to the service, and the local ones stay on the site',
 	await disconnect.click();
 	const ask = page.getByRole( 'group', { name: /^Disconnect this site from Iminify\?/ } );
 	await expect( ask.getByRole( 'button', { name: 'Disconnect' } ) ).toHaveClass( /iminify-btn--danger/ );
+	await expect( ask ).toHaveCSS( 'background-color', 'rgb(255, 241, 242)' );
 	await expect( ask.getByRole( 'button', { name: 'Cancel' } ) ).toBeFocused();
 	await page.keyboard.press( 'Escape' );
 	await expect( ask ).toHaveCount( 0 );

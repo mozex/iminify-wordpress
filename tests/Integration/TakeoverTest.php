@@ -151,7 +151,7 @@ class TakeoverTest extends WP_UnitTestCase {
 
 		list( $id, $copy ) = $this->taken();
 
-		$this->assertStringNotContainsString( 'Delete the WebP and AVIF copies', Media_View::panel( $id ), 'Nothing of the plugin\'s own to delete.' );
+		$this->assertStringNotContainsString( 'Delete the copies', Media_View::panel( $id ), 'Nothing of the plugin\'s own to delete.' );
 
 		/* LiteSpeed deleting it on a regeneration, or putting its file back, is forgotten. */
 		wp_delete_file( $copy );

@@ -134,6 +134,7 @@ class MissingTest extends WP_UnitTestCase {
 
 		$this->assertSame( 2, Bulk::counts()['missing_sizes'], 'Both may lack it, which only a look can tell.' );
 		$this->assertSame( array( 'iminify_wide' ), Missing::of( $big, Missing::SIZES ) );
+		$this->assertStringContainsString( 'Missing sizes: Iminify Wide', Media_View::cell( $big ) );
 
 		/* The site sends only the sizes it names, whatever their case. */
 		$this->site( array( 'sizes' => array( 'THUMBNAIL' ) ) );

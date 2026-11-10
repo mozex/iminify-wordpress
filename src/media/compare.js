@@ -153,7 +153,10 @@ function show( compare, opener ) {
 	handle.setAttribute( 'aria-label', compare.slider );
 	handle.setAttribute( 'aria-valuemin', '0' );
 	handle.setAttribute( 'aria-valuemax', '100' );
+	/* The row keeps each tag over its own side, and each reads in the admin's language inside it. */
 	tags.setAttribute( 'dir', 'ltr' );
+	beforeTag.dir = document.documentElement.dir || 'ltr';
+	afterTag.dir = beforeTag.dir;
 	failed.hidden = true;
 	failed.setAttribute( 'role', 'alert' );
 	formats.setAttribute( 'role', 'group' );
@@ -274,6 +277,25 @@ function show( compare, opener ) {
 		if ( 'Escape' === event.key ) {
 			event.preventDefault();
 			shut();
+		}
+
+		/* The dialog is the page's last element, so Tab from its last control would leave the document, where no key reaches it. */
+		if ( 'Tab' === event.key ) {
+			const stops = [
+				close,
+				...formats.querySelectorAll( 'button' ),
+				handle,
+			].filter( ( stop ) => null !== stop.offsetParent );
+			const last = stops.length - 1;
+			const from = stops.indexOf( event.target );
+			let to = from === last ? 0 : from + 1;
+
+			if ( event.shiftKey ) {
+				to = from <= 0 ? last : from - 1;
+			}
+
+			event.preventDefault();
+			stops[ to ].focus();
 		}
 	} );
 	root.addEventListener( 'click', ( event ) => {

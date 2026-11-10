@@ -77,19 +77,26 @@ class MediaViewTest extends WP_UnitTestCase {
 					'formats' => array( 'webp' ),
 					'skipped' => 2,
 					'outputs' => array(
-						'full'   => array(
-							'before'  => 1000,
-							'after'   => 600,
-							'width'   => 640,
-							'height'  => 480,
-							'formats' => array( 'webp' ),
-						),
-						'medium' => array(
+						'medium'       => array(
 							'before'  => 1000,
 							'after'   => 600,
 							'width'   => 300,
 							'height'  => 225,
 							'formats' => array(),
+						),
+						'medium_large' => array(
+							'before'  => 1000,
+							'after'   => 600,
+							'width'   => 640,
+							'height'  => 360,
+							'formats' => array(),
+						),
+						'full'         => array(
+							'before'  => 1000,
+							'after'   => 600,
+							'width'   => 640,
+							'height'  => 480,
+							'formats' => array( 'webp' ),
 						),
 					),
 				),
@@ -99,8 +106,8 @@ class MediaViewTest extends WP_UnitTestCase {
 		$cell = Media_View::cell( $id );
 
 		$this->assertStringContainsString( 'iminify-status-optimized', $cell );
-		$this->assertStringContainsString( 'Saved 40%', $cell );
-		$this->assertStringContainsString( 'across 2 files', $cell );
+		$this->assertStringContainsString( 'Saved <bdi>40%</bdi>', $cell );
+		$this->assertStringContainsString( 'across 3 files', $cell );
 		$this->assertStringContainsString( 'Copies: WebP', $cell );
 		$this->assertStringContainsString( '2 files couldn&#039;t be written', $cell );
 		$this->assertStringNotContainsString( 'data-iminify-busy', $cell );
@@ -108,9 +115,13 @@ class MediaViewTest extends WP_UnitTestCase {
 		$panel = Media_View::panel( $id );
 
 		$this->assertStringContainsString( 'Level: Smart', $panel );
-		$this->assertStringContainsString( 'Full size', $panel );
+		$this->assertStringContainsString( 'Full Size', $panel );
 		$this->assertStringContainsString( '<small dir="ltr">640 × 480</small>', $panel );
-		$this->assertStringContainsString( 'Delete the WebP and AVIF copies', $panel );
+		$this->assertStringContainsString( 'Delete the copies', $panel );
+		$this->assertStringNotContainsString( 'iminify-btn--danger', $panel );
+		/* Widest first, under the names the editor gives them, and a size it doesn't offer written out. */
+		$this->assertMatchesRegularExpression( '/Full Size.*Medium Large.*Medium<br>/s', $panel );
+		$this->assertStringNotContainsString( 'medium_large', $panel );
 		$this->assertStringContainsString( 'data-iminify-level="ultra"', $panel );
 		$this->assertStringNotContainsString( 'data-iminify-level="none"', $panel );
 		$this->assertStringContainsString( 'iminify-chip--success', $cell );
@@ -511,7 +522,7 @@ class MediaViewTest extends WP_UnitTestCase {
 		$this->assertSame( array(), Records::get( $id )['result']['formats'] );
 		$this->assertSame( array(), Records::get( $id )['result']['outputs']['full']['formats'] );
 		$this->assertSame( '||', get_post_meta( $id, Records::FORMATS_META, true ) );
-		$this->assertStringNotContainsString( 'Delete the WebP', $answer->get_data()['panel'] );
+		$this->assertStringNotContainsString( 'Delete the copies', $answer->get_data()['panel'] );
 		wp_delete_file( $other );
 
 		$answer = rest_do_request( new WP_REST_Request( 'POST', "/iminify/v1/media/{$id}/restore" ) );

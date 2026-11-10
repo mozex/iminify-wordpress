@@ -699,14 +699,12 @@ class Media_View {
 			$html   .= sprintf(
 				'<div class="iminify-saving"><span class="iminify-saving__bar" aria-hidden="true"><i style="width: %1$d%%"></i></span><p class="iminify-detail">%2$s</p></div>',
 				max( 2, min( 100, $percent ) ),
-				esc_html(
-					sprintf(
-						/* translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers. */
-						_n( 'Saved %1$s (%2$s) across %3$s file.', 'Saved %1$s (%2$s) across %3$s files.', $saved['files'], 'iminify-image-optimizer' ),
-						$percent . '%',
-						(string) size_format( $saved['before'] - $saved['after'], 1 ),
-						number_format_i18n( $saved['files'] )
-					)
+				sprintf(
+					/* translators: 1: the percentage saved, such as 34%, 2: the bytes saved, such as 1.2 MB, 3: how many files it covers. */
+					esc_html( _n( 'Saved %1$s (%2$s) across %3$s file.', 'Saved %1$s (%2$s) across %3$s files.', $saved['files'], 'iminify-image-optimizer' ) ),
+					self::figure( $percent . '%' ),
+					self::figure( (string) size_format( $saved['before'] - $saved['after'], 1 ) ),
+					esc_html( number_format_i18n( $saved['files'] ) )
 				)
 			);
 		} else {
@@ -734,7 +732,7 @@ class Media_View {
 				sprintf(
 					/* translators: %s: the formats missing, such as "AVIF". */
 					__( 'Missing formats: %s', 'iminify-image-optimizer' ),
-					strtoupper( implode( ', ', $lacks ) )
+					strtoupper( implode( wp_get_list_item_separator(), $lacks ) )
 				)
 			) . '</p>';
 		}
@@ -746,7 +744,7 @@ class Media_View {
 				sprintf(
 					/* translators: %s: the sizes missing, by their names. */
 					__( 'Missing sizes: %s', 'iminify-image-optimizer' ),
-					implode( ', ', $lacks )
+					implode( wp_get_list_item_separator(), self::size_names( $lacks ) )
 				)
 			) . '</p>';
 		}
@@ -809,14 +807,12 @@ class Media_View {
 
 		if ( $other['before'] > $other['after'] && $other['after'] > 0 ) {
 			$percent = (int) round( 100 * ( $other['before'] - $other['after'] ) / $other['before'] );
-			$html   .= '<p class="iminify-detail">' . esc_html(
-				sprintf(
-					/* translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB. */
-					__( '%1$s saved %2$s (%3$s), as it recorded it.', 'iminify-image-optimizer' ),
-					Others::name( $other['plugin'] ),
-					$percent . '%',
-					(string) size_format( $other['before'] - $other['after'], 1 )
-				)
+			$html   .= '<p class="iminify-detail">' . sprintf(
+				/* translators: 1: another image optimizer's name, 2: the percentage saved, such as 34%, 3: the bytes saved, such as 1.2 MB. */
+				esc_html__( '%1$s saved %2$s (%3$s), as it recorded it.', 'iminify-image-optimizer' ),
+				esc_html( Others::name( $other['plugin'] ) ),
+				self::figure( $percent . '%' ),
+				self::figure( (string) size_format( $other['before'] - $other['after'], 1 ) )
 			) . '</p>';
 		}
 
@@ -992,7 +988,7 @@ class Media_View {
 			$found[ (string) ( $copy['format'] ?? '' ) ] = true;
 		}
 
-		return implode( ', ', array_intersect_key( $names, $found ) );
+		return implode( wp_get_list_item_separator(), array_intersect_key( $names, $found ) );
 	}
 
 	/**
@@ -1022,10 +1018,43 @@ class Media_View {
 			sprintf(
 				/* translators: 1: the formats, such as "WebP, AVIF", 2: the image optimizers that made them, such as "EWWW Image Optimizer". */
 				__( 'Its pages are served the %1$s copies %2$s made, until Iminify makes its own.', 'iminify-image-optimizer' ),
-				implode( ', ', array_intersect_key( $names, $formats ) ),
-				implode( ', ', array_keys( $plugins ) )
+				implode( wp_get_list_item_separator(), array_intersect_key( $names, $formats ) ),
+				implode( wp_get_list_item_separator(), array_keys( $plugins ) )
 			)
 		) . '</p>';
+	}
+
+	/**
+	 * A figure inside a sentence, kept whole in a right-to-left sentence.
+	 *
+	 * @param string $figure The figure, such as 1.2 MB.
+	 */
+	protected static function figure( string $figure ): string {
+		return '<bdi>' . esc_html( $figure ) . '</bdi>';
+	}
+
+	/**
+	 * Sizes in words, by their code names: the full size, the names the editor
+	 * gives them, and for one the editor doesn't offer (WordPress's `medium_large`)
+	 * its code name written out.
+	 *
+	 * @param list<string> $sizes The sizes' code names.
+	 * @return array<string, string> Each code name's words, in the order given.
+	 */
+	protected static function size_names( array $sizes ): array {
+		$editor = State::size_names();
+		$names  = array();
+
+		foreach ( $sizes as $size ) {
+			if ( Declaration::MAIN === $size ) {
+				$names[ $size ] = __( 'Full Size', 'iminify-image-optimizer' );
+			} else {
+				$named          = $editor[ $size ] ?? $size;
+				$names[ $size ] = $named === $size ? ucwords( str_replace( array( '_', '-' ), ' ', $size ) ) : $named;
+			}
+		}
+
+		return $names;
 	}
 
 	/**
@@ -1054,25 +1083,35 @@ class Media_View {
 		}
 
 		$html .= sprintf(
-			'<table class="iminify-sizes"><thead><tr><th scope="col">%s</th><th scope="col">%s</th><th scope="col">%s</th><th scope="col">%s</th></tr></thead><tbody>',
+			'<div class="iminify-sizes-scroll"><table class="iminify-sizes"><thead><tr><th scope="col">%s</th><th scope="col">%s</th><th scope="col">%s</th><th scope="col">%s</th></tr></thead><tbody>',
 			esc_html__( 'Size', 'iminify-image-optimizer' ),
 			esc_html__( 'Before', 'iminify-image-optimizer' ),
 			esc_html__( 'After', 'iminify-image-optimizer' ),
 			esc_html__( 'Copies', 'iminify-image-optimizer' )
 		);
 
+		/* Widest first, the full size at the top, however the service listed them. */
+		uksort(
+			$outputs,
+			static function ( $one, $other ) use ( $outputs ): int {
+				return array( Declaration::MAIN === (string) $other, (int) $outputs[ $other ]['width'] ) <=> array( Declaration::MAIN === (string) $one, (int) $outputs[ $one ]['width'] );
+			}
+		);
+
+		$names = self::size_names( array_map( 'strval', array_keys( $outputs ) ) );
+
 		foreach ( $outputs as $name => $output ) {
 			$html .= sprintf(
 				'<tr><th scope="row">%s<br><small dir="ltr">%s</small></th><td>%s</td><td>%s</td><td>%s</td></tr>',
-				esc_html( Declaration::MAIN === $name ? __( 'Full size', 'iminify-image-optimizer' ) : (string) $name ),
+				esc_html( $names[ (string) $name ] ),
 				esc_html( (int) $output['width'] . ' × ' . (int) $output['height'] ),
 				esc_html( (string) size_format( (int) $output['before'], 1 ) ),
 				esc_html( (string) size_format( (int) $output['after'], 1 ) ),
-				esc_html( strtoupper( implode( ', ', array_map( 'strval', (array) ( $output['formats'] ?? array() ) ) ) ) )
+				esc_html( strtoupper( implode( wp_get_list_item_separator(), array_map( 'strval', (array) ( $output['formats'] ?? array() ) ) ) ) )
 			);
 		}
 
-		return $html . '</tbody></table>';
+		return $html . '</tbody></table></div>';
 	}
 
 	/**
@@ -1158,7 +1197,7 @@ class Media_View {
 			$fills = '';
 
 			foreach ( self::fills( $attachment ) as $what => $label ) {
-				$fills .= self::button( $attachment, 'missing', $label, self::fill_warning(), '', '', false, $what );
+				$fills .= self::button( $attachment, 'missing', $label, self::fill_warning(), '', '', $what );
 			}
 
 			if ( '' !== $fills ) {
@@ -1178,7 +1217,7 @@ class Media_View {
 		}
 
 		if ( array() !== Copies::own( $record['copies'] ) ) {
-			$local .= self::button( $attachment, 'copies', __( 'Delete the WebP and AVIF copies', 'iminify-image-optimizer' ), __( 'Delete this image\'s WebP and AVIF copies? Its pages go back to serving the JPEG or PNG.', 'iminify-image-optimizer' ), '', __( 'Delete the copies', 'iminify-image-optimizer' ), true );
+			$local .= self::button( $attachment, 'copies', __( 'Delete the copies', 'iminify-image-optimizer' ), __( 'Delete this image\'s WebP and AVIF copies? Its pages go back to serving the JPEG or PNG.', 'iminify-image-optimizer' ) );
 		}
 
 		return '' === $local ? $html : $html . '<p class="iminify-actions">' . $local . '</p>';
@@ -1193,13 +1232,11 @@ class Media_View {
 	 * @param string $confirm    What to ask first, if anything.
 	 * @param string $level      The level it asks for, if any.
 	 * @param string $yes        The words of the button that goes ahead once asked, its own words when empty.
-	 * @param bool   $danger     Whether it deletes something.
 	 * @param string $what       What is missing, for the button that makes it.
 	 */
-	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '', string $yes = '', bool $danger = false, string $what = '' ): string {
+	protected static function button( int $attachment, string $action, string $label, string $confirm = '', string $level = '', string $yes = '', string $what = '' ): string {
 		return sprintf(
-			'<button type="button" class="iminify-btn iminify-btn--small %1$s" data-iminify-action="%2$s" data-iminify-attachment="%3$d" data-iminify-confirm="%4$s" data-iminify-yes="%5$s" data-iminify-level="%6$s" data-iminify-what="%7$s">%8$s</button> ',
-			$danger ? 'iminify-btn--ghost iminify-btn--danger' : 'iminify-btn--secondary',
+			'<button type="button" class="iminify-btn iminify-btn--small iminify-btn--secondary" data-iminify-action="%1$s" data-iminify-attachment="%2$d" data-iminify-confirm="%3$s" data-iminify-yes="%4$s" data-iminify-level="%5$s" data-iminify-what="%6$s">%7$s</button> ',
 			esc_attr( $action ),
 			$attachment,
 			esc_attr( $confirm ),

@@ -143,6 +143,21 @@
 	.iminify-grid {
 		grid-template-columns: minmax(0, 1fr) 316px;
 	}
+
+	/* Page Audit's markup runs scan, list, the rest; the list takes the wide column's whole height. */
+	.iminify-grid--audit {
+		grid-template-rows: auto 1fr;
+
+		.iminify-grid__list {
+			grid-column: 1;
+			grid-row: 1 / span 2;
+		}
+
+		.iminify-grid__scan,
+		.iminify-grid__more {
+			grid-column: 2;
+		}
+	}
 }
 
 .iminify-panel {
@@ -396,6 +411,15 @@
 
 .iminify-status-gap {
 	margin-top: 16px;
+}
+
+/* A callout under a sentence of the panel's sits apart from it, and its press close to its words. */
+.iminify-text + .iminify-callout {
+	margin-top: 12px;
+}
+
+.iminify-callout .iminify-actions {
+	margin-top: 10px;
 }
 
 .iminify-est {

@@ -285,8 +285,17 @@ export default function App() {
 					onRetry={ retry }
 				/>
 			) }
-			<div className="iminify-grid">
-				<div className="iminify-col">
+			{ /* Scan comes first in the page, for a phone and for the keyboard; on a wide screen it sits beside the list. */ }
+			<div className="iminify-grid iminify-grid--audit">
+				<div className="iminify-col iminify-grid__scan">
+					<Scan
+						state={ state }
+						busy={ busy }
+						wait={ wait }
+						onScan={ start }
+					/>
+				</div>
+				<div className="iminify-col iminify-grid__list">
 					<Audit
 						audit={ open }
 						pages={ state.pages }
@@ -296,13 +305,7 @@ export default function App() {
 						onComplete={ complete }
 					/>
 				</div>
-				<div className="iminify-col">
-					<Scan
-						state={ state }
-						busy={ busy }
-						wait={ wait }
-						onScan={ start }
-					/>
+				<div className="iminify-col iminify-grid__more">
 					<History
 						audits={ state.audits }
 						pages={ state.pages }
