@@ -184,6 +184,16 @@ It removes its settings and stops the site's key on Iminify (a key set in wp-con
 
 The External services section above lists everything the plugin sends to Iminify and when. Nothing about your site's visitors is sent, and the plugin suggests text for your privacy policy under Settings, Privacy.
 
+== Screenshots ==
+
+1. The media library's Iminify column: each image's state, what it saved across its files, and its WebP and AVIF copies.
+2. One image's panel: every size before and after, with its WebP and AVIF copies and the levels to optimize it again at.
+3. The original beside the optimized file in each format, here the AVIF copy at 77% smaller.
+4. Bulk Optimization running in the background, with the library's progress and what it has saved so far.
+5. Page Audit: the images a page shows, each beside its media library item, with what slows the page down and how to fix it.
+6. Settings: the compression level, the WebP and AVIF copies, the images and files the account has used today, and an offer to use another optimizer's settings.
+7. More settings: a size limit in KB, AI alt text in the language you pick, backups, and how the copies reach your pages.
+
 == Changelog ==
 
 = 1.0.0 =

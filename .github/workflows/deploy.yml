@@ -7,8 +7,14 @@ name: Deploy to wordpress.org
 # release in a cooldown of about six hours before sites are offered it.
 #
 # Tag a commit only once CI has passed on it: the build job refuses one it
-# hasn't. A failed run is run again on the same tag. A version wordpress.org
-# already has is never tagged again: fix it in a new version.
+# hasn't. A run that failed on something passing (Subversion, the network) is
+# run again on the same tag. A fault the tagged commit holds is not: GitHub runs
+# this file as that commit holds it, and Plugin Check installs its newest
+# release on every run, so a fault in this file, or code a newer Plugin Check
+# now flags, is fixed in a new commit, which has to pass CI on main before the
+# tag is deleted and pushed again onto it, and only while wordpress.org has no
+# such version. A version wordpress.org already has is never tagged again: fix
+# it in a new version.
 
 on:
   push:

@@ -9,6 +9,7 @@ parameters:
     paths:
         - iminify-image-optimizer.php
         - bin/check-build.php
+        - bin/check-assets.php
         - includes
         - dev/mu-plugins
         - tests
