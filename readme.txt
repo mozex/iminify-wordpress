@@ -1,4 +1,5 @@
 === Iminify Image Optimizer ===
+Contributors: iminify
 Tags: image optimization, compress images, webp, avif, image compression
 Requires at least: 6.9
 Tested up to: 7.1
