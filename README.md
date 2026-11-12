@@ -1,6 +1,4 @@
-<p align="center">
-  <img src=".wordpress-org/icon.svg" alt="Iminify" width="96">
-</p>
+[![Iminify Image Optimizer: lighter WordPress images, counted once per upload](.wordpress-org/banner-1544x500.png)](https://www.iminify.com/wordpress-plugin)
 
 # Iminify Image Optimizer
 
