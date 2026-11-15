@@ -103,7 +103,7 @@ class Media_View {
 	 * @return array<string, string>
 	 */
 	public static function add_column( array $columns ): array {
-		$columns[ self::COLUMN ] = __( 'Iminify', 'iminify-image-optimizer' );
+		$columns[ self::COLUMN ] = esc_html__( 'Iminify', 'iminify-image-optimizer' );
 
 		return $columns;
 	}
@@ -425,7 +425,7 @@ class Media_View {
 
 		if ( self::handles( $attachment ) && Capabilities::can_change( $attachment ) ) {
 			$fields['iminify'] = array(
-				'label' => __( 'Iminify', 'iminify-image-optimizer' ),
+				'label' => esc_html__( 'Iminify', 'iminify-image-optimizer' ),
 				'input' => 'html',
 				'html'  => self::panel( $attachment ),
 			);

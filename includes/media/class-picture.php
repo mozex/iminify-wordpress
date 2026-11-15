@@ -78,6 +78,7 @@ class Picture {
 			add_filter( $hook, array( self::class, 'prime_content' ), 11 );
 		}
 
+		/* Returns the block's own markup; see mark_pictures() for the one attribute it adds. */
 		add_filter( 'render_block', array( self::class, 'mark_pictures' ) );
 	}
 
@@ -122,6 +123,13 @@ class Picture {
 	 * Marks every `<img>` already inside a `<picture>` in a piece of markup, so it
 	 * is left as its author wrote it: a second set of sources inside would take
 	 * over from the author's own.
+	 *
+	 * The markup comes back as WordPress passed it, byte for byte, but for a
+	 * valueless `data-iminify-picture` attribute written through the HTML API
+	 * on each such `<img>`. Nothing from a post, the database or the service is
+	 * added, so there is nothing to escape, and running the whole block through
+	 * `wp_kses_post()` would strip what other blocks print (inline SVG, forms,
+	 * embeds).
 	 *
 	 * @param mixed $html The markup.
 	 * @return mixed
