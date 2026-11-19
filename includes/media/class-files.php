@@ -1,6 +1,6 @@
 <?php
 /**
- * The plugin's few writes to the uploads folder.
+ * The plugin's file writes: the uploads folder, the images in the folders someone chose, and its block in the .htaccess.
  *
  * @package Iminify\WordPress
  */
