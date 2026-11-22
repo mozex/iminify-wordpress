@@ -191,6 +191,9 @@ class BuildCheckTest extends TestCase {
 			'a rule in a vendor at-rule'      => array( '@-moz-document url-prefix(){body{a:b}}', 'body' ),
 			'the plugin only inside :not()'   => array( 'body:not(.iminify-x) .wrap h1{a:b}', 'body:not(.iminify-x) .wrap h1' ),
 			'the plugin only in an attribute' => array( 'a[href$=".iminify-zip"]{a:b}', 'a[href$=".iminify-zip"]' ),
+			'the plugin only inside :has()'   => array( 'body:has(.iminify-ui) #wpcontent{a:b}', 'body:has(.iminify-ui) #wpcontent' ),
+			'the plugin only on a sibling'    => array( '.iminify-header~.notice{a:b}', '.iminify-header~.notice' ),
+			'a sibling of an ancestor'        => array( '.iminify-ui ~ .wrap h1{a:b}', '.iminify-ui ~ .wrap h1' ),
 		);
 	}
 
@@ -210,7 +213,8 @@ class BuildCheckTest extends TestCase {
 		$this->write(
 			'assets/build/settings.css',
 			'@font-face{font-family:x;src:url(a{b)}@page :first{margin:1in;@top-left{content:"x"}}@-webkit-keyframes iminify-a{from{a:b}}' .
-			'@property --iminify-x{syntax:"*";inherits:false}.iminify-ui :not(.iminify-x),.iminify-ui:not([hidden]) h2{c:d}'
+			'@property --iminify-x{syntax:"*";inherits:false}.iminify-ui :not(.iminify-x),.iminify-ui:not([hidden]) h2{c:d}' .
+			'.iminify-ui .components-form-toggle+label+p,.iminify-ui > .a ~ p,.iminify-a:nth-child(2n+1) p,.iminify-mode:has(.iminify-mode__input:focus-visible){e:f}'
 		);
 
 		$this->assertSame( array(), iminify_check_selectors( $this->dir ) );

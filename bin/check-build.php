@@ -156,8 +156,11 @@ function iminify_check_allowed( string $address ): bool {
  * comma, inside parentheses too, because that is how a reader may split it: a
  * piece that names nothing of the plugin's reads as styling WordPress's own
  * screens, however the whole list is scoped. And each selector of the list as
- * the browser reads it names one outside `:not()` and attribute values, where
- * naming it scopes nothing (`body:not(.iminify-x) h1` styles every `h1`). The
+ * the browser reads it names one on the element it styles or on one of that
+ * element's ancestors (`iminify_check_scoped()`), never only inside `:not()`,
+ * `:has()` or an attribute value, or on a sibling, which scope nothing
+ * (`body:not(.iminify-x) h1` styles every `h1`, `.iminify-header ~ .notice`
+ * every notice beside the plugin's header). The
  * classes WordPress gives the media list's column and the attachment panel's
  * field, named after the plugin's key (`column-iminify`, `compat-field-iminify`),
  * are the plugin's too. Every block at-rule but `@keyframes` is read, so a rule
@@ -193,9 +196,7 @@ function iminify_check_selectors( string $dir ): array {
 			}
 
 			foreach ( iminify_check_list( $selector ) as $complex ) {
-				$bare = (string) preg_replace( '~:not(\((?:[^()]++|(?1))*\))|\[(?:[^\]"\']++|"[^"]*"|\'[^\']*\')*\]~i', '', $complex );
-
-				if ( ! iminify_check_names_plugin( $bare ) ) {
+				if ( ! iminify_check_scoped( $complex ) ) {
 					$problems[] = $file . ': ' . trim( $complex );
 				}
 			}
@@ -216,6 +217,73 @@ function iminify_check_selectors( string $dir ): array {
  */
 function iminify_check_names_plugin( string $selector ): bool {
 	return 1 === preg_match( '~[.#](?:iminify-|(?:column|compat-field)-iminify(?![\w-]))~', $selector );
+}
+
+/**
+ * Whether one selector (no list) styles only elements inside the plugin's
+ * markup: the plugin's class or id is on its last compound, or on a compound
+ * a descendant or child combinator follows, which is an ancestor of the
+ * element styled (a compound before `+` or `~` is a sibling, whose ancestors
+ * the next compound shares, so it scopes nothing). `:not()`, `:has()` and
+ * attribute values are taken out first.
+ *
+ * @param string $selector The selector.
+ */
+function iminify_check_scoped( string $selector ): bool {
+	$bare      = (string) preg_replace( '~:(?:not|has)(\((?:[^()]++|(?1))*\))|\[(?:[^\]"\']++|"[^"]*"|\'[^\']*\')*\]~i', '', trim( $selector ) );
+	$compounds = array( '' );
+	$steps     = array();
+	$step      = null;
+	$depth     = 0;
+	$length    = strlen( $bare );
+
+	for ( $i = 0; $i < $length; $i++ ) {
+		$char = $bare[ $i ];
+
+		if ( 0 === $depth && false !== strpos( " \t\n\r\f>+~", $char ) ) {
+			if ( ctype_space( $char ) ) {
+				$step = null === $step ? ' ' : $step;
+			} else {
+				$step = $char;
+			}
+
+			continue;
+		}
+
+		if ( null !== $step && '' !== end( $compounds ) ) {
+			$steps[]     = $step;
+			$compounds[] = '';
+		}
+
+		$step = null;
+		$last = count( $compounds ) - 1;
+
+		if ( '\\' === $char ) {
+			$compounds[ $last ] .= substr( $bare, $i, 2 );
+			++$i;
+			continue;
+		}
+
+		if ( '(' === $char ) {
+			++$depth;
+		} elseif ( ')' === $char ) {
+			--$depth;
+		}
+
+		$compounds[ $last ] .= $char;
+	}
+
+	if ( iminify_check_names_plugin( (string) end( $compounds ) ) ) {
+		return true;
+	}
+
+	foreach ( $steps as $index => $combinator ) {
+		if ( ( ' ' === $combinator || '>' === $combinator ) && iminify_check_names_plugin( $compounds[ $index ] ) ) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /**

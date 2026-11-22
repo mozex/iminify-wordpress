@@ -40,9 +40,11 @@ class DesignRootsTest extends TestCase {
 			preg_match_all( '~([^{};]+)\{\s*@include tokens\.root;~', $scss, $blocks );
 			$opening += count( $blocks[1] );
 
-			foreach ( $blocks[1] as $selector ) {
-				preg_match_all( '~\.iminify-[\w-]+~', $selector, $classes );
-				$found[] = (string) end( $classes[0] );
+			foreach ( $blocks[1] as $selectors ) {
+				foreach ( explode( ',', $selectors ) as $selector ) {
+					preg_match_all( '~\.iminify-[\w-]+~', $selector, $classes );
+					$found[] = (string) end( $classes[0] );
+				}
 			}
 		}
 
