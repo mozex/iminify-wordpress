@@ -152,82 +152,166 @@ function iminify_check_allowed( string $address ): bool {
 
 /**
  * The selectors in the built stylesheets that don't name one of the plugin's
- * own classes or ids. Each rule's selector is split at every comma, inside
- * parentheses too, because that is how a reader may split it: a piece that
- * names nothing of the plugin's reads as styling WordPress's own screens,
- * however the whole list is scoped. The classes WordPress gives the media
- * list's column and the attachment panel's field, named after the plugin's key
- * (`column-iminify`, `compat-field-iminify`), are the plugin's too. Rules inside
- * `@media`, `@supports`, `@container` and `@layer` are read; `@keyframes` and
- * `@font-face` hold no selectors.
+ * own classes or ids, read two ways. Each rule's selector is split at every
+ * comma, inside parentheses too, because that is how a reader may split it: a
+ * piece that names nothing of the plugin's reads as styling WordPress's own
+ * screens, however the whole list is scoped. And each selector of the list as
+ * the browser reads it names one outside `:not()` and attribute values, where
+ * naming it scopes nothing (`body:not(.iminify-x) h1` styles every `h1`). The
+ * classes WordPress gives the media list's column and the attachment panel's
+ * field, named after the plugin's key (`column-iminify`, `compat-field-iminify`),
+ * are the plugin's too. Every block at-rule but `@keyframes` is read, so a rule
+ * inside `@media`, `@supports`, `@layer` or `@starting-style` counts, and one
+ * holding only declarations (`@font-face`) gives none. A build with no
+ * stylesheet, or a stylesheet that gives no rule, fails too, since the check
+ * would pass on nothing.
  *
  * @param string $dir The folder that ships.
- * @return string[] One line per selector: the file, then the piece.
+ * @return string[] One line per problem: the file, then the selector.
  */
 function iminify_check_selectors( string $dir ): array {
 	$problems = array();
+	$read     = 0;
 
 	foreach ( iminify_check_files( $dir ) as $file ) {
 		if ( ! preg_match( '~^assets/build/[^/]+\.css$~', $file ) ) {
 			continue;
 		}
 
-		$css = (string) preg_replace( '~/\*.*?\*/~s', '', (string) file_get_contents( $dir . '/' . $file ) );
+		++$read;
+		$selectors = iminify_check_rules( (string) file_get_contents( $dir . '/' . $file ) );
 
-		foreach ( iminify_check_rules( $css ) as $selector ) {
+		if ( array() === $selectors ) {
+			$problems[] = $file . ': no rule';
+		}
+
+		foreach ( $selectors as $selector ) {
 			foreach ( explode( ',', $selector ) as $piece ) {
-				if ( ! preg_match( '~[.#](?:iminify-|(?:column|compat-field)-iminify(?![\w-]))~', $piece ) ) {
+				if ( ! iminify_check_names_plugin( $piece ) ) {
 					$problems[] = $file . ': ' . trim( $piece );
 				}
 			}
+
+			foreach ( iminify_check_list( $selector ) as $complex ) {
+				$bare = (string) preg_replace( '~:not(\((?:[^()]++|(?1))*\))|\[(?:[^\]"\']++|"[^"]*"|\'[^\']*\')*\]~i', '', $complex );
+
+				if ( ! iminify_check_names_plugin( $bare ) ) {
+					$problems[] = $file . ': ' . trim( $complex );
+				}
+			}
 		}
+	}
+
+	if ( 0 === $read ) {
+		$problems[] = 'assets/build: no stylesheet';
 	}
 
 	return array_values( array_unique( $problems ) );
 }
 
 /**
- * The selectors of a stylesheet's style rules, those inside grouping at-rules
- * included.
+ * Whether a selector names one of the plugin's classes or ids.
  *
- * @param string $css The stylesheet, without comments.
+ * @param string $selector The selector.
+ */
+function iminify_check_names_plugin( string $selector ): bool {
+	return 1 === preg_match( '~[.#](?:iminify-|(?:column|compat-field)-iminify(?![\w-]))~', $selector );
+}
+
+/**
+ * A selector list split at its own commas, as the browser reads it: never one
+ * inside parentheses, brackets, a string or an escape.
+ *
+ * @param string $selector The selector list.
+ * @return string[]
+ */
+function iminify_check_list( string $selector ): array {
+	$list   = array();
+	$length = strlen( $selector );
+	$depth  = 0;
+	$start  = 0;
+	$i      = 0;
+
+	while ( $i < $length ) {
+		$skip = iminify_check_skip( $selector, $i );
+
+		if ( $skip > $i ) {
+			$i = $skip;
+			continue;
+		}
+
+		$char = $selector[ $i ];
+
+		if ( '(' === $char || '[' === $char ) {
+			++$depth;
+		} elseif ( ')' === $char || ']' === $char ) {
+			--$depth;
+		} elseif ( ',' === $char && 0 === $depth ) {
+			$list[] = substr( $selector, $start, $i - $start );
+			$start  = $i + 1;
+		}
+
+		++$i;
+	}
+
+	$list[] = substr( $selector, $start );
+
+	return $list;
+}
+
+/**
+ * The selectors of a stylesheet's style rules, those inside every block
+ * at-rule but `@keyframes` included.
+ *
+ * @param string $css The stylesheet.
  * @return string[]
  */
 function iminify_check_rules( string $css ): array {
 	$selectors = array();
 	$length    = strlen( $css );
-	$start     = 0;
+	$prelude   = '';
 	$i         = 0;
 
 	while ( $i < $length ) {
+		$skip = iminify_check_skip( $css, $i );
+
+		if ( $skip > $i ) {
+			/* A comment is no part of a selector; a string, an escape or an address is. */
+			if ( '/*' !== substr( $css, $i, 2 ) ) {
+				$prelude .= substr( $css, $i, $skip - $i );
+			}
+
+			$i = $skip;
+			continue;
+		}
+
 		$char = $css[ $i ];
 
-		if ( '"' === $char || "'" === $char ) {
-			$i = iminify_check_after_string( $css, $i );
-			continue;
-		}
-
-		if ( ';' === $char ) {
-			$start = ++$i;
-			continue;
-		}
-
-		if ( '{' !== $char ) {
+		if ( ';' === $char || '}' === $char ) {
+			$prelude = '';
 			++$i;
 			continue;
 		}
 
-		$prelude = trim( substr( $css, $start, $i - $start ) );
+		if ( '{' !== $char ) {
+			$prelude .= $char;
+			++$i;
+			continue;
+		}
+
+		$prelude = trim( $prelude );
 		$end     = iminify_check_block_end( $css, $i );
 
-		if ( preg_match( '~^@(?:media|supports|container|layer)\b~i', $prelude ) ) {
-			$selectors = array_merge( $selectors, iminify_check_rules( substr( $css, $i + 1, $end - $i - 1 ) ) );
-		} elseif ( '' !== $prelude && '@' !== $prelude[0] ) {
+		if ( '' !== $prelude && '@' === $prelude[0] ) {
+			if ( ! preg_match( '~^@(?:-[a-z]+-)?keyframes\b~i', $prelude ) ) {
+				$selectors = array_merge( $selectors, iminify_check_rules( substr( $css, $i + 1, $end - $i - 1 ) ) );
+			}
+		} elseif ( '' !== $prelude ) {
 			$selectors[] = $prelude;
 		}
 
-		$i     = $end + 1;
-		$start = $i;
+		$i       = $end + 1;
+		$prelude = '';
 	}
 
 	return $selectors;
@@ -245,16 +329,16 @@ function iminify_check_block_end( string $css, int $open ): int {
 	$i      = $open;
 
 	while ( $i < $length ) {
-		$char = $css[ $i ];
+		$skip = iminify_check_skip( $css, $i );
 
-		if ( '"' === $char || "'" === $char ) {
-			$i = iminify_check_after_string( $css, $i );
+		if ( $skip > $i ) {
+			$i = $skip;
 			continue;
 		}
 
-		if ( '{' === $char ) {
+		if ( '{' === $css[ $i ] ) {
 			++$depth;
-		} elseif ( '}' === $char && 0 === --$depth ) {
+		} elseif ( '}' === $css[ $i ] && 0 === --$depth ) {
 			return $i;
 		}
 
@@ -265,20 +349,49 @@ function iminify_check_block_end( string $css, int $open ): int {
 }
 
 /**
- * The offset right after the quoted string that starts at an offset.
+ * The offset right after what starts at an offset and may hold a brace, a
+ * quote or a comma that is no part of the stylesheet's structure: a quoted
+ * string, a comment, an escaped character, or an unquoted `url()`, which may
+ * hold braces. Any other offset comes back as it is.
  *
- * @param string $css   The stylesheet.
- * @param int    $quote The offset of the string's opening quote.
+ * @param string $css The stylesheet.
+ * @param int    $i   The offset.
  */
-function iminify_check_after_string( string $css, int $quote ): int {
+function iminify_check_skip( string $css, int $i ): int {
 	$length = strlen( $css );
-	$i      = $quote + 1;
+	$char   = $css[ $i ];
 
-	while ( $i < $length && $css[ $i ] !== $css[ $quote ] ) {
-		$i += '\\' === $css[ $i ] ? 2 : 1;
+	if ( '"' === $char || "'" === $char ) {
+		$j = $i + 1;
+
+		while ( $j < $length && $css[ $j ] !== $char ) {
+			$j += '\\' === $css[ $j ] ? 2 : 1;
+		}
+
+		return min( $j + 1, $length );
 	}
 
-	return $i + 1;
+	if ( '/' === $char && '*' === substr( $css, $i + 1, 1 ) ) {
+		$end = strpos( $css, '*/', $i + 2 );
+
+		return false === $end ? $length : $end + 2;
+	}
+
+	if ( '\\' === $char ) {
+		return min( $i + 2, $length );
+	}
+
+	if ( ( 'u' === $char || 'U' === $char ) && preg_match( '~(?<![\w-])url\(\s*+(?!["\'])~iA', $css, $address, 0, $i ) ) {
+		$j = $i + strlen( $address[0] );
+
+		while ( $j < $length && ')' !== $css[ $j ] ) {
+			$j += '\\' === $css[ $j ] ? 2 : 1;
+		}
+
+		return min( $j + 1, $length );
+	}
+
+	return $i;
 }
 
 /**

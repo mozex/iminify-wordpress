@@ -176,6 +176,55 @@ class BuildCheckTest extends TestCase {
 	}
 
 	/**
+	 * Stylesheets that hide a rule from a reader that doesn't know CSS's
+	 * strings, comments, escapes, addresses and at-rules, or that name the
+	 * plugin only where it scopes nothing, each with the selector named.
+	 *
+	 * @return array<string, array{string, string}>
+	 */
+	public function hidden_selectors(): array {
+		return array(
+			'a comment opened in a string'    => array( '.iminify-a::before{content:"/*"}body{color:red}.iminify-b::after{content:"*/"}', 'body' ),
+			'an escaped quote'                => array( '.iminify-a\\"{a:b}body{c:d}.iminify-b"x{e:f}', 'body' ),
+			'a brace in an unquoted address'  => array( '.iminify-a{background:url(data:x{y)}body{a:b}', 'body' ),
+			'a rule in @starting-style'       => array( '@starting-style{body{opacity:0}}', 'body' ),
+			'a rule in a vendor at-rule'      => array( '@-moz-document url-prefix(){body{a:b}}', 'body' ),
+			'the plugin only inside :not()'   => array( 'body:not(.iminify-x) .wrap h1{a:b}', 'body:not(.iminify-x) .wrap h1' ),
+			'the plugin only in an attribute' => array( 'a[href$=".iminify-zip"]{a:b}', 'a[href$=".iminify-zip"]' ),
+		);
+	}
+
+	/**
+	 * @dataProvider hidden_selectors
+	 *
+	 * @param string $css      The stylesheet.
+	 * @param string $selector The selector that names nothing of the plugin's.
+	 */
+	public function test_a_selector_is_found_however_the_stylesheet_hides_it( string $css, string $selector ): void {
+		$this->write( 'assets/build/settings.css', $css );
+
+		$this->assertContains( 'assets/build/settings.css: ' . $selector, iminify_check_selectors( $this->dir ) );
+	}
+
+	public function test_at_rules_without_selectors_and_scoped_negations_pass(): void {
+		$this->write(
+			'assets/build/settings.css',
+			'@font-face{font-family:x;src:url(a{b)}@page :first{margin:1in;@top-left{content:"x"}}@-webkit-keyframes iminify-a{from{a:b}}' .
+			'@property --iminify-x{syntax:"*";inherits:false}.iminify-ui :not(.iminify-x),.iminify-ui:not([hidden]) h2{c:d}'
+		);
+
+		$this->assertSame( array(), iminify_check_selectors( $this->dir ) );
+	}
+
+	public function test_a_build_with_no_stylesheet_or_one_with_no_rule_fails(): void {
+		$this->assertSame( array( 'assets/build: no stylesheet' ), iminify_check_selectors( $this->dir ) );
+
+		$this->write( 'assets/build/notice.css', '/* .iminify-notice{a:b} */' );
+
+		$this->assertSame( array( 'assets/build/notice.css: no rule' ), iminify_check_selectors( $this->dir ) );
+	}
+
+	/**
 	 * Writes a file under the test's folder, making its folders first.
 	 *
 	 * @param string $path    The file's path in the folder.
