@@ -12,7 +12,8 @@ use WP_UnitTestCase;
 
 /**
  * Covers the scheme colour the plugin's stylesheets get before WordPress 7.0,
- * and that from 7.0 core's own variable is left to do it.
+ * declared on the design system's root classes and once however often it is
+ * attached, and that from 7.0 core's own variable is left to do it.
  */
 class SchemeTest extends WP_UnitTestCase {
 
@@ -39,8 +40,9 @@ class SchemeTest extends WP_UnitTestCase {
 	public function test_the_scheme_colour_is_printed_before_7_0_and_left_to_core_after(): void {
 		$GLOBALS['wp_version'] = '6.9.1'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- the version under test.
 		Scheme::attach( 'iminify-scheme-test' );
+		Scheme::attach( 'iminify-scheme-test' );
 
-		$this->assertSame( array( ':root{--iminify-scheme:#ad631e}' ), wp_styles()->get_data( 'iminify-scheme-test', 'after' ) );
+		$this->assertSame( array( '.iminify-ui,.iminify-media,.iminify-notice,.iminify-toasts{--iminify-scheme:#ad631e}' ), wp_styles()->get_data( 'iminify-scheme-test', 'after' ) );
 
 		wp_deregister_style( 'iminify-scheme-test' );
 		wp_register_style( 'iminify-scheme-test', false, array(), '1' );

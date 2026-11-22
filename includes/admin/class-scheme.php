@@ -21,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Scheme {
 
 	/**
+	 * The design system's root classes, the only elements that read the colour
+	 * (their tokens turn it into `--iminify-focus`), so it is declared on them
+	 * rather than on the document, where it would sit on every WordPress screen.
+	 */
+	const ROOTS = '.iminify-ui,.iminify-media,.iminify-notice,.iminify-toasts';
+
+	/**
 	 * Each core scheme's colour, as core's base styles name it.
 	 */
 	const COLORS = array(
@@ -37,7 +44,9 @@ class Scheme {
 
 	/**
 	 * Adds the person's scheme colour to one of the plugin's stylesheets, before
-	 * WordPress 7.0. A scheme another plugin added keeps the default focus colour.
+	 * WordPress 7.0, once however often the stylesheet is queued (the media
+	 * library's grid queues the media styles for its screen and for the modal).
+	 * A scheme another plugin added keeps the default focus colour.
 	 *
 	 * @param string $handle The stylesheet's handle.
 	 */
@@ -50,8 +59,15 @@ class Scheme {
 		$scheme = get_user_option( 'admin_color' );
 		$scheme = is_string( $scheme ) && '' !== $scheme ? $scheme : 'fresh';
 
-		if ( isset( self::COLORS[ $scheme ] ) ) {
-			wp_add_inline_style( $handle, ':root{--iminify-scheme:' . self::COLORS[ $scheme ] . '}' );
+		if ( ! isset( self::COLORS[ $scheme ] ) ) {
+			return;
+		}
+
+		$rule  = self::ROOTS . '{--iminify-scheme:' . self::COLORS[ $scheme ] . '}';
+		$added = wp_styles()->get_data( $handle, 'after' );
+
+		if ( ! is_array( $added ) || ! in_array( $rule, $added, true ) ) {
+			wp_add_inline_style( $handle, $rule );
 		}
 	}
 }

@@ -2,7 +2,8 @@
 /**
  * Checks what ships, as bin/build.php copied it or as its zip unpacks: no
  * address but the ones the plugin may name, nothing that points at a
- * developer's machine, and every locale's translation files.
+ * developer's machine, every locale's translation files, and no stylesheet
+ * selector that names nothing of the plugin's.
  *
  * Usage: php bin/check-build.php [folder]
  *        (the folder defaults to build/iminify-image-optimizer)
@@ -150,6 +151,137 @@ function iminify_check_allowed( string $address ): bool {
 }
 
 /**
+ * The selectors in the built stylesheets that don't name one of the plugin's
+ * own classes or ids. Each rule's selector is split at every comma, inside
+ * parentheses too, because that is how a reader may split it: a piece that
+ * names nothing of the plugin's reads as styling WordPress's own screens,
+ * however the whole list is scoped. The classes WordPress gives the media
+ * list's column and the attachment panel's field, named after the plugin's key
+ * (`column-iminify`, `compat-field-iminify`), are the plugin's too. Rules inside
+ * `@media`, `@supports`, `@container` and `@layer` are read; `@keyframes` and
+ * `@font-face` hold no selectors.
+ *
+ * @param string $dir The folder that ships.
+ * @return string[] One line per selector: the file, then the piece.
+ */
+function iminify_check_selectors( string $dir ): array {
+	$problems = array();
+
+	foreach ( iminify_check_files( $dir ) as $file ) {
+		if ( ! preg_match( '~^assets/build/[^/]+\.css$~', $file ) ) {
+			continue;
+		}
+
+		$css = (string) preg_replace( '~/\*.*?\*/~s', '', (string) file_get_contents( $dir . '/' . $file ) );
+
+		foreach ( iminify_check_rules( $css ) as $selector ) {
+			foreach ( explode( ',', $selector ) as $piece ) {
+				if ( ! preg_match( '~[.#](?:iminify-|(?:column|compat-field)-iminify(?![\w-]))~', $piece ) ) {
+					$problems[] = $file . ': ' . trim( $piece );
+				}
+			}
+		}
+	}
+
+	return array_values( array_unique( $problems ) );
+}
+
+/**
+ * The selectors of a stylesheet's style rules, those inside grouping at-rules
+ * included.
+ *
+ * @param string $css The stylesheet, without comments.
+ * @return string[]
+ */
+function iminify_check_rules( string $css ): array {
+	$selectors = array();
+	$length    = strlen( $css );
+	$start     = 0;
+	$i         = 0;
+
+	while ( $i < $length ) {
+		$char = $css[ $i ];
+
+		if ( '"' === $char || "'" === $char ) {
+			$i = iminify_check_after_string( $css, $i );
+			continue;
+		}
+
+		if ( ';' === $char ) {
+			$start = ++$i;
+			continue;
+		}
+
+		if ( '{' !== $char ) {
+			++$i;
+			continue;
+		}
+
+		$prelude = trim( substr( $css, $start, $i - $start ) );
+		$end     = iminify_check_block_end( $css, $i );
+
+		if ( preg_match( '~^@(?:media|supports|container|layer)\b~i', $prelude ) ) {
+			$selectors = array_merge( $selectors, iminify_check_rules( substr( $css, $i + 1, $end - $i - 1 ) ) );
+		} elseif ( '' !== $prelude && '@' !== $prelude[0] ) {
+			$selectors[] = $prelude;
+		}
+
+		$i     = $end + 1;
+		$start = $i;
+	}
+
+	return $selectors;
+}
+
+/**
+ * Where the block opened at an offset ends: its closing brace, or the end.
+ *
+ * @param string $css  The stylesheet.
+ * @param int    $open The offset of the block's opening brace.
+ */
+function iminify_check_block_end( string $css, int $open ): int {
+	$depth  = 0;
+	$length = strlen( $css );
+	$i      = $open;
+
+	while ( $i < $length ) {
+		$char = $css[ $i ];
+
+		if ( '"' === $char || "'" === $char ) {
+			$i = iminify_check_after_string( $css, $i );
+			continue;
+		}
+
+		if ( '{' === $char ) {
+			++$depth;
+		} elseif ( '}' === $char && 0 === --$depth ) {
+			return $i;
+		}
+
+		++$i;
+	}
+
+	return $length;
+}
+
+/**
+ * The offset right after the quoted string that starts at an offset.
+ *
+ * @param string $css   The stylesheet.
+ * @param int    $quote The offset of the string's opening quote.
+ */
+function iminify_check_after_string( string $css, int $quote ): int {
+	$length = strlen( $css );
+	$i      = $quote + 1;
+
+	while ( $i < $length && $css[ $i ] !== $css[ $quote ] ) {
+		$i += '\\' === $css[ $i ] ? 2 : 1;
+	}
+
+	return $i + 1;
+}
+
+/**
  * The translation files a shipped folder lacks: every file of the source's
  * languages folder but its glossary, byte for byte, and for each locale its
  * .po, .mo and .l10n.php with one JSON file per built script the template
@@ -230,12 +362,12 @@ if ( isset( $argv[0] ) && realpath( $argv[0] ) === realpath( __FILE__ ) ) {
 		exit( 1 );
 	}
 
-	$iminify_check_problems = array_merge( iminify_check_addresses( $iminify_check_dir ), iminify_check_locales( $iminify_check_dir, dirname( __DIR__ ) ) );
+	$iminify_check_problems = array_merge( iminify_check_addresses( $iminify_check_dir ), iminify_check_locales( $iminify_check_dir, dirname( __DIR__ ) ), iminify_check_selectors( $iminify_check_dir ) );
 
 	if ( array() !== $iminify_check_problems ) {
 		fwrite( STDERR, implode( "\n", $iminify_check_problems ) . "\n" );
 		exit( 1 );
 	}
 
-	echo 'The build holds no address but the allowed ones, and every locale\'s files.' . "\n";
+	echo 'The build holds no address but the allowed ones, every locale\'s files, and no selector outside the plugin\'s classes.' . "\n";
 }

@@ -1,7 +1,7 @@
 /**
  * The design's tokens: Iminify's cool grey scale and sky accent, the corners,
  * shadows and motion every screen shares. Each screen's root class takes them
- * with `@include tokens;`, so nothing leaks into WordPress's own screens.
+ * with `@include tokens.root;`, so nothing leaks into WordPress's own screens.
  *
  * The accent stays sky on every admin colour scheme; keyboard focus follows
  * the person's scheme through core's own `--wp-admin-theme-color`. No font is
@@ -77,11 +77,25 @@
  * A screen's root: the tokens, and no letter spacing for the languages it
  * harms (it pulls apart the joined letters of Arabic and Persian, and crowds
  * the scripts that have no capitals).
+ *
+ * The languages are a list of whole selectors, each with the root class, and
+ * never one `:is()` or `:lang()` holding them all: a list split at every comma,
+ * as a reader of the stylesheet may split it, would leave bare `:lang(fa)`
+ * selectors that seem to reach every element of WordPress's screens.
  */
 @mixin root {
 	@include tokens;
 
-	&:is(:lang(ar), :lang(fa), :lang(ur), :lang(ckb), :lang(he), :lang(hi), :lang(th), :lang(ja), :lang(zh), :lang(ko)) {
+	&:lang(ar),
+	&:lang(fa),
+	&:lang(ur),
+	&:lang(ckb),
+	&:lang(he),
+	&:lang(hi),
+	&:lang(th),
+	&:lang(ja),
+	&:lang(zh),
+	&:lang(ko) {
 		--iminify-track-wide: 0;
 		--iminify-track-tight: 0;
 	}

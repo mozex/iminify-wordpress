@@ -147,6 +147,34 @@ class BuildCheckTest extends TestCase {
 		);
 	}
 
+	public function test_every_built_selector_names_the_plugins_own_classes(): void {
+		$this->write(
+			'assets/build/notice.css',
+			'@charset "UTF-8";/* body{color:red} */.notice.iminify-notice{a:b}.notice.iminify-notice:lang(ar),.notice.iminify-notice:lang(fa){c:d}' .
+			'.iminify-ui .a::before{content:"}body{"}#iminify-notice p{e:f}.column-iminify,.compat-item .compat-field-iminify .label{g:h}' .
+			'@keyframes iminify-spin{from{i:j}to{k:l}}@media (prefers-reduced-motion:reduce){@supports (x:y){.iminify-ui *{m:n}}}'
+		);
+		$this->write( 'assets/images/logo.css', 'body{color:red}' );
+
+		$this->assertSame( array(), iminify_check_selectors( $this->dir ) );
+
+		$this->write(
+			'assets/build/settings.css',
+			'.iminify-ui:is(:lang(ar),:lang(fa)){a:b}@media (max-width:600px){#wpbody .iminify-ui,.wrap h1{c:d}}.column-iminify-x,.compat-field-iminifyx{e:f}:root{g:h}'
+		);
+
+		$this->assertSame(
+			array(
+				'assets/build/settings.css: :lang(fa))',
+				'assets/build/settings.css: .wrap h1',
+				'assets/build/settings.css: .column-iminify-x',
+				'assets/build/settings.css: .compat-field-iminifyx',
+				'assets/build/settings.css: :root',
+			),
+			iminify_check_selectors( $this->dir )
+		);
+	}
+
 	/**
 	 * Writes a file under the test's folder, making its folders first.
 	 *
