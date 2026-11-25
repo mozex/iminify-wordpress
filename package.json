@@ -18,9 +18,9 @@
     "node": ">=22.22.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0",
-    "@wordpress/env": "^12.1.0",
-    "@wordpress/scripts": "^37.1.0"
+    "@playwright/test": "^1.65.1",
+    "@wordpress/env": "^12.2.0",
+    "@wordpress/scripts": "^37.2.0"
   },
   "overrides": {
     "isomorphic-git": "^1.38.6",
