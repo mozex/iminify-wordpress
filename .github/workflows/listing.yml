@@ -1,0 +1,63 @@
+name: Update the wordpress.org listing
+
+# Between releases, readme.txt and .wordpress-org reach wordpress.org without
+# a new version: once CI passes on a push to main, the readme goes to trunk
+# and to the released version's tag (the directory reads the listing from
+# there), and .wordpress-org to the assets folder. A readme whose Stable tag
+# names a version wordpress.org doesn't have yet belongs to a coming release
+# and is left for its deploy, so the listing never describes code the
+# directory doesn't serve. Nothing else in trunk changes here. This works only
+# while Release Confirmation is off for the plugin on wordpress.org, since
+# under it a released tag can't be changed.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: listing
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Readme and assets
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the commit is still main's newest
+        id: newest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          head=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
+          echo "main is at $head, CI passed on $SHA"
+          if [ "$head" = "$SHA" ]; then echo "newest=true" >> "$GITHUB_OUTPUT"; fi
+
+      - if: steps.newest.outputs.newest == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Check wordpress.org has the version the readme names
+        if: steps.newest.outputs.newest == 'true'
+        id: stable
+        run: |
+          stable=$(sed -n 's/^Stable tag: *\([^ ]*\)$/\1/p' readme.txt | tr -d '\r')
+          status=$(curl -s -o /dev/null -w '%{http_code}' "https://plugins.svn.wordpress.org/iminify-image-optimizer/tags/$stable/readme.txt")
+          echo "Stable tag $stable: wordpress.org answers $status for its readme"
+          if [ -n "$stable" ] && [ "$status" = 200 ]; then echo "released=true" >> "$GITHUB_OUTPUT"; fi
+
+      - if: steps.stable.outputs.released == 'true'
+        uses: 10up/action-wordpress-plugin-asset-update@2480306f6f693672726d08b5917ea114cb2825f7 # 2.2.0
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: iminify-image-optimizer
+          IGNORE_OTHER_FILES: true
