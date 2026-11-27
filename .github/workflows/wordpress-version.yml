@@ -23,11 +23,15 @@ jobs:
           persist-credentials: false
 
       - name: Compare with the newest WordPress
+        shell: bash
         run: |
           tested=$(sed -n 's/^Tested up to: *\([^ ]*\)$/\1/p' readme.txt | tr -d '\r')
-          newest=$(curl -sSf https://api.wordpress.org/core/stable-check/1.0/ | jq -r 'to_entries[] | select(.value == "latest") | .key' | cut -d. -f1,2)
+          newest=$(curl -sSf --retry 3 https://api.wordpress.org/core/stable-check/1.0/ | jq -r 'to_entries[] | select(.value == "latest") | .key' | cut -d. -f1,2)
           echo "Tested up to $tested, newest WordPress $newest"
-          [ -n "$tested" ] && [ -n "$newest" ]
+          if [ -z "$tested" ] || [ -z "$newest" ]; then
+            echo "::error::Could not read Tested up to ('$tested') or the newest WordPress ('$newest')"
+            exit 1
+          fi
           if [ "$(printf '%s\n%s\n' "$newest" "$tested" | sort -V | tail -n 1)" != "$tested" ]; then
             echo "::error::WordPress $newest is out: test the plugin on it and raise Tested up to."
             exit 1

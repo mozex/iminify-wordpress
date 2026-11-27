@@ -1,23 +1,25 @@
 name: Update the wordpress.org listing
 
 # Between releases, readme.txt and .wordpress-org reach wordpress.org without
-# a new version: once CI passes on a push to main, the readme goes to trunk
-# and to the released version's tag (the directory reads the listing from
-# there), and .wordpress-org to the assets folder. A readme whose Stable tag
-# names a version wordpress.org doesn't have yet belongs to a coming release
-# and is left for its deploy, so the listing never describes code the
-# directory doesn't serve. Nothing else in trunk changes here. This works only
-# while Release Confirmation is off for the plugin on wordpress.org, since
-# under it a released tag can't be changed.
+# a new version: once CI passes on main's newest commit, and again after each
+# deploy, the readme goes to trunk and to the released version's tag (the
+# directory reads the listing from there), and .wordpress-org to the assets
+# folder. A readme whose Stable tag names a version wordpress.org doesn't have
+# yet belongs to a coming release and waits for its deploy, which runs this
+# again, so the listing never describes code the directory doesn't serve.
+# Nothing else in trunk changes here. This works only while Release
+# Confirmation is off for the plugin on wordpress.org, since under it a
+# released tag can't be changed.
 
 on:
   workflow_run:
-    workflows: [CI]
+    workflows: [CI, Deploy to wordpress.org]
     types: [completed]
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: listing
@@ -26,33 +28,53 @@ concurrency:
 jobs:
   update:
     name: Readme and assets
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    # A fork's pull request runs CI too, from a branch that may be called
+    # main, so only CI's push runs count; a deploy runs only on a tag pushed
+    # here.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      ((github.event.workflow_run.name == 'CI' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
+      github.event.workflow_run.name == 'Deploy to wordpress.org'))
     runs-on: ubuntu-latest
     steps:
-      - name: Check the commit is still main's newest
-        id: newest
+      - name: Find main's newest commit and check CI passed on it
+        id: head
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           head=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
-          echo "main is at $head, CI passed on $SHA"
-          if [ "$head" = "$SHA" ]; then echo "newest=true" >> "$GITHUB_OUTPUT"; fi
+          passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$head" --branch main --event push --status success --json databaseId --jq length)
+          echo "main is at $head, CI runs passed on it: $passed"
+          if [ "$passed" -ge 1 ]; then
+            echo "sha=$head" >> "$GITHUB_OUTPUT"
+          else
+            echo "CI hasn't passed on main's newest commit yet: its own run comes back here."
+          fi
 
-      - if: steps.newest.outputs.newest == 'true'
+      - if: steps.head.outputs.sha != ''
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ steps.head.outputs.sha }}
           persist-credentials: false
 
       - name: Check wordpress.org has the version the readme names
-        if: steps.newest.outputs.newest == 'true'
+        if: steps.head.outputs.sha != ''
         id: stable
+        shell: bash
         run: |
           stable=$(sed -n 's/^Stable tag: *\([^ ]*\)$/\1/p' readme.txt | tr -d '\r')
-          status=$(curl -s -o /dev/null -w '%{http_code}' "https://plugins.svn.wordpress.org/iminify-image-optimizer/tags/$stable/readme.txt")
-          echo "Stable tag $stable: wordpress.org answers $status for its readme"
-          if [ -n "$stable" ] && [ "$status" = 200 ]; then echo "released=true" >> "$GITHUB_OUTPUT"; fi
+          if [ -z "$stable" ]; then
+            echo "::error::No Stable tag read from readme.txt"
+            exit 1
+          fi
+          status=$(curl -sS --retry 3 -o /dev/null -w '%{http_code}' "https://plugins.svn.wordpress.org/iminify-image-optimizer/tags/$stable/readme.txt")
+          case "$status" in
+            200) echo "released=true" >> "$GITHUB_OUTPUT" ;;
+            404) echo "Stable tag $stable isn't on wordpress.org yet: its deploy runs this again." ;;
+            *) echo "::error::wordpress.org answered $status for tags/$stable/readme.txt"; exit 1 ;;
+          esac
 
       - if: steps.stable.outputs.released == 'true'
         uses: 10up/action-wordpress-plugin-asset-update@2480306f6f693672726d08b5917ea114cb2825f7 # 2.2.0
