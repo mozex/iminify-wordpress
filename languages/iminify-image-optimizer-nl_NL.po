@@ -597,7 +597,7 @@ msgstr "Als deze site deel uitmaakt van een multisite-netwerk dat als geheel met
 
 #: includes/admin/class-privacy.php:43
 msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
-msgstr "Als we ervoor kiezen de instellingen te gebruiken die een andere plugin voor afbeeldingsoptimalisatie op deze site heeft bewaard, verzendt onze server die instellingen, de naam van die plugin en de namen van de afbeeldingsgroottes die deze site maakt naar Iminify. Iminify antwoordt met de instellingen die daarbij passen en bewaart er niets van."
+msgstr "Als we ervoor kiezen de instellingen te gebruiken die een andere optimalisatieplugin voor afbeeldingen op deze site heeft bewaard, verzendt onze server die instellingen, de naam van die plugin en de namen van de groottes die deze site voor afbeeldingen maakt naar Iminify. Iminify antwoordt met de instellingen die daarbij passen en bewaart er niets van."
 
 #: includes/admin/class-privacy.php:44
 msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
@@ -2539,7 +2539,7 @@ msgstr "Gepauzeerd. Afbeeldingen die al bij Iminify zijn, worden afgerond."
 
 #: assets/build/bulk.js:13
 msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
-msgstr "In de wacht zolang een andere plugin voor afbeeldingsoptimalisatie je uploads verwerkt. Het uitvoeren gaat vanzelf verder zodra die plugin is uitgeschakeld."
+msgstr "In de wacht zolang een andere optimalisatieplugin voor afbeeldingen je uploads verwerkt. Het uitvoeren gaat vanzelf verder zodra die plugin is uitgeschakeld."
 
 #: assets/build/bulk.js:13
 msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
@@ -2553,7 +2553,7 @@ msgstr "Je account heeft voor vandaag geen afbeeldingen meer. Het uitvoeren gaat
 
 #: assets/build/bulk.js:14
 msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
-msgstr "In de wacht: Iminify accepteert de sleutel van deze site niet. Het uitvoeren gaat vanzelf verder zodra de koppeling werkt."
+msgstr "In de wacht: Iminify accepteert de sleutel van deze site niet. Het uitvoeren gaat vanzelf verder zodra het koppelen weer werkt."
 
 #. translators: %s: the date and time the alt texts come back.
 #: assets/build/bulk.js:15
