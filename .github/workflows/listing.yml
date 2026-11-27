@@ -15,27 +15,28 @@ on:
   workflow_run:
     workflows: [CI, Deploy to wordpress.org]
     types: [completed]
+    # main for CI's runs, a version tag for a deploy's.
+    branches: [main, '[0-9]+.[0-9]+.[0-9]+']
   workflow_dispatch:
 
 permissions:
   contents: read
   actions: read
 
-concurrency:
-  group: listing
-  cancel-in-progress: false
-
 jobs:
   update:
     name: Readme and assets
-    # A fork's pull request runs CI too, from a branch that may be called
-    # main, so only CI's push runs count; a deploy runs only on a tag pushed
-    # here.
+    # A fork's pull request can run a workflow under either name, from a
+    # branch that may be called main, so only push runs count.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' &&
-      ((github.event.workflow_run.name == 'CI' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
+      github.event.workflow_run.event == 'push' &&
+      ((github.event.workflow_run.name == 'CI' && github.event.workflow_run.head_branch == 'main') ||
       github.event.workflow_run.name == 'Deploy to wordpress.org'))
+    concurrency:
+      group: listing
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - name: Find main's newest commit and check CI passed on it
@@ -43,9 +44,17 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.event.workflow_run.name }}
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           head=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
-          passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$head" --branch main --event push --status success --json databaseId --jq length)
+          # The CI run that started this passed (the job's condition says so),
+          # which the runs list may not show yet.
+          if [ "$WORKFLOW" = CI ] && [ "$RUN_SHA" = "$head" ]; then
+            passed=1
+          else
+            passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$head" --branch main --event push --status success --json databaseId --jq length)
+          fi
           echo "main is at $head, CI runs passed on it: $passed"
           if [ "$passed" -ge 1 ]; then
             echo "sha=$head" >> "$GITHUB_OUTPUT"
