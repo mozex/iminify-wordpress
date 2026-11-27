@@ -32,7 +32,7 @@ msgstr "https://www.iminify.com"
 #. Description of the plugin
 #: iminify-image-optimizer.php
 msgid "Compress, convert and resize the images in your media library with Iminify, and serve them as WebP and AVIF."
-msgstr "Comprimeer, converteer en verklein de afbeeldingen in je mediabibliotheek met Iminify, en serveer ze als WebP en AVIF."
+msgstr "Met Iminify kun je de afbeeldingen in je mediabibliotheek comprimeren, converteren en hun formaat aanpassen, en ze als WebP en AVIF serveren."
 
 #. Author of the plugin
 #: iminify-image-optimizer.php
@@ -57,7 +57,7 @@ msgstr "Vind de afbeeldingen die je pagina's vertragen, elk naast de bijbehorend
 #: includes/admin/class-audit-page.php:82
 #: includes/admin/class-folders-page.php:87
 msgid "The page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
-msgstr "Het script van deze pagina ontbreekt in de folder van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
+msgstr "Het script van deze pagina ontbreekt in de map van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
 
 #: includes/admin/class-audit-page.php:84
 #: includes/admin/class-folders-page.php:89
@@ -84,11 +84,11 @@ msgstr "Bulkoptimalisatie"
 
 #: includes/admin/class-bulk-page.php:77
 msgid "Every image already in your media library, in one run."
-msgstr "Alle afbeeldingen die al in je mediabibliotheek staan, in één keer."
+msgstr "Elke afbeelding die al in je mediabibliotheek staat, in één keer uitvoeren."
 
 #: includes/admin/class-bulk-page.php:80
 msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
-msgstr "Het script van de bulkpagina ontbreekt in de folder van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
+msgstr "Het script van de bulkpagina ontbreekt in de map van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
 
 #: includes/admin/class-bulk-page.php:82
 msgid "The bulk page needs JavaScript."
@@ -97,7 +97,7 @@ msgstr "De bulkpagina heeft JavaScript nodig."
 #: includes/admin/class-folders-controller.php:121
 #: includes/class-cli.php:342
 msgid "That folder isn't in the list."
-msgstr "Die folder staat niet in de lijst."
+msgstr "Die map staat niet in de lijst."
 
 #: includes/admin/class-folders-controller.php:191
 #: includes/folders/class-restorer.php:95
@@ -108,11 +108,11 @@ msgstr "Die afbeelding staat niet in de lijst."
 #: includes/admin/class-folders-page.php:47
 #: includes/admin/class-folders-page.php:84
 msgid "Other Folders"
-msgstr "Andere folders"
+msgstr "Andere mappen"
 
 #: includes/admin/class-folders-page.php:84
 msgid "The images in your theme and other folders outside the media library."
-msgstr "De afbeeldingen in je thema en andere folders buiten de mediabibliotheek."
+msgstr "De afbeeldingen in je thema en andere mappen buiten de mediabibliotheek."
 
 #: includes/admin/class-media-controller.php:205
 msgid "This image has no original on the site to compare it with."
@@ -331,7 +331,7 @@ msgstr "Wacht op de verbinding"
 
 #: includes/admin/class-media-view.php:849
 msgid "Not sent"
-msgstr "Niet verstuurd"
+msgstr "Niet verzonden"
 
 #: includes/admin/class-media-view.php:851
 msgid "Error"
@@ -346,34 +346,34 @@ msgstr "Niet geoptimaliseerd"
 
 #: includes/admin/class-media-view.php:889
 msgid "The next batch is open, so it goes out shortly."
-msgstr "De volgende batch is open, dus de afbeelding wordt zo verstuurd."
+msgstr "De volgende batch is open, dus de afbeelding wordt zo verzonden."
 
 #. translators: %s: the date and time the next batch opens.
 #: includes/admin/class-media-view.php:891
 #, php-format
 msgid "It goes out by itself on %s."
-msgstr "De afbeelding wordt vanzelf verstuurd op %s."
+msgstr "De afbeelding wordt vanzelf verzonden op %s."
 
 #: includes/admin/class-media-view.php:911
 #: includes/admin/class-media-view.php:912
 msgid "Alt text: being written."
-msgstr "Alt-tekst: wordt geschreven."
+msgstr "Alt-text: wordt geschreven."
 
 #: includes/admin/class-media-view.php:913
 msgid "Alt text: written by Iminify."
-msgstr "Alt-tekst: geschreven door Iminify."
+msgstr "Alt-text: geschreven door Iminify."
 
 #: includes/admin/class-media-view.php:914
 msgid "Alt text: yours was kept."
-msgstr "Alt-tekst: je eigen tekst is behouden."
+msgstr "Alt-text: je eigen tekst is behouden."
 
 #: includes/admin/class-media-view.php:915
 msgid "Alt text: Iminify couldn't write one for this image."
-msgstr "Alt-tekst: Iminify kon er voor deze afbeelding geen schrijven."
+msgstr "Alt-text: Iminify kon voor deze afbeelding geen tekst schrijven."
 
 #: includes/admin/class-media-view.php:916
 msgid "Alt text: not written, as the day's AI alt texts were used up."
-msgstr "Alt-tekst: niet geschreven, omdat de AI-alt-teksten voor vandaag op waren."
+msgstr "Alt-text: niet geschreven, omdat de AI-alt-texts voor vandaag op waren."
 
 #: includes/admin/class-media-view.php:942
 msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
@@ -439,15 +439,15 @@ msgstr "Kopieën"
 #: assets/build/bulk.js:25
 #: assets/build/settings.js:37
 msgid "Write alt text with AI"
-msgstr "Alt-tekst schrijven met AI"
+msgstr "Alt-text met AI schrijven"
 
 #: includes/admin/class-media-view.php:1139
 msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
-msgstr "Een verkleinde versie van deze afbeelding versturen om de alt-tekst te schrijven? Dit telt als een van je AI-alt-teksten voor vandaag."
+msgstr "Een verkleinde versie van deze afbeelding verzenden om de alt-text te schrijven? Dit telt als een van je AI-alt-texts voor vandaag."
 
 #: includes/admin/class-media-view.php:1139
 msgid "Write alt text"
-msgstr "Alt-tekst schrijven"
+msgstr "Alt-text schrijven"
 
 #: includes/admin/class-media-view.php:1158
 msgid "Optimize again from the original at"
@@ -475,7 +475,7 @@ msgstr "Aanvullen wat ontbreekt"
 
 #: includes/admin/class-media-view.php:1216
 msgid "This image has changed since Iminify optimized it, so there's nothing to restore."
-msgstr "Deze afbeelding is gewijzigd sinds Iminify ze optimaliseerde, dus er valt niets terug te zetten."
+msgstr "Deze afbeelding is gewijzigd sinds Iminify ze heeft geoptimaliseerd, dus terugzetten is niet mogelijk."
 
 #: includes/admin/class-media-view.php:1223
 msgid "Delete the copies"
@@ -501,7 +501,7 @@ msgstr "Deze afbeelding opnieuw versturen om aan te vullen wat ontbreekt? Dit te
 
 #: includes/admin/class-media-view.php:1311
 msgid "Optimize this image again? Iminify makes its files again from its original, keeping their format and names, and this counts as one more image."
-msgstr "Deze afbeelding opnieuw optimaliseren? Iminify maakt de bestanden opnieuw vanaf het origineel, met hetzelfde formaat en dezelfde namen, en dit telt als een extra afbeelding."
+msgstr "Deze afbeelding opnieuw optimaliseren? Iminify maakt de bestanden opnieuw vanaf het origineel, met hetzelfde format en dezelfde namen, en dit telt als een extra afbeelding."
 
 #: includes/admin/class-media-view.php:1314
 msgid "Optimize this image again? Its original goes back first, and this counts as one more image."
@@ -515,7 +515,7 @@ msgstr "Het origineel van deze afbeelding terugzetten? WordPress maakt de groott
 #: includes/admin/class-media-view.php:1336
 #, php-format
 msgid "Optimize this image again from the original %s kept? Iminify makes its files again from it, keeping their format and names so your posts still link to them, and keeps its own backup of the original. This counts as one more image."
-msgstr "Deze afbeelding opnieuw optimaliseren vanaf het origineel dat %s heeft bewaard? Iminify maakt de bestanden daaruit opnieuw, met hetzelfde formaat en dezelfde namen, zodat je berichten er nog steeds naar linken, en bewaart een eigen back-up van het origineel. Dit telt als een extra afbeelding."
+msgstr "Deze afbeelding opnieuw optimaliseren vanaf het origineel dat %s heeft bewaard? Iminify maakt de bestanden daaruit opnieuw, met hetzelfde format en dezelfde namen, zodat de links in je berichten blijven werken, en bewaart een eigen back-up van het origineel. Dit telt als een extra afbeelding."
 
 #. translators: %s: another image optimizer's name, such as Imagify.
 #: includes/admin/class-media-view.php:1343
@@ -549,7 +549,7 @@ msgstr "Verbinden"
 #: includes/admin/class-notice.php:150
 #: includes/admin/class-notice.php:183
 msgid "Open the Iminify settings"
-msgstr "Iminify-instellingen openen"
+msgstr "Iminify instellingen openen"
 
 #: includes/admin/class-page-header.php:42
 #: assets/build/audit.js:2
@@ -569,7 +569,7 @@ msgstr "Niet verbonden"
 
 #: includes/admin/class-privacy.php:36
 msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
-msgstr "Iminify Image Optimizer stuurt de afbeeldingen die naar deze site worden geüpload naar Iminify, een dienst voor beeldoptimalisatie, zodra de site ermee is verbonden. Je kunt de onderstaande tekst kopiëren naar het deel van je privacybeleid over de media die je publiceert."
+msgstr "Zodra deze site met Iminify is verbonden, verzendt Iminify Image Optimizer de afbeeldingen die hier worden geüpload naar Iminify, een dienst voor afbeeldingsoptimalisatie. Je kunt de onderstaande tekst kopiëren naar het deel van je privacybeleid over de media die je publiceert."
 
 #: includes/admin/class-privacy.php:37
 msgid "Suggested text:"
@@ -577,15 +577,15 @@ msgstr "Voorgestelde tekst:"
 
 #: includes/admin/class-privacy.php:38
 msgid "This site uses Iminify (www.iminify.com) to make its images smaller and to make WebP and AVIF copies of them. When an image is uploaded here, or we optimize the images already here, in the media library or in our theme and other folders, our server sends it to Iminify with this site's address, and Iminify sends the smaller files back. Iminify deletes the image once we have saved them."
-msgstr "Deze site gebruikt Iminify (www.iminify.com) om de afbeeldingen kleiner te maken en er WebP- en AVIF-kopieën van te maken. Wanneer hier een afbeelding wordt geüpload, of wanneer we de afbeeldingen optimaliseren die hier al staan, in de mediabibliotheek of in ons thema en andere folders, stuurt onze server die naar Iminify, samen met het adres van deze site, en stuurt Iminify de kleinere bestanden terug. Iminify verwijdert de afbeelding zodra wij die bestanden hebben opgeslagen."
+msgstr "Deze site gebruikt Iminify (www.iminify.com) om de afbeeldingen kleiner te maken en er WebP- en AVIF-kopieën van te maken. Wanneer hier een afbeelding wordt geüpload, of wanneer we de afbeeldingen optimaliseren die hier al staan, in de mediabibliotheek of in ons thema en andere mappen, verzendt onze server die naar Iminify, samen met het adres van deze site, en stuurt Iminify de kleinere bestanden terug. Iminify verwijdert de afbeelding zodra wij die bestanden hebben opgeslagen."
 
 #: includes/admin/class-privacy.php:39
 msgid "A photo can carry details the camera wrote into it, such as when and where it was taken. Those details reach Iminify with the image, and Iminify leaves them out of the files it sends back unless we chose to keep them."
-msgstr "Een foto kan gegevens bevatten die de camera erin heeft geschreven, zoals wanneer en waar de foto is gemaakt. Die gegevens komen met de afbeelding mee naar Iminify, en Iminify laat ze weg uit de bestanden die het terugstuurt, tenzij we ervoor hebben gekozen ze te behouden."
+msgstr "Een foto kan details bevatten die de camera erin heeft geschreven, zoals wanneer en waar de foto is gemaakt. Die details komen met de afbeelding mee naar Iminify, en Iminify laat ze weg uit de bestanden die het terugstuurt, tenzij we ervoor hebben gekozen ze te behouden."
 
 #: includes/admin/class-privacy.php:40
 msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
-msgstr "Als we AI-alt-tekst hebben ingeschakeld in de instellingen van de plugin, maakt Iminify ook een verkleinde versie van elke afbeelding zonder alt-tekst en stuurt die naar Anthropic, waarvan het model er een beschrijving van schrijft. Als we alt-tekst aanvragen voor afbeeldingen die al in de mediabibliotheek staan, krijgt Iminify voor hetzelfde doel een verkleinde versie van elk ervan."
+msgstr "Als we AI-alt-text hebben ingeschakeld in de instellingen van de plugin, maakt Iminify ook een verkleinde versie van elke afbeelding zonder alt-text en verzendt die naar Anthropic, waar een model er een beschrijving van schrijft. Als we alt-text aanvragen voor afbeeldingen die al in de mediabibliotheek staan, krijgt Iminify voor hetzelfde doel een verkleinde versie van elk ervan."
 
 #: includes/admin/class-privacy.php:41
 msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
@@ -597,11 +597,11 @@ msgstr "Als deze site deel uitmaakt van een multisite-netwerk dat als geheel met
 
 #: includes/admin/class-privacy.php:43
 msgid "If we choose to use the settings another image optimizer kept on this site, our server sends Iminify those settings, that optimizer's name and the names of the image sizes this site makes. Iminify answers with the settings they match and keeps none of it."
-msgstr "Als we ervoor kiezen de instellingen te gebruiken die een andere optimalisatieplugin op deze site heeft bewaard, stuurt onze server die instellingen, de naam van die plugin en de namen van de afbeeldingsgroottes die deze site maakt naar Iminify. Iminify antwoordt met de instellingen die daarbij passen en bewaart er niets van."
+msgstr "Als we ervoor kiezen de instellingen te gebruiken die een andere plugin voor afbeeldingsoptimalisatie op deze site heeft bewaard, verzendt onze server die instellingen, de naam van die plugin en de namen van de afbeeldingsgroottes die deze site maakt naar Iminify. Iminify antwoordt met de instellingen die daarbij passen en bewaart er niets van."
 
 #: includes/admin/class-privacy.php:44
 msgid "Nothing about the people who visit this site is sent to Iminify: the images on our pages, and their WebP and AVIF copies, are served from this site."
-msgstr "Er wordt niets over de bezoekers van deze site naar Iminify gestuurd: de afbeeldingen op onze pagina's, en hun WebP- en AVIF-kopieën, worden vanaf deze site geserveerd."
+msgstr "Er wordt niets over de bezoekers van deze site naar Iminify verzonden: de afbeeldingen op onze pagina's, en hun WebP- en AVIF-kopieën, worden vanaf deze site geserveerd."
 
 #. translators: %s: the address of Iminify's privacy policy.
 #: includes/admin/class-privacy.php:47
@@ -661,7 +661,7 @@ msgstr "Maximale breedte, in pixels"
 #: includes/admin/class-settings-import.php:218
 #: assets/build/settings.js:37
 msgid "Size limit, in KB"
-msgstr "Maximale bestandsgrootte, in KB"
+msgstr "Beperking bestandsgrootte, in KB"
 
 #: includes/admin/class-settings-import.php:220
 #: assets/build/settings.js:37
@@ -681,7 +681,7 @@ msgstr "Een back-up van elk origineel bewaren"
 #: includes/admin/class-settings-import.php:242
 #: assets/build/settings.js:37
 msgid "No limit"
-msgstr "Geen limiet"
+msgstr "Geen beperking"
 
 #: includes/admin/class-settings-import.php:245
 msgid "Every size"
@@ -714,7 +714,7 @@ msgstr "Verbind dit netwerk één keer, en elke site sluit zich vanzelf aan."
 
 #: includes/admin/class-settings-page.php:182
 msgid "The settings page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
-msgstr "Het script van de instellingenpagina ontbreekt in de folder van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
+msgstr "Het script van de instellingenpagina ontbreekt in de map van de plugin. Installeer de plugin opnieuw om het terug te krijgen."
 
 #: includes/admin/class-settings-page.php:187
 msgid "The settings page needs JavaScript."
@@ -730,7 +730,7 @@ msgstr "Bestanden vandaag"
 
 #: includes/admin/class-state.php:167
 msgid "AI alt texts today"
-msgstr "AI-alt-teksten vandaag"
+msgstr "AI-alt-texts vandaag"
 
 #: includes/admin/class-state.php:248
 msgid "Guest"
@@ -758,8 +758,8 @@ msgstr "Max"
 msgctxt "files today"
 msgid "%s used, no daily limit"
 msgid_plural "%s used, no daily limit"
-msgstr[0] "%s gebruikt, geen daglimiet"
-msgstr[1] "%s gebruikt, geen daglimiet"
+msgstr[0] "%s gebruikt, geen dagelijkse beperking"
+msgstr[1] "%s gebruikt, geen dagelijkse beperking"
 
 #. translators: %s: how many files Iminify made today.
 #: includes/admin/class-state.php:304
@@ -785,8 +785,8 @@ msgstr[1] "%s over"
 msgctxt "AI alt texts today"
 msgid "%s used, no daily limit"
 msgid_plural "%s used, no daily limit"
-msgstr[0] "%s gebruikt, geen daglimiet"
-msgstr[1] "%s gebruikt, geen daglimiet"
+msgstr[0] "%s gebruikt, geen dagelijkse beperking"
+msgstr[1] "%s gebruikt, geen dagelijkse beperking"
 
 #. translators: %s: how many AI alt texts were written today.
 #: includes/admin/class-state.php:312
@@ -812,8 +812,8 @@ msgstr[1] "%s over"
 msgctxt "images today"
 msgid "%s used, no daily limit"
 msgid_plural "%s used, no daily limit"
-msgstr[0] "%s gebruikt, geen daglimiet"
-msgstr[1] "%s gebruikt, geen daglimiet"
+msgstr[0] "%s gebruikt, geen dagelijkse beperking"
+msgstr[1] "%s gebruikt, geen dagelijkse beperking"
 
 #. translators: %s: how many images were optimized today.
 #: includes/admin/class-state.php:320
@@ -890,7 +890,7 @@ msgstr "Geef de breedte en hoogte van de afbeelding op in de pagina."
 
 #: includes/audit/class-findings.php:62
 msgid "Write alt text for the image."
-msgstr "Schrijf alt-tekst voor de afbeelding."
+msgstr "Schrijf een alt-text voor de afbeelding."
 
 #: includes/audit/class-findings.php:64
 msgid "Load the image straight away, not lazily."
@@ -926,7 +926,7 @@ msgstr "Lazy loading in eerste scherm"
 
 #: includes/audit/class-findings.php:116
 msgid "The image is in the first screen but is lazy loaded, which delays it."
-msgstr "De afbeelding staat in het eerste scherm maar laadt met lazy loading, wat haar vertraagt."
+msgstr "De afbeelding staat in het eerste scherm, maar is lazy-loaded, waardoor ze pas later laadt."
 
 #: includes/audit/class-findings.php:120
 msgid "Loads too early"
@@ -938,11 +938,11 @@ msgstr "De afbeelding staat onder het eerste scherm en laadt meteen, waardoor ze
 
 #: includes/audit/class-findings.php:125
 msgid "No alt text"
-msgstr "Geen alt-tekst"
+msgstr "Geen alt-text"
 
 #: includes/audit/class-findings.php:126
 msgid "The image has no alt text for screen readers and search engines."
-msgstr "De afbeelding heeft geen alt-tekst voor schermlezers en zoekmachines."
+msgstr "De afbeelding heeft geen alt-text voor schermlezers en zoekmachines."
 
 #: includes/audit/class-findings.php:130
 msgid "Not prioritized"
@@ -972,7 +972,7 @@ msgstr "De pagina gaf een fout aan de kant van de site, dus ze kon niet worden g
 
 #: includes/audit/class-findings.php:156
 msgid "The page sent the scanner to another site, which an audit doesn't follow. Scan the address the page ends up at, if it is on this site."
-msgstr "De pagina stuurde de scanner door naar een andere site, en een audit volgt zo'n doorverwijzing niet. Scan het adres waar de pagina uiteindelijk op uitkomt, als dat op deze site staat."
+msgstr "De pagina heeft de scanner naar een andere site doorgestuurd, en een audit volgt zo'n doorverwijzing niet. Scan het adres waar de pagina uiteindelijk op uitkomt, als dat op deze site staat."
 
 #: includes/audit/class-findings.php:159
 msgid "The page couldn't be read: the site didn't answer the scanner. Check the address and scan again."
@@ -990,7 +990,7 @@ msgstr "Geef --others alleen op, of samen met de bijlagen die opnieuw moeten wor
 
 #: includes/class-cli.php:117
 msgid "The folders' files go all at once: pass --folders alone, or with --failed."
-msgstr "De bestanden van de folders gaan allemaal tegelijk: geef --folders alleen op, of samen met --failed."
+msgstr "De bestanden in de mappen worden allemaal tegelijk verwerkt: geef --folders alleen op, of samen met --failed."
 
 #: includes/class-cli.php:126
 msgid "Name the attachments, or pass --all or --failed."
@@ -998,11 +998,11 @@ msgstr "Noem de bijlagen, of geef --all of --failed op."
 
 #: includes/class-cli.php:169
 msgid "The folders' files go all at once: pass --folders alone."
-msgstr "De bestanden van de folders gaan allemaal tegelijk: geef --folders alleen op."
+msgstr "De bestanden in de mappen worden allemaal tegelijk verwerkt: geef --folders alleen op."
 
 #: includes/class-cli.php:172
 msgid "Put every optimized file in your folders back as it was?"
-msgstr "Elk geoptimaliseerd bestand in je folders terugzetten zoals het was?"
+msgstr "Elk geoptimaliseerd bestand in je mappen terugzetten zoals het was?"
 
 #: includes/class-cli.php:181
 #: includes/class-cli.php:275
@@ -1021,11 +1021,11 @@ msgstr "Geef aan wat er gemaakt moet worden: %1$s (formaten) of %2$s (groottes).
 
 #: includes/class-cli.php:321
 msgid "On a network, other folders are chosen on the main site: add --url with its address."
-msgstr "Op een netwerk worden andere folders op de hoofdsite gekozen: voeg --url toe met het adres daarvan."
+msgstr "Op een netwerk worden andere mappen op de hoofdsite gekozen: je moet --url met het adres van die site toevoegen."
 
 #: includes/class-cli.php:328
 msgid "Name the folder, relative to wp-content."
-msgstr "Geef de folder op, relatief ten opzichte van wp-content."
+msgstr "Geef de map op, relatief ten opzichte van wp-content."
 
 #. translators: 1: how many images were found, 2: how many are new, 3: how many changed.
 #: includes/class-cli.php:361
@@ -1038,7 +1038,7 @@ msgstr[1] "%1$s afbeeldingen gevonden: %2$s nieuw, %3$s gewijzigd."
 #: includes/class-cli.php:399
 #: includes/class-cli.php:428
 msgid "No bulk run is going."
-msgstr "Er loopt geen bulktaak."
+msgstr "Er is geen bulkuitvoering gaande."
 
 #: includes/class-cli.php:432
 msgid "Stopped."
@@ -1046,44 +1046,44 @@ msgstr "Gestopt."
 
 #: includes/class-cli.php:497
 msgid "The run goes on in the background. See how far it got with: wp iminify status"
-msgstr "De taak gaat op de achtergrond verder. Bekijk de voortgang met: wp iminify status"
+msgstr "Het uitvoeren gaat op de achtergrond verder. Bekijk hoe ver het is gekomen met: wp iminify status"
 
 #: includes/class-cli.php:518
 msgid "Bulk run"
-msgstr "Bulktaak"
+msgstr "Bulkuitvoering"
 
 #. translators: %s: the date and time the alt texts come back.
 #: includes/class-cli.php:612
 #, php-format
 msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
-msgstr "Het account heeft voor vandaag geen AI-alt-teksten meer. De taak gaat op de achtergrond verder wanneer er weer nieuwe zijn, op %s."
+msgstr "Het account heeft voor vandaag geen AI-alt-texts meer. Het uitvoeren gaat op de achtergrond verder wanneer er weer nieuwe zijn, op %s."
 
 #: includes/class-cli.php:620
 #: includes/class-cli.php:647
 msgid "The run waits for this site's connection to Iminify, and goes on in the background once it works."
-msgstr "De taak wacht op de verbinding van deze site met Iminify en gaat op de achtergrond verder zodra die werkt."
+msgstr "Het uitvoeren wacht op de verbinding van deze site met Iminify en gaat daarna op de achtergrond verder."
 
 #: includes/class-cli.php:628
 msgid "The run goes on in the background once it stops."
-msgstr "De taak gaat op de achtergrond verder zodra die plugin daarmee stopt."
+msgstr "Het uitvoeren gaat door op de achtergrond zodra het stopt."
 
 #. translators: %s: the date and time the next batch opens.
 #: includes/class-cli.php:639
 #, php-format
 msgid "The account's images for the day are used up. The run goes on in the background when the next batch opens on %s."
-msgstr "Het account heeft voor vandaag geen afbeeldingen meer. De taak gaat op de achtergrond verder wanneer de volgende batch opengaat, op %s."
+msgstr "Het account heeft voor vandaag geen afbeeldingen meer. Het uitvoeren gaat op de achtergrond verder wanneer de volgende batch opengaat, op %s."
 
 #: includes/class-cli.php:661
 msgid "The run was stopped."
-msgstr "De taak is gestopt."
+msgstr "De uitvoering is gestopt."
 
 #: includes/class-cli.php:668
 msgid "The run paused: the server is low on disk space. Free some up, then run: wp iminify run"
-msgstr "De taak is gepauzeerd: de server heeft weinig schijfruimte. Maak wat ruimte vrij en voer daarna uit: wp iminify run"
+msgstr "Het uitvoeren is gepauzeerd: de server heeft weinig schijfruimte. Maak wat ruimte vrij, voer dan uit: wp iminify run"
 
 #: includes/class-cli.php:671
 msgid "The run was paused. Carry on with: wp iminify run"
-msgstr "De taak is gepauzeerd. Ga verder met: wp iminify run"
+msgstr "Het uitvoeren was gepauzeerd. Ga verder met: wp iminify run"
 
 #. translators: %s: how many images.
 #: includes/class-cli.php:680
@@ -1117,8 +1117,8 @@ msgstr[1] "%s afbeeldingen zijn gebleven zoals de andere plugins ze maakten: de 
 #, php-format,js-format
 msgid "%s image was left as it is: it shares its files with another attachment, or has alt text by now."
 msgid_plural "%s images were left as they are: they share their files with another attachment, or have alt text by now."
-msgstr[0] "%s afbeelding is ongewijzigd gebleven: ze deelt haar bestanden met een andere bijlage, of heeft inmiddels alt-tekst."
-msgstr[1] "%s afbeeldingen zijn ongewijzigd gebleven: ze delen hun bestanden met een andere bijlage, of hebben inmiddels alt-tekst."
+msgstr[0] "%s afbeelding is ongewijzigd gebleven: ze deelt haar bestanden met een andere bijlage, of heeft inmiddels een alt-text."
+msgstr[1] "%s afbeeldingen zijn ongewijzigd gebleven: ze delen hun bestanden met een andere bijlage, of hebben inmiddels een alt-text."
 
 #. translators: %s: how many images.
 #: includes/class-cli.php:714
@@ -1142,16 +1142,16 @@ msgstr[1] "%s bestanden teruggezet."
 #, php-format
 msgid "%s file sent to Iminify."
 msgid_plural "%s files sent to Iminify."
-msgstr[0] "%s bestand naar Iminify gestuurd."
-msgstr[1] "%s bestanden naar Iminify gestuurd."
+msgstr[0] "%s bestand naar Iminify verzonden."
+msgstr[1] "%s bestanden naar Iminify verzonden."
 
 #. translators: 1: how many files are optimized, 2: how many the folders have, 3: how many failed.
 #: includes/class-cli.php:731
 #, php-format
 msgid "Your folders have %1$s of %2$s file optimized, %3$s failed."
 msgid_plural "Your folders have %1$s of %2$s files optimized, %3$s failed."
-msgstr[0] "In je folders: %1$s van %2$s bestand geoptimaliseerd, %3$s mislukt."
-msgstr[1] "In je folders: %1$s van %2$s bestanden geoptimaliseerd, %3$s mislukt."
+msgstr[0] "In je mappen: %1$s van %2$s bestand geoptimaliseerd, %3$s mislukt."
+msgstr[1] "In je mappen: %1$s van %2$s bestanden geoptimaliseerd, %3$s mislukt."
 
 #. translators: %s: how many images.
 #: includes/class-cli.php:744
@@ -1166,8 +1166,8 @@ msgstr[1] "%s afbeeldingen teruggezet."
 #, php-format
 msgid "%s image sent to Iminify."
 msgid_plural "%s images sent to Iminify."
-msgstr[0] "%s afbeelding naar Iminify gestuurd."
-msgstr[1] "%s afbeeldingen naar Iminify gestuurd."
+msgstr[0] "%s afbeelding naar Iminify verzonden."
+msgstr[1] "%s afbeeldingen naar Iminify verzonden."
 
 #. translators: 1: how many images are optimized, 2: how many the library has, 3: how many failed.
 #: includes/class-cli.php:751
@@ -1190,11 +1190,11 @@ msgstr "Dit account kan geen bulkopdrachten uitvoeren."
 #: includes/class-connection.php:96
 #: includes/class-reasons.php:278
 msgid "Iminify sent an answer this version of the plugin can't read."
-msgstr "Iminify stuurde een antwoord dat deze versie van de plugin niet kan lezen."
+msgstr "Iminify heeft een antwoord verzonden dat deze versie van de plugin niet kan lezen."
 
 #: includes/class-connection.php:244
 msgid "Paste the site key first."
-msgstr "Plak eerst de sitesleutel."
+msgstr "Plak eerst de sleutel van de site."
 
 #: includes/class-connection.php:522
 msgid "This site's key is set in wp-config.php. Change or remove it there."
@@ -1401,7 +1401,7 @@ msgstr "Deze verbinding kan niet meer worden gebruikt: ze is verlopen, geweigerd
 #: includes/media/class-alt-text.php:242
 #: includes/media/class-bulk.php:263
 msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
-msgstr "AI-alt-tekst staat uit voor deze site. Zet het eerst aan in de instellingen van de plugin."
+msgstr "AI-alt-text staat uit voor deze site. Zet die eerst aan in de instellingen van de plugin."
 
 #: includes/class-messages.php:164
 msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
@@ -1425,7 +1425,7 @@ msgstr "Deze versie van Iminify Image Optimizer is te oud om nog afbeeldingen te
 
 #: includes/class-messages.php:186
 msgid "Your account's images for the day are used up. New uploads wait and go out by themselves when the next batch opens."
-msgstr "Je account heeft voor vandaag geen afbeeldingen meer. Nieuwe uploads wachten en worden vanzelf verstuurd wanneer de volgende batch opengaat."
+msgstr "Je account heeft voor vandaag geen afbeeldingen meer. Nieuwe uploads wachten en worden vanzelf verzonden wanneer de volgende batch opengaat."
 
 #: includes/class-messages.php:188
 msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
@@ -1453,7 +1453,7 @@ msgstr "Wacht tot de site met Iminify is verbonden."
 
 #: includes/class-reasons.php:155
 msgid "Not optimized: the bulk run was stopped."
-msgstr "Niet geoptimaliseerd: de bulktaak is gestopt."
+msgstr "Niet geoptimaliseerd: het bulk uitvoeren is gestopt."
 
 #: includes/class-reasons.php:157
 msgid "Not optimized: the site isn't connected to Iminify."
@@ -1474,7 +1474,7 @@ msgstr "Niet geoptimaliseerd: de server heeft weinig schijfruimte. Maak wat ruim
 #: includes/class-reasons.php:165
 #: includes/media/class-optimizer.php:340
 msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
-msgstr "Niet verstuurd: de PHP van deze server kan geen zipbestanden openen. Vraag je hostingprovider om de zip-extensie van PHP in te schakelen."
+msgstr "Niet verzonden: de PHP van deze server kan geen zipbestanden openen. Vraag je hostingprovider om de zip-extensie van PHP in te schakelen."
 
 #: includes/class-reasons.php:167
 msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
@@ -1486,19 +1486,19 @@ msgstr "De download van Iminify kon niet worden geopend."
 
 #: includes/class-reasons.php:171
 msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
-msgstr "Niet verstuurd: het origineel van deze afbeelding is te groot om te versturen, groter dan je abonnement toestaat of meer dan het geheugen van deze server aankan."
+msgstr "Niet verzonden: het origineel van deze afbeelding is te groot om te verzenden, groter dan je abonnement toestaat of meer dan het geheugen van deze server aankan."
 
 #: includes/class-reasons.php:173
 msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
-msgstr "Niet verstuurd: deze afbeelding is groter dan je abonnement toestaat, of meer dan het geheugen van deze server aankan."
+msgstr "Niet verzonden: deze afbeelding is groter dan je abonnement toestaat, of meer dan het geheugen van deze server aankan."
 
 #: includes/class-reasons.php:175
 msgid "Not sent: no original of this image is left to make the optimized files from."
-msgstr "Niet verstuurd: er is geen origineel van deze afbeelding meer om de geoptimaliseerde bestanden van te maken."
+msgstr "Niet verzonden: er is geen origineel van deze afbeelding meer waaruit de geoptimaliseerde bestanden kunnen worden gemaakt."
 
 #: includes/class-reasons.php:177
 msgid "Not sent: no original of this image is left to make the optimized file from."
-msgstr "Niet verstuurd: er is geen origineel van deze afbeelding meer om het geoptimaliseerde bestand van te maken."
+msgstr "Niet verzonden: er is geen origineel van deze afbeelding meer waaruit het geoptimaliseerde bestand kan worden gemaakt."
 
 #: includes/class-reasons.php:179
 msgid "WordPress couldn't make the missing sizes of this image."
@@ -1526,15 +1526,15 @@ msgstr "De afbeelding kon niet worden gelezen."
 
 #: includes/class-reasons.php:191
 msgid "The image isn't in the uploads folder."
-msgstr "De afbeelding staat niet in de uploads folder."
+msgstr "De afbeelding staat niet in de map uploads."
 
 #: includes/class-reasons.php:193
 msgid "Not sent: the image's file isn't in the uploads folder."
-msgstr "Niet verstuurd: het bestand van de afbeelding staat niet in de uploads folder."
+msgstr "Niet verzonden: het bestand van de afbeelding staat niet in de map uploads."
 
 #: includes/class-reasons.php:195
 msgid "Not sent: the image's file isn't there, or is a link to another place."
-msgstr "Niet verstuurd: het bestand van de afbeelding is er niet, of is een link naar een andere plek."
+msgstr "Niet verzonden: het bestand van de afbeelding ontbreekt, of is een link naar een andere plek."
 
 #: includes/class-reasons.php:197
 msgid "The image's file or its backup went missing while it was on its way."
@@ -1542,11 +1542,11 @@ msgstr "Het bestand van de afbeelding of de back-up ervan is verdwenen terwijl d
 
 #: includes/class-reasons.php:199
 msgid "Not sent: the image is no longer in a folder Iminify optimizes."
-msgstr "Niet verstuurd: de afbeelding staat niet meer in een folder die Iminify optimaliseert."
+msgstr "Niet verzonden: de afbeelding staat niet meer in een map die Iminify optimaliseert."
 
 #: includes/class-reasons.php:201
 msgid "Not written: the image is no longer in a folder Iminify optimizes."
-msgstr "Niet geschreven: de afbeelding staat niet meer in een folder die Iminify optimaliseert."
+msgstr "Niet geschreven: de afbeelding staat niet meer in een map die Iminify optimaliseert."
 
 #: includes/class-reasons.php:203
 msgid "Changed since Iminify optimized it, so it can be optimized again."
@@ -1554,7 +1554,7 @@ msgstr "Gewijzigd sinds Iminify de afbeelding optimaliseerde, dus ze kan opnieuw
 
 #: includes/class-reasons.php:205
 msgid "The image changed while Iminify was optimizing it, so it's sent again."
-msgstr "De afbeelding is gewijzigd terwijl Iminify ze optimaliseerde, dus ze wordt opnieuw verstuurd."
+msgstr "De afbeelding is gewijzigd terwijl Iminify ze optimaliseerde, dus ze wordt opnieuw verzonden."
 
 #. translators: %d: the id of the attachment whose files this one shares.
 #: includes/class-reasons.php:209
@@ -1564,7 +1564,7 @@ msgstr "De bestanden zijn die van bijlage #%d, zoals bij een vertaling, dus Imin
 
 #: includes/class-reasons.php:224
 msgid "The backup of this image couldn't be saved, so it wasn't optimized. Check that WordPress can write to the uploads folder, or turn backups off in the Iminify settings."
-msgstr "De back-up van deze afbeelding kon niet worden opgeslagen, dus ze is niet geoptimaliseerd. Controleer of WordPress naar de uploads folder kan schrijven, of schakel back-ups uit in de Iminify-instellingen."
+msgstr "De back-up van deze afbeelding kon niet worden opgeslagen, dus ze is niet geoptimaliseerd. Controleer of WordPress naar de map uploads kan schrijven, of schakel back-ups uit in de Iminify instellingen."
 
 #: includes/class-reasons.php:226
 msgid "The image changed since its backup was made, and the old backup couldn't be moved aside, so it wasn't optimized."
@@ -1608,7 +1608,7 @@ msgstr "Iminify heeft niets aan deze afbeelding veranderd, dus ze is al zoals ze
 
 #: includes/class-reasons.php:250
 msgid "This image has changed since Iminify optimized it, so restoring it would overwrite the new one."
-msgstr "Deze afbeelding is gewijzigd sinds Iminify ze optimaliseerde, dus terugzetten zou de nieuwe versie overschrijven."
+msgstr "Deze afbeelding is gewijzigd sinds Iminify ze heeft geoptimaliseerd, dus als ze wordt teruggezet, wordt de nieuwe versie overschreven."
 
 #: includes/class-reasons.php:252
 msgid "This image has changed since Iminify optimized it, so its backup is no longer its original."
@@ -1616,7 +1616,7 @@ msgstr "Deze afbeelding is gewijzigd sinds Iminify ze optimaliseerde, dus de bac
 
 #: includes/class-reasons.php:254
 msgid "The image's file isn't there any more, or isn't in a folder Iminify optimizes."
-msgstr "Het bestand van de afbeelding is er niet meer, of staat niet in een folder die Iminify optimaliseert."
+msgstr "Het bestand van de afbeelding is er niet meer, of staat niet in een map die Iminify optimaliseert."
 
 #: includes/class-reasons.php:256
 msgid "No original of this image was kept, so it can't be restored. Backups were off when it was optimized, or the backup was deleted."
@@ -1650,61 +1650,61 @@ msgstr "Deze server heeft niet genoeg geheugen om zo'n grote afbeelding te verst
 
 #: includes/class-reasons.php:282
 msgid "The image couldn't be read from the uploads folder."
-msgstr "De afbeelding kon niet uit de uploads folder worden gelezen."
+msgstr "De afbeelding kon niet uit de map uploads worden gelezen."
 
 #: includes/class-reasons.php:284
 msgid "WordPress couldn't store the site key. Press Join the network to try again."
-msgstr "WordPress kon de sitesleutel niet opslaan. Klik op Aansluiten bij het netwerk om het opnieuw te proberen."
+msgstr "WordPress kon de sleutel van de site niet opslaan. Klik op Aansluiten bij het netwerk om het opnieuw te proberen."
 
 #: includes/delivery/class-rules.php:412
 msgid "The uploads folder"
-msgstr "De uploads folder"
+msgstr "De map uploads"
 
 #: includes/folders/class-folders.php:175
 msgid "Name a folder inside wp-content, such as themes/your-theme."
-msgstr "Geef een folder in wp-content op, zoals themes/je-thema."
+msgstr "Geef een map in wp-content op, zoals themes/je-thema."
 
 #: includes/folders/class-folders.php:181
 msgid "There is no folder at that path inside wp-content."
-msgstr "Er is geen folder op dat pad in wp-content."
+msgstr "Er is geen map op dat pad in wp-content."
 
 #: includes/folders/class-folders.php:185
 msgid "That folder is a link to another place, so Iminify leaves it out."
-msgstr "Die folder is een link naar een andere plek, dus Iminify slaat hem over."
+msgstr "Die map is een link naar een andere plek, dus Iminify slaat die over."
 
 #: includes/folders/class-folders.php:208
 msgid "That's the media library's folder: its images are optimized from the media library."
-msgstr "Dat is de folder van de mediabibliotheek: de afbeeldingen daarin worden vanuit de mediabibliotheek geoptimaliseerd."
+msgstr "Dat is de map van de mediabibliotheek: de afbeeldingen daarin worden vanuit de mediabibliotheek geoptimaliseerd."
 
 #: includes/folders/class-folders.php:214
 msgid "That's the Iminify plugin's own folder, which every update replaces."
-msgstr "Dat is de eigen folder van de Iminify-plugin, die bij elke update wordt vervangen."
+msgstr "Dat is de eigen map van de Iminify-plugin, die bij elke update wordt vervangen."
 
 #: includes/folders/class-folders.php:220
 msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
-msgstr "Andere tools bewaren kopieën, caches of back-ups in die folder, dus de afbeeldingen daarin zijn niet van de site zelf."
+msgstr "Andere tools bewaren kopieën, caches of back-ups in die map, dus de afbeeldingen daarin zijn niet van de site zelf."
 
 #: includes/folders/class-folders.php:225
 msgid "That folder holds the media library's files or their backups, which Iminify handles from the media library."
-msgstr "Die folder bevat de bestanden van de mediabibliotheek of hun back-ups, en die verwerkt Iminify vanuit de mediabibliotheek."
+msgstr "Die map bevat de bestanden van de mediabibliotheek of de back-ups daarvan, en die verwerkt Iminify vanuit de mediabibliotheek."
 
 #: includes/folders/class-folders.php:229
 msgid "That folder holds hidden files or a project's dependencies, which Iminify leaves alone."
-msgstr "Die folder bevat verborgen bestanden of de afhankelijkheden van een project, en die laat Iminify met rust."
+msgstr "Die map bevat verborgen bestanden of de afhankelijkheden van een project, en die laat Iminify met rust."
 
 #: includes/folders/class-folders.php:268
 msgid "On a network, other folders are chosen on the main site."
-msgstr "Op een netwerk worden andere folders op de hoofdsite gekozen."
+msgstr "Op een netwerk worden andere mappen op de hoofdsite gekozen."
 
 #. translators: %s: a folder's path inside wp-content.
 #: includes/folders/class-folders.php:285
 #, php-format
 msgid "That folder is already in the list, inside %s."
-msgstr "Die folder staat al in de lijst, binnen %s."
+msgstr "Die map staat al in de lijst, binnen %s."
 
 #: includes/folders/class-folders.php:298
 msgid "The list holds as many folders as it can. Remove one, or choose the folder that holds several of them."
-msgstr "De lijst bevat al het maximale aantal folders. Verwijder er een, of kies de folder waar er meerdere in staan."
+msgstr "De lijst bevat al het maximale aantal mappen. Verwijder er een, of kies de map waar er meerdere in staan."
 
 #: includes/folders/class-optimizer.php:151
 #: includes/media/class-optimizer.php:298
@@ -1735,19 +1735,19 @@ msgstr "Deze afbeelding is te groot om te versturen: groter dan je abonnement to
 
 #: includes/media/class-alt-text.php:246
 msgid "This image already has alt text, or its text is on the way."
-msgstr "Deze afbeelding heeft al alt-tekst, of de tekst is onderweg."
+msgstr "Deze afbeelding heeft al een alt-text, of die is onderweg."
 
 #: includes/media/class-bulk.php:224
 msgid "A bulk run is already going. Stop it first."
-msgstr "Er loopt al een bulktaak. Stop die eerst."
+msgstr "Een bulkuitvoering is al bezig. Stop deze eerst."
 
 #: includes/media/class-bulk.php:229
 msgid "The files in other folders are optimized, sent again or restored, all of them at once."
-msgstr "De bestanden in andere folders worden allemaal tegelijk geoptimaliseerd, opnieuw verstuurd of teruggezet."
+msgstr "De bestanden in andere mappen worden allemaal tegelijk geoptimaliseerd, opnieuw verzonden of teruggezet."
 
 #: includes/media/class-bulk.php:233
 msgid "Iminify is still looking through your folders. Start again once it has finished."
-msgstr "Iminify doorzoekt je folders nog. Begin opnieuw zodra dat klaar is."
+msgstr "Iminify doorzoekt je mappen nog. Begin opnieuw zodra dat klaar is."
 
 #: includes/media/class-bulk.php:251
 msgid "The server is low on disk space. Free some up, then start again."
@@ -1755,19 +1755,19 @@ msgstr "De server heeft weinig schijfruimte. Maak wat ruimte vrij en begin dan o
 
 #: includes/media/class-bulk.php:1228
 msgid "Choose a folder first."
-msgstr "Kies eerst een folder."
+msgstr "Kies eerst een map."
 
 #: includes/media/class-bulk.php:1233
 msgid "No optimized file is left to restore in your folders."
-msgstr "Er is in je folders geen geoptimaliseerd bestand meer om terug te zetten."
+msgstr "In je mappen is geen geoptimaliseerd bestand meer dat kan worden teruggezet."
 
 #: includes/media/class-bulk.php:1235
 msgid "No file in your folders failed."
-msgstr "Geen enkel bestand in je folders is mislukt."
+msgstr "Geen enkel bestand in je mappen is mislukt."
 
 #: includes/media/class-bulk.php:1237
 msgid "Every file in your folders is already optimized or on its way."
-msgstr "Elk bestand in je folders is al geoptimaliseerd of onderweg."
+msgstr "Elk bestand in je mappen is al geoptimaliseerd of onderweg."
 
 #: includes/media/class-bulk.php:1242
 msgid "No optimized image is left to restore."
@@ -1779,7 +1779,7 @@ msgstr "Geen enkele afbeelding die een andere plugin heeft geoptimaliseerd, heef
 
 #: includes/media/class-bulk.php:1250
 msgid "Every image already has alt text, or its text is on the way."
-msgstr "Elke afbeelding heeft al alt-tekst, of de tekst is onderweg."
+msgstr "Elke afbeelding heeft al een alt-text, of die is onderweg."
 
 #: includes/media/class-bulk.php:1253
 msgid "No optimized image lacks anything your site asks for now."
@@ -1811,7 +1811,7 @@ msgstr "Deactiveer Image Optimizer by Elementor, of zet \"Optimize new uploads\"
 
 #: includes/switching/class-elementor.php:194
 msgid "Image Optimizer by Elementor converted this image, giving it a new address that your posts now link to, and kept its original beside it. Its own Restore puts the original back, with its address, while that plugin is installed; Iminify doesn't rewrite your posts, so it doesn't restore this image."
-msgstr "Image Optimizer by Elementor heeft deze afbeelding geconverteerd, waardoor ze een nieuw adres kreeg waar je berichten nu naar linken, en heeft het origineel ernaast bewaard. De eigen Restore-functie van die plugin zet het origineel terug, met het oude adres, zolang die plugin is geïnstalleerd; Iminify herschrijft je berichten niet en zet deze afbeelding daarom niet terug."
+msgstr "Image Optimizer by Elementor heeft deze afbeelding geconverteerd, waardoor ze een nieuw adres kreeg waar je berichten nu naar linken, en heeft het origineel ernaast bewaard. Met de eigen Restore-functie van die plugin wordt het origineel teruggezet, met het oorspronkelijke adres, zolang die plugin is geïnstalleerd. Iminify herschrijft je berichten niet, dus deze afbeelding wordt niet door Iminify teruggezet."
 
 #: includes/switching/class-ewww.php:53
 msgid "Deactivate EWWW Image Optimizer."
@@ -1841,7 +1841,7 @@ msgstr "De plugin kan deze regels niet verwijderen. Verwijder ze handmatig."
 #: includes/switching/class-leftovers.php:412
 #, php-format
 msgid "%s no longer uses them, yet they still answer a browser that reads WebP or AVIF with the copy it made of an image in its own folder, in place of the image, so a visitor can get a copy made before Iminify optimized it."
-msgstr "%s gebruikt ze niet meer, maar ze geven een browser die WebP of AVIF leest nog steeds de kopie die die plugin van een afbeelding in een eigen folder maakte, in plaats van de afbeelding zelf. Zo kan een bezoeker een kopie krijgen die is gemaakt voordat Iminify de afbeelding optimaliseerde."
+msgstr "%s gebruikt ze niet meer, maar ze geven een browser die WebP of AVIF leest nog steeds de kopie die die plugin van een afbeelding in een eigen map maakte, in plaats van de afbeelding zelf. Zo kan een bezoeker een kopie krijgen die is gemaakt voordat Iminify de afbeelding optimaliseerde."
 
 #. translators: %s: another image optimizer's name.
 #: includes/switching/class-leftovers.php:414
@@ -1855,11 +1855,11 @@ msgstr "Nginx houdt ze vast tot het opnieuw wordt geladen, dus herlaad Nginx zod
 
 #: includes/switching/class-leftovers.php:450
 msgid "Smush added this rule for the PNG images it turned into JPEG, and it is still among WordPress’s rewrite rules: a request for such a PNG, no longer there, ends on your home page in place of a “not found” answer."
-msgstr "Smush heeft deze regel toegevoegd voor de PNG-afbeeldingen die het naar JPEG omzette, en die staat nog tussen de herschrijfregels van WordPress: een verzoek om zo'n PNG, die er niet meer is, komt op je homepage uit in plaats van een \"niet gevonden\"-antwoord te krijgen."
+msgstr "Smush heeft deze regel toegevoegd voor de PNG-afbeeldingen die het naar JPEG omzette, en die staat nog tussen de herschrijfregels van WordPress: een aanvraag voor zo'n PNG, die er niet meer is, eindigt op je homepage in plaats van een \"niet gevonden\"-antwoord te krijgen."
 
 #: includes/switching/class-litespeed.php:65
 msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
-msgstr "Zet \"Auto Request Cron\" uit onder LiteSpeed Cache, Image Optimization, en \"Auto Rescale Original Images\" onder Page Optimization, Media Settings, en laat de afbeeldingen die het al heeft verstuurd terugkomen, of deactiveer LiteSpeed Cache."
+msgstr "Zet \"Auto Request Cron\" uit onder LiteSpeed Cache, Image Optimization, en \"Auto Rescale Original Images\" onder Page Optimization, Media Settings, en laat de afbeeldingen die het al heeft verzonden terugkomen, of deactiveer LiteSpeed Cache."
 
 #: includes/switching/class-modern-formats.php:54
 msgid "Deactivate Modern Image Formats: no setting of its own stops it."
@@ -1867,7 +1867,7 @@ msgstr "Deactiveer Modern Image Formats: geen eigen instelling van die plugin ho
 
 #: includes/switching/class-modern-formats.php:203
 msgid "Modern Image Formats replaced this image's files with modern-format ones made from its original, which WordPress keeps. Putting the original back would change the image's addresses and break the posts that link to them, so Iminify doesn't restore it."
-msgstr "Modern Image Formats heeft de bestanden van deze afbeelding vervangen door bestanden in een modern formaat, gemaakt van het origineel, dat WordPress bewaart. Het origineel terugzetten zou de adressen van de afbeelding veranderen en de berichten breken die ernaar linken, dus Iminify zet het niet terug."
+msgstr "Modern Image Formats heeft de bestanden van deze afbeelding vervangen door bestanden in een modern format, gemaakt van het origineel, dat WordPress bewaart. Het origineel terugzetten zou de adressen van de afbeelding veranderen, waardoor links in berichten die ernaar verwijzen niet meer werken. Daarom zet Iminify het niet terug."
 
 #: includes/switching/class-optimole.php:35
 msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
@@ -1935,7 +1935,7 @@ msgstr "Iminify scant de pagina."
 
 #: assets/build/audit.js:2
 msgid "Your pages now get the missing width, height and alt text as they’re sent. Scan the page again to see it."
-msgstr "Je pagina's krijgen nu de ontbrekende breedte, hoogte en alt-tekst mee wanneer ze worden verstuurd. Scan de pagina opnieuw om het te zien."
+msgstr "Je pagina's krijgen nu de ontbrekende breedte, hoogte en alt-text mee wanneer ze worden verzonden. Scan de pagina opnieuw om het te zien."
 
 #: assets/build/audit.js:2
 msgid "Every page, every week"
@@ -1943,7 +1943,7 @@ msgstr "Elke pagina, elke week"
 
 #: assets/build/audit.js:2
 msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
-msgstr "Een wekelijkse controle voert elke week een audit uit op elke pagina in de sitemap van je site, comprimeert de afbeeldingen die nieuw of gewijzigd zijn en mailt je wat er is gevonden. Je stelt dit in op iminify.com vanuit een crawl van je site, waar je ook ziet bij welke abonnementen het hoort."
+msgstr "Een wekelijkse controle voert elke week een audit uit op elke pagina in de sitemap van je site, comprimeert de afbeeldingen die nieuw of gewijzigd zijn en stuurt je een e-mail met wat er is gevonden. Je stelt dit in op iminify.com vanuit een crawl van je site, waar je ook ziet bij welke abonnementen het is inbegrepen."
 
 #: assets/build/audit.js:2
 msgid "Set up a weekly check"
@@ -2099,8 +2099,8 @@ msgstr[1] "%s afbeeldingen zonder verbeterpunten tonen"
 #, js-format
 msgid "%s image from your media library is on this page without its width and height, or without the alt text it has in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
 msgid_plural "%s images from your media library are on this page without their width and height, or without the alt text they have in the library. The plugin can add what’s missing to your pages as they’re sent, from the library."
-msgstr[0] "%s afbeelding uit je mediabibliotheek staat op deze pagina zonder breedte en hoogte, of zonder de alt-tekst die ze in de bibliotheek heeft. De plugin kan wat ontbreekt vanuit de bibliotheek aan je pagina's toevoegen wanneer ze worden verstuurd."
-msgstr[1] "%s afbeeldingen uit je mediabibliotheek staan op deze pagina zonder breedte en hoogte, of zonder de alt-tekst die ze in de bibliotheek hebben. De plugin kan wat ontbreekt vanuit de bibliotheek aan je pagina's toevoegen wanneer ze worden verstuurd."
+msgstr[0] "%s afbeelding uit je mediabibliotheek staat op deze pagina zonder breedte en hoogte, of zonder de alt-text die ze in de bibliotheek heeft. De plugin kan wat ontbreekt vanuit de bibliotheek aan je pagina's toevoegen wanneer ze worden verzonden."
+msgstr[1] "%s afbeeldingen uit je mediabibliotheek staan op deze pagina zonder breedte en hoogte, of zonder de alt-text die ze in de bibliotheek hebben. De plugin kan wat ontbreekt vanuit de bibliotheek aan je pagina's toevoegen wanneer ze worden verzonden."
 
 #: assets/build/audit.js:9
 msgid "Fill them in on every page"
@@ -2128,15 +2128,15 @@ msgstr "Pagina bewerken"
 
 #: assets/build/audit.js:11
 msgid "The plugin adds them as the page is sent. Scan again to see it."
-msgstr "De plugin voegt ze toe wanneer de pagina wordt verstuurd. Scan opnieuw om het te zien."
+msgstr "De plugin voegt ze toe wanneer de pagina wordt verzonden. Scan opnieuw om het te zien."
 
 #: assets/build/audit.js:11
 msgid "Iminify is writing the image’s alt text. Scan again once it’s in."
-msgstr "Iminify schrijft de alt-tekst van de afbeelding. Scan opnieuw zodra die binnen is."
+msgstr "Iminify schrijft de alt-text van de afbeelding. Scan opnieuw zodra die binnen is."
 
 #: assets/build/audit.js:11
 msgid "Iminify can write it once AI alt text is on for this site."
-msgstr "Iminify kan die schrijven zodra AI-alt-tekst voor deze site aanstaat."
+msgstr "Iminify kan die schrijven zodra AI-alt-text voor deze site aanstaat."
 
 #: assets/build/audit.js:11
 msgid "Turn it on in the settings"
@@ -2144,15 +2144,15 @@ msgstr "Inschakelen in de instellingen"
 
 #: assets/build/audit.js:11
 msgid "Its alt text is on its way. Scan again once it’s in."
-msgstr "De alt-tekst is onderweg. Scan opnieuw zodra die binnen is."
+msgstr "De alt-text is onderweg. Scan opnieuw zodra die binnen is."
 
 #: assets/build/audit.js:11
 msgid "Translations share this image, each with an alt text in its own language: write it on the one this page shows, in its edit screen."
-msgstr "Vertalingen delen deze afbeelding, elk met een alt-tekst in de eigen taal: schrijf de alt-tekst bij de versie die deze pagina toont, in het bewerkingsscherm daarvan."
+msgstr "Vertalingen delen deze afbeelding, elk met een alt-text in de eigen taal: schrijf de alt-text bij de versie die deze pagina toont, in het bewerkingsscherm daarvan."
 
 #: assets/build/audit.js:11
 msgid "The plugin adds the alt text the image has in the media library as the page is sent. Scan again to see it."
-msgstr "De plugin voegt de alt-tekst die de afbeelding in de mediabibliotheek heeft toe wanneer de pagina wordt verstuurd. Scan opnieuw om het te zien."
+msgstr "Wanneer de pagina wordt verzonden, voegt de plugin de alt-text toe die de afbeelding in de mediabibliotheek heeft. Scan opnieuw om die te zien."
 
 #: assets/build/audit.js:11
 #: assets/build/folders.js:8
@@ -2318,19 +2318,19 @@ msgstr[1] "%1$s heeft %2$s afbeeldingen geoptimaliseerd, waarvan %3$s met een be
 
 #: assets/build/bulk.js:7
 msgid "Other folders restored"
-msgstr "Andere folders teruggezet"
+msgstr "Andere mappen teruggezet"
 
 #: assets/build/bulk.js:7
 msgid "Restoring other folders"
-msgstr "Andere folders worden teruggezet"
+msgstr "Andere mappen worden teruggezet"
 
 #: assets/build/bulk.js:7
 msgid "Other folders optimized"
-msgstr "Andere folders geoptimaliseerd"
+msgstr "Andere mappen geoptimaliseerd"
 
 #: assets/build/bulk.js:7
 msgid "Optimizing other folders"
-msgstr "Andere folders worden geoptimaliseerd"
+msgstr "Andere mappen worden geoptimaliseerd"
 
 #: assets/build/bulk.js:7
 msgid "Library restored"
@@ -2342,11 +2342,11 @@ msgstr "Bezig met terugzetten"
 
 #: assets/build/bulk.js:7
 msgid "Alt text written"
-msgstr "Alt-tekst geschreven"
+msgstr "Alt-text geschreven"
 
 #: assets/build/bulk.js:7
 msgid "Writing alt text"
-msgstr "Alt-tekst wordt geschreven"
+msgstr "Alt-text wordt geschreven"
 
 #: assets/build/bulk.js:7
 msgid "Missing formats made"
@@ -2410,11 +2410,11 @@ msgstr "Iminify is bezig"
 
 #: assets/build/bulk.js:7
 msgid "Running on this page"
-msgstr "Actief op deze pagina"
+msgstr "Uitgevoerd op deze pagina"
 
 #: assets/build/bulk.js:7
 msgid "Running"
-msgstr "Actief"
+msgstr "Wordt uitgevoerd"
 
 #. translators: 1: how many images were restored, 2: how many there were to restore.
 #: assets/build/bulk.js:8
@@ -2429,16 +2429,16 @@ msgstr[1] "%1$s van %2$s afbeeldingen teruggezet."
 #, js-format
 msgid "Sent %1$s of %2$s image to Iminify."
 msgid_plural "Sent %1$s of %2$s images to Iminify."
-msgstr[0] "%1$s van %2$s afbeelding naar Iminify gestuurd."
-msgstr[1] "%1$s van %2$s afbeeldingen naar Iminify gestuurd."
+msgstr[0] "%1$s van %2$s afbeelding naar Iminify verzonden."
+msgstr[1] "%1$s van %2$s afbeeldingen naar Iminify verzonden."
 
 #. translators: %s: how many alt texts.
 #: assets/build/bulk.js:10
 #, js-format
 msgid "%s alt text on its way"
 msgid_plural "%s alt texts on their way"
-msgstr[0] "%s alt-tekst onderweg"
-msgstr[1] "%s alt-teksten onderweg"
+msgstr[0] "%s alt-text onderweg"
+msgstr[1] "%s alt-texts onderweg"
 
 #. translators: %s: how many images.
 #: assets/build/bulk.js:11
@@ -2457,16 +2457,16 @@ msgstr[1] "afbeeldingen teruggezet"
 #: assets/build/bulk.js:11
 msgid "image sent to Iminify"
 msgid_plural "images sent to Iminify"
-msgstr[0] "afbeelding naar Iminify gestuurd"
-msgstr[1] "afbeeldingen naar Iminify gestuurd"
+msgstr[0] "afbeelding naar Iminify verzonden"
+msgstr[1] "afbeeldingen naar Iminify verzonden"
 
 #. translators: %d: how many images.
 #: assets/build/bulk.js:12
 #, js-format
 msgid "%d image couldn't be restored. Its row under Media, Other Folders says why."
 msgid_plural "%d images couldn't be restored. Their rows under Media, Other Folders say why."
-msgstr[0] "%d afbeelding kon niet worden teruggezet. De rij ervan onder Media, Andere folders vermeldt waarom."
-msgstr[1] "%d afbeeldingen konden niet worden teruggezet. Hun rijen onder Media, Andere folders vermelden waarom."
+msgstr[0] "%d afbeelding kon niet worden teruggezet. De rij ervan onder Media, Andere mappen vermeldt waarom."
+msgstr[1] "%d afbeeldingen konden niet worden teruggezet. Hun rijen onder Media, Andere mappen vermelden waarom."
 
 #. translators: %d: how many images.
 #: assets/build/bulk.js:13
@@ -2503,15 +2503,15 @@ msgstr "Voltooid: de afbeeldingen zijn terug zoals ze werden geüpload."
 
 #: assets/build/bulk.js:13
 msgid "Finished: each image shows how its alt text came out in the media library."
-msgstr "Voltooid: bij elke afbeelding zie je in de mediabibliotheek hoe de alt-tekst is uitgevallen."
+msgstr "Voltooid: bij elke afbeelding zie je in de mediabibliotheek hoe de alt-text is uitgevallen."
 
 #: assets/build/bulk.js:13
 msgid "Finished: no image needed sending."
-msgstr "Voltooid: geen enkele afbeelding hoefde te worden verstuurd."
+msgstr "Voltooid: er waren geen afbeeldingen om te verzenden."
 
 #: assets/build/bulk.js:13
 msgid "Finished: every image was sent. Each one shows how it came out in the media library."
-msgstr "Voltooid: elke afbeelding is verstuurd. Bij elke afbeelding zie je in de mediabibliotheek hoe het resultaat is uitgevallen."
+msgstr "Voltooid: elke afbeelding is verzonden. Bij elke afbeelding zie je in de mediabibliotheek hoe het resultaat is uitgevallen."
 
 #: assets/build/bulk.js:13
 msgid "Stopped. Images already with Iminify finish while this page is open; the rest stay as they are."
@@ -2539,41 +2539,41 @@ msgstr "Gepauzeerd. Afbeeldingen die al bij Iminify zijn, worden afgerond."
 
 #: assets/build/bulk.js:13
 msgid "Held while another image optimizer acts on your uploads. The run goes on by itself once it is switched off."
-msgstr "In de wacht zolang een andere optimalisatieplugin je uploads verwerkt. De taak gaat vanzelf verder zodra die plugin is uitgeschakeld."
+msgstr "In de wacht zolang een andere plugin voor afbeeldingsoptimalisatie je uploads verwerkt. Het uitvoeren gaat vanzelf verder zodra die plugin is uitgeschakeld."
 
 #: assets/build/bulk.js:13
 msgid "The run hasn't moved for a while: this site's scheduled tasks don't seem to run."
-msgstr "De taak staat al een tijdje stil: de geplande taken van deze site lijken niet te draaien."
+msgstr "De uitvoering is al een tijdje niet meer vooruitgegaan: de geplande taken van deze site lijken niet te worden uitgevoerd."
 
 #. translators: %s: the date and time the next batch opens.
 #: assets/build/bulk.js:14
 #, js-format
 msgid "Your account's images for the day are used up. The run goes on by itself when the next batch opens on %s."
-msgstr "Je account heeft voor vandaag geen afbeeldingen meer. De taak gaat vanzelf verder wanneer de volgende batch opengaat, op %s."
+msgstr "Je account heeft voor vandaag geen afbeeldingen meer. Het uitvoeren gaat vanzelf verder wanneer de volgende batch opengaat, op %s."
 
 #: assets/build/bulk.js:14
 msgid "Held: Iminify isn't accepting this site's key. The run goes on by itself once the connection works."
-msgstr "In de wacht: Iminify accepteert de sleutel van deze site niet. De taak gaat vanzelf verder zodra de verbinding werkt."
+msgstr "In de wacht: Iminify accepteert de sleutel van deze site niet. Het uitvoeren gaat vanzelf verder zodra de koppeling werkt."
 
 #. translators: %s: the date and time the alt texts come back.
 #: assets/build/bulk.js:15
 #, js-format
 msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
-msgstr "Je account heeft voor vandaag geen AI-alt-teksten meer. De taak gaat vanzelf verder op %s."
+msgstr "Je account heeft voor vandaag geen AI-alt-texts meer. Het uitvoeren gaat vanzelf verder op %s."
 
 #. translators: %s: the date and time the run goes on.
 #: assets/build/bulk.js:16
 #, js-format
 msgid "Iminify is busy with the images already sent. The run sends more at %s."
-msgstr "Iminify is bezig met de afbeeldingen die al zijn verstuurd. De taak verstuurt er meer op %s."
+msgstr "Iminify is bezig met de afbeeldingen die al zijn verzonden. Het uitvoeren gaat op %s verder met de volgende afbeeldingen."
 
 #: assets/build/bulk.js:16
 msgid "Keep this page open: the images go out while it is."
-msgstr "Houd deze pagina open: de afbeeldingen worden verstuurd zolang ze open is."
+msgstr "Houd deze pagina open: de afbeeldingen worden verzonden zolang ze open is."
 
 #: assets/build/bulk.js:16
 msgid "The run goes on in the background, so you can leave this page."
-msgstr "De taak gaat op de achtergrond verder, dus je kunt deze pagina verlaten."
+msgstr "Het uitvoeren gaat op de achtergrond verder, dus je kunt deze pagina verlaten."
 
 #. translators: %s: what Site Health's loopback check found.
 #: assets/build/bulk.js:17
@@ -2587,7 +2587,7 @@ msgstr "Als deze site om een wachtwoord vraagt voordat die opent, zet die gebrui
 
 #: assets/build/bulk.js:17
 msgid "Run it while this page is open instead, or carry it on from the shell:"
-msgstr "Voer het liever uit terwijl deze pagina open is, of ga verder vanuit de shell:"
+msgstr "Je kunt het in plaats daarvan uitvoeren terwijl deze pagina open is, of het vanuit de shell voortzetten:"
 
 #: assets/build/bulk.js:17
 msgid "Run it while this page is open"
@@ -2656,8 +2656,8 @@ msgstr "Er wacht geen afbeelding om te worden geoptimaliseerd."
 #, js-format
 msgid "%s image was restored, and stays as it is: a run never takes an image someone put back. Optimize it again from its panel in the media library."
 msgid_plural "%s images were restored, and stay as they are: a run never takes an image someone put back. Optimize one again from its panel in the media library."
-msgstr[0] "%s afbeelding is teruggezet en blijft zoals ze is: een taak neemt nooit een afbeelding mee die iemand heeft teruggezet. Optimaliseer ze opnieuw via het paneel in de mediabibliotheek."
-msgstr[1] "%s afbeeldingen zijn teruggezet en blijven zoals ze zijn: een taak neemt nooit een afbeelding mee die iemand heeft teruggezet. Optimaliseer er een opnieuw via het paneel in de mediabibliotheek."
+msgstr[0] "%s afbeelding is teruggezet en blijft zoals ze is: bij het uitvoeren wordt een afbeelding die iemand heeft teruggezet nooit meegenomen. Optimaliseer ze opnieuw via het paneel ervan in de mediabibliotheek."
+msgstr[1] "%s afbeeldingen zijn teruggezet en blijven zoals ze zijn: bij het uitvoeren wordt een afbeelding die iemand heeft teruggezet nooit meegenomen. Optimaliseer een afbeelding opnieuw via het paneel ervan in de mediabibliotheek."
 
 #: assets/build/bulk.js:22
 msgid "Missing files"
@@ -2668,8 +2668,8 @@ msgstr "Ontbrekende bestanden"
 #, js-format
 msgid "%s optimized image lacks a format your site asks for now."
 msgid_plural "%s optimized images lack a format your site asks for now."
-msgstr[0] "%s geoptimaliseerde afbeelding mist een formaat dat je site nu vraagt."
-msgstr[1] "%s geoptimaliseerde afbeeldingen missen een formaat dat je site nu vraagt."
+msgstr[0] "%s geoptimaliseerde afbeelding mist een format waar je site nu om vraagt."
+msgstr[1] "%s geoptimaliseerde afbeeldingen missen een format waar je site nu om vraagt."
 
 #. translators: %s: how many images.
 #: assets/build/bulk.js:24
@@ -2681,27 +2681,27 @@ msgstr[1] "%s geoptimaliseerde afbeeldingen missen mogelijk een grootte die je s
 
 #: assets/build/bulk.js:24
 msgid "Alt text"
-msgstr "Alt-tekst"
+msgstr "Alt-text"
 
 #. translators: %s: how many images.
 #: assets/build/bulk.js:25
 #, js-format
 msgid "%s image has no alt text."
 msgid_plural "%s images have no alt text."
-msgstr[0] "%s afbeelding heeft geen alt-tekst."
-msgstr[1] "%s afbeeldingen hebben geen alt-tekst."
+msgstr[0] "%s afbeelding heeft geen alt-text."
+msgstr[1] "%s afbeeldingen hebben geen alt-text."
 
 #: assets/build/bulk.js:25
 msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
-msgstr "Van elk van deze afbeeldingen een verkleinde versie versturen om de alt-tekst te schrijven? Elke afbeelding telt als een van je AI-alt-teksten voor vandaag, en een alt-tekst die iemand heeft geschreven, wordt nooit vervangen."
+msgstr "Van elk van deze afbeeldingen een verkleinde versie verzenden om de alt-text te schrijven? Elke afbeelding telt als een van je AI-alt-texts voor vandaag, en een alt-text die iemand heeft geschreven, wordt nooit vervangen."
 
 #. translators: %s: how many AI alt texts are left today.
 #: assets/build/bulk.js:26
 #, js-format
 msgid "%s AI alt text left today."
 msgid_plural "%s AI alt texts left today."
-msgstr[0] "Vandaag nog %s AI-alt-tekst over."
-msgstr[1] "Vandaag nog %s AI-alt-teksten over."
+msgstr[0] "Vandaag nog %s AI-alt-text over."
+msgstr[1] "Vandaag nog %s AI-alt-texts over."
 
 #: assets/build/bulk.js:26
 msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
@@ -2716,8 +2716,8 @@ msgstr "Opnieuw optimaliseren vanaf de originelen"
 #, js-format
 msgid "%s image another plugin optimized kept its original. Iminify can optimize it again from that original and keep its own backup of it. The original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
 msgid_plural "%s images other plugins optimized kept their originals. Iminify can optimize them again from those originals and keep its own backup of each. Each original goes back first, unless the image was converted to WebP or AVIF: then its files are made again in that format, under the same names."
-msgstr[0] "Van %s afbeelding die een andere plugin heeft geoptimaliseerd, is het origineel bewaard. Iminify kan die afbeelding opnieuw optimaliseren vanaf dat origineel en er een eigen back-up van bewaren. Het origineel wordt eerst teruggezet, tenzij de afbeelding naar WebP of AVIF is geconverteerd: dan worden de bestanden opnieuw gemaakt in dat formaat, onder dezelfde namen."
-msgstr[1] "Van %s afbeeldingen die andere plugins hebben geoptimaliseerd, zijn de originelen bewaard. Iminify kan ze opnieuw optimaliseren vanaf die originelen en van elk een eigen back-up bewaren. Elk origineel wordt eerst teruggezet, tenzij de afbeelding naar WebP of AVIF is geconverteerd: dan worden de bestanden opnieuw gemaakt in dat formaat, onder dezelfde namen."
+msgstr[0] "Van %s afbeelding die een andere plugin heeft geoptimaliseerd, is het origineel bewaard. Iminify kan die afbeelding opnieuw optimaliseren vanaf dat origineel en er een eigen back-up van bewaren. Het origineel wordt eerst teruggezet, tenzij de afbeelding naar WebP of AVIF is geconverteerd: dan worden de bestanden opnieuw gemaakt in dat format, onder dezelfde namen."
+msgstr[1] "Van %s afbeeldingen die andere plugins hebben geoptimaliseerd, zijn de originelen bewaard. Iminify kan ze opnieuw optimaliseren vanaf die originelen en van elk een eigen back-up bewaren. Elk origineel wordt eerst teruggezet, tenzij de afbeelding naar WebP of AVIF is geconverteerd: dan worden de bestanden opnieuw gemaakt in dat format, onder dezelfde namen."
 
 #: assets/build/bulk.js:31
 msgid "Optimize these images again from their originals? Each counts as one more image, and one whose original only its plugin can put back is left as it is."
@@ -2769,7 +2769,7 @@ msgstr "De dagelijkse afbeeldingen van je abonnement dekken ze vandaag allemaal.
 
 #: assets/build/bulk.js:32
 msgid "The run goes on by itself each day."
-msgstr "De taak gaat elke dag vanzelf verder."
+msgstr "Het uitvoeren gaat elke dag vanzelf verder."
 
 #: assets/build/bulk.js:32
 msgid "See the plans"
@@ -2777,19 +2777,19 @@ msgstr "Abonnementen bekijken"
 
 #: assets/build/bulk.js:32
 msgid "Other folders"
-msgstr "Andere folders"
+msgstr "Andere mappen"
 
 #: assets/build/bulk.js:32
 msgid "Optimize the images in your theme and other folders outside the media library, where they are, with a backup of each."
-msgstr "Optimaliseer de afbeeldingen in je thema en andere folders buiten de mediabibliotheek, op hun eigen plek, met een back-up van elk."
+msgstr "Optimaliseer de afbeeldingen in je thema en andere mappen buiten de mediabibliotheek op hun eigen plek, met een back-up van elke afbeelding."
 
 #. translators: 1: how many images the folders hold, 2: how many are optimized, 3: how many aren't yet.
 #: assets/build/bulk.js:33
 #, js-format
 msgid "%1$s image in your folders: %2$s optimized, %3$s not yet."
 msgid_plural "%1$s images in your folders: %2$s optimized, %3$s not yet."
-msgstr[0] "%1$s afbeelding in je folders: %2$s geoptimaliseerd, %3$s nog niet."
-msgstr[1] "%1$s afbeeldingen in je folders: %2$s geoptimaliseerd, %3$s nog niet."
+msgstr[0] "%1$s afbeelding in je mappen: %2$s geoptimaliseerd, %3$s nog niet."
+msgstr[1] "%1$s afbeeldingen in je mappen: %2$s geoptimaliseerd, %3$s nog niet."
 
 #: assets/build/bulk.js:33
 msgid "Iminify is still looking through them."
@@ -2797,7 +2797,7 @@ msgstr "Iminify doorzoekt ze nog."
 
 #: assets/build/bulk.js:33
 msgid "Put every optimized image in your folders back as it was? Their WebP and AVIF copies are deleted; the backups stay."
-msgstr "Elke geoptimaliseerde afbeelding in je folders terugzetten zoals die was? De WebP- en AVIF-kopieën worden verwijderd; de back-ups blijven."
+msgstr "Elke geoptimaliseerde afbeelding in je mappen terugzetten zoals die was? De WebP- en AVIF-kopieën ervan worden verwijderd; de back-ups blijven bewaard."
 
 #: assets/build/bulk.js:33
 msgid "Restore all"
@@ -2817,7 +2817,7 @@ msgstr "Mislukte opnieuw versturen"
 
 #: assets/build/bulk.js:33
 msgid "Choose folders"
-msgstr "Folders kiezen"
+msgstr "Mappen kiezen"
 
 #: assets/build/bulk.js:33
 msgid "Restore the library"
@@ -2833,7 +2833,7 @@ msgstr "Elke geoptimaliseerde afbeelding terugzetten zoals die werd geüpload? D
 
 #: assets/build/folders.js:1
 msgid "Sent to Iminify."
-msgstr "Naar Iminify gestuurd."
+msgstr "Naar Iminify verzonden."
 
 #: assets/build/folders.js:1
 msgid "The original is back."
@@ -2845,11 +2845,11 @@ msgstr "Wordt doorzocht"
 
 #: assets/build/folders.js:1
 msgid "Folders"
-msgstr "Folders"
+msgstr "Mappen"
 
 #: assets/build/folders.js:1
 msgid "Choose your theme or any folder in wp-content, and Iminify optimizes the images in it where they are, keeping a backup of each."
-msgstr "Kies je thema of een andere folder in wp-content, en Iminify optimaliseert de afbeeldingen daarin op hun eigen plek, met een back-up van elk."
+msgstr "Kies je thema of een andere map in wp-content, en Iminify optimaliseert de afbeeldingen daarin op hun eigen plek, met een back-up van elke afbeelding."
 
 #: assets/build/folders.js:1
 #: assets/build/settings.js:23
@@ -2882,7 +2882,7 @@ msgstr "Toevoegen"
 
 #: assets/build/folders.js:3
 msgid "Another folder in wp-content"
-msgstr "Een andere folder in wp-content"
+msgstr "Een andere map in wp-content"
 
 #. translators: 1: when, 2: how many images, 3: how many were new, 4: how many changed.
 #: assets/build/folders.js:4
@@ -2902,15 +2902,15 @@ msgstr "Zoeken naar nieuwe en gewijzigde afbeeldingen"
 
 #: assets/build/folders.js:4
 msgid "In your folders"
-msgstr "In je folders"
+msgstr "In je mappen"
 
 #: assets/build/folders.js:6
 msgid "A bulk run over these images is going on the bulk page."
-msgstr "Er loopt een bulktaak voor deze afbeeldingen op de bulkpagina."
+msgstr "Een bulkuitvoering over deze afbeeldingen vindt plaats op de bulkpagina."
 
 #: assets/build/folders.js:6
 msgid "Optimize or restore them all on the bulk page."
-msgstr "Optimaliseer ze of zet ze allemaal terug op de bulkpagina."
+msgstr "Op de bulkpagina kun je ze allemaal optimaliseren of terugzetten."
 
 #: assets/build/folders.js:6
 msgid "Go to Bulk Optimization"
@@ -2926,11 +2926,11 @@ msgstr "Afbeeldingen"
 
 #: assets/build/folders.js:6
 msgid "Add a folder to see its images here."
-msgstr "Voeg een folder toe om hier de afbeeldingen ervan te zien."
+msgstr "Na het toevoegen van een map zie je hier de afbeeldingen daarin."
 
 #: assets/build/folders.js:7
 msgid "No images were found in these folders."
-msgstr "Er zijn geen afbeeldingen gevonden in deze folders."
+msgstr "Er zijn geen afbeeldingen gevonden in deze mappen."
 
 #: assets/build/folders.js:7
 msgid "No image here."
@@ -3078,7 +3078,7 @@ msgstr "Iminify comprimeert de afbeeldingen die naar elke site van dit netwerk w
 
 #: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve the network."
-msgstr "Er wordt niets naar Iminify gestuurd tot je verbinding maakt. Verbinden opent iminify.com in een nieuwe tab, waar je het netwerk goedkeurt."
+msgstr "Pas na het koppelen wordt er iets naar Iminify verzonden. Verbinden opent iminify.com in een nieuwe tab, waar je het netwerk goedkeurt."
 
 #: assets/build/settings.js:9
 msgid "Connect the network"
@@ -3106,7 +3106,7 @@ msgstr "Iminify comprimeert de afbeeldingen die je uploadt en maakt er WebP- en 
 
 #: assets/build/settings.js:9
 msgid "Nothing is sent to Iminify until you connect. Connect opens iminify.com in a new tab, where you approve this site."
-msgstr "Er wordt niets naar Iminify gestuurd tot je verbinding maakt. Verbinden opent iminify.com in een nieuwe tab, waar je deze site goedkeurt."
+msgstr "Pas na het koppelen wordt er iets naar Iminify verzonden. Verbinden opent iminify.com in een nieuwe tab, waar je deze site goedkeurt."
 
 #: assets/build/settings.js:9
 msgid "A super admin can connect the whole network from the network admin instead, and every site joins it by itself."
@@ -3123,7 +3123,7 @@ msgstr "Wacht op je goedkeuring"
 
 #: assets/build/settings.js:9
 msgid "Approve the connection on iminify.com, in the tab that opened. This page connects by itself once you do, and the site carries on connecting if you close it."
-msgstr "Keur de verbinding goed op iminify.com, in de tab die is geopend. Deze pagina maakt vanzelf verbinding zodra je dat doet, en de site gaat door met verbinden als je deze pagina sluit."
+msgstr "Je moet de koppeling nog goedkeuren op iminify.com, in de tab die is geopend. Deze pagina voltooit de koppeling vanzelf zodra je dat doet, en als je deze pagina sluit, gaat de site gewoon verder met koppelen."
 
 #: assets/build/settings.js:9
 msgid "Open the page on iminify.com again"
@@ -3167,7 +3167,7 @@ msgstr "Je originelen blijven op deze site"
 
 #: assets/build/settings.js:9
 msgid "A backup of each one is kept in the uploads folder, so any image can be put back as it was."
-msgstr "Van elk origineel wordt een back-up bewaard in de uploads folder, zodat elke afbeelding kan worden teruggezet zoals ze was."
+msgstr "Van elk origineel wordt een back-up bewaard in de map uploads, zodat elke afbeelding kan worden teruggezet zoals ze was."
 
 #: assets/build/settings.js:9
 msgid "Your library goes when you say so"
@@ -3195,7 +3195,7 @@ msgstr "Netwerksleutel"
 
 #: assets/build/settings.js:9
 msgid "Site key"
-msgstr "Sitesleutel"
+msgstr "Sleutel van de site"
 
 #: assets/build/settings.js:9
 msgid "Connect with this key"
@@ -3265,7 +3265,7 @@ msgstr "OK"
 
 #: assets/build/settings.js:16
 msgid "Open the network's Iminify settings"
-msgstr "Iminify-instellingen van het netwerk openen"
+msgstr "Iminify instellingen van het netwerk openen"
 
 #: assets/build/settings.js:16
 msgid "The network's connection"
@@ -3293,7 +3293,7 @@ msgstr "Elke site van het netwerk sluit zich vanzelf aan de eerste keer dat die 
 
 #: assets/build/settings.js:16
 msgid "Each site's settings are on its own Settings, Iminify page. The images in themes and other folders are the main site's to optimize, once for the whole network."
-msgstr "De instellingen van elke site staan op de eigen pagina Instellingen, Iminify. De afbeeldingen in thema's en andere folders worden door de hoofdsite geoptimaliseerd, één keer voor het hele netwerk."
+msgstr "De instellingen van elke site staan op de eigen pagina Instellingen, Iminify. De afbeeldingen in thema's en andere mappen worden door de hoofdsite geoptimaliseerd, één keer voor het hele netwerk."
 
 #: assets/build/settings.js:16
 msgid "The main site's settings"
@@ -3301,7 +3301,7 @@ msgstr "De instellingen van de hoofdsite"
 
 #: assets/build/settings.js:16
 msgid "The main site's other folders"
-msgstr "De andere folders van de hoofdsite"
+msgstr "De andere mappen van de hoofdsite"
 
 #: assets/build/settings.js:16
 msgid "How a network connects"
@@ -3348,7 +3348,7 @@ msgstr "De regels van %s uit dit bestand verwijderen? Al het andere erin blijft 
 #: assets/build/settings.js:21
 #, js-format
 msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
-msgstr "<file /> bevat de regel %s, maar het blok dat daarmee begint heeft geen eigen einde, of loopt door een ander blok heen, dus de plugin laat het bestand ongemoeid. Verwijder de regels van het blok handmatig."
+msgstr "<file /> bevat regel %s, maar het blok dat het start heeft geen eigen einde, of komt een ander blok tegen, dus de plugin laat het bestand met rust. Verwijder de regels van het blok handmatig."
 
 #: assets/build/settings.js:21
 msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
@@ -3388,7 +3388,7 @@ msgstr "De regels die een andere optimalisatieplugin achterliet, zijn weg."
 
 #: assets/build/settings.js:23
 msgid "An image optimizer you had before left these rules behind when it was switched off. Iminify never removes another plugin’s rules by itself."
-msgstr "Een optimalisatieplugin die je eerder had, heeft deze regels achtergelaten toen die werd uitgeschakeld. Iminify verwijdert nooit uit zichzelf de regels van een andere plugin."
+msgstr "Een plugin die je eerder gebruikte om afbeeldingen te optimaliseren, heeft deze regels achtergelaten toen die werd uitgeschakeld. Iminify verwijdert de regels van een andere plugin nooit uit zichzelf."
 
 #. translators: %d: how many images.
 #: assets/build/settings.js:24
@@ -3411,8 +3411,8 @@ msgstr[1] "%d afbeeldingen wachten op de volgende batch."
 #, js-format
 msgid "%d image is waiting for the site to be connected. It goes out by itself once it is."
 msgid_plural "%d images are waiting for the site to be connected. They go out by themselves once it is."
-msgstr[0] "%d afbeelding wacht tot de site is verbonden. Ze wordt vanzelf verstuurd zodra dat zo is."
-msgstr[1] "%d afbeeldingen wachten tot de site is verbonden. Ze worden vanzelf verstuurd zodra dat zo is."
+msgstr[0] "%d afbeelding wacht tot de site is verbonden. Ze wordt vanzelf verzonden zodra dat zo is."
+msgstr[1] "%d afbeeldingen wachten tot de site is verbonden. Ze worden vanzelf verzonden zodra dat zo is."
 
 #. translators: %s: the date and time the next batch opens.
 #: assets/build/settings.js:27
@@ -3442,7 +3442,7 @@ msgstr "Je server serveert de WebP- en AVIF-kopieën. Gecontroleerd op %s."
 #: assets/build/settings.js:30
 #, js-format
 msgid "Your server still sends the originals: something answers for images before these rules are read, often Nginx in front of Apache. Add the Nginx lines below to its configuration, or choose picture tags. Checked %s."
-msgstr "Je server serveert nog steeds de originelen: iets beantwoordt verzoeken om afbeeldingen voordat deze regels worden gelezen, vaak Nginx vóór Apache. Voeg de Nginx-regels hieronder toe aan de configuratie daarvan, of kies picture-tags. Gecontroleerd op %s."
+msgstr "Je server serveert nog steeds de originelen: iets anders handelt afbeeldingen al af voordat deze regels worden gelezen, vaak Nginx vóór Apache. Je kunt de Nginx-regels hieronder aan de configuratie daarvan toevoegen of voor picture-tags kiezen. Gecontroleerd op %s."
 
 #. translators: %s: the date and time of the last check.
 #: assets/build/settings.js:32
@@ -3460,7 +3460,7 @@ msgstr "Cloudflare antwoordde met het origineel, dus een bezoeker krijgt via dez
 #: assets/build/settings.js:35
 #, js-format
 msgid "The plugin couldn't ask your site for an image to see whether the rules work, which happens when a site can't reach its own address. Open one of your images with a browser's developer tools: its type should read image/avif or image/webp. Tried %s."
-msgstr "De plugin kon je site niet om een afbeelding vragen om te zien of de regels werken; dat gebeurt wanneer een site het eigen adres niet kan bereiken. Open een van je afbeeldingen met de ontwikkelaarstools van een browser: het type moet image/avif of image/webp zijn. Geprobeerd op %s."
+msgstr "De plugin kon je site niet om een afbeelding vragen om te zien of de regels werken. Dat gebeurt wanneer een site het eigen adres niet kan bereiken. Open een van je afbeeldingen met de ontwikkelaarstools van een browser: het type moet image/avif of image/webp zijn. Geprobeerd op %s."
 
 #: assets/build/settings.js:35
 msgid "The rules are in <file />."
@@ -3473,7 +3473,7 @@ msgstr "<file /> bevat de regel <begin /> zonder de bijbehorende regel <end />, 
 
 #: assets/build/settings.js:36
 msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
-msgstr "Je uploads folder staat niet in de folder met het .htaccess-bestand van de site, dus geen enkele regel daarin kan ernaar verwijzen. Kies picture-tags."
+msgstr "De map uploads van je site staat niet in de map met het .htaccess-bestand, dus geen enkele regel daarin kan ernaar verwijzen. Kies picture-tags."
 
 #: assets/build/settings.js:36
 msgid "There’s no <file /> yet. Create it with these lines, then save again."
@@ -3519,15 +3519,15 @@ msgstr "Cloudflare beantwoordt de verzoeken voor je site. Het bewaart één vers
 
 #: assets/build/settings.js:37
 msgid "WP Offload Media serves your images from its bucket, which these rules never reach, so those keep their originals. With its “Remove Local Media” on, the rules serve nothing."
-msgstr "WP Offload Media serveert je afbeeldingen vanuit de eigen bucket, die deze regels nooit bereiken, dus die afbeeldingen houden hun originelen. Met \"Remove Local Media\" ingeschakeld serveren de regels niets."
+msgstr "WP Offload Media serveert je afbeeldingen vanuit de eigen bucket, die deze regels nooit bereiken, dus die afbeeldingen houden hun originelen. Staat de optie \"Remove Local Media\" ervan aan, dan serveren de regels niets."
 
 #: assets/build/settings.js:37
 msgid "Also reaches the images in raw HTML, page builders and your theme's own markup, the backgrounds set in the page itself, and the images in the folders you chose, by reading each page as it's sent. A background set in a stylesheet file keeps its original. A page your cache hasn't kept takes a little longer."
-msgstr "Bereikt ook de afbeeldingen in losse HTML-code, paginabouwers en de eigen markup van je thema, de achtergronden die in de pagina zelf zijn ingesteld, en de afbeeldingen in de folders die je hebt gekozen, door elke pagina te lezen terwijl ze wordt verstuurd. Een achtergrond die in een stylesheetbestand is ingesteld, houdt het origineel. Een pagina die je cache niet heeft bewaard, duurt iets langer."
+msgstr "Bereikt ook de afbeeldingen in losse HTML-code, paginabouwers en de eigen markup van je thema, de achtergronden die in de pagina zelf zijn ingesteld, en de afbeeldingen in de mappen die je hebt gekozen, door elke pagina te lezen terwijl ze wordt verzonden. Een achtergrond die in een stylesheetbestand is ingesteld, houdt het origineel. Een pagina die je cache niet heeft bewaard, duurt iets langer."
 
 #: assets/build/settings.js:37
 msgid "Your pages stay as they are, and your server sends the WebP or AVIF copy in place of the image to each browser that reads it. That reaches every image in the uploads folder and the folders you chose, backgrounds in stylesheet files too. Needs rules in your server’s configuration, written for you on Apache, and behind a CDN, one that keeps a version of each image per format."
-msgstr "Je pagina's blijven zoals ze zijn, en je server stuurt elke browser die WebP of AVIF leest de kopie in plaats van de afbeelding. Dat bereikt elke afbeelding in de uploads folder en de folders die je hebt gekozen, ook achtergronden in stylesheetbestanden. Vereist regels in de configuratie van je server, die op Apache voor je worden geschreven, en, als je site achter een CDN staat, een CDN dat per formaat een versie van elke afbeelding bewaart."
+msgstr "Je pagina's blijven zoals ze zijn, en je server levert de kopie in plaats van de afbeelding aan elke browser die WebP of AVIF leest. Dit werkt voor elke afbeelding in de map uploads en in de mappen die je hebt gekozen, ook voor achtergronden in stylesheetbestanden. Vereist regels in de configuratie van je server, die op Apache voor je worden geschreven, en, als je site achter een CDN staat, een CDN dat per format een versie van elke afbeelding bewaart."
 
 #: assets/build/settings.js:37
 msgid "Your pages stay as they are: the copies are made, but no page names them."
@@ -3567,7 +3567,7 @@ msgstr "Verkleint een bredere hoofdafbeelding tot deze breedte. Laat leeg om de 
 
 #: assets/build/settings.js:37
 msgid "Fits the main image under this size. Leave it empty for no limit."
-msgstr "Brengt de hoofdafbeelding onder deze bestandsgrootte. Laat leeg voor geen limiet."
+msgstr "Houdt de hoofdafbeelding onder deze bestandsgrootte. Laat leeg voor geen beperking."
 
 #: assets/build/settings.js:37
 msgid "Keeps each image's EXIF data, such as the camera and the place it was taken. Off removes it."
@@ -3575,11 +3575,11 @@ msgstr "Behoudt de EXIF-gegevens van elke afbeelding, zoals de camera en de plek
 
 #: assets/build/settings.js:37
 msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
-msgstr "Beschrijft elke afbeelding die geen alt-tekst heeft. Een alt-tekst die je zelf hebt geschreven, wordt nooit vervangen. Een verkleinde versie van de afbeelding gaat naar de AI van Anthropic, en elke beschrijving telt mee voor je AI-alt-teksten voor vandaag."
+msgstr "Beschrijft elke afbeelding die geen alt-text heeft. Een alt-text die je zelf hebt geschreven, wordt nooit vervangen. Een verkleinde versie van de afbeelding gaat naar de AI van Anthropic, en elke beschrijving gaat af van je AI-alt-texts voor vandaag."
 
 #: assets/build/settings.js:37
 msgid "Language of the alt text"
-msgstr "Taal van de alt-tekst"
+msgstr "Taal van de alt-text"
 
 #: assets/build/settings.js:37
 msgid "Optimize every size"
@@ -3595,7 +3595,7 @@ msgstr "Op deze site"
 
 #: assets/build/settings.js:37
 msgid "Kept in the uploads folder under iminify-backup, so any image can be restored as it was."
-msgstr "Bewaard in de uploads folder onder iminify-backup, zodat elke afbeelding kan worden teruggezet zoals ze was."
+msgstr "De back-ups worden bewaard in de map uploads, onder iminify-backup, zodat elke afbeelding kan worden teruggezet zoals ze was."
 
 #: assets/build/settings.js:37
 msgid "WebP and AVIF on your pages"
@@ -3619,11 +3619,11 @@ msgstr "Pagina's niet wijzigen"
 
 #: assets/build/settings.js:37
 msgid "Add the width, height and alt text images lack"
-msgstr "Ontbrekende breedte, hoogte en alt-tekst van afbeeldingen aanvullen"
+msgstr "Ontbrekende breedte, hoogte en alt-text aan afbeeldingen toevoegen"
 
 #: assets/build/settings.js:37
 msgid "Where a page’s markup leaves them out of an image from your media library, the plugin adds its width and height, so the page doesn’t jump as it loads, and the alt text it has in the library, as each page is sent. An alt text left empty on purpose stays empty."
-msgstr "Waar de markup van een pagina ze weglaat bij een afbeelding uit je mediabibliotheek, voegt de plugin de breedte en hoogte toe, zodat de pagina niet verspringt tijdens het laden, en de alt-tekst die de afbeelding in de bibliotheek heeft, terwijl elke pagina wordt verstuurd. Een alt-tekst die bewust leeg is gelaten, blijft leeg."
+msgstr "Waar de markup van een pagina ze weglaat bij een afbeelding uit je mediabibliotheek, voegt de plugin ze toe terwijl elke pagina wordt verzonden: de breedte en hoogte, zodat de pagina niet verspringt tijdens het laden, en de alt-text die de afbeelding in de bibliotheek heeft. Een alt-text die bewust leeg is gelaten, blijft leeg."
 
 #: assets/build/settings.js:37
 msgid "When you delete the plugin"

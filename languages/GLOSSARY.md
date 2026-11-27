@@ -2,6 +2,12 @@
 
 The plugin ships its own translations in this folder. `iminify-image-optimizer.pot` is the template of every string; each locale has a `.po` file written from it, and `wp eval-file bin/i18n.php make` makes the files WordPress loads from each `.po` (`.mo`, `.l10n.php` and one `.json` per built script). `tests/Integration/TranslationsTest.php` fails while any locale lacks a string or changes what a string must keep. A language pack from translate.wordpress.org, once one exists for a locale, takes over from the files here.
 
+## translate.wordpress.org
+
+- **Each locale's glossary there is its words.** Translate with the glossary of the locale's team (`https://translate.wordpress.org/locale/<slug>/default/glossary/-export/`, `<slug>` as in `nl`, `pt-br`). Its editors' review tool flags a string where an English glossary term has none of the glossary's words in the translation, counting each occurrence and each plural form, and sends it back.
+- **An editor's approved wording wins.** translate.wordpress.org imported these files once, at the plugin's first import, and reads nothing from here since. What a locale's editors approve becomes its language pack, so copy their wording back into the `.po` here (`https://translate.wordpress.org/projects/wp-plugins/iminify-image-optimizer/dev/<slug>/default/export-translations/?format=po`) and run `make` again, so the shipped file says what the pack will.
+- **A change made here reaches translate.wordpress.org only through its website**, as a `.po` of the changed entries imported on the locale's Development (trunk) project, where an editor reviews it.
+
 ## What every translation keeps
 
 - **Names stay as they are:** Iminify, WebP, AVIF, JPEG, PNG, GIF, HEIC, the plan names Pro and Max, WP-CLI, WooCommerce, Cloudflare, Nginx, Apache, and every other product or plugin name. A name in a sentence may take the grammar the language needs around it, but its spelling never changes.
