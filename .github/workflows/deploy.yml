@@ -104,7 +104,9 @@ jobs:
 
       - uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # 2.3.0
         env:
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          # The account's name is public (the readme's Contributors); kept as a
+          # secret, it would be masked wherever the logs print it.
+          SVN_USERNAME: iminify
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: iminify-image-optimizer
           BUILD_DIR: build/iminify-image-optimizer
