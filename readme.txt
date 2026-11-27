@@ -137,7 +137,7 @@ Iminify Privacy Policy: https://www.iminify.com/privacy-policy
 
 == Installation ==
 
-1. Install the plugin from Plugins, Add New, and activate it.
+1. Install the plugin from Plugins, Add Plugin, and activate it.
 2. Open Settings, Iminify and press Connect. iminify.com opens in a new tab, where you sign in or create a free account and approve the site.
 3. New uploads are optimized from then on. For the images already in your library, open Media, Bulk Optimization and press Optimize the library.
 

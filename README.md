@@ -4,7 +4,7 @@
 
 A WordPress plugin that sends the images you upload to [Iminify](https://www.iminify.com), which compresses them and every size WordPress keeps of them, makes WebP and AVIF copies, and sends the smaller files back under the same names. Visitors get the copies through picture tags, and a browser that reads neither format gets the original.
 
-The plugin is in review for the WordPress plugin directory. Once it's listed, you'll install it from **Plugins > Add New** by searching for Iminify; until then, the [plugin's page](https://www.iminify.com/wordpress-plugin) shows what it does. It needs WordPress 6.9 or later and PHP 7.4 or later.
+Install it from **Plugins > Add Plugin** by searching for Iminify, or with WP-CLI: `wp plugin install iminify-image-optimizer --activate`. Its [wordpress.org listing](https://wordpress.org/plugins/iminify-image-optimizer/) has the screenshots and a Live Preview that runs in your browser. It needs WordPress 6.9 or later and PHP 7.4 or later.
 
 ![The media library's Iminify column: each image's state, what it saved across its files, and its WebP and AVIF copies](.wordpress-org/screenshot-1.png)
 
