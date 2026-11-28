@@ -224,7 +224,7 @@ msgstr "Optimerade"
 #: assets/build/media-grid.js:1
 msgctxt "images, over a count or as a filter"
 msgid "Not optimized"
-msgstr "Ej optimerade"
+msgstr "Inte optimerade"
 
 #: includes/admin/class-media-view.php:576
 #: assets/build/media-grid.js:1
@@ -331,7 +331,7 @@ msgstr "Väntar på anslutningen"
 
 #: includes/admin/class-media-view.php:849
 msgid "Not sent"
-msgstr "Ej skickad"
+msgstr "Inte skickad"
 
 #: includes/admin/class-media-view.php:851
 msgid "Error"
@@ -342,7 +342,7 @@ msgstr "Fel"
 #: assets/build/folders.js:8
 msgctxt "the status of one image"
 msgid "Not optimized"
-msgstr "Ej optimerad"
+msgstr "Inte optimerad"
 
 #: includes/admin/class-media-view.php:889
 msgid "The next batch is open, so it goes out shortly."
@@ -565,7 +565,7 @@ msgstr "Ansluten"
 #: assets/build/folders.js:1
 #: assets/build/settings.js:37
 msgid "Not connected"
-msgstr "Ej ansluten"
+msgstr "Inte ansluten"
 
 #: includes/admin/class-privacy.php:36
 msgid "Iminify Image Optimizer sends the images uploaded to this site to Iminify, an image optimization service, once the site is connected to it. You can copy the text below into the part of your policy about the media you publish."
@@ -898,7 +898,7 @@ msgstr "Läs in bilden direkt, inte med uppskjuten inläsning."
 
 #: includes/audit/class-findings.php:66
 msgid "Load the image lazily, once a visitor scrolls near it."
-msgstr "Skjut upp inläsningen av bilden tills en besökare scrollar nära den."
+msgstr "Använd uppskjuten inläsning för bilden, så att den läses in först när en besökare rullar nära den."
 
 #: includes/audit/class-findings.php:68
 msgid "Have the browser fetch the image first."
@@ -922,7 +922,7 @@ msgstr "Bilden saknar attributen width och height, så webbläsaren kan inte hå
 
 #: includes/audit/class-findings.php:115
 msgid "Lazy in the first screen"
-msgstr "Uppskjuten på första skärmen"
+msgstr "Uppskjuten inläsning på första skärmen"
 
 #: includes/audit/class-findings.php:116
 msgid "The image is in the first screen but is lazy loaded, which delays it."
@@ -930,7 +930,7 @@ msgstr "Bilden finns på första skärmen men har uppskjuten inläsning, vilket 
 
 #: includes/audit/class-findings.php:120
 msgid "Loads too early"
-msgstr "Läses in för tidigt"
+msgstr "För tidig inläsning"
 
 #: includes/audit/class-findings.php:121
 msgid "The image is below the first screen and loads straight away, competing with what visitors see first."
@@ -1429,7 +1429,7 @@ msgstr "Ditt kontos bilder för dagen är slut. Nya uppladdningar väntar och sk
 
 #: includes/class-messages.php:188
 msgid "This site had its free trial of Pro on another Iminify account, so its uploads get the free plan's numbers here."
-msgstr "Den här webbplatsen har haft sin kostnadsfria provperiod av Pro på ett annat Iminify-konto, så dess uppladdningar får gratisplanens gränser här."
+msgstr "Den här webbplatsen har haft sin kostnadsfria provperiod av Pro på ett annat Iminify-konto, så dess uppladdningar får gratispaketets gränser här."
 
 #: includes/class-network.php:213
 msgid "The network isn't connected to Iminify. A super admin connects it from the network admin."
@@ -1453,28 +1453,28 @@ msgstr "Väntar på att webbplatsen ska anslutas till Iminify."
 
 #: includes/class-reasons.php:155
 msgid "Not optimized: the bulk run was stopped."
-msgstr "Ej optimerad: masskörningen stoppades."
+msgstr "Inte optimerad: masskörningen stoppades."
 
 #: includes/class-reasons.php:157
 msgid "Not optimized: the site isn't connected to Iminify."
-msgstr "Ej optimerad: webbplatsen är inte ansluten till Iminify."
+msgstr "Inte optimerad: webbplatsen är inte ansluten till Iminify."
 
 #: includes/class-reasons.php:159
 msgid "Not optimized: update the Iminify plugin first."
-msgstr "Ej optimerad: uppdatera Iminify-tillägget först."
+msgstr "Inte optimerad: uppdatera Iminify-tillägget först."
 
 #: includes/class-reasons.php:161
 msgid "Not optimized: the site doesn't optimize uploads."
-msgstr "Ej optimerad: webbplatsen optimerar inte uppladdningar."
+msgstr "Inte optimerad: webbplatsen optimerar inte uppladdningar."
 
 #: includes/class-reasons.php:163
 msgid "Not optimized: the server is low on disk space. Free some up, then optimize this image."
-msgstr "Ej optimerad: servern har ont om diskutrymme. Frigör lite utrymme och optimera sedan den här bilden."
+msgstr "Inte optimerad: servern har ont om diskutrymme. Frigör lite utrymme och optimera sedan den här bilden."
 
 #: includes/class-reasons.php:165
 #: includes/media/class-optimizer.php:340
 msgid "Not sent: this server's PHP can't open zip files. Ask your host to turn on PHP's zip extension."
-msgstr "Ej skickad: den här serverns PHP kan inte öppna zip-filer. Be ditt webbhotell att aktivera PHP-utökningen zip."
+msgstr "Inte skickad: den här serverns PHP kan inte öppna zip-filer. Be ditt webbhotell att aktivera PHP-utökningen zip."
 
 #: includes/class-reasons.php:167
 msgid "This server's PHP can't open zip files: ask your host to turn on PHP's zip extension."
@@ -1486,19 +1486,19 @@ msgstr "Iminifys nedladdning kunde inte öppnas."
 
 #: includes/class-reasons.php:171
 msgid "Not sent: this image's original is too large to send, past your plan's file size or more than this server's memory can hold."
-msgstr "Ej skickad: originalet till den här bilden är för stort för att skickas, över din plans maximala filstorlek eller mer än den här serverns minne kan hantera."
+msgstr "Inte skickad: originalet till den här bilden är för stort för att skickas, över ditt pakets maximala filstorlek eller mer än den här serverns minne kan hantera."
 
 #: includes/class-reasons.php:173
 msgid "Not sent: this image is past your plan's file size, or more than this server's memory can hold."
-msgstr "Ej skickad: den här bilden är över din plans maximala filstorlek, eller mer än den här serverns minne kan hantera."
+msgstr "Inte skickad: den här bilden är över ditt pakets maximala filstorlek, eller mer än den här serverns minne kan hantera."
 
 #: includes/class-reasons.php:175
 msgid "Not sent: no original of this image is left to make the optimized files from."
-msgstr "Ej skickad: inget original av den här bilden finns kvar att skapa de optimerade filerna från."
+msgstr "Inte skickad: inget original av den här bilden finns kvar att skapa de optimerade filerna från."
 
 #: includes/class-reasons.php:177
 msgid "Not sent: no original of this image is left to make the optimized file from."
-msgstr "Ej skickad: inget original av den här bilden finns kvar att skapa den optimerade filen från."
+msgstr "Inte skickad: inget original av den här bilden finns kvar att skapa den optimerade filen från."
 
 #: includes/class-reasons.php:179
 msgid "WordPress couldn't make the missing sizes of this image."
@@ -1514,11 +1514,11 @@ msgstr "Lämnades som den är: Iminify optimerar JPEG-, PNG-, WebP- och GIF-bild
 
 #: includes/class-reasons.php:185
 msgid "Kept as uploaded: this site leaves this image out."
-msgstr "Lämnades som den laddades upp: den här webbplatsen undantar den här bilden."
+msgstr "Lämnades som den laddades upp: den här webbplatsen hoppar över bilden."
 
 #: includes/class-reasons.php:187
 msgid "Kept as it is: this site leaves this image out."
-msgstr "Lämnades som den är: den här webbplatsen undantar den här bilden."
+msgstr "Lämnades som den är: den här webbplatsen hoppar över bilden."
 
 #: includes/class-reasons.php:189
 msgid "The image couldn't be read."
@@ -1530,11 +1530,11 @@ msgstr "Bilden finns inte i uppladdningsmappen."
 
 #: includes/class-reasons.php:193
 msgid "Not sent: the image's file isn't in the uploads folder."
-msgstr "Ej skickad: bildens fil finns inte i uppladdningsmappen."
+msgstr "Inte skickad: bildens fil finns inte i uppladdningsmappen."
 
 #: includes/class-reasons.php:195
 msgid "Not sent: the image's file isn't there, or is a link to another place."
-msgstr "Ej skickad: bildens fil finns inte där, eller är en länk till en annan plats."
+msgstr "Inte skickad: bildens fil finns inte där, eller är en länk till en annan plats."
 
 #: includes/class-reasons.php:197
 msgid "The image's file or its backup went missing while it was on its way."
@@ -1542,11 +1542,11 @@ msgstr "Bildens fil eller dess säkerhetskopia försvann medan den var på väg.
 
 #: includes/class-reasons.php:199
 msgid "Not sent: the image is no longer in a folder Iminify optimizes."
-msgstr "Ej skickad: bilden ligger inte längre i en mapp som Iminify optimerar."
+msgstr "Inte skickad: bilden ligger inte längre i en mapp som Iminify optimerar."
 
 #: includes/class-reasons.php:201
 msgid "Not written: the image is no longer in a folder Iminify optimizes."
-msgstr "Ej skriven: bilden ligger inte längre i en mapp som Iminify optimerar."
+msgstr "Inte skriven: bilden ligger inte längre i en mapp som Iminify optimerar."
 
 #: includes/class-reasons.php:203
 msgid "Changed since Iminify optimized it, so it can be optimized again."
@@ -1731,7 +1731,7 @@ msgstr "Inget original av den här bilden behölls, så den kan inte optimeras i
 
 #: includes/folders/class-optimizer.php:182
 msgid "This image is too large to send: past your plan's file size, or more than this server's memory can hold."
-msgstr "Den här bilden är för stor för att skickas: över din plans maximala filstorlek, eller mer än den här serverns minne kan hantera."
+msgstr "Den här bilden är för stor för att skickas: över ditt pakets maximala filstorlek, eller mer än den här serverns minne kan hantera."
 
 #: includes/media/class-alt-text.php:246
 msgid "This image already has alt text, or its text is on the way."
@@ -1799,7 +1799,7 @@ msgstr "Den här bilden saknar inget som din webbplats kräver nu."
 
 #: includes/media/class-optimizer.php:330
 msgid "This image's original is too large to send: past your plan's file size, or more than this server's memory can hold."
-msgstr "Originalet till den här bilden är för stort för att skickas: över din plans maximala filstorlek, eller mer än den här serverns minne kan hantera."
+msgstr "Originalet till den här bilden är för stort för att skickas: över ditt pakets maximala filstorlek, eller mer än den här serverns minne kan hantera."
 
 #: includes/switching/class-converter.php:52
 msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
@@ -1943,7 +1943,7 @@ msgstr "Varje sida, varje vecka"
 
 #: assets/build/audit.js:2
 msgid "A weekly check audits every page in your site's sitemap once a week, compresses the images that are new or changed, and emails you what it found. You set it up on iminify.com from a crawl of your site, where you can see which plans include it."
-msgstr "En veckokontroll granskar varje sida i webbplatsens webbplatskarta en gång i veckan, komprimerar de bilder som är nya eller ändrade och mejlar dig vad den hittade. Du ställer in den på iminify.com utifrån en genomsökning av din webbplats, där du också ser vilka planer som inkluderar den."
+msgstr "En veckokontroll granskar varje sida i webbplatsens webbplatskarta en gång i veckan, komprimerar de bilder som är nya eller ändrade och mejlar dig vad den hittade. Du ställer in den på iminify.com utifrån en genomsökning av din webbplats, där du också ser vilka paket som inkluderar den."
 
 #: assets/build/audit.js:2
 msgid "Set up a weekly check"
@@ -2596,7 +2596,7 @@ msgstr "Kör den medan den här sidan är öppen"
 #: assets/build/bulk.js:17
 #: assets/build/settings.js:9
 msgid "Compare the plans"
-msgstr "Jämför planerna"
+msgstr "Jämför paketen"
 
 #: assets/build/bulk.js:17
 msgid "Connect this site to Iminify to optimize its images."
@@ -2749,7 +2749,7 @@ msgstr "Kör den"
 
 #: assets/build/bulk.js:31
 msgid "Your plan"
-msgstr "Din plan"
+msgstr "Ditt paket"
 
 #: assets/build/bulk.js:31
 msgid "all today"
@@ -2765,7 +2765,7 @@ msgstr[1] "cirka %d dagar"
 
 #: assets/build/bulk.js:32
 msgid "Your plan's daily images cover them all today."
-msgstr "Din plans dagliga bilder räcker till alla idag."
+msgstr "Ditt pakets dagliga bilder räcker till alla idag."
 
 #: assets/build/bulk.js:32
 msgid "The run goes on by itself each day."
@@ -2773,7 +2773,7 @@ msgstr "Körningen fortsätter automatiskt varje dag."
 
 #: assets/build/bulk.js:32
 msgid "See the plans"
-msgstr "Se planerna"
+msgstr "Se paketen"
 
 #: assets/build/bulk.js:32
 msgid "Other folders"
@@ -3020,7 +3020,7 @@ msgstr "Ditt konto"
 
 #: assets/build/settings.js:5
 msgid "Plan"
-msgstr "Plan"
+msgstr "Paket"
 
 #. translators: 1: the plan's name, 2: the date it ends or renews.
 #: assets/build/settings.js:6
@@ -3058,7 +3058,7 @@ msgstr "Den här webbplatsens Iminify-konto är angivet i wp-config.php."
 
 #: assets/build/settings.js:9
 msgid "Your plan on iminify.com"
-msgstr "Din plan på iminify.com"
+msgstr "Ditt paket på iminify.com"
 
 #: assets/build/settings.js:9
 msgid "The network's key is set in wp-config.php as <code>IMINIFY_API_KEY</code>. To disconnect, remove it there, and disconnect the network under Settings, Sites on iminify.com."
@@ -3426,7 +3426,7 @@ msgstr "Kö"
 
 #: assets/build/settings.js:27
 msgid "The server is low on disk space, so Iminify has stopped optimizing images here. Free some up, then optimize the images marked \"Not optimized\"."
-msgstr "Servern har ont om diskutrymme, så Iminify har slutat optimera bilder här. Frigör lite utrymme och optimera sedan bilderna som är märkta ”Ej optimerad”."
+msgstr "Servern har ont om diskutrymme, så Iminify har slutat optimera bilder här. Frigör lite utrymme och optimera sedan bilderna som är märkta ”Inte optimerad”."
 
 #: assets/build/settings.js:27
 msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
