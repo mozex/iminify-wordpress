@@ -14,16 +14,13 @@ require_once dirname( __DIR__, 2 ) . '/bin/wporg-sync.php';
 
 /**
  * Covers bin/wporg-sync.php's reading, pull and push on a small bundled file
- * and the exports translate.wordpress.org would answer for it.
+ * and what translate.wordpress.org would answer for it.
  */
 class WporgSyncTest extends TestCase {
 
 	/**
-	 * A bundled .po: an editor replaced the first string's text, the second
-	 * was revised here, the third matches what was approved, the fourth was
-	 * sent back, the fifth has no translation yet, the sixth isn't on
-	 * translate.wordpress.org, and the two plural strings differ only by
-	 * context. The last entry ends the file.
+	 * A bundled .po, one string per case (the comment line above each says
+	 * which). The last entry ends the file.
 	 *
 	 * @return list<string>
 	 */
@@ -34,39 +31,79 @@ class WporgSyncTest extends TestCase {
 			'"Language: nl_NL\n"',
 			'"Plural-Forms: nplurals=2; plural=n != 1;\n"',
 			'',
-			'#: a.php:1',
+			'#. An editor replaced this text.',
 			'msgid "Folder"',
 			'msgstr "Folder"',
 			'',
-			'#: a.php:2',
+			'#. Revised here after it was approved.',
 			'msgid "Turn off \"Auto\"."',
 			'msgstr "Zet \"Auto\" uit."',
 			'',
-			'#: a.php:3',
+			'#. The same as approved.',
 			'msgctxt "images today"',
 			'msgid "%s used, no daily limit"',
 			'msgid_plural "%s used, no daily limit"',
 			'msgstr[0] "%s gebruikt"',
 			'msgstr[1] "%s gebruikt"',
 			'',
-			'#: a.php:4',
+			'#. Sent back with changes requested.',
 			'msgid "Sent"',
 			'msgstr "Gestuurd"',
 			'',
-			'#: a.php:5',
+			'#. No translation yet.',
 			'msgid "Empty"',
 			'msgstr ""',
 			'',
-			'#: a.php:6',
+			'#. Not on translate.wordpress.org.',
 			'msgid "Only here"',
 			'msgstr "Alleen hier"',
 			'',
-			'#: a.php:7',
+			'#. Rejected, and an editor approved another.',
+			'msgid "Rejected"',
+			'msgstr "Afgewezen tekst"',
+			'',
+			'#. Rejected, nothing approved.',
+			'msgid "Turned down"',
+			'msgstr "Afgeslagen"',
+			'',
+			'#. Waiting as a suggestion, another text approved.',
+			'msgid "Suggested"',
+			'msgstr "Voorgesteld"',
+			'',
+			'#. The editor replaced it twice; the export would show only one old text.',
+			'msgid "Running"',
+			'msgstr "Actief"',
+			'',
+			'#. A singular here, a plural on translate.wordpress.org.',
+			'msgid "%s file"',
+			'msgstr "%s bestand"',
+			'',
+			'#. Marked fuzzy by the import.',
+			'msgid "Fuzzy"',
+			'msgstr "Wazig"',
+			'',
+			'#. Revised here, never sent: the last entry.',
 			'msgctxt "AI alt texts today"',
 			'msgid "%s used, no daily limit"',
 			'msgid_plural "%s used, no daily limit"',
 			'msgstr[0] "%s gebruikt, geen beperking"',
 			'msgstr[1] "%s gebruikt, geen beperking"',
+		);
+	}
+
+	/**
+	 * A translation in another state, as the listing gives it.
+	 *
+	 * @param string       $singular     The source.
+	 * @param list<string> $translations The translations.
+	 * @return array{context: string, singular: string, plural: ?string, translations: list<string>}
+	 */
+	private function row( string $singular, array $translations ): array {
+		return array(
+			'context'      => '',
+			'singular'     => $singular,
+			'plural'       => null,
+			'translations' => $translations,
 		);
 	}
 
@@ -103,6 +140,26 @@ class WporgSyncTest extends TestCase {
 				'msgid "Empty"',
 				'msgstr "Leeg"',
 				'',
+				'msgid "Rejected"',
+				'msgstr "Geweigerd"',
+				'',
+				'msgid "Turned down"',
+				'msgstr ""',
+				'',
+				'msgid "Suggested"',
+				'msgstr "Goedgekeurd"',
+				'',
+				'msgid "Running"',
+				'msgstr "Wordt uitgevoerd"',
+				'',
+				'msgid "%s file"',
+				'msgid_plural "%s files"',
+				'msgstr[0] "%s bestand"',
+				'msgstr[1] "%s bestanden"',
+				'',
+				'msgid "Fuzzy"',
+				'msgstr ""',
+				'',
 				'msgctxt "AI alt texts today"',
 				'msgid "%s used, no daily limit"',
 				'msgid_plural "%s used, no daily limit"',
@@ -115,9 +172,18 @@ class WporgSyncTest extends TestCase {
 		return iminify_wporg_held(
 			$all,
 			array(
-				'old'              => "msgid \"\"\nmsgstr \"\"\n\nmsgid \"Folder\"\nmsgstr \"Folder\"\n",
-				'changesrequested' => "msgid \"\"\nmsgstr \"\"\n\nmsgid \"Sent\"\nmsgstr \"Gestuurd\"\n",
-				'waiting'          => "msgid \"\"\nmsgstr \"\"\n",
+				'old'              => array(
+					$this->row( 'Folder', array( 'Folder' ) ),
+					$this->row( 'Running', array( 'Bezig' ) ),
+					$this->row( 'Running', array( 'Actief' ) ),
+				),
+				'changesrequested' => array( $this->row( 'Sent', array( 'Gestuurd' ) ) ),
+				'rejected'         => array(
+					$this->row( 'Rejected', array( 'Afgewezen tekst' ) ),
+					$this->row( 'Turned down', array( 'Afgeslagen' ) ),
+				),
+				'waiting'          => array( $this->row( 'Suggested', array( 'Voorgesteld' ) ) ),
+				'fuzzy'            => array( $this->row( 'Fuzzy', array( 'Wazig' ) ) ),
 			)
 		);
 	}
@@ -138,15 +204,64 @@ class WporgSyncTest extends TestCase {
 		);
 	}
 
+	public function test_a_listed_translation_is_written_as_the_export_writes_it(): void {
+		$entries = iminify_wporg_rows(
+			array(
+				array(
+					'context'      => null,
+					'singular'     => "Say \"hi\"\tto C:\\x\nnow",
+					'plural'       => null,
+					'translations' => array( "Zeg \"hoi\"\tnu\n", null ),
+				),
+				array(
+					'context'      => 'today',
+					'singular'     => '%s file',
+					'plural'       => '%s files',
+					'translations' => array( '%s bestand', '%s bestanden', null ),
+				),
+			)
+		);
+
+		$this->assertSame(
+			array(
+				array(
+					'context'      => '',
+					'singular'     => 'Say \"hi\"\tto C:\\\\x\nnow',
+					'plural'       => null,
+					'translations' => array( 'Zeg \"hoi\"\tnu\n' ),
+				),
+				array(
+					'context'      => 'today',
+					'singular'     => '%s file',
+					'plural'       => '%s files',
+					'translations' => array( '%s bestand', '%s bestanden' ),
+				),
+			),
+			$entries
+		);
+	}
+
+	public function test_an_answer_that_is_no_listing_stops_the_run(): void {
+		$this->expectException( RuntimeException::class );
+		iminify_wporg_rows( json_decode( '<html>429 Too Many Requests</html>', true ) );
+	}
+
+	public function test_a_listing_row_without_its_original_stops_the_run(): void {
+		$this->expectException( RuntimeException::class );
+		iminify_wporg_rows( array( array( 'translations' => array( 'x' ) ) ) );
+	}
+
 	public function test_pull_takes_the_editors_wording_only_where_the_bundled_text_was_retired_or_missing(): void {
 		list( $text, $changed, $waiting ) = iminify_wporg_pull( implode( "\n", $this->bundled() ) . "\n", $this->held() );
 
 		$expected     = $this->bundled();
 		$expected[7]  = 'msgstr "Map"';
 		$expected[26] = 'msgstr "Leeg"';
+		$expected[34] = 'msgstr "Geweigerd"';
+		$expected[46] = 'msgstr "Wordt uitgevoerd"';
 		$this->assertSame( implode( "\n", $expected ) . "\n", $text );
-		$this->assertSame( 2, $changed );
-		$this->assertSame( array( 'Sent' ), $waiting );
+		$this->assertSame( 4, $changed );
+		$this->assertSame( array( 'changesrequested: Sent', 'rejected: Turned down', 'fuzzy: Fuzzy' ), $waiting );
 	}
 
 	public function test_pull_keeps_the_files_line_endings_and_its_last_entry(): void {
@@ -155,6 +270,13 @@ class WporgSyncTest extends TestCase {
 		$this->assertStringEndsWith( 'msgstr[1] "%s gebruikt, geen beperking"', $text );
 		$this->assertStringContainsString( "msgid \"Folder\"\r\nmsgstr \"Map\"\r\n\r\n", $text );
 		$this->assertStringNotContainsString( "\r\r", $text );
+	}
+
+	public function test_pull_writes_the_last_entry_whole_when_the_file_ends_in_blank_lines(): void {
+		$po           = "msgid \"\"\nmsgstr \"\"\n\nmsgid \"Folder\"\nmsgstr \"Folder\"\n\n\n";
+		list( $text ) = iminify_wporg_pull( $po, $this->held() );
+
+		$this->assertSame( "msgid \"\"\nmsgstr \"\"\n\nmsgid \"Folder\"\nmsgstr \"Map\"\n\n\n", $text );
 	}
 
 	public function test_push_sends_each_bundled_text_translate_wordpress_org_never_held_of_a_string_it_has(): void {
@@ -170,7 +292,7 @@ class WporgSyncTest extends TestCase {
 
 	public function test_the_file_push_writes_reads_back_as_the_same_entries(): void {
 		$sent = iminify_wporg_push( implode( "\n", $this->bundled() ), $this->held() );
-		$po   = iminify_wporg_write( $sent, iminify_wporg_plural_forms( implode( "\n", $this->bundled() ) ) );
+		$po   = iminify_wporg_write( $sent, iminify_wporg_plural_forms( implode( "\r\n", $this->bundled() ) ) );
 
 		$this->assertStringContainsString( '"Plural-Forms: nplurals=2; plural=n != 1;\n"', $po );
 		$this->assertSame( $sent, iminify_wporg_parse( $po ) );
