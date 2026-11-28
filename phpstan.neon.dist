@@ -10,6 +10,7 @@ parameters:
         - iminify-image-optimizer.php
         - bin/check-build.php
         - bin/check-assets.php
+        - bin/wporg-sync.php
         - includes
         - dev/mu-plugins
         - tests

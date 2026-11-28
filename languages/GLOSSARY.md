@@ -5,8 +5,8 @@ The plugin ships its own translations in this folder. `iminify-image-optimizer.p
 ## translate.wordpress.org
 
 - **Each locale's glossary there is its words.** Translate with the glossary of the locale's team (`https://translate.wordpress.org/locale/<slug>/default/glossary/-export/`, `<slug>` as in `nl`, `pt-br`). Its editors' review tool flags a string where an English glossary term has none of the glossary's words in the translation, counting each occurrence and each plural form, and sends it back.
-- **An editor's approved wording wins.** translate.wordpress.org imported these files once, at the plugin's first import, and reads nothing from here since. What a locale's editors approve becomes its language pack, so copy their wording back into the `.po` here (`https://translate.wordpress.org/projects/wp-plugins/iminify-image-optimizer/dev/<slug>/default/export-translations/?format=po`) and run `make` again, so the shipped file says what the pack will.
-- **A change made here reaches translate.wordpress.org only through its website**, as a `.po` of the changed entries imported on the locale's Development (trunk) project, where an editor reviews it.
+- **An editor's approved wording wins.** translate.wordpress.org imported these files once, at the plugin's first import, and reads nothing from here since. What a locale's editors approve becomes its language pack, so `php bin/wporg-sync.php pull` copies their wording into the `.po` here, wherever the text here is one they replaced or rejected, before any translation changes; run `make` after it, so the shipped file says what the pack will.
+- **A change made here reaches translate.wordpress.org only through its website**: `php bin/wporg-sync.php push` writes the entries it has never had into `build/wporg/<locale>.po`, imported on the locale's Development (trunk) project, where an editor reviews them. A string an editor sent back is revised here under these rules, then pushed.
 
 ## What every translation keeps
 
