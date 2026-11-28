@@ -373,7 +373,7 @@ msgstr "Alt-text: Iminify kon voor deze afbeelding geen tekst schrijven."
 
 #: includes/admin/class-media-view.php:916
 msgid "Alt text: not written, as the day's AI alt texts were used up."
-msgstr "Alt-text: niet geschreven, omdat de AI-alt-texts voor vandaag op waren."
+msgstr "Alt-text: niet geschreven, omdat de AI alt-texts voor vandaag op waren."
 
 #: includes/admin/class-media-view.php:942
 msgid "This image carries Content Credentials, a signed record of where it came from, and its files keep them."
@@ -443,7 +443,7 @@ msgstr "Alt-text met AI schrijven"
 
 #: includes/admin/class-media-view.php:1139
 msgid "Send a small copy of this image to write its alt text? It counts as one of your AI alt texts for the day."
-msgstr "Een verkleinde versie van deze afbeelding verzenden om de alt-text te schrijven? Dit telt als een van je AI-alt-texts voor vandaag."
+msgstr "Een verkleinde versie van deze afbeelding verzenden om de alt-text te schrijven? Dit telt als een van je AI alt-texts voor vandaag."
 
 #: includes/admin/class-media-view.php:1139
 msgid "Write alt text"
@@ -1401,7 +1401,7 @@ msgstr "Deze verbinding kan niet meer worden gebruikt: ze is verlopen, geweigerd
 #: includes/media/class-alt-text.php:242
 #: includes/media/class-bulk.php:263
 msgid "AI alt text is off for this site. Turn it on in the plugin's settings first."
-msgstr "AI-alt-text staat uit voor deze site. Zet die eerst aan in de instellingen van de plugin."
+msgstr "AI alt-text staat uit voor deze site. Zet die eerst aan in de instellingen van de plugin."
 
 #: includes/class-messages.php:164
 msgid "The audit scans only this site's own pages. Enter the address of a page on this site."
@@ -1461,7 +1461,7 @@ msgstr "Niet geoptimaliseerd: de site is niet verbonden met Iminify."
 
 #: includes/class-reasons.php:159
 msgid "Not optimized: update the Iminify plugin first."
-msgstr "Niet geoptimaliseerd: update eerst de Iminify-plugin."
+msgstr "Niet geoptimaliseerd: update eerst de Iminify plugin."
 
 #: includes/class-reasons.php:161
 msgid "Not optimized: the site doesn't optimize uploads."
@@ -1709,7 +1709,7 @@ msgstr "De lijst bevat al het maximale aantal mappen. Verwijder er een, of kies 
 #: includes/folders/class-optimizer.php:151
 #: includes/media/class-optimizer.php:298
 msgid "Update the Iminify plugin first."
-msgstr "Update eerst de Iminify-plugin."
+msgstr "Update eerst de Iminify plugin."
 
 #. translators: %s: the date and time the next batch opens.
 #: includes/folders/class-optimizer.php:161
@@ -1803,7 +1803,7 @@ msgstr "Het origineel van deze afbeelding is te groot om te versturen: groter da
 
 #: includes/switching/class-converter.php:52
 msgid "Deactivate Converter for Media, or turn off \"Conversion of new images\" in its General Settings, under Settings, Converter for Media."
-msgstr "Deactiveer Converter for Media, of zet \"Conversion of new images\" uit in de General Settings ervan, onder Instellingen, Converter for Media."
+msgstr "Deactiveer Converter for Media, of zet \"Conversie van nieuwe afbeeldingen\" uit in de Algemene instellingen ervan, onder Instellingen, Converter for Media."
 
 #: includes/switching/class-elementor.php:70
 msgid "Deactivate Image Optimizer by Elementor, or turn off \"Optimize new uploads\" under Elementor, Image Optimization, Settings."
@@ -1823,7 +1823,7 @@ msgstr "EWWW Image Optimizer heeft het origineel van deze afbeelding 30 dagen op
 
 #: includes/switching/class-imagify.php:44
 msgid "Deactivate Imagify, or turn off \"Auto-Optimize images on upload\" in its settings."
-msgstr "Deactiveer Imagify, of zet \"Auto-Optimize images on upload\" uit in de instellingen ervan."
+msgstr "Deactiveer Imagify, of zet \"Automatische optimalisatie afbeeldingen bij upload\" uit in de instellingen ervan."
 
 #: includes/switching/class-leftovers.php:160
 msgid "Those lines are gone already, or their plugin is on again."
@@ -1859,7 +1859,7 @@ msgstr "Smush heeft deze regel toegevoegd voor de PNG-afbeeldingen die het naar 
 
 #: includes/switching/class-litespeed.php:65
 msgid "Turn off \"Auto Request Cron\" under LiteSpeed Cache, Image Optimization, and \"Auto Rescale Original Images\" under Page Optimization, Media Settings, and let the images it already sent come back, or deactivate LiteSpeed Cache."
-msgstr "Zet \"Auto Request Cron\" uit onder LiteSpeed Cache, Image Optimization, en \"Auto Rescale Original Images\" onder Page Optimization, Media Settings, en laat de afbeeldingen die het al heeft verzonden terugkomen, of deactiveer LiteSpeed Cache."
+msgstr "Zet \"Automatisch cron aanvragen\" uit onder LiteSpeed Cache, Afbeelding optimalisatie, en \"Originele afbeeldingenbestanden automatisch herschalen\" onder Pagina optimalisatie, Media instellingen, en laat de afbeeldingen die het al heeft verzonden terugkomen, of deactiveer LiteSpeed Cache."
 
 #: includes/switching/class-modern-formats.php:54
 msgid "Deactivate Modern Image Formats: no setting of its own stops it."
@@ -1871,7 +1871,7 @@ msgstr "Modern Image Formats heeft de bestanden van deze afbeelding vervangen do
 
 #: includes/switching/class-optimole.php:35
 msgid "Deactivate Optimole, or choose \"Optimole Cloud and your website\" under Optimole, Settings, Image Storage."
-msgstr "Deactiveer Optimole, of kies \"Optimole Cloud and your website\" onder Optimole, Settings, Image Storage."
+msgstr "Deactiveer Optimole, of kies \"Optimole Cloud en je site\" onder Optimole, Instellingen, Afbeelding opslag."
 
 #: includes/switching/class-optimole.php:85
 msgid "Optimole moved this image to its cloud and deleted its files here. Roll it back in Optimole first (it needs Optimole active and connected), and Iminify can optimize it then."
@@ -1891,11 +1891,11 @@ msgstr "Geoptimaliseerd door %s"
 
 #: includes/switching/class-shortpixel.php:63
 msgid "Deactivate ShortPixel, or turn off \"Optimize media on upload\" in its settings, under Processing."
-msgstr "Deactiveer ShortPixel, of zet \"Optimize media on upload\" uit in de instellingen ervan, onder Processing."
+msgstr "Deactiveer ShortPixel, of zet \"Optimaliseer media tijdens uploaden\" uit in de instellingen ervan, onder Verwerken."
 
 #: includes/switching/class-smush.php:45
 msgid "Deactivate Smush, or turn off \"Automatic compression\" in its settings."
-msgstr "Deactiveer Smush, of zet \"Automatic compression\" uit in de instellingen ervan."
+msgstr "Deactiveer Smush, of zet \"Automatische compressie\" uit in de instellingen ervan."
 
 #: includes/switching/class-tinypng.php:47
 msgid "Deactivate TinyPNG, or set it to compress new images manually in its settings."
@@ -2559,7 +2559,7 @@ msgstr "In de wacht: Iminify accepteert de sleutel van deze site niet. Het uitvo
 #: assets/build/bulk.js:15
 #, js-format
 msgid "Your account's AI alt texts for the day are used up. The run goes on by itself at %s."
-msgstr "Je account heeft voor vandaag geen AI-alt-texts meer. Het uitvoeren gaat vanzelf verder op %s."
+msgstr "Je account heeft voor vandaag geen AI alt-texts meer. Het uitvoeren gaat vanzelf verder op %s."
 
 #. translators: %s: the date and time the run goes on.
 #: assets/build/bulk.js:16
@@ -2693,7 +2693,7 @@ msgstr[1] "%s afbeeldingen hebben geen alt-text."
 
 #: assets/build/bulk.js:25
 msgid "Send a small copy of each of these images to write its alt text? Each counts as one of your AI alt texts for the day, and an alt text someone wrote is never replaced."
-msgstr "Van elk van deze afbeeldingen een verkleinde versie verzenden om de alt-text te schrijven? Elke afbeelding telt als een van je AI-alt-texts voor vandaag, en een alt-text die iemand heeft geschreven, wordt nooit vervangen."
+msgstr "Van elk van deze afbeeldingen een verkleinde versie verzenden om de alt-text te schrijven? Elke afbeelding telt als een van je AI alt-texts voor vandaag, en een alt-text die iemand heeft geschreven, wordt nooit vervangen."
 
 #. translators: %s: how many AI alt texts are left today.
 #: assets/build/bulk.js:26
@@ -3430,7 +3430,7 @@ msgstr "De server heeft weinig schijfruimte, dus Iminify optimaliseert hier geen
 
 #: assets/build/settings.js:27
 msgid "Your server answered with an error once the rules were in, so the plugin took them out again and your images load as before. Ask your host whether .htaccess files may set rewrite rules and file types, or choose picture tags."
-msgstr "Je server antwoordde met een fout zodra de regels erin stonden, dus de plugin heeft ze weer verwijderd en je afbeeldingen laden zoals voorheen. Vraag je hostingprovider of .htaccess-bestanden herschrijfregels en bestandstypen mogen instellen, of kies picture-tags."
+msgstr "Je server antwoordde met een fout zodra de regels erin stonden, dus de plugin heeft ze weer verwijderd en je afbeeldingen laden zoals voorheen. Vraag je hostingprovider of .htaccess bestanden herschrijfregels en bestandstypen mogen instellen, of kies picture-tags."
 
 #. translators: %s: the date and time of the last check.
 #: assets/build/settings.js:28
@@ -3493,15 +3493,15 @@ msgstr "De plugin kan niet naar <file /> schrijven. Plak deze regels aan het ein
 
 #: assets/build/settings.js:36
 msgid "Your server reads neither .htaccess files nor Nginx's configuration, so the plugin has no rules to give it. Choose picture tags."
-msgstr "Je server leest geen .htaccess-bestanden en ook niet de configuratie van Nginx, dus de plugin heeft geen regels om te geven. Kies picture-tags."
+msgstr "Je server leest geen .htaccess bestanden en ook niet de configuratie van Nginx, dus de plugin heeft geen regels om te geven. Kies picture-tags."
 
 #: assets/build/settings.js:36
 msgid "Your site runs on Nginx, which doesn't read .htaccess. Put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
-msgstr "Je site draait op Nginx, dat .htaccess niet leest. Zet de eerste regels bovenaan het server-blok van de site, vóór elke if of rewrite, en de location boven elke andere location voor afbeeldingen, en herlaad daarna Nginx. Kopieer naar de location alle expires-, Cache-Control- of add_header-regels die je afbeeldingen nodig hebben, omdat de add_header daarin die van het server-blok vervangt:"
+msgstr "Je site draait op Nginx, dat .htaccess niet leest. Zet de eerste regels bovenaan het server-blok van de site, vóór elke if of rewrite, en het location-blok boven elk ander location-blok voor afbeeldingen, en herlaad daarna Nginx. Kopieer naar het location-blok alle expires-, Cache-Control- of add_header-regels die je afbeeldingen nodig hebben, omdat de add_header daarin die van het server-blok vervangt:"
 
 #: assets/build/settings.js:36
 msgid "For Nginx, put the first lines at the top of the site's server block, before any if or rewrite, and the location above any other location for images, then reload Nginx. Copy into the location any expires, Cache-Control or add_header lines your images need, since its add_header replaces the server block's:"
-msgstr "Zet voor Nginx de eerste regels bovenaan het server-blok van de site, vóór elke if of rewrite, en de location boven elke andere location voor afbeeldingen, en herlaad daarna Nginx. Kopieer naar de location alle expires-, Cache-Control- of add_header-regels die je afbeeldingen nodig hebben, omdat de add_header daarin die van het server-blok vervangt:"
+msgstr "Zet voor Nginx de eerste regels bovenaan het server-blok van de site, vóór elke if of rewrite, en het location-blok boven elk ander location-blok voor afbeeldingen, en herlaad daarna Nginx. Kopieer naar het location-blok alle expires-, Cache-Control- of add_header-regels die je afbeeldingen nodig hebben, omdat de add_header daarin die van het server-blok vervangt:"
 
 #. translators: %s: the folders the rules cover, separated by commas.
 #: assets/build/settings.js:37
@@ -3575,7 +3575,7 @@ msgstr "Behoudt de EXIF-gegevens van elke afbeelding, zoals de camera en de plek
 
 #: assets/build/settings.js:37
 msgid "Describes each image that has no alt text. An alt text you wrote is never replaced. A small copy of the image goes to Anthropic's AI, and each one counts against your AI alt texts for the day."
-msgstr "Beschrijft elke afbeelding die geen alt-text heeft. Een alt-text die je zelf hebt geschreven, wordt nooit vervangen. Een verkleinde versie van de afbeelding gaat naar de AI van Anthropic, en elke beschrijving gaat af van je AI-alt-texts voor vandaag."
+msgstr "Beschrijft elke afbeelding die geen alt-text heeft. Een alt-text die je zelf hebt geschreven, wordt nooit vervangen. Een verkleinde versie van de afbeelding gaat naar de AI van Anthropic, en elke beschrijving gaat af van je AI alt-texts voor vandaag."
 
 #: assets/build/settings.js:37
 msgid "Language of the alt text"
