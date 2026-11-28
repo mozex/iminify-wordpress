@@ -513,7 +513,10 @@ function iminify_wporg_sets(): array {
 
 /**
  * Every translation in one state, from the paged listing, which answers a
- * row per translation, 15 a page.
+ * row per translation. The listing is sorted by when each translation was
+ * added, since its own order ties two translations of one string and may
+ * swap them between pages, and it ends at an empty page or one shorter than
+ * the first, whatever the page size.
  *
  * @param string $locale The translate.wordpress.org locale (`nl`).
  * @param string $state  The state.
@@ -522,12 +525,14 @@ function iminify_wporg_sets(): array {
  */
 function iminify_wporg_listed( string $locale, string $state ): array {
 	$entries = array();
+	$size    = null;
 
 	for ( $page = 1; $page <= 1000; $page++ ) {
-		$rows    = iminify_wporg_rows( json_decode( iminify_wporg_get( IMINIFY_WPORG_API . $locale . '/default/?filters%5Bstatus%5D=' . $state . '&page=' . $page ), true ) );
+		$rows    = iminify_wporg_rows( json_decode( iminify_wporg_get( IMINIFY_WPORG_API . $locale . '/default/?filters%5Bstatus%5D=' . $state . '&sort%5Bby%5D=translation_date_added&sort%5Bhow%5D=asc&page=' . $page ), true ) );
 		$entries = array_merge( $entries, $rows );
+		$size    = $size ?? count( $rows );
 
-		if ( count( $rows ) < 15 ) {
+		if ( array() === $rows || count( $rows ) < $size ) {
 			return $entries;
 		}
 	}

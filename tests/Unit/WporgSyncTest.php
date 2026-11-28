@@ -272,6 +272,17 @@ class WporgSyncTest extends TestCase {
 		$this->assertStringNotContainsString( "\r\r", $text );
 	}
 
+	public function test_pull_leaves_a_string_whose_forms_differ_and_lists_it(): void {
+		$po   = "msgid \"\"\nmsgstr \"\"\n\nmsgid \"%s file\"\nmsgid_plural \"%s files\"\nmsgstr[0] \"\"\n";
+		$held = iminify_wporg_held( "msgid \"\"\nmsgstr \"\"\n\nmsgid \"%s file\"\nmsgid_plural \"%s files\"\nmsgstr[0] \"%s bestand\"\nmsgstr[1] \"%s bestanden\"\n", array() );
+
+		list( $text, $changed, $waiting ) = iminify_wporg_pull( $po, $held );
+
+		$this->assertSame( $po, $text );
+		$this->assertSame( 0, $changed );
+		$this->assertSame( array( 'forms differ: %s file' ), $waiting );
+	}
+
 	public function test_pull_writes_the_last_entry_whole_when_the_file_ends_in_blank_lines(): void {
 		$po           = "msgid \"\"\nmsgstr \"\"\n\nmsgid \"Folder\"\nmsgstr \"Folder\"\n\n\n";
 		list( $text ) = iminify_wporg_pull( $po, $this->held() );
