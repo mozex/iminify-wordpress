@@ -22,8 +22,8 @@ require_once __DIR__ . '/check-build.php';
  * list adds when the plugin ships one.
  */
 const IMINIFY_ASSETS = array(
-	'~^icon-128x128\.(png|jpg)$~'           => array( 128, 128, 1000000 ),
-	'~^icon-256x256\.(png|jpg)$~'           => array( 256, 256, 1000000 ),
+	'~^icon-128x128\.(png|jpg|gif)$~'       => array( 128, 128, 1000000 ),
+	'~^icon-256x256\.(png|jpg|gif)$~'       => array( 256, 256, 1000000 ),
 	'~^icon\.(svg)$~'                       => array( null, null, 1000000 ),
 	'~^banner-772x250\.(png|jpg)$~'         => array( 772, 250, 4000000 ),
 	'~^banner-1544x500\.(png|jpg)$~'        => array( 1544, 500, 4000000 ),
@@ -35,6 +35,12 @@ const IMINIFY_ASSETS = array(
  * Anything else (a tool's text, EXIF, a time, a private chunk) is metadata.
  */
 const IMINIFY_ASSETS_PNG_CHUNKS = array( 'IHDR', 'PLTE', 'tRNS', 'IDAT', 'IEND', 'gAMA', 'cHRM', 'sRGB', 'iCCP', 'sBIT', 'pHYs', 'bKGD' );
+
+/**
+ * The application extensions a GIF may hold: the ones that make it loop.
+ * Anything else (an editor's XMP, a profile) is metadata.
+ */
+const IMINIFY_ASSETS_GIF_APPLICATIONS = array( 'NETSCAPE2.0', 'ANIMEXTS1.0' );
 
 /**
  * What the folder holds that isn't the directory's images.
@@ -55,6 +61,7 @@ function iminify_check_assets( string $dir, string $readme ): array {
 
 	$problems    = array();
 	$names       = array();
+	$files       = array();
 	$screenshots = array();
 
 	foreach ( (array) scandir( $dir ) as $name ) {
@@ -80,6 +87,7 @@ function iminify_check_assets( string $dir, string $readme ): array {
 		}
 
 		$names[] = (string) preg_replace( '~\.[a-z]+$~', '', $name );
+		$files[] = $name;
 
 		if ( 1 === preg_match( '~^screenshot-([0-9]+)\.~', $name, $number ) ) {
 			$screenshots[] = (int) $number[1];
@@ -98,6 +106,12 @@ function iminify_check_assets( string $dir, string $readme ): array {
 		if ( $count > 1 ) {
 			$problems[] = $name . ': in more than one format';
 		}
+	}
+
+	// wordpress.org serves icon.svg ahead of the sized icons, so an animated
+	// icon beside it would never be shown.
+	if ( in_array( 'icon.svg', $files, true ) && array() !== preg_grep( '~^icon-[0-9]+x[0-9]+\.gif$~', $files ) ) {
+		$problems[] = 'icon.svg: shown in place of the animated icon, which never plays beside it';
 	}
 
 	sort( $screenshots );
@@ -151,6 +165,7 @@ function iminify_check_asset( string $file, string $name, array $rule ): array {
 	$types = array(
 		'png' => IMAGETYPE_PNG,
 		'jpg' => IMAGETYPE_JPEG,
+		'gif' => IMAGETYPE_GIF,
 	);
 
 	if ( false === $size || $types[ $extension ] !== $size[2] ) {
@@ -257,7 +272,88 @@ function iminify_assets_metadata( string $bytes, string $extension ): array {
 		}
 	}
 
+	if ( 'gif' === $extension ) {
+		$found = array_merge( $found, iminify_assets_gif_metadata( $bytes ) );
+	}
+
 	return array_values( array_unique( $found ) );
+}
+
+/**
+ * The metadata a GIF carries: a comment or plain text extension, an
+ * application extension other than the loop's, or bytes after its trailer.
+ *
+ * @param string $bytes The file.
+ * @return string[] Each kind found.
+ */
+function iminify_assets_gif_metadata( string $bytes ): array {
+	$found = array();
+	$end   = strlen( $bytes );
+	$flags = $end > 10 ? ord( $bytes[10] ) : 0;
+	$at    = 13 + ( ( $flags & 0x80 ) ? 3 * ( 2 << ( $flags & 0x07 ) ) : 0 );
+
+	while ( $at < $end ) {
+		$block = $bytes[ $at ];
+
+		if ( ';' === $block ) {
+			++$at;
+			break;
+		}
+
+		if ( '!' === $block && $at + 1 < $end ) {
+			$label = ord( $bytes[ $at + 1 ] );
+
+			if ( 0xFE === $label ) {
+				$found[] = 'a comment extension';
+			} elseif ( 0x01 === $label ) {
+				$found[] = 'a plain text extension';
+			} elseif ( 0xFF === $label && ! in_array( substr( $bytes, $at + 3, 11 ), IMINIFY_ASSETS_GIF_APPLICATIONS, true ) ) {
+				$found[] = 'an application extension named ' . substr( $bytes, $at + 3, 11 );
+			}
+
+			$at = iminify_assets_gif_blocks( $bytes, $at + 2 );
+			continue;
+		}
+
+		if ( ',' === $block && $at + 9 < $end ) {
+			$local = ord( $bytes[ $at + 9 ] );
+			$at   += 10 + ( ( $local & 0x80 ) ? 3 * ( 2 << ( $local & 0x07 ) ) : 0 );
+			$at    = iminify_assets_gif_blocks( $bytes, $at + 1 );
+			continue;
+		}
+
+		$found[] = 'a block it cannot read';
+		break;
+	}
+
+	if ( $at < $end ) {
+		$found[] = 'bytes after its end';
+	}
+
+	return $found;
+}
+
+/**
+ * Where a GIF's run of data sub-blocks ends: each starts with its length,
+ * and an empty one closes the run.
+ *
+ * @param string $bytes The file.
+ * @param int    $at    Where the run starts.
+ * @return int The offset after the closing block.
+ */
+function iminify_assets_gif_blocks( string $bytes, int $at ): int {
+	$end = strlen( $bytes );
+
+	while ( $at < $end ) {
+		$size = ord( $bytes[ $at ] );
+		$at  += 1 + $size;
+
+		if ( 0 === $size ) {
+			break;
+		}
+	}
+
+	return $at;
 }
 
 /**

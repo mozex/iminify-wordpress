@@ -145,6 +145,50 @@ class AssetsTest extends TestCase {
 		$this->assertSame( array(), iminify_check_assets( $this->dir, self::README ) );
 	}
 
+	public function test_an_animated_gif_icon_passes_and_its_metadata_fails(): void {
+		$this->lay_out();
+		unlink( $this->dir . '/icon.svg' );
+		unlink( $this->dir . '/icon-128x128.png' );
+		unlink( $this->dir . '/icon-256x256.png' );
+		file_put_contents( $this->dir . '/icon-128x128.gif', $this->gif( 128, 128 ) );
+		file_put_contents( $this->dir . '/icon-256x256.gif', $this->gif( 256, 256 ) );
+
+		$this->assertSame( array(), iminify_check_assets( $this->dir, self::README ) );
+
+		file_put_contents( $this->dir . '/icon-128x128.gif', $this->gif( 128, 128, "!\xFE\x05made\x21\0" ) );
+		file_put_contents( $this->dir . '/icon-256x256.gif', $this->gif( 256, 256, "!\xFF\x0BXMP DataXMP\x03<x>\0" ) . 'trailing' );
+
+		$this->assertSame(
+			array(
+				'icon-128x128.gif: carries a comment extension',
+				'icon-256x256.gif: carries an application extension named XMP DataXMP',
+				'icon-256x256.gif: carries bytes after its end',
+			),
+			iminify_check_assets( $this->dir, self::README )
+		);
+
+		file_put_contents( $this->dir . '/icon-128x128.gif', $this->gif( 64, 64 ) );
+		file_put_contents( $this->dir . '/icon-256x256.gif', $this->png( 256, 256 ) );
+
+		$this->assertSame(
+			array( 'icon-128x128.gif: 64x64, not 128x128', 'icon-256x256.gif: not a GIF image' ),
+			iminify_check_assets( $this->dir, self::README )
+		);
+	}
+
+	public function test_an_svg_icon_beside_an_animated_one_fails(): void {
+		$this->lay_out();
+		unlink( $this->dir . '/icon-128x128.png' );
+		unlink( $this->dir . '/icon-256x256.png' );
+		file_put_contents( $this->dir . '/icon-128x128.gif', $this->gif( 128, 128 ) );
+		file_put_contents( $this->dir . '/icon-256x256.gif', $this->gif( 256, 256 ) );
+
+		$this->assertSame(
+			array( 'icon.svg: shown in place of the animated icon, which never plays beside it' ),
+			iminify_check_assets( $this->dir, self::README )
+		);
+	}
+
 	public function test_a_name_wordpress_org_doesnt_read_fails(): void {
 		$this->lay_out();
 		file_put_contents( $this->dir . '/Screenshot-3.png', $this->png( 10, 10 ) );
@@ -262,6 +306,23 @@ class AssetsTest extends TestCase {
 		return "\xFF\xD8\xFF\xE0" . pack( 'n', 16 ) . "JFIF\0\x01\x01\0\0\x01\0\x01\0\0" . $segments
 			. "\xFF\xC0" . pack( 'nCnnC', 11, 8, $height, $width, 1 ) . "\x01\x11\0"
 			. "\xFF\xDA" . pack( 'n', 8 ) . "\x01\x01\0\0\x3F\0\xFF\xD9";
+	}
+
+	/**
+	 * A looping GIF of the given size with one black frame, a two-colour
+	 * palette, and any extensions after the loop's.
+	 *
+	 * @param int    $width      Its width.
+	 * @param int    $height     Its height.
+	 * @param string $extensions Extension blocks to add.
+	 */
+	private function gif( int $width, int $height, string $extensions = '' ): string {
+		return 'GIF89a' . pack( 'vvCCC', $width, $height, 0x80, 0, 0 ) . "\0\0\0\xFF\xFF\xFF"
+			. "!\xFF\x0BNETSCAPE2.0\x03\x01\0\0\0"
+			. $extensions
+			. "!\xF9\x04\0\x04\0\0\0"
+			. ',' . pack( 'vvvvC', 0, 0, $width, $height, 0 ) . "\x02\x02\x44\x01\0"
+			. ';';
 	}
 
 	/**

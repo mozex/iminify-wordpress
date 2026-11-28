@@ -75,6 +75,10 @@ jobs:
         with:
           build-dir: build/iminify-image-optimizer
           strict: true
+          # The readme's name is the directory's display name, which carries
+          # search words, while the main file's stays the short one wp-admin
+          # shows, on purpose.
+          ignore-codes: mismatched_plugin_name
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

@@ -1,0 +1,94 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;padding:0;background:#fff}
+svg{display:block}
+</style></head><body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs>
+<path id="tile" fill="url(#g)"/>
+<g id="glyph">
+<rect id="sun" fill="#ffffff"/>
+<path id="peaks" d="M9 52L22.5 33.5Q24 31.5 25.5 33.5L33 43L37.5 37Q39 35 40.5 37L55 52Z" fill="#ffffff"/>
+</g>
+<g id="arrow" fill="none" stroke="#0284c7" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+<path id="arrowPath"/>
+</g>
+</svg>
+<script>
+const ORIGINAL = 'M14 0H50C57.7319864972 0 64 6.268013502800001 64 14C64 23.9 58 22.1 58 32C58 41.9 64 40.1 64 50C64 57.7319864972 57.7319864972 64 50 64H14C6.268013502800001 64 0 57.7319864972 0 50C0 40.1 6 41.9 6 32C6 22.1 0 23.9 0 14C0 6.268013502800001 6.268013502800001 0 14 0Z';
+const k = 6.268013502800001, m = 57.7319864972;
+const BADGE = 19;
+function tilePath(w) {
+  if (w === 6) return ORIGINAL;
+  const r = 64 - w;
+  return `M14 0H50C${m} 0 64 ${k} 64 14C64 23.9 ${r} 22.1 ${r} 32C${r} 41.9 64 40.1 64 50C64 ${m} ${m} 64 50 64H14C${k} 64 0 ${m} 0 50C0 40.1 ${w} 41.9 ${w} 32C${w} 22.1 0 23.9 0 14C0 ${k} ${k} 0 14 0Z`;
+}
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const inOut = (p) => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const backOut = (p, s) => 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2);
+
+// Timeline in seconds. The loop starts and ends on the plain mark.
+const T = {
+  relaxA: 0.24, relaxB: 0.84,                          // the sides let go: a plain, heavy tile
+  squeezeA: 1.04, squeezeB: 1.56,                      // pressed back into the Iminify shape
+  cueA: 1.50, cueIn: 1.80, cueOut: 2.30, cueB: 2.56,   // the sun turns into a "smaller" arrow badge
+};
+
+window.render = function (t) {
+  let w = 6, gx = 1, gy = 1;
+  if (t >= T.relaxA && t < T.squeezeA) {
+    const p = inOut(seg(t, T.relaxA, T.relaxB));
+    w = lerp(6, 0, p);
+    gx = gy = lerp(1, 1.12, p);
+  } else if (t >= T.squeezeA && t < T.squeezeB) {
+    const p = seg(t, T.squeezeA, T.squeezeB);
+    w = lerp(0, 6, backOut(p, 3.2));
+    gx = lerp(1.12, 1, backOut(p, 2.6));
+    gy = lerp(1.12, 1, backOut(p, 1.2));
+  }
+  document.getElementById('tile').setAttribute('d', tilePath(w));
+  const glyph = document.getElementById('glyph');
+  if (gx === 1 && gy === 1) glyph.removeAttribute('transform');
+  else glyph.setAttribute('transform', `translate(32 33) scale(${gx} ${gy}) translate(-32 -33)`);
+
+  // The sun at rest is x14 y13 11x11 rx3, centred on (19.5, 18.5).
+  const sun = document.getElementById('sun');
+  const arrow = document.getElementById('arrow');
+  let s = 11, a = 0, drop = 0;
+  if (t >= T.cueA && t < T.cueB) {
+    if (t < T.cueIn) {
+      const p = seg(t, T.cueA, T.cueIn);
+      s = lerp(11, BADGE, backOut(p, 2.0));
+      a = clamp((p - 0.35) / 0.65);
+      drop = lerp(-0.22, 0, backOut(clamp((p - 0.25) / 0.75), 1.6));
+    } else if (t < T.cueOut) {
+      s = BADGE; a = 1;
+      const p = seg(t, T.cueIn + 0.12, T.cueOut - 0.08);
+      drop = 0.07 * Math.sin(Math.PI * p);
+    } else {
+      const p = seg(t, T.cueOut, T.cueB);
+      s = lerp(BADGE, 11, inOut(p));
+      a = 1 - clamp(p / 0.55);
+    }
+  }
+  if (s === 11) {
+    sun.setAttribute('x', 14); sun.setAttribute('y', 13); sun.setAttribute('width', 11); sun.setAttribute('height', 11); sun.setAttribute('rx', 3);
+  } else {
+    sun.setAttribute('x', 19.5 - s / 2); sun.setAttribute('y', 18.5 - s / 2); sun.setAttribute('width', s); sun.setAttribute('height', s); sun.setAttribute('rx', 3 + (s - 11) * 0.2);
+  }
+  if (a > 0) {
+    const cx = 19.5, top = 18.5 - s / 2 + drop * s;
+    const d = `M${cx} ${top + 0.2 * s}L${cx} ${top + 0.74 * s}M${cx - 0.25 * s} ${top + 0.5 * s}L${cx} ${top + 0.76 * s}L${cx + 0.25 * s} ${top + 0.5 * s}`;
+    document.getElementById('arrowPath').setAttribute('d', d);
+    arrow.setAttribute('stroke-width', 0.16 * s);
+    arrow.setAttribute('opacity', a);
+    arrow.style.display = '';
+  } else {
+    arrow.style.display = 'none';
+  }
+};
+window.setSize = function (px) { const s = document.getElementById('s'); s.setAttribute('width', px); s.setAttribute('height', px); };
+</script>
+</body></html>

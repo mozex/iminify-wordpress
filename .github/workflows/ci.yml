@@ -164,6 +164,10 @@ jobs:
         with:
           build-dir: build/zip/iminify-image-optimizer
           strict: true
+          # The readme's name is the directory's display name, which carries
+          # search words, while the main file's stays the short one wp-admin
+          # shows, on purpose.
+          ignore-codes: mismatched_plugin_name
 
       - run: npx playwright install --with-deps chromium
 

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: InterB; src: url(inter-latin-wght-normal.woff2) format('woff2'); font-weight: 100 900; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 772px; height: 250px; overflow: hidden; background: #070f19; }
+.canvas { position: relative; width: 772px; height: 250px; overflow: hidden; background: #070f19; font-family: InterB, sans-serif; }
+.glow { position: absolute; inset: 0;
+  background:
+    radial-gradient(400px 250px at 560px 125px, rgba(0, 188, 255, .24), transparent 70%),
+    radial-gradient(520px 260px at 120px -40px, rgba(0, 188, 255, .14), transparent 70%); }
+.checker { position: absolute; inset: 0;
+  background-image: conic-gradient(rgba(255,255,255,.035) 25%, transparent 0 50%, rgba(255,255,255,.035) 0 75%, transparent 0);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(700px 300px at 380px 0, black, transparent 75%);
+          mask-image: radial-gradient(700px 300px at 380px 0, black, transparent 75%); }
+.lockup { position: absolute; left: 40px; top: 36px; width: 150px; height: auto; display: block; }
+h1 { position: absolute; left: 40px; top: 86px; width: 300px; color: #fff; font-weight: 600; font-size: 32px; line-height: 38px; letter-spacing: -0.025em; }
+h1 span { display: block; }
+h1 .accent { color: #74d4ff; }
+
+.card { position: absolute; border-radius: 14px; overflow: hidden; background: #fff;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 18px 40px -12px rgba(0,0,0,.65), 0 4px 12px rgba(0,0,0,.35); }
+.photo { left: 452px; top: 14px; width: 300px; height: 222px; }
+.photo > img.shot { display: block; width: 300px; height: 190px; }
+.caption { position: relative; height: 32px; }
+.caption img { position: absolute; top: 8px; height: 17px; width: auto; }
+.caption .l { left: 11px; }
+.caption .r { right: 10px; }
+.badge { position: absolute; right: 10px; top: 10px; height: 24px; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+
+.chip { position: absolute; height: 33px; width: auto; border-radius: 8px;
+  box-shadow: 0 10px 24px -6px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.3); }
+.chip.jpeg { left: 334px; top: 52px; }
+.chip.webp { left: 348px; top: 93px; }
+.chip.avif { left: 362px; top: 134px; box-shadow: 0 0 0 3px rgba(116, 212, 255, .55), 0 10px 24px -6px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.3); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="glow"></div>
+  <div class="checker"></div>
+  <img class="lockup" src="logo-dark.svg" alt="">
+  <h1><span>Lighter images.</span><span class="accent">Same picture.</span></h1>
+
+  <div class="card photo">
+    <img class="shot" src="crops/photo.png" alt="">
+    <div class="caption">
+      <img class="l" src="crops/label-original.png" alt="">
+      <img class="r" src="crops/label-avif.png" alt="">
+    </div>
+    <img class="badge" src="crops/chip-optimized.png" alt="">
+  </div>
+
+  <img class="chip jpeg" src="crops/chip-jpeg.png" alt="">
+  <img class="chip webp" src="crops/chip-webp.png" alt="">
+  <img class="chip avif" src="crops/chip-avif.png" alt="">
+</div>
+</body>
+</html>
