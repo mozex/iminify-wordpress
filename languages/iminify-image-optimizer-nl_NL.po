@@ -585,7 +585,7 @@ msgstr "Een foto kan details bevatten die de camera erin heeft geschreven, zoals
 
 #: includes/admin/class-privacy.php:40
 msgid "If we turned on AI alt text in the plugin's settings, Iminify also makes a small copy of each image that has no alt text and sends it to Anthropic, whose model writes a description of it. Asking for alt text for images already in the media library sends Iminify a small copy of each of them for the same use."
-msgstr "Als we AI-alt-text hebben ingeschakeld in de instellingen van de plugin, maakt Iminify ook een verkleinde versie van elke afbeelding zonder alt-text en verzendt die naar Anthropic, waar een model er een beschrijving van schrijft. Als we alt-text aanvragen voor afbeeldingen die al in de mediabibliotheek staan, krijgt Iminify voor hetzelfde doel een verkleinde versie van elk ervan."
+msgstr "Als we AI alt-text hebben ingeschakeld in de instellingen van de plugin, maakt Iminify ook een verkleinde versie van elke afbeelding zonder alt-text en verzendt die naar Anthropic, waar een model er een beschrijving van schrijft. Als we alt-text aanvragen voor afbeeldingen die al in de mediabibliotheek staan, krijgt Iminify voor hetzelfde doel een verkleinde versie van elk ervan."
 
 #: includes/admin/class-privacy.php:41
 msgid "If we audit one of this site's pages for its images, our server sends Iminify that page's address. Iminify opens the page as any visitor could, measures the images it shows and keeps what it found with this site's connection to it."
@@ -730,7 +730,7 @@ msgstr "Bestanden vandaag"
 
 #: includes/admin/class-state.php:167
 msgid "AI alt texts today"
-msgstr "AI-alt-texts vandaag"
+msgstr "AI alt-texts vandaag"
 
 #: includes/admin/class-state.php:248
 msgid "Guest"
@@ -1056,7 +1056,7 @@ msgstr "Bulkuitvoering"
 #: includes/class-cli.php:612
 #, php-format
 msgid "The account's AI alt texts for the day are used up. The run goes on in the background when they come back on %s."
-msgstr "Het account heeft voor vandaag geen AI-alt-texts meer. Het uitvoeren gaat op de achtergrond verder wanneer er weer nieuwe zijn, op %s."
+msgstr "Het account heeft voor vandaag geen AI alt-texts meer. Het uitvoeren gaat op de achtergrond verder wanneer er weer nieuwe zijn, op %s."
 
 #: includes/class-cli.php:620
 #: includes/class-cli.php:647
@@ -1678,7 +1678,7 @@ msgstr "Dat is de map van de mediabibliotheek: de afbeeldingen daarin worden van
 
 #: includes/folders/class-folders.php:214
 msgid "That's the Iminify plugin's own folder, which every update replaces."
-msgstr "Dat is de eigen map van de Iminify-plugin, die bij elke update wordt vervangen."
+msgstr "Dat is de eigen map van de Iminify plugin, die bij elke update wordt vervangen."
 
 #: includes/folders/class-folders.php:220
 msgid "Other tools keep copies, caches or backups in that folder, so its images aren't the site's own."
@@ -2136,7 +2136,7 @@ msgstr "Iminify schrijft de alt-text van de afbeelding. Scan opnieuw zodra die b
 
 #: assets/build/audit.js:11
 msgid "Iminify can write it once AI alt text is on for this site."
-msgstr "Iminify kan die schrijven zodra AI-alt-text voor deze site aanstaat."
+msgstr "Iminify kan die schrijven zodra AI alt-text voor deze site aanstaat."
 
 #: assets/build/audit.js:11
 msgid "Turn it on in the settings"
@@ -2700,8 +2700,8 @@ msgstr "Van elk van deze afbeeldingen een verkleinde versie verzenden om de alt-
 #, js-format
 msgid "%s AI alt text left today."
 msgid_plural "%s AI alt texts left today."
-msgstr[0] "Vandaag nog %s AI-alt-text over."
-msgstr[1] "Vandaag nog %s AI-alt-texts over."
+msgstr[0] "Vandaag nog %s AI alt-text over."
+msgstr[1] "Vandaag nog %s AI alt-texts over."
 
 #: assets/build/bulk.js:26
 msgid "Send these images again to make what they lack? Each counts as one more image, and keeps its other files unless Iminify makes them smaller."
@@ -3473,7 +3473,7 @@ msgstr "<file /> bevat de regel <begin /> zonder de bijbehorende regel <end />, 
 
 #: assets/build/settings.js:36
 msgid "Your uploads folder isn't inside the folder that holds the site's .htaccess file, so no rule there can name it. Choose picture tags."
-msgstr "De map uploads van je site staat niet in de map met het .htaccess-bestand, dus geen enkele regel daarin kan ernaar verwijzen. Kies picture-tags."
+msgstr "De map uploads van je site staat niet in de map met het .htaccess bestand, dus geen enkele regel daarin kan ernaar verwijzen. Kies picture-tags."
 
 #: assets/build/settings.js:36
 msgid "There’s no <file /> yet. Create it with these lines, then save again."
