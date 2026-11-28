@@ -84,7 +84,7 @@ msgstr "Bulkoptimalisatie"
 
 #: includes/admin/class-bulk-page.php:77
 msgid "Every image already in your media library, in one run."
-msgstr "Elke afbeelding die al in je mediabibliotheek staat, in één keer uitvoeren."
+msgstr "Elke afbeelding die al in je mediabibliotheek staat, in één keer."
 
 #: includes/admin/class-bulk-page.php:80
 msgid "The bulk page's script is missing from the plugin's folder. Reinstall the plugin to bring it back."
@@ -1065,7 +1065,7 @@ msgstr "Het uitvoeren wacht op de verbinding van deze site met Iminify en gaat d
 
 #: includes/class-cli.php:628
 msgid "The run goes on in the background once it stops."
-msgstr "Het uitvoeren gaat door op de achtergrond zodra het stopt."
+msgstr "Het uitvoeren gaat op de achtergrond verder zodra die plugin stopt."
 
 #. translators: %s: the date and time the next batch opens.
 #: includes/class-cli.php:639
@@ -1453,7 +1453,7 @@ msgstr "Wacht tot de site met Iminify is verbonden."
 
 #: includes/class-reasons.php:155
 msgid "Not optimized: the bulk run was stopped."
-msgstr "Niet geoptimaliseerd: het bulk uitvoeren is gestopt."
+msgstr "Niet geoptimaliseerd: de bulkuitvoering is gestopt."
 
 #: includes/class-reasons.php:157
 msgid "Not optimized: the site isn't connected to Iminify."
@@ -2410,7 +2410,7 @@ msgstr "Iminify is bezig"
 
 #: assets/build/bulk.js:7
 msgid "Running on this page"
-msgstr "Uitgevoerd op deze pagina"
+msgstr "Wordt uitgevoerd op deze pagina"
 
 #: assets/build/bulk.js:7
 msgid "Running"
@@ -3348,7 +3348,7 @@ msgstr "De regels van %s uit dit bestand verwijderen? Al het andere erin blijft 
 #: assets/build/settings.js:21
 #, js-format
 msgid "<file /> holds the line %s, but the block it starts has no end of its own, or runs across another block, so the plugin leaves the file alone. Remove the block’s lines by hand."
-msgstr "<file /> bevat regel %s, maar het blok dat het start heeft geen eigen einde, of komt een ander blok tegen, dus de plugin laat het bestand met rust. Verwijder de regels van het blok handmatig."
+msgstr "<file /> bevat regel %s, maar het blok dat het start heeft geen eigen einde, of loopt door een ander blok heen, dus de plugin laat het bestand met rust. Verwijder de regels van het blok handmatig."
 
 #: assets/build/settings.js:21
 msgid "The plugin can’t write to <file />. Remove these lines from it by hand, then reload Nginx."
